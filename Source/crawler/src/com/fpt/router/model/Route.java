@@ -5,4 +5,5 @@ package com.fpt.router.model;
  * Created by Huynh Quang Thao on 9/5/15.
  */
 public class Route {
+    public int routeId;
 }

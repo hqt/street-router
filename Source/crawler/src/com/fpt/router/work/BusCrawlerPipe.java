@@ -67,7 +67,7 @@ public class BusCrawlerPipe {
 
         }
 
-        for (Map.Entry<Integer, BusRouteCrawler> entry : map.entrySet()) {
+       /* for (Map.Entry<Integer, BusRouteCrawler> entry : map.entrySet()) {
             BusRouteCrawler route = entry.getValue();
             CrawDataThread thread = new CrawDataThread(route);
             executor.execute(thread);
@@ -80,7 +80,7 @@ public class BusCrawlerPipe {
             System.out.println("############################");
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 
@@ -100,7 +100,7 @@ public class BusCrawlerPipe {
         }
 
         public boolean run(boolean turn) {
-            HtmlPage html;
+           /* HtmlPage html;
             try {
                 WebClient webClient = new WebClient(BrowserVersion.FIREFOX_38);
                 String url = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations&rid=" + route.getServerId() + "&isgo=" + turn;
@@ -126,6 +126,8 @@ public class BusCrawlerPipe {
                 System.out.println("error converting at " + route.getServerId());
             }
             return false;
+        }*/
+            return true;
         }
     }
 }

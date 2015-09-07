@@ -1,16 +1,21 @@
 package com.fpt.router.model;
 
+import java.util.List;
+
 /**
  * Purpose:
  * Created by Huynh Quang Thao on 9/5/15.
  */
-public class Station {
+public class Stop {
     // for improving performance when do algorithm
     public int id;
     public String code;
     public String name;
     public String street;
     public Location location;
+
+    // all routes through this stop
+    public List<Route> routes;
 
     /*public List<Route> routes;
 
@@ -48,7 +53,7 @@ public class Station {
     public boolean equals(Object that) {
         if (that == null) return false;
         if (this == that) return true;
-        return this.code.equals(((Station)that).code);
+        return this.code.equals(((Stop)that).code);
     }
 
     @Override
