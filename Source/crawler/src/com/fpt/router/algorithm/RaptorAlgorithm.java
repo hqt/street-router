@@ -52,9 +52,9 @@ public class RaptorAlgorithm {
             }
 
             // step 2. traversal each route
-            for (Map.Entry<Integer, Integer> pair : Q) {
+            /*for (Map.Entry<Integer, Integer> pair : Q) {
 
-            }
+            }*/
         }
     }
 }
