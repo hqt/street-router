@@ -8,8 +8,8 @@ import java.util.Map;
  */
 public class Work {
     public void run() {
-        // BusCrawlerPipe crawler = new BusCrawlerPipe();
-        // crawler.run();
+        BusCrawlerPipe crawler = new BusCrawlerPipe();
+        crawler.run();
 
         TimeCrawlerPipe timeCrawler = new TimeCrawlerPipe();
         timeCrawler.run();
