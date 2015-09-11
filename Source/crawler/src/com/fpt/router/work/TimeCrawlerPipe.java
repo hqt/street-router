@@ -2,8 +2,12 @@ package com.fpt.router.work;
 
 import com.fpt.router.model.CityMap;
 import com.fpt.router.model.Route;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -25,7 +29,35 @@ public class TimeCrawlerPipe {
     }
 
     private void parseAllExcelLinks() {
+        // Retrieve list table data
+        GetDataFromAjax getDataFromAjax = new GetDataFromAjax();
+        ArrayList<String> tableData = getDataFromAjax.crawAjaxData();
 
+        // Parse String to Document
+        for (String table: tableData){
+            Document doc = Jsoup.parse(table);
+            // Get element by using css selector to get data which want
+            Elements elements = doc.select("table tr");
+            for (int i = 1; i < elements.size() - 2; i++) {
+                try {
+                    String tripNoString = elements.get(i).select("td").get(0).select("a").text();
+                    // parse int tripNoString
+                    if (tripNoString.contains("-")) {
+                        tripNoString = tripNoString.replace("-","");
+                    }
+                    int tripNo = Integer.parseInt(tripNoString);
+
+                    String tripLink = elements.get(i).select("td").get(2).select("a").attr("href");
+                    StringBuilder linkExcel = new StringBuilder();
+                    linkExcel.append("http://www.buyttphcm.com.vn/");
+                    linkExcel.append(tripLink);
+                    // put key and value to map
+                    busTimeExcelLinks.put(tripNo,linkExcel.toString());
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+        }
     }
 
     private void processExcelLink() {
@@ -75,7 +107,7 @@ public class TimeCrawlerPipe {
             Route route = null;
             // implement here
 
-            map.routes.add(route);
+            // map.routes.add(route);
         }
     }
 }
