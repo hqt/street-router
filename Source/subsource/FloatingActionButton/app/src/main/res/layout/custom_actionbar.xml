@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+    <ImageView
+        android:layout_width="25dip"
+        android:layout_height="20dip"
+        android:src="@drawable/back_arrow"
+        android:layout_marginTop="15dip"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="15dip"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#1E90FF"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="35dip"
+                android:layout_height="35dip"
+                android:text="From"
+                android:textColor="@android:color/white"/>
+
+            <EditText
+                android:layout_width="230dip"
+                android:layout_height="35dip"
+                android:layout_marginTop="5dip"
+                android:gravity="left"
+                android:textColor="#ffffff"
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="35dip"
+                android:layout_height="35dip"
+                android:textColor="@android:color/white"
+                android:text="To"/>
+
+            <EditText
+                android:layout_width="230dip"
+                android:layout_height="35dip"
+                android:layout_marginTop="5dip"
+                android:gravity="left"
+                android:textColor="#ffffff"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+    <ImageView
+        android:layout_width="20dip"
+        android:layout_height="20dip"
+        android:src="@drawable/three_dot"
+        android:layout_marginTop="15dip"
+        android:layout_marginLeft="15dip"
+        />
+
+</LinearLayout>
