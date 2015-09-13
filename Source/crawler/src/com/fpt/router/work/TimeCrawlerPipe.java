@@ -2,13 +2,23 @@ package com.fpt.router.work;
 
 import com.fpt.router.model.CityMap;
 import com.fpt.router.model.Route;
+import com.fpt.router.model.Trip;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.formula.functions.Rows;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.InputStream;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -95,19 +105,133 @@ public class TimeCrawlerPipe {
 
         @Override
         public void run() {
-            download();
-            parseExcelFile();
+            InputStream in = download();
+            parseExcelFile(in);
         }
 
-        private InputStream download() {
-            return null;
+        /*
+            Download the excel file from link retrieved
+         */
+        public InputStream download() {
+            InputStream inputStream = null;
+            try {
+                URL url = new URL(excelLink);
+                inputStream = new BufferedInputStream(url.openStream());
+                if (inputStream == null) {
+                    inputStream.reset();
+                }
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return inputStream;
         }
 
-        private void parseExcelFile() {
-            Route route = null;
-            // implement here
+        private void parseExcelFile(InputStream inputStream) {
 
-            // map.routes.add(route);
+            Workbook workbook = null;
+            try {
+                workbook = new HSSFWorkbook(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> iterator = sheet.rowIterator();
+
+            // Initial route
+            Route routeDepart = new Route();
+            routeDepart.setRouteType(Route.RouteType.DEPART);
+            Route routeReturn = new Route();
+            routeReturn.setRouteType(Route.RouteType.RETURN);
+
+            while (iterator.hasNext()) {
+                Row nextRow = iterator.next();
+                Iterator<Cell> cellIterator = nextRow.cellIterator();
+
+                if (nextRow.getCell(0) != null) {
+                    int blankRow = getRowBlank(nextRow);
+                    if (blankRow == 0) {
+                        getSumTrip(iterator);
+                    }
+                }
+
+                Trip tripDepart = new Trip(); // Create Trip
+                Trip tripReturn = new Trip();
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    addDataToTrip(tripDepart, tripReturn, cell);
+                }
+
+                // Add trip to route
+                if (tripDepart.getTripNo() != 0) {
+                    routeDepart.getTrips().add(tripDepart);
+                }
+                if (tripReturn.getTripNo() != 0) {
+                    routeReturn.getTrips().add(tripReturn);
+                }
+
+                map.routes.add(routeDepart);
+                map.routes.add(routeReturn);
+            }
+        }
+
+        private int getRowBlank(Row row) {
+            int flagBlankRow = row.getLastCellNum();
+            for (int i = row.getFirstCellNum(); i < row.getLastCellNum(); i++) {
+                Cell cell = row.getCell(i);
+                // Compare blank cell
+                try {
+                    if (cell.getCellType() == Cell.CELL_TYPE_BLANK) {
+                        flagBlankRow -= 1;
+                    }
+                } catch (Exception e) {
+                    continue;
+                }
+            }
+            return flagBlankRow;
+        }
+
+        private void addDataToTrip(Trip tripDepart, Trip tripReturn, Cell cell) {
+            switch (cell.getCellType()) {
+                case Cell.CELL_TYPE_NUMERIC:
+                    int indexColumn = cell.getColumnIndex();
+                    switch (indexColumn) {
+                        case 0:
+                            tripDepart.setTripNo((int) cell.getNumericCellValue());
+                            break;
+                        case 1:
+                            tripDepart.setStartTime(cell.getDateCellValue());
+                            break;
+                        case 2:
+                            tripDepart.setEndTime(cell.getDateCellValue());
+                            break;
+                        case 5:
+                            tripReturn.setStartTime(cell.getDateCellValue());
+                            break;
+                        case 6:
+                            tripReturn.setStartTime(cell.getDateCellValue());
+                            break;
+                    }
+            }
+        }
+
+        private void getSumTrip(Iterator<Row> rowIterator) {
+            while (rowIterator.hasNext()) {
+                Row nextRow = rowIterator.next();
+                Iterator<Cell> cellIterator = nextRow.cellIterator();
+
+                while (cellIterator.hasNext()) {
+                    Cell cell = cellIterator.next();
+                    switch (cell.getCellType()) {
+                        case Cell.CELL_TYPE_NUMERIC:
+                            //System.out.println("Numeric: " + cell.getNumericCellValue());
+                            break;
+                        case Cell.CELL_TYPE_STRING:
+                            //System.out.println("String: " + cell.getStringCellValue());
+                    }
+                }
+            }
         }
     }
 }

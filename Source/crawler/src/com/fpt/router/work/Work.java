@@ -17,6 +17,7 @@ public class Work {
         for (Map.Entry<Integer, String> entry : links.entrySet()) {
             System.out.println(entry.getKey() + "---> " + entry.getValue());
         }
+        System.out.println("Size Map: " +timeCrawler.map.routes.size());
     }
 
     public static void main(String[] args) {

@@ -1,6 +1,7 @@
 package com.fpt.router.work;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebClientOptions;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -16,15 +17,20 @@ public class GetDataFromAjax {
 
     public static final String url = "http://www.buyttphcm.com.vn/TTLT.aspx";
 
+
+
     public ArrayList<String> crawAjaxData(){
 
         WebClient webClient = new WebClient(); // Initialize webclient to get webpage
-        ArrayList<String> tableDatas = new ArrayList<>(); // Initialize list table data to hold data from table
+        ArrayList<String> tableDatas = new ArrayList<String>(); // Initialize list table data to hold data from table
 
         try {
             HtmlPage htmlPage = webClient.getPage(url);
 
+            int count = 0;
             while(true) {
+                count++;
+                if (count > 2) break;
                 // get Form from page
                 HtmlForm form = htmlPage.getForms().get(0);
                 // get table from Form bu specific id table
@@ -46,11 +52,11 @@ public class GetDataFromAjax {
 
                 // waiting for javascript load
                 webClient.waitForBackgroundJavaScript(10000);
+                webClient.getJavaScriptTimeout();
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return tableDatas;
     }

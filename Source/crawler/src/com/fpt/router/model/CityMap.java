@@ -1,5 +1,7 @@
 package com.fpt.router.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,4 +13,10 @@ public class CityMap {
     public List<Route> routes;
     public List<Stop> stops;
     public Map<Integer, Stop> stopIdMap;
+
+    public CityMap() {
+        routes = new ArrayList<Route>();
+        stops = new ArrayList<Stop>();
+        stopIdMap = new HashMap<Integer, Stop>();
+    }
 }
