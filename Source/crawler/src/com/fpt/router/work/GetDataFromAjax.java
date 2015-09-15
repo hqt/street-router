@@ -2,6 +2,7 @@ package com.fpt.router.work;
 
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.WebClientOptions;
+import com.gargoylesoftware.htmlunit.WebConnection;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -26,11 +27,11 @@ public class GetDataFromAjax {
 
         try {
             HtmlPage htmlPage = webClient.getPage(url);
-
+            webClient.getOptions().setTimeout(120000);
             int count = 0;
             while(true) {
                 count++;
-                if (count > 2) break;
+                //if (count > 2) break;
                 // get Form from page
                 HtmlForm form = htmlPage.getForms().get(0);
                 // get table from Form bu specific id table
@@ -52,7 +53,6 @@ public class GetDataFromAjax {
 
                 // waiting for javascript load
                 webClient.waitForBackgroundJavaScript(10000);
-                webClient.getJavaScriptTimeout();
             }
         } catch (IOException e) {
             e.printStackTrace();

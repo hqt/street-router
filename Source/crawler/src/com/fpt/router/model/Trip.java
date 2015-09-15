@@ -1,7 +1,9 @@
 package com.fpt.router.model;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Purpose:
@@ -10,10 +12,14 @@ import java.util.Date;
 public class Trip {
 
     public int tripId;
-
     public int tripNo;
     public Date startTime;
     public Date endTime;
+
+    public Trip(){
+        startTime = new Date();
+        endTime = new Date();
+    }
 
     public int getTripId() {
         return tripId;
@@ -46,5 +52,4 @@ public class Trip {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
-
 }
