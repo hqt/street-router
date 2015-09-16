@@ -19,4 +19,28 @@ public class CityMap {
         stops = new ArrayList<Stop>();
         stopIdMap = new HashMap<Integer, Stop>();
     }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        this.routes = routes;
+    }
+
+    public Map<Integer, Stop> getStopIdMap() {
+        return stopIdMap;
+    }
+
+    public void setStopIdMap(Map<Integer, Stop> stopIdMap) {
+        this.stopIdMap = stopIdMap;
+    }
+
+    public List<Stop> getStops() {
+        return stops;
+    }
+
+    public void setStops(List<Stop> stops) {
+        this.stops = stops;
+    }
 }

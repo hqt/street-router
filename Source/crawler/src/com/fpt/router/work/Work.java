@@ -1,5 +1,7 @@
 package com.fpt.router.work;
 
+import com.fpt.router.model.CityMap;
+
 import java.util.Map;
 
 /**
@@ -12,12 +14,12 @@ public class Work {
         crawler.run();
 
         TimeCrawlerPipe timeCrawler = new TimeCrawlerPipe();
-        timeCrawler.run();
+        CityMap map = timeCrawler.run();
         Map<Integer, String> links = timeCrawler.busTimeExcelLinks;
         for (Map.Entry<Integer, String> entry : links.entrySet()) {
             System.out.println(entry.getKey() + "---> " + entry.getValue());
         }
-        System.out.println("Size Map: " +timeCrawler.map.routes.size());
+        System.out.println("Size Map: " +timeCrawler.map.getRoutes().size());
     }
 
     public static void main(String[] args) {
