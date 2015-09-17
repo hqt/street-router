@@ -104,7 +104,7 @@ public class TimeCrawlerPipe {
         @Override
         public void run() {
             InputStream in = download();
-            List<Route> routes = parseExcelFile(in);
+            List<Route> routes = parseExcelFile2(in);
             for (Route route : routes) {
                 map.getRoutes().add(route);
             }
@@ -237,6 +237,106 @@ public class TimeCrawlerPipe {
             routes.add(routeReturn);
 
             return routes;
+        }
+
+        private List<Route> parseExcelFile2(InputStream inputStream) {
+            Workbook workbook = null;
+            try {
+                CharSequence extensionExcel = ".xlsx";
+                if (excelLink.contains(extensionExcel)) {
+                    workbook = new XSSFWorkbook(inputStream);
+                } else {
+                    workbook = new HSSFWorkbook(inputStream);
+                }
+
+            } catch (Exception e) {
+                System.out.println("Excel Link: " + excelLink);
+                e.printStackTrace();
+            }
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> iterator = sheet.rowIterator(); // get iterator row
+
+            List<Route> routes = new ArrayList<Route>();
+            Route routeDepart = new Route();
+            routeDepart.setRouteType(Route.RouteType.DEPART);
+            Route routeReturn = new Route();
+            routeReturn.setRouteType(Route.RouteType.RETURN);
+
+            List<Integer> index;
+            Integer rowStart = 0;
+            Integer departIndex = -1;
+            Integer returnIndex = -1;
+            for (int i = 0; i < sheet.getLastRowNum(); i++) {
+                index = getCellIndex(sheet.getRow(i));
+                if (index.size() == 2) {
+                    departIndex = index.get(0);
+                    returnIndex = index.get(1);
+                    rowStart = sheet.getRow(i).getRowNum() + 1;
+                    break;
+                }
+            }
+
+            for (int i = rowStart; i < sheet.getLastRowNum(); i++) {
+                // Initialize Trip
+                Trip tripDepart = new Trip();
+                Trip tripReturn = new Trip();
+                // Add value to trip
+                Row nextRow = sheet.getRow(i);
+                try {
+                    tripDepart.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
+                    tripReturn.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
+                    if (departIndex != -1 && returnIndex != -1) {
+                        tripDepart.setStartTime(nextRow.getCell(departIndex).getDateCellValue());
+                        tripDepart.setEndTime(nextRow.getCell(departIndex + 1).getDateCellValue());
+                        tripReturn.setStartTime(nextRow.getCell(returnIndex).getDateCellValue());
+                        tripReturn.setEndTime(nextRow.getCell(returnIndex + 1).getDateCellValue());
+                    }
+                } catch (Exception ex) {
+                    //System.out.println("Row Error: " + nextRow.getRowNum() + " at " + i + " - " +excelLink);
+                    continue;
+                }
+                if (tripDepart.getTripNo() != 0) {
+                    routeDepart.getTrips().add(tripDepart);
+                    routeDepart.setRouteId(busId);
+                    routeReturn.getTrips().add(tripReturn);
+                    routeReturn.setRouteId(busId);
+                }
+            }
+
+            routes.add(routeDepart);
+            routes.add(routeReturn);
+            return routes;
+        }
+
+        public List<Integer> getCellIndex(Row nextRow) {
+
+            List<Integer> index = new ArrayList();
+            int indexStartTime = -1;
+            CharSequence cellValue = "ĐI";
+            int i;
+            for (i = 0; i < nextRow.getLastCellNum(); i++) {
+                try {
+                    if (nextRow.getCell(i).getCellType() == Cell.CELL_TYPE_STRING) {
+                        if (nextRow.getCell(i).getStringCellValue().toUpperCase().contains(cellValue)) {
+                            indexStartTime = nextRow.getCell(i).getColumnIndex();
+                            index.add(indexStartTime);
+                            i += 2;
+                            int y = i;
+                            if (nextRow.getCell(y).getStringCellValue().toUpperCase().contains(cellValue)) {
+                                indexStartTime = nextRow.getCell(y).getColumnIndex();
+                                index.add(indexStartTime);
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    System.out.println("Row: " +nextRow.getRowNum() + " i " + " link: " +excelLink);
+                    continue;
+//                    ex.printStackTrace();
+                }
+            }
+
+            return index;
         }
 
         private int getRowBlank(Row row) {

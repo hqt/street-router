@@ -27,7 +27,7 @@ public class GetDataFromAjax {
 
         try {
             HtmlPage htmlPage = webClient.getPage(url);
-            webClient.getOptions().setTimeout(120000);
+            webClient.getOptions().setTimeout(300);
             int count = 0;
             while(true) {
                 count++;
@@ -52,7 +52,7 @@ public class GetDataFromAjax {
                 anchor.click();
 
                 // waiting for javascript load
-                webClient.waitForBackgroundJavaScript(10000);
+                webClient.waitForBackgroundJavaScript(11000);
             }
         } catch (IOException e) {
             e.printStackTrace();
