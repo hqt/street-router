@@ -3,10 +3,8 @@ package com.fpt.router.work;
 import com.fpt.router.model.CityMap;
 import com.fpt.router.model.Route;
 import com.fpt.router.model.Trip;
-import org.apache.poi.hdgf.streams.Stream;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -310,7 +308,7 @@ public class TimeCrawlerPipe {
 
         public List<Integer> getCellIndex(Row nextRow) {
 
-            List<Integer> index = new ArrayList();
+            List<Integer> index = new ArrayList<Integer>();
             int indexStartTime = -1;
             CharSequence cellValue = "ĐI";
             int i;
