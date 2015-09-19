@@ -27,7 +27,7 @@ public class GetDataFromAjax {
 
         try {
             HtmlPage htmlPage = webClient.getPage(url);
-            webClient.getOptions().setTimeout(300);
+            webClient.getJavaScriptTimeout();
             int count = 0;
             while(true) {
                 count++;
