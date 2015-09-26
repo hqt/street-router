@@ -15,7 +15,9 @@ public class Route {
     }
 
     public int routeId;
-    RouteType routeType;
+    public RouteType routeType;
+    public String roundName;
+
     // high frequently time
     public Date peakTimeRange;
     // low frequently time
