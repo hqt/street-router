@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
+        /*FragmentStatePagerAdapter a = null;
+        tabLayout.setTabsFromPagerAdapter(a);*/
         tabLayout.setupWithViewPager(viewPager);
         // custom bar
 

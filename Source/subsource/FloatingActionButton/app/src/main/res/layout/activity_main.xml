@@ -81,10 +81,6 @@
 
         </LinearLayout>
 
-
-
-
-
         <!--Floating Action Button-->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -97,6 +93,7 @@
             android:layout_marginBottom="90dip"
             app:backgroundTint="#F1F1F1"
             android:src="@drawable/current_place"/>
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabMap"
             android:layout_width="wrap_content"
