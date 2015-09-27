@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.fpt.router.config.PrefStore;
 import com.fpt.router.config.RouteApplication;
 
 import org.apache.http.params.HttpConnectionParams;
