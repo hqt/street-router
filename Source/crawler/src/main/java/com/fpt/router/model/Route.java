@@ -37,7 +37,7 @@ public class Route {
 
 
     public Route(){
-
+        trips = new HashSet<Trip>();
     }
 
     public Route(int routeNo, RouteType routeType, String routeName) {

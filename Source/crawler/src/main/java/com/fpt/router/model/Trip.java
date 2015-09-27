@@ -36,7 +36,8 @@ public class Trip {
 
 
 
-    public Trip(Date startTime, Date endTime, Route route){
+    public Trip(int tripNo,Date startTime, Date endTime, Route route){
+        this.tripNo = tripNo;
         this.startTime = startTime;
         this.endTime = endTime;
         this.route = route;
