@@ -1,0 +1,232 @@
+#page-wrapper {
+    position: inherit;
+    margin: 0 0 0 200px;
+    padding: 0 30px;
+    border-left: 1px solid #e7e7e7;
+}
+
+.sidebar {
+    z-index: 1;
+    position: absolute;
+    width: 200px;
+    margin-top: 51px;
+}
+
+.dropdown-menu.left-grow {
+    right: 0;
+    left: auto;
+}
+
+.typeahead {
+    font-weight: normal;
+}
+
+.dropdown-menu label {
+    padding: 0 10px;
+}
+
+.tt-hint {
+    display: none;
+}
+
+.center-dropdown-button {
+    height: 34px;
+    line-height: 34px;
+    padding-left: 7px;
+}
+
+.center-dropdown-button .check-all {
+    margin-right: 23px;
+}
+
+.long-text-box {
+    width: 300px;
+    display: inline-block;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.text-value {
+    padding-top: 7px;
+}
+
+.short-input {
+    display: inline-block;
+    width: 160px;
+}
+
+.shorter-input {
+    display: inline-block;
+    width: 70px;
+}
+
+.label-gray {
+    background-color: #9B9B9B;
+}
+
+.label-dark {
+    background-color: #4C4C4C;
+}
+
+th {
+    background-color: rgb(223, 223, 223);
+}
+
+.bs-example {
+    font-size: large;
+    font-weight: bolder;
+}
+
+.empty-value {
+    font-style: italic;
+    color: #777;
+    font-size: 15px;
+}
+
+.badge-red {
+    background-color: #f66;
+}
+
+.notif-item[data-is-read=true] .notif-link {
+    color: #525252;
+}
+.notif-item[data-is-read=true] .notif-link:hover {
+    color: #353535;
+}
+.mark-as-unread {
+    visibility: hidden;
+}
+.notif-item:hover .mark-as-unread:not(.dont-show) {
+    visibility: visible;
+}
+.navbar-header img {
+    margin: 7px;
+    height: 50px;
+}
+.sidebar {
+    margin-top: 64px;
+}
+.navbar-top-links li a {
+    padding: 22px;
+}
+.navbar-static-top {
+    background-color: #4A7CE7;
+}
+.navbar-top-links > li > a:focus,
+.navbar-top-links > li > a:hover,
+.navbar-top-links .open > a,
+.navbar-top-links .open > a:focus,
+.navbar-top-links .open > a:hover {
+    background-color: #5F92FF;
+}
+.navbar-top-links a {
+    color: #ffffff;
+}
+
+.navbar-static-top .navbar-brand {
+    color: #fff;
+}
+
+#page-footer {
+    background-color: rgb(49, 74, 128);
+    color: white;
+    padding: 30px;
+}
+
+#page-footer a {
+    color: #fff;
+}
+
+.form-control {
+    border: 1px solid #868686;
+    color: #000;
+}
+
+.form-control::-moz-placeholder {
+    color: #717171;
+    opacity: 1
+}
+
+.form-control:-ms-input-placeholder {
+    color: #717171
+}
+
+.form-control::-webkit-input-placeholder {
+    color: #717171
+}
+
+body {
+    background-color: #e8e8e8;
+}
+.navbar-default.sidebar {
+    background-color: #e8e8e8;
+    border-color: #e7e7e7;
+}
+.sidebar ul li a.active {
+    background-color: #6897FC;
+    color: white;
+}
+
+.tab-content > .tab-pane {
+    min-height: 500px;
+}
+
+.brand-header,.brand-header:hover {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.textWellcome img {
+    width: 80px;
+}
+
+.textWellcome label {
+    font-size: 18px;
+    font-weight: normal;
+}
+.textWellcome p {
+    font-size: 22px;
+    margin: 0;
+}
+.textWellcome.customer {
+    background-color: #DEFFDA;
+}
+.textWellcome.staff {
+    background-color: #DADDFF;
+}
+.textWellcome {
+    padding: 10px;
+    text-align: center;
+    font-weight: 300;
+    margin-bottom: 0 !important;
+    vertical-align: middle;
+}
+
+.text-warning-notif {
+    color: #FFAE21;
+}
+
+img#imgAttachment[src=""] {
+    display: none;
+}
+
+.table-responsive {
+    min-height: 300px;
+}
+
+.notification-time {
+    padding-left: 10px;
+}
+.is-read {
+    color: #8c8c8c !important;
+}
+#notif-list {
+    max-height: 300px;
+    overflow: auto;
+}
+.text-bold {
+    font-weight: bold;
+}

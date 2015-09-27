@@ -31,7 +31,7 @@ public class RaptorAlgorithm {
 
     }
 
-    public void raptor() {
+   /* public void raptor() {
 
         for (int transitNo = 0; transitNo < k; transitNo++) {
 
@@ -52,9 +52,9 @@ public class RaptorAlgorithm {
             }
 
             // step 2. traversal each route
-            /*for (Map.Entry<Integer, Integer> pair : Q) {
+            *//*for (Map.Entry<Integer, Integer> pair : Q) {
 
-            }*/
+            }*//*
         }
-    }
+    }*/
 }
