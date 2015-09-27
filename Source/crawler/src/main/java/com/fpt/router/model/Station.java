@@ -1,63 +1,107 @@
 package com.fpt.router.model;
 
-import java.util.List;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
- * Purpose:
- * Created by Huynh Quang Thao on 9/5/15.
+ * Created by asus on 9/26/2015.
  */
+@Entity
+@Table(name = "Station")
 public class Station {
-    // for improving performance when do algorithm
-    public int id;
-    public String code;
-    public String name;
-    public String street;
-    public Location location;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "StationID", unique = true, nullable = false)
+    private long stationId;
+    @Column(name = "CodeID", nullable = false)
+    private String codeId;
+    @Column(name = "Name", nullable = false)
+    private String name;
+    @Column(name = "Street", nullable = false)
+    private String street;
 
-    // all routes through this stop
-    public List<Route> routes;
+    @Column(name = "Latitude", nullable = false)
+    private double latitude;
+    @Column(name = "Longitude", nullable = false)
+    private double longitude;
 
-    /*public List<Route> routes;
+    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
+    private Set<PathInfo> from;
+    @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
+    private Set<PathInfo> to;
+    public Station(){
 
-    public List<PathInfo> pathInfos;
-
-    public Station() {
-        pathInfos = new ArrayList<PathInfo>();
-        routes = new ArrayList<Route>();
     }
 
-    // because number of paths from one station to other stations often max is 5. so we can use list for searching
-    public boolean existPath(Station to) {
-        // fucking wrong here !!! we should compare two "to" vertex is duplicated
-        *//*for (PathInfo path : pathInfos) {
-            if (path.to.code.equals(to.code)) {
-                return true;
-            }
-        }*//*
-        for (PathInfo path : pathInfos) {
-            if (path.to.code.equals(to.code)) {
-                return true;
-            }
-        }
-        return false;
+    public Station(String codeId, String name, String street, double latitude, double longitude){
+        this.codeId = codeId;
+        this.name = name;
+        this.street = street;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
-    public boolean existRoute(Route r) {
-        for (Route route : routes) {
-            if (r.routeId == route.routeId) return true;
-        }
-        return false;
-    }*/
-
-    @Override
-    public boolean equals(Object that) {
-        if (that == null) return false;
-        if (this == that) return true;
-        return this.code.equals(((Station)that).code);
+    public long getStationId() {
+        return stationId;
     }
 
-    @Override
-    public int hashCode() {
-        return code.hashCode();
+    public void setStationId(long stationId) {
+        this.stationId = stationId;
+    }
+
+    public String getCodeId() {
+        return codeId;
+    }
+
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public Set<PathInfo> getFrom() {
+        return from;
+    }
+
+    public void setFrom(Set<PathInfo> from) {
+        this.from = from;
+    }
+
+    public Set<PathInfo> getTo() {
+        return to;
+    }
+
+    public void setTo(Set<PathInfo> to) {
+        this.to = to;
     }
 }
