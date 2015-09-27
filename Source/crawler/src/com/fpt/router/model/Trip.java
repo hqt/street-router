@@ -1,6 +1,8 @@
 package com.fpt.router.model;
 
 
+import com.fpt.router.model.algorithm.Connection;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +17,9 @@ public class Trip {
     public int tripNo;
     public Date startTime;
     public Date endTime;
+    public Route route;
+    public List<Connection> connections;
+
 
     public Trip(){
         startTime = new Date();

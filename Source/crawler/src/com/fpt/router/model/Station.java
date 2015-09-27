@@ -6,7 +6,7 @@ import java.util.List;
  * Purpose:
  * Created by Huynh Quang Thao on 9/5/15.
  */
-public class Stop {
+public class Station {
     // for improving performance when do algorithm
     public int id;
     public String code;
@@ -53,7 +53,7 @@ public class Stop {
     public boolean equals(Object that) {
         if (that == null) return false;
         if (this == that) return true;
-        return this.code.equals(((Stop)that).code);
+        return this.code.equals(((Station)that).code);
     }
 
     @Override

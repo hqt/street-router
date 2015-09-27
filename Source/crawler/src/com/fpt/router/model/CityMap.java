@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public class CityMap {
     public List<Route> routes;
-    public List<Stop> stops;
-    public Map<Integer, Stop> stopIdMap;
+    public List<Station> stations;
+    public Map<Integer, Station> stationIdMap;
 
     public CityMap() {
         routes = new ArrayList<Route>();
-        stops = new ArrayList<Stop>();
-        stopIdMap = new HashMap<Integer, Stop>();
+        stations = new ArrayList<Station>();
+        stationIdMap = new HashMap<Integer, Station>();
     }
 
     public List<Route> getRoutes() {
@@ -28,19 +28,19 @@ public class CityMap {
         this.routes = routes;
     }
 
-    public Map<Integer, Stop> getStopIdMap() {
-        return stopIdMap;
+    public Map<Integer, Station> getStationIdMap() {
+        return stationIdMap;
     }
 
-    public void setStopIdMap(Map<Integer, Stop> stopIdMap) {
-        this.stopIdMap = stopIdMap;
+    public void setStationIdMap(Map<Integer, Station> stationIdMap) {
+        this.stationIdMap = stationIdMap;
     }
 
-    public List<Stop> getStops() {
-        return stops;
+    public List<Station> getStations() {
+        return stations;
     }
 
-    public void setStops(List<Stop> stops) {
-        this.stops = stops;
+    public void setStations(List<Station> stations) {
+        this.stations = stations;
     }
 }

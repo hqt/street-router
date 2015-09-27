@@ -38,7 +38,7 @@ public class RaptorAlgorithm {
             // step 1. find the  first stop that satisfy condition
             for (Integer p : markedStopIds) {
                 // all routes that go through this stop
-                for (Route route : map.stopIdMap.get(p).routes) {
+                for (Route route : map.stationIdMap.get(p).routes) {
                     if (Q.containsKey(route.routeId)) {
                         int _p = Q.get(route.routeId);
                         // _p come after p in sequence of route. Fucking wrong here !!!!!
