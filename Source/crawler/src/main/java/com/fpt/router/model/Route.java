@@ -1,35 +1,65 @@
 package com.fpt.router.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Purpose:
- * Created by Huynh Quang Thao on 9/5/15.
+ * Created by asus on 9/26/2015.
  */
+@Entity
+@Table(name = "Route")
 public class Route {
-    public enum RouteType {
+    public enum RouteType{
         DEPART,
         RETURN
     }
 
-    public int routeId;
-    public RouteType routeType;
-    public String roundName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "RouteID", unique = true, nullable = false)
+    private long routeId;
+    @Column(name = "RouteNo", nullable = false)
+    private int routeNo;
+    @Column(name = "RouteType", nullable = false)
+    private RouteType routeType;
+    @Column(name = "RouteName", nullable = false)
+    private String routeName;
 
-    // high frequently time
-    public Date peakTimeRange;
-    // low frequently time
-    public Date offPeakTimeRange;
-    public List<Trip> trips = new ArrayList<Trip>();
+    /**
+     * relationship between trip and route
+     */
+    @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
+    private Set<Trip> trips;
 
-    public int getRouteId() {
+    @OneToMany(mappedBy = "route")
+    private Set<PathInfo> pathInfos = new HashSet<PathInfo>();
+
+
+    public Route(){
+
+    }
+
+    public Route(int routeNo, RouteType routeType, String routeName) {
+        this.routeNo = routeNo;
+        this.routeType = routeType;
+        this.routeName = routeName;
+    }
+
+    public long getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(int routeId) {
+    public void setRouteId(long routeId) {
         this.routeId = routeId;
+    }
+
+    public int getRouteNo() {
+        return routeNo;
+    }
+
+    public void setRouteNo(int routeNo) {
+        this.routeNo = routeNo;
     }
 
     public RouteType getRouteType() {
@@ -40,27 +70,27 @@ public class Route {
         this.routeType = routeType;
     }
 
-    public Date getPeakTimeRange() {
-        return peakTimeRange;
+    public String getRouteName() {
+        return routeName;
     }
 
-    public void setPeakTimeRange(Date peakTimeRange) {
-        this.peakTimeRange = peakTimeRange;
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
     }
 
-    public Date getOffPeakTimeRange() {
-        return offPeakTimeRange;
-    }
-
-    public void setOffPeakTimeRange(Date offPeakTimeRange) {
-        this.offPeakTimeRange = offPeakTimeRange;
-    }
-
-    public List<Trip> getTrips() {
+    public Set<Trip> getTrips() {
         return trips;
     }
 
-    public void setTrips(List<Trip> trips) {
+    public void setTrips(Set<Trip> trips) {
         this.trips = trips;
+    }
+
+    public Set<PathInfo> getPathInfos() {
+        return pathInfos;
+    }
+
+    public void setPathInfos(Set<PathInfo> pathInfos) {
+        this.pathInfos = pathInfos;
     }
 }
