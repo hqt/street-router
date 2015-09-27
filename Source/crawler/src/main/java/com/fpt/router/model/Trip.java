@@ -15,6 +15,8 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TridID", unique = true, nullable = false)
     private long tripId;
+    @Column(name = "TripNo")
+    private int tripNo;
     @Column(name = "StartTime")
     @Temporal(TemporalType.TIME)
     private Date startTime;
@@ -48,6 +50,14 @@ public class Trip {
 
     public void setTripId(long tripId) {
         this.tripId = tripId;
+    }
+
+    public int getTripNo() {
+        return tripNo;
+    }
+
+    public void setTripNo(int tripNo) {
+        this.tripNo = tripNo;
     }
 
     public Date getStartTime() {

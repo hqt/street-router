@@ -15,8 +15,8 @@ public class PathInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PathInfoID",unique = true,nullable = false)
     private long pathInfoId;
-    @Column(name = "Order1",nullable = false)
-    private int order1;
+    @Column(name = "PathInfoNo",nullable = false)
+    private int pathInfoNo;
 
     @Column(name = "MiddlePoint")
     private String middleLocations;
@@ -40,11 +40,11 @@ public class PathInfo {
 
     }
 
-    public PathInfo(Route route, Station from, Station to, int order1, String middleLocations){
+    public PathInfo(Route route, Station from, Station to, int pathInfoNo, String middleLocations){
         this.route = route;
         this.from = from;
         this.to = to;
-        this.order1 = order1;
+        this.pathInfoNo = pathInfoNo;
         this.middleLocations = middleLocations;
     }
 
@@ -57,11 +57,11 @@ public class PathInfo {
     }
 
     public int getOrder() {
-        return order1;
+        return pathInfoNo;
     }
 
     public void setOrder(int order) {
-        this.order1 = order;
+        this.pathInfoNo = order;
     }
 
     public String getMiddleLocations() {
