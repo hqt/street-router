@@ -10,9 +10,20 @@
         <servlet-class>com.fpt.router.servlet.DispatcherServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>StartupServlet</servlet-name>
+        <servlet-class>com.fpt.router.servlet.StartupServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+
     <servlet-mapping>
         <servlet-name>DispatcherServlet</servlet-name>
         <url-pattern>/router</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StartupServlet</servlet-name>
+        <url-pattern>/StartupServlet</url-pattern>
     </servlet-mapping>
 
 
