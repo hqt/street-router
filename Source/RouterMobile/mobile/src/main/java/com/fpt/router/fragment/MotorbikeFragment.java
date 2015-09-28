@@ -1,17 +1,23 @@
 package com.fpt.router.fragment;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainActivity;
+import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.LogUtils;
+import com.fpt.router.utils.NetworkUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -71,27 +77,8 @@ public class MotorbikeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // latitude and longitude
-        mMap= mapView.getMap();
-        latitude = 17.385044;
-        longitude = 78.486671;
-
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("Hello Maps");
-
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory
-                .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-
-        // adding marker
-        mMap.addMarker(marker);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(latitude, longitude)).zoom(12).build();
-        mMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
-
-        // Perform any camera updates here
+        JSONParse jsonParse = new JSONParse();
+        jsonParse.execute();
         return rootView;
     }
 
@@ -101,4 +88,55 @@ public class MotorbikeFragment extends Fragment {
         mapView.onResume();
     }
 
+    private class JSONParse extends AsyncTask<String, String, String> {
+        private ProgressDialog pDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(activity);
+            pDialog.setMessage("Getting Data ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            String test;
+            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=congvienphanmemquangtrung,hochiminh&destination=chocau,hochiminh&mode=driving&key=AIzaSyCRGhL_5rWzeGXUbSpz0Urw8_8LCTmYrj4";
+            test = NetworkUtils.download(url);
+            return test;
+        }
+        @Override
+        protected void onPostExecute(String json) {
+            pDialog.dismiss();
+            String name;
+            name = JSONParseUtils.getLocalname(json);
+
+            // latitude and longitude
+            mMap= mapView.getMap();
+            latitude = JSONParseUtils.getLatitude(json);
+            longitude = JSONParseUtils.getLongitude(json);
+            Log.e("Nam", name);
+            Log.e("Nam", "latitude"+latitude);
+            Log.e("Nam", "longitude"+longitude);
+
+            // create marker
+            MarkerOptions marker = new MarkerOptions().position(
+                    new LatLng(latitude, longitude)).title(name);
+
+            // Changing marker icon
+            marker.icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+
+            // adding marker
+            mMap.addMarker(marker);
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(new LatLng(latitude, longitude)).zoom(12).build();
+            mMap.animateCamera(CameraUpdateFactory
+                    .newCameraPosition(cameraPosition));
+            // Perform any camera updates here
+        }
+    }
 }

@@ -3,6 +3,7 @@ package com.fpt.router.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import com.fpt.router.config.PrefStore;
 import com.fpt.router.config.RouteApplication;
@@ -10,7 +11,14 @@ import com.fpt.router.config.RouteApplication;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -72,6 +80,43 @@ public class NetworkUtils {
         } else {
             return false;
         }
+    }
+
+    public static String download(String urlStr) {
+        URL url = null;
+        InputStream is = null;
+        String result = null;
+        try {
+            url = new URL(urlStr);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            StringBuffer sb = new StringBuffer();
+            is = new BufferedInputStream(connection.getInputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            String inputLine = "";
+
+            // start to read data from server
+            while ((inputLine = br.readLine()) != null) {
+                sb.append(inputLine);
+            }
+            result = sb.toString();
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                }
+                catch (IOException e) {
+                    Log.i(TAG, "Error closing InputStream");
+                }
+            }
+        }
+        Log.e("Nam", result);
+        return result;
     }
 
     /** sleep for predefine second as we working on slow network @_@ */
