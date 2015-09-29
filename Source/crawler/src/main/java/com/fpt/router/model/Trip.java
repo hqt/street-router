@@ -2,8 +2,7 @@ package com.fpt.router.model;
 
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by asus on 9/26/2015.
@@ -28,10 +27,10 @@ public class Trip {
     @JoinColumn(name = "RouteID", nullable = false)
     private Route route;
 
-    @OneToMany(mappedBy = "trip")
-    private Set<Connection> connections;
+    @OneToMany(mappedBy = "trip", fetch = FetchType.EAGER)
+    private List<Connection> connections;
     public Trip(){
-
+        connections =  new ArrayList<Connection>();
     }
 
 
@@ -41,6 +40,7 @@ public class Trip {
         this.startTime = startTime;
         this.endTime = endTime;
         this.route = route;
+        connections =  new ArrayList<Connection>();
     }
 
 
@@ -85,11 +85,11 @@ public class Trip {
         this.route = route;
     }
 
-    public Set<Connection> getConnections() {
+    public List<Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(Set<Connection> connections) {
+    public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
 }

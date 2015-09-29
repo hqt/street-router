@@ -1,7 +1,9 @@
 package com.fpt.router.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,14 +32,14 @@ public class Route {
      * relationship between trip and route
      */
     @OneToMany(mappedBy = "route", cascade = CascadeType.ALL)
-    private Set<Trip> trips;
+    private List<Trip> trips;
 
     @OneToMany(mappedBy = "route")
-    private Set<PathInfo> pathInfos = new HashSet<PathInfo>();
+    private List<PathInfo> pathInfos = new ArrayList<PathInfo>();
 
 
     public Route(){
-        trips = new HashSet<Trip>();
+        trips = new ArrayList<Trip>();
     }
 
     public Route(int routeNo, RouteType routeType, String routeName) {
@@ -78,19 +80,19 @@ public class Route {
         this.routeName = routeName;
     }
 
-    public Set<Trip> getTrips() {
+    public List<Trip> getTrips() {
         return trips;
     }
 
-    public void setTrips(Set<Trip> trips) {
+    public void setTrips(List<Trip> trips) {
         this.trips = trips;
     }
 
-    public Set<PathInfo> getPathInfos() {
+    public List<PathInfo> getPathInfos() {
         return pathInfos;
     }
 
-    public void setPathInfos(Set<PathInfo> pathInfos) {
+    public void setPathInfos(List<PathInfo> pathInfos) {
         this.pathInfos = pathInfos;
     }
 }

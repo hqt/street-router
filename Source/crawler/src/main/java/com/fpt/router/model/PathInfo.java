@@ -34,7 +34,7 @@ public class PathInfo {
     private Station to;
 
     @OneToMany(mappedBy = "pathInfo")
-    private Set<Connection> connections;
+    private List<Connection> connections;
 
     public PathInfo(){
 
@@ -96,11 +96,19 @@ public class PathInfo {
         this.to = to;
     }
 
-    public Set<Connection> getConnections() {
+    public int getPathInfoNo() {
+        return pathInfoNo;
+    }
+
+    public void setPathInfoNo(int pathInfoNo) {
+        this.pathInfoNo = pathInfoNo;
+    }
+
+    public List<Connection> getConnections() {
         return connections;
     }
 
-    public void setConnections(Set<Connection> connections) {
+    public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
 }
