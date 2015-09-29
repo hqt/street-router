@@ -15,6 +15,9 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainActivity;
+import com.fpt.router.model.motorbike.detailLocation;
+import com.fpt.router.model.motorbike.leg;
+import com.fpt.router.model.motorbike.location;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.LogUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -103,28 +106,26 @@ public class MotorbikeFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... args) {
-            String test;
+            String json;
             String url = "https://maps.googleapis.com/maps/api/directions/json?origin=congvienphanmemquangtrung,hochiminh&destination=chocau,hochiminh&mode=driving&key=AIzaSyCRGhL_5rWzeGXUbSpz0Urw8_8LCTmYrj4";
-            test = NetworkUtils.download(url);
-            return test;
+            json = NetworkUtils.download(url);
+            return json;
         }
         @Override
         protected void onPostExecute(String json) {
             pDialog.dismiss();
-            String name;
-            name = JSONParseUtils.getLocalname(json);
-
+            leg l;
+            l = JSONParseUtils.getLeg(json);
+            detailLocation detalL = l.getlDetailLocation();
+            location start_location = detalL.getStart_location();
             // latitude and longitude
             mMap= mapView.getMap();
-            latitude = JSONParseUtils.getLatitude(json);
-            longitude = JSONParseUtils.getLongitude(json);
-            Log.e("Nam", name);
-            Log.e("Nam", "latitude"+latitude);
-            Log.e("Nam", "longitude"+longitude);
+            latitude = start_location.getLatitude();
+            longitude = start_location.getLongitude();
 
             // create marker
             MarkerOptions marker = new MarkerOptions().position(
-                    new LatLng(latitude, longitude)).title(name);
+                    new LatLng(latitude, longitude)).title(l.getlStartAddress());
 
             // Changing marker icon
             marker.icon(BitmapDescriptorFactory
