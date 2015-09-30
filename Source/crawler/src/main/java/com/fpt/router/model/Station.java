@@ -1,6 +1,7 @@
 package com.fpt.router.model;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,9 +27,9 @@ public class Station {
     private double longitude;
 
     @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
-    private Set<PathInfo> from;
+    private List<PathInfo> from;
     @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
-    private Set<PathInfo> to;
+    private List<PathInfo> to;
     public Station(){
 
     }
@@ -89,19 +90,19 @@ public class Station {
         this.longitude = longitude;
     }
 
-    public Set<PathInfo> getFrom() {
+    public List<PathInfo> getFrom() {
         return from;
     }
 
-    public void setFrom(Set<PathInfo> from) {
+    public void setFrom(List<PathInfo> from) {
         this.from = from;
     }
 
-    public Set<PathInfo> getTo() {
+    public List<PathInfo> getTo() {
         return to;
     }
 
-    public void setTo(Set<PathInfo> to) {
+    public void setTo(List<PathInfo> to) {
         this.to = to;
     }
 }

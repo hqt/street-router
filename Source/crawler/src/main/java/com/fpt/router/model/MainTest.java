@@ -1,12 +1,10 @@
 package com.fpt.router.model;
 
-import com.fpt.router.database.HDConnection;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import com.fpt.router.dao.*;
+import com.fpt.router.work.DemoDB;
 
-import java.util.Date;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -14,54 +12,114 @@ import java.util.Set;
  */
 public class MainTest {
     public static void main(String[] args){
-        SessionFactory sessionFactory = null;
+        MainTest mainTest = new MainTest();
+       /* mainTest.insertIntoDB();*/
+        CityMap cityMap = mainTest.getCity();
+        List<Station> stations = cityMap.getStations();
+        for (Station station: stations){
+            System.out.println("Station : "+station.getCodeId());
+        }
+
+        List<Route> routes = cityMap.getRoutes();
+        for (Route route:routes){
+            System.out.println("Route : "+route.getRouteId());
+            List<Trip> trips = route.getTrips();
+            for (Trip trip: trips){
+                System.out.println("Trip :"+trip.getTripId());
+                List<Connection> connectionList = trip.getConnections();
+                for (Connection conn : connectionList){
+                    System.out.println("Connection : "+conn.getId());
+                }
+            }
+        }
+
+    }
+
+
+    public void insertIntoDB(){
         try{
-            sessionFactory = HDConnection.getSessionFactory();
-            Session session = sessionFactory.getCurrentSession();
-            Transaction tx = session.beginTransaction();
 
-            //Route data
-            Route route18 = new Route(18, Route.RouteType.DEPART,"xe muoi tam");
-            Route route55 = new Route(55, Route.RouteType.DEPART,"xe 55");
-             /*Route route55 = (Route) session.get(Route.class,new Long(1));*/
-            //Trip data
-            Set<Trip> trips = new HashSet<Trip>();
-            Trip trip18_1 = new Trip(1,new Date(), new Date(), route18);
-            Trip trip18_2 = new Trip(1,new Date(), new Date(), route18);
+            DemoDB demoDB = new DemoDB();
+            CityMap cityMap = demoDB.cityMap;
+            //insert route and trip
+            RouteDao routeDao = new RouteDao();
+            StationDao stationDao = new StationDao();
+            TripDao tripDao = new TripDao();
+            PathInfoDao pathInfoDao = new PathInfoDao();
+            ConnectionDao connectionDao = new ConnectionDao();
+            //insert station
+            List<Station> stations = cityMap.getStations();
+            for (Station station : stations){
+                System.out.println("Station : " + station.getName());
+                stationDao.insertStation(station);
+            }
 
-            trips.add(trip18_1);
-            trips.add(trip18_2);
 
-            route18.setTrips(trips);
 
-            //Station
-            Station stationA = new Station("A001","Nong Lam","Duong So 7",20000.002,30000.009);
-            /*Station a = (Station) session.get(Station.class, new Long(19));*/
-            Station stationB = new Station("B001","Nga Tu Thu Duc","Duong Vo Van Ngan",40000.008,50000.001);
-            /*Station b =(Station) session.get(Station.class, new Long(20));*/
-            Station stationC = new Station("C001","Nga Tu Binh Thai", "Duong Vo Van Kiet",60000.004,70000.003);
-            //Path information
-            /*PathInfo pathInfoAB = new PathInfo(route55,a,b,4,"hello");*/
-            /*PathInfo pathInfoBC = new PathInfo(route55,stationB, stationC,2,"20000.002,30000.009;40000.008,50000.001");*/
-            /*PathInfo pathInforDemo = (PathInfo) session.get(PathInfo.class, new Long(1));*/
 
-            //Trip
-           /* Trip trip1 = (Trip) session.get(Trip.class,new Long(1));*/
+            List<Route> routes = cityMap.getRoutes();
+            for (Route route :routes){
+                System.out.println("Route : "+route.getRouteName());
+                 routeDao.insertRoute(route);
+                List<Trip> trips = route.getTrips();
+                for (Trip trip : trips){
+                    System.out.println("Trip : "+trip.getTripNo());
+                    List<Connection> connectionSet = trip.getConnections();
+                    for (Connection conn : connectionSet){
+                        System.out.println("Connection : "+conn.getArrivalTime());
+                        connectionDao.insertConnection(conn);
+                    }
 
-            /*Connection connection = new Connection();
-            connection.setTrip(trip18_1);
-            connection.setPathInfo(pathInfoBC);
-            connection.setArrivalTime(new Date());*/
+                }
+                List<PathInfo> pathInfos = route.getPathInfos();
+                for (PathInfo pathInfo: pathInfos){
+                    System.out.println("Path Infor :"+pathInfo.getMiddleLocations());
+                    pathInfoDao.insertPathInfo(pathInfo);
+                }
+            }
 
-            session.save(route18);
-//            session.save(pathInfoAB);
-            /*session.save(connection);*/
-            tx.commit();
-            sessionFactory.close();
-
-        }catch(Exception e){
+        }catch (Exception e){
             e.printStackTrace();
         }
 
+    }
+
+
+    public CityMap getCity(){
+        CityMap cityMap = new CityMap();
+
+        StationDao stationDao = new StationDao();
+        RouteDao routeDao = new RouteDao();
+        TripDao tripDao = new TripDao();
+        PathInfoDao pathInfoDao = new PathInfoDao();
+        List<Station> stations = stationDao.getStations();
+        cityMap.setStations(stations);
+
+        /*List<Route> routes = new  ArrayList<Route>();*/
+
+        List<Route> routes = routeDao.getRoute();
+        System.out.println("Route Size : "+routes.size());
+
+
+
+        /*Route route = routeDao.getRouteId(1);
+        ConnectionDao connectionDao = new ConnectionDao();
+
+        List<Trip> trips = tripDao.getTripsWithId(route);
+        for (Trip trip : trips){
+            System.out.println("Trip : " + trip.getTripId());
+            List<Connection> connectionList = connectionDao.getListConnectionWithTrip(trip);
+            trip.setConnections(connectionList);
+
+        }
+
+        List<PathInfo> pathInfos = pathInfoDao.getPathInfo(route);
+        route.setPathInfos(pathInfos);
+        route.setTrips(trips);
+
+        routes.add(route);*/
+        cityMap.setRoutes(routes);
+        /*cityMap.setRoutes(routes);*/
+        return  cityMap;
     }
 }

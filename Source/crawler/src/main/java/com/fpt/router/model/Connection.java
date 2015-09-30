@@ -27,6 +27,15 @@ public class Connection {
     @Temporal(TemporalType.TIME)
     private Date arrivalTime;
 
+    public Connection(){
+
+    }
+    public Connection(Trip trip, PathInfo pathInfo, Date arrivalTime){
+        this.trip = trip;
+        this.pathInfo = pathInfo;
+        this.arrivalTime = arrivalTime;
+    }
+
     public long getId() {
         return id;
     }
