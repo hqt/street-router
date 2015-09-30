@@ -115,7 +115,6 @@ public class NetworkUtils {
                 }
             }
         }
-        Log.e("Nam", result);
         return result;
     }
 
