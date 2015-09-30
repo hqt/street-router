@@ -129,10 +129,10 @@ public class DemoDB {
             // Trip Depart in Route No 1
             Trip trip18 = new Trip(18,triptime.parse("5:00"),triptime.parse("5:35"),route18d);
 
-            Connection connectionRoute181 = new Connection(trip18,pathInfo1AB,triptime.parse("5:08"));
-            Connection connectionRoute182 = new Connection(trip18,pathInfo1BC,triptime.parse("5:16"));
-            Connection connectionRoute183 = new Connection(trip18,pathInfo1CD,triptime.parse("5:24"));
-            Connection connectionRoute184 = new Connection(trip18,pathInfo1DE,triptime.parse("5:35"));
+            Connection connectionRoute181 = new Connection(trip18,pathInfo18AB,triptime.parse("5:08"));
+            Connection connectionRoute182 = new Connection(trip18,pathInfo18BC,triptime.parse("5:16"));
+            Connection connectionRoute183 = new Connection(trip18,pathInfo18CD,triptime.parse("5:24"));
+            Connection connectionRoute184 = new Connection(trip18,pathInfo18DE,triptime.parse("5:35"));
 
             trip18.getConnections().add(connectionRoute181);
             trip18.getConnections().add(connectionRoute182);
@@ -142,10 +142,10 @@ public class DemoDB {
 
             Trip trip28 = new Trip(28,triptime.parse("5:08"),triptime.parse("5:43"),route18d);
 
-            Connection connTrip281 = new Connection(trip28,pathInfo1AB,triptime.parse("5:16"));
-            Connection connTrip282 = new Connection(trip28,pathInfo1BC,triptime.parse("5:24"));
-            Connection connTrip283 = new Connection(trip28,pathInfo1CD,triptime.parse("5:35"));
-            Connection connTrip284 = new Connection(trip28,pathInfo1DE,triptime.parse("5:43"));
+            Connection connTrip281 = new Connection(trip28,pathInfo18AB,triptime.parse("5:16"));
+            Connection connTrip282 = new Connection(trip28,pathInfo18BC,triptime.parse("5:24"));
+            Connection connTrip283 = new Connection(trip28,pathInfo18CD,triptime.parse("5:35"));
+            Connection connTrip284 = new Connection(trip28,pathInfo18DE,triptime.parse("5:43"));
 
             trip28.getConnections().add(connTrip281);
             trip28.getConnections().add(connTrip282);

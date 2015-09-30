@@ -28,6 +28,13 @@ public class MapDAL {
         for (Route route : routes) {
             System.out.println("Route : " + route.getRouteName());
             routeDAL.insertRoute(route);
+            //insert pathinfor
+            List<PathInfo> pathInfos = route.getPathInfos();
+            for (PathInfo pathInfo : pathInfos) {
+                System.out.println("Path Infor :" + pathInfo.getMiddleLocations());
+                pathInfoDAL.insertPathInfo(pathInfo);
+            }
+            //insert trip - connection
             List<Trip> trips = route.getTrips();
             for (Trip trip : trips) {
                 System.out.println("Trip : " + trip.getTripNo());
@@ -38,11 +45,7 @@ public class MapDAL {
                 }
 
             }
-            List<PathInfo> pathInfos = route.getPathInfos();
-            for (PathInfo pathInfo : pathInfos) {
-                System.out.println("Path Infor :" + pathInfo.getMiddleLocations());
-                pathInfoDAL.insertPathInfo(pathInfo);
-            }
+
         }
     }
 
