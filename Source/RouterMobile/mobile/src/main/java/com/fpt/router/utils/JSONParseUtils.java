@@ -44,6 +44,7 @@ public class JSONParseUtils {
             //get overview polyline
             jo = jsonO.getJSONObject("overview_polyline");
             lOverview_polyline = jo.getString("points");
+
             jsonA = jsonO.getJSONArray("legs");
             jsonO = jsonA.getJSONObject(0);
             lEndAddress = jsonO.getString("end_address");

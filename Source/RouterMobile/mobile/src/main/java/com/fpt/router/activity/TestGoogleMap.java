@@ -54,9 +54,6 @@ public class TestGoogleMap extends FragmentActivity {
         protected void onPostExecute(String json) {
             pDialog.dismiss();
             TextView textView = (TextView) findViewById(R.id.name);
-            String test;
-            test = JSONParseUtils.getLocalname(json);
-            textView.setText(test);
         }
     }
 }
