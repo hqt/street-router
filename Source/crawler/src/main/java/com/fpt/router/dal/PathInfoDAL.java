@@ -1,21 +1,18 @@
-package com.fpt.router.dao;
+package com.fpt.router.dal;
 
-import com.fpt.router.database.HDConnection;
+import com.fpt.router.database.HibernateConnection;
 import com.fpt.router.model.PathInfo;
 import com.fpt.router.model.Route;
-import com.fpt.router.work.DemoDB;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by asus on 9/27/2015.
  */
-public class PathInfoDao {
+public class PathInfoDAL {
     SessionFactory sessionFactory = null;
     /*public static void main(String[] args){
         DemoDB demoDB = new DemoDB();
@@ -35,7 +32,7 @@ public class PathInfoDao {
     public void insertPathInfo(PathInfo pathInfo){
 
         try{
-            sessionFactory = HDConnection.getSessionFactory();
+            sessionFactory = HibernateConnection.getSessionFactory();
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(pathInfo);
@@ -48,7 +45,7 @@ public class PathInfoDao {
 
 
     public PathInfo getPathInfoWithId(int id){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from PathInfo where pathInfoId= :id");
@@ -59,7 +56,7 @@ public class PathInfoDao {
     }
 
     public List<PathInfo> getPathInfo(Route route){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from PathInfo where route= :route");

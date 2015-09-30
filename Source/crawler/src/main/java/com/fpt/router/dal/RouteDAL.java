@@ -1,22 +1,18 @@
-package com.fpt.router.dao;
+package com.fpt.router.dal;
 
-import com.fpt.router.database.HDConnection;
+import com.fpt.router.database.HibernateConnection;
 import com.fpt.router.model.Route;
-import com.fpt.router.work.DemoDB;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by asus on 9/27/2015.
  */
-public class RouteDao {
+public class RouteDAL {
 
     SessionFactory sessionFactory = null;
     /*public static void main(String[] args){
@@ -45,7 +41,7 @@ public class RouteDao {
     public int insertRoute(Route route){
 
         try{
-            sessionFactory = HDConnection.getSessionFactory();
+            sessionFactory = HibernateConnection.getSessionFactory();
             Session session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(route);
@@ -63,7 +59,7 @@ public class RouteDao {
      * @return
      */
     public Route getRouteId(int id){
-            sessionFactory = HDConnection.getSessionFactory();
+            sessionFactory = HibernateConnection.getSessionFactory();
             Session session = sessionFactory.openSession();
             Query query = session.createQuery("from Route where routeId= :id");
             query.setLong("id",id);
@@ -78,7 +74,7 @@ public class RouteDao {
      */
     public List<Route> getRoute(){
         List<Route> routes = new ArrayList<Route>();
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Route");

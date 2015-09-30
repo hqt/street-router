@@ -1,20 +1,18 @@
-package com.fpt.router.dao;
+package com.fpt.router.dal;
 
-import com.fpt.router.database.HDConnection;
+import com.fpt.router.database.HibernateConnection;
 import com.fpt.router.model.Connection;
 import com.fpt.router.model.Trip;
-import com.fpt.router.work.DemoDB;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by asus on 9/27/2015.
  */
-public class ConnectionDao {
+public class ConnectionDAL {
     SessionFactory sessionFactory = null;
    /* public static void main(String[] args){
         DemoDB demoDB = new DemoDB();
@@ -31,7 +29,7 @@ public class ConnectionDao {
      * @param conn
      */
     public void insertConnection(Connection conn){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(conn);
@@ -40,7 +38,7 @@ public class ConnectionDao {
     }
 
     public List<Connection> getListConnectionWithTrip(Trip trip){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Connection where trip= :trip");

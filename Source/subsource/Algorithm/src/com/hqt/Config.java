@@ -7,7 +7,7 @@ package com.hqt;
 public class Config {
     public static double EPS = 0.00001;
 
-    public static final double WALKING_BUS_DISTANCE = 300;
+    public static final double WALKING_BUS_DISTANCE = 350;
     public static final double WALKING_DISTANCE = 550;
 
     public static final double WALKING_SPEED = 1.4 * 60;
