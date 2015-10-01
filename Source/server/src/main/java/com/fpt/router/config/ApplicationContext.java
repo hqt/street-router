@@ -1,6 +1,5 @@
 package com.fpt.router.config;
 
-import com.fpt.router.model.CityMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -16,8 +15,6 @@ import java.util.logging.Logger;
  * Created by Huynh Quang Thao on 9/27/15.
  */
 public class ApplicationContext {
-
-    public static CityMap map;
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;

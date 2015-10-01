@@ -7,7 +7,7 @@ import org.hibernate.service.ServiceRegistry;
 /**
  * Created by asus on 9/27/2015.
  */
-public class HDConnection {
+public class HibernateConnection {
     private static SessionFactory sessionFactory;
     private  static SessionFactory buildSessionFactory(){
 

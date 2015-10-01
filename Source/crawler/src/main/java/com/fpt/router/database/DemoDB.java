@@ -1,9 +1,5 @@
-package com.fpt.router.work;
+package com.fpt.router.database;
 
-import com.fpt.router.dao.PathInfoDao;
-import com.fpt.router.dao.RouteDao;
-import com.fpt.router.dao.StationDao;
-import com.fpt.router.dao.TripDao;
 import com.fpt.router.model.*;
 
 import java.text.ParseException;
@@ -27,15 +23,15 @@ public class DemoDB {
             // add station
             List<Station> stations = new ArrayList<Station>();
 
-            Station R1StationA = new Station("BX06","Công Tr??ng Mê Linh","Công tr??ng Mê Linh, Thi Sách, Qu?n 1",106.705856990563,10.7767894851893);
-            Station R1StationB = new Station("Q1T030","Phà Th? Thiêm","21, Tôn ??c Th?ng, Qu?n 1",106.706395410034,10.7732232669716);
-            Station R1StationC = new Station("Q1N020","Ch? C?", "84, Hàm Nghi, Qu?n 1",106.703169414919,10.7709944598553);
+            Station R1StationA = new Station("BX06","Cï¿½ng Tr??ng Mï¿½ Linh","Cï¿½ng tr??ng Mï¿½ Linh, Thi Sï¿½ch, Qu?n 1",106.705856990563,10.7767894851893);
+            Station R1StationB = new Station("Q1T030","Phï¿½ Th? Thiï¿½m","21, Tï¿½n ??c Th?ng, Qu?n 1",106.706395410034,10.7732232669716);
+            Station R1StationC = new Station("Q1N020","Ch? C?", "84, Hï¿½m Nghi, Qu?n 1",106.703169414919,10.7709944598553);
             Station R1StationD = new Station("Q1T021","Tr??ng Cao Th?ng", "Xa Lo Ha Noi",106.701721418991,10.7710708725722);
 
-            Station R18StationA = new Station("BX01","Ga xe buýt Sài Gòn","GA HKXB SAI GON - CV 23/9 , Lê Lai, Qu?n 1",106.689362102212,10.7676765239509);
-            Station R18StationB = new Station("Q1T040","Tôn Th?t Tùng","??i di?n 210, Lê Lai, Qu?n 1",106.690297220232,10.7685123173763);
-            Station R18StationC = new Station("Q1T041","Nguy?n Th? Ngh?a", "??i di?n 96, Lê Lai, Qu?n 1",106.693339515807,10.7697303323519);
-            Station R18StationD = new Station("Q1T042","Khách s?n New world", "??i di?n 1A Ph?m H?ng Thái, Lê Lai, Qu?n 1",106.696741227397,10.7711887842904);
+            Station R18StationA = new Station("BX01","Ga xe buï¿½t Sï¿½i Gï¿½n","GA HKXB SAI GON - CV 23/9 , Lï¿½ Lai, Qu?n 1",106.689362102212,10.7676765239509);
+            Station R18StationB = new Station("Q1T040","Tï¿½n Th?t Tï¿½ng","??i di?n 210, Lï¿½ Lai, Qu?n 1",106.690297220232,10.7685123173763);
+            Station R18StationC = new Station("Q1T041","Nguy?n Th? Ngh?a", "??i di?n 96, Lï¿½ Lai, Qu?n 1",106.693339515807,10.7697303323519);
+            Station R18StationD = new Station("Q1T042","Khï¿½ch s?n New world", "??i di?n 1A Ph?m H?ng Thï¿½i, Lï¿½ Lai, Qu?n 1",106.696741227397,10.7711887842904);
 
             stations.add(R1StationA);
             stations.add(R1StationB);
@@ -133,10 +129,10 @@ public class DemoDB {
             // Trip Depart in Route No 1
             Trip trip18 = new Trip(18,triptime.parse("5:00"),triptime.parse("5:35"),route18d);
 
-            Connection connectionRoute181 = new Connection(trip18,pathInfo1AB,triptime.parse("5:08"));
-            Connection connectionRoute182 = new Connection(trip18,pathInfo1BC,triptime.parse("5:16"));
-            Connection connectionRoute183 = new Connection(trip18,pathInfo1CD,triptime.parse("5:24"));
-            Connection connectionRoute184 = new Connection(trip18,pathInfo1DE,triptime.parse("5:35"));
+            Connection connectionRoute181 = new Connection(trip18,pathInfo18AB,triptime.parse("5:08"));
+            Connection connectionRoute182 = new Connection(trip18,pathInfo18BC,triptime.parse("5:16"));
+            Connection connectionRoute183 = new Connection(trip18,pathInfo18CD,triptime.parse("5:24"));
+            Connection connectionRoute184 = new Connection(trip18,pathInfo18DE,triptime.parse("5:35"));
 
             trip18.getConnections().add(connectionRoute181);
             trip18.getConnections().add(connectionRoute182);
@@ -146,10 +142,10 @@ public class DemoDB {
 
             Trip trip28 = new Trip(28,triptime.parse("5:08"),triptime.parse("5:43"),route18d);
 
-            Connection connTrip281 = new Connection(trip28,pathInfo1AB,triptime.parse("5:16"));
-            Connection connTrip282 = new Connection(trip28,pathInfo1BC,triptime.parse("5:24"));
-            Connection connTrip283 = new Connection(trip28,pathInfo1CD,triptime.parse("5:35"));
-            Connection connTrip284 = new Connection(trip28,pathInfo1DE,triptime.parse("5:43"));
+            Connection connTrip281 = new Connection(trip28,pathInfo18AB,triptime.parse("5:16"));
+            Connection connTrip282 = new Connection(trip28,pathInfo18BC,triptime.parse("5:24"));
+            Connection connTrip283 = new Connection(trip28,pathInfo18CD,triptime.parse("5:35"));
+            Connection connTrip284 = new Connection(trip28,pathInfo18DE,triptime.parse("5:43"));
 
             trip28.getConnections().add(connTrip281);
             trip28.getConnections().add(connTrip282);

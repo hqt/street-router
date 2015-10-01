@@ -8,6 +8,7 @@ import com.fpt.router.config.Config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +27,40 @@ public class DBUtils {
             Logger.getLogger(DBUtils.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public static void deleteDatabase() {
+        Connection conn = null;
+        try {
+            conn = DBUtils.getConnection();
+
+            String sql = "Truncate table MiddlePath";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+
+            sql = "DELETE FROM BusOrder";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+
+            sql = "DELETE FROM BusRoute";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+
+            sql = "DELETE FROM Station";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {

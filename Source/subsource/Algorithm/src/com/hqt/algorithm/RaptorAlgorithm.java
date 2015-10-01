@@ -1,4 +1,4 @@
-package com.hqt;
+package com.hqt.algorithm;
 
 import com.hqt.model.*;
 

@@ -1,19 +1,17 @@
-package com.fpt.router.dao;
+package com.fpt.router.dal;
 
-import com.fpt.router.database.HDConnection;
+import com.fpt.router.database.HibernateConnection;
 import com.fpt.router.model.Station;
-import com.fpt.router.work.DemoDB;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by asus on 9/27/2015.
  */
-public class StationDao {
+public class StationDAL {
     SessionFactory sessionFactory = null;
     /*public static void main(String[] args){
         DemoDB demoDB = new DemoDB();
@@ -31,7 +29,7 @@ public class StationDao {
      * @param station
      */
     public void insertStation(Station station){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(station);
@@ -45,7 +43,7 @@ public class StationDao {
      * @return
      */
     public Station getStationWithId(int id){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Station where stationId= :id");
@@ -60,7 +58,7 @@ public class StationDao {
      * @return
      */
     public List<Station> getStations(){
-        sessionFactory = HDConnection.getSessionFactory();
+        sessionFactory = HibernateConnection.getSessionFactory();
         Session session  = sessionFactory.openSession();
         session.beginTransaction();
         Query query = session.createQuery("from Station");
