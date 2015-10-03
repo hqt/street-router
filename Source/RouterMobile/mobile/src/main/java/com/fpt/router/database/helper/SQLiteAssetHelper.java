@@ -48,7 +48,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
 
     /**
      * Create a helper object to create, open, and/or manage a database in
-     * a specified location.
+     * a specified Location.
      * This method always returns very quickly.  The database is not actually
      * created or opened until one of {@link #getWritableDatabase} or
      * {@link #getReadableDatabase} is called.

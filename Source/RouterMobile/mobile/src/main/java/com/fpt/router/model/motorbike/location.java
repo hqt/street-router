@@ -3,11 +3,11 @@ package com.fpt.router.model.motorbike;
 /**
  * Created by USER on 9/29/2015.
  */
-public class location {
+public class Location {
     private double latitude;
     private double longitude;
 
-    public location(double latitude, double longitude) {
+    public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

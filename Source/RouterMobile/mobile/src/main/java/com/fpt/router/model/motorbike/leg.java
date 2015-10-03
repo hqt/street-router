@@ -5,14 +5,14 @@ import java.util.ArrayList;
 /**
  * Created by USER on 9/29/2015.
  */
-public class leg {
+public class Leg {
     private String lEndAddress;
     private String lStartAddress;
-    private detailLocation lDetailLocation;
-    private ArrayList<step> lStep;
+    private DetailLocation lDetailLocation;
+    private ArrayList<Step> lStep;
     private String lOverview_polyline;
 
-    public leg(String lEndAddress, String lStartAddress, detailLocation lDetailLocation, ArrayList<step> lStep, String lOverview_polyline) {
+    public Leg(String lEndAddress, String lStartAddress, DetailLocation lDetailLocation, ArrayList<Step> lStep, String lOverview_polyline) {
         this.lEndAddress = lEndAddress;
         this.lStartAddress = lStartAddress;
         this.lDetailLocation = lDetailLocation;
@@ -36,19 +36,19 @@ public class leg {
         this.lStartAddress = lStartAddress;
     }
 
-    public detailLocation getlDetailLocation() {
+    public DetailLocation getlDetailLocation() {
         return lDetailLocation;
     }
 
-    public void setlDetailLocation(detailLocation lDetailLocation) {
+    public void setlDetailLocation(DetailLocation lDetailLocation) {
         this.lDetailLocation = lDetailLocation;
     }
 
-    public ArrayList<step> getlStep() {
+    public ArrayList<Step> getlStep() {
         return lStep;
     }
 
-    public void setlStep(ArrayList<step> lStep) {
+    public void setlStep(ArrayList<Step> lStep) {
         this.lStep = lStep;
     }
 

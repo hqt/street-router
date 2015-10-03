@@ -1,9 +1,9 @@
 package com.fpt.router.utils;
 
-import com.fpt.router.model.motorbike.detailLocation;
-import com.fpt.router.model.motorbike.leg;
-import com.fpt.router.model.motorbike.location;
-import com.fpt.router.model.motorbike.step;
+import com.fpt.router.model.motorbike.DetailLocation;
+import com.fpt.router.model.motorbike.Leg;
+import com.fpt.router.model.motorbike.Location;
+import com.fpt.router.model.motorbike.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,16 +21,16 @@ public class JSONParseUtils {
 
     }
 
-    public static leg getLeg(String json){
+    public static Leg getLeg(String json){
         String lEndAddress;
         String lStartAddress;
-        detailLocation lDetailL;
+        DetailLocation lDetailL;
         String lOverview_polyline;
 
-        ArrayList<step> listStep = new ArrayList<step>();
+        ArrayList<Step> listStep = new ArrayList<Step>();
         String sInstruction;
         String sManeuver;
-        detailLocation sDetailL;
+        DetailLocation sDetailL;
 
         JSONObject jo;
 
@@ -51,7 +51,7 @@ public class JSONParseUtils {
             lStartAddress = jsonO.getString("start_address");
             lDetailL = getDetailLocation(jsonO);
 
-            //get all step
+            //get all Step
             jsonA = jsonO.getJSONArray("steps");
             for(int n = 0 ;  n < jsonA.length() ; n++){
                 jo = jsonA.getJSONObject(n);
@@ -62,10 +62,10 @@ public class JSONParseUtils {
                     sManeuver = "Keep going";
                 }
                 sDetailL = getDetailLocation(jo);
-                listStep.add(new step(sInstruction, sManeuver, sDetailL));
+                listStep.add(new Step(sInstruction, sManeuver, sDetailL));
             }
 
-            leg l = new leg(lEndAddress, lStartAddress,lDetailL, listStep, lOverview_polyline);
+            Leg l = new Leg(lEndAddress, lStartAddress,lDetailL, listStep, lOverview_polyline);
             return l;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class JSONParseUtils {
         return null;
     }
 
-    public static detailLocation getDetailLocation(JSONObject jsonORoot){
+    public static DetailLocation getDetailLocation(JSONObject jsonORoot){
         int distance;
         int duration;
         double latitude;
@@ -88,12 +88,12 @@ public class JSONParseUtils {
             jsonO = jsonORoot.getJSONObject("end_location");
             latitude = jsonO.getDouble("lat");
             longitude = jsonO.getDouble("lng");
-            location end_location = new location(latitude, longitude);
+            Location end_location = new Location(latitude, longitude);
             jsonO = jsonORoot.getJSONObject("start_location");
             latitude = jsonO.getDouble("lat");
             longitude = jsonO.getDouble("lng");
-            location start_location = new location(latitude, longitude);
-            detailLocation detailL = new detailLocation(distance, duration, end_location, start_location);
+            Location start_location = new Location(latitude, longitude);
+            DetailLocation detailL = new DetailLocation(distance, duration, end_location, start_location);
             return detailL;
         } catch (JSONException e) {
             e.printStackTrace();

@@ -3,12 +3,12 @@ package com.fpt.router.model.motorbike;
 /**
  * Created by USER on 9/29/2015.
  */
-public class step {
+public class Step {
     private String sInstruction;
     private String sManeuver;
-    private detailLocation sDetailLocation;
+    private DetailLocation sDetailLocation;
 
-    public step(String sInstruction, String sManeuver, detailLocation sDetailLocation) {
+    public Step(String sInstruction, String sManeuver, DetailLocation sDetailLocation) {
 
         this.sInstruction = sInstruction;
         this.sManeuver = sManeuver;
@@ -31,11 +31,11 @@ public class step {
         this.sManeuver = sManeuver;
     }
 
-    public detailLocation getsLocation() {
+    public DetailLocation getsLocation() {
         return sDetailLocation;
     }
 
-    public void setsLocation(detailLocation sDetailLocation) {
+    public void setsLocation(DetailLocation sDetailLocation) {
         this.sDetailLocation = sDetailLocation;
     }
 }
