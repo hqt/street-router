@@ -1,10 +1,14 @@
-package com.hqt;
+package com.fpt.router.crawler.database;
 
-import com.hqt.model.CityMap;
-import com.hqt.model.PathInfo;
-import com.hqt.model.Station;
+/**
+ * Purpose:
+ * Created by Huynh Quang Thao on 10/4/15.
+ */
 
-import java.nio.file.Path;
+import com.fpt.router.crawler.model.entity.CityMap;
+import com.fpt.router.crawler.model.entity.PathInfo;
+import com.fpt.router.crawler.model.entity.Station;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -29,17 +33,17 @@ public class Validation {
 
     // test 1. all station's id must from 0 and consecutive number
     public void testStation() {
-        List<Station> stations = map.stations;
+        List<Station> stations = map.getStations();
         stations.sort(new Comparator<Station>() {
             @Override
             public int compare(Station s1, Station s2) {
-                return s1.id - s2.id;
+                return (int) (s1.getStationId() - s2.getStationId());
             }
         });
         for (int i = 0; i < stations.size(); i++) {
             Station s = stations.get(i);
-            if (s.id != i) {
-                System.out.printf("Station with id %d named %s is not in %d order \n", s.id, s.name, i);
+            if (s.getStationId() != i) {
+                System.out.printf("Station with id %d named %s is not in %d order \n", s.getStationId(), s.getName(), i);
             }
         }
     }
@@ -47,10 +51,10 @@ public class Validation {
     // test 2. In PathInfo. (routeId, toStationId) should be unique key
     public void testPathInfo() {
         Set<String> res = new HashSet<String>();
-        for (Station station : map.stations) {
-            for (PathInfo pathInfo : station.pathInfos) {
-                int routeId = pathInfo.route.routeId;
-                int toStationId = pathInfo.to.id;
+        for (Station station : map.getStations()) {
+            for (PathInfo pathInfo : station.getTo()) {
+                long routeId = pathInfo.getRoute().getRouteId();
+                long toStationId = pathInfo.getTo().getStationId();
                 String key = routeId + "." + toStationId;
                 if (res.contains(key)) {
                     System.out.println("test PathInfo failed");

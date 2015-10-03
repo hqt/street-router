@@ -5,19 +5,19 @@
 <hibernate-configuration>
     <session-factory>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/routerdb</property>
+        <property name="hibernate.connection.url">jdbc:mysql://localhost:8889/routerdb</property>
         <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">123456</property>
+        <property name="hibernate.connection.password">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">true</property>
 
-        <mapping class="com.fpt.router.model.Route" />
-        <mapping class="com.fpt.router.model.Trip" />
-        <mapping class="com.fpt.router.model.PathInfo" />
-        <mapping class="com.fpt.router.model.Station" />
-        <mapping class="com.fpt.router.model.Connection" />
+        <mapping class="com.fpt.router.crawler.model.entity.Route" />
+        <mapping class="com.fpt.router.crawler.model.entity.Trip" />
+        <mapping class="com.fpt.router.crawler.model.entity.PathInfo" />
+        <mapping class="com.fpt.router.crawler.model.entity.Station" />
+        <mapping class="com.fpt.router.crawler.model.entity.Connection" />
 
     </session-factory>
 </hibernate-configuration>

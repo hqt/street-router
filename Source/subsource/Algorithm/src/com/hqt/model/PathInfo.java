@@ -12,6 +12,7 @@ public class PathInfo {
         CONNECTED_BUS,
     }
 
+    public Route route;
     public PathType type;
     public Station from;
     public Station to;

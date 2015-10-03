@@ -2,10 +2,8 @@ package com.hqt.algorithm;
 
 import com.hqt.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Time;
+import java.util.*;
 
 /**
  * Purpose:
@@ -37,15 +35,22 @@ public class RaptorAlgorithm {
     double[][] result;
 
     // using for track back.
-    // trace[i] = j. shortest arrival time come to i-station using last route j
-    int[] trace;
+    // traceUsedRoute[i] = j. shortest arrival time come to i-station using route j
+    int[] traceUsedRoute;
+
+    // parent station of current station. so we go on bus on this station
+    int[] traceFromStation;
 
     private void initialize() {
         Q = new HashMap<Integer, Integer>();
 
-        // initialize for trace.
-        trace = new int[map.stations.size()];
-        trace[start.id] = -1;
+        // initialize for traceUsedRoute.
+        traceUsedRoute = new int[map.stations.size()];
+        Arrays.fill(traceUsedRoute, -1);
+
+        // initialize for traceFromStation
+        traceFromStation = new int[map.stations.size()];
+        Arrays.fill(traceFromStation, -1);
 
         // initialize for marked station
         markedStationIds = new ArrayList<Integer>();
@@ -53,17 +58,12 @@ public class RaptorAlgorithm {
 
         // initialize earliest arrival time
         earliest_arrival_time = new double[map.stations.size()];
-        // initialize for earliest arrival time
-        for (int i = 0; i < earliest_arrival_time.length; i++) {
-            earliest_arrival_time[i] = Double.MAX_VALUE;
-        }
+        Arrays.fill(earliest_arrival_time, Double.MAX_VALUE);
         earliest_arrival_time[start.id] = departure_time;
 
         // initialize for result
         result = new double[K+1][map.stations.size()];
-        for (int i = 0; i < result[0].length; i++) {
-            result[0][i] = Double.MAX_VALUE;
-        }
+        Arrays.fill(result[0], Double.MAX_VALUE);
         result[0][start.id] = departure_time;
     }
 
@@ -99,15 +99,21 @@ public class RaptorAlgorithm {
                 // because this sequence number is always increased. we can find this way for more optimal
                 int currentTripIndex = 0;
 
+                // optimize from this station to end on same route
                 for (int order = startOrder; order < route.getTotalStations() ; order++) {
                     Station p_i = route.getStationByOrder(order);
 
                     if (t!= null) {
                         double arrivalTime = t.getArrivalTime(p_i);
+                        // condition for update. we can go thi station earlier due to update trip
                         if (arrivalTime < Math.min(earliest_arrival_time[p_i.id], earliest_arrival_time[end.id])) {
                             result[k][p_i.id] = arrivalTime;
                             earliest_arrival_time[p_i.id] = arrivalTime;
+                            // from this station. maybe can update other routes at next turn
                             markedStationIds.add(p_i.id);
+                            // store information for trace back
+                            traceFromStation[p_i.id] = startStation.id;
+                            traceUsedRoute[p_i.id] = route.routeId;
                         }
                     }
 
@@ -134,4 +140,36 @@ public class RaptorAlgorithm {
             }
         }
     }
+
+    private void buildResult() {
+        int currentStationId = end.id;
+        Station currentStation = map.getStationById(currentStationId);
+        while(traceFromStation[currentStationId] != -1) {
+            int previousStationId = traceFromStation[end.id];
+            Station previousStation = map.getStationById(previousStationId);
+            // build edge from previousStation to currentStation
+            for (PathInfo pathInfo : previousStation.pathInfos) {
+
+            }
+
+            currentStationId = previousStationId;
+
+        }
+
+        Time time;
+    }
 }
+
+
+/*
+public class Node {
+    public String name;
+    public String street;
+    public Location location;
+    public String type;
+    public double distance;
+    public double time;
+    public int routeNo;
+    public List<Location> points;
+}
+*/

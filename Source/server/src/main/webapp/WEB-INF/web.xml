@@ -7,12 +7,12 @@
 
     <servlet>
         <servlet-name>DispatcherServlet</servlet-name>
-        <servlet-class>com.fpt.router.servlet.DispatcherServlet</servlet-class>
+        <servlet-class>com.fpt.router.web.servlet.DispatcherServlet</servlet-class>
     </servlet>
 
     <servlet>
         <servlet-name>StartupServlet</servlet-name>
-        <servlet-class>com.fpt.router.servlet.StartupServlet</servlet-class>
+        <servlet-class>com.fpt.router.web.servlet.StartupServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
@@ -43,6 +43,20 @@
             <page-encoding>UTF-8</page-encoding>
         </jsp-property-group>
     </jsp-config>
+
+    <filter>
+        <filter-name>CharsetFilter</filter-name>
+        <filter-class>com.fpt.router.web.framework.CharsetFilter</filter-class>
+        <init-param>
+            <param-name>requestEncoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CharsetFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <error-page>
         <error-code>404</error-code>

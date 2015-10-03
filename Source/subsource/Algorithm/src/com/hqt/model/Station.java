@@ -19,4 +19,7 @@ public class Station {
 
     // list all foot-path stations go through this station
     public List<Station> stations;
+
+    // all pathInfos from this station
+    public List<PathInfo> pathInfos;
 }

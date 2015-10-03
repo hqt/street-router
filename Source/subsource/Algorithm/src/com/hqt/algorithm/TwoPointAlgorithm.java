@@ -1,10 +1,15 @@
 package com.hqt.algorithm;
 
 import com.hqt.Config;
+import com.hqt.DistanceUtils;
 import com.hqt.model.CityMap;
 import com.hqt.model.Location;
 import com.hqt.model.PathInfo;
 import com.hqt.model.Station;
+import com.hqt.viewmodel.Result;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Purpose:
@@ -13,76 +18,54 @@ import com.hqt.model.Station;
 public class TwoPointAlgorithm {
 
     CityMap map;
+    double walkingDistance;
+    Location start;
+    Location end;
 
-    public String run(Location start, Location end, String startAddress, String endAddress) {
+    public String run(Location start, Location end, String startAddress, String endAddress, double walkingDistance) {
 
-        // 1. find some nearest locations near s and e
-        s = new Station();
-        s.code = "start_node";
-        s.name = startAddress;
-        s.street = startAddress;
-        s.location = start;
-        s.id = map.stations.size();
-        findNearestLocationFrom(s);
+        // assign to local variables
+        this.start = start;
+        this.end = end;
+        this.walkingDistance = walkingDistance;
 
-        e = new Station();
-        e.code = "end_node";
-        e.name = endAddress;
-        e.street = startAddress;
-        e.location = end;
-        e.id = map.stations.size() + 1;
-        findNearestLocationFrom(e);
+        List<Station> nearStartStations = findNearestStations(start);
+        List<Station> nearEndStations = findNearestStations(end);
 
-        // 2. check if exist stations near start and end
-        // too far from all bus stations
-        if (s.pathInfos.size() == 0) {
-            System.out.println("start location too far");
+        if (nearStartStations.size() == 0) {
             return "start location too far";
+        } else if (nearStartStations.size() > 2) {
+            nearStartStations = nearStartStations.subList(0, 2);
         }
-        if (e.pathInfos.size() == 0) {
-            System.out.println("end location too far");
+        if (nearEndStations.size() == 0) {
             return "end location too far";
+        } else if (nearEndStations.size() > 2) {
+            nearEndStations = nearEndStations.subList(0, 2);
         }
 
+        // brute force here
+        List<Result> results = new ArrayList<Result>();
+        for (Station fromStation : nearStartStations) {
+            for (Station toStation : nearEndStations) {
+                RaptorAlgorithm algor = new RaptorAlgorithm();
 
-        // too short
-        if (Converter.distance(s.location, e.location) <= Config.WALKING_BUS_DISTANCE) {
-            System.out.println("two locations too short. walking is better");
-            return "too short";
-        }
-
-        // 3. algorithm
-        init();
-        dijkstra();
-
-        // 4. get all nearest bus stations
-        List<PathInfo> res = findShortestPathToLastPlace();
-        for (int i = 0; i < res.size(); i++) {
-            System.out.println(res.get(i).from.id + "  " + res.get(i).from.name + " " + res.get(i).type);
-        }
-
-        // 5. generate results
-        System.out.println("lan");
-        Result result = generateResult(res);
-        System.out.println("lan1");
-        Results results = new Results();
-        System.out.println("lan2");
-        results.getResult().add(result);
-
-        System.out.println("lan3");
-        String xml = marshall(schemaPath, results);
-        System.out.println("thao");
-        System.out.println(xml);
-        return xml;
-    }
-
-    private void findNearestLocationFrom(Location from) {
-        for (Station station : map.stations) {
-            if (Converter.distance(from.location, station.location) <= Config.WALKING_DISTANCE) {
-                // create new edge from start location to this station
-                PathInfo pathInfo = new PathInfo(PathInfo.PathType.WALKING_BUS, from, station, null);
-                from.pathInfos.add(pathInfo);
             }
         }
+
+        // convert this list to json
+        return null;
+
+    }
+
+
+    /** find list of nearest stations from this station */
+    private List<Station> findNearestStations(Location location) {
+        List<Station> res = new ArrayList<Station>();
+        for (Station station : map.stations) {
+            if (DistanceUtils.distance(location, station.location) <= walkingDistance) {
+                res.add(station);
+            }
+        }
+        return res;
     }
 }
