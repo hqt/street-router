@@ -1,8 +1,11 @@
 package com.fpt.router.crawler.utils;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 
 import java.sql.Time;
+import java.util.Date;
 
 /**
  * Purpose:
@@ -26,5 +29,10 @@ public class TimeUtils {
         return new LocalTime(time.getHours(), time.getMinutes(), time.getSeconds());
     }
 
+    public LocalTime convertExcelDate(Date date){
+        //LocalDate ld = new LocalDate(date);
+        LocalDateTime ldt = new LocalDateTime(date);
+        return ldt.toLocalTime();
+    }
 
 }

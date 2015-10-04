@@ -1,5 +1,10 @@
 package com.fpt.router.crawler.work;
 
+import com.fpt.router.crawler.model.entity.CityMap;
+import com.fpt.router.crawler.model.entity.PathInfo;
+import com.fpt.router.crawler.model.entity.Route;
+import com.fpt.router.crawler.model.entity.Station;
+import com.fpt.router.crawler.model.helper.RouteType;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
@@ -27,9 +32,30 @@ public class BusCrawlerPipe {
 
     List<Integer> serverBusIds = new ArrayList<Integer>();
     Map<Integer, String> links = new HashMap<Integer, String>();
+    List entryLink = new ArrayList();
     Pattern p = Pattern.compile("^\\[(\\d+)(-(\\d+))*\\]\\s+(.+)\\s*"); //[8-13] ben thanh cho hiep thanh
     public static final String busMapLink = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations";
-    List l = new ArrayList();
+    public CityMap map;
+    public Set<PathInfo> pathInfos = new HashSet<PathInfo>();
+    public Set<Station> stations = new HashSet<Station>();
+    public List<Route> routes = new ArrayList<Route>();
+    public List<EntryLInk> listEntryLink = new ArrayList<EntryLInk>();
+
+    public BusCrawlerPipe(){
+        map = new CityMap();
+    }
+
+    public class EntryLInk {
+        int serverBusId;
+        int busCode;
+        String busName;
+
+        public EntryLInk(int id, int busCode, String name){
+            this.serverBusId = id;
+            this.busCode = busCode;
+            this.busName = name;
+        }
+    }
 
     public void crawlAllLink() {
         System.out.println("Get all link ...");
@@ -45,7 +71,6 @@ public class BusCrawlerPipe {
                 int serverBusId = Integer.parseInt(route.attr("value"));
                 // if ((serverBusId != 16) && (serverBusId != 51)) continue;
                 serverBusIds.add(serverBusId);
-
                 // debug information
                 Matcher m = p.matcher(route.text());
                 if (m.matches()) {
@@ -54,10 +79,11 @@ public class BusCrawlerPipe {
                     int busCode = Integer.parseInt(busCodeStr);
                     String name = m.group(4);
                     System.out.println("server code: " + serverBusId + "--> " + busCode + " " + name);
+                    EntryLInk entryLInk = new EntryLInk(serverBusId,busCode,name);
+                    listEntryLink.add(entryLInk);
                 } else {
                     System.out.println("wrong parsing. should review here !!!");
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,9 +95,9 @@ public class BusCrawlerPipe {
     public void crawAllData() {
         System.out.println("get json data from each route code ...");
         ExecutorService executor = Executors.newFixedThreadPool(10);
-        for (Integer serverBusId : serverBusIds) {
-            CrawDataThread threadTrue = new CrawDataThread(serverBusId, true);
-            CrawDataThread threadFalse = new CrawDataThread(serverBusId, false);
+        for(EntryLInk entry : listEntryLink){
+            CrawDataThread threadTrue = new CrawDataThread(entry.serverBusId, true, entry.busCode, entry.busName);
+            CrawDataThread threadFalse = new CrawDataThread(entry.serverBusId, false, entry.busCode, entry.busName);
             executor.execute(threadTrue);
             executor.execute(threadFalse);
         }
@@ -83,44 +109,42 @@ public class BusCrawlerPipe {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-       /* for (Map.Entry<Integer, BusRouteCrawler> entry : map.entrySet()) {
-            BusRouteCrawler route = entry.getValue();
-            CrawDataThread thread = new CrawDataThread(route);
-            executor.execute(thread);
-        }
+    private void getRoutes(int id, String name) {
+        Route route = new Route();
+        route.setRouteNo(id);
+        route.setRouteName(name);
 
-        executor.shutdown();
-        try {
-            executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
-            System.out.println("crawling data finished. Remain routes: " + map.size());
-            System.out.println("############################");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
+        map.getRoutes().add(route);
     }
 
 
-    public void run() {
+    public CityMap run() {
         crawlAllLink();
         crawAllData();
+        map.getStations().addAll(stations);
+        return map;
     }
 
     private class CrawDataThread extends Thread {
 
         private int busId;
         private boolean isgo;
+        private int busNo;
+        private String name;
 
-        public CrawDataThread(int busId, boolean isgo) {
+        public CrawDataThread(int busId, boolean isgo, int busNo, String name) {
             this.busId = busId;
             this.isgo = isgo;
+            this.busNo = busNo;
+            this.name = name;
         }
 
         @Override
         public void run() {
-            InputStream in = readJsonFromURl(busId,isgo);
-            List<String> station =  getDataFromJson(in);
-            if (station.size() > 0)  l.add(station);
+            InputStream in = readJsonFromURl(busId, isgo);
+            getDataFromJson(in);
         }
 
         private InputStream readJsonFromURl(int busId, boolean isgo){
@@ -143,78 +167,92 @@ public class BusCrawlerPipe {
             return in;
         }
 
-        private List<String> getDataFromJson(InputStream in) {
-            List dataList = new ArrayList();
+        private void getRoutes(int routeNo , String routeName, boolean isgo){
+            Route route = new Route();
+            route.setRouteNo(routeNo);
+            route.setRouteName(routeName);
+            if (isgo == true) {
+                route.setRouteType(RouteType.DEPART);
+            } else {
+                route.setRouteType(RouteType.RETURN);
+            }
+            map.getRoutes().add(route);
+        }
+
+        private Set<Station> getDataFromJson(InputStream in) {
             try {
+                if (in == null) System.out.println("Link contain null inputstream " + busId + " " +isgo);
+
                 ObjectMapper om = new ObjectMapper();
                 JsonNode rootNode = om.readTree(in);
                 JsonNode table = rootNode.path("TABLE");
 
-                if(table.get(0) == null) return dataList;
+                if (table.get(0) == null) return stations;
+
+                // get routes
+                getRoutes(busNo,name,isgo);
 
                 JsonNode row = table.get(0);
                 Iterator<JsonNode> cols = row.getElements();
+
+                int y = 0;
                 int i = 0;
                 while (cols.hasNext()) {
                     JsonNode col = cols.next();
                     Iterator<JsonNode> items = col.getElements();
-                    while(items.hasNext()) {
-                        // Here, to create station item
-                        List<String> listItem = new ArrayList<String>();
-
+                    while (items.hasNext()) {
                         JsonNode item = items.next();
                         Iterator<JsonNode> datas = item.getElements();
+                        Station s = new Station();
                         while (datas.hasNext()) {
                             JsonNode data = datas.next();
                             Iterator<JsonNode> textValue = data.getElements();
                             while (textValue.hasNext()) {
                                 JsonNode dataElement = textValue.next();
                                 JsonNode dataTextValue = dataElement.path("DATA");
-                                listItem.add(dataTextValue.getTextValue());
+                                extractData(y, dataTextValue.getTextValue(), s);
+                                y++;
                             }
                         }
+
+                        s.setStationId(i);
+                        stations.add(s);
+                        y = 0;
                         i++;
-                        dataList.add(listItem);
                     }
                 }
 
             } catch (Exception e) {
-                System.out.println("BusId: " +busId + " isgo: " +isgo);
                 e.printStackTrace();
             }
-
-            return dataList;
+            return stations;
         }
 
-        public boolean run(boolean turn) {
-           /* HtmlPage html;
-            try {
-                WebClient webClient = new WebClient(BrowserVersion.FIREFOX_38);
-                String url = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations&rid=" + route.getServerId() + "&isgo=" + turn;
-                html = webClient.getPage(url);
-                String content = html.getBody().getTextContent();
-                if ((content != null) && (!content.equals("null"))) {
-                    JSONObject o = new JSONObject(content);
-                    String xml = XML.toString(o);
-                    if (turn) {
-                        route.setXmlDataRight(StringHelper.wrapXMLDocument(xml, "original_schema.xsd"));
-                    } else {
-                        route.setXmlDataLeft(StringHelper.wrapXMLDocument(xml, "original_schema.xsd"));
-                    }
-                    return true;
-                } else {
-                    System.out.println("this route " + route.getRouteId() + " doesn't return data. will be removed from system");
-                    map.remove(route.getServerId());
-                    return false;
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                System.out.println("error converting at " + route.getServerId());
+        public void extractData(int y, String data, Station station) {
+            switch (y) {
+                case 3:
+                    PathInfo pathInfo = new PathInfo();
+                    pathInfo.setMiddleLocations(data);
+                    pathInfos.add(pathInfo);
+                    break;
+                case 7:
+                    station.setName(data);
+                    break;
+                case 8:
+                    double lo = Double.parseDouble(data);
+                    station.setLongitude(lo);
+                    break;
+                case 9:
+                    double lat = Double.parseDouble(data);
+                    station.setLatitude(lat);
+                    break;
+                case 12:
+                    station.setStreet(data);
+                    break;
+                case 13:
+                    station.setCodeId(data);
+                    break;
             }
-            return false;
-        }*/
-            return true;
         }
     }
 }

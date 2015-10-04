@@ -4,12 +4,14 @@ import com.fpt.router.crawler.model.entity.CityMap;
 import com.fpt.router.crawler.model.entity.Route;
 import com.fpt.router.crawler.model.entity.Trip;
 import com.fpt.router.crawler.model.helper.RouteType;
+import com.fpt.router.crawler.utils.TimeUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.joda.time.LocalTime;
 
 import java.io.*;
 import java.util.*;
@@ -24,11 +26,16 @@ public class ReadExcelFileFromLocal {
 
     public CityMap map;
     public Map<Integer, String> excelPaths;
+    public TimeUtils timeUtils = new TimeUtils();
     public static final String pathFolder = "\\localExcelFIle";
 
     public ReadExcelFileFromLocal(){
         map = new CityMap();
         excelPaths = new HashMap<Integer, String>();
+    }
+
+    public ReadExcelFileFromLocal(CityMap map) {
+        this.map = map;
     }
 
     public CityMap run(){
@@ -67,6 +74,7 @@ public class ReadExcelFileFromLocal {
 
 
     private void processParsing(File file) {
+
         ExecutorService executorService = Executors.newFixedThreadPool(8);
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {
@@ -94,6 +102,7 @@ public class ReadExcelFileFromLocal {
 
         String path;
         int busid;
+        boolean isgo;
 
         public ParseExcels(String path, int busid) {
             this.path = path;
@@ -126,6 +135,7 @@ public class ReadExcelFileFromLocal {
             Sheet sheet = workbook.getSheetAt(0);
             Iterator<Row> iterator = sheet.rowIterator(); // get iterator row
 
+
             List<Route> routes = new ArrayList<Route>();
             Route routeDepart = new Route();
             routeDepart.setRouteType(RouteType.DEPART);
@@ -156,15 +166,22 @@ public class ReadExcelFileFromLocal {
                     tripDepart.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
                     tripReturn.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
                     if (departIndex != -1 && returnIndex != -1) {
-                        tripDepart.setStartTime(nextRow.getCell(departIndex).getDateCellValue());
-                        tripDepart.setEndTime(nextRow.getCell(departIndex + 1).getDateCellValue());
-                        tripReturn.setStartTime(nextRow.getCell(returnIndex).getDateCellValue());
-                        tripReturn.setEndTime(nextRow.getCell(returnIndex + 1).getDateCellValue());
+                        tripDepart.setStartTime(timeUtils.convertExcelDate(nextRow.getCell(departIndex).getDateCellValue()));
+                        tripDepart.setEndTime(timeUtils.convertExcelDate(nextRow.getCell(departIndex + 1).getDateCellValue()));
+                        tripReturn.setStartTime(timeUtils.convertExcelDate(nextRow.getCell(returnIndex).getDateCellValue()));
+                        tripReturn.setEndTime(timeUtils.convertExcelDate(nextRow.getCell(returnIndex + 1).getDateCellValue()));
                     }
                 } catch (Exception ex) {
+                    //ex.printStackTrace();
                     //System.out.println("Row Error: " + nextRow.getRowNum() + " at " + i + " - " +excelLink);
                     continue;
                 }
+
+                /*for (Route r : map.getRoutes()) {
+                    if (r.getRouteNo() == busid) {
+                    }
+                }*/
+
                 if (tripDepart.getTripNo() != 0) {
                     routeDepart.getTrips().add(tripDepart);
                     routeDepart.setRouteId(busid);
@@ -200,7 +217,7 @@ public class ReadExcelFileFromLocal {
                         }
                     }
                 } catch (Exception ex) {
-                   // System.out.println("Row: " +nextRow.getRowNum() + " i " + " link: " +excelPaths);
+                    // System.out.println("Row: " +nextRow.getRowNum() + " i " + " link: " +excelPaths);
                     continue;
 //                    ex.printStackTrace();
                 }

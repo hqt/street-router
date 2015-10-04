@@ -4,6 +4,7 @@ import com.fpt.router.crawler.model.entity.CityMap;
 import com.fpt.router.crawler.model.entity.Route;
 import com.fpt.router.crawler.model.entity.Trip;
 import com.fpt.router.crawler.model.helper.RouteType;
+import com.fpt.router.crawler.utils.TimeUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -27,6 +28,7 @@ public class TimeCrawlerPipe {
 
     public Map<Integer, String> busTimeExcelLinks;
     CityMap map;
+    TimeUtils timeUtils = new TimeUtils();
     public int flagProcessLinkExcel = 0;
 
     public TimeCrawlerPipe() {
@@ -129,114 +131,6 @@ public class TimeCrawlerPipe {
             return inputStream;
         }
 
-        private List<Route> parseExcelFile(InputStream inputStream) {
-
-            Workbook workbook = null;
-
-            try {
-                CharSequence extensionExcel = ".xlsx";
-                if (excelLink.contains(extensionExcel)) {
-                    workbook = new XSSFWorkbook(inputStream);
-                } else {
-                    workbook = new HSSFWorkbook(inputStream);
-                }
-
-            } catch (Exception e) {
-                System.out.println("Excel Link: " + excelLink);
-                e.printStackTrace();
-            }
-            Sheet sheet = workbook.getSheetAt(0);
-            Iterator<Row> iterator = sheet.rowIterator(); // get iterator row
-
-            List<Route> routes = new ArrayList<Route>();
-            Route routeDepart = new Route();
-            routeDepart.setRouteType(RouteType.DEPART);
-            Route routeReturn = new Route();
-            routeReturn.setRouteType(RouteType.RETURN);
-
-            while (iterator.hasNext()) {
-                Row nextRow = iterator.next();
-                Iterator<Cell> cellIterator = nextRow.cellIterator();
-
-                if (nextRow.getCell(0) != null) {
-                    int blankRow = getRowBlank(nextRow);
-                    if (blankRow == 0) {
-                        getSumTrip(iterator);
-                    }
-                }
-
-                Trip tripDepart = new Trip(); // Create Trip
-                Trip tripReturn = new Trip();
-
-
-                for (int i = nextRow.getFirstCellNum() ; i < nextRow.getLastCellNum(); i++) {
-                    int lastCellNum = nextRow.getLastCellNum();
-
-                    if (busId == 22){
-                        handleSpecialHandle(tripDepart,tripReturn,nextRow);
-                        continue;
-                    }
-
-                    switch (i) {
-                        case 0:
-                            if (nextRow.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                                tripDepart.setTripNo((int) nextRow.getCell(i).getNumericCellValue());
-                                tripReturn.setTripNo((int) nextRow.getCell(i).getNumericCellValue());
-                            }
-                            break;
-                        case 1:
-                            try {
-                                if (nextRow.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                                    tripDepart.setStartTime(nextRow.getCell(i).getDateCellValue());
-                                }
-                            } catch (Exception ex) {
-                                continue;
-                            }
-                            break;
-                        case 2:
-                            if (nextRow.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                                tripDepart.setEndTime(nextRow.getCell(i).getDateCellValue());
-                            }
-                            break;
-                    }
-
-                    try{
-                        if (i == lastCellNum - 2) {
-                            if (nextRow.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                                tripReturn.setStartTime(nextRow.getCell(i).getDateCellValue());
-                            }
-                        }
-                        if (i == lastCellNum - 1) {
-                            if (nextRow.getCell(i).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                                tripReturn.setEndTime(nextRow.getCell(i).getDateCellValue());
-                            }
-                        }
-                    } catch (Exception ex) {
-                        System.out.println("Index-" + i + " - " +excelLink + " - " + nextRow.getCell(i) + " - " + nextRow.getRowNum());
-                        continue;
-                    }
-
-                }
-
-                /*while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    addDataToTrip(tripDepart, tripReturn, cell);
-                }*/
-
-                if (tripDepart.getTripNo() != 0) {
-                    routeDepart.getTrips().add(tripDepart);
-                    routeDepart.setRouteId(busId);
-                }
-                if (tripReturn.getTripNo() != 0) {
-                    routeReturn.getTrips().add(tripReturn);
-                    routeReturn.setRouteId(busId);
-                }
-            }
-            routes.add(routeDepart);
-            routes.add(routeReturn);
-
-            return routes;
-        }
 
         private List<Route> parseExcelFile2(InputStream inputStream) {
             Workbook workbook = null;
@@ -285,10 +179,10 @@ public class TimeCrawlerPipe {
                     tripDepart.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
                     tripReturn.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
                     if (departIndex != -1 && returnIndex != -1) {
-                        tripDepart.setStartTime(nextRow.getCell(departIndex).getDateCellValue());
-                        tripDepart.setEndTime(nextRow.getCell(departIndex + 1).getDateCellValue());
-                        tripReturn.setStartTime(nextRow.getCell(returnIndex).getDateCellValue());
-                        tripReturn.setEndTime(nextRow.getCell(returnIndex + 1).getDateCellValue());
+                        tripDepart.setStartTime(timeUtils.convertExcelDate(nextRow.getCell(departIndex ).getDateCellValue()));
+                        tripDepart.setEndTime(timeUtils.convertExcelDate(nextRow.getCell(departIndex + 1).getDateCellValue()));
+                        tripReturn.setStartTime(timeUtils.convertExcelDate(nextRow.getCell(returnIndex).getDateCellValue()));
+                        tripReturn.setEndTime(timeUtils.convertExcelDate(nextRow.getCell(returnIndex + 1).getDateCellValue()));
                     }
                 } catch (Exception ex) {
                     //System.out.println("Row Error: " + nextRow.getRowNum() + " at " + i + " - " +excelLink);
@@ -338,87 +232,6 @@ public class TimeCrawlerPipe {
             return index;
         }
 
-        private int getRowBlank(Row row) {
-            int flagBlankRow = row.getLastCellNum();
-            for (int i = row.getFirstCellNum(); i <= row.getLastCellNum(); i++) {
-                Cell cell = row.getCell(i);
-                // Compare blank cell
-                try {
-                    if (cell.getCellType() == Cell.CELL_TYPE_BLANK) {
-                        flagBlankRow -= 1;
-                    }
-                } catch (Exception e) {
-                    continue;
-                }
-            }
-            return flagBlankRow;
-        }
-
-        public void handleSpecialHandle(Trip tripDepart,Trip tripReturn, Row nextRow){
-            try {
-                if (nextRow.getCell(0).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                    tripDepart.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
-                    tripReturn.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
-                }
-                if (nextRow.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                    double cellvalue = nextRow.getCell(1).getNumericCellValue();
-                    tripDepart.setStartTime(DateUtil.getJavaDate(cellvalue));
-                    tripDepart.setEndTime(DateUtil.getJavaDate(cellvalue + 0.041666666666666664));
-                }
-                if (nextRow.getCell(5).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                    double cellvalue = nextRow.getCell(5).getNumericCellValue();
-                    tripReturn.setStartTime(DateUtil.getJavaDate(cellvalue));
-                    tripReturn.setEndTime(DateUtil.getJavaDate(cellvalue + 0.041666666666666664));
-                }
-
-            } catch (Exception ex) {
-                System.out.println("Skip Error Row at " +nextRow.getRowNum());
-                ex.printStackTrace();
-            }
-        }
-
-        private void addDataToTrip(Trip tripDepartTime, Trip tripReturnTime, Cell cell) {
-
-            switch (cell.getCellType()) {
-                case Cell.CELL_TYPE_NUMERIC:
-                    int indexColumn = cell.getColumnIndex();
-                    switch (indexColumn) {
-                        case 0:
-                            tripDepartTime.setTripNo((int) cell.getNumericCellValue());
-                            tripReturnTime.setTripNo((int) cell.getNumericCellValue());
-                        case 1:
-                            tripDepartTime.setStartTime(cell.getDateCellValue());
-                            break;
-                        case 2:
-                            tripDepartTime.setEndTime(cell.getDateCellValue());
-                            break;
-                        case 5:
-                            tripReturnTime.setStartTime(cell.getDateCellValue());
-                            break;
-                        case 6:
-                            tripReturnTime.setEndTime(cell.getDateCellValue());
-                            break;
-                    }
-            }
-        }
-
-        private void getSumTrip(Iterator<Row> rowIterator) {
-            while (rowIterator.hasNext()) {
-                Row nextRow = rowIterator.next();
-                Iterator<Cell> cellIterator = nextRow.cellIterator();
-
-                while (cellIterator.hasNext()) {
-                    Cell cell = cellIterator.next();
-                    switch (cell.getCellType()) {
-                        case Cell.CELL_TYPE_NUMERIC:
-                            //System.out.println("Numeric: " + cell.getNumericCellValue());
-                            break;
-                        case Cell.CELL_TYPE_STRING:
-                            //System.out.println("String: " + cell.getStringCellValue());
-                    }
-                }
-            }
-        }
     }
 }
 
