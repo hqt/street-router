@@ -1,6 +1,8 @@
 package com.fpt.router.crawler.model.algorithm;
 
 
+import org.joda.time.LocalTime;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,9 +17,9 @@ public class Trip implements IAlgorithmModel {
 
     public int tripNo;
 
-    public Date startTime;
+    public LocalTime startTime;
 
-    public Date endTime;
+    public LocalTime endTime;
 
     public Route route;
 
@@ -32,17 +34,17 @@ public class Trip implements IAlgorithmModel {
 
     }
 
-    /*public double getArrivalTime(Station station) {
-        return 0;
+    public LocalTime getArrivalTime(Station station) {
+        return null;
     }
 
-    public double getDepartureTime(Station station) {
+    public LocalTime getDepartureTime(Station station) {
         for (Connection connection : connections) {
             if (connection.pathInfo.from.id == station.id) {
                 return connection.arrivalTime;
             }
         }
-        return 0;
-    }*/
+        return null;
+    }
 
 }

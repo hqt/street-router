@@ -9,12 +9,11 @@ import java.util.List;
  * Created by Huynh Quang Thao on 10/4/15.
  */
 public class Path {
-    public String name;
+    public String stationFromName;
+    public String stationToName;
+    public int transferTurn;
     public String street;
-    public Location location;
     public String type;
-    public double distance;
-    public double time;
     public int routeNo;
     public List<Location> points;
 }

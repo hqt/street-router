@@ -1,5 +1,7 @@
 package com.fpt.router.crawler.model.algorithm;
 
+import com.fpt.router.crawler.model.helper.RouteType;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +12,7 @@ import java.util.Map;
  */
 public class Route implements IAlgorithmModel {
 
-
-    public enum RouteType{
-        DEPART,
-        RETURN
-    }
-
-    public long routeId;
+    public int routeId;
 
     public int routeNo;
 

@@ -1,8 +1,12 @@
 package com.fpt.router.crawler.database;
 
 import com.fpt.router.crawler.dao.StationDAO;
+import com.fpt.router.crawler.dao.TempDAO;
 import com.fpt.router.crawler.dao.common.JPADaoImpl;
 import com.fpt.router.crawler.model.entity.Station;
+import com.fpt.router.crawler.model.entity.Temp;
+import org.joda.time.DateTime;
+import org.joda.time.LocalTime;
 
 import java.util.List;
 
@@ -17,8 +21,14 @@ public class DatabaseTest {
         CityMap map = db.cityMap;
         MapDAL.insertDatabase(map);*/
 
-        List<Station> stations = (new StationDAO()).findAll();
-        System.out.println(stations.size());
+       /* List<Station> stations = (new StationDAO()).findAll();
+        System.out.println(stations.size());*/
+
+        Temp temp = new Temp();
+        temp.setTempNo(10);
+        LocalTime dt = new LocalTime(13,30,45);
+        temp.setDate(dt);
+        (new TempDAO()).create(temp);
         JPADaoImpl.closeFactory();
 
         //map = MapDAL.readDatabase();

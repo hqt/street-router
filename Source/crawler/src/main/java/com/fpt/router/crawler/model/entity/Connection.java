@@ -1,5 +1,7 @@
 package com.fpt.router.crawler.model.entity;
 
+import org.joda.time.LocalTime;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -24,13 +26,12 @@ public class Connection implements IEntity {
     private PathInfo pathInfo;
 
     @Column(name = "ArrivalTime")
-    @Temporal(TemporalType.TIME)
-    private Date arrivalTime;
+    private LocalTime arrivalTime;
 
     public Connection(){
 
     }
-    public Connection(Trip trip, PathInfo pathInfo, Date arrivalTime){
+    public Connection(Trip trip, PathInfo pathInfo, LocalTime arrivalTime){
         this.trip = trip;
         this.pathInfo = pathInfo;
         this.arrivalTime = arrivalTime;
@@ -61,11 +62,11 @@ public class Connection implements IEntity {
         this.pathInfo = pathInfo;
     }
 
-    public Date getArrivalTime() {
+    public LocalTime getArrivalTime() {
         return arrivalTime;
     }
 
-    public void setArrivalTime(Date arrivalTime) {
+    public void setArrivalTime(LocalTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 

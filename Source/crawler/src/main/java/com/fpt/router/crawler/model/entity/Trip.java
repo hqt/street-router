@@ -1,6 +1,8 @@
 package com.fpt.router.crawler.model.entity;
 
 
+import org.joda.time.LocalTime;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -14,14 +16,15 @@ public class Trip implements IEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TridID", unique = true, nullable = false)
     private long tripId;
+
     @Column(name = "TripNo")
     private int tripNo;
+
     @Column(name = "StartTime")
-    @Temporal(TemporalType.TIME)
-    private Date startTime;
+    private LocalTime startTime;
+
     @Column(name = "EndTime")
-    @Temporal(TemporalType.TIME)
-    private Date endTime;
+    private LocalTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "RouteID", nullable = false)
@@ -35,7 +38,7 @@ public class Trip implements IEntity {
     }
 
 
-    public Trip(int tripNo, Date startTime, Date endTime, Route route) {
+    public Trip(int tripNo, LocalTime startTime, LocalTime endTime, Route route) {
         this.tripNo = tripNo;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -59,19 +62,19 @@ public class Trip implements IEntity {
         this.tripNo = tripNo;
     }
 
-    public Date getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

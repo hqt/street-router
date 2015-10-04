@@ -1,5 +1,7 @@
 package com.fpt.router.crawler.model.algorithm;
 
+import org.joda.time.LocalTime;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ public class Connection implements IAlgorithmModel {
 
     public PathInfo pathInfo;
 
-    public Date arrivalTime;
+    public LocalTime arrivalTime;
 
     public Connection(){
 

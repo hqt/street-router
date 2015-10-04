@@ -1,5 +1,7 @@
 package com.fpt.router.crawler.model.entity;
 
+import com.fpt.router.crawler.model.helper.RouteType;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +12,6 @@ import java.util.List;
 @Entity
 @Table(name = "Route")
 public class Route implements IEntity {
-    public enum RouteType{
-        DEPART,
-        RETURN
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

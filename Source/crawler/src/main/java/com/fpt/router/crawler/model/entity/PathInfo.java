@@ -10,7 +10,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "PathInfo")
-public class PathInfo implements IEntity{
+public class PathInfo implements IEntity {
 
     //region Hibernate field
     @Id

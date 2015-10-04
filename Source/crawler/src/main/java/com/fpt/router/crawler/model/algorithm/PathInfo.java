@@ -15,11 +15,6 @@ public class PathInfo implements IAlgorithmModel {
 
     }
 
-    public static enum PathType {
-        WALKING_BUS,
-        CONNECTED_BUS
-    }
-
     public long pathInfoId;
 
     public int pathInfoNo;

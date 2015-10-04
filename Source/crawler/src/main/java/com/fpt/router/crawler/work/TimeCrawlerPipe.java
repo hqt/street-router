@@ -3,6 +3,7 @@ package com.fpt.router.crawler.work;
 import com.fpt.router.crawler.model.entity.CityMap;
 import com.fpt.router.crawler.model.entity.Route;
 import com.fpt.router.crawler.model.entity.Trip;
+import com.fpt.router.crawler.model.helper.RouteType;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -149,9 +150,9 @@ public class TimeCrawlerPipe {
 
             List<Route> routes = new ArrayList<Route>();
             Route routeDepart = new Route();
-            routeDepart.setRouteType(Route.RouteType.DEPART);
+            routeDepart.setRouteType(RouteType.DEPART);
             Route routeReturn = new Route();
-            routeReturn.setRouteType(Route.RouteType.RETURN);
+            routeReturn.setRouteType(RouteType.RETURN);
 
             while (iterator.hasNext()) {
                 Row nextRow = iterator.next();
@@ -256,9 +257,9 @@ public class TimeCrawlerPipe {
 
             List<Route> routes = new ArrayList<Route>();
             Route routeDepart = new Route();
-            routeDepart.setRouteType(Route.RouteType.DEPART);
+            routeDepart.setRouteType(RouteType.DEPART);
             Route routeReturn = new Route();
-            routeReturn.setRouteType(Route.RouteType.RETURN);
+            routeReturn.setRouteType(RouteType.RETURN);
 
             List<Integer> index;
             Integer rowStart = 0;
