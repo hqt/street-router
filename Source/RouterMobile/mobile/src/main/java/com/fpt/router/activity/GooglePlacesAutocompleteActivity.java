@@ -10,6 +10,9 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 import com.fpt.router.R;
+import com.fpt.router.adapter.GooglePlacesAutocompleteAdapter;
+import com.fpt.router.utils.NetworkUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +47,7 @@ public class GooglePlacesAutocompleteActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.list_item);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.list_item);
         final AutoCompleteTextView textView = (AutoCompleteTextView)
                 findViewById(R.id.autoCompleteTextView);
         adapter.setNotifyOnChange(true);
@@ -86,24 +89,16 @@ public class GooglePlacesAutocompleteActivity extends Activity {
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-                URL googlePlaces = new URL(
+                String googlePlaces =
                         "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" +
                                 URLEncoder.encode(args[0], "UTF-8") +
-                                "&types=geocode&language=en&sensor=true&key=" +
-                                getResources().getString(R.string.google_maps_key));
+                                "&types=geocode&language=vi&sensor=true&key=" +
+                                "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
 
-                URLConnection tc = googlePlaces.openConnection();
-                BufferedReader in = new BufferedReader(new InputStreamReader(
-                        tc.getInputStream()));
-
-                String line;
-                StringBuffer sb = new StringBuffer();
-                //take Google's legible JSON and turn it into one big string.
-                while ((line = in.readLine()) != null) {
-                    sb.append(line);
-                }
+                String json;
+                json = NetworkUtils.download(googlePlaces);
                 //turn that string into a JSON object
-                JSONObject predictions = new JSONObject(sb.toString());
+                JSONObject predictions = new JSONObject(json);
                 //now get the JSON array that's inside that object
                 JSONArray ja = new JSONArray(predictions.getString("predictions"));
 
@@ -130,11 +125,10 @@ public class GooglePlacesAutocompleteActivity extends Activity {
 
             Log.d("YourApp", "onPostExecute : " + result.size());
             //update the adapter
-            adapter = new ArrayAdapter<String>(getBaseContext(), R.layout.list_item);
+            adapter = new ArrayAdapter<>(getBaseContext(), R.layout.list_item);
             adapter.setNotifyOnChange(true);
             //attach the adapter to textview
             textView.setAdapter(adapter);
-
             for (String string : result) {
                 Log.d("YourApp", "onPostExecute : result = " + string);
                 adapter.add(string);
