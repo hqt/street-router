@@ -20,5 +20,5 @@
     <string name="bus">43 phÃºt</string>
     <string name="motorbike">65 phÃºt</string>
     <string name="map">Báº£n Ä‘á»“</string>
-
+    <string name="google_place_key" translatable="false">AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A</string>
 </resources>
