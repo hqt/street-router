@@ -28,10 +28,8 @@
                 android:textColor="@android:color/white"
                 android:background="@drawable/edittext_bg"
                 android:ems="10"
-                android:text="" >
-            </AutoCompleteTextView>
-
-</android.support.v7.widget.Toolbar>
+                android:text=""/>
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

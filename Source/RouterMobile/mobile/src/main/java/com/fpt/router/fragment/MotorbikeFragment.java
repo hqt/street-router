@@ -2,13 +2,16 @@ package com.fpt.router.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainActivity;
@@ -36,11 +39,7 @@ import java.util.Map;
 
 public class MotorbikeFragment extends Fragment {
 
-
-    private static String TAG = LogUtils.makeLogTag(MotorbikeFragment.class);
-
     private GoogleMap mMap;
-    Polyline line;
     MapView mapView;
     private Double latitude, longitude;
 
@@ -69,12 +68,22 @@ public class MotorbikeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_motorbike, container, false);
+        if(savedInstanceState.getString("from") != null) {
+            String from = savedInstanceState.getString("from");
+            Log.e("Test from: ", from);
+        }
+        if(savedInstanceState.getString("to") != null) {
+            String to = savedInstanceState.getString("to");
+            Log.e("Test to: ", to);
+        }
+
         mapView = (MapView) rootView.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
 
@@ -112,7 +121,7 @@ public class MotorbikeFragment extends Fragment {
         @Override
         protected String doInBackground(String... args) {
             String json;
-            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=congvienphanmemquangtrung,hochiminh&destination=damsen,hochiminh&waypoints=congvienphulam&mode=driving&key=AIzaSyCRGhL_5rWzeGXUbSpz0Urw8_8LCTmYrj4 ";
+            String url = "https://maps.googleapis.com/maps/api/directions/json?origin=congvienphanmemquangtrung,hochiminh&destination=damsen,hochiminh&waypoints=congvienphulam&mode=driving&key=AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
             json = NetworkUtils.download(url);
             return json;
         }
@@ -136,7 +145,6 @@ public class MotorbikeFragment extends Fragment {
             String encodedString = l.getlOverview_polyline();
             List<LatLng> list = DecodeUtils.decodePoly(encodedString);
             MapUtils.drawLine(mMap, list, Color.BLUE);
-
             MapUtils.moveCamera(mMap, latitude, longitude, 12);
         }
     }

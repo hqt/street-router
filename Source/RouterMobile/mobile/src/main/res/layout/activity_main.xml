@@ -40,6 +40,7 @@
                             android:layout_height="35dip"
                             android:layout_marginTop="5dip"
                             android:gravity="left"
+                            android:id="@+id/edit_1"
                             android:textColor="#ffffff"
 
                             />
@@ -59,6 +60,7 @@
                             android:layout_height="35dip"
                             android:layout_marginTop="5dip"
                             android:gravity="left"
+                            android:id="@+id/edit_2"
                             android:textColor="#ffffff"
                             />
                     </LinearLayout>
