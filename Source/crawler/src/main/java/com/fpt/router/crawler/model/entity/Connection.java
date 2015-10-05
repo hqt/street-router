@@ -3,7 +3,6 @@ package com.fpt.router.crawler.model.entity;
 import org.joda.time.LocalTime;
 
 import javax.persistence.*;
-import java.util.Date;
 
 /**
  * Created by asus on 9/26/2015.
@@ -28,13 +27,19 @@ public class Connection implements IEntity {
     @Column(name = "ArrivalTime")
     private LocalTime arrivalTime;
 
+
+
+    @Column(name = "DepartureTime")
+    private LocalTime departureTime;
+
     public Connection(){
 
     }
-    public Connection(Trip trip, PathInfo pathInfo, LocalTime arrivalTime){
+    public Connection(Trip trip, PathInfo pathInfo, LocalTime arrivalTime, LocalTime departureTime){
         this.trip = trip;
         this.pathInfo = pathInfo;
         this.arrivalTime = arrivalTime;
+        this.departureTime = departureTime;
     }
 
     //region getter/setter
@@ -68,6 +73,14 @@ public class Connection implements IEntity {
 
     public void setArrivalTime(LocalTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalTime departureTime) {
+        departureTime = departureTime;
     }
 
     //endregion
