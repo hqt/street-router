@@ -1,13 +1,16 @@
 package com.fpt.router.crawler.database;
 
+import com.fpt.router.crawler.dao.MapDAL;
 import com.fpt.router.crawler.dao.StationDAO;
 import com.fpt.router.crawler.dao.TempDAO;
 import com.fpt.router.crawler.dao.common.JPADaoImpl;
+import com.fpt.router.crawler.model.entity.CityMap;
 import com.fpt.router.crawler.model.entity.Station;
 import com.fpt.router.crawler.model.entity.Temp;
-import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
+import com.fpt.router.crawler.utils.TimeUtils;
+import org.joda.time.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,19 +20,47 @@ import java.util.List;
 public class DatabaseTest {
 
     public static void main(String[] args) {
-       /* DemoDB db = new DemoDB();
+
+        /*DemoDB db = new DemoDB();
         CityMap map = db.cityMap;
-        MapDAL.insertDatabase(map);*/
+        Validation validation = new Validation(map);
+        validation.run();
+        MapDAL.insertDatabase(map);
+        JPADaoImpl.closeFactory();*/
+
+        /*LocalTime time = new LocalTime(10, 30);
+        LocalTime add = new LocalTime(2, 30);
+        Duration d = new Duration(1, 0);
+        Period p = new Period(1, 0);
+
+        time = time.plus(p);
+
+        //time = time.plusMinutes(31);
+        System.out.println(time.toString());*/
+
+        // MapDAL.readDatabase();
+
+        LocalTime lc1 = new LocalTime(10, 30);
+        LocalTime lc2 = new LocalTime(10, 45);
+        Period p = Period.fieldDifference(lc1, lc2);
+        System.out.println(p.getHours());
+        System.out.println(p.getMinutes());
+        long millis = TimeUtils.convertToMilliseconds(p);
+        System.out.println(millis);
+
+
+
 
        /* List<Station> stations = (new StationDAO()).findAll();
         System.out.println(stations.size());*/
 
-        Temp temp = new Temp();
+       /* Temp temp = new Temp();
         temp.setTempNo(10);
         LocalTime dt = new LocalTime(13,30,45);
         temp.setDate(dt);
         (new TempDAO()).create(temp);
-        JPADaoImpl.closeFactory();
+        JPADaoImpl.closeFactory();*/
+
 
         //map = MapDAL.readDatabase();
         //System.out.println("hello world");

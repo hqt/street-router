@@ -8,10 +8,10 @@ import java.util.List;
  * Created by Huynh Quang Thao on 10/4/15.
  */
 public class Result {
-    double distance;
-    double time;
-    double k;
-    List<Path> nodeList;
+    public double distance;
+    public double time;
+    public int k;
+    public List<Path> nodeList;
 
     public Result() {
         nodeList = new ArrayList<Path>();

@@ -28,7 +28,7 @@ public class Validation {
 
     public void run() {
         testStation();
-        testPathInfo();
+        // testPathInfo();
     }
 
     // test 1. all station's id must from 0 and consecutive number
@@ -46,6 +46,7 @@ public class Validation {
                 System.out.printf("Station with id %d named %s is not in %d order \n", s.getStationId(), s.getName(), i);
             }
         }
+        System.out.println("finish checking station id");
     }
 
     // test 2. In PathInfo. (routeId, toStationId) should be unique key
@@ -64,5 +65,6 @@ public class Validation {
                 }
             }
         }
+        System.out.println("finish checking routeId and toStationId on same PathInfo");
     }
 }
