@@ -22,15 +22,15 @@ public class JSONParseUtils {
     }
 
     public static Leg getLeg(String json){
-        String lEndAddress;
-        String lStartAddress;
-        DetailLocation lDetailL;
-        String lOverview_polyline;
+        String EndAddress;
+        String StartAddress;
+        DetailLocation legDetailL;
+        String Overview_polyline;
 
-        ArrayList<Step> listStep = new ArrayList<Step>();
-        String sInstruction;
-        String sManeuver;
-        DetailLocation sDetailL;
+        ArrayList<Step> listStep = new ArrayList<>();
+        String Instruction;
+        String Maneuver;
+        DetailLocation stepDetailL;
 
         JSONObject jo;
 
@@ -43,30 +43,30 @@ public class JSONParseUtils {
 
             //get overview polyline
             jo = jsonO.getJSONObject("overview_polyline");
-            lOverview_polyline = jo.getString("points");
+            Overview_polyline = jo.getString("points");
 
             jsonA = jsonO.getJSONArray("legs");
             jsonO = jsonA.getJSONObject(0);
-            lEndAddress = jsonO.getString("end_address");
-            lStartAddress = jsonO.getString("start_address");
-            lDetailL = getDetailLocation(jsonO);
+            EndAddress = jsonO.getString("end_address");
+            StartAddress = jsonO.getString("start_address");
+            legDetailL = getDetailLocation(jsonO);
 
             //get all Step
             jsonA = jsonO.getJSONArray("steps");
             for(int n = 0 ;  n < jsonA.length() ; n++){
                 jo = jsonA.getJSONObject(n);
-                sInstruction = jo.getString("html_instructions");
+                Instruction = jo.getString("html_instructions");
                 if(jo.has("maneuver")) {
-                    sManeuver = jo.getString("maneuver");
+                    Maneuver = jo.getString("maneuver");
                 } else {
-                    sManeuver = "Keep going";
+                    Maneuver = "Keep going";
                 }
-                sDetailL = getDetailLocation(jo);
-                listStep.add(new Step(sInstruction, sManeuver, sDetailL));
+                stepDetailL = getDetailLocation(jo);
+                listStep.add(new Step(Instruction, Maneuver, stepDetailL));
             }
 
-            Leg l = new Leg(lEndAddress, lStartAddress,lDetailL, listStep, lOverview_polyline);
-            return l;
+            Leg leg = new Leg(EndAddress, StartAddress, legDetailL, listStep, Overview_polyline);
+            return leg;
         } catch (JSONException e) {
             e.printStackTrace();
         }

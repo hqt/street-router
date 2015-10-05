@@ -17,6 +17,8 @@ import com.fpt.router.R;
 import com.fpt.router.fragment.DesignDemoFragment;
 import com.fpt.router.fragment.MotorbikeFragment;
 
+import java.util.ArrayList;
+
 public class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context context;

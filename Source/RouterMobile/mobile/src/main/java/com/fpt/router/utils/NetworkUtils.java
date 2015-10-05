@@ -16,9 +16,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Map;
 
 /**
@@ -142,5 +144,37 @@ public class NetworkUtils {
         String groupname = t.getThreadGroup().getName();
         return (name + ":(id)" + id + ":(priority)" + priority
                 + ":(group)" + groupname);
+    }
+
+    public static String linkGoogleMap(String startLocation, String endLocation){
+        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+        String start = null;
+        String end = null;
+        try {
+            start = URLEncoder.encode(startLocation, "UTF-8");
+            end = URLEncoder.encode(endLocation, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = "https://maps.googleapis.com/maps/api/directions/json?" +
+                     "origin=" + start +
+                     "&destination=" + end +
+                     "&mode=driving" +
+                     "&key=" + key;
+        return url;
+    }
+
+    public static String linkGooglePlace(String input){
+        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+        String text = null;
+        try {
+            text = URLEncoder.encode(input, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
+                     "input=" + text +
+                     "&types=geocode&language=vi&sensor=true&key=" + key;
+        return url;
     }
 }
