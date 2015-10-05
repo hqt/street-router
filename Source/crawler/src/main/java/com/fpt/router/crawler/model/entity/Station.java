@@ -104,4 +104,21 @@ public class Station implements IEntity {
     public void setTo(List<PathInfo> to) {
         this.to = to;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        if(obj instanceof Station){
+            Station station = (Station) obj;
+            return station.codeId.equals(this.codeId);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 0;
+        hashCode = getCodeId().hashCode();
+        return hashCode;
+    }
 }
