@@ -1,6 +1,13 @@
 package com.fpt.router.crawler.database;
 
+import com.fpt.router.crawler.model.algorithm.*;
 import com.fpt.router.crawler.model.entity.*;
+import com.fpt.router.crawler.model.entity.CityMap;
+import com.fpt.router.crawler.model.entity.Connection;
+import com.fpt.router.crawler.model.entity.PathInfo;
+import com.fpt.router.crawler.model.entity.Route;
+import com.fpt.router.crawler.model.entity.Station;
+import com.fpt.router.crawler.model.entity.Trip;
 import com.fpt.router.crawler.model.helper.RouteType;
 import org.joda.time.LocalTime;
 
@@ -24,15 +31,15 @@ public class DemoDB {
         // add station
         List<Station> stations = new ArrayList<Station>();
 
-        Station R1StationA = new Station("BX06","C�ng Tr??ng M� Linh","C�ng tr??ng M� Linh, Thi S�ch, Qu?n 1",106.705856990563,10.7767894851893);
-        Station R1StationB = new Station("Q1T030","Ph� Th? Thi�m","21, T�n ??c Th?ng, Qu?n 1",106.706395410034,10.7732232669716);
-        Station R1StationC = new Station("Q1N020","Ch? C?", "84, H�m Nghi, Qu?n 1",106.703169414919,10.7709944598553);
-        Station R1StationD = new Station("Q1T021","Tr??ng Cao Th?ng", "Xa Lo Ha Noi",106.701721418991,10.7710708725722);
+        Station R1StationA = new Station(0, "BX06","C�ng Tr??ng M� Linh","C�ng tr??ng M� Linh, Thi S�ch, Qu?n 1",106.705856990563,10.7767894851893);
+        Station R1StationB = new Station(1, "Q1T030","Ph� Th? Thi�m","21, T�n ??c Th?ng, Qu?n 1",106.706395410034,10.7732232669716);
+        Station R1StationC = new Station(2, "Q1N020","Ch? C?", "84, H�m Nghi, Qu?n 1",106.703169414919,10.7709944598553);
+        Station R1StationD = new Station(3, "Q1T021","Tr??ng Cao Th?ng", "Xa Lo Ha Noi",106.701721418991,10.7710708725722);
 
-        Station R18StationA = new Station("BX01","Ga xe bu�t S�i G�n","GA HKXB SAI GON - CV 23/9 , L� Lai, Qu?n 1",106.689362102212,10.7676765239509);
-        Station R18StationB = new Station("Q1T040","T�n Th?t T�ng","??i di?n 210, L� Lai, Qu?n 1",106.690297220232,10.7685123173763);
-        Station R18StationC = new Station("Q1T041","Nguy?n Th? Ngh?a", "??i di?n 96, L� Lai, Qu?n 1",106.693339515807,10.7697303323519);
-        Station R18StationD = new Station("Q1T042","Kh�ch s?n New world", "??i di?n 1A Ph?m H?ng Th�i, L� Lai, Qu?n 1",106.696741227397,10.7711887842904);
+        Station R18StationA = new Station(4, "BX01","Ga xe bu�t S�i G�n","GA HKXB SAI GON - CV 23/9 , L� Lai, Qu?n 1",106.689362102212,10.7676765239509);
+        Station R18StationB = new Station(5, "Q1T040","T�n Th?t T�ng","??i di?n 210, L� Lai, Qu?n 1",106.690297220232,10.7685123173763);
+        Station R18StationC = new Station(6, "Q1T041","Nguy?n Th? Ngh?a", "??i di?n 96, L� Lai, Qu?n 1",106.693339515807,10.7697303323519);
+        Station R18StationD = new Station(7, "Q1T042","Kh�ch s?n New world", "??i di?n 1A Ph?m H?ng Th�i, L� Lai, Qu?n 1",106.696741227397,10.7711887842904);
 
         stations.add(R1StationA);
         stations.add(R1StationB);
