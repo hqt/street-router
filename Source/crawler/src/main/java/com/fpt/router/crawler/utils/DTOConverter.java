@@ -1,4 +1,3 @@
-/*
 package com.fpt.router.crawler.utils;
 
 import com.fpt.router.crawler.model.algorithm.*;
@@ -7,15 +6,12 @@ import com.fpt.router.crawler.model.helper.Location;
 import java.util.ArrayList;
 import java.util.List;
 
-*/
 /**
- * Purpose:
- * Created by Huynh Quang Thao on 10/4/15.
- *//*
-
+ *  Purpose:*Created by Huynh Quang Thao on 10/4/15.
+*/
 public class DTOConverter {
     public static void convertRoute(com.fpt.router.crawler.model.entity.Route entityRoute, Route algorRoute) {
-        algorRoute.routeId = entityRoute.getRouteId();
+        algorRoute.routeId = (int) entityRoute.getRouteId();
         algorRoute.routeNo = entityRoute.getRouteNo();
         algorRoute.routeName = entityRoute.getRouteName();
         algorRoute.routeType = entityRoute.getRouteType();
@@ -29,8 +25,8 @@ public class DTOConverter {
         algorStation.name = entityStation.getName();
         algorStation.street = entityStation.getStreet();
         algorStation.location = new Location(entityStation.getLatitude(), entityStation.getLongitude());
-        algorStation.from = entityStation.getFrom();
-        algorStation.to = entityStation.getTo();
+        // algorStation.from = entityStation.getFrom();
+        // algorStation.to = entityStation.getTo();
     }
 
 
@@ -39,18 +35,18 @@ public class DTOConverter {
         algorPathInfo.pathInfoNo = entityPathInfo.getPathInfoNo();
         algorPathInfo.middleLocations = StringUtils.convertToLocations(entityPathInfo.getMiddleLocations());
         // algorPathInfo.route = entityPathInfo.getRoute();
-        algorPathInfo.from = entityPathInfo.getFrom();
-        algorPathInfo.to = entityPathInfo.getTo();
+        // algorPathInfo.from = entityPathInfo.getFrom();
+        // algorPathInfo.to = entityPathInfo.getTo();
         // algorPathInfo.connections = entityPathInfo.getConnections();
     }
 
     public static void convertTrip(com.fpt.router.crawler.model.entity.Trip entityTrip, Trip algorTrip) {
         algorTrip.tripId = entityTrip.getTripId();
         algorTrip.tripNo = entityTrip.getTripNo();
-        algorTrip.startTime = TimeUtils.convert(entityTrip.getStartTime());
-        algorTrip.endTime = TimeUtils.convert(entityTrip.getEndTime());
+        algorTrip.startTime = entityTrip.getStartTime();
+        algorTrip.endTime = entityTrip.getEndTime();
         // algorTrip.route = entityTrip.getRoute();
-        algorTrip.connections = entityTrip.getConnections();
+        // algorTrip.connections = entityTrip.getConnections();
     }
 
 
@@ -58,13 +54,13 @@ public class DTOConverter {
         algorConnection.id = entityConnection.getId();
         // algorConnection.trip = entityConnection.getTrip();
         // algorConnection.pathInfo = entityConnection.getPathInfo();
-        algorConnection.arrivalTime = TimeUtils.convert(entityConnection.getArrivalTime());
+        // algorConnection.arrivalTime = TimeUtils.convert(entityConnection.getArrivalTime());
     }
 
     public static List<Trip> convertTrips(List<com.fpt.router.crawler.model.entity.Trip> entityTrips) {
         List<Trip> res = new ArrayList<Trip>();
         for (com.fpt.router.crawler.model.entity.Trip entityTrip : entityTrips) {
-            Trip trip = new  Trip();
+            Trip trip = new Trip();
             convertTrip(entityTrip, trip);
             res.add(trip);
         }
@@ -80,5 +76,24 @@ public class DTOConverter {
         }
         return res;
     }
+
+    public static List<Station> convertStations(List<com.fpt.router.crawler.model.entity.Station> stations) {
+        List<Station> res = new ArrayList<Station>();
+        for (com.fpt.router.crawler.model.entity.Station entityStation : stations) {
+            Station station = new Station();
+            convertStation(entityStation, station);
+            res.add(station);
+        }
+        return res;
+    }
+
+    public static List<Route> convertRoutes(List<com.fpt.router.crawler.model.entity.Route> routes) {
+        List<Route> res = new ArrayList<Route>();
+        for (com.fpt.router.crawler.model.entity.Route entityRoute : routes) {
+            Route route = new Route();
+            convertRoute(entityRoute, route);
+            res.add(route);
+        }
+        return res;
+    }
 }
-*/

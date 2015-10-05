@@ -3,7 +3,9 @@ package com.fpt.router.crawler.algorithm;
 
 import com.fpt.router.crawler.model.algorithm.*;
 import com.fpt.router.crawler.model.helper.Location;
+import com.fpt.router.crawler.model.helper.PathType;
 import com.fpt.router.crawler.model.viewmodel.Path;
+import com.fpt.router.crawler.model.viewmodel.Result;
 import org.joda.time.LocalTime;
 
 import java.sql.Time;
@@ -17,14 +19,29 @@ public class RaptorAlgorithm {
     CityMap map;
     Station start;
     Station end;
+    Path startPath;
+    Path endPath;
     LocalTime departure_time;
 
-    public String run(Location start, Location end, String startAddress, String endAddress) {
-        return null;
+    public Result run(CityMap map, Station start, Station end, Path startPath, Path endPath, int K, boolean isOptimizeK, LocalTime departureTime) {
+        this.map = map;
+        this.start = start;
+        this.end = end;
+        this.startPath = startPath;
+        this.endPath = endPath;
+        this.K = K;
+        this.isOptimizeK = isOptimizeK;
+        this.departure_time = departureTime;
+
+        initialize();
+        raptor();
+
+        return buildResult();
     }
 
     // number of change bus
     int K;
+    boolean isOptimizeK;
 
     // limit route for each turn. just care station that can be hop on
     List<Integer> markedStationIds;
@@ -152,16 +169,36 @@ public class RaptorAlgorithm {
         }
     }
 
-    private void buildResult() {
+    private Result buildResult() {
+
+        int transferTurn = K;
+        double totalDistance = startPath.distance + endPath.distance;
+
+
         int currentHopStationId = end.id;
         Station currentHopStation = map.getStationById(currentHopStationId);
+
+        List<Path> res = new ArrayList<Path>();
         while(traceFromStation[currentHopStationId] != -1) {
             int previousHopStationId = traceFromStation[end.id];
             int routeId = traceUsedRoute[end.id];
             Station previousHopStation = map.getStationById(previousHopStationId);
+            Route route = map.getRouteById(routeId);
+
+            // create middle stations in same route
+            List<Path> middlePaths = buildMiddleResult(previousHopStation, currentHopStation, route, transferTurn--);
+            middlePaths.addAll(res);
+            res = middlePaths;
+
+            currentHopStationId = previousHopStationId;
         }
 
-        Time time;
+        // make final result
+        Result result = new Result();
+        result.nodeList = res;
+        result.distance = totalDistance;
+        result.k = K;                   // wrong here
+        return result;
     }
 
     /**
@@ -171,6 +208,7 @@ public class RaptorAlgorithm {
      */
     private List<Path> buildMiddleResult(Station begin, Station end, Route route, int transferTurn) {
         List<Path> res = new ArrayList<Path>();
+        res.add(startPath);
         int startOrder = route.getOrderByStation(begin);
         int endOrder = route.getOrderByStation(end);
         for (int order = startOrder; order <= endOrder ; order++) {
@@ -179,8 +217,12 @@ public class RaptorAlgorithm {
             path.transferTurn = transferTurn;
             path.routeNo = route.routeNo;
             path.points = pathInfo.middleLocations;
-
+            path.type = PathType.CONNECTED_BUS;
+            path.stationFromName = pathInfo.from.name;
+            path.stationToName = pathInfo.to.name;
+            res.add(path);
         }
+        res.add(endPath);
         return res;
     }
 }

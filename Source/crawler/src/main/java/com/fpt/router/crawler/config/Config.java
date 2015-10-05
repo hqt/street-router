@@ -25,9 +25,8 @@ public class Config {
     public static final double WALKING_BUS_DISTANCE = 300;
     public static final double WALKING_DISTANCE = 550;
 
-    public static final double WALKING_SPEED = 1.4 * 60;
-    public static final double NORMAL_BUS_SPEED = 1.0 * 16 / 60 * 1000;
-    public static final double SLOW_BUS_SPEED = 30;
+    private static final double BUS_SPEED_KM_H = 20.0;
+    public static final double BUS_SPEED = BUS_SPEED_KM_H * 1000 / 3600;     // m / s
 
     public static final class NoteData {
         int STATION_COUNT = 4126;

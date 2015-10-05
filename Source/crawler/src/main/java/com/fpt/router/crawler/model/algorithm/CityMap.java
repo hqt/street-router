@@ -1,6 +1,7 @@
 package com.fpt.router.crawler.model.algorithm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +32,25 @@ public class CityMap {
         return routeIdMap.get(routeId);
     }
 
+    public void buildIndex() {
+        // build index for stations
+        stationIdMap = new HashMap<Integer, Station>();
+        for (Station station : stations) {
+            if (stationIdMap.containsKey(station.id)) {
+                System.out.println("build failed");
+            } else {
+                stationIdMap.put(station.id, station);
+            }
+        }
+
+        // build index for routes
+        routeIdMap = new HashMap<Integer, Route>();
+        for (Route route : routes) {
+            if (routeIdMap.containsKey(route.routeId)) {
+                System.out.println("build failed");
+            } else {
+                routeIdMap.put(route.routeId, route);
+            }
+        }
+    }
 }
