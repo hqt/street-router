@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     public GooglePlacesAutocompleteAdapter adapter;
@@ -75,7 +76,8 @@ public class SearchActivity extends AppCompatActivity {
                             String message = autoComp.getText().toString();
                             Intent intent = new Intent();
                             intent.putExtra("MESSAGE", message);
-                            setResult(1, intent);
+                            int number = getIntent().getIntExtra("number", 1);
+                            setResult(number, intent);
                             finish();//finishing activity
                             return true;
                         default:

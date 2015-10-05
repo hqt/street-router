@@ -19,10 +19,16 @@ import com.fpt.router.R;
 import com.fpt.router.adapter.DesignDemoPagerAdapter;
 import com.fpt.router.fragment.MotorbikeFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     private EditText edit_1;
     private EditText edit_2;
+    private DesignDemoPagerAdapter adapter;
+    public static List<String> test = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +50,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         //Tabs
-        DesignDemoPagerAdapter adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(),this);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(),this);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout)findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
         // custom bar
 
@@ -62,19 +67,20 @@ public class MainActivity extends AppCompatActivity {
 
         edit_1 = (EditText) findViewById(R.id.edit_1);
         edit_2 = (EditText) findViewById(R.id.edit_2);
-
         //edit text 1
         edit_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("number", 1);
                 startActivityForResult(intent, 1);// Activity is started with requestCode 1
             }
         });
         edit_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, ThirdActivity.class);
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("number", 2);
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
@@ -91,25 +97,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
-
-        Bundle bundle = new Bundle();
-
         // set Fragmentclass Arguments
-        MotorbikeFragment motoFra = new MotorbikeFragment();
-
-
         if(requestCode == 1)
         {
             String message = data.getStringExtra("MESSAGE");
             edit_1.setText(message);
-            bundle.putString("from", message);
+            test.add(0, message);
         }
         if(requestCode == 2){
             String message = data.getStringExtra("MESSAGE");
             edit_2.setText(message);
-            bundle.putString("to", message);
+            test.add(1, message);
+            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+            viewPager.setAdapter(adapter);
         }
-        motoFra.setArguments(bundle);
 
 
     }
