@@ -92,8 +92,7 @@ public class MotorbikeFragment extends Fragment {
         GPSUtils gpsUtils = new GPSUtils(activity);
         Double currentLatitude = gpsUtils.getLatitude();
         Double currentLongitude = gpsUtils.getLongitude();
-        MapUtils.drawPoint(mMap, currentLatitude, currentLongitude, "Current Location");
-        MapUtils.moveCamera(mMap, currentLatitude, currentLongitude, 15);
+
 
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
@@ -103,6 +102,9 @@ public class MotorbikeFragment extends Fragment {
         if(test.size()>1) {
             JSONParseTask jsonParseTask = new JSONParseTask();
             jsonParseTask.execute();
+        } else {
+            MapUtils.drawPoint(mMap, currentLatitude, currentLongitude, "Current Location");
+            MapUtils.moveCamera(mMap, currentLatitude, currentLongitude, 15);
         }
         return rootView;
     }
@@ -129,24 +131,7 @@ public class MotorbikeFragment extends Fragment {
         @Override
         protected String doInBackground(String... args) {
             String json;
-            String url;
-/*
-            Log.e("Size: ", listLocation.get(1));
-*/
-                String startLocation = null;
-                String endLocation = null;
-                try {
-                    startLocation = URLEncoder.encode(test.get(0), "UTF-8");
-                    endLocation = URLEncoder.encode(test.get(1), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                url =   "https://maps.googleapis.com/maps/api/directions/json?" +
-                        "origin=" + startLocation +
-                        "&destination=" + endLocation +
-                        "&mode=driving" +
-                        "&key=AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
-
+            String url = NetworkUtils.linkGoogleMap(test.get(0), test.get(1));
             json = NetworkUtils.download(url);
             return json;
         }
@@ -156,23 +141,23 @@ public class MotorbikeFragment extends Fragment {
                 pDialog.dismiss();
             }
 
-            Leg l;
-            l = JSONParseUtils.getLeg(json);
-            DetailLocation detalL = l.getlDetailLocation();
+            Leg leg;
+            leg = JSONParseUtils.getLeg(json);
+            DetailLocation detalL = leg.getDetailLocation();
             Location start_location = detalL.getStart_location();
             Location end_location = detalL.getEnd_location();
             // latitude and longitude
 
             latitude = end_location.getLatitude();
             longitude = end_location.getLongitude();
-            MapUtils.drawPoint(mMap, latitude, longitude, l.getlEndAddress());
+            MapUtils.drawPoint(mMap, latitude, longitude, leg.getEndAddress());
 
             latitude = start_location.getLatitude();
             longitude = start_location.getLongitude();
-            MapUtils.drawPoint(mMap, latitude, longitude, l.getlStartAddress());
+            MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
 
             //add polyline
-            String encodedString = l.getlOverview_polyline();
+            String encodedString = leg.getOverview_polyline();
             List<LatLng> list = DecodeUtils.decodePoly(encodedString);
             MapUtils.drawLine(mMap, list, Color.BLUE);
             MapUtils.moveCamera(mMap, latitude, longitude, 12);

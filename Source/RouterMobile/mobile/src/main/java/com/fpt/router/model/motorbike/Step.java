@@ -4,38 +4,38 @@ package com.fpt.router.model.motorbike;
  * Created by USER on 9/29/2015.
  */
 public class Step {
-    private String sInstruction;
-    private String sManeuver;
-    private DetailLocation sDetailLocation;
+    private String Instruction;
+    private String Maneuver;
+    private DetailLocation DetailLocation;
 
-    public Step(String sInstruction, String sManeuver, DetailLocation sDetailLocation) {
+    public Step(String Instruction, String Maneuver, DetailLocation DetailLocation) {
 
-        this.sInstruction = sInstruction;
-        this.sManeuver = sManeuver;
-        this.sDetailLocation = sDetailLocation;
+        this.Instruction = Instruction;
+        this.Maneuver = Maneuver;
+        this.DetailLocation = DetailLocation;
     }
 
-    public String getsInstruction() {
-        return sInstruction;
+    public String getInstruction() {
+        return Instruction;
     }
 
-    public void setsInstruction(String sInstruction) {
-        this.sInstruction = sInstruction;
+    public void setInstruction(String instruction) {
+        Instruction = instruction;
     }
 
-    public String getsManeuver() {
-        return sManeuver;
+    public String getManeuver() {
+        return Maneuver;
     }
 
-    public void setsManeuver(String sManeuver) {
-        this.sManeuver = sManeuver;
+    public void setManeuver(String maneuver) {
+        Maneuver = maneuver;
     }
 
-    public DetailLocation getsLocation() {
-        return sDetailLocation;
+    public com.fpt.router.model.motorbike.DetailLocation getDetailLocation() {
+        return DetailLocation;
     }
 
-    public void setsLocation(DetailLocation sDetailLocation) {
-        this.sDetailLocation = sDetailLocation;
+    public void setDetailLocation(com.fpt.router.model.motorbike.DetailLocation detailLocation) {
+        DetailLocation = detailLocation;
     }
 }

@@ -125,14 +125,9 @@ public class SearchActivity extends AppCompatActivity {
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-                String googlePlaces =
-                        "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=" +
-                                URLEncoder.encode(args[0], "UTF-8") +
-                                "&types=geocode&language=vi&sensor=true&key=" +
-                                "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+                String url = NetworkUtils.linkGooglePlace(args[0]);
 
-                String json;
-                json = NetworkUtils.download(googlePlaces);
+                String json = NetworkUtils.download(url);
                 //turn that string into a JSON object
                 JSONObject predictions = new JSONObject(json);
                 //now get the JSON array that's inside that object
@@ -143,9 +138,6 @@ public class SearchActivity extends AppCompatActivity {
                     //add each entry to our array
                     predictionsArr.add(jo.getString("description"));
                 }
-            } catch (IOException e)
-            {
-                Log.e("YourApp", "GetPlaces : doInBackground", e);
             } catch (JSONException e)
             {
                 Log.e("YourApp", "GetPlaces : doInBackground", e);

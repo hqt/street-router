@@ -6,57 +6,57 @@ import java.util.ArrayList;
  * Created by USER on 9/29/2015.
  */
 public class Leg {
-    private String lEndAddress;
-    private String lStartAddress;
-    private DetailLocation lDetailLocation;
-    private ArrayList<Step> lStep;
-    private String lOverview_polyline;
+    private String EndAddress;
+    private String StartAddress;
+    private DetailLocation DetailLocation;
+    private ArrayList<Step> Step;
+    private String Overview_polyline;
 
-    public Leg(String lEndAddress, String lStartAddress, DetailLocation lDetailLocation, ArrayList<Step> lStep, String lOverview_polyline) {
-        this.lEndAddress = lEndAddress;
-        this.lStartAddress = lStartAddress;
-        this.lDetailLocation = lDetailLocation;
-        this.lStep = lStep;
-        this.lOverview_polyline = lOverview_polyline;
+    public Leg(String endAddress, String startAddress, com.fpt.router.model.motorbike.DetailLocation detailLocation, ArrayList<com.fpt.router.model.motorbike.Step> step, String overview_polyline) {
+        EndAddress = endAddress;
+        StartAddress = startAddress;
+        DetailLocation = detailLocation;
+        Step = step;
+        Overview_polyline = overview_polyline;
     }
 
-    public String getlEndAddress() {
-        return lEndAddress;
+    public String getEndAddress() {
+        return EndAddress;
     }
 
-    public void setlEndAddress(String lEndAddress) {
-        this.lEndAddress = lEndAddress;
+    public void setEndAddress(String endAddress) {
+        EndAddress = endAddress;
     }
 
-    public String getlStartAddress() {
-        return lStartAddress;
+    public String getStartAddress() {
+        return StartAddress;
     }
 
-    public void setlStartAddress(String lStartAddress) {
-        this.lStartAddress = lStartAddress;
+    public void setStartAddress(String startAddress) {
+        StartAddress = startAddress;
     }
 
-    public DetailLocation getlDetailLocation() {
-        return lDetailLocation;
+    public com.fpt.router.model.motorbike.DetailLocation getDetailLocation() {
+        return DetailLocation;
     }
 
-    public void setlDetailLocation(DetailLocation lDetailLocation) {
-        this.lDetailLocation = lDetailLocation;
+    public void setDetailLocation(com.fpt.router.model.motorbike.DetailLocation detailLocation) {
+        DetailLocation = detailLocation;
     }
 
-    public ArrayList<Step> getlStep() {
-        return lStep;
+    public ArrayList<com.fpt.router.model.motorbike.Step> getStep() {
+        return Step;
     }
 
-    public void setlStep(ArrayList<Step> lStep) {
-        this.lStep = lStep;
+    public void setStep(ArrayList<com.fpt.router.model.motorbike.Step> step) {
+        Step = step;
     }
 
-    public String getlOverview_polyline() {
-        return lOverview_polyline;
+    public String getOverview_polyline() {
+        return Overview_polyline;
     }
 
-    public void setlOverview_polyline(String lOverview_polyline) {
-        this.lOverview_polyline = lOverview_polyline;
+    public void setOverview_polyline(String overview_polyline) {
+        Overview_polyline = overview_polyline;
     }
 }
