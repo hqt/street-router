@@ -35,6 +35,7 @@ public class MapDAL {
         for (com.fpt.router.crawler.model.entity.Route route : routes) {
             System.out.println("Route : " + route.getRouteName());
             routeDAO.create(route);
+
             //insert PathInfo
             List<com.fpt.router.crawler.model.entity.PathInfo> pathInfos = route.getPathInfos();
             for (com.fpt.router.crawler.model.entity.PathInfo pathInfo : pathInfos) {

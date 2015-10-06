@@ -90,6 +90,7 @@ public class ReadExcelFileFromLocal {
                     // Base on our business, previous bus departure time == next bus arrival time
                     Connection connection = new Connection();
                     connection.setTrip(trip);
+                    connection.setPathInfo(r.getPathInfos().get(i));
                     if (i == 0) {
                         connection.setArrivalTime(trip.getStartTime());
                     } else {
@@ -112,13 +113,17 @@ public class ReadExcelFileFromLocal {
 
 
     public File getFolderExcelPaths() {
-        // Get Directory contain excel files
+        /*// Get Directory contain excel files
         String currentDir = System.getProperty("user.dir");
         CharSequence backFolder = "crawler";
         String folderPath = currentDir.replace(backFolder, "") + pathFolder;
 
         File folder = new File(folderPath);
-        return folder;
+        return folder;*/
+
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("excel").getFile());
+        return file;
     }
 
 
@@ -247,13 +252,14 @@ public class ReadExcelFileFromLocal {
                 for (Route r : map.getRoutes()) {
                     // add trip to route
                     if (r.getRouteNo() == busid) {
-
                         // add trip to route
-                        if(tripDepart.getTripNo() != 0) {
+                        if(tripDepart.getTripNo() != 0 && tripReturn.getTripNo() != 0) {
                             if (r.getRouteType() == RouteType.DEPART) {
+                                tripDepart.setRoute(r);
                                 r.getTrips().add(tripDepart);
                             }
                             if (r.getRouteType() == RouteType.RETURN) {
+                                tripReturn.setRoute(r);
                                 r.getTrips().add(tripReturn);
                             }
                         }
