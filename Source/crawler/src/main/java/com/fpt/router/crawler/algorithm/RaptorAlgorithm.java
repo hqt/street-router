@@ -185,7 +185,7 @@ public class RaptorAlgorithm {
             Station previousHopStation = map.getStationById(previousHopStationId);
             Route route = map.getRouteById(routeId);
 
-            // create middle stations in same route
+            // create middle stationMap in same route
             List<Path> middlePaths = buildMiddleResult(previousHopStation, currentHopStation, route, transferTurn--);
             middlePaths.addAll(res);
             res = middlePaths;

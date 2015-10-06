@@ -18,7 +18,7 @@ public class CityMap {
         stations = new ArrayList<Station>();
     }
 
-    // index for stations
+    // index for stationMap
     public Map<Integer, Station> stationIdMap;
 
     // index for routes. routeId = (routeNo, routeType)
@@ -33,7 +33,7 @@ public class CityMap {
     }
 
     public void buildIndex() {
-        // build index for stations
+        // build index for stationMap
         stationIdMap = new HashMap<Integer, Station>();
         for (Station station : stations) {
             if (stationIdMap.containsKey(station.id)) {

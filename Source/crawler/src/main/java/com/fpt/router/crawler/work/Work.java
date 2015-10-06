@@ -9,7 +9,7 @@ import java.util.Map;
  * Created by Huynh Quang Thao on 9/6/15.
  */
 public class Work {
-    public void run() {
+    public CityMap run() {
 
         //Parse Json Data
         /*BusCrawlerPipe crawler = new BusCrawlerPipe();
@@ -32,6 +32,7 @@ public class Work {
 
         System.out.println("Size Route on Map: " + map.getRoutes().size());
 
+        return map;
     }
 
     public static void main(String[] args) {

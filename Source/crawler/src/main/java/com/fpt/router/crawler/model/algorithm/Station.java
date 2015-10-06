@@ -27,7 +27,7 @@ public class Station implements IAlgorithmModel {
     // list all routes go through this station
     public List<Route> routes;
 
-    // list all foot-path stations go through this station
+    // list all foot-path stationMap go through this station
     public List<Station> stations;
 
 

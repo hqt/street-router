@@ -65,7 +65,7 @@ public class BusCrawlerPipe {
             int limit = 0;
             for (Element route : listRoutes.select("option")) {
 
-                if (limit > 10) break;
+                //if (limit > 10) break;
                 limit++;
                 int serverBusId = Integer.parseInt(route.attr("value"));
                 // if ((serverBusId != 16) && (serverBusId != 51)) continue;
@@ -96,7 +96,10 @@ public class BusCrawlerPipe {
         ExecutorService executor = Executors.newFixedThreadPool(1);
         for(EntryLInk entry : listEntryLink){
             CrawDataThread threadTrue = new CrawDataThread(entry.serverBusId, true, entry.busCode, entry.busName);
+            // threadTrue.run();
             CrawDataThread threadFalse = new CrawDataThread(entry.serverBusId, false, entry.busCode, entry.busName);
+            // threadFalse.run();
+
             executor.execute(threadTrue);
             executor.execute(threadFalse);
         }
@@ -116,6 +119,7 @@ public class BusCrawlerPipe {
 
         // convert all to List
         List<Station> stations = new ArrayList<Station>(stationMap.values());
+        map.setStations(stations);
 
         // set increment id station
         for(int i = 0; i < map.getStations().size(); i++){

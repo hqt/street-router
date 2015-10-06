@@ -71,10 +71,10 @@ public class DemoDB {
         // Trip Depart in Route No 1
         Trip trip1 = new Trip(1, new LocalTime(5, 0), new LocalTime(5, 35),route1d);
 
-        Connection connectionRoute11 = new Connection(trip1,pathInfo1AB,new LocalTime(5, 8));
-        Connection connectionRoute12 = new Connection(trip1,pathInfo1BC,new LocalTime(5, 16));
-        Connection connectionRoute13 = new Connection(trip1,pathInfo1CD,new LocalTime(5, 24));
-        Connection connectionRoute14 = new Connection(trip1,pathInfo1DE,new LocalTime(5, 35));
+        Connection connectionRoute11 = new Connection(trip1,pathInfo1AB, new LocalTime(5, 8), new LocalTime(5, 8));
+        Connection connectionRoute12 = new Connection(trip1,pathInfo1BC, new LocalTime(5, 16), new LocalTime(5, 8));
+        Connection connectionRoute13 = new Connection(trip1,pathInfo1CD, new LocalTime(5, 24), new LocalTime(5, 8));
+        Connection connectionRoute14 = new Connection(trip1,pathInfo1DE, new LocalTime(5, 35), new LocalTime(5, 8));
 
         trip1.getConnections().add(connectionRoute11);
         trip1.getConnections().add(connectionRoute12);
@@ -84,10 +84,10 @@ public class DemoDB {
 
         Trip trip2 = new Trip(2,new LocalTime(5, 8),new LocalTime(5, 43),route1d);
 
-        Connection connTrip21 = new Connection(trip2,pathInfo1AB,new LocalTime(5, 16));
-        Connection connTrip22 = new Connection(trip2,pathInfo1BC,new LocalTime(5, 24));
-        Connection connTrip23 = new Connection(trip2,pathInfo1CD,new LocalTime(5, 35));
-        Connection connTrip24 = new Connection(trip2,pathInfo1DE,new LocalTime(5, 43));
+        Connection connTrip21 = new Connection(trip2,pathInfo1AB,new LocalTime(5, 16), new LocalTime(5, 8));
+        Connection connTrip22 = new Connection(trip2,pathInfo1BC,new LocalTime(5, 24), new LocalTime(5, 8));
+        Connection connTrip23 = new Connection(trip2,pathInfo1CD,new LocalTime(5, 35), new LocalTime(5, 8));
+        Connection connTrip24 = new Connection(trip2,pathInfo1DE,new LocalTime(5, 43), new LocalTime(5, 8));
 
         trip2.getConnections().add(connTrip21);
         trip2.getConnections().add(connTrip22);
@@ -98,10 +98,10 @@ public class DemoDB {
         // Trip Return in Route No 1
         Trip trip3 = new Trip(3,new LocalTime("5:16"),new LocalTime("5:51"),route1d);
 
-        Connection connTrip31 = new Connection(trip3,pathInfo1AB,new LocalTime("5:24"));
-        Connection connTrip32 = new Connection(trip3,pathInfo1BC,new LocalTime("5:35"));
-        Connection connTrip33 = new Connection(trip3,pathInfo1CD,new LocalTime("5:43"));
-        Connection connTrip34 = new Connection(trip3,pathInfo1DE,new LocalTime("5:51"));
+        Connection connTrip31 = new Connection(trip3,pathInfo1AB,new LocalTime("5:24"), new LocalTime(5, 8));
+        Connection connTrip32 = new Connection(trip3,pathInfo1BC,new LocalTime("5:35"), new LocalTime(5, 8));
+        Connection connTrip33 = new Connection(trip3,pathInfo1CD,new LocalTime("5:43"), new LocalTime(5, 8));
+        Connection connTrip34 = new Connection(trip3,pathInfo1DE,new LocalTime("5:51"), new LocalTime(5, 8));
 
         trip3.getConnections().add(connTrip31);
         trip3.getConnections().add(connTrip32);
@@ -135,10 +135,10 @@ public class DemoDB {
         // Trip Depart in Route No 1
         Trip trip18 = new Trip(1,new LocalTime("5:00"),new LocalTime("5:35"),route18d);
 
-        Connection connectionRoute181 = new Connection(trip18,pathInfo18AB,new LocalTime("5:08"));
-        Connection connectionRoute182 = new Connection(trip18,pathInfo18BC,new LocalTime("5:16"));
-        Connection connectionRoute183 = new Connection(trip18,pathInfo18CD,new LocalTime("5:24"));
-        Connection connectionRoute184 = new Connection(trip18,pathInfo18DE,new LocalTime("5:35"));
+        Connection connectionRoute181 = new Connection(trip18,pathInfo18AB,new LocalTime("5:08"), new LocalTime(5, 8));
+        Connection connectionRoute182 = new Connection(trip18,pathInfo18BC,new LocalTime("5:16"), new LocalTime(5, 8));
+        Connection connectionRoute183 = new Connection(trip18,pathInfo18CD,new LocalTime("5:24"), new LocalTime(5, 8));
+        Connection connectionRoute184 = new Connection(trip18,pathInfo18DE,new LocalTime("5:35"), new LocalTime(5, 8));
 
         trip18.getConnections().add(connectionRoute181);
         trip18.getConnections().add(connectionRoute182);
@@ -148,10 +148,10 @@ public class DemoDB {
 
         Trip trip28 = new Trip(2,new LocalTime(5, 8),new LocalTime("5:43"),route18d);
 
-        Connection connTrip281 = new Connection(trip28,pathInfo18AB,new LocalTime("5:16"));
-        Connection connTrip282 = new Connection(trip28,pathInfo18BC,new LocalTime("5:24"));
-        Connection connTrip283 = new Connection(trip28,pathInfo18CD,new LocalTime("5:35"));
-        Connection connTrip284 = new Connection(trip28,pathInfo18DE,new LocalTime("5:43"));
+        Connection connTrip281 = new Connection(trip28,pathInfo18AB,new LocalTime("5:16"), new LocalTime(5, 8));
+        Connection connTrip282 = new Connection(trip28,pathInfo18BC,new LocalTime("5:24"), new LocalTime(5, 8));
+        Connection connTrip283 = new Connection(trip28,pathInfo18CD,new LocalTime("5:35"), new LocalTime(5, 8));
+        Connection connTrip284 = new Connection(trip28,pathInfo18DE,new LocalTime("5:43"), new LocalTime(5, 8));
 
         trip28.getConnections().add(connTrip281);
         trip28.getConnections().add(connTrip282);

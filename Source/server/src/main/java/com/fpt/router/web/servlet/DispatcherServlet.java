@@ -1,10 +1,10 @@
 package com.fpt.router.web.servlet;
 
+import com.fpt.router.crawler.config.Config;
 import com.fpt.router.web.action.ActionFactory;
 import com.fpt.router.web.action.IAction;
 import com.fpt.router.web.action.IActionFactory;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.config.Config;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;

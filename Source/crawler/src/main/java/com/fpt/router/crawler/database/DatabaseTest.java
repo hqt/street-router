@@ -3,11 +3,13 @@ package com.fpt.router.crawler.database;
 import com.fpt.router.crawler.dao.MapDAL;
 import com.fpt.router.crawler.dao.StationDAO;
 import com.fpt.router.crawler.dao.TempDAO;
+import com.fpt.router.crawler.dao.common.GenericDao;
 import com.fpt.router.crawler.dao.common.JPADaoImpl;
 import com.fpt.router.crawler.model.entity.CityMap;
 import com.fpt.router.crawler.model.entity.Station;
 import com.fpt.router.crawler.model.entity.Temp;
 import com.fpt.router.crawler.utils.TimeUtils;
+import com.fpt.router.crawler.work.Work;
 import org.joda.time.*;
 
 import java.util.Date;
@@ -20,6 +22,15 @@ import java.util.List;
 public class DatabaseTest {
 
     public static void main(String[] args) {
+
+
+        Work work = new Work();
+        CityMap map = work.run();
+        Validation validation = new Validation(map);
+        validation.run();
+        MapDAL.insertDatabase(map);
+        JPADaoImpl.closeFactory();
+
 
         /*DemoDB db = new DemoDB();
         CityMap map = db.cityMap;
@@ -39,20 +50,11 @@ public class DatabaseTest {
         System.out.println(time.toString());*/
 
         // MapDAL.readDatabase();
-
-        LocalTime lc1 = new LocalTime(10, 30);
-        LocalTime lc2 = new LocalTime(10, 45);
-        Period p = Period.fieldDifference(lc1, lc2);
-        System.out.println(p.getHours());
-        System.out.println(p.getMinutes());
-        long millis = TimeUtils.convertToMilliseconds(p);
-        System.out.println(millis);
+        // JPADaoImpl.closeFactory();
 
 
-
-
-       /* List<Station> stations = (new StationDAO()).findAll();
-        System.out.println(stations.size());*/
+       /* List<Station> stationMap = (new StationDAO()).findAll();
+        System.out.println(stationMap.size());*/
 
        /* Temp temp = new Temp();
         temp.setTempNo(10);

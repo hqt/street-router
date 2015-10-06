@@ -53,7 +53,7 @@ public class Route implements IAlgorithmModel {
         Integer firstStationOrder = stationOrder.get(first);
         Integer secondStationOrder = stationOrder.get(second);
         if (firstStationOrder == null || secondStationOrder == null) {
-            throw new IllegalStateException("those stations not belong to this route");
+            throw new IllegalStateException("those stationMap not belong to this route");
         }
 
         return firstStationOrder.compareTo(secondStationOrder);

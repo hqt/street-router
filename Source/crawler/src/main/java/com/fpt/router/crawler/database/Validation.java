@@ -34,12 +34,12 @@ public class Validation {
     // test 1. all station's id must from 0 and consecutive number
     public void testStation() {
         List<Station> stations = map.getStations();
-        /*stations.sort(new Comparator<Station>() {
+        stations.sort(new Comparator<Station>() {
             @Override
             public int compare(Station s1, Station s2) {
                 return (int) (s1.getStationId() - s2.getStationId());
             }
-        });*/
+        });
         for (int i = 0; i < stations.size(); i++) {
             Station s = stations.get(i);
             if (s.getStationId() != i) {
