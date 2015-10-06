@@ -64,8 +64,8 @@ public class BusCrawlerPipe {
             Element listRoutes = doc.select("table tr td select").first();
             int limit = 0;
             for (Element route : listRoutes.select("option")) {
-                limit++;
-                // if (limit > 41) break;
+
+                if (limit > 10) break;
                 limit++;
                 int serverBusId = Integer.parseInt(route.attr("value"));
                 // if ((serverBusId != 16) && (serverBusId != 51)) continue;
@@ -114,6 +114,11 @@ public class BusCrawlerPipe {
         crawlAllLink();
         crawAllData();
         map.getStations().addAll(stations);
+
+        // set increment id station
+        for(int i = 0; i < map.getStations().size(); i++){
+            map.getStations().get(i).setStationId(i);
+        }
         return map;
     }
 
@@ -154,10 +159,6 @@ public class BusCrawlerPipe {
             }
 
             return in;
-        }
-
-        private void getRoutesDemo(int routeNo, String routeName, boolean isgo, PathInfo pathInfo){
-
         }
 
         private Route getRoutes(int routeNo , String routeName, boolean isgo){
@@ -211,9 +212,7 @@ public class BusCrawlerPipe {
                             }
                         }
 
-                        s.setStationId(i);
                         stations.add(s);
-
                         // set from & to station
                         pathInfo.setFrom(s);
                         pathInfo.setPathInfoNo(busId);
@@ -230,8 +229,6 @@ public class BusCrawlerPipe {
 
                         y = 0;
                         i++;
-
-
                     }
                 }
                 pathInfos.addAll(listPathInfo);
