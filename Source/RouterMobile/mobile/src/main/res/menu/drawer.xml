@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/navigation_item_help"
+            android:checked="true"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/nav_item_help"/>
+        <item
+            android:id="@+id/navigation_item_reference"
+            android:icon="@drawable/ic_content_paste_black_24dp"
+            android:title="@string/nav_item_reference"
+            />
+        <item
+            android:id="@+id/navigation_item_setting"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/nav_item_setting"
+            />
+        <item
+            android:id="@+id/navigation_item_history"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="@string/nav_item_history"/>
+    </group>
+</menu>

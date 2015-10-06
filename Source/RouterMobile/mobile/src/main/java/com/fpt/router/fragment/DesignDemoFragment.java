@@ -3,11 +3,19 @@ package com.fpt.router.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.fpt.router.R;
+import com.fpt.router.activity.DetailGMActivity;
+import com.fpt.router.adapter.DesignDemoRecyclerAdapter;
+
+import java.util.ArrayList;
 
 /**
  * Created by USER on 9/27/2015.
@@ -30,11 +38,26 @@ public class DesignDemoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        // list view with RecyclerView
         Bundle args = getArguments();
         int tabPosition = args.getInt(TAB_POSITION);
-        TextView tv = new TextView(getActivity());
-        tv.setGravity(Gravity.CENTER);
-        tv.setText("Text in Tab #" + tabPosition);
-        return tv;
+
+
+        int [] prgmImages= {R.drawable.ic_history_white_24dp, R.drawable.ic_history_white_24dp,R.drawable.ic_history_white_24dp, R.drawable.ic_history_white_24dp,
+                R.drawable.ic_history_white_24dp,R.drawable.ic_history_white_24dp,R.drawable.ic_history_white_24dp,
+                R.drawable.ic_history_white_24dp,R.drawable.ic_history_white_24dp};
+        String [] titleList={"Let Us C","c++","JAVA","Jsp","Microsoft .Net","Android","PHP","Jquery","JavaScript"};
+       String [] contentList={"Let Us C","c++","JAVA","Jsp","Microsoft .Net","Android","PHP","Jquery","JavaScript"};
+        /*final ArrayList<String> items = new ArrayList<String>();
+        for (int i = 0; i < 50; i++) {
+            items.add("Tab #" + tabPosition + " item #" + i);
+        }*/
+
+        View v =  inflater.inflate(R.layout.fragment_list_view, container, false);
+        RecyclerView recyclerView = (RecyclerView)v.findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(new DesignDemoRecyclerAdapter(titleList, contentList, prgmImages));
+        return v;
+
     }
 }

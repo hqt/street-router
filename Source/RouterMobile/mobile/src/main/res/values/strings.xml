@@ -6,6 +6,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!--menu-->
+    <string name="nav_item_help">Trợ giúp</string>
+    <string name="nav_item_reference">Thảm khảo tuyến xe bus</string>
+    <string name="nav_item_setting">Tùy chỉnh</string>
+    <string name="nav_item_history">Quản lý lịch sử tìm kiếm</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_item_attachment">Attachment</string>
@@ -20,5 +26,5 @@
     <string name="bus">43 phÃºt</string>
     <string name="motorbike">65 phÃºt</string>
     <string name="map">Báº£n Ä‘á»“</string>
-    <string name="google_place_key" translatable="false">AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A</string>
+    <string name="google_place_key" translatable="false">AIzaSyBLJkSvOukISHGrIXvHd4OSLKQDtS8nQOc</string>
 </resources>
