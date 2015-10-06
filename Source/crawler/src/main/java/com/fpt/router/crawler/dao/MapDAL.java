@@ -38,8 +38,14 @@ public class MapDAL {
             //insert PathInfo
             List<com.fpt.router.crawler.model.entity.PathInfo> pathInfos = route.getPathInfos();
             for (com.fpt.router.crawler.model.entity.PathInfo pathInfo : pathInfos) {
-                System.out.println("\tPath Info: From " + pathInfo.getFrom().getName() +
-                        "To: " + pathInfo.getTo().getName());
+                if (pathInfo.getTo() != null) {
+                    System.out.println("\tPath Info: From " + pathInfo.getFrom().getName() +
+                            "To: " + pathInfo.getTo().getName());
+                } else {
+                    System.out.println("\tPath Info: From " + pathInfo.getFrom().getName() +
+                            "To: Null");
+                }
+
                 pathInfoDAO.create(pathInfo);
             }
 
@@ -50,7 +56,7 @@ public class MapDAL {
                         "Start time: " + trip.getStartTime() + " End Time: " + trip.getEndTime());
                 tripDao.create(trip);
                 for (com.fpt.router.crawler.model.entity.Connection conn : trip.getConnections()) {
-                    System.out.println("Connection : " + conn.getArrivalTime());
+                    System.out.println("\t\tConnection : " + conn.getArrivalTime());
                     connectionDAO.create(conn);
                 }
             }
@@ -65,7 +71,7 @@ public class MapDAL {
         TripDAO tripDao = new TripDAO();
         PathInfoDAO pathInfoDAO = new PathInfoDAO();
 
-        // all stations
+        // all stationMap
         List<com.fpt.router.crawler.model.entity.Station> entityStations = stationDAL.findAll();
         cityMap.stations = DTOConverter.convertStations(entityStations);
 
@@ -81,7 +87,7 @@ public class MapDAL {
             System.out.println("f: " + route.getPathInfos().size());
             com.fpt.router.crawler.model.entity.PathInfo pathInfo = route.getPathInfos().get(0);
             System.out.println("connection size: " + pathInfo.getConnections().size());
-
+            System.out.println("shit "  + pathInfo.getConnections().get(0).getArrivalTime());
         }
 
         return cityMap;

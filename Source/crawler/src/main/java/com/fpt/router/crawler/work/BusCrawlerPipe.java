@@ -37,7 +37,7 @@ public class BusCrawlerPipe {
     public static final String busMapLink = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations";
     public CityMap map;
     public List<PathInfo> pathInfos = new ArrayList<PathInfo>();
-    public Set<Station> stations = new HashSet<Station>();
+    public Map<String, Station> stationMap = new HashMap<String, Station>();
     public List<EntryLInk> listEntryLink = new ArrayList<EntryLInk>();
 
     public BusCrawlerPipe(){
@@ -93,7 +93,7 @@ public class BusCrawlerPipe {
 
     public void crawAllData() {
         System.out.println("get json data from each route code ...");
-        ExecutorService executor = Executors.newFixedThreadPool(10);
+        ExecutorService executor = Executors.newFixedThreadPool(1);
         for(EntryLInk entry : listEntryLink){
             CrawDataThread threadTrue = new CrawDataThread(entry.serverBusId, true, entry.busCode, entry.busName);
             CrawDataThread threadFalse = new CrawDataThread(entry.serverBusId, false, entry.busCode, entry.busName);
@@ -113,7 +113,9 @@ public class BusCrawlerPipe {
     public CityMap run() {
         crawlAllLink();
         crawAllData();
-        map.getStations().addAll(stations);
+
+        // convert all to List
+        List<Station> stations = new ArrayList<Station>(stationMap.values());
 
         // set increment id station
         for(int i = 0; i < map.getStations().size(); i++){
@@ -174,7 +176,7 @@ public class BusCrawlerPipe {
             return route;
         }
 
-        private Set<Station> getDataFromJson(InputStream in) {
+        private Map<String, Station> getDataFromJson(InputStream in) {
             try {
                 if (in == null) System.out.println("Link contain null inputstream " + busId + " " +isgo);
 
@@ -182,7 +184,7 @@ public class BusCrawlerPipe {
                 JsonNode rootNode = om.readTree(in);
                 JsonNode table = rootNode.path("TABLE");
 
-                if (table.get(0) == null) return stations;
+                if (table.get(0) == null) return stationMap;
 
                 // get routes
                 Route route = getRoutes(busNo,name,isgo);
@@ -212,16 +214,21 @@ public class BusCrawlerPipe {
                             }
                         }
 
-                        stations.add(s);
+                        if (!stationMap.containsKey(s.getCodeId())) {
+                            stationMap.put(s.getCodeId(), s);
+                        } else {
+                            s = stationMap.get(s.getCodeId());
+                        }
+
                         // set from & to station
-                        pathInfo.setFrom(s);
+                        pathInfo.setFrom(s);  // van set sb
                         pathInfo.setPathInfoNo(busId);
                         pathInfo.setRoute(route);
                         listPathInfo.add(pathInfo);
 
                         route.getPathInfos().add(pathInfo);
 
-                        if (i > 0 ){
+                        if (i > 0) {
                             if(listPathInfo.get(i - 1).getPathInfoId() == listPathInfo.get(i).getPathInfoId() ){
                                 listPathInfo.get(i-1).setTo(s);
                             }
@@ -235,7 +242,7 @@ public class BusCrawlerPipe {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return stations;
+            return stationMap;
         }
 
         public void extractData(int y, String data, Station station, PathInfo pathInfo) {
