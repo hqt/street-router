@@ -2,6 +2,7 @@ package com.fpt.router.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,8 +14,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.GooglePlacesAutocompleteAdapter;
@@ -32,36 +35,56 @@ import java.util.List;
 public class SearchActivity extends AppCompatActivity {
     public GooglePlacesAutocompleteAdapter adapter;
     public AutoCompleteTextView autoComp;
+    private  ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_search_1);
 
-        adapter = new GooglePlacesAutocompleteAdapter(this, R.layout.list_item, null);
+        listView = (ListView) findViewById(R.id.listview_autosearch);
+        adapter = new GooglePlacesAutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        Intent intent = new Intent();
+        int number = getIntent().getIntExtra("number", 1);
+        if(number== 2){
+            autoComp.setHint("Chọn điểm đến");
+        }
         adapter.setNotifyOnChange(true);
-        autoComp.setAdapter(adapter);
-
+        /*autoComp.setAdapter(adapter);*/
+        if(adapter != null) {
+            listView.setAdapter(adapter);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String itemValue = (String) listView.getItemAtPosition(position);
+                autoComp.setText(itemValue);
+            }
+        });
 
         autoComp.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count%2 == 1) {
+                if (count % 2 == 1) {
                     GetPlaces task = new GetPlaces();
                     //now pass the argument in the textview to the task
                     task.execute(autoComp.getText().toString());
                     Log.e("Nam", "Thanh cong");
                 }
             }
+
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
                 // TODO Auto-generated method stub
             }
+
             public void afterTextChanged(Editable s) {
             }
         });
@@ -76,7 +99,7 @@ public class SearchActivity extends AppCompatActivity {
                             String message = autoComp.getText().toString();
                             Intent intent = new Intent();
                             intent.putExtra("MESSAGE", message);
-                            int number = getIntent().getIntExtra("number", 1);
+							int number = getIntent().getIntExtra("number", 1);
                             setResult(number, intent);
                             finish();//finishing activity
                             return true;
@@ -90,26 +113,16 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search, menu);
-        return true;
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     class GetPlaces extends AsyncTask<String, Void, ArrayList<String>> {
@@ -125,7 +138,13 @@ public class SearchActivity extends AppCompatActivity {
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-                String url = NetworkUtils.linkGooglePlace(args[0]);
+				String url = NetworkUtils.linkGooglePlace(args[0]);
+
+
+
+
+
+
 
                 String json = NetworkUtils.download(url);
                 //turn that string into a JSON object
@@ -151,12 +170,14 @@ public class SearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<String> result){
             adapter.clear();
-            for (String string : result) {
+           /* for (String string : result) {
                 Log.e("hqt", "onPostExecute : result = " + string);
-                adapter.add(string);
-            }
-            adapter = new GooglePlacesAutocompleteAdapter(SearchActivity.this, R.layout.list_item, result);
-            autoComp.setAdapter(adapter);
+               adapter.add(string);
+            }*/
+           adapter = new GooglePlacesAutocompleteAdapter(SearchActivity.this, android.R.layout.simple_list_item_1, result);
+           listView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+            /*autoComp.setAdapter(adapter);*/
             Log.d("YourApp", "onPostExecute : autoCompleteAdapter" + adapter.getCount());
         }
     }
