@@ -1,9 +1,12 @@
 package com.fpt.router.crawler.utils;
 
+import com.fpt.router.crawler.model.entity.PathInfo;
+import com.fpt.router.crawler.model.entity.Route;
 import com.fpt.router.crawler.model.helper.Location;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 /**
  * Purpose:
@@ -39,6 +42,42 @@ public class DistanceUtils {
         distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
         return Math.sqrt(distance);
+    }
+
+    public static double distanceTwoLocation(Location from, Location to, List<Location> middleLocations) {
+        double distance;
+
+        if ((from == null || to == null)) {
+            return 0.0f;
+        }
+
+        if ((middleLocations == null) || (middleLocations.size() == 0)) {
+            return distance(from, to);
+        }
+
+        // counting two pivot distance
+        distance = distance(from, middleLocations.get(0));
+        distance += distance(middleLocations.get(middleLocations.size()-1), to);
+
+        for (int i = 0; i < middleLocations.size()-1; i++) {
+            distance += distance(middleLocations.get(i), middleLocations.get(i+1));
+        }
+
+        return distance;
+    }
+
+    public static double distance(Route route) {
+        List<PathInfo> pathInfos = route.getPathInfos();
+
+        double distance = 0.0f;
+        for (PathInfo pathInfo : pathInfos) {
+            if (pathInfo.getTo() == null) continue;
+            List<Location> locations = StringUtils.convertToLocations(pathInfo.getMiddleLocations());
+            Location from = new Location(pathInfo.getFrom().getLatitude(), pathInfo.getFrom().getLongitude());
+            Location to = new Location(pathInfo.getTo().getLatitude(), pathInfo.getTo().getLongitude());
+            distance += distanceTwoLocation(from, to, locations);
+        }
+        return distance;
     }
 
 }

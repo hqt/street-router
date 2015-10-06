@@ -36,9 +36,8 @@ public class BusCrawlerPipe {
     Pattern p = Pattern.compile("^\\[(\\d+)(-(\\d+))*\\]\\s+(.+)\\s*"); //[8-13] ben thanh cho hiep thanh
     public static final String busMapLink = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations";
     public CityMap map;
-    public Set<PathInfo> pathInfos = new HashSet<PathInfo>();
+    public List<PathInfo> pathInfos = new ArrayList<PathInfo>();
     public Set<Station> stations = new HashSet<Station>();
-    public List<Route> routes = new ArrayList<Route>();
     public List<EntryLInk> listEntryLink = new ArrayList<EntryLInk>();
 
     public BusCrawlerPipe(){
@@ -111,15 +110,6 @@ public class BusCrawlerPipe {
         }
     }
 
-    private void getRoutes(int id, String name) {
-        Route route = new Route();
-        route.setRouteNo(id);
-        route.setRouteName(name);
-
-        map.getRoutes().add(route);
-    }
-
-
     public CityMap run() {
         crawlAllLink();
         crawAllData();
@@ -155,7 +145,6 @@ public class BusCrawlerPipe {
                 // Set connection timeout
                 URLConnection urlConnection = url.openConnection();
                 urlConnection.setConnectTimeout(10000);
-                urlConnection.setReadTimeout(10000);
                 // Open stream
                 in = new BufferedInputStream(url.openStream());
             } catch (MalformedURLException e) {
@@ -167,7 +156,11 @@ public class BusCrawlerPipe {
             return in;
         }
 
-        private void getRoutes(int routeNo , String routeName, boolean isgo){
+        private void getRoutesDemo(int routeNo, String routeName, boolean isgo, PathInfo pathInfo){
+
+        }
+
+        private Route getRoutes(int routeNo , String routeName, boolean isgo){
             Route route = new Route();
             route.setRouteNo(routeNo);
             route.setRouteName(routeName);
@@ -177,6 +170,7 @@ public class BusCrawlerPipe {
                 route.setRouteType(RouteType.RETURN);
             }
             map.getRoutes().add(route);
+            return route;
         }
 
         private Set<Station> getDataFromJson(InputStream in) {
@@ -190,13 +184,14 @@ public class BusCrawlerPipe {
                 if (table.get(0) == null) return stations;
 
                 // get routes
-                getRoutes(busNo,name,isgo);
+                Route route = getRoutes(busNo,name,isgo);
 
                 JsonNode row = table.get(0);
                 Iterator<JsonNode> cols = row.getElements();
 
                 int y = 0;
                 int i = 0;
+                List<PathInfo> listPathInfo = new ArrayList<PathInfo>();
                 while (cols.hasNext()) {
                     JsonNode col = cols.next();
                     Iterator<JsonNode> items = col.getElements();
@@ -204,36 +199,55 @@ public class BusCrawlerPipe {
                         JsonNode item = items.next();
                         Iterator<JsonNode> datas = item.getElements();
                         Station s = new Station();
+                        PathInfo pathInfo = new PathInfo();
                         while (datas.hasNext()) {
                             JsonNode data = datas.next();
                             Iterator<JsonNode> textValue = data.getElements();
                             while (textValue.hasNext()) {
                                 JsonNode dataElement = textValue.next();
                                 JsonNode dataTextValue = dataElement.path("DATA");
-                                extractData(y, dataTextValue.getTextValue(), s);
+                                extractData(y, dataTextValue.getTextValue(), s, pathInfo);
                                 y++;
                             }
                         }
 
                         s.setStationId(i);
                         stations.add(s);
+
+                        // set from & to station
+                        pathInfo.setFrom(s);
+                        pathInfo.setPathInfoNo(busId);
+                        pathInfo.setRoute(route);
+                        listPathInfo.add(pathInfo);
+
+                        route.getPathInfos().add(pathInfo);
+
+                        if (i > 0 ){
+                            if(listPathInfo.get(i - 1).getPathInfoId() == listPathInfo.get(i).getPathInfoId() ){
+                                listPathInfo.get(i-1).setTo(s);
+                            }
+                        }
+
                         y = 0;
                         i++;
+
+
                     }
                 }
-
+                pathInfos.addAll(listPathInfo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return stations;
         }
 
-        public void extractData(int y, String data, Station station) {
+        public void extractData(int y, String data, Station station, PathInfo pathInfo) {
             switch (y) {
                 case 3:
-                    PathInfo pathInfo = new PathInfo();
                     pathInfo.setMiddleLocations(data);
-                    pathInfos.add(pathInfo);
+                    break;
+                case 5:
+
                     break;
                 case 7:
                     station.setName(data);

@@ -1,10 +1,11 @@
 package com.fpt.router.crawler.utils;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
+import org.joda.time.*;
 
 import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -29,10 +30,34 @@ public class TimeUtils {
         return new LocalTime(time.getHours(), time.getMinutes(), time.getSeconds());
     }
 
-    public LocalTime convertExcelDate(Date date){
-        //LocalDate ld = new LocalDate(date);
-        LocalDateTime ldt = new LocalDateTime(date);
-        return ldt.toLocalTime();
+    public LocalTime convertExcelDate(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
+        LocalTime lct = new LocalTime(hours,minutes);
+        return lct;
+    }
+
+    public static double toMinute(double second) {
+        return ((second / 60) * 100.0) / 100.0;
+    }
+
+    public static long convertHourToMillis(int hour) {
+        return convertMinuteToMillis(hour * 60);
+    }
+
+    public static long convertMinuteToMillis(int minute) {
+        return 60L * 1000 * minute;
+    }
+
+    public static long convertToMilliseconds(Period period) {
+        long millis = convertHourToMillis(period.getHours()) +
+                convertMinuteToMillis(period.getMinutes()) +
+                period.getSeconds() * 1000 +
+                period.getMillis();
+        return millis;
     }
 
 }

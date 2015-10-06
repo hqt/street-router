@@ -80,7 +80,7 @@ public class Connection implements IEntity {
     }
 
     public void setDepartureTime(LocalTime departureTime) {
-        departureTime = departureTime;
+        this.departureTime = departureTime;
     }
 
     //endregion

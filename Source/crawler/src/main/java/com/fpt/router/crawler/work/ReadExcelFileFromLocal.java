@@ -1,9 +1,10 @@
 package com.fpt.router.crawler.work;
 
-import com.fpt.router.crawler.model.entity.CityMap;
-import com.fpt.router.crawler.model.entity.Route;
-import com.fpt.router.crawler.model.entity.Trip;
+import com.fpt.router.crawler.model.entity.*;
+import com.fpt.router.crawler.model.helper.Location;
 import com.fpt.router.crawler.model.helper.RouteType;
+import com.fpt.router.crawler.utils.DistanceUtils;
+import com.fpt.router.crawler.utils.StringUtils;
 import com.fpt.router.crawler.utils.TimeUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -12,6 +13,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import java.io.*;
 import java.util.*;
@@ -27,6 +29,7 @@ public class ReadExcelFileFromLocal {
     public CityMap map;
     public Map<Integer, String> excelPaths;
     public TimeUtils timeUtils = new TimeUtils();
+    public DistanceUtils distanceUtils = new DistanceUtils();
     public static final String pathFolder = "\\localExcelFIle";
 
     public ReadExcelFileFromLocal(){
@@ -41,8 +44,72 @@ public class ReadExcelFileFromLocal {
     public CityMap run(){
         File file = getFolderExcelPaths();
         processParsing(file);
+        buildConnections();
         return map;
     }
+
+    public void buildConnections() {
+
+        for (Route r: map.getRoutes()){
+
+            if (r.getRouteNo() == 613) continue;
+            if (r.getRouteNo() == 75) continue;
+
+            double totalDistance = DistanceUtils.distance(r);
+
+            // find distance of pathInfo
+            List<Double> pathInfoDistances = new ArrayList<Double>();
+            for (PathInfo pathInfo : r.getPathInfos()) {
+                if (pathInfo.getTo() == null) continue;
+                Location startLocation = new Location(pathInfo.getFrom().getLatitude(), pathInfo.getFrom().getLongitude());
+                Location endLocation = new Location(pathInfo.getTo().getLatitude(), pathInfo.getTo().getLongitude());
+                double pathInfoDistance = DistanceUtils.distanceTwoLocation(startLocation, endLocation,
+                        StringUtils.convertToLocations(pathInfo.getMiddleLocations()));
+                pathInfoDistances.add(pathInfoDistance);
+            }
+
+            // create connections for each trip
+            for (Trip trip : r.getTrips()) {
+                List<Connection> connections = new ArrayList<Connection>();
+
+                // count total time for traveling whole trip
+                if ((trip == null) || (trip.getStartTime() == null) || (trip.getEndTime() == null)) {
+                    int a = 3;
+                }
+
+                Period totalTravelTime = Period.fieldDifference(trip.getStartTime(), trip.getEndTime());
+                long totalMillis = TimeUtils.convertToMilliseconds(totalTravelTime);
+
+                // for each pathInfo. Create one connection base on PathInfo length
+                for (int i = 0; i < pathInfoDistances.size(); i++) {
+                    // time for this pathInfo
+                    long pathInfoTravel = (long) (totalMillis * pathInfoDistances.get(i) / totalDistance);
+                    Period pathInfoTravelPeriod = new Period(pathInfoTravel);
+
+                    // create connection.
+                    // Base on our business, previous bus departure time == next bus arrival time
+                    Connection connection = new Connection();
+                    connection.setTrip(trip);
+                    if (i == 0) {
+                        connection.setArrivalTime(trip.getStartTime());
+                    } else {
+                        connection.setArrivalTime(connections.get(i-1).getDepartureTime());
+                    }
+                    if (i == (pathInfoDistances.size()-1)) {
+                        connection.setDepartureTime(trip.getEndTime());
+                    } else {
+
+                        LocalTime departureTime = connection.getArrivalTime().plus(pathInfoTravelPeriod);
+                        connection.setDepartureTime(departureTime);
+                    }
+
+                    connections.add(connection);
+                    trip.setConnections(connections);
+                }
+            }
+        }
+    }
+
 
     public File getFolderExcelPaths() {
         // Get Directory contain excel files
@@ -98,6 +165,8 @@ public class ReadExcelFileFromLocal {
         }
     }
 
+
+
     private class ParseExcels extends Thread {
 
         String path;
@@ -112,13 +181,10 @@ public class ReadExcelFileFromLocal {
         @Override
         public void run() {
             InputStream in = getExcelFileFromLocal(path);
-            List<Route> routes = parseExcelFile(in);
-            for (Route route: routes) {
-                map.getRoutes().add(route);
-            }
+            parseExcelFile(in);
         }
 
-        private List<Route> parseExcelFile(InputStream in) {
+        private void parseExcelFile(InputStream in) {
 
             Workbook workbook = null;
             try {
@@ -177,22 +243,23 @@ public class ReadExcelFileFromLocal {
                     continue;
                 }
 
-                /*for (Route r : map.getRoutes()) {
-                    if (r.getRouteNo() == busid) {
-                    }
-                }*/
 
-                if (tripDepart.getTripNo() != 0) {
-                    routeDepart.getTrips().add(tripDepart);
-                    routeDepart.setRouteId(busid);
-                    routeReturn.getTrips().add(tripReturn);
-                    routeReturn.setRouteId(busid);
+                for (Route r : map.getRoutes()) {
+                    // add trip to route
+                    if (r.getRouteNo() == busid) {
+
+                        // add trip to route
+                        if(tripDepart.getTripNo() != 0) {
+                            if (r.getRouteType() == RouteType.DEPART) {
+                                r.getTrips().add(tripDepart);
+                            }
+                            if (r.getRouteType() == RouteType.RETURN) {
+                                r.getTrips().add(tripReturn);
+                            }
+                        }
+                    }
                 }
             }
-
-            routes.add(routeDepart);
-            routes.add(routeReturn);
-            return routes;
         }
 
         public List<Integer> getCellIndex(Row nextRow) {
