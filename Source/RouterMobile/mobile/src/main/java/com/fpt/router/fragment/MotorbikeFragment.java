@@ -131,7 +131,7 @@ public class MotorbikeFragment extends Fragment {
         @Override
         protected String doInBackground(String... args) {
             String json;
-            String url = NetworkUtils.linkGoogleMap(test.get(0), test.get(1));
+            String url = NetworkUtils.linkGoogleDrirection(test.get(0), test.get(1));
             json = NetworkUtils.download(url);
             return json;
         }
@@ -140,9 +140,17 @@ public class MotorbikeFragment extends Fragment {
             if(pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-
+            ArrayList<Leg> listLeg = JSONParseUtils.getListLeg(json);
             Leg leg;
-            leg = JSONParseUtils.getLeg(json);
+            List<LatLng> list;
+            String encodedString;
+            for(int n = 1; n < listLeg.size(); n++){
+                leg = listLeg.get(n);
+                encodedString = leg.getOverview_polyline();
+                list = DecodeUtils.decodePoly(encodedString);
+                MapUtils.drawLine(mMap, list, Color.GRAY);
+            }
+            leg = listLeg.get(0);
             DetailLocation detalL = leg.getDetailLocation();
             Location start_location = detalL.getStart_location();
             Location end_location = detalL.getEnd_location();
@@ -157,10 +165,11 @@ public class MotorbikeFragment extends Fragment {
             MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
 
             //add polyline
-            String encodedString = leg.getOverview_polyline();
-            List<LatLng> list = DecodeUtils.decodePoly(encodedString);
+            encodedString= leg.getOverview_polyline();
+            list = DecodeUtils.decodePoly(encodedString);
             MapUtils.drawLine(mMap, list, Color.BLUE);
             MapUtils.moveCamera(mMap, latitude, longitude, 12);
+
         }
     }
 

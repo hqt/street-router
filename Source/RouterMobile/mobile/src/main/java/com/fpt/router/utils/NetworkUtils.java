@@ -146,7 +146,7 @@ public class NetworkUtils {
                 + ":(group)" + groupname);
     }
 
-    public static String linkGoogleMap(String startLocation, String endLocation){
+    public static String linkGoogleDrirection(String startLocation, String endLocation){
         String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
         String start = null;
         String end = null;
@@ -159,6 +159,7 @@ public class NetworkUtils {
         String url = "https://maps.googleapis.com/maps/api/directions/json?" +
                      "origin=" + start +
                      "&destination=" + end +
+                     "&alternatives=true" +
                      "&mode=driving" +
                      "&key=" + key;
         return url;
