@@ -24,13 +24,17 @@ public class DatabaseTest {
     public static void main(String[] args) {
 
 
+       /* // write
         Work work = new Work();
         CityMap map = work.run();
         Validation validation = new Validation(map);
         validation.run();
         MapDAL.insertDatabase(map);
-        JPADaoImpl.closeFactory();
+        JPADaoImpl.closeFactory();*/
 
+        // read
+        com.fpt.router.crawler.model.algorithm.CityMap map = MapDAL.readDatabase();
+        int a  = 3;
 
         /*DemoDB db = new DemoDB();
         CityMap map = db.cityMap;

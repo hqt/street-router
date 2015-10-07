@@ -1,11 +1,17 @@
 package com.fpt.router.crawler.dao;
 
 import com.fpt.router.crawler.database.DBUtils;
-import com.fpt.router.crawler.model.algorithm.CityMap;
-import com.fpt.router.crawler.model.algorithm.PathInfo;
+import com.fpt.router.crawler.model.algorithm.*;
+import com.fpt.router.crawler.model.helper.Location;
 import com.fpt.router.crawler.utils.DTOConverter;
+import com.fpt.router.crawler.utils.DistanceUtils;
+import com.fpt.router.crawler.utils.TimeUtils;
+import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,25 +80,99 @@ public class MapDAL {
 
         // all stationMap
         List<com.fpt.router.crawler.model.entity.Station> entityStations = stationDAL.findAll();
-        cityMap.stations = DTOConverter.convertStations(entityStations);
+        cityMap.stations = DTOConverter.convertStations(cityMap, entityStations);
 
         // all routes
         List<com.fpt.router.crawler.model.entity.Route> entityRoutes = routeDAO.findAll();
-        cityMap.routes = DTOConverter.convertRoutes(entityRoutes);
+        cityMap.routes = DTOConverter.convertRoutes(cityMap, entityRoutes);
 
         cityMap.buildIndex();
 
-        for (com.fpt.router.crawler.model.entity.Route route : entityRoutes) {
-            // all pathinfos has been loaded due to hibernate properties
-            // testing purpose
-            System.out.println("f: " + route.getPathInfos().size());
-            com.fpt.router.crawler.model.entity.PathInfo pathInfo = route.getPathInfos().get(0);
-            System.out.println("connection size: " + pathInfo.getConnections().size());
-            System.out.println("shit "  + pathInfo.getConnections().get(0).getArrivalTime());
+        // all PathInfos
+        for (int i = 0; i < entityRoutes.size(); i++) {
+            com.fpt.router.crawler.model.entity.Route entityRoute = entityRoutes.get(i);
+            Route route = cityMap.routes.get(i);
+            if (route.routeId != entityRoute.getRouteId()) {
+                System.out.println("wrong parsing");
+            }
+            List<com.fpt.router.crawler.model.entity.PathInfo> entityPathInfos = entityRoute.getPathInfos();
+            route.pathInfos = DTOConverter.convertPathInfos(cityMap, entityPathInfos);
         }
+
+        // all trips
+        for (int i = 0; i < entityRoutes.size(); i++) {
+            com.fpt.router.crawler.model.entity.Route entityRoute = entityRoutes.get(i);
+            Route route = cityMap.routes.get(i);
+            List<com.fpt.router.crawler.model.entity.Trip> entityTrips = entityRoute.getTrips();
+            route.trips = DTOConverter.convertTrips(cityMap, entityTrips);
+        }
+
+        // build again connections for saving time than loading from database
+        buildConnections(cityMap);
 
         return cityMap;
     }
+
+    // city map has enough information for building again connections
+    private static void buildConnections(CityMap map) {
+
+        for (Route r: map.routes){
+
+            double totalDistance = DistanceUtils.distance(r);
+
+            // find distance of pathInfo
+            List<Double> pathInfoDistances = new ArrayList<Double>();
+            for (PathInfo pathInfo : r.pathInfos) {
+                if (pathInfo.to == null) continue;
+                Location startLocation = new Location(pathInfo.from.location.latitude, pathInfo.from.location.longitude);
+                Location endLocation = new Location(pathInfo.to.location.latitude, pathInfo.to.location.longitude);
+                double pathInfoDistance = DistanceUtils.distanceTwoLocation(startLocation, endLocation, pathInfo.middleLocations);
+                pathInfoDistances.add(pathInfoDistance);
+            }
+
+            // create connections for each trip
+            for (Trip trip : r.trips) {
+                List<Connection> connections = new ArrayList<Connection>();
+
+                if (r.routeNo == 613) continue;
+                if (r.routeNo == 75) continue;
+
+                if (trip == null || trip.startTime == null || trip.endTime == null) {
+                    int a = 3;
+                }
+                Period totalTravelTime = Period.fieldDifference(trip.startTime, trip.endTime);
+                long totalMillis = TimeUtils.convertToMilliseconds(totalTravelTime);
+
+                // for each pathInfo. Create one connection base on PathInfo length
+                for (int i = 0; i < pathInfoDistances.size(); i++) {
+                    // time for this pathInfo
+                    long pathInfoTravel = (long) (totalMillis * pathInfoDistances.get(i) / totalDistance);
+                    Period pathInfoTravelPeriod = new Period(pathInfoTravel);
+
+                    // create connection.
+                    // Base on our business, previous bus departure time == next bus arrival time
+                    Connection connection = new Connection();
+                    connection.trip = trip;
+                    connection.pathInfo = r.pathInfos.get(i);
+                    if (i == 0) {
+                        connection.arrivalTime = trip.startTime;
+                    } else {
+                        connection.arrivalTime = connections.get(i-1).departureTime;
+                    }
+                    if (i == (pathInfoDistances.size()-1)) {
+                        connection.departureTime = trip.endTime;
+                    } else {
+                        LocalTime departureTime = connection.arrivalTime.plus(pathInfoTravelPeriod);
+                        connection.departureTime = departureTime;
+                    }
+
+                    connections.add(connection);
+                    trip.connections = connections;
+                }
+            }
+        }
+    }
+
 
     public static void deleteDatabase() {
         java.sql.Connection conn = null;

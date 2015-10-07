@@ -32,7 +32,7 @@ public class Route implements IAlgorithmModel {
     }
 
     public int getTotalStations() {
-        return pathInfos.size() + 1;
+        return pathInfos.size();
     }
 
     public Station getStationByOrder(int order) {
