@@ -42,7 +42,6 @@ public class ArrayAdapterItem extends ArrayAdapter<DetailRoute> {
 
         // object item based on the position
         DetailRoute route = objects.get(position);
-        Log.d("Route", route.getTitle());
         TextView mTitle,mSubTitle;
         ImageView mImage;
         mTitle = (TextView) convertView.findViewById(R.id.mTitle);

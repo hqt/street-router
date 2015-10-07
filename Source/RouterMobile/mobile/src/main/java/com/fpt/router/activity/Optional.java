@@ -14,19 +14,12 @@ import com.fpt.router.R;
 /**
  * Created by asus on 10/6/2015.
  */
-public class Optional extends Dialog implements View.OnClickListener {
+public class Optional extends Activity {
 
-    public Activity optional;
-    public Dialog dialog;
-    public Button yes, no;
-    public TextView waypoint_1;
-    public TextView waypoint_2;
-    public static String waypoint_text_1;
-    public static String waypoint_text_2;
-    public Optional(Activity optional) {
-        super(optional);
-        this.optional = optional;
-    }
+    private Button yes, no;
+    private TextView txtfrom;
+    private TextView txtto;
+
 
 
     @Override
@@ -36,37 +29,59 @@ public class Optional extends Dialog implements View.OnClickListener {
         setContentView(R.layout.customer_dialog);
         yes = (Button) findViewById(R.id.btn_yes);
         no = (Button) findViewById(R.id.btn_no);
-        yes.setOnClickListener(this);
-        no.setOnClickListener(this);
+        txtfrom = (TextView) findViewById(R.id.fromId);
+        txtto = (TextView) findViewById(R.id.toId);
 
-        waypoint_1 = (TextView) findViewById(R.id.fromId);
-        waypoint_2 = (TextView) findViewById(R.id.toId);
-        //edit text 1
-        waypoint_1.setOnClickListener(this);
-        waypoint_2.setOnClickListener(this);
+
+        txtfrom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent_3 = new Intent(Optional.this, SearchActivity.class);
+                intent_3.putExtra("number", 1);
+                startActivityForResult(intent_3, 3);// Activity is started with requestCode 1
+            }
+        });
+
+        txtto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent_4 = new Intent(Optional.this, SearchActivity.class);
+                intent_4.putExtra("number", 2);
+                startActivityForResult(intent_4, 4);// Activity is started with requestCode 2
+            }
+        });
+
+
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(Optional.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
+
+
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.fromId:
-                Intent intent_3 = new Intent(optional, SearchActivity.class);
-                intent_3.putExtra("number", 1);
-                optional.startActivityForResult(intent_3, 3);// Activity is started with requestCode 1
-            case R.id.toId:
-                Intent intent_4 = new Intent(optional, SearchActivity.class);
-                intent_4.putExtra("number", 2);
-                optional.startActivityForResult(intent_4, 4);// Activity is started with requestCode 2
-            case R.id.btn_yes:
-                optional.finish();
-                break;
-            case R.id.btn_no:
-                dismiss();
-                break;
-            default:
-                break;
-        }
-        dismiss();
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 3) {
+            String message = data.getStringExtra("MESSAGE");
+            txtfrom.setText(message);
+        }
+        if(requestCode == 4){
+            String message = data.getStringExtra("MESSAGE");
+            txtto.setText(message);
+        }
+    }
 }

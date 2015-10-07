@@ -55,6 +55,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.Optional"
+            android:theme="@android:style/Theme.Dialog" />
     </application>
 
 </manifest>

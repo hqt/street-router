@@ -116,9 +116,8 @@ public class MainActivity extends AppCompatActivity {
         optional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Optional cdd = new Optional(MainActivity.this);
-                cdd.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                cdd.show();
+                Intent intent = new Intent(MainActivity.this,Optional.class);
+                startActivity(intent);
             }
         });
 

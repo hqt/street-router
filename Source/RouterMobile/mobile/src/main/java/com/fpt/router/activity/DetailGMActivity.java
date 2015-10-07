@@ -3,14 +3,17 @@ package com.fpt.router.activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -36,9 +39,10 @@ import java.util.List;
  * Created by asus on 10/5/2015.
  */
 public class DetailGMActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "DetailGMActivity";
     public static final String SAVED_STATE_ACTION_BAR_HIDDEN = "saved_state_action_bar_hidden";
     private SlidingUpPanelLayout mLayout;
+
 
     // Google Map
     private GoogleMap googleMap;
@@ -72,6 +76,14 @@ public class DetailGMActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        ListView lv = (ListView) findViewById(R.id.list_view);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(DetailGMActivity.this, "onItemClick", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         mLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -107,16 +119,13 @@ public class DetailGMActivity extends AppCompatActivity {
         ListRoute listRoute = new ListRoute();
         List<DetailRoute> routes = new ArrayList<DetailRoute>();
         routes = listRoute.getRoutes();
-        for (DetailRoute route : routes){
-            Log.d("DetailRoute",route.getTitle());
-        }
-
 
         ArrayAdapterItem adapterItem = new ArrayAdapterItem(this,R.layout.activity_list_row_gmap,routes);
         ListView listview = (ListView) findViewById(R.id.list_view);
         listview.setAdapter(adapterItem);
         listview.setOnItemClickListener(new OnItemClickListenerListViewItem());
     }
+
 
 
     /**
@@ -147,13 +156,6 @@ public class DetailGMActivity extends AppCompatActivity {
     }
 
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
