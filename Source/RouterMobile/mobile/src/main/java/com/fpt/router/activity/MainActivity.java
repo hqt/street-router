@@ -91,6 +91,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        edit_1 = (TextView) findViewById(R.id.edit_1);
+        edit_2 = (TextView) findViewById(R.id.edit_2);
+        //edit text 1
+        edit_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("number", 1);
+                startActivityForResult(intent, 1);// Activity is started with requestCode 1
+            }
+        });
+        edit_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("number", 2);
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
+            }
+        });
 
         //optional
         optional = (TextView) findViewById(R.id.optional);

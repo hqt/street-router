@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
         autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         Intent intent = new Intent();
         int number = getIntent().getIntExtra("number", 1);
-        if(number== 2){
+        if(number == 2){
             autoComp.setHint("Chọn điểm đến");
         }
         adapter.setNotifyOnChange(true);
@@ -139,13 +139,6 @@ public class SearchActivity extends AppCompatActivity {
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
 				String url = NetworkUtils.linkGooglePlace(args[0]);
-
-
-
-
-
-
-
                 String json = NetworkUtils.download(url);
                 //turn that string into a JSON object
                 JSONObject predictions = new JSONObject(json);
