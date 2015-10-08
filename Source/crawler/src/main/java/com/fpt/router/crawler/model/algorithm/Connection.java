@@ -18,6 +18,8 @@ public class Connection implements IAlgorithmModel {
 
     public LocalTime arrivalTime;
 
+    public LocalTime departureTime;
+
     public Connection(){
 
     }

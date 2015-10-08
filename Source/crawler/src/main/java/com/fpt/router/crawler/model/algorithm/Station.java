@@ -20,11 +20,11 @@ public class Station implements IAlgorithmModel {
 
     public Location location;
 
-    public List<PathInfo> from;
+    // public List<PathInfo> from;
 
-    public List<PathInfo> to;
+    // public List<PathInfo> to;
 
-    // list all routes go through this station
+    // list all routes go through this station (this field will be built in CityMap)
     public List<Route> routes;
 
     // list all foot-path stationMap go through this station

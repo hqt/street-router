@@ -80,4 +80,17 @@ public class DistanceUtils {
         return distance;
     }
 
+    public static double distance(com.fpt.router.crawler.model.algorithm.Route route) {
+        List<com.fpt.router.crawler.model.algorithm.PathInfo> pathInfos = route.pathInfos;
+
+        double distance = 0.0f;
+        for (com.fpt.router.crawler.model.algorithm.PathInfo pathInfo : pathInfos) {
+            if (pathInfo.to == null) continue;
+            Location from = new Location(pathInfo.from.location.latitude, pathInfo.from.location.longitude);
+            Location to = new Location(pathInfo.to.location.latitude, pathInfo.to.location.longitude);
+            distance += distanceTwoLocation(from, to, pathInfo.middleLocations);
+        }
+        return distance;
+    }
+
 }
