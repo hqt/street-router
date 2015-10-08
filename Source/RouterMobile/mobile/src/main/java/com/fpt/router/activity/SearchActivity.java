@@ -49,6 +49,10 @@ public class SearchActivity extends AppCompatActivity {
         int number = getIntent().getIntExtra("number", 1);
         if(number == 2){
             autoComp.setHint("Chọn điểm đến");
+        } else if(number == 3) {
+            autoComp.setHint("Điểm trung gian 1");
+        } else  if (number == 4) {
+            autoComp.setHint("Điểm trung gian 2");
         }
         adapter.setNotifyOnChange(true);
         /*autoComp.setAdapter(adapter);*/
@@ -76,7 +80,6 @@ public class SearchActivity extends AppCompatActivity {
                     GetPlaces task = new GetPlaces();
                     //now pass the argument in the textview to the task
                     task.execute(autoComp.getText().toString());
-                    Log.e("Nam", "Thanh cong");
                 }
             }
 

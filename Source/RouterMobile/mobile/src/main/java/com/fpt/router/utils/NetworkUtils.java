@@ -21,6 +21,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -146,19 +147,35 @@ public class NetworkUtils {
                 + ":(group)" + groupname);
     }
 
-    public static String linkGoogleDrirection(String startLocation, String endLocation){
+    public static String linkGoogleDrirection(List<String> listLocation, Boolean optimize){
         String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
-        String start = null;
-        String end = null;
+        String startLocation = null;
+        String endLocation = null;
+        String waypoint_1 = null;
+        String waypoint_2 = null;
         try {
-            start = URLEncoder.encode(startLocation, "UTF-8");
-            end = URLEncoder.encode(endLocation, "UTF-8");
+            startLocation = URLEncoder.encode(listLocation.get(0), "UTF-8");
+            endLocation = URLEncoder.encode(listLocation.get(1), "UTF-8");
+            if(listLocation.size() > 2) {
+                waypoint_1 = URLEncoder.encode(listLocation.get(2), "UTF-8");
+            }
+            if(listLocation.size() > 3){
+                waypoint_2 = URLEncoder.encode(listLocation.get(3), "UTF-8");
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        String waypoints = "&waypoints=";
+        if(waypoint_1 != null || waypoint_2 != null){
+            if(optimize) {
+                waypoints = waypoints + "optimize:true" + "|" + waypoint_1 + "|" + waypoint_2;
+            } else  {
+                waypoints = waypoints + waypoint_1 + "|" + waypoint_2;
+            }
+        }
         String url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                     "origin=" + start +
-                     "&destination=" + end +
+                     "origin=" + startLocation +
+                     "&destination=" + endLocation + waypoints +
                      "&alternatives=true" +
                      "&mode=driving" +
                      "&key=" + key;
