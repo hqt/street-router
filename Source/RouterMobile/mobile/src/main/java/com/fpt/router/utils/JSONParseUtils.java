@@ -21,7 +21,7 @@ public class JSONParseUtils {
 
     }
 
-    public static ArrayList<Leg> getListLeg(String json){
+    public static ArrayList<Leg> getListLegWithTwoPoint(String json){
         Leg leg;
         ArrayList<Leg> listLeg = new ArrayList<>();
         String EndAddress;
@@ -33,9 +33,7 @@ public class JSONParseUtils {
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
-
         JSONObject jo;
-
         JSONObject jsonO;
         JSONArray jsonA;
         try {
@@ -69,7 +67,63 @@ public class JSONParseUtils {
                     }
                     stepDetailL = getDetailLocation(jo);
                     listStep.add(new Step(Instruction, Maneuver, stepDetailL));
+                }
+                leg = new Leg(EndAddress, StartAddress, legDetailL, listStep, Overview_polyline);
+                listLeg.add(leg);
+            }
 
+            return listLeg;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<Leg> getListLegWithFourPoint(String json){
+        Leg leg;
+        ArrayList<Leg> listLeg = new ArrayList<>();
+        String EndAddress;
+        String StartAddress;
+        DetailLocation legDetailL;
+        String Overview_polyline;
+
+        ArrayList<Step> listStep = new ArrayList<>();
+        String Instruction;
+        String Maneuver;
+        DetailLocation stepDetailL;
+        JSONObject jo;
+        JSONObject jsonO;
+        JSONArray jsonA;
+        try {
+            jsonO = new JSONObject(json);
+            jsonA = jsonO.getJSONArray("routes");
+            jsonO = jsonA.getJSONObject(0);
+
+            //get overview polyline
+            jo = jsonO.getJSONObject("overview_polyline");
+            Overview_polyline = jo.getString("points");
+
+            jsonA = jsonO.getJSONArray("legs");
+            for(int n = 0; n < jsonA.length(); n++) {
+                JSONObject jsonOLeg;
+                JSONArray jsonALeg;
+                jsonOLeg = jsonA.getJSONObject(n);
+                EndAddress = jsonOLeg.getString("end_address");
+                StartAddress = jsonOLeg.getString("start_address");
+                legDetailL = getDetailLocation(jsonOLeg);
+
+                //get all Step
+                jsonALeg = jsonOLeg.getJSONArray("steps");
+                for(int i = 0 ;  i < jsonALeg.length() ; i++){
+                    jo = jsonALeg.getJSONObject(i);
+                    Instruction = jo.getString("html_instructions");
+                    if(jo.has("maneuver")) {
+                        Maneuver = jo.getString("maneuver");
+                    } else {
+                        Maneuver = "Keep going";
+                    }
+                    stepDetailL = getDetailLocation(jo);
+                    listStep.add(new Step(Instruction, Maneuver, stepDetailL));
                 }
                 leg = new Leg(EndAddress, StartAddress, legDetailL, listStep, Overview_polyline);
                 listLeg.add(leg);

@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView edit_1;
     private TextView edit_2;
     private DesignDemoPagerAdapter adapter;
-    public static List<String> test = new ArrayList<>();
+    public static List<String> listLocation = new ArrayList<>();
+    public static Boolean optimize;
 
 
     @Override
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,Optional.class);
-                startActivity(intent);
+                startActivityForResult(intent, 3);
             }
         });
 
@@ -143,20 +144,32 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
         // set Fragmentclass Arguments
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (requestCode == 1) {
             String message = data.getStringExtra("MESSAGE");
             edit_1.setText(message);
-            test.add(0, message);
+            if(listLocation.size() > 0) {
+                listLocation.set(0, message);
+            } else {
+                listLocation.add(message);
+            }
         }
         if (requestCode == 2) {
             String message = data.getStringExtra("MESSAGE");
             edit_2.setText(message);
-            test.add(1, message);
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+            if(listLocation.size() > 1) {
+                listLocation.set(1, message);
+            } else {
+                listLocation.add(message);
+            }
             adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(), MainActivity.this);
             viewPager.setAdapter(adapter);
         }
-
+        if (requestCode == 3) {
+            optimize = data.getBooleanExtra("optimize", true);
+            adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+            viewPager.setAdapter(adapter);
+        }
 
     }
 

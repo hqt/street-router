@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.NetworkRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -50,7 +51,8 @@ public class MotorbikeFragment extends Fragment {
     private GoogleMap mMap;
     MapView mapView;
     private Double latitude, longitude;
-    private List<String> test = MainActivity.test;
+    private List<String> listLocation = MainActivity.listLocation;
+    private Boolean optimize = MainActivity.optimize;
     /** Main Activity for reference */
     private MainActivity activity;
 
@@ -99,7 +101,7 @@ public class MotorbikeFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(test.size()>1) {
+        if(listLocation.size()>1) {
             JSONParseTask jsonParseTask = new JSONParseTask();
             jsonParseTask.execute();
         } else {
@@ -131,7 +133,7 @@ public class MotorbikeFragment extends Fragment {
         @Override
         protected String doInBackground(String... args) {
             String json;
-            String url = NetworkUtils.linkGoogleDrirection(test.get(0), test.get(1));
+            String url = NetworkUtils.linkGoogleDrirection(listLocation, optimize);
             json = NetworkUtils.download(url);
             return json;
         }
@@ -140,36 +142,60 @@ public class MotorbikeFragment extends Fragment {
             if(pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            ArrayList<Leg> listLeg = JSONParseUtils.getListLeg(json);
             Leg leg;
             List<LatLng> list;
             String encodedString;
-            for(int n = 1; n < listLeg.size(); n++){
-                leg = listLeg.get(n);
+            if(listLocation.size() == 2) {
+                ArrayList<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                for (int n = 1; n < listLeg.size(); n++) {
+                    leg = listLeg.get(n);
+                    encodedString = leg.getOverview_polyline();
+                    list = DecodeUtils.decodePoly(encodedString);
+                    MapUtils.drawLine(mMap, list, Color.GRAY);
+                }
+                leg = listLeg.get(0);
+                DetailLocation detalL = leg.getDetailLocation();
+                Location start_location = detalL.getStart_location();
+                Location end_location = detalL.getEnd_location();
+                // latitude and longitude
+
+                latitude = end_location.getLatitude();
+                longitude = end_location.getLongitude();
+                MapUtils.drawPoint(mMap, latitude, longitude, leg.getEndAddress());
+
+                latitude = start_location.getLatitude();
+                longitude = start_location.getLongitude();
+                MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
+
+                //add polyline
                 encodedString = leg.getOverview_polyline();
                 list = DecodeUtils.decodePoly(encodedString);
-                MapUtils.drawLine(mMap, list, Color.GRAY);
+                MapUtils.drawLine(mMap, list, Color.BLUE);
+                MapUtils.moveCamera(mMap, latitude, longitude, 12);
+            } else {
+                ArrayList<Leg> listLeg = JSONParseUtils.getListLegWithFourPoint(json);
+                for(int n = 0; n < listLeg.size(); n++){
+                    leg = listLeg.get(n);
+                    DetailLocation detalL = leg.getDetailLocation();
+                    Location start_location = detalL.getStart_location();
+                    Location end_location = detalL.getEnd_location();
+                    // latitude and longitude
+
+                    latitude = end_location.getLatitude();
+                    longitude = end_location.getLongitude();
+                    MapUtils.drawPoint(mMap, latitude, longitude, leg.getEndAddress());
+
+                    latitude = start_location.getLatitude();
+                    longitude = start_location.getLongitude();
+                    MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
+
+                    //add polyline
+                    encodedString = leg.getOverview_polyline();
+                    list = DecodeUtils.decodePoly(encodedString);
+                    MapUtils.drawLine(mMap, list, Color.BLUE);
+                    MapUtils.moveCamera(mMap, latitude, longitude, 12);
+                }
             }
-            leg = listLeg.get(0);
-            DetailLocation detalL = leg.getDetailLocation();
-            Location start_location = detalL.getStart_location();
-            Location end_location = detalL.getEnd_location();
-            // latitude and longitude
-
-            latitude = end_location.getLatitude();
-            longitude = end_location.getLongitude();
-            MapUtils.drawPoint(mMap, latitude, longitude, leg.getEndAddress());
-
-            latitude = start_location.getLatitude();
-            longitude = start_location.getLongitude();
-            MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
-
-            //add polyline
-            encodedString= leg.getOverview_polyline();
-            list = DecodeUtils.decodePoly(encodedString);
-            MapUtils.drawLine(mMap, list, Color.BLUE);
-            MapUtils.moveCamera(mMap, latitude, longitude, 12);
-
         }
     }
 
