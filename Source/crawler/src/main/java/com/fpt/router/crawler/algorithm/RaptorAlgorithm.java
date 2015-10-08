@@ -202,7 +202,7 @@ public class RaptorAlgorithm {
     }
 
     /**
-     * build a node result from begin to end station. use just for clearer when view.
+     * buildIndex a node result from begin to end station. use just for clearer when view.
      * user don't do anything in those bus.
      * last path will always type critical. means user should take care
      */

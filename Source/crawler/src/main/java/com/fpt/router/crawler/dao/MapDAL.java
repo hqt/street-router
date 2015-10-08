@@ -6,7 +6,6 @@ import com.fpt.router.crawler.model.helper.Location;
 import com.fpt.router.crawler.utils.DTOConverter;
 import com.fpt.router.crawler.utils.DistanceUtils;
 import com.fpt.router.crawler.utils.TimeUtils;
-import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
 import java.sql.PreparedStatement;
@@ -97,7 +96,11 @@ public class MapDAL {
             }
             List<com.fpt.router.crawler.model.entity.PathInfo> entityPathInfos = entityRoute.getPathInfos();
             route.pathInfos = DTOConverter.convertPathInfos(cityMap, entityPathInfos);
+            // build index for this route
+            route.build();
         }
+
+        cityMap.buildRouteThroughStation();
 
         // all trips
         for (int i = 0; i < entityRoutes.size(); i++) {
@@ -107,7 +110,7 @@ public class MapDAL {
             route.trips = DTOConverter.convertTrips(cityMap, entityTrips);
         }
 
-        // build again connections for saving time than loading from database
+        // buildIndex again connections for saving time than loading from database
         buildConnections(cityMap);
 
         return cityMap;
@@ -137,9 +140,6 @@ public class MapDAL {
                 if (r.routeNo == 613) continue;
                 if (r.routeNo == 75) continue;
 
-                if (trip == null || trip.startTime == null || trip.endTime == null) {
-                    int a = 3;
-                }
                 Period totalTravelTime = Period.fieldDifference(trip.startTime, trip.endTime);
                 long totalMillis = TimeUtils.convertToMilliseconds(totalTravelTime);
 
@@ -162,8 +162,7 @@ public class MapDAL {
                     if (i == (pathInfoDistances.size()-1)) {
                         connection.departureTime = trip.endTime;
                     } else {
-                        LocalTime departureTime = connection.arrivalTime.plus(pathInfoTravelPeriod);
-                        connection.departureTime = departureTime;
+                        connection.departureTime = connection.arrivalTime.plus(pathInfoTravelPeriod);
                     }
 
                     connections.add(connection);

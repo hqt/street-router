@@ -4,6 +4,7 @@ import com.fpt.router.crawler.model.helper.RouteType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,7 @@ public class Route implements IAlgorithmModel {
 
     public List<PathInfo> pathInfos;
 
-    // map from station to order
+    // map from station to order. order get from 0
     public Map<Integer, Integer> stationOrder;
 
 
@@ -61,10 +62,13 @@ public class Route implements IAlgorithmModel {
 
     }
 
-
     @Override
     public void build() {
-
+        stationOrder = new HashMap<Integer, Integer>();
+        for (int i = 0; i < pathInfos.size(); i++) {
+            Station station = pathInfos.get(i).from;
+            stationOrder.put(station.id, i);
+        }
     }
 
 }

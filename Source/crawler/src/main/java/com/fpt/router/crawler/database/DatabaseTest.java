@@ -34,63 +34,8 @@ public class DatabaseTest {
 
         // read
         com.fpt.router.crawler.model.algorithm.CityMap map = MapDAL.readDatabase();
-        int a  = 3;
 
-        /*DemoDB db = new DemoDB();
-        CityMap map = db.cityMap;
-        Validation validation = new Validation(map);
-        validation.run();
-        MapDAL.insertDatabase(map);
-        JPADaoImpl.closeFactory();*/
-
-        /*LocalTime time = new LocalTime(10, 30);
-        LocalTime add = new LocalTime(2, 30);
-        Duration d = new Duration(1, 0);
-        Period p = new Period(1, 0);
-
-        time = time.plus(p);
-
-        //time = time.plusMinutes(31);
-        System.out.println(time.toString());*/
-
-        // MapDAL.readDatabase();
-        // JPADaoImpl.closeFactory();
-
-
-       /* List<Station> stationMap = (new StationDAO()).findAll();
-        System.out.println(stationMap.size());*/
-
-       /* Temp temp = new Temp();
-        temp.setTempNo(10);
-        LocalTime dt = new LocalTime(13,30,45);
-        temp.setDate(dt);
-        (new TempDAO()).create(temp);
-        JPADaoImpl.closeFactory();*/
-
-
-        //map = MapDAL.readDatabase();
-        //System.out.println("hello world");
-
-       /* Route route = new Route(1, Route.RouteType.DEPART, "ha kim quy zzzzzzz");
-        //route.setRouteId(0);
-        route.setTrips(new ArrayList<Trip>());
-        route.setPathInfos(new ArrayList<PathInfo>());
-        System.out.println("new route id: " + route.getRouteId());
-        new RouteDAO().create(route);
-        System.out.println("new route id: " + route.getRouteId());
-
-        *//*Trip trip = new Trip(1, new Date(), new Date(), route);
-        //route.setRouteId(9999);
-        new JPADAOImpl<Trip, Integer>().create(trip);
-        // tripDAL.insertTrip(trip);
-        System.out.println("new trip id: " + trip.getTripId());
-        System.out.println("new route id: " + route.getRouteId());*//*
-
-        List<Route> routes = (new RouteDAO()).findAll();
-        System.out.println(routes.size());
-        JPADaoImpl.closeFactory();*/
-      //  MapDAL.deleteDatabase();
-
+        int a = 3;
 
 
     }
