@@ -1,5 +1,6 @@
 package com.fpt.router.crawler.algorithm;
 
+import com.fpt.router.crawler.dao.MapDAL;
 import com.fpt.router.crawler.database.DemoDB;
 import com.fpt.router.crawler.model.algorithm.CityMap;
 import com.fpt.router.crawler.model.helper.Location;
@@ -12,7 +13,8 @@ import org.joda.time.LocalTime;
 */
 public class AlgorithmTest {
     public static void main(String[] args) {
-        /*CityMap map = new DemoDB().cityMap;
+
+        CityMap map = MapDAL.readDatabase();
 
         // start
         Location start = new Location();
@@ -28,6 +30,5 @@ public class AlgorithmTest {
         String res = twoPointAlgorithm.run(map, start, end, "Ben Thanh market", "Software Park", new LocalTime(5, 0),
                                             300, 2, false);
         System.out.println(res);
-*/
     }
 }

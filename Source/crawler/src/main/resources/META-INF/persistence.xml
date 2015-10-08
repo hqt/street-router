@@ -13,6 +13,7 @@
             <property name="jadira.usertype.autoRegisterUserTypes" value="true"/>
             <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.format_sql" value="false" />
+            <property name="hibernate.show_sql" value="false"/>
             <property name="hbm2ddl.auto" value="update" />
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:8889/routerdb"/>
@@ -20,7 +21,6 @@
             <property name="hibernate.connection.password" value="root"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
             <property name="hibernate.current_session_context_class" value="thread"/>
-            <property name="hibernate.show_sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>

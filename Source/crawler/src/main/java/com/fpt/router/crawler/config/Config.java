@@ -1,5 +1,10 @@
 package com.fpt.router.crawler.config;
 
+import org.joda.time.LocalTime;
+
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Purpose:
  * Created by Huynh Quang Thao on 9/5/15.
@@ -15,6 +20,8 @@ public class Config {
     public static final String AJAX_FORMAT = "ajax_format";
 
     public static final boolean SHOULD_LOAD_DB = true;
+
+    public static LocalTime MAXIMUM_TIME = new LocalTime(22, 30);
 
     //  Database credentials
     public static final String USER = "root";
@@ -35,6 +42,16 @@ public class Config {
         int BUSORDER_COUNT = 10700;
         // int WALKING_EDGE = 31589;
         int WALKING_EDGE = 12767;
+    }
+
+    public static Set<Integer> blockRoute = new HashSet<Integer>();
+
+    static {
+        blockRoute.add(26);
+        blockRoute.add(613);
+        blockRoute.add(75);
+        blockRoute.add(80);
+        blockRoute.add(82);
     }
 
 }
