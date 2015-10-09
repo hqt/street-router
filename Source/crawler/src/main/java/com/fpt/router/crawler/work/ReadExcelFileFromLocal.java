@@ -60,7 +60,11 @@ public class ReadExcelFileFromLocal {
             // find distance of pathInfo
             List<Double> pathInfoDistances = new ArrayList<Double>();
             for (PathInfo pathInfo : r.getPathInfos()) {
-                if (pathInfo.getTo() == null) continue;
+                // this connection is zero-length
+                if (pathInfo.getTo() == null) {
+                    pathInfoDistances.add(0.0);
+                    continue;
+                }
                 Location startLocation = new Location(pathInfo.getFrom().getLatitude(), pathInfo.getFrom().getLongitude());
                 Location endLocation = new Location(pathInfo.getTo().getLatitude(), pathInfo.getTo().getLongitude());
                 double pathInfoDistance = DistanceUtils.distanceTwoLocation(startLocation, endLocation,
