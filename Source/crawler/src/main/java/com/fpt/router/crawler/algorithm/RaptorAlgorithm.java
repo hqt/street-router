@@ -1,6 +1,7 @@
 package com.fpt.router.crawler.algorithm;
 
 
+import com.fpt.router.crawler.config.Config;
 import com.fpt.router.crawler.model.algorithm.*;
 import com.fpt.router.crawler.model.helper.Location;
 import com.fpt.router.crawler.model.helper.PathType;
@@ -79,12 +80,14 @@ public class RaptorAlgorithm {
 
         // initialize earliest arrival time
         earliest_arrival_time = new LocalTime[map.stations.size()];
-        Arrays.fill(earliest_arrival_time, null);
+        Arrays.fill(earliest_arrival_time, Config.MAXIMUM_TIME);
         earliest_arrival_time[start.id] = departure_time;
 
         // initialize for result
         result = new LocalTime[K+1][map.stations.size()];
-        Arrays.fill(result[0], null);
+        for (int i = 0; i < K+1; i++) {
+            Arrays.fill(result[i], Config.MAXIMUM_TIME);
+        }
         result[0][start.id] = departure_time;
     }
 
@@ -96,12 +99,16 @@ public class RaptorAlgorithm {
             for (Integer p : markedStationIds) {
                 // all routes that go through this stop
                 for (Route route : map.getStationById(p).routes) {
+                    if (Config.blockRoute.contains(route.routeNo)) continue;
                     if (Q.containsKey(route.routeId)) {
+                        // station already in queue respectively with route r
                         int _p = Q.get(route.routeId);
                         // p come before _p in sequence of route then update
                         if (route.compareOrder(p, _p) == -1) {
                             Q.put(route.routeId, p);
                         }
+                    } else {
+                        Q.put(route.routeId, p);
                     }
                 }
             }
@@ -118,15 +125,23 @@ public class RaptorAlgorithm {
                 int startOrder = route.getOrderByStation(startStation);
 
                 // because this sequence number is always increased. we can find this way for more optimal
+                // Trips has been sorted by time. trip's arrival time can only decrease at each station after on same route
+                // so. we keep an index of current process trip for saving time. so total complexity is O(T)
                 int currentTripIndex = 0;
 
                 // optimize from this station to end on same route
+                // **Note 1** first station: t always null. so not trace back (true). because it has been traced at previous k
                 for (int order = startOrder; order < route.getTotalStations() ; order++) {
                     Station p_i = route.getStationByOrder(order);
 
                     if (t!= null) {
+                        // get arrival time of trip at station p (this trip has been taken at previous station)
                         LocalTime arrivalTime = t.getArrivalTime(p_i);
-                        // condition for update. we can go thi station earlier due to update trip
+
+                        // condition for update: we can go this station earlier due to update trip
+                        // condition: arrivalTime(p) < min(earliestArrivalTime(p), earliestArrivalTime(end))
+
+                        // get minimum
                         LocalTime minimum;
                         if (earliest_arrival_time[p_i.id].compareTo(earliest_arrival_time[end.id]) <= 0) {
                             minimum = earliest_arrival_time[p_i.id];
@@ -134,6 +149,7 @@ public class RaptorAlgorithm {
                             minimum = earliest_arrival_time[end.id];
                         }
 
+                        // condition
                         if (arrivalTime.compareTo(minimum) < 0) {
                             result[k][p_i.id] = arrivalTime;
                             earliest_arrival_time[p_i.id] = arrivalTime;
@@ -146,12 +162,21 @@ public class RaptorAlgorithm {
                     }
 
                     // find the earliest trip can catch at p_i.
-                    // because trips has been sorted by time. trip's arrival time can only decrease at each station after on same route
-                    // so. we keep an index of current process trip for saving time. so total complexity is O(T)
+                    // if can find new trip at this station. we can hop next stations at same route
+                    // maybe different trip. but still on same route. so we can marked parent of new station is start station :)
                     for (int tripIndex = currentTripIndex; tripIndex < route.trips.size(); tripIndex++) {
                         Trip trip = route.trips.get(tripIndex);
-                        // condition of trip that can go at p_i
-                        if (result[k-1][p_i.id].compareTo(trip.getDepartureTime(p_i)) < 0) {
+                        // condition time this trip go from p later than best arrival time(p) + waiting time. (waiting time of current system = 0)
+                        if (trip.getDepartureTime(p_i) != null) {
+                            count++;
+                        }
+
+                        if (result[k-1] == null || result[k-1][p_i.id] == null || trip.getDepartureTime(p_i) == null) {
+                            System.out.println("fucking wrong here");
+                            int  a = 3;
+                        }
+
+                         if (result[k-1][p_i.id].compareTo(trip.getDepartureTime(p_i)) < 0) {
                             t = trip;
                             currentTripIndex = tripIndex;
                             break;
@@ -168,6 +193,8 @@ public class RaptorAlgorithm {
             }
         }
     }
+
+    int count = 0;
 
     private Result buildResult() {
 
@@ -226,16 +253,3 @@ public class RaptorAlgorithm {
         return res;
     }
 }
-
-/*
-public class Node {
-    public String name;
-    public String street;
-    public Location location;
-    public String type;
-    public double distance;
-    public double time;
-    public int routeNo;
-    public List<Location> points;
-}
-*/

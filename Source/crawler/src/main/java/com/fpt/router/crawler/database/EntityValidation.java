@@ -5,6 +5,7 @@ package com.fpt.router.crawler.database;
  * Created by Huynh Quang Thao on 10/4/15.
  */
 
+import com.fpt.router.crawler.model.algorithm.Route;
 import com.fpt.router.crawler.model.entity.CityMap;
 import com.fpt.router.crawler.model.entity.PathInfo;
 import com.fpt.router.crawler.model.entity.Station;
@@ -18,11 +19,11 @@ import java.util.Set;
  * Purpose: validate model before running algorithm
  * Created by Huynh Quang Thao on 9/27/15.
  */
-public class Validation {
+public class EntityValidation {
 
     private CityMap map;
 
-    public Validation(CityMap map) {
+    public EntityValidation(CityMap map) {
         this.map = map;
     }
 
@@ -67,4 +68,6 @@ public class Validation {
         }
         System.out.println("finish checking routeId and toStationId on same PathInfo");
     }
+
+
 }

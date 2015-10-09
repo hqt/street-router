@@ -126,7 +126,11 @@ public class MapDAL {
             // find distance of pathInfo
             List<Double> pathInfoDistances = new ArrayList<Double>();
             for (PathInfo pathInfo : r.pathInfos) {
-                if (pathInfo.to == null) continue;
+                // connection with zero-length
+                if (pathInfo.to == null) {
+                    pathInfoDistances.add(0.0);
+                    continue;
+                }
                 Location startLocation = new Location(pathInfo.from.location.latitude, pathInfo.from.location.longitude);
                 Location endLocation = new Location(pathInfo.to.location.latitude, pathInfo.to.location.longitude);
                 double pathInfoDistance = DistanceUtils.distanceTwoLocation(startLocation, endLocation, pathInfo.middleLocations);

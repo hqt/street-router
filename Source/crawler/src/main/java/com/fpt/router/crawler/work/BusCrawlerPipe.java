@@ -65,7 +65,7 @@ public class BusCrawlerPipe {
             int limit = 0;
             for (Element route : listRoutes.select("option")) {
 
-                // if (limit > 10) break;
+                if (limit > 45) break;
                 limit++;
                 int serverBusId = Integer.parseInt(route.attr("value"));
                 // if ((serverBusId != 16) && (serverBusId != 51)) continue;

@@ -41,8 +41,13 @@ public class Trip implements IAlgorithmModel {
 
     // our business. departure time and arrival time is same at one station
     public LocalTime getDepartureTime(Station station) {
-        for (Connection connection : connections) {
+        /*for (Connection connection : connections) {
             if (connection.pathInfo.from.id == station.id) {
+                return connection.arrivalTime;
+            }
+        }*/
+        for (Connection connection : connections) {
+            if (connection.pathInfo.from.code.equals(station.code)) {
                 return connection.arrivalTime;
             }
         }
