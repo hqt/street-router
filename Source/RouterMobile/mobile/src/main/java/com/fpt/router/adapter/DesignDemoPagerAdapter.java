@@ -14,8 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.fragment.BusFragment1;
 import com.fpt.router.fragment.DesignDemoFragment;
 import com.fpt.router.fragment.MotorbikeFragment;
+import com.fpt.router.fragment.MotorbikeFragment1;
 
 import java.util.ArrayList;
 
@@ -34,11 +36,14 @@ public class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 1){
-            MotorbikeFragment motorbikeFragment = new MotorbikeFragment();
+           /* MotorbikeFragment motorbikeFragment = new MotorbikeFragment();*/
+            MotorbikeFragment1 motorbikeFragment = new MotorbikeFragment1();
             return motorbikeFragment;
         } else {
-            DesignDemoFragment demoFragment = new DesignDemoFragment();
-            Fragment fragment = demoFragment.newInstance(position);
+            /*DesignDemoFragment demoFragment = new DesignDemoFragment();
+            Fragment fragment = demoFragment.newInstance(position);*/
+            BusFragment1 busFragment1 = new BusFragment1();
+            Fragment fragment = busFragment1.newInstance(position);
             return fragment;
         }
     }
@@ -47,8 +52,6 @@ public class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return tabTitles.length;
     }
-
-
 
     public View getTabView(int position){
         View view = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);

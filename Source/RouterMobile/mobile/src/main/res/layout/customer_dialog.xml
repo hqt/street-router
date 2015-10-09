@@ -117,7 +117,18 @@
                 android:text="Tuyến ngắn nhất"
                 android:textColor="#00B0FF" />
 
-            <LinearLayout
+<RadioButton
+                android:layout_width="270dip"
+                android:layout_height="60dip"
+                android:text="Số m đi bộ tối đa giữa hai trạm"
+                android:textColor="#00B0FF" />
+            <RadioButton
+                android:layout_width="270dip"
+                android:layout_height="60dip"
+                android:text="Số m đi bộ tối đa giữa hai trạm"
+                android:textColor="#00B0FF" />
+
+           <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dip"
                 android:orientation="horizontal">
@@ -157,7 +168,7 @@
                     android:textSize="18dp"
                     android:text="m" />
 
-            </LinearLayout>
+            </LinearLayout>-->
 
         </RadioGroup>
 

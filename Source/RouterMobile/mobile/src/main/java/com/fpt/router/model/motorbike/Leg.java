@@ -1,11 +1,13 @@
 package com.fpt.router.model.motorbike;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by USER on 9/29/2015.
  */
-public class Leg {
+public class Leg  implements Serializable{
+
     private String EndAddress;
     private String StartAddress;
     private DetailLocation DetailLocation;
@@ -19,6 +21,8 @@ public class Leg {
         Step = step;
         Overview_polyline = overview_polyline;
     }
+
+
 
     public String getEndAddress() {
         return EndAddress;

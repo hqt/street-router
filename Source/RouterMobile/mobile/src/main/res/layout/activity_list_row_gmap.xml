@@ -1,34 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dip">
+    android:background="@drawable/border_layout"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:padding="5dip"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
     <ImageView
         android:id="@+id/mImage"
         android:layout_width="50dip"
         android:layout_height="50dip"
-        android:background="@android:color/background_dark"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:padding="10dip"
+        android:layout_gravity="center_vertical"
+         />
+
     <LinearLayout
-        android:layout_width="250dip"
-        android:layout_height="50dip"
-        android:orientation="vertical"
-        android:background="@android:color/holo_blue_dark"
         android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/mImage"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:background="@android:color/transparent"
+        android:orientation="vertical"
+        >
+
         <TextView
+            android:id="@+id/mTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mTitle"/>
+            android:textColor="#000000"
+            android:padding="7dip"
+            android:textStyle="bold"
+            android:textSize="16dip" />
+
         <TextView
+            android:id="@+id/mSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mSubTitle"/>
+            android:layout_marginLeft="15dip"
+            android:layout_marginTop="10dip"
+            android:padding="5dip"
+            android:textColor="#616161"
+            android:textStyle="italic"
+            android:textSize="14dip" />
 
     </LinearLayout>
+</LinearLayout>
 
-
-</RelativeLayout>

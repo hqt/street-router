@@ -70,7 +70,9 @@ public class Optional extends Activity {
         no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                Intent intent = new Intent(Optional.this, MainActivity.class);
+                setResult(4, intent);
+               finish();
             }
         });
 

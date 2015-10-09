@@ -1,9 +1,11 @@
 package com.fpt.router.model.motorbike;
 
+import java.io.Serializable;
+
 /**
  * Created by USER on 9/29/2015.
  */
-public class Step {
+public class Step implements Serializable {
     private String Instruction;
     private String Maneuver;
     private DetailLocation DetailLocation;
