@@ -209,14 +209,15 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 if(locationSize == 2){
-
-                    for(int i=0;i<legs.size();i++){
-                        if(i != position){
-                            leg = legs.get(i);
+                    for(int n = 0; n < legs.size(); n++){
+                        if(n != position){
+                            leg = legs.get(n);
                             encodedString = leg.getOverview_polyline();
                             list = DecodeUtils.decodePoly(encodedString);
                             MapUtils.drawLine(mMap, list, Color.GRAY);
-                        }else{
+                        }
+                    }
+                            leg = legs.get(position);
                             DetailLocation detalL = leg.getDetailLocation();
                             com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
                             com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
@@ -237,8 +238,8 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
                             list = DecodeUtils.decodePoly(encodedString);
                             MapUtils.drawLine(mMap, list, Color.BLUE);
                             MapUtils.moveCamera(mMap, latitude, longitude, 12);
-                        }
-                    }
+
+
                 }else {
                     for(int n = 0; n < legs.size(); n++){
                         leg = legs.get(n);
