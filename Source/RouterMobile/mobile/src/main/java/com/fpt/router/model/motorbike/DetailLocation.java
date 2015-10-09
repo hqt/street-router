@@ -1,9 +1,11 @@
 package com.fpt.router.model.motorbike;
 
+import java.io.Serializable;
+
 /**
  * Created by USER on 9/29/2015.
  */
-public class DetailLocation {
+public class DetailLocation implements Serializable {
     private int distance;
     private int duration;
     private Location end_location;

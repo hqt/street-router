@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fpt.router" >
+    package="com.fpt.router">
 
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,7 +18,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme1" >
+        android:theme="@style/AppTheme1">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -28,14 +28,15 @@
 
         <activity
             android:name=".activity.MainFirst"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity"
+        <activity
+            android:name=".activity.MainActivity"
             android:label="Main Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -43,14 +44,14 @@
         </activity>
         <activity
             android:name=".activity.SearchActivity"
-            android:label="@string/title_activity_search" >
-<meta-data
+            android:label="@string/title_activity_search">
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-<activity
+        <activity
             android:name=".activity.DetailGMActivity"
-            android:label="Third Activity" >
+            android:label="Third Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
@@ -58,6 +59,13 @@
         <activity
             android:name=".activity.Optional"
             android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".activity.GoogleMapBus"
+            android:label="@string/title_activity_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

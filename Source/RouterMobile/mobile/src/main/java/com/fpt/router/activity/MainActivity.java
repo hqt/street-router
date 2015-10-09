@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.support.design.widget.TabLayout;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private DesignDemoPagerAdapter adapter;
     public static List<String> listLocation = new ArrayList<>();
     public static Boolean optimize;
+    private LinearLayout option;
 
 
     @Override
@@ -56,18 +58,25 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        _depart_time = (TextView) findViewById(R.id.departtime);
+        option = (LinearLayout) findViewById(R.id.option);
         //Tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(1);
+        option.setVisibility(View.VISIBLE);
+        _depart_time.setClickable(false);
+        _depart_time.setFocusableInTouchMode(false);
+        _depart_time.setEnabled(false);
         tabLayout.setupWithViewPager(viewPager);
         // custom bar
-
 
         // Tab view
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
+
             tab.setCustomView(adapter.getTabView(i));
         }
 
@@ -124,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
 
         //get time
 
-        _depart_time = (TextView) findViewById(R.id.departtime);
+
         _depart_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,9 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     // Call Back method  to get the Message form other Activity
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -164,11 +171,15 @@ public class MainActivity extends AppCompatActivity {
             }
             adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(), MainActivity.this);
             viewPager.setAdapter(adapter);
+            viewPager.setCurrentItem(1);
+            option.setVisibility(View.VISIBLE);
         }
         if (requestCode == 3) {
             optimize = data.getBooleanExtra("optimize", true);
             adapter = new DesignDemoPagerAdapter(getSupportFragmentManager(), MainActivity.this);
             viewPager.setAdapter(adapter);
+            viewPager.setCurrentItem(1);
+            option.setVisibility(View.VISIBLE);
         }
 
     }

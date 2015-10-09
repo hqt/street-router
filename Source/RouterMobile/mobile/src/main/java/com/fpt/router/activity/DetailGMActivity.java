@@ -116,14 +116,14 @@ public class DetailGMActivity extends AppCompatActivity {
             }
         });
 
-        ListRoute listRoute = new ListRoute();
+        /*ListRoute listRoute = new ListRoute();
         List<DetailRoute> routes = new ArrayList<DetailRoute>();
         routes = listRoute.getRoutes();
 
         ArrayAdapterItem adapterItem = new ArrayAdapterItem(this,R.layout.activity_list_row_gmap,routes);
         ListView listview = (ListView) findViewById(R.id.list_view);
         listview.setAdapter(adapterItem);
-        listview.setOnItemClickListener(new OnItemClickListenerListViewItem());
+        listview.setOnItemClickListener(new OnItemClickListenerListViewItem());*/
     }
 
 

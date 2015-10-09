@@ -1,9 +1,11 @@
 package com.fpt.router.model.motorbike;
 
+import java.io.Serializable;
+
 /**
  * Created by USER on 9/29/2015.
  */
-public class Location {
+public class Location implements Serializable {
     private double latitude;
     private double longitude;
 
