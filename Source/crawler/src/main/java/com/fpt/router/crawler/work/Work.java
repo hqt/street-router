@@ -1,8 +1,6 @@
 package com.fpt.router.crawler.work;
 
-import com.fpt.router.crawler.model.entity.CityMap;
-
-import java.util.Map;
+import com.fpt.router.artifacter.model.entity.CityMap;
 
 /**
  * Purpose:

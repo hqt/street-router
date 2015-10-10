@@ -1,10 +1,10 @@
 package com.fpt.router.crawler.work;
 
-import com.fpt.router.crawler.model.entity.CityMap;
-import com.fpt.router.crawler.model.entity.Route;
-import com.fpt.router.crawler.model.entity.Trip;
-import com.fpt.router.crawler.model.helper.RouteType;
-import com.fpt.router.crawler.utils.TimeUtils;
+import com.fpt.router.artifacter.model.entity.CityMap;
+import com.fpt.router.artifacter.model.entity.Route;
+import com.fpt.router.artifacter.model.entity.Trip;
+import com.fpt.router.artifacter.model.helper.RouteType;
+import com.fpt.router.artifacter.utils.TimeUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;

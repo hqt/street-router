@@ -99,6 +99,8 @@ public class SearchActivity extends AppCompatActivity {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
+                        case KeyEvent.FLAG_EDITOR_ACTION:
+                        case 12:
                             String message = autoComp.getText().toString();
                             Intent intent = new Intent();
                             intent.putExtra("MESSAGE", message);
@@ -117,11 +119,18 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                // NavUtils.navigateUpFromSameTask(this);
+                String message = autoComp.getText().toString();
+                Intent intent = new Intent();
+                intent.putExtra("MESSAGE", message);
+                int number = getIntent().getIntExtra("number", 1);
+                setResult(number, intent);
+                finish();//finishing activity
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

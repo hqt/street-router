@@ -1,10 +1,10 @@
 package com.fpt.router.crawler.work;
 
-import com.fpt.router.crawler.model.entity.CityMap;
-import com.fpt.router.crawler.model.entity.PathInfo;
-import com.fpt.router.crawler.model.entity.Route;
-import com.fpt.router.crawler.model.entity.Station;
-import com.fpt.router.crawler.model.helper.RouteType;
+import com.fpt.router.artifacter.model.entity.CityMap;
+import com.fpt.router.artifacter.model.entity.PathInfo;
+import com.fpt.router.artifacter.model.entity.Route;
+import com.fpt.router.artifacter.model.entity.Station;
+import com.fpt.router.artifacter.model.helper.RouteType;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
