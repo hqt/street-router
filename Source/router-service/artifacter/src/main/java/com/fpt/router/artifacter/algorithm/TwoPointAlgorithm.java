@@ -63,7 +63,7 @@ public class TwoPointAlgorithm {
                 startPath.type = PathType.WALKING;
                 startPath.transferTurn = 0;
                 startPath.distance = DistanceUtils.distance(start, fromStation.location);
-                // startPath.totalTime = TimeUtils.toMinute(startPath.totalDistance / Config.BUS_SPEED);
+                // startPath.totalTime = TimeUtils.toMinute(startPath.segmentDistance / Config.BUS_SPEED);
 
                 // create end path
                 Path endPath = new Path();
@@ -72,7 +72,7 @@ public class TwoPointAlgorithm {
                 endPath.type = PathType.WALKING;
                 endPath.transferTurn = 0;
                 endPath.distance = DistanceUtils.distance(end, toStation.location);
-                // endPath.totalTime = TimeUtils.toMinute(endPath.totalDistance / Config.BUS_SPEED);
+                // endPath.totalTime = TimeUtils.toMinute(endPath.segmentDistance / Config.BUS_SPEED);
 
                 RaptorAlgorithm algor = new RaptorAlgorithm();
                 Result result = algor.run(map, fromStation, toStation, startPath, endPath, K, isOptimizeK, departureTime);

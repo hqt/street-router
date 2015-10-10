@@ -123,7 +123,7 @@ public class MapDAL {
 
             double totalDistance = DistanceUtils.distance(r);
 
-            // find totalDistance of pathInfo
+            // find segmentDistance of pathInfo
             List<Double> pathInfoDistances = new ArrayList<Double>();
             for (PathInfo pathInfo : r.pathInfos) {
                 // connection with zero-length
@@ -135,6 +135,8 @@ public class MapDAL {
                 Location endLocation = new Location(pathInfo.to.location.latitude, pathInfo.to.location.longitude);
                 double pathInfoDistance = DistanceUtils.distanceTwoLocation(startLocation, endLocation, pathInfo.middleLocations);
                 pathInfoDistances.add(pathInfoDistance);
+                // assign distance to PathInfo for saving calculation later
+                pathInfo.distance = pathInfoDistance;
             }
 
             // create connections for each trip

@@ -7,16 +7,48 @@ import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.WearableListenerService;
 
 /**
  * Created by michaelHahn on 1/16/15.
  * Listener service or data events on the data layer
  */
-public class ListenerService extends WearableListenerService {
+public class DataLayerListenerService extends WearableListenerService {
+
+    private static final String TAG = "Listener";
 
     private static final String WEARABLE_DATA_PATH = "/wearable_data";
 
+    @Override
+    public void onCreate() {
+        Log.d(TAG, "onCreate");
+        super.onCreate();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy");
+        super.onDestroy();
+    }
+
+    @Override
+    public void onPeerConnected(Node peer) {
+        Log.e(TAG, "onPeerConnected");
+        super.onPeerConnected(peer);
+        Log.e(TAG, "Connected: name=" + peer.getDisplayName() + ", id=" + peer.getId());
+    }
+
+    @Override
+    public void onMessageReceived(MessageEvent m) {
+        Log.d(TAG, "onMessageReceived: " + m.getPath());
+        if(m.getPath().equals("start")) {
+            Intent startIntent = new Intent(this, MainActivity.class);
+            startIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startIntent);
+        }
+    }
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
 

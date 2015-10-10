@@ -22,6 +22,9 @@ public class PathInfo implements IAlgorithmModel {
 
     public List<Location> middleLocations;
 
+    // has been calculated when creating connections
+    public double distance;
+
     public Route route;
 
     public Station from;

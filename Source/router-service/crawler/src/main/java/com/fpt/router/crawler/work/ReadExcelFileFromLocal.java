@@ -57,7 +57,7 @@ public class ReadExcelFileFromLocal {
 
             double totalDistance = DistanceUtils.distance(r);
 
-            // find totalDistance of pathInfo
+            // find segmentDistance of pathInfo
             List<Double> pathInfoDistances = new ArrayList<Double>();
             for (PathInfo pathInfo : r.getPathInfos()) {
                 // this connection is zero-length

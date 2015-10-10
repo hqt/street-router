@@ -2,6 +2,7 @@ package com.fpt.router.artifacter.model.viewmodel;
 
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.helper.PathType;
+import org.joda.time.Period;
 
 import java.util.List;
 
@@ -18,6 +19,6 @@ public class Path implements INode {
     public PathType type;
     public int routeNo;
     public double distance;
-    public double time;     // in minute
+    public Period time;     // in minute
     public List<Location> points;
 }

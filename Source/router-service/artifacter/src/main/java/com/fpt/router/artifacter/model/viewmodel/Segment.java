@@ -1,6 +1,7 @@
 package com.fpt.router.artifacter.model.viewmodel;
 
 import com.fpt.router.artifacter.model.helper.PathType;
+import org.joda.time.Period;
 
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class Segment implements INode {
 
     public PathType pathType;
 
-    public double totalDistance;
+    public double segmentDistance;
 
-    public double periodTime;
+    public Period segmentTime;
 
     public List<Path> paths;
 }

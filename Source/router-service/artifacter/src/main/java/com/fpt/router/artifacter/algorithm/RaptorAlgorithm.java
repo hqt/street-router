@@ -10,6 +10,7 @@ import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.model.viewmodel.Segment;
 import com.google.common.collect.Lists;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
 import java.util.*;
 
@@ -201,10 +202,9 @@ public class RaptorAlgorithm {
 
         int transferTurn = K;
         double totalDistance = startPath.distance + endPath.distance;
-
+        Period totalTime = startPath.time.plus(endPath.time);
 
         int currentHopStationId = end.id;
-        //Station currentHopStation = map.getStationById(currentHopStationId);
 
         List<INode> res = new ArrayList<INode>();
         res.add(endPath);
@@ -222,6 +222,10 @@ public class RaptorAlgorithm {
             Segment segment = buildMiddleResult(previousHopStation, currentHopStation, route, transferTurn--);
             res.add(segment);
 
+            // accumulate value for distance and time
+            totalDistance += segment.segmentDistance;
+            totalTime = totalTime.plus(segment.segmentTime);
+
             currentHopStationId = previousHopStationId;
         }
 
@@ -233,6 +237,7 @@ public class RaptorAlgorithm {
         Result result = new Result();
         result.nodeList = res;
         result.totalDistance = totalDistance;
+        result.totalTime = totalTime;
         result.totalTransfer = K;                   // wrong here
         return result;
     }
@@ -253,6 +258,8 @@ public class RaptorAlgorithm {
         // building middle stations for this segment
         List<Path> res = new ArrayList<Path>();
 
+        Period totalPeriod = new Period(0);
+        double totalDistance = 0.0f;
 
         int startOrder = route.getOrderByStation(begin);
         int endOrder = route.getOrderByStation(end);
@@ -268,11 +275,21 @@ public class RaptorAlgorithm {
             path.stationToName = pathInfo.to.name;
 
             path.points = pathInfo.middleLocations;
-            path.type = PathType.CONNECTED_BUS;
+            if (order < endOrder-1) {
+                path.type = PathType.CONNECTED_BUS;
+            } else {
+                path.type = PathType.CRITICAL_PATH;
+            }
+
             res.add(path);
+
+            totalPeriod = totalPeriod.plus(pathInfo.cost);
+            totalDistance += pathInfo.distance;
         }
 
         segment.paths = res;
+        segment.segmentTime = totalPeriod;
+        segment.segmentDistance = totalDistance;
 
         return segment;
     }
