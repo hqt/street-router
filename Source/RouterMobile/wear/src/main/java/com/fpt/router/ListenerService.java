@@ -35,9 +35,9 @@ public class ListenerService extends WearableListenerService {
                     lat = dataMap.getDouble("lat");
                     lng = dataMap.getDouble("lng");
                 }
-                Log.v("NamTag", "Lat: " + lat);
-                Log.v("NamTag", "Lat: " + lng);
-                Log.v("myTag", "DataMap received on watch: " + dataMap);
+                Log.e("hqthao", "Lat: " + lat);
+                Log.e("hqthao", "Lat: " + lng);
+                Log.e("hqthao", "DataMap received on watch: " + dataMap);
 
                 Intent intent = new Intent( this, MainActivity.class );
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

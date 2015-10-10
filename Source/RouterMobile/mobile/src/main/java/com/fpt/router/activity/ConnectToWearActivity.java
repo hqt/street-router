@@ -67,7 +67,7 @@ import java.util.Date;
 
             // Create a DataMap object and send it to the data layer
             DataMap dataMap = new DataMap();
-            dataMap.putLong("time", new Date().getTime());
+            // dataMap.putLong("time", new Date().getTime());
             dataMap.putDouble("lng", 106.6249837);
             dataMap.putDouble("lat", 10.7467632);
             //Requires a new thread to avoid blocking the UI
@@ -133,7 +133,7 @@ import java.util.Date;
                     PutDataRequest request = putDMR.asPutDataRequest();
                     DataApi.DataItemResult result = Wearable.DataApi.putDataItem(googleClient,request).await();
                     if (result.getStatus().isSuccess()) {
-                        Log.v("myTag", "DataMap: " + dataMap + " sent to: " + node.getDisplayName());
+                        Log.e("hqthao", "DataMap: " + dataMap + " sent to: " + node.getDisplayName());
                     } else {
                         // Log an error
                         Log.v("myTag", "ERROR: failed to send DataMap");

@@ -5,29 +5,23 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.model.bus.ArrayAdapterItem;
-import com.fpt.router.model.bus.DetailRoute;
-import com.fpt.router.model.bus.ListRoute;
-import com.fpt.router.model.bus.OnItemClickListenerListViewItem;
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
 import com.fpt.router.model.motorbike.Step;
 import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.LockableListView;
 import com.fpt.router.utils.MapUtils;
+import com.fpt.router.utils.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -41,10 +35,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.fpt.router.utils.SlidingUpPanelLayout;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,8 +47,8 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
 
     private static final String ARG_LOCATION = "arg.location";
     // latitude and longitude
-    double latitude =10.853207 ;
-    double longitude =106.629097 ;
+    double latitude = 10.853207;
+    double longitude = 106.629097;
 
     private LockableListView mListView;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
@@ -116,6 +108,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
         f.setArguments(args);
         return f;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -174,7 +167,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
 
 
         steps = leg.getStep();
-        ArrayAdapterItem adapterItem = new ArrayAdapterItem(getContext(),R.layout.activity_list_row_gmap,steps);
+        ArrayAdapterItem adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
 
 
         mListView.addHeaderView(mTransparentHeaderView);
@@ -188,7 +181,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
         });
         /** end get list step and show */
 
-       mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -208,40 +201,40 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                if(locationSize == 2){
-                    for(int n = 0; n < legs.size(); n++){
-                        if(n != position){
+                if (locationSize == 2) {
+                    for (int n = 0; n < legs.size(); n++) {
+                        if (n != position) {
                             leg = legs.get(n);
                             encodedString = leg.getOverview_polyline();
                             list = DecodeUtils.decodePoly(encodedString);
                             MapUtils.drawLine(mMap, list, Color.GRAY);
                         }
                     }
-                            leg = legs.get(position);
-                            DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
-                            // latitude and longitude
+                    leg = legs.get(position);
+                    DetailLocation detalL = leg.getDetailLocation();
+                    com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
+                    com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                    // latitude and longitude
 
-                            latitude = end_location.getLatitude();
-                            longitude = end_location.getLongitude();
-                            MapUtils.drawPoint(mMap, latitude, longitude, leg.getEndAddress());
-
-
-                            latitude = start_location.getLatitude();
-                            longitude = start_location.getLongitude();
-                            MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
-                            LatLng latLng = new LatLng(latitude,longitude);
-                            moveToLocation(latLng,true);
-                            //add polyline
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.BLUE);
-                            MapUtils.moveCamera(mMap, latitude, longitude, 12);
+                    latitude = end_location.getLatitude();
+                    longitude = end_location.getLongitude();
+                    MapUtils.drawPoint(mMap, latitude, longitude, leg.getEndAddress());
 
 
-                }else {
-                    for(int n = 0; n < legs.size(); n++){
+                    latitude = start_location.getLatitude();
+                    longitude = start_location.getLongitude();
+                    MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
+                    LatLng latLng = new LatLng(latitude, longitude);
+                    moveToLocation(latLng, true);
+                    //add polyline
+                    encodedString = leg.getOverview_polyline();
+                    list = DecodeUtils.decodePoly(encodedString);
+                    MapUtils.drawLine(mMap, list, Color.BLUE);
+                    MapUtils.moveCamera(mMap, latitude, longitude, 12);
+
+
+                } else {
+                    for (int n = 0; n < legs.size(); n++) {
                         leg = legs.get(n);
                         DetailLocation detalL = leg.getDetailLocation();
                         com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
@@ -255,7 +248,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
                         latitude = start_location.getLatitude();
                         longitude = start_location.getLongitude();
                         MapUtils.drawPoint(mMap, latitude, longitude, leg.getStartAddress());
-                        LatLng latLng = new LatLng(latitude,longitude);
+                        LatLng latLng = new LatLng(latitude, longitude);
                         moveToLocation(latLng, true);
 
                         //add polyline
@@ -281,7 +274,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
     public void onStart() {
         super.onStart();
         // Connect the client.
-       mGoogleApiClient.connect();
+        mGoogleApiClient.connect();
     }
 
     @Override
@@ -296,7 +289,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
     }
 
     private LatLng getLastKnownLocation(boolean isMoveMarker) {
-        LatLng latLng = new LatLng(latitude,longitude);
+        LatLng latLng = new LatLng(latitude, longitude);
         /*boolean isGPSEnabled = false;
         boolean isNetworkEnabled = false;
         LocationManager lm = (LocationManager) TheApp.getAppContext().getSystemService(Context.LOCATION_SERVICE);
@@ -361,7 +354,7 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
             return;
         }
 
-        if(!moveCamera){
+        if (!moveCamera) {
             moveMarker(latLng);
         }
 
