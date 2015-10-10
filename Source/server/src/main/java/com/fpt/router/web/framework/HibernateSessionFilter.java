@@ -1,9 +1,12 @@
+/*
 package com.fpt.router.web.framework;
 
+*/
 /**
  * Purpose:
  * Created by Huynh Quang Thao on 10/3/15.
- */
+ *//*
+
 
 import java.io.IOException;
 
@@ -22,20 +25,23 @@ import org.hibernate.StaleObjectStateException;
 import org.hibernate.stat.SessionStatistics;
 
 
+*/
 /**
  * Servlet Filter to open a close the Hibernate session for each request.
  * <p/>
  * based on the servlet filter code: http://www.hibernate.org/43.html
  *
  * @author mike nimer
- */
+ *//*
+
 public class HibernateSessionFilter implements Filter {
 
     private static Log log = LogFactory.getLog(HibernateSessionFilter.class);
 
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        /*Session session = null;
+        */
+/*Session session = null;
         try
         {
             log.debug("Starting a database transaction");
@@ -88,7 +94,8 @@ public class HibernateSessionFilter implements Filter {
         {
             //SessionStatistics statistics = session.getStatistics();
             HibernateUtil.closeSession();
-        }*/
+        }*//*
+
     }
 
 
@@ -101,3 +108,4 @@ public class HibernateSessionFilter implements Filter {
     }
 
 }
+*/

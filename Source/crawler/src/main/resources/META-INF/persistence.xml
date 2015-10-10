@@ -3,11 +3,11 @@
 
     <persistence-unit name="SWRPersistenceUnit">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>com.fpt.router.crawler.model.entity.Route</class>
-        <class>com.fpt.router.crawler.model.entity.Station</class>
-        <class>com.fpt.router.crawler.model.entity.PathInfo</class>
-        <class>com.fpt.router.crawler.model.entity.Trip</class>
-        <class>com.fpt.router.crawler.model.entity.Connection</class>
+        <class>com.fpt.router.artifacter.model.entity.Route</class>
+        <class>com.fpt.router.artifacter.model.entity.Station</class>
+        <class>com.fpt.router.artifacter.model.entity.PathInfo</class>
+        <class>com.fpt.router.artifacter.model.entity.Trip</class>
+        <class>com.fpt.router.artifacter.model.entity.Connection</class>
 
         <properties>
             <property name="jadira.usertype.autoRegisterUserTypes" value="true"/>

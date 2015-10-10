@@ -13,11 +13,11 @@
         <property name="hibernate.current_session_context_class">thread</property>
         <property name="hibernate.show_sql">false</property>
 
-        <mapping class="com.fpt.router.crawler.model.entity.Route" />
-        <mapping class="com.fpt.router.crawler.model.entity.Trip" />
-        <mapping class="com.fpt.router.crawler.model.entity.PathInfo" />
-        <mapping class="com.fpt.router.crawler.model.entity.Station" />
-        <mapping class="com.fpt.router.crawler.model.entity.Connection" />
+        <mapping class="com.fpt.router.artifacter.model.entity.Route" />
+        <mapping class="com.fpt.router.artifacter.model.entity.Trip" />
+        <mapping class="com.fpt.router.artifacter.model.entity.PathInfo" />
+        <mapping class="com.fpt.router.artifacter.model.entity.Station" />
+        <mapping class="com.fpt.router.artifacter.model.entity.Connection" />
 
     </session-factory>
 </hibernate-configuration>

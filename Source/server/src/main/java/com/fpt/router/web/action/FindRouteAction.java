@@ -1,13 +1,16 @@
+/*
 package com.fpt.router.web.action;
 
+import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.config.Config;
-import com.fpt.router.model.Location;
 
+*/
 /**
  * Purpose:
  * Created by Huynh Quang Thao on 9/30/15.
- */
+ *//*
+
 public class FindRouteAction implements IAction {
 
     @Override
@@ -41,18 +44,22 @@ public class FindRouteAction implements IAction {
         end.latitude = latB;
         end.longitude = longB;
 
-        /*GraphPipe graph = new GraphPipe(ApplicationContext.map);
+        */
+/*GraphPipe graph = new GraphPipe(ApplicationContext.map);
         String url = context.getRealPath() + "/WEB-INF/result_schema.xsd";
         String xml = graph.run(start, end, addressA, addressB, comparer, url);
 
         System.out.println("algorithm finish");
         PrintWriter out = context.getWriter();
 
-        out.write(xml);*/
+        out.write(xml);*//*
 
-        return Config.AJAX_FORMAT;
 
-       /* DatabasePipe database = new DatabasePipe();
+        //return Config.AJAX_FORMAT;
+        return "index.jsp";
+
+       */
+/* DatabasePipe database = new DatabasePipe();
         CityMap map = database.parse();
 
         Location start = new Location();
@@ -70,6 +77,7 @@ public class FindRouteAction implements IAction {
         PrintWriter out = context.getWriter();
         out.write(Config.xml);
         return Config.AJAX_FORMAT;
-        */
+        *//*
+
     }
-}
+}*/
