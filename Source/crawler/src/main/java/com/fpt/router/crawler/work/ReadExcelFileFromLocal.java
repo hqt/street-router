@@ -57,7 +57,7 @@ public class ReadExcelFileFromLocal {
 
             double totalDistance = DistanceUtils.distance(r);
 
-            // find distance of pathInfo
+            // find totalDistance of pathInfo
             List<Double> pathInfoDistances = new ArrayList<Double>();
             for (PathInfo pathInfo : r.getPathInfos()) {
                 // this connection is zero-length
@@ -76,7 +76,7 @@ public class ReadExcelFileFromLocal {
             for (Trip trip : r.getTrips()) {
                 List<Connection> connections = new ArrayList<Connection>();
 
-                // count total time for traveling whole trip
+                // count total totalTime for traveling whole trip
                 if ((trip == null) || (trip.getStartTime() == null) || (trip.getEndTime() == null)) {
                     int a = 3;
                 }
@@ -86,12 +86,12 @@ public class ReadExcelFileFromLocal {
 
                 // for each pathInfo. Create one connection base on PathInfo length
                 for (int i = 0; i < pathInfoDistances.size(); i++) {
-                    // time for this pathInfo
+                    // totalTime for this pathInfo
                     long pathInfoTravel = (long) (totalMillis * pathInfoDistances.get(i) / totalDistance);
                     Period pathInfoTravelPeriod = new Period(pathInfoTravel);
 
                     // create connection.
-                    // Base on our business, previous bus departure time == next bus arrival time
+                    // Base on our business, previous bus departure totalTime == next bus arrival totalTime
                     Connection connection = new Connection();
                     connection.setTrip(trip);
                     connection.setPathInfo(r.getPathInfos().get(i));

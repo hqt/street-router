@@ -20,7 +20,7 @@ public class JPADaoImpl<T extends IEntity, PK extends Serializable> implements G
 
     /**
      * This variable HAVE TO be static or it will create new connection
-     * every time a derived class of this is created, which causes "too many connections" error.
+     * every totalTime a derived class of this is created, which causes "too many connections" error.
      */
     public static EntityManagerFactory factory =
             Persistence.createEntityManagerFactory("SWRPersistenceUnit");

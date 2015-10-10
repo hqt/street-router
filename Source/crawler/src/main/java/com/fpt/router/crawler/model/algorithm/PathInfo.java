@@ -1,6 +1,7 @@
 package com.fpt.router.crawler.model.algorithm;
 
 import com.fpt.router.crawler.model.helper.Location;
+import org.joda.time.Period;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,6 +27,9 @@ public class PathInfo implements IAlgorithmModel {
     public Station from;
 
     public Station to;
+
+    // average time go to this PathInfo
+    public Period cost;
 
     public List<Connection> connections;
 

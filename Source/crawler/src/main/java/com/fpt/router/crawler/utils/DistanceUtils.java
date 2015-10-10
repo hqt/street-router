@@ -55,7 +55,7 @@ public class DistanceUtils {
             return distance(from, to);
         }
 
-        // counting two pivot distance
+        // counting two pivot totalDistance
         distance = distance(from, middleLocations.get(0));
         distance += distance(middleLocations.get(middleLocations.size()-1), to);
 

@@ -27,7 +27,8 @@ public class AlgorithmTest {
         end.longitude = 106.626289;
 
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
-        String res = twoPointAlgorithm.run(map, start, end, "Ben Thanh market", "Software Park", new LocalTime(5, 0),
+        LocalTime time = new LocalTime(10, 0);
+        String res = twoPointAlgorithm.run(map, start, end, "Ben Thanh market", "Software Park", time,
                                             300, 2, false);
         System.out.println(res);
     }

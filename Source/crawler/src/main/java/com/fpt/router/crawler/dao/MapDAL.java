@@ -59,7 +59,7 @@ public class MapDAL {
             List<com.fpt.router.crawler.model.entity.Trip> trips = route.getTrips();
             for (com.fpt.router.crawler.model.entity.Trip trip : trips) {
                 System.out.println("Trip : " + trip.getTripNo() +
-                        "Start time: " + trip.getStartTime() + " End Time: " + trip.getEndTime());
+                        "Start totalTime: " + trip.getStartTime() + " End Time: " + trip.getEndTime());
                 tripDao.create(trip);
                 for (com.fpt.router.crawler.model.entity.Connection conn : trip.getConnections()) {
                     System.out.println("\t\tConnection : " + conn.getArrivalTime());
@@ -110,7 +110,7 @@ public class MapDAL {
             route.trips = DTOConverter.convertTrips(cityMap, entityTrips);
         }
 
-        // buildIndex again connections for saving time than loading from database
+        // buildIndex again connections for saving totalTime than loading from database
         buildConnections(cityMap);
 
         return cityMap;
@@ -123,7 +123,7 @@ public class MapDAL {
 
             double totalDistance = DistanceUtils.distance(r);
 
-            // find distance of pathInfo
+            // find totalDistance of pathInfo
             List<Double> pathInfoDistances = new ArrayList<Double>();
             for (PathInfo pathInfo : r.pathInfos) {
                 // connection with zero-length
@@ -149,12 +149,15 @@ public class MapDAL {
 
                 // for each pathInfo. Create one connection base on PathInfo length
                 for (int i = 0; i < pathInfoDistances.size(); i++) {
-                    // time for this pathInfo
+                    // totalTime for this pathInfo
                     long pathInfoTravel = (long) (totalMillis * pathInfoDistances.get(i) / totalDistance);
                     Period pathInfoTravelPeriod = new Period(pathInfoTravel);
 
+                    // set average time for this pathInfo
+                    r.pathInfos.get(i).cost = pathInfoTravelPeriod;
+
                     // create connection.
-                    // Base on our business, previous bus departure time == next bus arrival time
+                    // Base on our business, previous bus departure totalTime == next bus arrival totalTime
                     Connection connection = new Connection();
                     connection.trip = trip;
                     connection.pathInfo = r.pathInfos.get(i);

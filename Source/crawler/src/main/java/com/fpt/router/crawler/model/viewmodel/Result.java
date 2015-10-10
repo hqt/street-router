@@ -1,5 +1,7 @@
 package com.fpt.router.crawler.model.viewmodel;
 
+import org.joda.time.Period;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,12 +10,13 @@ import java.util.List;
  * Created by Huynh Quang Thao on 10/4/15.
  */
 public class Result {
-    public double distance;
-    public double time;
-    public int k;
-    public List<Path> nodeList;
+    public double totalDistance;
+    public Period totalTime;
+    public int totalTransfer;
+
+    public List<INode> nodeList;
 
     public Result() {
-        nodeList = new ArrayList<Path>();
+        nodeList = new ArrayList<INode>();
     }
 }

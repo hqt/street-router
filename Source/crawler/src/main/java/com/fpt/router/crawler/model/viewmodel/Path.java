@@ -6,10 +6,12 @@ import com.fpt.router.crawler.model.helper.PathType;
 import java.util.List;
 
 /**
- * Purpose:
+ * Purpose: A Path is a detail information from stationA to stationB in one journey
  * Created by Huynh Quang Thao on 10/4/15.
  */
-public class Path {
+public class Path implements INode {
+    public int stationFromId;
+    public int stationToId;
     public String stationFromName;
     public String stationToName;
     public int transferTurn;

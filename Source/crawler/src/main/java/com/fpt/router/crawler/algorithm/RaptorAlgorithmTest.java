@@ -23,6 +23,13 @@ public class RaptorAlgorithmTest {
         Station start = map.getStationById(1931);
         Station end = map.getStationById(3460);
 
+        start = map.getStationById(1445);
+        start = map.getStationById(1015);
+        end = map.getStationById(466);
+
+        start = map.getStationById(466);
+        end = map.getStationById(1015);
+
         Path startPath = new Path();
         startPath.stationFromName = "Start";
         startPath.stationToName = start.name;

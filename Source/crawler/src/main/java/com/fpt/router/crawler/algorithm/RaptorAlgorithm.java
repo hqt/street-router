@@ -3,13 +3,15 @@ package com.fpt.router.crawler.algorithm;
 
 import com.fpt.router.crawler.config.Config;
 import com.fpt.router.crawler.model.algorithm.*;
-import com.fpt.router.crawler.model.helper.Location;
 import com.fpt.router.crawler.model.helper.PathType;
+import com.fpt.router.crawler.model.viewmodel.INode;
 import com.fpt.router.crawler.model.viewmodel.Path;
 import com.fpt.router.crawler.model.viewmodel.Result;
+import com.fpt.router.crawler.model.viewmodel.Segment;
+import com.google.common.collect.Lists;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 
-import java.sql.Time;
 import java.util.*;
 
 /**
@@ -51,13 +53,13 @@ public class RaptorAlgorithm {
     Map<Integer, Integer> Q;
     // List<Pair<Integer, Integer>> Q = new ArrayList<Pair<Integer, Integer>>();
 
-    // earliest arrival time at station p
+    // earliest arrival totalTime at station p
     LocalTime[] earliest_arrival_time;
 
     LocalTime[][] result;
 
     // using for track back.
-    // traceUsedRoute[i] = j. shortest arrival time come to i-station using route j
+    // traceUsedRoute[i] = j. shortest arrival totalTime come to i-station using route j
     int[] traceUsedRoute;
 
     // parent station of current station. so we go on bus on this station
@@ -78,7 +80,7 @@ public class RaptorAlgorithm {
         markedStationIds = new ArrayList<Integer>();
         markedStationIds.add(start.id);
 
-        // initialize earliest arrival time
+        // initialize earliest arrival totalTime
         earliest_arrival_time = new LocalTime[map.stations.size()];
         Arrays.fill(earliest_arrival_time, Config.MAXIMUM_TIME);
         earliest_arrival_time[start.id] = departure_time;
@@ -125,17 +127,17 @@ public class RaptorAlgorithm {
                 int startOrder = route.getOrderByStation(startStation);
 
                 // because this sequence number is always increased. we can find this way for more optimal
-                // Trips has been sorted by time. trip's arrival time can only decrease at each station after on same route
-                // so. we keep an index of current process trip for saving time. so total complexity is O(T)
+                // Trips has been sorted by totalTime. trip's arrival totalTime can only decrease at each station after on same route
+                // so. we keep an index of current process trip for saving totalTime. so total complexity is O(T)
                 int currentTripIndex = 0;
 
                 // optimize from this station to end on same route
-                // **Note 1** first station: t always null. so not trace back (true). because it has been traced at previous k
+                // **Note 1** first station: t always null. so not trace back (true). because it has been traced at previous totalTransfer
                 for (int order = startOrder; order < route.getTotalStations() ; order++) {
                     Station p_i = route.getStationByOrder(order);
 
                     if (t!= null) {
-                        // get arrival time of trip at station p (this trip has been taken at previous station)
+                        // get arrival totalTime of trip at station p (this trip has been taken at previous station)
                         LocalTime arrivalTime = t.getArrivalTime(p_i);
 
                         // condition for update: we can go this station earlier due to update trip
@@ -166,7 +168,7 @@ public class RaptorAlgorithm {
                     // maybe different trip. but still on same route. so we can marked parent of new station is start station :)
                     for (int tripIndex = currentTripIndex; tripIndex < route.trips.size(); tripIndex++) {
                         Trip trip = route.trips.get(tripIndex);
-                        // condition time this trip go from p later than best arrival time(p) + waiting time. (waiting time of current system = 0)
+                        // condition totalTime this trip go from p later than best arrival totalTime(p) + waiting totalTime. (waiting totalTime of current system = 0)
                         if (trip.getDepartureTime(p_i) != null) {
                             count++;
                         }
@@ -203,28 +205,36 @@ public class RaptorAlgorithm {
 
 
         int currentHopStationId = end.id;
-        Station currentHopStation = map.getStationById(currentHopStationId);
+        //Station currentHopStation = map.getStationById(currentHopStationId);
 
-        List<Path> res = new ArrayList<Path>();
+        List<INode> res = new ArrayList<INode>();
+        res.add(endPath);
+
         while(traceFromStation[currentHopStationId] != -1) {
-            int previousHopStationId = traceFromStation[end.id];
-            int routeId = traceUsedRoute[end.id];
+            Station currentHopStation = map.getStationById(currentHopStationId);
+
+            int previousHopStationId = traceFromStation[currentHopStationId];
             Station previousHopStation = map.getStationById(previousHopStationId);
+
+            int routeId = traceUsedRoute[currentHopStation.id];
             Route route = map.getRouteById(routeId);
 
             // create middle stationMap in same route
-            List<Path> middlePaths = buildMiddleResult(previousHopStation, currentHopStation, route, transferTurn--);
-            middlePaths.addAll(res);
-            res = middlePaths;
+            Segment segment = buildMiddleResult(previousHopStation, currentHopStation, route, transferTurn--);
+            res.add(segment);
 
             currentHopStationId = previousHopStationId;
         }
 
+        res.add(startPath);
+        // reverse again this list
+        res = Lists.reverse(res);
+
         // make final result
         Result result = new Result();
         result.nodeList = res;
-        result.distance = totalDistance;
-        result.k = K;                   // wrong here
+        result.totalDistance = totalDistance;
+        result.totalTransfer = K;                   // wrong here
         return result;
     }
 
@@ -233,23 +243,38 @@ public class RaptorAlgorithm {
      * user don't do anything in those bus.
      * last path will always type critical. means user should take care
      */
-    private List<Path> buildMiddleResult(Station begin, Station end, Route route, int transferTurn) {
+    private Segment buildMiddleResult(Station begin, Station end, Route route, int transferTurn) {
+        Segment segment = new Segment();
+        segment.routeId = route.routeId;
+        segment.routeName = route.routeName;
+        segment.routeNo = route.routeNo;
+        segment.tranferNo = transferTurn;
+        segment.pathType = PathType.CONNECTED_BUS;
+
+        // building middle stations for this segment
         List<Path> res = new ArrayList<Path>();
-        res.add(startPath);
+
+
         int startOrder = route.getOrderByStation(begin);
         int endOrder = route.getOrderByStation(end);
-        for (int order = startOrder; order <= endOrder ; order++) {
+        for (int order = startOrder; order < endOrder ; order++) {
             PathInfo pathInfo = route.pathInfos.get(order);
             Path path = new Path();
-            path.transferTurn = transferTurn;
-            path.routeNo = route.routeNo;
-            path.points = pathInfo.middleLocations;
-            path.type = PathType.CONNECTED_BUS;
+
+            // assign all information for path
+
+            path.stationFromId = pathInfo.from.id;
+            path.stationToId = pathInfo.to.id;
             path.stationFromName = pathInfo.from.name;
             path.stationToName = pathInfo.to.name;
+
+            path.points = pathInfo.middleLocations;
+            path.type = PathType.CONNECTED_BUS;
             res.add(path);
         }
-        res.add(endPath);
-        return res;
+
+        segment.paths = res;
+
+        return segment;
     }
 }
