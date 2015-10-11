@@ -44,7 +44,15 @@ public class Config {
         int WALKING_EDGE = 12767;
     }
 
+    public static class WEB {
+        public static String SESSION_USER = "USER";
+    }
+
+    // bug from those route. should be avoid
     public static Set<Integer> blockRoute = new HashSet<Integer>();
+
+    // using for debugging purpose
+    public static Set<Integer> allowRoute = new HashSet<Integer>();
 
     static {
         blockRoute.add(26);
@@ -52,6 +60,11 @@ public class Config {
         blockRoute.add(75);
         blockRoute.add(80);
         blockRoute.add(82);
+
+        allowRoute.add(3);
+        allowRoute.add(20);
+        allowRoute.add(72);
+        allowRoute.add(18);
     }
 
 }
