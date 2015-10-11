@@ -1,6 +1,5 @@
 package com.fpt.router.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -9,13 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.DetailGMActivity;
 import com.fpt.router.activity.GoogleMapBus;
-
-import java.util.List;
 
 /**
  * Created by asus on 10/5/2015.

@@ -5,23 +5,16 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.model.bus.ArrayAdapterItem;
-import com.fpt.router.model.bus.DetailRoute;
-import com.fpt.router.model.bus.ListRoute;
-import com.fpt.router.model.bus.OnItemClickListenerListViewItem;
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
 import com.fpt.router.model.motorbike.Step;
@@ -44,13 +37,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.fpt.router.utils.SlidingUpPanelLayout;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by asus on 10/7/2015.
  */
-public class MainFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MainShowDetailMaps extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -86,28 +78,12 @@ public class MainFragment extends Fragment implements GoogleApiClient.Connection
     private List<Step> setAgainSteps;
     private List<Step> steps;
 
-    public MainFragment() {
+    public MainShowDetailMaps() {
     }
 
-    /*public static MainFragment newInstance(LatLng location) {
-        MainFragment f = new MainFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_LOCATION, location);
-        f.setArguments(args);
-        return f;
-    }*/
 
-    /*public static MainFragment newInstance(Leg leg) {
-        MainFragment f = new MainFragment();
-        Bundle args = new Bundle();
-        args.putSerializable("leg",leg);
-        f.setArguments(args);
-        return f;
-    }
-*/
-
-    public static MainFragment newInstance(List<Leg> legs, int position, Leg leg, int locationSize) {
-        MainFragment f = new MainFragment();
+    public static MainShowDetailMaps newInstance(List<Leg> legs, int position, Leg leg, int locationSize) {
+        MainShowDetailMaps f = new MainShowDetailMaps();
         Bundle args = new Bundle();
         args.putSerializable("legs", (Serializable) legs);
         args.putInt("position", position);

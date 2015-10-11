@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityEvent;
-import android.widget.ScrollView;
 
 import com.fpt.router.R;
 

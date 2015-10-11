@@ -5,17 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.DetailGMActivity;
 import com.fpt.router.adapter.DesignDemoRecyclerAdapter;
-
-import java.util.ArrayList;
 
 /**
  * Created by USER on 9/27/2015.

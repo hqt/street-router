@@ -8,9 +8,6 @@ import android.util.Log;
 import com.fpt.router.config.PrefStore;
 import com.fpt.router.config.RouteApplication;
 
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +19,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by huynhthao on 9/19/15.
@@ -182,6 +178,40 @@ public class NetworkUtils {
         return url;
     }
 
+    public static String getShortePath(String start, String end,String way_point_1,String way_point_2, Boolean optimize){
+        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+        String startLocation = null;
+        String endLocation = null;
+        String waypoint_1 = null;
+        String waypoint_2 = null;
+        try {
+            startLocation = URLEncoder.encode(start, "UTF-8");
+            endLocation = URLEncoder.encode(end, "UTF-8");
+            waypoint_1 = URLEncoder.encode(way_point_1,"UTF-8");
+            waypoint_2 = URLEncoder.encode(way_point_2,"UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String waypoints = "&waypoints=";
+        if(waypoint_1 != null || waypoint_2 != null){
+            if(optimize) {
+                waypoints = waypoints + "optimize:true" + "|" + waypoint_1 + "|" + waypoint_2;
+            } else  {
+                waypoints = waypoints + waypoint_1 + "|" + waypoint_2;
+            }
+        }
+        String url = "https://maps.googleapis.com/maps/api/directions/json?" +
+                "origin=" + startLocation +
+                "&destination=" + endLocation + waypoints +
+                "&alternatives=true" +
+                "&mode=driving" +
+                "&key=" + key;
+
+        String json = NetworkUtils.download(url);
+        return json;
+    }
+
     public static String linkGooglePlace(String input){
         String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
         String text = null;
@@ -192,7 +222,7 @@ public class NetworkUtils {
         }
         String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
                      "input=" + text +
-                     "&types=geocode&language=vi&sensor=true&key=" + key;
+                     "&types=establishment&components=country:vn&language=vi&sensor=true&key=" + key;
         return url;
     }
 }

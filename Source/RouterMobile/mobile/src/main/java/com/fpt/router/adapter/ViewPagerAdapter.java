@@ -15,20 +15,16 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.fragment.BusFragment1;
-import com.fpt.router.fragment.DesignDemoFragment;
-import com.fpt.router.fragment.MotorbikeFragment;
 import com.fpt.router.fragment.MotorbikeFragment1;
 
-import java.util.ArrayList;
-
-public class DesignDemoPagerAdapter extends FragmentStatePagerAdapter {
+public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context context;
     private String tabTitles[] = {"43 phút","65 phút","Bản đồ"};
     private int[] imageResId = {R.drawable.bus,
             R.drawable.motorbike,
             R.drawable.map};
-    public DesignDemoPagerAdapter(FragmentManager fm,Context context){
+    public ViewPagerAdapter(FragmentManager fm, Context context){
         super(fm);
         this.context = context;
     }

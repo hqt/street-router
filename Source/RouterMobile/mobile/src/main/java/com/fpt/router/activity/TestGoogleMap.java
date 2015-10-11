@@ -7,15 +7,8 @@ import android.support.v4.app.FragmentActivity;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 public class TestGoogleMap extends FragmentActivity {

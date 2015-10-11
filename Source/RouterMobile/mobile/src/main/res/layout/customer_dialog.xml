@@ -12,10 +12,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tùy chọn"
         android:layout_marginBottom="15dip"
-        android:layout_marginTop="5dip"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dip"
+        android:text="Tùy chọn"
         android:textColor="#0091EA"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -50,9 +50,9 @@
                     android:layout_marginTop="10dip"
                     android:background="#1565C0"
                     android:ellipsize="end"
-                    android:singleLine="true"
+                    android:hint="Điểm trung gian 1"
                     android:padding="3dip"
-                    android:text="Điểm trung gian 1"
+                    android:singleLine="true"
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
@@ -74,10 +74,10 @@
                     android:layout_height="30dip"
                     android:layout_marginTop="5dip"
                     android:background="#1565C0"
-                    android:padding="3dip"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="Điểm trung gian 2"
+                    android:hint="Điểm trung gian 2"
+                    android:padding="3dip"
                     android:textColor="@android:color/white" />
 
             </LinearLayout>
@@ -92,15 +92,15 @@
     </LinearLayout>
 
     <CheckBox
+        android:id="@+id/checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:layout_marginBottom="5dip"
         android:layout_marginTop="5dip"
         android:checked="true"
-        android:textColor="@android:color/black"
         android:text="Tối ưu"
-        android:id="@+id/checkBox"/>
+        android:textColor="@android:color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -109,7 +109,8 @@
 
         <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/radioGroup">
 
             <RadioButton
                 android:layout_width="match_parent"
@@ -117,58 +118,59 @@
                 android:text="Tuyến ngắn nhất"
                 android:textColor="#00B0FF" />
 
-<RadioButton
-                android:layout_width="270dip"
-                android:layout_height="60dip"
-                android:text="Số m đi bộ tối đa giữa hai trạm"
-                android:textColor="#00B0FF" />
             <RadioButton
                 android:layout_width="270dip"
                 android:layout_height="60dip"
                 android:text="Số m đi bộ tối đa giữa hai trạm"
                 android:textColor="#00B0FF" />
 
-           <!-- <LinearLayout
-                android:layout_width="match_parent"
+            <RadioButton
+                android:layout_width="270dip"
                 android:layout_height="60dip"
-                android:orientation="horizontal">
+                android:text="Số m đi bộ tối đa giữa hai trạm"
+                android:textColor="#00B0FF" />
 
-                <RadioButton
-                    android:layout_width="match_parent"
-                    android:layout_height="60dip"
-                    android:text="Số lần chuyển tuyến tối đa"
-                    android:textColor="#00B0FF" />
+            <!-- <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="60dip"
+                 android:orientation="horizontal">
+
+                 <RadioButton
+                     android:layout_width="match_parent"
+                     android:layout_height="60dip"
+                     android:text="Số lần chuyển tuyến tối đa"
+                     android:textColor="#00B0FF" />
 
 
-            </LinearLayout>
+             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dip"
-                android:orientation="horizontal">
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="60dip"
+                 android:orientation="horizontal">
 
-                <RadioButton
-                    android:layout_width="270dip"
-                    android:layout_height="60dip"
-                    android:text="Số m đi bộ tối đa giữa hai trạm"
-                    android:textColor="#00B0FF" />
+                 <RadioButton
+                     android:layout_width="270dip"
+                     android:layout_height="60dip"
+                     android:text="Số m đi bộ tối đa giữa hai trạm"
+                     android:textColor="#00B0FF" />
 
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:cursorVisible="false"
-                    android:singleLine="true"
-                    android:hint="300" />
+                 <EditText
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:background="@android:color/transparent"
+                     android:cursorVisible="false"
+                     android:singleLine="true"
+                     android:hint="300" />
 
-                <TextView
-                    android:layout_width="20dip"
-                    android:layout_height="40dip"
-                    android:layout_marginLeft="5dip"
-                    android:textSize="18dp"
-                    android:text="m" />
+                 <TextView
+                     android:layout_width="20dip"
+                     android:layout_height="40dip"
+                     android:layout_marginLeft="5dip"
+                     android:textSize="18dp"
+                     android:text="m" />
 
-            </LinearLayout>-->
+             </LinearLayout>-->
 
         </RadioGroup>
 

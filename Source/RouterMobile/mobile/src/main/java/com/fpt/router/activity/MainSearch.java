@@ -2,7 +2,6 @@ package com.fpt.router.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,32 +25,45 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class MainSearch extends AppCompatActivity {
     public GooglePlacesAutocompleteAdapter adapter;
-    public AutoCompleteTextView autoComp;
+   /* public AutoCompleteTextView autoComp;*/
+    private EditText autoComp;
     private  ListView listView;
+    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_1);
+        setContentView(R.layout.activity_main_search);
 
         listView = (ListView) findViewById(R.id.listview_autosearch);
         adapter = new GooglePlacesAutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
-        autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
+        autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
         Intent intent = new Intent();
         int number = getIntent().getIntExtra("number", 1);
+        String message = getIntent().getStringExtra("message");
+        if(number == 1){
+            autoComp.setText(message);
+        }
         if(number == 2){
             autoComp.setHint("Chọn điểm đến");
+            if(!"".equals(message)){
+                autoComp.setText(message);
+            }
         } else if(number == 3) {
             autoComp.setHint("Điểm trung gian 1");
+            if(!"".equals(message)){
+                autoComp.setText(message);
+            }
         } else  if (number == 4) {
             autoComp.setHint("Điểm trung gian 2");
+            if(!"".equals(message)){
+                autoComp.setText(message);
+            }
         }
         adapter.setNotifyOnChange(true);
         /*autoComp.setAdapter(adapter);*/
@@ -151,7 +162,10 @@ public class SearchActivity extends AppCompatActivity {
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
 				String url = NetworkUtils.linkGooglePlace(args[0]);
-                String json = NetworkUtils.download(url);
+                json = NetworkUtils.download(url);
+                if(json == null){
+                    return null;
+                }
                 //turn that string into a JSON object
                 JSONObject predictions = new JSONObject(json);
                 //now get the JSON array that's inside that object
@@ -179,7 +193,15 @@ public class SearchActivity extends AppCompatActivity {
                 Log.e("hqt", "onPostExecute : result = " + string);
                adapter.add(string);
             }*/
-           adapter = new GooglePlacesAutocompleteAdapter(SearchActivity.this, android.R.layout.simple_list_item_1, result);
+            if(json == null){
+                result  = new ArrayList<String>();
+                result.add("Cần kết nối Internet");
+                adapter = new GooglePlacesAutocompleteAdapter(MainSearch.this,android.R.layout.simple_list_item_1,result);
+                /*return;*/
+            }else {
+                adapter = new GooglePlacesAutocompleteAdapter(MainSearch.this, android.R.layout.simple_list_item_1, result);
+            }
+
            listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             /*autoComp.setAdapter(adapter);*/

@@ -2,59 +2,41 @@ package com.fpt.router.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.NetworkRequest;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.MainActivity;
+import com.fpt.router.activity.MainSecond;
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
 import com.fpt.router.model.motorbike.Location;
+import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.GPSUtils;
 import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.LogUtils;
-import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.MapUtils;
 import com.fpt.router.utils.NetworkUtils;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MotorbikeFragment extends Fragment {
 
     private GoogleMap mMap;
     MapView mapView;
     private Double latitude, longitude;
-    private List<String> listLocation = MainActivity.listLocation;
-    private Boolean optimize = MainActivity.optimize;
+    private List<String> listLocation = MainSecond.listLocation;
+    private Boolean optimize = MainSecond.optimize;
     /** Main Activity for reference */
-    private MainActivity activity;
+    private MainSecond activity;
 
     /** empty constructor
      * must have for fragment
@@ -66,7 +48,7 @@ public class MotorbikeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (MainActivity) context;
+        this.activity = (MainSecond) context;
     }
 
     @Override

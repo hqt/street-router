@@ -6,9 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.model.motorbike.Leg;
@@ -22,7 +20,7 @@ public class GoogleMapBus extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_main_maps);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -37,25 +35,12 @@ public class GoogleMapBus extends AppCompatActivity {
         int position = bundle.getInt("position");
         Leg leg = (Leg) getIntent().getSerializableExtra("Leg");
         int locationSize = bundle.getInt("locationSize");
-        /*if (savedInstanceState == null) {
-            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainFragment.newInstance(null));
-            trans.commit();
-        }*/
-        /*if (savedInstanceState == null) {
-            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainFragment.newInstance(leg));
-            trans.commit();
-        }*/
+
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainFragment.newInstance(lstObj, position, leg, locationSize));
+            trans.add(R.id.fragment, MainShowDetailMaps.newInstance(lstObj, position, leg, locationSize));
             trans.commit();
         }
-
-
-
-
     }
 
     @Override
@@ -68,6 +53,5 @@ public class GoogleMapBus extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 }

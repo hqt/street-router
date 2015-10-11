@@ -17,13 +17,8 @@ import android.widget.Toast;
 import com.fpt.router.R;
 import com.fpt.router.utils.GPSUtils;
 import com.fpt.router.utils.MapUtils;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by asus on 10/6/2015.
@@ -36,13 +31,16 @@ public class MainFirst extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_2);
+        setContentView(R.layout.activity_main_first);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
+
+
 
         //Make DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -65,7 +63,7 @@ public class MainFirst extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Intent intent = new Intent(MainFirst.this, MainActivity.class);
+                    Intent intent = new Intent(MainFirst.this, MainSecond.class);
                     startActivity(intent);
                     return true;
                 }
@@ -85,9 +83,6 @@ public class MainFirst extends AppCompatActivity {
                     Double currentLongitude = gpsUtils.getLongitude();
                     MapUtils.drawPoint(googleMap, currentLatitude, currentLongitude, "Current Location");
                     MapUtils.moveCamera(googleMap, currentLatitude, currentLongitude, 15);
-
-
-
                     return true;
                 }
                 return true; // consume the event
@@ -95,6 +90,11 @@ public class MainFirst extends AppCompatActivity {
         });
     }
 
+    /**
+     * open navigation
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -110,11 +110,13 @@ public class MainFirst extends AppCompatActivity {
     }
 
 
+    /**
+     * open google map
+     */
     private void initilizeMap() {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
-
 
             // check if map is created successfully or not
             if (googleMap == null) {

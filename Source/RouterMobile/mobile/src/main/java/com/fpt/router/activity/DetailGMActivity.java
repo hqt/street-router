@@ -3,14 +3,11 @@ package com.fpt.router.activity;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -18,10 +15,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.model.bus.ArrayAdapterItem;
-import com.fpt.router.model.bus.DetailRoute;
-import com.fpt.router.model.bus.ListRoute;
-import com.fpt.router.model.bus.OnItemClickListenerListViewItem;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -31,9 +24,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by asus on 10/5/2015.
