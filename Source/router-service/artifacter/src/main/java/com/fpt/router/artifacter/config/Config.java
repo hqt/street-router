@@ -33,7 +33,9 @@ public class Config {
     public static final double WALKING_DISTANCE = 550;
 
     private static final double BUS_SPEED_KM_H = 20.0;
-    public static final double BUS_SPEED = BUS_SPEED_KM_H * 1000 / 3600;     // m / s
+    private static final double HUMAN_SPEED_KM_H = 4.0;
+    public static final double BUS_SPEED_M_S = BUS_SPEED_KM_H * 1000 / 3600;
+    public static final double HUMAN_SPEED_M_S = HUMAN_SPEED_KM_H * 1000 / 3600;
 
     public static final class NoteData {
         int STATION_COUNT = 4126;

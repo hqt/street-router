@@ -10,8 +10,10 @@ import java.util.List;
  * Created by Huynh Quang Thao on 10/4/15.
  */
 public class Result {
+    public String code;
     public double totalDistance;
     public Period totalTime;
+    public int minutes;
     public int totalTransfer;
 
     public List<INode> nodeList;
