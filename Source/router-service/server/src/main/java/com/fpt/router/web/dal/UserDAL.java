@@ -9,7 +9,7 @@ public class UserDAL {
 
         boolean status = false;
 
-        if (username.equals("staff") && password.equals("123")) {
+        if (username.equals("admin") && password.equals("123")) {
             status = true;
         }
 

@@ -1,28 +1,41 @@
-/*
-package com.fpt.router.web.action;
+package com.fpt.router.web.action.api;
 
+import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.model.helper.Location;
+import com.fpt.router.web.action.IAction;
 import com.fpt.router.web.config.ApplicationContext;
+import com.fpt.router.web.servlet.StartupServlet;
+import org.joda.time.LocalTime;
 
-*/
-/**
+import java.io.PrintWriter;
+
+/*
+*
  * Purpose:
  * Created by Huynh Quang Thao on 9/30/15.
- *//*
+*/
 
-public class FindRouteAction implements IAction {
+public class TwoPointRouteAction implements IAction {
 
     @Override
     public String execute(ApplicationContext context) {
+
         // get all parameters
         String latAStr = context.getParameter("latA");
         String latBStr = context.getParameter("latB");
         String longAStr = context.getParameter("longA");
         String longBStr = context.getParameter("longB");
+
         String addressA = context.getParameter("addressA");
         String addressB = context.getParameter("addressB");
+
+        LocalTime departureTime = null;
+        double walkingDistance = 0.0f;
+        int K = 2;
+
         String findSelectMethod = context.getParameter("method");
+
 
         double latA, latB, longA, longB;
         latA = Double.parseDouble(latAStr);
@@ -44,40 +57,16 @@ public class FindRouteAction implements IAction {
         end.latitude = latB;
         end.longitude = longB;
 
-        */
-/*GraphPipe graph = new GraphPipe(ApplicationContext.map);
-        String url = context.getRealPath() + "/WEB-INF/result_schema.xsd";
-        String xml = graph.run(start, end, addressA, addressB, comparer, url);
+        TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
+        String json = algorithm.run(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false);
 
         System.out.println("algorithm finish");
         PrintWriter out = context.getWriter();
+        out.write(json);
 
-        out.write(xml);*//*
 
-
-        //return Config.AJAX_FORMAT;
-        return "index.jsp";
-
-       */
-/* DatabasePipe database = new DatabasePipe();
-        CityMap map = database.parse();
-
-        Location start = new Location();
-        start.latitude = 10.771918;
-        start.longitude = 106.698347;
-        Location end = new Location();
-        end.latitude = 10.853132;
-        end.longitude = 106.626289;
-
-        IBusComparer comparer = new DistanceComparer();
-        GraphPipe graph = new GraphPipe(map);
-        String xml = graph.run(start, end, comparer);
-
-        System.out.println("algorithm finish");
-        PrintWriter out = context.getWriter();
-        out.write(Config.xml);
         return Config.AJAX_FORMAT;
-        *//*
+
 
     }
-}*/
+}
