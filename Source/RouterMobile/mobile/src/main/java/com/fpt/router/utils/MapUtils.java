@@ -27,6 +27,29 @@ public class MapUtils {
         map.addMarker(marker);
     }
 
+    public static void drawStartPoint(GoogleMap map, double latitude, double longitude, String title){
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+        // adding marker
+        map.addMarker(marker);
+    }
+    public static void drawEndPoint(GoogleMap map, double latitude, double longitude, String title){
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+        // adding marker
+        map.addMarker(marker);
+    }
+
     public static Polyline drawLine(GoogleMap map, List<LatLng> middlePoints, int color) {
         //add polyline
         PolylineOptions options = new PolylineOptions().width(10).color(color).geodesic(true);

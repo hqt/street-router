@@ -27,4 +27,18 @@
     <string name="motorbike">65 phÃºt</string>
     <string name="map">Báº£n Ä‘á»“</string>
     <string name="google_place_key" translatable="false">AIzaSyBLJkSvOukISHGrIXvHd4OSLKQDtS8nQOc</string>
+
+    //Connect to wear
+    <string name="received_message1">Received message 1.</string>
+    <string name="received_message2">Received message 2.</string>
+    <string name="received_messages">Received messages:</string>
+    <string name="send_message1">Send message 1</string>
+    <string name="send_message2">Send message 2</string>
+    <string name="peer_connected">Peer connected.</string>
+    <string name="peer_disconnected">Peer disconnected.</string>
+    <string name="message1_sent">Message 1 sent.</string>
+    <string name="error_message1">Error sending message 1.</string>
+    <string name="message2_sent">Message 2 sent.</string>
+    <string name="error_message2">Error sending message 2.</string>
+    <string name="wearable_api_unavailable">Wearable API is unavailable.</string>
 </resources>

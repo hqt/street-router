@@ -1,0 +1,586 @@
+{
+  "totalDistance" : 6205.7857617626305,
+  "totalTime" : {
+    "weeks" : 0,
+    "months" : 0,
+    "hours" : 0,
+    "minutes" : 8,
+    "seconds" : 761,
+    "millis" : 8946,
+    "years" : 0,
+    "days" : 0,
+    "periodType" : {
+      "name" : "Standard"
+    },
+    "values" : [ 0, 0, 0, 0, 0, 8, 761, 8946 ],
+    "fieldTypes" : [ {
+      "name" : "years"
+    }, {
+      "name" : "months"
+    }, {
+      "name" : "weeks"
+    }, {
+      "name" : "days"
+    }, {
+      "name" : "hours"
+    }, {
+      "name" : "minutes"
+    }, {
+      "name" : "seconds"
+    }, {
+      "name" : "millis"
+    } ]
+  },
+  "totalTransfer" : 1,
+  "nodeList" : [ {
+    "stationFromId" : 0,
+    "stationToId" : 0,
+    "stationFromName" : "Start",
+    "stationToName" : "Công viên ph?n m?m Quang Trung",
+    "transferTurn" : 0,
+    "type" : "WALKING",
+    "routeNo" : 0,
+    "distance" : 100.0,
+    "time" : {
+      "weeks" : 0,
+      "months" : 0,
+      "hours" : 0,
+      "minutes" : 1,
+      "seconds" : 30,
+      "millis" : 0,
+      "years" : 0,
+      "days" : 0,
+      "periodType" : {
+        "name" : "Standard"
+      },
+      "values" : [ 0, 0, 0, 0, 0, 1, 30, 0 ],
+      "fieldTypes" : [ {
+        "name" : "years"
+      }, {
+        "name" : "months"
+      }, {
+        "name" : "weeks"
+      }, {
+        "name" : "days"
+      }, {
+        "name" : "hours"
+      }, {
+        "name" : "minutes"
+      }, {
+        "name" : "seconds"
+      }, {
+        "name" : "millis"
+      } ]
+    },
+    "points" : null
+  }, {
+    "routeId" : 79,
+    "routeName" : "B?n Thành - Ch? Hi?p Thành",
+    "routeNo" : 18,
+    "tranferNo" : 1,
+    "pathType" : "CONNECTED_BUS",
+    "segmentDistance" : 6005.7857617626305,
+    "segmentTime" : {
+      "weeks" : 0,
+      "months" : 0,
+      "hours" : 0,
+      "minutes" : 6,
+      "seconds" : 701,
+      "millis" : 8946,
+      "years" : 0,
+      "days" : 0,
+      "periodType" : {
+        "name" : "Standard"
+      },
+      "values" : [ 0, 0, 0, 0, 0, 6, 701, 8946 ],
+      "fieldTypes" : [ {
+        "name" : "years"
+      }, {
+        "name" : "months"
+      }, {
+        "name" : "weeks"
+      }, {
+        "name" : "days"
+      }, {
+        "name" : "hours"
+      }, {
+        "name" : "minutes"
+      }, {
+        "name" : "seconds"
+      }, {
+        "name" : "millis"
+      } ]
+    },
+    "paths" : [ {
+      "stationFromId" : 466,
+      "stationToId" : 486,
+      "stationFromName" : "Công viên ph?n m?m Quang Trung",
+      "stationToName" : "?ông B?c",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.85307,
+        "longitude" : 106.62626
+      }, {
+        "latitude" : 10.85349,
+        "longitude" : 106.62601000000001
+      }, {
+        "latitude" : 10.85407,
+        "longitude" : 106.62555
+      }, {
+        "latitude" : 10.85457,
+        "longitude" : 106.62506
+      }, {
+        "latitude" : 10.854780000000002,
+        "longitude" : 106.62482000000001
+      }, {
+        "latitude" : 10.855030000000001,
+        "longitude" : 106.62447
+      }, {
+        "latitude" : 10.855410000000001,
+        "longitude" : 106.62376
+      }, {
+        "latitude" : 10.85542,
+        "longitude" : 106.62373000000001
+      }, {
+        "latitude" : 10.855440000000002,
+        "longitude" : 106.62349
+      }, {
+        "latitude" : 10.85565,
+        "longitude" : 106.623
+      } ]
+    }, {
+      "stationFromId" : 486,
+      "stationToId" : 491,
+      "stationFromName" : "?ông B?c",
+      "stationToName" : "?i?n l?c Hóc Môn",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.85565,
+        "longitude" : 106.623
+      }, {
+        "latitude" : 10.856250000000001,
+        "longitude" : 106.62165
+      }, {
+        "latitude" : 10.85665,
+        "longitude" : 106.62086000000001
+      } ]
+    }, {
+      "stationFromId" : 491,
+      "stationToId" : 489,
+      "stationFromName" : "?i?n l?c Hóc Môn",
+      "stationToName" : "Chi?c nón K? Di?u",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.85665,
+        "longitude" : 106.62086000000001
+      }, {
+        "latitude" : 10.85687,
+        "longitude" : 106.62044
+      }, {
+        "latitude" : 10.857360000000002,
+        "longitude" : 106.61977
+      }, {
+        "latitude" : 10.85777,
+        "longitude" : 106.61926000000001
+      } ]
+    }, {
+      "stationFromId" : 489,
+      "stationToId" : 482,
+      "stationFromName" : "Chi?c nón K? Di?u",
+      "stationToName" : "ch? Tân Chánh Hi?p",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.85777,
+        "longitude" : 106.61926000000001
+      }, {
+        "latitude" : 10.858780000000001,
+        "longitude" : 106.61795000000001
+      }, {
+        "latitude" : 10.85885,
+        "longitude" : 106.6179
+      }, {
+        "latitude" : 10.859020000000001,
+        "longitude" : 106.6178
+      }, {
+        "latitude" : 10.85923,
+        "longitude" : 106.61775000000002
+      } ]
+    }, {
+      "stationFromId" : 482,
+      "stationToId" : 481,
+      "stationFromName" : "ch? Tân Chánh Hi?p",
+      "stationToName" : "Doanh tr?i Quân ??i",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.85923,
+        "longitude" : 106.61775000000002
+      }, {
+        "latitude" : 10.860830000000002,
+        "longitude" : 106.61745
+      }, {
+        "latitude" : 10.861500000000001,
+        "longitude" : 106.61731
+      } ]
+    }, {
+      "stationFromId" : 481,
+      "stationToId" : 484,
+      "stationFromName" : "Doanh tr?i Quân ??i",
+      "stationToName" : "Tr??ng ??i h?c Lao ??ng Xã h?i",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.861500000000001,
+        "longitude" : 106.61731
+      }, {
+        "latitude" : 10.862760000000002,
+        "longitude" : 106.617
+      }, {
+        "latitude" : 10.86334,
+        "longitude" : 106.61684000000001
+      } ]
+    }, {
+      "stationFromId" : 484,
+      "stationToId" : 483,
+      "stationFromName" : "Tr??ng ??i h?c Lao ??ng Xã h?i",
+      "stationToName" : "Tr??ng ?H GTVT TPHCM",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.86334,
+        "longitude" : 106.61684000000001
+      }, {
+        "latitude" : 10.86504,
+        "longitude" : 106.61629
+      } ]
+    }, {
+      "stationFromId" : 483,
+      "stationToId" : 996,
+      "stationFromName" : "Tr??ng ?H GTVT TPHCM",
+      "stationToName" : "Ngã 3 B?u",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.86504,
+        "longitude" : 106.61629
+      }, {
+        "latitude" : 10.86683,
+        "longitude" : 106.61573000000001
+      }, {
+        "latitude" : 10.867370000000001,
+        "longitude" : 106.61552
+      }, {
+        "latitude" : 10.86766,
+        "longitude" : 106.61586000000001
+      } ]
+    }, {
+      "stationFromId" : 996,
+      "stationToId" : 995,
+      "stationFromName" : "Ngã 3 B?u",
+      "stationToName" : "Tr?m y t?",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.86766,
+        "longitude" : 106.61586000000001
+      }, {
+        "latitude" : 10.868730000000001,
+        "longitude" : 106.61712000000001
+      }, {
+        "latitude" : 10.869580000000001,
+        "longitude" : 106.61797000000001
+      } ]
+    }, {
+      "stationFromId" : 995,
+      "stationToId" : 997,
+      "stationFromName" : "Tr?m y t?",
+      "stationToName" : "Trung tâm y t? Qu?n 12",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.869580000000001,
+        "longitude" : 106.61797000000001
+      }, {
+        "latitude" : 10.870220000000002,
+        "longitude" : 106.61854000000001
+      }, {
+        "latitude" : 10.871210000000001,
+        "longitude" : 106.61942
+      }, {
+        "latitude" : 10.87142,
+        "longitude" : 106.61965000000001
+      }, {
+        "latitude" : 10.871690000000001,
+        "longitude" : 106.61990000000002
+      } ]
+    }, {
+      "stationFromId" : 997,
+      "stationToId" : 1018,
+      "stationFromName" : "Trung tâm y t? Qu?n 12",
+      "stationToName" : "Quán N?m L?a",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.871690000000001,
+        "longitude" : 106.61990000000002
+      }, {
+        "latitude" : 10.871960000000001,
+        "longitude" : 106.62015000000001
+      }, {
+        "latitude" : 10.8725,
+        "longitude" : 106.62067
+      }, {
+        "latitude" : 10.87325,
+        "longitude" : 106.62131000000001
+      }, {
+        "latitude" : 10.87401,
+        "longitude" : 106.62199000000001
+      }, {
+        "latitude" : 10.874910000000002,
+        "longitude" : 106.62281000000002
+      }, {
+        "latitude" : 10.8754,
+        "longitude" : 106.62326
+      } ]
+    }, {
+      "stationFromId" : 1018,
+      "stationToId" : 1017,
+      "stationFromName" : "Quán N?m L?a",
+      "stationToName" : "Ngã t? N??c ?á",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.8754,
+        "longitude" : 106.62326
+      }, {
+        "latitude" : 10.876790000000002,
+        "longitude" : 106.62448
+      }, {
+        "latitude" : 10.87819,
+        "longitude" : 106.62573
+      }, {
+        "latitude" : 10.878250000000001,
+        "longitude" : 106.62577
+      } ]
+    }, {
+      "stationFromId" : 1017,
+      "stationToId" : 1020,
+      "stationFromName" : "Ngã t? N??c ?á",
+      "stationToName" : "Tr??ng ti?u h?c Nguy?n Trãi",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.878250000000001,
+        "longitude" : 106.62577
+      }, {
+        "latitude" : 10.878860000000001,
+        "longitude" : 106.62626
+      }, {
+        "latitude" : 10.879380000000001,
+        "longitude" : 106.62664000000001
+      }, {
+        "latitude" : 10.88091,
+        "longitude" : 106.62769000000002
+      }, {
+        "latitude" : 10.88122,
+        "longitude" : 106.62790000000001
+      } ]
+    }, {
+      "stationFromId" : 1020,
+      "stationToId" : 1019,
+      "stationFromName" : "Tr??ng ti?u h?c Nguy?n Trãi",
+      "stationToName" : "Ngã 3 ?ông Quang",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.88122,
+        "longitude" : 106.62790000000001
+      }, {
+        "latitude" : 10.883120000000002,
+        "longitude" : 106.62922
+      }, {
+        "latitude" : 10.88335,
+        "longitude" : 106.6294
+      }, {
+        "latitude" : 10.88255,
+        "longitude" : 106.63075
+      }, {
+        "latitude" : 10.882150000000001,
+        "longitude" : 106.63148000000001
+      } ]
+    }, {
+      "stationFromId" : 1019,
+      "stationToId" : 1014,
+      "stationFromName" : "Ngã 3 ?ông Quang",
+      "stationToName" : "Cây x?ng Hi?p Thành",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.882150000000001,
+        "longitude" : 106.63148000000001
+      }, {
+        "latitude" : 10.88048,
+        "longitude" : 106.63454000000002
+      } ]
+    }, {
+      "stationFromId" : 1014,
+      "stationToId" : 1013,
+      "stationFromName" : "Cây x?ng Hi?p Thành",
+      "stationToName" : "C?a hàng Ng?c S?n",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.88048,
+        "longitude" : 106.63454000000002
+      }, {
+        "latitude" : 10.87996,
+        "longitude" : 106.63551000000001
+      }, {
+        "latitude" : 10.879130000000002,
+        "longitude" : 106.63700000000001
+      } ]
+    }, {
+      "stationFromId" : 1013,
+      "stationToId" : 1016,
+      "stationFromName" : "C?a hàng Ng?c S?n",
+      "stationToName" : "Công an Hi?p Thành",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.879130000000002,
+        "longitude" : 106.63700000000001
+      }, {
+        "latitude" : 10.87855,
+        "longitude" : 106.63802000000001
+      }, {
+        "latitude" : 10.878160000000001,
+        "longitude" : 106.63874000000001
+      } ]
+    }, {
+      "stationFromId" : 1016,
+      "stationToId" : 1015,
+      "stationFromName" : "Công an Hi?p Thành",
+      "stationToName" : "Ngân hàng Agribank",
+      "transferTurn" : 0,
+      "type" : "CONNECTED_BUS",
+      "routeNo" : 0,
+      "distance" : 0.0,
+      "time" : null,
+      "points" : [ {
+        "latitude" : 10.878160000000001,
+        "longitude" : 106.63874000000001
+      }, {
+        "latitude" : 10.8779,
+        "longitude" : 106.63923000000001
+      }, {
+        "latitude" : 10.877360000000001,
+        "longitude" : 106.64016000000001
+      }, {
+        "latitude" : 10.877300000000002,
+        "longitude" : 106.64028
+      }, {
+        "latitude" : 10.877260000000001,
+        "longitude" : 106.64046
+      }, {
+        "latitude" : 10.87724,
+        "longitude" : 106.64065000000001
+      } ]
+    } ]
+  }, {
+    "stationFromId" : 0,
+    "stationToId" : 0,
+    "stationFromName" : "End",
+    "stationToName" : "End",
+    "transferTurn" : 0,
+    "type" : "WALKING",
+    "routeNo" : 0,
+    "distance" : 100.0,
+    "time" : {
+      "weeks" : 0,
+      "months" : 0,
+      "hours" : 0,
+      "minutes" : 1,
+      "seconds" : 30,
+      "millis" : 0,
+      "years" : 0,
+      "days" : 0,
+      "periodType" : {
+        "name" : "Standard"
+      },
+      "values" : [ 0, 0, 0, 0, 0, 1, 30, 0 ],
+      "fieldTypes" : [ {
+        "name" : "years"
+      }, {
+        "name" : "months"
+      }, {
+        "name" : "weeks"
+      }, {
+        "name" : "days"
+      }, {
+        "name" : "hours"
+      }, {
+        "name" : "minutes"
+      }, {
+        "name" : "seconds"
+      }, {
+        "name" : "millis"
+      } ]
+    },
+    "points" : null
+  } ]
+}

@@ -132,12 +132,102 @@ public class MotorbikeFragment1 extends Fragment {
                         jsons.add(json_1);
                         jsons.add(json_2);
                         jsons.add(json_3);
-                        for (int i = 0; i<jsons.size();i++){
-                            List<Leg> legs = JSONParseUtils.getListLegWithFourPoint(jsons.get(i));
-                            for (Leg leg : legs){
-                                listLeg.add(leg);
+                        int  duration_listLeg_1 = 0;
+                        int duration_listLeg_2 = 0;
+                        int duration_listLeg_3 = 0;
+                        List<Leg> listLeg_1 = JSONParseUtils.getListLegWithFourPoint(json_1);
+                        List<Leg> listLeg_2 = JSONParseUtils.getListLegWithFourPoint(json_2);
+                        List<Leg> listLeg_3 = JSONParseUtils.getListLegWithFourPoint(json_3);
+                        for (Leg leg1 : listLeg_1){
+                            duration_listLeg_1 += leg1.getDetailLocation().getDuration();
+                        }
+                        for (Leg leg2 : listLeg_2){
+                            duration_listLeg_2 += leg2.getDetailLocation().getDuration();
+                        }
+                        for (Leg leg3 : listLeg_3){
+                            duration_listLeg_3 += leg3.getDetailLocation().getDuration();
+                        }
+
+                        if(duration_listLeg_1 > duration_listLeg_2){
+                            if(duration_listLeg_2 > duration_listLeg_3){
+                                for (Leg leg3 : listLeg_3){
+                                    listLeg.add(leg3);
+                                }
+                                for (Leg leg2 : listLeg_2){
+                                    listLeg.add(leg2);
+                                }
+                                for (Leg leg1 : listLeg_1){
+                                    listLeg.add(leg1);
+                                }
+                            }else {
+
+                                if(duration_listLeg_1 > duration_listLeg_3){
+                                    for (Leg leg2 : listLeg_2){
+                                        listLeg.add(leg2);
+                                    }
+                                    for (Leg leg3 : listLeg_3){
+                                        listLeg.add(leg3);
+                                    }
+                                    for (Leg leg1 : listLeg_1){
+                                        listLeg.add(leg1);
+                                    }
+                                }else{
+                                    for (Leg leg2 : listLeg_2){
+                                        listLeg.add(leg2);
+                                    }
+
+                                    for (Leg leg1 : listLeg_1){
+                                        listLeg.add(leg1);
+                                    }
+                                    for (Leg leg3 : listLeg_3){
+                                        listLeg.add(leg3);
+                                    }
+
+                                }
+
                             }
-                            /*listLeg = JSONParseUtils.getListLegWithFourPoint(jsons.get(i));*/
+                        }else {
+                            if(duration_listLeg_1 > duration_listLeg_3){
+
+                                for (Leg leg3 : listLeg_3){
+                                    listLeg.add(leg3);
+                                }
+
+                                for (Leg leg1 : listLeg_1){
+                                    listLeg.add(leg1);
+                                }
+                                for (Leg leg2 : listLeg_2){
+                                    listLeg.add(leg2);
+                                }
+
+                            }else {
+                                if(duration_listLeg_2 > duration_listLeg_3){
+                                    for (Leg leg1 : listLeg_1){
+                                        listLeg.add(leg1);
+                                    }
+                                    for (Leg leg3 : listLeg_3){
+                                        listLeg.add(leg3);
+                                    }
+
+                                    for (Leg leg2 : listLeg_2){
+                                        listLeg.add(leg2);
+                                    }
+                                }else{
+                                    for (Leg leg1 : listLeg_1){
+                                        listLeg.add(leg1);
+                                    }
+                                    for (Leg leg2 : listLeg_2){
+                                        listLeg.add(leg2);
+                                    }
+                                    for (Leg leg3 : listLeg_3){
+                                        listLeg.add(leg3);
+                                    }
+
+
+                                }
+
+
+                            }
                         }
 
                     }

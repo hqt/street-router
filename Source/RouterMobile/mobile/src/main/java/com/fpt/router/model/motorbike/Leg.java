@@ -22,8 +22,6 @@ public class Leg  implements Serializable{
         Overview_polyline = overview_polyline;
     }
 
-
-
     public String getEndAddress() {
         return EndAddress;
     }
