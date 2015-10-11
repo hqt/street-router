@@ -1,8 +1,6 @@
 package com.fpt.router.fragment;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.MainActivity;
-import com.fpt.router.adapter.DesignRecyclerAdapter1;
+import com.fpt.router.activity.MainSecond;
+import com.fpt.router.adapter.MotorbikeRecyclerAdapter;
 import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +23,9 @@ import java.util.List;
 public class BusFragment1 extends Fragment {
 
     /** Main Activity for reference */
-    private MainActivity activity;
-    private List<String> listLocation = MainActivity.listLocation;
-    private Boolean optimize = MainActivity.optimize;
+    private MainSecond activity;
+    private List<String> listLocation = MainSecond.listLocation;
+    private Boolean optimize = MainSecond.optimize;
     /** Main Activity for reference */
     private List<Leg> listLeg;
     private RecyclerView recyclerView;
@@ -54,7 +50,7 @@ public class BusFragment1 extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (MainActivity) context;
+        this.activity = (MainSecond) context;
     }
 
     @Override
@@ -77,7 +73,7 @@ public class BusFragment1 extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_list_view, container, false);
         recyclerView = (RecyclerView)v.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(new DesignRecyclerAdapter1(listLeg,listLocation.size()));
+        /*recyclerView.setAdapter(new MotorbikeRecyclerAdapter(listLeg,listLocation.size()));*/
         return v;
     }
 }

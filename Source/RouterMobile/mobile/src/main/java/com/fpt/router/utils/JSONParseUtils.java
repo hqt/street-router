@@ -1,5 +1,8 @@
 package com.fpt.router.utils;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
 import com.fpt.router.model.motorbike.Location;
@@ -81,6 +84,8 @@ public class JSONParseUtils {
         }
         return null;
     }
+
+
 
     public static String replaceInstruction (String instruction) {
         String text = instruction;

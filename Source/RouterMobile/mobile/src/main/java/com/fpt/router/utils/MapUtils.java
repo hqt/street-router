@@ -1,7 +1,5 @@
 package com.fpt.router.utils;
 
-import android.graphics.Color;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -24,6 +22,29 @@ public class MapUtils {
 
         // Changing marker icon
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+        // adding marker
+        map.addMarker(marker);
+    }
+
+    public static void drawStartPoint(GoogleMap map, double latitude, double longitude, String title){
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+        // adding marker
+        map.addMarker(marker);
+    }
+    public static void drawEndPoint(GoogleMap map, double latitude, double longitude, String title){
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
         // adding marker
         map.addMarker(marker);

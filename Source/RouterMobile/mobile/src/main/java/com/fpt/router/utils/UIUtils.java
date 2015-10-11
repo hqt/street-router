@@ -23,12 +23,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fpt.router.BuildConfig;
-import com.fpt.router.config.PrefStore;
 import com.fpt.router.config.RouteApplication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**

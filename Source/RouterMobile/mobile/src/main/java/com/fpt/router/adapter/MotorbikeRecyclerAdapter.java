@@ -7,31 +7,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.GoogleMapBus;
-import com.fpt.router.model.bus.DetailRoute;
 import com.fpt.router.model.motorbike.Leg;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 10/8/2015.
  */
-public class DesignRecyclerAdapter1 extends RecyclerView.Adapter<DesignRecyclerAdapter1.ViewHolder> {
-    private List<Leg> objects;
+public class MotorbikeRecyclerAdapter extends RecyclerView.Adapter<MotorbikeRecyclerAdapter.ViewHolder> {
+    private List<Leg>objects;
     private Leg leg;
     private int locationSize;
 
-    public DesignRecyclerAdapter1(List<Leg> objects, int locationSize) {
+    public MotorbikeRecyclerAdapter(List<Leg> objects, int locationSize) {
         this.objects = objects;
         this.locationSize = locationSize;
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -39,6 +38,7 @@ public class DesignRecyclerAdapter1 extends RecyclerView.Adapter<DesignRecyclerA
 
         return new ViewHolder(v);
     }
+
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {

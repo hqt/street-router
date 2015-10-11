@@ -1,23 +1,24 @@
 package com.fpt.router.activity;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.AutoCompleteTextView;
+
 import com.fpt.router.R;
 import com.fpt.router.adapter.GooglePlacesAutocompleteAdapter;
 import com.fpt.router.utils.NetworkUtils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import android.app.Activity;
-
-import android.widget.ArrayAdapter;
 
 
 public class GooglePlacesAutocompleteActivity extends Activity {

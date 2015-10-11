@@ -16,7 +16,7 @@
             android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-            <AutoCompleteTextView
+            <!--<AutoCompleteTextView
                 android:imeOptions="actionNext"
                 android:id="@+id/autoCompleteTextView"
                 android:layout_width="250dip"
@@ -29,7 +29,20 @@
                 android:background="@drawable/edittext_bg"
                 android:ems="10"
                 android:text="" >
-            </AutoCompleteTextView>
+            </AutoCompleteTextView>-->
+            <com.fpt.router.activity.SearchEditTextCustom
+                android:imeOptions="actionNext"
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="270dip"
+                android:layout_height="30dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginBottom="5dip"
+                android:padding="3dip"
+                android:hint="Chọn điểm khởi hành"
+                android:textColor="@android:color/white"
+                android:background="@drawable/edittext_bg"
+                android:ems="10"
+                android:text="" />
 
         </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>

@@ -27,7 +27,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activity.ConnectToWearActivity"
+            android:name=".activity.MainFirst"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,35 +36,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.MainSecond"
             android:label="Main Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainFirst" />
         </activity>
         <activity
-            android:name=".activity.SearchActivity"
+            android:name=".activity.MainSearch"
             android:label="@string/title_activity_search">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.MainSecond" />
         </activity>
         <activity
             android:name=".activity.DetailGMActivity"
             android:label="Third Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.MainSecond" />
         </activity>
         <activity
-            android:name=".activity.Optional"
+            android:name=".activity.MainOptional"
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".activity.GoogleMapBus"
             android:label="@string/title_activity_main">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.MainSecond" />
         </activity>
     </application>
 

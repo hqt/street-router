@@ -6,9 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.fpt.router.utils.LogUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by huynhthao on 9/19/15.
  */

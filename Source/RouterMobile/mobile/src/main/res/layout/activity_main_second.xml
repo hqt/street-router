@@ -26,7 +26,7 @@
                     android:layout_marginTop="10dip"
                     android:layout_marginBottom="5dip"
                     android:padding="3dip"
-                    android:text="Chọn điểm khởi hành"
+                    android:hint="Chọn điểm khởi hành"
                     android:id="@+id/edit_1"
                     android:ellipsize="end"
                     android:singleLine="true"
@@ -39,7 +39,7 @@
                     android:layout_marginTop="5dip"
                     android:padding="3dip"
                     android:textColor="@android:color/white"
-                    android:text="Chọn điểm đến"
+                    android:hint="Chọn điểm đến"
                     android:id="@+id/edit_2"
                     android:ellipsize="end"
                     android:singleLine="true"
@@ -71,23 +71,36 @@
         android:id="@+id/option"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="200dip"
+            android:layout_width="match_parent"
             android:layout_height="45dip"
             android:background="?attr/colorPrimary"
             android:text="Khởi hành lúc"
             android:id="@+id/departtime"
             android:textColor="#ffffff"
             android:padding="5dip"
+            android:layout_weight="1"
             android:gravity="center"/>
         <TextView
-            android:layout_width="190dip"
+            android:layout_width="match_parent"
             android:layout_height="45dip"
             android:background="?attr/colorPrimary"
             android:text="Tùy chọn"
             android:id="@+id/optional"
             android:textColor="#ffffff"
             android:padding="5dip"
+            android:layout_weight="1"
             android:gravity="center"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
+            android:textColor="#fff"
+            android:text="Search"
+            android:padding="5dip"
+            android:gravity="center"
+            android:id="@+id/btn_search"
+            />
     </LinearLayout>
     <!--View Pager-->
     <android.support.v4.view.ViewPager
