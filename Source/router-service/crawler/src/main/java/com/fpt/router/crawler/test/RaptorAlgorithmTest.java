@@ -30,11 +30,7 @@ public class RaptorAlgorithmTest {
         Station end = map.getStationById(3460);
 
         start = map.getStationById(1445);
-        start = map.getStationById(1015);
-        end = map.getStationById(466);
-
-        start = map.getStationById(466);
-        end = map.getStationById(1015);
+         end = map.getStationById(466);
 
         Path startPath = new Path();
         startPath.stationFromName = "Start";
@@ -53,7 +49,7 @@ public class RaptorAlgorithmTest {
         endPath.distance = 100;
         endPath.time = new Period(0, 1, 30, 0);
 
-        Result res = algor.run(map, start, end, startPath, endPath, 1, false, new LocalTime(8, 30));
+        Result res = algor.run(map, start, end, startPath, endPath, 2, false, new LocalTime(8, 30));
         int a = 3;
         // convert this list to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

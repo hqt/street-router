@@ -13,11 +13,12 @@ import javax.servlet.http.HttpServlet;
  * Created by Huynh Quang Thao on 9/27/15.
  */
 public class StartupServlet extends HttpServlet {
+    public static CityMap map;
+
     public void init() throws ServletException {
         System.out.println("----------");
         System.out.println("Loading Database zzzz");
-        System.out.println("bus speed: " + Config.BUS_SPEED);
-        CityMap map = MapDAL.readDatabase();
+        map = MapDAL.readDatabase();
         System.out.println("thao thao hi hi : " + map.routes.size());
         System.out.println("fuck");
         System.out.println("----------");

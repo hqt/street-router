@@ -8,6 +8,7 @@ import com.fpt.router.artifacter.model.viewmodel.INode;
 import com.fpt.router.artifacter.model.viewmodel.Path;
 import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.model.viewmodel.Segment;
+import com.fpt.router.artifacter.utils.TimeUtils;
 import com.google.common.collect.Lists;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -15,7 +16,7 @@ import org.joda.time.Period;
 import java.util.*;
 
 /**
- * Purpose:
+ * Purpose: Raptor Algorithm
  * Created by Huynh Quang Thao on 9/20/15.
  */
 public class RaptorAlgorithm {
@@ -60,21 +61,25 @@ public class RaptorAlgorithm {
 
     // using for track back.
     // traceUsedRoute[i] = j. shortest arrival totalTime come to i-station using route j
-    int[] traceUsedRoute;
+    int[][] traceUsedRoute;
 
     // parent station of current station. so we go on bus on this station
-    int[] traceFromStation;
+    int[][] traceFromStation;
 
     private void initialize() {
         Q = new HashMap<Integer, Integer>();
 
         // initialize for traceUsedRoute.
-        traceUsedRoute = new int[map.stations.size()];
-        Arrays.fill(traceUsedRoute, -1);
+        traceUsedRoute = new int[K+1][map.stations.size()];
+        for (int i = 0; i < K+1; i++) {
+            Arrays.fill(traceUsedRoute[i], -1);
+        }
 
         // initialize for traceFromStation
-        traceFromStation = new int[map.stations.size()];
-        Arrays.fill(traceFromStation, -1);
+        traceFromStation = new int[K+1][map.stations.size()];
+        for (int i = 0; i < K+1; i++) {
+            Arrays.fill(traceFromStation[i], -1);
+        }
 
         // initialize for marked station
         markedStationIds = new ArrayList<Integer>();
@@ -97,11 +102,20 @@ public class RaptorAlgorithm {
 
         for (int k = 1; k <= K; k++) {
 
+            // step 0. assign previous step to current step
+
+            // assign upper bound on the earliest arrival time at p with at most k-trip
+            System.arraycopy(result[k - 1], 0, result[k], 0, map.stations.size());
+            System.arraycopy(traceFromStation[k-1], 0, traceFromStation[k], 0, map.stations.size());
+            System.arraycopy(traceUsedRoute[k-1], 0, traceUsedRoute[k], 0, map.stations.size());
+
+
             // step 1. find the  first stop that satisfy condition
             for (Integer p : markedStationIds) {
                 // all routes that go through this stop
                 for (Route route : map.getStationById(p).routes) {
                     if (Config.blockRoute.contains(route.routeNo)) continue;
+                    // if (!Config.allowRoute.contains(route.routeNo)) continue;
                     if (Q.containsKey(route.routeId)) {
                         // station already in queue respectively with route r
                         int _p = Q.get(route.routeId);
@@ -157,9 +171,10 @@ public class RaptorAlgorithm {
                             earliest_arrival_time[p_i.id] = arrivalTime;
                             // from this station. maybe can update other routes at next turn
                             markedStationIds.add(p_i.id);
+
                             // store information for trace back
-                            traceFromStation[p_i.id] = startStation.id;
-                            traceUsedRoute[p_i.id] = route.routeId;
+                            traceFromStation[k][p_i.id] = startStation.id;
+                            traceUsedRoute[k][p_i.id] = route.routeId;
                         }
                     }
 
@@ -209,13 +224,13 @@ public class RaptorAlgorithm {
         List<INode> res = new ArrayList<INode>();
         res.add(endPath);
 
-        while(traceFromStation[currentHopStationId] != -1) {
+        while(traceFromStation[transferTurn][currentHopStationId] != -1) {
             Station currentHopStation = map.getStationById(currentHopStationId);
 
-            int previousHopStationId = traceFromStation[currentHopStationId];
+            int previousHopStationId = traceFromStation[transferTurn][currentHopStationId];
             Station previousHopStation = map.getStationById(previousHopStationId);
 
-            int routeId = traceUsedRoute[currentHopStation.id];
+            int routeId = traceUsedRoute[transferTurn][currentHopStation.id];
             Route route = map.getRouteById(routeId);
 
             // create middle stationMap in same route
@@ -235,10 +250,19 @@ public class RaptorAlgorithm {
 
         // make final result
         Result result = new Result();
+
         result.nodeList = res;
         result.totalDistance = totalDistance;
         result.totalTime = totalTime;
-        result.totalTransfer = K;                   // wrong here
+        result.totalTransfer = K;
+        result.minutes = (int) (TimeUtils.convertToMilliseconds(totalTime) / (1000 * 60));
+
+        if (res.size() == 2) {
+            result.code = "fail";
+        } else {
+            result.code = "success";
+        }
+
         return result;
     }
 

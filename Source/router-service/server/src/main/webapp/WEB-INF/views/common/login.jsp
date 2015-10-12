@@ -129,7 +129,7 @@
         if ($redirect.val() == "" && redirect) {
             $redirect.val(redirect);
             if (redirect.substr(0, 8) == "%2Fstaff") {
-                $('#selectRole').val("staff");
+                $('#selectRole').val("admin");
             } else if (redirect.substr(0, 11) == "%2Fcustomer") {
                 $('#selectRole').val("customer");
             }
@@ -141,7 +141,7 @@
             $('#authorize-failed').show();
         }
 
-        // Auto select staff if possible
+        // Auto select admin if possible
         var refrole = getQueryVariable("refrole");
         if (refrole) {
             $('#selectRole').val(refrole);

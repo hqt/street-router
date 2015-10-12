@@ -33,7 +33,9 @@ public class Config {
     public static final double WALKING_DISTANCE = 550;
 
     private static final double BUS_SPEED_KM_H = 20.0;
-    public static final double BUS_SPEED = BUS_SPEED_KM_H * 1000 / 3600;     // m / s
+    private static final double HUMAN_SPEED_KM_H = 4.0;
+    public static final double BUS_SPEED_M_S = BUS_SPEED_KM_H * 1000 / 3600;
+    public static final double HUMAN_SPEED_M_S = HUMAN_SPEED_KM_H * 1000 / 3600;
 
     public static final class NoteData {
         int STATION_COUNT = 4126;
@@ -44,7 +46,15 @@ public class Config {
         int WALKING_EDGE = 12767;
     }
 
+    public static class WEB {
+        public static String SESSION_USER = "USER";
+    }
+
+    // bug from those route. should be avoid
     public static Set<Integer> blockRoute = new HashSet<Integer>();
+
+    // using for debugging purpose
+    public static Set<Integer> allowRoute = new HashSet<Integer>();
 
     static {
         blockRoute.add(26);
@@ -52,6 +62,11 @@ public class Config {
         blockRoute.add(75);
         blockRoute.add(80);
         blockRoute.add(82);
+
+        allowRoute.add(3);
+        allowRoute.add(20);
+        allowRoute.add(72);
+        allowRoute.add(18);
     }
 
 }

@@ -71,6 +71,14 @@ public class ApplicationContext {
         request.getSession().setAttribute(attributeName, attributeValue);
     }
 
+    public String getQueryString() {
+        return request.getQueryString();
+    }
+
+    public String getRequestURI() {
+        return request.getRequestURI();
+    }
+
     public Object getSessionAttribute(String attributeName) {
         return request.getSession().getAttribute(attributeName);
     }

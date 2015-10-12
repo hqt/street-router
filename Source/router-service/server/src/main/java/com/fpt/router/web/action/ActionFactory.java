@@ -18,11 +18,17 @@ public class ActionFactory implements IActionFactory {
         String url = context.getServletPath();
 
 
-        if (url.equals("/login")) {
-            System.out.println("go to login page");
-            action = new DirectPageAction();
+        if (url == null || url.equals("")) {
+            int a = 3;
         }
 
+        if (url.equals("/login")) {
+            action = new DirectPageAction();
+        } else if (url.equals("/list")) {
+            action = new MainAction();
+        } else if (url.equals("/paging")) {
+            action = new AjaxAction();
+        }
 
         // handle "action" parameter that end with jsp. will go directly to jsp page
         /**
@@ -31,11 +37,17 @@ public class ActionFactory implements IActionFactory {
          * (lastStr.equals(".jsp")) { return new JSPPageAction(); } }
          */
 
+        System.out.println("Action Command: " +actionCommand);
+
         if (actionCommand != null) {
-            System.out.println("action command not null");
             if (actionCommand.equals("login")) {
-                System.out.println("login action not null");
                 action = new LoginAction();
+            } else if (actionCommand.equals("detailRoute")) {
+                action = new DetailRouteAction();
+            } else if (actionCommand.equals("paging")) {
+                action = new AjaxAction();
+            } else if (actionCommand.equals("detail")) {
+                action = new DetailRouteAction();
             }
         }
 

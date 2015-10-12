@@ -41,7 +41,7 @@ var TableAjax = function () {
                 ],
                 "pageLength": 10, // default record count per page
                 "ajax": {
-                    "url": "demo/table_ajax.php", // ajax source
+                        "url": "http://localhost:8080/list", // ajax source
                 },
                 "order": [
                     [1, "asc"]
