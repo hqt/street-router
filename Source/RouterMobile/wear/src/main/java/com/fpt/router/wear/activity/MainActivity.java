@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.fpt.router.activity;
+package com.fpt.router.wear.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
