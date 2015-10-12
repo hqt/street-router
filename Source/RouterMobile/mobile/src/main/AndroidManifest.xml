@@ -48,13 +48,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
-        <activity
-            android:name=".activity.DetailGMActivity"
-            android:label="Third Activity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
-        </activity>
+
         <activity
             android:name=".activity.MainOptional"
             android:theme="@android:style/Theme.Dialog" />
@@ -86,7 +80,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
-<<<<<<< HEAD
 
         <!-- The service listening for incoming messages from the wear device -->
         <service android:name=".service.FeedbackListenerService" >
@@ -95,12 +88,11 @@
             </intent-filter>
         </service>
 
-=======
         <activity
             android:name=".activity.FuckActivity"
             android:label="@string/title_activity_fuck" >
         </activity>
->>>>>>> de5051514a9b570816c4a8300162db93d35f9018
+
     </application>
 
 </manifest>
