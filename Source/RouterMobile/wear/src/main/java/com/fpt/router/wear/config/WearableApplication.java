@@ -1,4 +1,4 @@
-package com.fpt.router.config;
+package com.fpt.router.wear.config;
 
 import android.app.Application;
 

@@ -1,6 +1,7 @@
 package com.fpt.router.web.action.common;
 
 import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.staff.RouteListAJAXAction;
 import com.fpt.router.web.action.staff.DetailRouteAction;
 import com.fpt.router.web.action.staff.RouteListAction;
@@ -31,6 +32,8 @@ public class ActionFactory implements IActionFactory {
         } else if (url.equals("/detail")) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "detail.jsp");
             action = new DirectPageAction();
+        } else if (url.equals("/api/twopoint")) {
+            action = new TwoPointRouteAction();
         }
 
         // handle "action" parameter that end with jsp. will go directly to jsp page

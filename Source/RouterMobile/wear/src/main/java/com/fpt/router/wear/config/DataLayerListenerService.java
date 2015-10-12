@@ -1,10 +1,10 @@
-package com.fpt.router.config;
+package com.fpt.router.wear.config;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.fpt.router.activity.MainActivity;
+import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.DataEvent;
