@@ -1,20 +1,16 @@
-package com.fpt.router.web.action;
+package com.fpt.router.web.action.staff;
 
-import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
-import com.fpt.router.web.action.common.AuthAction;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.RouteListVM;
-import com.fpt.router.web.viewmodel.RouteVM;
+import com.fpt.router.web.viewmodel.staff.RouteListVM;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
  * Created by datnt on 10/11/2015.
  */
-public class MainAction extends AuthAction {
+public class RouteListAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 

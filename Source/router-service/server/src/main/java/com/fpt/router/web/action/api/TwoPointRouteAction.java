@@ -3,7 +3,7 @@ package com.fpt.router.web.action.api;
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.model.helper.Location;
-import com.fpt.router.web.action.IAction;
+import com.fpt.router.web.action.common.IAction;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.servlet.StartupServlet;
 import org.joda.time.LocalTime;

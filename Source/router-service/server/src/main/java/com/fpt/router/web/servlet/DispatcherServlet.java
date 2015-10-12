@@ -1,9 +1,9 @@
 package com.fpt.router.web.servlet;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.web.action.ActionFactory;
-import com.fpt.router.web.action.IAction;
-import com.fpt.router.web.action.IActionFactory;
+import com.fpt.router.web.action.common.ActionFactory;
+import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.IActionFactory;
 import com.fpt.router.web.config.ApplicationContext;
 
 import javax.servlet.ServletException;

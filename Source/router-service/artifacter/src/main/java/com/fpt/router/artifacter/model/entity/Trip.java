@@ -15,7 +15,7 @@ public class Trip implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TridID", unique = true, nullable = false)
-    private long tripId;
+    private int tripId;
 
     @Column(name = "TripNo")
     private int tripNo;
@@ -46,11 +46,11 @@ public class Trip implements IEntity {
         connections = new ArrayList<Connection>();
     }
 
-    public long getTripId() {
+    public int getTripId() {
         return tripId;
     }
 
-    public void setTripId(long tripId) {
+    public void setTripId(int tripId) {
         this.tripId = tripId;
     }
 

@@ -16,7 +16,7 @@ public class PathInfo implements IAlgorithmModel {
 
     }
 
-    public long pathInfoId;
+    public int pathInfoId;
 
     public int pathInfoNo;
 

@@ -1,4 +1,4 @@
-package com.fpt.router.web.action;
+package com.fpt.router.web.action.staff;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -6,7 +6,7 @@ import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.RouteListVM;
+import com.fpt.router.web.viewmodel.staff.RouteListVM;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by datnt on 10/11/2015.
  */
-public class AjaxAction implements IAction {
+public class RouteListAJAXAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 

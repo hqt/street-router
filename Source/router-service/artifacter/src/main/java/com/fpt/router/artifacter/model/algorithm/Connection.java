@@ -9,7 +9,7 @@ import javax.persistence.*;
  */
 public class Connection implements IAlgorithmModel {
 
-    public long id;
+    public int id;
 
     public Trip trip;
 

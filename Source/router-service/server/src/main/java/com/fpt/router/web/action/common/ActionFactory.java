@@ -1,6 +1,9 @@
-package com.fpt.router.web.action;
+package com.fpt.router.web.action.common;
 
 import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.web.action.staff.RouteListAJAXAction;
+import com.fpt.router.web.action.staff.DetailRouteAction;
+import com.fpt.router.web.action.staff.RouteListAction;
 import com.fpt.router.web.config.ApplicationContext;
 
 /**
@@ -22,9 +25,9 @@ public class ActionFactory implements IActionFactory {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "login.jsp");
             action = new DirectPageAction();
         } else if (url.equals("/list")) {
-            action = new MainAction();
+            action = new RouteListAction();
         } else if (url.equals("/paging")) {
-            action = new AjaxAction();
+            action = new RouteListAJAXAction();
         } else if (url.equals("/detail")) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "detail.jsp");
             action = new DirectPageAction();
@@ -43,7 +46,7 @@ public class ActionFactory implements IActionFactory {
             if (actionCommand.equals("login")) {
                 action = new LoginAction();
             } else if (actionCommand.equals("paging")) {
-                action = new AjaxAction();
+                action = new RouteListAJAXAction();
             } else if (actionCommand.equals("detail")) {
                 action = new DetailRouteAction();
             }

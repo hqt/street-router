@@ -1,4 +1,4 @@
-package com.fpt.router.web.action;
+package com.fpt.router.web.action.staff;
 
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.PathInfoDAO;
@@ -7,7 +7,7 @@ import com.fpt.router.web.config.ApplicationContext;
 /**
  * Created by datnt on 10/11/2015.
  */
-public class DetailRouteAction implements IAction {
+public class DetailRouteAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 

@@ -1,4 +1,4 @@
-package com.fpt.router.web.viewmodel;
+package com.fpt.router.web.viewmodel.staff;
 
 /**
  * Purpose:

@@ -16,7 +16,7 @@ public class Route implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RouteID", unique = true, nullable = false)
-    private long routeId;
+    private int routeId;
     @Column(name = "RouteNo", nullable = false)
     private int routeNo;
     @Column(name = "RouteType", nullable = false)
@@ -44,11 +44,11 @@ public class Route implements IEntity {
         this.routeName = routeName;
     }
 
-    public long getRouteId() {
+    public int getRouteId() {
         return routeId;
     }
 
-    public void setRouteId(long routeId) {
+    public void setRouteId(int routeId) {
         this.routeId = routeId;
     }
 
