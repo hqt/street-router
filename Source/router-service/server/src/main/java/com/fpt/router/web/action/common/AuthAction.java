@@ -1,9 +1,7 @@
 package com.fpt.router.web.action.common;
 
-import com.fpt.router.web.action.IAction;
 import com.fpt.router.web.config.ApplicationContext;
 
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 

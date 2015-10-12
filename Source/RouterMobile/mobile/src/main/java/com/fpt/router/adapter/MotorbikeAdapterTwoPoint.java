@@ -41,8 +41,8 @@ public class MotorbikeAdapterTwoPoint extends RecyclerView.Adapter<MotorbikeAdap
         }else{
             holder.title.setText("Thêm kết quả cho đi motorbike ");
         }
-        holder.duration.setText(routerDetailTwoPoints.get(position).getDuration() + "");
-        holder.distance.setText(routerDetailTwoPoints.get(position).getDistance()+" Km");
+        holder.duration.setText(routerDetailTwoPoints.get(position).getDuration() + "mins");
+        holder.distance.setText(routerDetailTwoPoints.get(position).getDistance()+"km");
         holder.startLocation.setText(routerDetailTwoPoints.get(position).getStartLocation());
         holder.endLocation.setText(routerDetailTwoPoints.get(position).getEndLocation());
     }

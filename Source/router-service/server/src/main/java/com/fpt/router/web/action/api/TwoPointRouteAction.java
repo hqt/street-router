@@ -2,8 +2,9 @@ package com.fpt.router.web.action.api;
 
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
 import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.artifacter.config.DummyResult;
 import com.fpt.router.artifacter.model.helper.Location;
-import com.fpt.router.web.action.IAction;
+import com.fpt.router.web.action.common.IAction;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.servlet.StartupServlet;
 import org.joda.time.LocalTime;
@@ -30,12 +31,17 @@ public class TwoPointRouteAction implements IAction {
         String addressA = context.getParameter("addressA");
         String addressB = context.getParameter("addressB");
 
-        LocalTime departureTime = null;
+        String hourStr = context.getParameter("hour");
+        String minuteStr = context.getParameter("minute");
+
+        int hour = Integer.parseInt(hourStr);
+        int minute = Integer.parseInt(minuteStr);
+
+        LocalTime departureTime = new LocalTime(hour, minute, 0);
+
         double walkingDistance = 0.0f;
+
         int K = 2;
-
-        String findSelectMethod = context.getParameter("method");
-
 
         double latA, latB, longA, longB;
         latA = Double.parseDouble(latAStr);
@@ -47,10 +53,9 @@ public class TwoPointRouteAction implements IAction {
         System.out.println("latB: " + latB + "  " + "longB: " + longB);
         System.out.println("address a: " + addressA);
         System.out.println("address b: " + addressB);
-        System.out.println("find method: " + findSelectMethod);
+        System.out.println("Time: " + hourStr + ":" + minuteStr);
 
-
-        Location start = new Location();
+        /*Location start = new Location();
         start.latitude = latA;
         start.longitude = longA;
         Location end = new Location();
@@ -58,11 +63,11 @@ public class TwoPointRouteAction implements IAction {
         end.longitude = longB;
 
         TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
-        String json = algorithm.run(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false);
+        String json = algorithm.run(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false);*/
 
         System.out.println("algorithm finish");
         PrintWriter out = context.getWriter();
-        out.write(json);
+        out.write(DummyResult.twoPointJSonStr);
 
 
         return Config.AJAX_FORMAT;

@@ -1,5 +1,10 @@
-package com.fpt.router.web.action;
+package com.fpt.router.web.action.common;
 
+import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.web.action.api.TwoPointRouteAction;
+import com.fpt.router.web.action.staff.RouteListAJAXAction;
+import com.fpt.router.web.action.staff.DetailRouteAction;
+import com.fpt.router.web.action.staff.RouteListAction;
 import com.fpt.router.web.config.ApplicationContext;
 
 /**
@@ -17,17 +22,18 @@ public class ActionFactory implements IActionFactory {
         // forward to WEB-INF/login.jsp
         String url = context.getServletPath();
 
-
-        if (url == null || url.equals("")) {
-            int a = 3;
-        }
-
         if (url.equals("/login")) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "login.jsp");
             action = new DirectPageAction();
         } else if (url.equals("/list")) {
-            action = new MainAction();
+            action = new RouteListAction();
         } else if (url.equals("/paging")) {
-            action = new AjaxAction();
+            action = new RouteListAJAXAction();
+        } else if (url.equals("/detail")) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "detail.jsp");
+            action = new DirectPageAction();
+        } else if (url.equals("/api/twopoint")) {
+            action = new TwoPointRouteAction();
         }
 
         // handle "action" parameter that end with jsp. will go directly to jsp page
@@ -42,10 +48,8 @@ public class ActionFactory implements IActionFactory {
         if (actionCommand != null) {
             if (actionCommand.equals("login")) {
                 action = new LoginAction();
-            } else if (actionCommand.equals("detailRoute")) {
-                action = new DetailRouteAction();
             } else if (actionCommand.equals("paging")) {
-                action = new AjaxAction();
+                action = new RouteListAJAXAction();
             } else if (actionCommand.equals("detail")) {
                 action = new DetailRouteAction();
             }

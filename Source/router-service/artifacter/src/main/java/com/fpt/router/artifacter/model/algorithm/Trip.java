@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class Trip implements IAlgorithmModel {
 
-    public long tripId;
+    public int tripId;
 
     public int tripNo;
 

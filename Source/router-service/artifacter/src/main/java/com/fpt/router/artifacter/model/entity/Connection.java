@@ -14,7 +14,7 @@ public class Connection implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ConnectionID", unique = true, nullable = false)
-    private long id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "TripID")
@@ -43,11 +43,11 @@ public class Connection implements IEntity {
     }
 
     //region getter/setter
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -14,7 +14,7 @@ public class PathInfo implements IEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PathInfoID",unique = true,nullable = false)
-    private long pathInfoId;
+    private int pathInfoId;
 
     @Column(name = "PathInfoNo",nullable = false)
     private int pathInfoNo;
@@ -55,11 +55,11 @@ public class PathInfo implements IEntity {
 
 
     //region getter setter
-    public long getPathInfoId() {
+    public int getPathInfoId() {
         return pathInfoId;
     }
 
-    public void setPathInfoId(long pathInfoId) {
+    public void setPathInfoId(int pathInfoId) {
         this.pathInfoId = pathInfoId;
     }
 

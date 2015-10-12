@@ -958,9 +958,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                                 <td>${count.count}</td>
                                                 <td>
                                                     <form action="DispatcherServlet" method="post">
-                                                        <c:set var="route" value="${route}" scope="request"/>
                                                         <input type="hidden" value="${route.routeId}" name="routeId"/>
-                                                        <button type="button" class="btn btn-link" name="action" value="detail">
+                                                        <button type="submit" class="btn btn-link" name="action" value="detail">
                                                             <span>${route.routeName}</span>
                                                         </button>
                                                     </form>

@@ -11,7 +11,7 @@ import java.util.List;
 public class Station implements IEntity {
     @Id
     @Column(name = "StationID", unique = true, nullable = false)
-    private long stationId;
+    private int stationId;
 
     @Column(name = "CodeID", nullable = false)
     private String codeId;
@@ -38,7 +38,7 @@ public class Station implements IEntity {
 
     }
 
-    public Station(int stationId, String codeId, String name, String street, double latitude, double longitude){
+    public Station(int stationId, String codeId, String name, String street, double latitude, double longitude) {
         this.stationId = stationId;
         this.codeId = codeId;
         this.name = name;
@@ -47,11 +47,11 @@ public class Station implements IEntity {
         this.longitude = longitude;
     }
 
-    public long getStationId() {
+    public int getStationId() {
         return stationId;
     }
 
-    public void setStationId(long stationId) {
+    public void setStationId(int stationId) {
         this.stationId = stationId;
     }
 

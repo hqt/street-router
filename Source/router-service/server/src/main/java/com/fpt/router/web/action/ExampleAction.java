@@ -1,5 +1,6 @@
 package com.fpt.router.web.action;
 
+import com.fpt.router.web.action.common.IAction;
 import com.fpt.router.web.config.ApplicationContext;
 
 /**

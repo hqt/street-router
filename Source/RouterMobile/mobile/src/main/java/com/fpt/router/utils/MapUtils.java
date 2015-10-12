@@ -21,7 +21,18 @@ public class MapUtils {
                 .title(title);
 
         // Changing marker icon
-        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+
+        // adding marker
+        map.addMarker(marker);
+    }
+    public static void drawPointColor(GoogleMap map, double latitude, double longitude, String title, float colorMarker) {
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.defaultMarker(colorMarker));
 
         // adding marker
         map.addMarker(marker);

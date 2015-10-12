@@ -144,6 +144,23 @@ public class NetworkUtils {
                 + ":(group)" + groupname);
     }
 
+    public static String getJsonFromServer(){
+
+        return null;
+    }
+
+    public static String getLocationGoogleAPI(String addressOfLocation){
+        String address = null;
+        try {
+            address = URLEncoder.encode(addressOfLocation,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String url = "http://maps.google.com/maps/api/geocode/json?address="+address;
+        String json = NetworkUtils.download(url);
+        return json;
+    }
+
     public static String linkGoogleDrirection(List<String> listLocation, Boolean optimize){
         String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
         List<String> listUrl = new ArrayList<>();
