@@ -10,6 +10,6 @@ public class DirectPageAction implements IAction {
 
     @Override
     public String execute(ApplicationContext context) {
-        return Config.PREFIX + "/login.jsp";
+        return Config.PREFIX + "login.jsp";
     }
 }
