@@ -17,6 +17,7 @@ import com.fpt.router.R;
 import com.fpt.router.model.bus.ArrayAdapterItem;
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
+import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.model.motorbike.Step;
 import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.LockableListView;
@@ -40,9 +41,9 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Created by asus on 10/7/2015.
+ * Created by asus on 10/12/2015.
  */
-public class MainShowDetailMaps extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -69,7 +70,7 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
 
-    Leg leg;
+    RouterDetailTwoPoint routerDetailTwoPoint;
     List<LatLng> list;
     String encodedString;
     List<Leg> legs;
@@ -79,17 +80,14 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
     private List<Step> steps;
     private ArrayAdapterItem adapterItem;
 
-    public MainShowDetailMaps() {
+    public MainShowDetailMotorbikeTowPointMaps() {
     }
 
 
-    public static MainShowDetailMaps newInstance(List<Leg> legs, int position, Leg leg, int locationSize) {
-        MainShowDetailMaps f = new MainShowDetailMaps();
+    public static MainShowDetailMotorbikeTowPointMaps newInstance(RouterDetailTwoPoint routerDetailTwoPoint) {
+        MainShowDetailMotorbikeTowPointMaps f = new MainShowDetailMotorbikeTowPointMaps();
         Bundle args = new Bundle();
-        args.putSerializable("legs", (Serializable) legs);
-        args.putInt("position", position);
-        args.putInt("locationSize", locationSize);
-        args.putSerializable("leg", leg);
+        args.putSerializable("routerDetailTwoPoint", routerDetailTwoPoint);
         f.setArguments(args);
         return f;
     }
@@ -138,10 +136,7 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        leg = (Leg) getArguments().getSerializable("leg");
-        legs = (List<Leg>) getArguments().getSerializable("legs");
-        position = getArguments().getInt("position");
-        locationSize = getArguments().getInt("locationSize");
+        routerDetailTwoPoint = (RouterDetailTwoPoint) getArguments().getSerializable("routerDetailTwoPoint");
 
         mMapFragment = SupportMapFragment.newInstance();
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
@@ -149,35 +144,8 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-
-        if (locationSize == 2) {
-            Leg leg = legs.get(position);
-            steps = leg.getStep();
-            adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
-        } else {
-            if (position < 3) {
-                for (int i = 0; i < 3; i++) {
-                    Leg leg = legs.get(i);
-                    steps = leg.getStep();
-                    adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
-                }
-            }
-            if ((3 <= position) && (position < 6)) {
-                for (int i = 3; i < 6; i++) {
-                    Leg leg = legs.get(i);
-                    steps = leg.getStep();
-                    adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
-                }
-            }
-            if (position >= 6) {
-                for (int i = 6; i < legs.size(); i++) {
-                    Leg leg = legs.get(i);
-                    steps = leg.getStep();
-                    adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
-                }
-            }
-        }
-
+        steps = routerDetailTwoPoint.getSteps();
+        adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/
@@ -210,145 +178,28 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                if (locationSize == 2) {
-                    for (int n = 0; n < legs.size(); n++) {
-                        if (n != position) {
-                            leg = legs.get(n);
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.GRAY);
-                        }
-                    }
-                    leg = legs.get(position);
-                    DetailLocation detalL = leg.getDetailLocation();
-                    com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                    com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
-                    // latitude and longitude
 
-                    latitude = end_location.getLatitude();
-                    longitude = end_location.getLongitude();
-                    MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
+                DetailLocation detalL = routerDetailTwoPoint.getDetailLocation();
+                com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
+                com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                // latitude and longitude
+
+                latitude = end_location.getLatitude();
+                longitude = end_location.getLongitude();
+                MapUtils.drawEndPoint(mMap, latitude, longitude, routerDetailTwoPoint.getEndLocation());
 
 
-                    latitude = start_location.getLatitude();
-                    longitude = start_location.getLongitude();
-                    MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    moveToLocation(latLng, true);
-                    //add polyline
-                    encodedString = leg.getOverview_polyline();
-                    list = DecodeUtils.decodePoly(encodedString);
-                    MapUtils.drawLine(mMap, list, Color.BLUE);
-                    MapUtils.moveCamera(mMap, latitude, longitude, 12);
+                latitude = start_location.getLatitude();
+                longitude = start_location.getLongitude();
+                MapUtils.drawStartPoint(mMap, latitude, longitude, routerDetailTwoPoint.getStartLocation());
+                LatLng latLng = new LatLng(latitude, longitude);
+                moveToLocation(latLng, true);
+                //add polyline
+                encodedString = routerDetailTwoPoint.getOverview_polyline();
+                list = DecodeUtils.decodePoly(encodedString);
+                MapUtils.drawLine(mMap, list, Color.BLUE);
+                MapUtils.moveCamera(mMap, latitude, longitude, 12);
 
-
-                } else {
-
-                    if (position < 3) {
-                        for (int i = 3; i < legs.size(); i++) {
-                            leg = legs.get(i);
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.GRAY);
-                        }
-                        for (int i = 0; i < 3; i++) {
-                            leg = legs.get(i);
-                            DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
-                            // latitude and longitude
-
-                            latitude = end_location.getLatitude();
-                            longitude = end_location.getLongitude();
-                            MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
-
-                            latitude = start_location.getLatitude();
-                            longitude = start_location.getLongitude();
-                            MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
-                            LatLng latLng = new LatLng(latitude, longitude);
-                            moveToLocation(latLng, true);
-
-                            //add polyline
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.BLUE);
-                            MapUtils.moveCamera(mMap, latitude, longitude, 12);
-                        }
-
-                    }
-
-                    if ((3 <= position) && (position < 6)) {
-
-                        for (int i = 0; i < 3; i++) {
-                            leg = legs.get(i);
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.GRAY);
-                        }
-                        for (int i = 6; i < legs.size(); i++) {
-                            leg = legs.get(i);
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.GRAY);
-                        }
-                        for (int i = 3; i < 6; i++) {
-                            leg = legs.get(i);
-                            DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
-                            // latitude and longitude
-
-                            latitude = end_location.getLatitude();
-                            longitude = end_location.getLongitude();
-                            MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
-
-                            latitude = start_location.getLatitude();
-                            longitude = start_location.getLongitude();
-                            MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
-                            LatLng latLng = new LatLng(latitude, longitude);
-                            moveToLocation(latLng, true);
-
-                            //add polyline
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.BLUE);
-                            MapUtils.moveCamera(mMap, latitude, longitude, 12);
-                        }
-
-                    }
-                    if (position >= 6) {
-                        for (int i = 0; i < 6; i++) {
-                            leg = legs.get(i);
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.GRAY);
-                        }
-                        for (int i = 6; i < legs.size(); i++) {
-                            leg = legs.get(i);
-                            DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
-                            // latitude and longitude
-
-                            latitude = end_location.getLatitude();
-                            longitude = end_location.getLongitude();
-                            MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
-
-                            latitude = start_location.getLatitude();
-                            longitude = start_location.getLongitude();
-                            MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
-                            LatLng latLng = new LatLng(latitude, longitude);
-                            moveToLocation(latLng, true);
-
-                            //add polyline
-                            encodedString = leg.getOverview_polyline();
-                            list = DecodeUtils.decodePoly(encodedString);
-                            MapUtils.drawLine(mMap, list, Color.BLUE);
-                            MapUtils.moveCamera(mMap, latitude, longitude, 12);
-                        }
-                    }
-
-                }
             }
         }
     }

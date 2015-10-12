@@ -14,8 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.MainSecond;
 import com.fpt.router.fragment.BusFragment1;
 import com.fpt.router.fragment.MotorbikeFragment1;
+import com.fpt.router.fragment.MotorbikeFragmentFourPoint;
+import com.fpt.router.fragment.MotorbikeFragmentTwoPoint;
+
+import java.util.List;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -24,6 +29,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private int[] imageResId = {R.drawable.bus,
             R.drawable.motorbike,
             R.drawable.map};
+    private List<String> listLocation = MainSecond.listLocation;
     public ViewPagerAdapter(FragmentManager fm, Context context){
         super(fm);
         this.context = context;
@@ -32,9 +38,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 1){
-           /* MotorbikeFragment motorbikeFragment = new MotorbikeFragment();*/
-            MotorbikeFragment1 motorbikeFragment = new MotorbikeFragment1();
-            return motorbikeFragment;
+            if(listLocation.size() == 2){
+                MotorbikeFragmentTwoPoint motorbikeFragmentTwoPoint = new MotorbikeFragmentTwoPoint();
+                return motorbikeFragmentTwoPoint;
+            }else{
+                MotorbikeFragmentFourPoint motorbikeFragmentFourPoint = new MotorbikeFragmentFourPoint();
+                return motorbikeFragmentFourPoint;
+            }
         } else {
             /*DesignDemoFragment demoFragment = new DesignDemoFragment();
             Fragment fragment = demoFragment.newInstance(position);*/

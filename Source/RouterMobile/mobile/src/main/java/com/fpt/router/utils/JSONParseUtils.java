@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.fpt.router.model.motorbike.DetailLocation;
+import com.fpt.router.model.motorbike.DetailLocationTwoPoint;
 import com.fpt.router.model.motorbike.Leg;
 import com.fpt.router.model.motorbike.Location;
 import com.fpt.router.model.motorbike.Step;
@@ -202,6 +203,35 @@ public class JSONParseUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static DetailLocationTwoPoint getDetailLoationTwoPoint(JSONObject jsonObject){
+        String distance;
+        String duration;
+        double latitude;
+        double longitude;
+        JSONObject jsonO;
+
+        try {
+            jsonO = jsonObject.getJSONObject("distance");
+            distance = jsonO.getString("text");
+            jsonO = jsonObject.getJSONObject("duration");
+            duration = jsonO.getString("text");
+            jsonO = jsonObject.getJSONObject("end_location");
+            latitude = jsonO.getDouble("lat");
+            longitude = jsonO.getDouble("lng");
+            Location end_location = new Location(latitude, longitude);
+            jsonO = jsonObject.getJSONObject("start_location");
+            latitude = jsonO.getDouble("lat");
+            longitude = jsonO.getDouble("lng");
+            Location start_location = new Location(latitude, longitude);
+            DetailLocationTwoPoint detailLocationTwoPoint = new DetailLocationTwoPoint(distance,duration,end_location,start_location);
+            return detailLocationTwoPoint;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
     public static DetailLocation getDetailLocation(JSONObject jsonORoot){
