@@ -1,39 +1,34 @@
 package com.fpt.router.fragment;
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-import com.fpt.router.adapter.MotorbikeAdapterFourPoint;
-import com.fpt.router.adapter.MotorbikeAdapterTwoPoint;
+import com.fpt.router.adapter.MotorbikeAdapterCuaNam;
 import com.fpt.router.adapter.RecyclerAdapterShowError;
 import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.RouterDetailFourPoint;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.model.motorbike.Step;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by asus on 10/11/2015.
+ * Created by Nguyen Trung Nam on 10/12/2015.
  */
-public class MotorbikeFragmentTwoPoint extends Fragment {
+public class MotorbikeFragmentCuaNam extends Fragment{
     /**
      * Main Activity for reference
      */
@@ -45,9 +40,9 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     private String status;
     private List<String> listError;
 
-    private List<RouterDetailTwoPoint> routerDetailTwoPoints;
+    public static List<Leg> listLeg = new ArrayList<>();
 
-    public MotorbikeFragmentTwoPoint() {
+    public MotorbikeFragmentCuaNam() {
 
     }
 
@@ -78,7 +73,7 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
             jsonParseTask.execute();
 
         } else {
-            routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
+            listLeg = new ArrayList<>();
         }
 
         View v = inflater.inflate(R.layout.fragment_list_view, container, false);
@@ -87,7 +82,8 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
         return v;
     }
 
-    private class JSONParseTask extends AsyncTask<String, String, List<RouterDetailTwoPoint>> {
+
+    private class JSONParseTask extends AsyncTask<String, String, List<Leg>> {
         private ProgressDialog pDialog;
 
         @Override
@@ -102,52 +98,38 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
         }
 
         @Override
-        protected List<RouterDetailTwoPoint> doInBackground(String... args) {
-            List<RouterDetailTwoPoint> routerDetailTwoPointList = new ArrayList<RouterDetailTwoPoint>();
+        protected List<Leg> doInBackground(String... args) {
+            List<Leg> listLegFinal = new ArrayList<>();
             String json;
             String url;
 
-            url = NetworkUtils.linkGoogleDrirection(listLocation, optimize);
-            json = NetworkUtils.download(url);
+            List<String> listUrl = NetworkUtils.linkCuaNam(listLocation, optimize);
+            List<String> listJson = new ArrayList<>();
+            for(int n = 0 ; n < listUrl.size(); n++) {
+                json = NetworkUtils.download(listUrl.get(n));
+                listJson.add(json);
+            }
             try {
-                jsonObject = new JSONObject(json);
+                jsonObject = new JSONObject(listJson.get(0));
                 status = jsonObject.getString("status");
                 if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS")) {
                     return null;
                 } else {
-                    int duration = 0;
-                    double distance = 0;
-                    List<Step> steps = new ArrayList<Step>();
-                    List<Leg> legList = JSONParseUtils.getListLegWithTwoPoint(json);
-                    for (int i = 0 ;i<legList.size();i++){
-                        Leg leg = legList.get(i);
-                        duration = leg.getDetailLocation().getDuration();
-                        duration = duration/60;
-                        distance = leg.getDetailLocation().getDistance();
-                        distance = distance / 1000 ;
-                        distance = Math.floor(distance * 100) / 100;
-                        steps = leg.getStep();
-                        RouterDetailTwoPoint routerDetailTwoPoint = new RouterDetailTwoPoint();
-                        routerDetailTwoPoint.setStartLocation(leg.getStartAddress());
-                        routerDetailTwoPoint.setEndLocation(leg.getEndAddress());
-                        routerDetailTwoPoint.setDuration(duration);
-                        routerDetailTwoPoint.setDistance(distance);
-                        routerDetailTwoPoint.setSteps(steps);
-                        routerDetailTwoPoint.setOverview_polyline(leg.getOverview_polyline());
-                        routerDetailTwoPoint.setDetailLocation(leg.getDetailLocation());
-                        routerDetailTwoPointList.add(routerDetailTwoPoint);
+                    for(int i = 0; i < listJson.size(); i++) {
+                        List<Leg> mediumList = new ArrayList<>();
+                        mediumList = JSONParseUtils.getListLegWithFourPoint(listJson.get(i));
+                        listLegFinal.addAll(mediumList);
                     }
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return routerDetailTwoPointList;
+            return listLegFinal;
         }
 
         @Override
-        protected void onPostExecute(List<RouterDetailTwoPoint> routerDetailTwoPointList) {
+        protected void onPostExecute(List<Leg> listLegFinal) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
@@ -166,8 +148,8 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
                 return;
             }
 
-            routerDetailTwoPoints = routerDetailTwoPointList;
-            recyclerView.setAdapter(new MotorbikeAdapterTwoPoint(routerDetailTwoPoints));
+            listLeg = listLegFinal;
+            recyclerView.setAdapter(new MotorbikeAdapterCuaNam());
         }
     }
 }

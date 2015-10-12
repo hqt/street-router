@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
 import com.fpt.router.model.bus.ArrayAdapterItem;
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
@@ -43,7 +44,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -70,24 +71,14 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
 
-    RouterDetailFourPoint routerDetailFourPoint;
     List<LatLng> list;
     String encodedString;
-    List<Leg> legs;
+    List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;
     Leg leg;
     private List<Step> steps;
     private ArrayAdapterItem adapterItem;
 
-    public MainShowDetailMotorbikeFourPointMaps() {
-    }
-
-
-    public static MainShowDetailMotorbikeFourPointMaps newInstance(RouterDetailFourPoint routerDetailFourPoint) {
-        MainShowDetailMotorbikeFourPointMaps f = new MainShowDetailMotorbikeFourPointMaps();
-        Bundle args = new Bundle();
-        args.putSerializable("routerDetailFourPoint", routerDetailFourPoint);
-        f.setArguments(args);
-        return f;
+    public MainShowDetailMotorbikeCuaNamActivity() {
     }
 
     @Override
@@ -134,15 +125,13 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        routerDetailFourPoint = (RouterDetailFourPoint) getArguments().getSerializable("routerDetailFourPoint");
-
         mMapFragment = SupportMapFragment.newInstance();
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.mapContainer, mMapFragment, "map");
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-        steps = routerDetailFourPoint.getSteps();
+        steps = listLeg.get(0).getStep();
         adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
 
         mListView.addHeaderView(mTransparentHeaderView);
@@ -176,19 +165,20 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                legs = routerDetailFourPoint.getLegs();
-                for (int i = 0; i < legs.size(); i++) {
-                    leg = legs.get(i);
+                for (int i = 0; i < listLeg.size(); i++) {
+                    leg = listLeg.get(i);
                     DetailLocation detalL = leg.getDetailLocation();
                     com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
                     com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
                     // latitude and longitude
-                    latitude = start_location.getLatitude();
-                    longitude = start_location.getLongitude();
-                    MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_BLUE);
+
                     latitude = end_location.getLatitude();
                     longitude = end_location.getLongitude();
-                    MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_MAGENTA);
+                    MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
+
+                    latitude = start_location.getLatitude();
+                    longitude = start_location.getLongitude();
+                    MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
                     LatLng latLng = new LatLng(latitude, longitude);
                     moveToLocation(latLng, true);
 

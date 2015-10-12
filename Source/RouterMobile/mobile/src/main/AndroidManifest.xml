@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fpt.router">
-
+    package="com.fpt.router" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +17,7 @@
         android:allowBackup="true"
         android:icon="@drawable/bus"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme1">
+        android:theme="@style/AppTheme1" >
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -28,7 +27,7 @@
 
         <activity
             android:name=".activity.MainFirst"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,21 +36,21 @@
         </activity>
         <activity
             android:name=".activity.MainSecond"
-            android:label="Main Activity">
+            android:label="Main Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainFirst" />
         </activity>
         <activity
             android:name=".activity.MainSearch"
-            android:label="@string/title_activity_search">
+            android:label="@string/title_activity_search" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
         <activity
             android:name=".activity.DetailGMActivity"
-            android:label="Third Activity">
+            android:label="Third Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
@@ -61,25 +60,33 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".activity.GoogleMapBus"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
         <activity
             android:name=".activity.GoogleMapMotorbikeTwoPoint"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
         <activity
             android:name=".activity.GoogleMapMotorbikeFourPoint"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
+        <activity
+            android:name=".activity.GoogleMapMotorbikeCuaNamActivity"
+            android:label="@string/title_activity_search" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainSecond" />
+        </activity>
+<<<<<<< HEAD
 
         <!-- The service listening for incoming messages from the wear device -->
         <service android:name=".service.FeedbackListenerService" >
@@ -88,6 +95,12 @@
             </intent-filter>
         </service>
 
+=======
+        <activity
+            android:name=".activity.FuckActivity"
+            android:label="@string/title_activity_fuck" >
+        </activity>
+>>>>>>> de5051514a9b570816c4a8300162db93d35f9018
     </application>
 
 </manifest>

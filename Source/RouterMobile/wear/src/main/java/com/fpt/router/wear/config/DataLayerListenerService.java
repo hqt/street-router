@@ -98,6 +98,8 @@ public class DataLayerListenerService extends WearableListenerService
         }
     }
 
+<<<<<<< HEAD:Source/RouterMobile/wear/src/main/java/com/fpt/router/DataLayerListenerService.java
+=======
     @Override
     public void onConnected(Bundle bundle) {
         Log.e(TAG, "Connected to Google API Client");
@@ -115,4 +117,5 @@ public class DataLayerListenerService extends WearableListenerService
         Log.e(TAG, "Failed to connect to the Google API client");
         mConnected = false;
     }
+>>>>>>> 865294786edc5b13704a00f17f733d0aa8aba0aa:Source/RouterMobile/wear/src/main/java/com/fpt/router/wear/config/DataLayerListenerService.java
 }

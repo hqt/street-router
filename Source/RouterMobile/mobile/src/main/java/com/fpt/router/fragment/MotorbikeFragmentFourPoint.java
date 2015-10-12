@@ -136,6 +136,7 @@ public class MotorbikeFragmentFourPoint extends Fragment {
                             steps_path_1.add(step_1);
                         }
                     }
+                    duration_1 = duration_1/60;
                     distance_1 = distance_1 / 1000 ;
                     distance_1 = Math.floor(distance_1 * 100) / 100;
                     routerDetail_FourPoint_1.setDuration(duration_1);
@@ -165,6 +166,7 @@ public class MotorbikeFragmentFourPoint extends Fragment {
                             steps_path_2.add(step_2);
                         }
                     }
+                    duration_2 = duration_2/60;
                     distance_2 = distance_2 / 1000 ;
                     distance_2 = Math.floor(distance_2 * 100)/100;
                     routerDetail_FourPoint_2.setDuration(duration_2);
@@ -194,6 +196,7 @@ public class MotorbikeFragmentFourPoint extends Fragment {
                             steps_path_3.add(step_3);
                         }
                     }
+                    duration_3 =duration_3/60;
                     distance_3 = distance_3 / 1000 ;
                     distance_3 = Math.floor(distance_3 * 100)/100;
                     routerDetail_FourPoint_3.setDuration(duration_3);
