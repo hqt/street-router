@@ -16,10 +16,21 @@ public class MultiPointAlgorithm {
     double walkingDistance;
     Location start;
     Location end;
+    Location third;
 
     public String run(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      List<Location> middleLocations, List<String> addresses,
+                      Location third, List<String> addresses,
                       LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
+
+        // assign variable
+        this.map = map;
+        this.walkingDistance = walkingDistance;
+        this.start = start;
+        this.end = end;
+        this.third = third;
+
+        
+
 
         return null;
     }

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by asus on 10/11/2015.
  */
-public class RouterDetailTwoPoint implements Serializable{
+public class RouterDetailTwoPoint implements Serializable {
     private int duration;
     private double distance;
     private String startLocation;
