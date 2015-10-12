@@ -43,8 +43,8 @@ public class MotorbikeAdapterFourPoint extends RecyclerView.Adapter<MotorbikeAda
         }else{
             holder.title.setText("Thêm kết quả cho đi motorbike ");
         }
-        holder.duration.setText(routerDetailFourPoints.get(position).getDuration() + "");
-        holder.distance.setText(routerDetailFourPoints.get(position).getDistance()+" Km");
+        holder.duration.setText(routerDetailFourPoints.get(position).getDuration() + "mins");
+        holder.distance.setText(routerDetailFourPoints.get(position).getDistance()+"km");
         holder.startLocation.setText(routerDetailFourPoints.get(position).getStartLocation());
         holder.endLocation.setText(routerDetailFourPoints.get(position).getEndLocation());
         holder.way_point_1.setText(routerDetailFourPoints.get(position).getWay_point_1());

@@ -183,14 +183,12 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
                     com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
                     com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
                     // latitude and longitude
-
-                    latitude = end_location.getLatitude();
-                    longitude = end_location.getLongitude();
-                    MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
-
                     latitude = start_location.getLatitude();
                     longitude = start_location.getLongitude();
-                    MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
+                    MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_BLUE);
+                    latitude = end_location.getLatitude();
+                    longitude = end_location.getLongitude();
+                    MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_MAGENTA);
                     LatLng latLng = new LatLng(latitude, longitude);
                     moveToLocation(latLng, true);
 

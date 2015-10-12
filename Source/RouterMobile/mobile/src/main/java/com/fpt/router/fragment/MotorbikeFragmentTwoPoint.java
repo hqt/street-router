@@ -122,6 +122,7 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
                     for (int i = 0 ;i<legList.size();i++){
                         Leg leg = legList.get(i);
                         duration = leg.getDetailLocation().getDuration();
+                        duration = duration/60;
                         distance = leg.getDetailLocation().getDistance();
                         distance = distance / 1000 ;
                         distance = Math.floor(distance * 100) / 100;

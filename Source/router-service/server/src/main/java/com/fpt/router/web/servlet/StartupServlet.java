@@ -18,8 +18,8 @@ public class StartupServlet extends HttpServlet {
     public void init() throws ServletException {
         System.out.println("----------");
         System.out.println("Loading Database zzzz");
-        map = MapDAL.readDatabase();
-        System.out.println("thao thao hi hi : " + map.routes.size());
+        //map = MapDAL.readDatabase();
+        //System.out.println("thao thao hi hi : " + map.routes.size());
         System.out.println("fuck");
         System.out.println("----------");
     }

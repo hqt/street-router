@@ -45,9 +45,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 MotorbikeFragmentFourPoint motorbikeFragmentFourPoint = new MotorbikeFragmentFourPoint();
                 return motorbikeFragmentFourPoint;
             }
+        } else if(position == 0){
+            BusFragment1 busFragment1 = new BusFragment1();
+            Fragment fragment = busFragment1.newInstance(position);
+            return fragment;
         } else {
-            /*DesignDemoFragment demoFragment = new DesignDemoFragment();
-            Fragment fragment = demoFragment.newInstance(position);*/
+
             BusFragment1 busFragment1 = new BusFragment1();
             Fragment fragment = busFragment1.newInstance(position);
             return fragment;
