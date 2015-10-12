@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
 import com.fpt.router.fragment.BusFragment1;
-import com.fpt.router.fragment.MotorbikeFragment1;
 import com.fpt.router.fragment.MotorbikeFragmentFourPoint;
+import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
 import com.fpt.router.fragment.MotorbikeFragmentTwoPoint;
 
 import java.util.List;
@@ -41,8 +41,11 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             if(listLocation.size() == 2){
                 MotorbikeFragmentTwoPoint motorbikeFragmentTwoPoint = new MotorbikeFragmentTwoPoint();
                 return motorbikeFragmentTwoPoint;
-            }else{
-                MotorbikeFragmentFourPoint motorbikeFragmentFourPoint = new MotorbikeFragmentFourPoint();
+            }else if(listLocation.size() == 3) {
+                MotorbikeFragmentCuaNam motorbikeFragmentThirdPoint = new MotorbikeFragmentCuaNam();
+                return motorbikeFragmentThirdPoint;
+            }else {
+                MotorbikeFragmentCuaNam motorbikeFragmentFourPoint = new MotorbikeFragmentCuaNam();
                 return motorbikeFragmentFourPoint;
             }
         } else {

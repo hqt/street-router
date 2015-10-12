@@ -41,4 +41,5 @@
     <string name="message2_sent">Message 2 sent.</string>
     <string name="error_message2">Error sending message 2.</string>
     <string name="wearable_api_unavailable">Wearable API is unavailable.</string>
+    <string name="title_activity_fuck">FuckActivity</string>
 </resources>
