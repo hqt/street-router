@@ -34,7 +34,7 @@ public class TwoPointRouteAction implements IAction {
         String hourStr = context.getParameter("hour");
         String minuteStr = context.getParameter("minute");
 
-        /*int hour = Integer.parseInt(hourStr);
+        int hour = Integer.parseInt(hourStr);
         int minute = Integer.parseInt(minuteStr);
 
         LocalTime departureTime = new LocalTime(hour, minute, 0);
@@ -53,7 +53,7 @@ public class TwoPointRouteAction implements IAction {
         System.out.println("latB: " + latB + "  " + "longB: " + longB);
         System.out.println("address a: " + addressA);
         System.out.println("address b: " + addressB);
-        System.out.println("Time: " + hourStr + ":" + minuteStr);*/
+        System.out.println("Time: " + hourStr + ":" + minuteStr);
 
         /*Location start = new Location();
         start.latitude = latA;
