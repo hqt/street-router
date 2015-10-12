@@ -23,7 +23,7 @@ public class LoginAction implements IAction {
 
         // If success redirect use to list view, if fail show error message
         if (authenticated) {
-            return Config.PREFIX + "/index.jsp";
+            return "redirect.list";
         }
 
 

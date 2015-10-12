@@ -66,6 +66,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainSecond" />
         </activity>
+        <activity
+            android:name=".activity.GoogleMapMotorbikeTwoPoint"
+            android:label="@string/title_activity_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainSecond" />
+        </activity>
+        <activity
+            android:name=".activity.GoogleMapMotorbikeFourPoint"
+            android:label="@string/title_activity_main">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainSecond" />
+        </activity>
     </application>
 
 </manifest>

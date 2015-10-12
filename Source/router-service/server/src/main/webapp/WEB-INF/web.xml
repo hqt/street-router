@@ -21,7 +21,8 @@
         <servlet-name>DispatcherServlet</servlet-name>
         <url-pattern>/DispatcherServlet</url-pattern>
         <url-pattern>/login</url-pattern>
-        <url-pattern>/index</url-pattern>
+        <url-pattern>/list</url-pattern>
+        <url-pattern>/paging</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>
@@ -30,7 +31,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>/WEB-INF/hello.html</welcome-file>
+        <welcome-file>/WEB-INF/page/login.jsp</welcome-file>
     </welcome-file-list>
 
     <session-config>
