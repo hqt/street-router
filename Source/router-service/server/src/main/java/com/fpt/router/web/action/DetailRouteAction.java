@@ -1,11 +1,8 @@
 package com.fpt.router.web.action;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.artifacter.model.entity.Route;
+import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.RouteVM;
-
-import java.util.List;
 
 /**
  * Created by datnt on 10/11/2015.
@@ -14,23 +11,23 @@ public class DetailRouteAction implements IAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        List<Route> routes = (List<Route>) context.getAttribute("routes");
+        // get parameter route id
+        String paramRouteID = context.getParameter("routeId");
 
-
-        String id = context.getParameter("routeId");
-        long routeId = -1;
+        int routeId = -1;
         try {
-             routeId = Long.parseLong(id);
+            routeId = Integer.parseInt(paramRouteID);
         } catch (NumberFormatException ex) {
-            ex.printStackTrace();
+            System.out.println("Cannot parse string id to int");
         }
 
-        for (Route route : routes) {
-            if (route.getRouteId() == routeId) {
-                context.setAttribute("route", route);
-            }
+        // process to get list station of route through pathinfo
+        PathInfoDAO pathInfoDao = new PathInfoDAO();
+        if (routeId != -1) {
+            pathInfoDao.getListPathInfoByRouteId(routeId);
+            return Config.WEB.REDIRECT + "detail"; // redirect detail route view
         }
 
-        return Config.WEB.PAGE + "detail.jsp"; // return detail view
+        return ""; // stay at page
     }
 }

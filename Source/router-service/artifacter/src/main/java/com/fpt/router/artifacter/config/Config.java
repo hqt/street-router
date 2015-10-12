@@ -47,7 +47,11 @@ public class Config {
     }
 
     public static class WEB {
-        public static String SESSION_USER = "USER";
+        public static final String SESSION_USER = "USER";
+        public static final int ITEM_PER_PAGE = 10;
+        public static final String PAGE = "WEB-INF/page/";
+        public static final String REDIRECT = "redirect.";
+        public static final String DIRECT_PAGE_ATTRIBUTE = "direct_page_attribute";
     }
 
     // bug from those route. should be avoid

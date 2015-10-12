@@ -23,6 +23,7 @@
         <url-pattern>/login</url-pattern>
         <url-pattern>/list</url-pattern>
         <url-pattern>/paging</url-pattern>
+        <url-pattern>/detail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>

@@ -818,8 +818,8 @@ License: You must have a valid license purchased only from themeforest(the above
                   </a>
                 </div>
               </div>
-              <div class="table-scrollable">
-                <<%--table class="table table-striped table-bordered table-hover dataTable no-footer"
+              <%--<div class="table-scrollable">
+                &lt;%&ndash;table class="table table-striped table-bordered table-hover dataTable no-footer"
                                        id="datatable_ajax" role="grid" aria-describedby="datatable_ajax_info">
                                     <thead>
                                     <tr class="heading" role="row">
@@ -934,8 +934,8 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </thead>
                                     <tbody>
                                     </tbody>
-                                </table>--%>
-              </div>
+                                </table>&ndash;%&gt;
+              </div>--%>
               <div class="portlet-body" id="datatable_ajax">
                 <div class="table-scrollable">
                   <table class="table table-striped table-hover">
@@ -957,9 +957,9 @@ License: You must have a valid license purchased only from themeforest(the above
                       <tr>
                         <td>${count.count}</td>
                         <td>
-                          <form action="DispatcherServlet" method="=GET">
+                          <form action="DispatcherServlet" method="post">
                             <input type="hidden" value="${route.routeId}" name="routeId"/>
-                            <button type="button" class="btn btn-link" name="action">
+                            <button type="submit" class="btn btn-link" name="action" value="detail">
                               <span>${route.routeName}</span>
                             </button>
                           </form>

@@ -1,7 +1,6 @@
 package com.fpt.router.web.action;
 
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.config.Config;
 import com.fpt.router.web.dal.UserDAL;
 
 /**
