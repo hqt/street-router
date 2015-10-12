@@ -181,7 +181,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
         String waypoints = "";
-        if(waypoint_1 != null || waypoint_2 != null){
+        if(waypoint_1 != "" || waypoint_2 != ""){
             if(optimize) {
                 waypoints = waypoints + "&waypoints=optimize:true" + "|" + waypoint_1 + "|" + waypoint_2;
             } else  {
