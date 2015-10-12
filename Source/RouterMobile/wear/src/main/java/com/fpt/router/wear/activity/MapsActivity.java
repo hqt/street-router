@@ -1,5 +1,6 @@
 package com.fpt.router.wear.activity;
 
+import com.fpt.router.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -18,8 +19,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback,
         GoogleMap.OnMapLongClickListener {
 
     /**
-     * Overlay that shows a short help text when first launched. It also provides an option to
-     * exit the app.
+     * Overlay that shows a short help text when first launched. It also provides an option to exit the app.
      */
     private DismissOverlayView mDismissOverlay;
 

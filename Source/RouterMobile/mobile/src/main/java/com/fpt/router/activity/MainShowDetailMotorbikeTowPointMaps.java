@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.config.Constants;
 import com.fpt.router.model.bus.ArrayAdapterItem;
 import com.fpt.router.model.motorbike.DetailLocation;
 import com.fpt.router.model.motorbike.Leg;
@@ -36,6 +38,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -160,6 +169,7 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
 
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(LocationServices.API)
+                .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
@@ -356,11 +366,21 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
 
     @Override
     public void onConnected(Bundle bundle) {
+        // send location request
         mLocationRequest = LocationRequest.create();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setNumUpdates(1);
 
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+        // send data to wear
+        // Create a DataMap object and send it to the data layer
+        DataMap dataMap = new DataMap();
+        // dataMap.putLong("time", new Date().getTime());
+        dataMap.putDouble("lng", 106.6249837);
+        dataMap.putDouble("lat", 10.7467632);
+        //Requires a new thread to avoid blocking the UI
+        new SendToDataLayerThread(Constants.WEARABLE_DATA_PATH, dataMap).start();
     }
 
     @Override
@@ -371,6 +391,35 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    class SendToDataLayerThread extends Thread {
+        String path;
+        DataMap dataMap;
+
+        // Constructor for sending data objects to the data layer
+        SendToDataLayerThread(String p, DataMap data) {
+            path = p;
+            dataMap = data;
+        }
+
+        public void run() {
+            NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+
+            for (Node node : nodes.getNodes()) {
+                // Construct a DataRequest and send over the data layer
+                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
+                putDataMapRequest.getDataMap().putAll(dataMap);
+                PutDataRequest request = putDataMapRequest.asPutDataRequest();
+                DataApi.DataItemResult result = Wearable.DataApi.putDataItem(mGoogleApiClient,request).await();
+                if (result.getStatus().isSuccess()) {
+                    Log.e("hqthao", "DataMap: " + dataMap + " sent to: " + node.getDisplayName());
+                } else {
+                    // Log an error
+                    Log.v("myTag", "ERROR: failed to send DataMap");
+                }
+            }
+        }
     }
 
 }
