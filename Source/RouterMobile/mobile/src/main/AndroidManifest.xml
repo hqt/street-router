@@ -49,13 +49,6 @@
                 android:value=".activity.MainSecond" />
         </activity>
         <activity
-            android:name=".activity.DetailGMActivity"
-            android:label="Third Activity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
-        </activity>
-        <activity
             android:name=".activity.MainOptional"
             android:theme="@android:style/Theme.Dialog" />
         <activity
