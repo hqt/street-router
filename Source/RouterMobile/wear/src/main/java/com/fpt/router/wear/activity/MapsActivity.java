@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.DismissOverlayView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
@@ -32,6 +33,7 @@ public class MapsActivity extends Activity implements OnMapReadyCallback,
 
     public void onCreate(Bundle savedState) {
         super.onCreate(savedState);
+        Log.e("hqthao", "Oncreated");
 
         // Set the layout. It only contains a MapFragment and a DismissOverlay.
         setContentView(R.layout.activity_maps);
@@ -77,6 +79,8 @@ public class MapsActivity extends Activity implements OnMapReadyCallback,
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.e("hqthao", "Map is ready to use");
+
         // Map is ready to be used.
         mMap = googleMap;
 

@@ -12,9 +12,9 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-import com.fpt.router.model.motorbike.DetailLocation;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.Location;
+import com.fpt.router.library.model.motorbike.DetailLocation;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.GPSUtils;
 import com.fpt.router.utils.JSONParseUtils;

@@ -5,8 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.fpt.router.config.PrefStore;
-import com.fpt.router.config.RouteApplication;
+import com.fpt.router.framework.RouterApplication;
+import com.fpt.router.library.config.PrefStore;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -34,7 +34,7 @@ public class NetworkUtils {
      * >Android Developer</a>} Using to detect network on Android Device if Wifi | 3G -> can synchronize data
      */
     public static boolean isNetworkConnected() {
-        Context ctx = RouteApplication.getAppContext();
+        Context ctx = RouterApplication.getAppContext();
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -67,7 +67,7 @@ public class NetworkUtils {
 
     /** wifi connect or not (not including 3G) */
     public static boolean isWifiConnect() {
-        Context ctx = RouteApplication.getAppContext();
+        Context ctx = RouterApplication.getAppContext();
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 

@@ -2,28 +2,19 @@ package com.fpt.router.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.GoogleMapMotorbikeCuaNamActivity;
-import com.fpt.router.activity.GoogleMapMotorbikeFourPoint;
-import com.fpt.router.activity.GoogleMapMotorbikeTwoPoint;
-import com.fpt.router.activity.MainFirst;
-import com.fpt.router.activity.MainSearch;
 import com.fpt.router.activity.MainSecond;
 import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.RouterDetailFourPoint;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
+import com.fpt.router.library.model.motorbike.Leg;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

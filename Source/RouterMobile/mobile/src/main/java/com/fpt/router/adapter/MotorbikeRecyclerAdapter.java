@@ -11,11 +11,10 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.GoogleMapBus;
-import com.fpt.router.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Leg;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by asus on 10/8/2015.

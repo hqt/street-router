@@ -9,9 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
-
-import java.util.List;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 /**
  * Created by asus on 10/12/2015.

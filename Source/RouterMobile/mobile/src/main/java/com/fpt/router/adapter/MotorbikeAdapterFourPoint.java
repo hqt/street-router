@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.GoogleMapMotorbikeFourPoint;
-import com.fpt.router.activity.GoogleMapMotorbikeTwoPoint;
-import com.fpt.router.model.motorbike.RouterDetailFourPoint;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
+import com.fpt.router.library.model.motorbike.RouterDetailFourPoint;
 
 import java.util.List;
 

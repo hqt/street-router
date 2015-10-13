@@ -13,18 +13,10 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-import com.fpt.router.adapter.MotorbikeAdapterTwoPoint;
-import com.fpt.router.adapter.RecyclerAdapterShowError;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.model.motorbike.Step;
-import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,13 +1,10 @@
 package com.fpt.router.utils;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.fpt.router.model.motorbike.DetailLocation;
-import com.fpt.router.model.motorbike.DetailLocationTwoPoint;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.Location;
-import com.fpt.router.model.motorbike.Step;
+import com.fpt.router.library.model.motorbike.DetailLocation;
+import com.fpt.router.library.model.motorbike.DetailLocationTwoPoint;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.motorbike.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;

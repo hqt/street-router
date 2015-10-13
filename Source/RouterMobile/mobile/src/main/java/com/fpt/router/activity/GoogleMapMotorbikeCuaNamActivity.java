@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
-import com.fpt.router.model.motorbike.RouterDetailFourPoint;
 
 /**
  * Created by Nguyen Trung Nam on 10/12/2015.
