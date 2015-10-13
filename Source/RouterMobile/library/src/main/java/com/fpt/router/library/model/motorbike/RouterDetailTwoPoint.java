@@ -1,12 +1,16 @@
 package com.fpt.router.library.model.motorbike;
 
+import com.fpt.router.library.model.IWearableModel;
+import com.google.android.gms.wearable.DataMap;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by asus on 10/11/2015.
  */
-public class RouterDetailTwoPoint implements Serializable {
+public class RouterDetailTwoPoint implements Serializable, IWearableModel<RouterDetailTwoPoint> {
     private int duration;
     private double distance;
     private String startLocation;
@@ -83,5 +87,49 @@ public class RouterDetailTwoPoint implements Serializable {
 
     public void setDetailLocation(DetailLocation detailLocation) {
         this.detailLocation = detailLocation;
+    }
+
+    @Override
+    public void dataMapToModel(DataMap dataMap) {
+        this.duration = dataMap.getInt("duration");
+        this.distance = dataMap.getDouble("distance");
+        this.startLocation = dataMap.getString("start_location");
+        this.endLocation = dataMap.getString("end_location");
+
+        // dummy step for calling function
+        Step step = new Step();
+        dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(steps));
+
+        this.overview_polyline = dataMap.getString("overview_polyline");
+        this.detailLocation = new DetailLocation();
+        this.detailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
+    }
+
+    @Override
+    public DataMap putToDataMap() {
+        DataMap dataMap = new DataMap();
+        dataMap.putInt("duration", duration);
+        dataMap.putDouble("distance", distance);
+        dataMap.putString("start_location", startLocation);
+        dataMap.putString("end_location", endLocation);
+
+        // dummy step for calling function
+        Step step = new Step();
+        dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(steps));
+
+        dataMap.putString("overview_polyline", overview_polyline);
+        dataMap.putDataMap("detail_location", detailLocation.putToDataMap());
+
+        return dataMap;
+    }
+
+    @Override
+    public ArrayList<RouterDetailTwoPoint> dataMapToListModel(DataMap dataMap) {
+        throw new NoSuchMethodError();
+    }
+
+    @Override
+    public ArrayList<DataMap> listModelToDataMap(List<RouterDetailTwoPoint> items) {
+        throw new NoSuchMethodError();
     }
 }

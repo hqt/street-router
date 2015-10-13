@@ -49,4 +49,9 @@ public class Model implements IWearableModel {
         return null;
     }
 
+    @Override
+    public List<DataMap> listModelToDataMap(List items) {
+        return null;
+    }
+
 }

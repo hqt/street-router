@@ -45,4 +45,9 @@ public class SubModule implements IWearableModel<SubModule> {
     public List<SubModule> dataMapToListModel(DataMap dataMap) {
         return null;
     }
+
+    @Override
+    public List<DataMap> listModelToDataMap(List<SubModule> items) {
+        return null;
+    }
 }

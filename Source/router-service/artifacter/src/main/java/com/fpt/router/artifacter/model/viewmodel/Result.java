@@ -1,5 +1,7 @@
 package com.fpt.router.artifacter.model.viewmodel;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.joda.deser.PeriodDeserializer;
 import org.joda.time.Period;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.List;
 public class Result {
     public String code;
     public double totalDistance;
+    @JsonDeserialize(using=PeriodDeserializer.class)
     public Period totalTime;
     public int minutes;
     public int totalTransfer;

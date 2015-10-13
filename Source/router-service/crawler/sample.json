@@ -1,1638 +1,1840 @@
 {
-  "totalDistance" : 20749.849214217284,
-  "totalTime" : {
-    "hours" : 0,
-    "minutes" : 35,
-    "seconds" : 1706,
-    "millis" : 25949,
-    "weeks" : 0,
-    "years" : 0,
-    "days" : 0,
-    "months" : 0,
-    "periodType" : {
-      "name" : "Standard"
-    },
-    "values" : [ 0, 0, 0, 0, 0, 35, 1706, 25949 ],
-    "fieldTypes" : [ {
-      "name" : "years"
-    }, {
-      "name" : "months"
-    }, {
-      "name" : "weeks"
-    }, {
-      "name" : "days"
-    }, {
-      "name" : "hours"
-    }, {
-      "name" : "minutes"
-    }, {
-      "name" : "seconds"
-    }, {
-      "name" : "millis"
-    } ]
-  },
-  "totalTransfer" : 2,
-  "nodeList" : [ {
-    "stationFromId" : 0,
-    "stationToId" : 0,
-    "stationFromName" : "Start",
-    "stationToName" : "Bê?n Tha?nh C",
-    "transferTurn" : 0,
-    "type" : "WALKING",
-    "routeNo" : 0,
-    "distance" : 100.0,
-    "time" : {
-      "hours" : 0,
-      "minutes" : 1,
-      "seconds" : 30,
-      "millis" : 0,
-      "weeks" : 0,
-      "years" : 0,
-      "days" : 0,
-      "months" : 0,
-      "periodType" : {
-        "name" : "Standard"
-      },
-      "values" : [ 0, 0, 0, 0, 0, 1, 30, 0 ],
-      "fieldTypes" : [ {
-        "name" : "years"
-      }, {
-        "name" : "months"
-      }, {
-        "name" : "weeks"
-      }, {
-        "name" : "days"
-      }, {
-        "name" : "hours"
-      }, {
-        "name" : "minutes"
-      }, {
-        "name" : "seconds"
-      }, {
-        "name" : "millis"
-      } ]
-    },
-    "points" : null
-  }, {
-    "routeId" : 6,
-    "routeName" : "B?n Thành- Th?nh L?c",
-    "routeNo" : 3,
-    "tranferNo" : 1,
-    "pathType" : "CONNECTED_BUS",
-    "segmentDistance" : 1481.7304964087773,
-    "segmentTime" : {
-      "hours" : 0,
-      "minutes" : 2,
-      "seconds" : 133,
-      "millis" : 1909,
-      "weeks" : 0,
-      "years" : 0,
-      "days" : 0,
-      "months" : 0,
-      "periodType" : {
-        "name" : "Standard"
-      },
-      "values" : [ 0, 0, 0, 0, 0, 2, 133, 1909 ],
-      "fieldTypes" : [ {
-        "name" : "years"
-      }, {
-        "name" : "months"
-      }, {
-        "name" : "weeks"
-      }, {
-        "name" : "days"
-      }, {
-        "name" : "hours"
-      }, {
-        "name" : "minutes"
-      }, {
-        "name" : "seconds"
-      }, {
-        "name" : "millis"
-      } ]
-    },
-    "paths" : [ {
-      "stationFromId" : 1445,
-      "stationToId" : 3960,
-      "stationFromName" : "Bê?n Tha?nh C",
-      "stationToName" : "Tr??ng Ernst Thalmann",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.770850000000001,
-        "longitude" : 106.69850000000001
-      }, {
-        "latitude" : 10.77035,
-        "longitude" : 106.69745
-      }, {
-        "latitude" : 10.76979,
-        "longitude" : 106.69615
-      }, {
-        "latitude" : 10.76966,
-        "longitude" : 106.69581000000001
-      } ]
-    }, {
-      "stationFromId" : 3960,
-      "stationToId" : 3959,
-      "stationFromName" : "Tr??ng Ernst Thalmann",
-      "stationToName" : "?? Thám",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.76966,
-        "longitude" : 106.69581000000001
-      }, {
-        "latitude" : 10.768970000000001,
-        "longitude" : 106.69413000000002
-      } ]
-    }, {
-      "stationFromId" : 3959,
-      "stationToId" : 3962,
-      "stationFromName" : "?? Thám",
-      "stationToName" : "Bãi xe buýt công viên 23-9",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.768970000000001,
-        "longitude" : 106.69413000000002
-      }, {
-        "latitude" : 10.76828,
-        "longitude" : 106.69238000000001
-      }, {
-        "latitude" : 10.76753,
-        "longitude" : 106.69049000000001
-      }, {
-        "latitude" : 10.76721,
-        "longitude" : 106.68969000000001
-      } ]
-    }, {
-      "stationFromId" : 3962,
-      "stationToId" : 1931,
-      "stationFromName" : "Bãi xe buýt công viên 23-9",
-      "stationToName" : "Ga xe buýt Sài Gòn",
-      "transferTurn" : 0,
-      "type" : "CRITICAL_PATH",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.76721,
-        "longitude" : 106.68969000000001
-      }, {
-        "latitude" : 10.76674,
-        "longitude" : 106.68836
-      }, {
-        "latitude" : 10.76674,
-        "longitude" : 106.68835000000001
-      }, {
-        "latitude" : 10.766760000000001,
-        "longitude" : 106.68834000000001
-      }, {
-        "latitude" : 10.766770000000001,
-        "longitude" : 106.68832
-      }, {
-        "latitude" : 10.766770000000001,
-        "longitude" : 106.68831000000002
-      }, {
-        "latitude" : 10.76702,
-        "longitude" : 106.68836
-      }, {
-        "latitude" : 10.76739,
-        "longitude" : 106.6885
-      }, {
-        "latitude" : 10.76778,
-        "longitude" : 106.68874000000001
-      }, {
-        "latitude" : 10.768040000000001,
-        "longitude" : 106.68897000000001
-      } ]
-    } ]
-  }, {
-    "routeId" : 79,
-    "routeName" : "B?n Thành - Ch? Hi?p Thành",
-    "routeNo" : 18,
-    "tranferNo" : 2,
-    "pathType" : "CONNECTED_BUS",
-    "segmentDistance" : 19068.118717808506,
-    "segmentTime" : {
-      "hours" : 0,
-      "minutes" : 31,
-      "seconds" : 1513,
-      "millis" : 24040,
-      "weeks" : 0,
-      "years" : 0,
-      "days" : 0,
-      "months" : 0,
-      "periodType" : {
-        "name" : "Standard"
-      },
-      "values" : [ 0, 0, 0, 0, 0, 31, 1513, 24040 ],
-      "fieldTypes" : [ {
-        "name" : "years"
-      }, {
-        "name" : "months"
-      }, {
-        "name" : "weeks"
-      }, {
-        "name" : "days"
-      }, {
-        "name" : "hours"
-      }, {
-        "name" : "minutes"
-      }, {
-        "name" : "seconds"
-      }, {
-        "name" : "millis"
-      } ]
-    },
-    "paths" : [ {
-      "stationFromId" : 1931,
-      "stationToId" : 3954,
-      "stationFromName" : "Ga xe buýt Sài Gòn",
-      "stationToName" : "Tôn Th?t Tùng",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.76811,
-        "longitude" : 106.68907000000002
-      }, {
-        "latitude" : 10.7682,
-        "longitude" : 106.68921
-      }, {
-        "latitude" : 10.76847,
-        "longitude" : 106.68996000000001
-      }, {
-        "latitude" : 10.768590000000001,
-        "longitude" : 106.69026000000001
-      } ]
-    }, {
-      "stationFromId" : 3954,
-      "stationToId" : 3952,
-      "stationFromName" : "Tôn Th?t Tùng",
-      "stationToName" : "Nguy?n Th? Ngh?a",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.768590000000001,
-        "longitude" : 106.69026000000001
-      }, {
-        "latitude" : 10.76959,
-        "longitude" : 106.69268000000001
-      }, {
-        "latitude" : 10.76983,
-        "longitude" : 106.69330000000001
-      } ]
-    }, {
-      "stationFromId" : 3952,
-      "stationToId" : 3957,
-      "stationFromName" : "Nguy?n Th? Ngh?a",
-      "stationToName" : "Khách s?n New world",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.76983,
-        "longitude" : 106.69330000000001
-      }, {
-        "latitude" : 10.77031,
-        "longitude" : 106.69458
-      }, {
-        "latitude" : 10.771180000000001,
-        "longitude" : 106.69667000000001
-      }, {
-        "latitude" : 10.771210000000002,
-        "longitude" : 106.69673
-      } ]
-    }, {
-      "stationFromId" : 3957,
-      "stationToId" : 1459,
-      "stationFromName" : "Khách s?n New world",
-      "stationToName" : "Bê?n Tha?nh F",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.771210000000002,
-        "longitude" : 106.69673
-      }, {
-        "latitude" : 10.77167,
-        "longitude" : 106.69787000000001
-      }, {
-        "latitude" : 10.771600000000001,
-        "longitude" : 106.69804
-      }, {
-        "latitude" : 10.77149,
-        "longitude" : 106.69802000000001
-      }, {
-        "latitude" : 10.77138,
-        "longitude" : 106.69802000000001
-      }, {
-        "latitude" : 10.77129,
-        "longitude" : 106.69806000000001
-      }, {
-        "latitude" : 10.771220000000001,
-        "longitude" : 106.69813
-      }, {
-        "latitude" : 10.771180000000001,
-        "longitude" : 106.69819000000001
-      }, {
-        "latitude" : 10.77035,
-        "longitude" : 106.69745
-      }, {
-        "latitude" : 10.77022,
-        "longitude" : 106.69753000000001
-      }, {
-        "latitude" : 10.770600000000002,
-        "longitude" : 106.69839
-      } ]
-    }, {
-      "stationFromId" : 1459,
-      "stationToId" : 3911,
-      "stationFromName" : "Bê?n Tha?nh F",
-      "stationToName" : "Hàm Nghi",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.770600000000002,
-        "longitude" : 106.69839
-      }, {
-        "latitude" : 10.77081,
-        "longitude" : 106.69888
-      }, {
-        "latitude" : 10.77096,
-        "longitude" : 106.69898
-      }, {
-        "latitude" : 10.770950000000001,
-        "longitude" : 106.69957000000001
-      } ]
-    }, {
-      "stationFromId" : 3911,
-      "stationToId" : 3910,
-      "stationFromName" : "Hàm Nghi",
-      "stationToName" : "Ch? C?",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.770950000000001,
-        "longitude" : 106.69957000000001
-      }, {
-        "latitude" : 10.77086,
-        "longitude" : 106.70193
-      } ]
-    }, {
-      "stationFromId" : 3910,
-      "stationToId" : 2864,
-      "stationFromName" : "Ch? C?",
-      "stationToName" : "??n Th? ?n Giáo",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.77086,
-        "longitude" : 106.70193
-      }, {
-        "latitude" : 10.77083,
-        "longitude" : 106.70251
-      }, {
-        "latitude" : 10.77097,
-        "longitude" : 106.70246
-      }, {
-        "latitude" : 10.77227,
-        "longitude" : 106.70188
-      }, {
-        "latitude" : 10.773240000000001,
-        "longitude" : 106.70149
-      }, {
-        "latitude" : 10.773570000000001,
-        "longitude" : 106.70134
-      } ]
-    }, {
-      "stationFromId" : 2864,
-      "stationToId" : 2863,
-      "stationFromName" : "??n Th? ?n Giáo",
-      "stationToName" : "Lê Thánh Tôn",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.773570000000001,
-        "longitude" : 106.70134
-      }, {
-        "latitude" : 10.77433,
-        "longitude" : 106.70100000000001
-      }, {
-        "latitude" : 10.77505,
-        "longitude" : 106.70069000000001
-      } ]
-    }, {
-      "stationFromId" : 2863,
-      "stationToId" : 2865,
-      "stationFromName" : "Lê Thánh Tôn",
-      "stationToName" : "Lý T? Tr?ng",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.77505,
-        "longitude" : 106.70069000000001
-      }, {
-        "latitude" : 10.776760000000001,
-        "longitude" : 106.69996
-      }, {
-        "latitude" : 10.77706,
-        "longitude" : 106.69963000000001
-      } ]
-    }, {
-      "stationFromId" : 2865,
-      "stationToId" : 2870,
-      "stationFromName" : "Lý T? Tr?ng",
-      "stationToName" : "Phòng Công Ch?ng S? 1",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.77706,
-        "longitude" : 106.69963000000001
-      }, {
-        "latitude" : 10.778260000000001,
-        "longitude" : 106.69828000000001
-      } ]
-    }, {
-      "stationFromId" : 2870,
-      "stationToId" : 2498,
-      "stationFromName" : "Phòng Công Ch?ng S? 1",
-      "stationToName" : "UBND Qu?n 1",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.778260000000001,
-        "longitude" : 106.69828000000001
-      }, {
-        "latitude" : 10.77912,
-        "longitude" : 106.69734000000001
-      }, {
-        "latitude" : 10.78026,
-        "longitude" : 106.69844
-      }, {
-        "latitude" : 10.780890000000001,
-        "longitude" : 106.69902
-      } ]
-    }, {
-      "stationFromId" : 2498,
-      "stationToId" : 2871,
-      "stationFromName" : "UBND Qu?n 1",
-      "stationToName" : "Tòa Nhà Kumho",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.780890000000001,
-        "longitude" : 106.69902
-      }, {
-        "latitude" : 10.782110000000001,
-        "longitude" : 106.70018
-      } ]
-    }, {
-      "stationFromId" : 2871,
-      "stationToId" : 2873,
-      "stationFromName" : "Tòa Nhà Kumho",
-      "stationToName" : "Cty X? S? Ki?n Thi?t",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.782110000000001,
-        "longitude" : 106.70018
-      }, {
-        "latitude" : 10.78434,
-        "longitude" : 106.70230000000001
-      } ]
-    }, {
-      "stationFromId" : 2873,
-      "stationToId" : 3881,
-      "stationFromName" : "Cty X? S? Ki?n Thi?t",
-      "stationToName" : "??i h?c Khoa h?c xã h?i nhân v?n",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.78434,
-        "longitude" : 106.70230000000001
-      }, {
-        "latitude" : 10.78518,
-        "longitude" : 106.70308000000001
-      }, {
-        "latitude" : 10.785630000000001,
-        "longitude" : 106.7026
-      } ]
-    }, {
-      "stationFromId" : 3881,
-      "stationToId" : 3880,
-      "stationFromName" : "??i h?c Khoa h?c xã h?i nhân v?n",
-      "stationToName" : "SV? Hoa L?",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.785630000000001,
-        "longitude" : 106.7026
-      }, {
-        "latitude" : 10.786840000000002,
-        "longitude" : 106.7013
-      } ]
-    }, {
-      "stationFromId" : 3880,
-      "stationToId" : 3886,
-      "stationFromName" : "SV? Hoa L?",
-      "stationToName" : "Nguy?n ?ình Chi?u",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.786840000000002,
-        "longitude" : 106.7013
-      }, {
-        "latitude" : 10.78819,
-        "longitude" : 106.69984000000001
-      } ]
-    }, {
-      "stationFromId" : 3886,
-      "stationToId" : 3884,
-      "stationFromName" : "Nguy?n ?ình Chi?u",
-      "stationToName" : "?i?n Biên Ph?",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.78819,
-        "longitude" : 106.69984000000001
-      }, {
-        "latitude" : 10.78983,
-        "longitude" : 106.69807000000002
-      } ]
-    }, {
-      "stationFromId" : 3884,
-      "stationToId" : 819,
-      "stationFromName" : "?i?n Biên Ph?",
-      "stationToName" : "C?u Bông",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.78983,
-        "longitude" : 106.69807000000002
-      }, {
-        "latitude" : 10.79039,
-        "longitude" : 106.69753000000001
-      }, {
-        "latitude" : 10.79086,
-        "longitude" : 106.69701
-      }, {
-        "latitude" : 10.79166,
-        "longitude" : 106.69614000000001
-      }, {
-        "latitude" : 10.791830000000001,
-        "longitude" : 106.69594000000001
-      }, {
-        "latitude" : 10.792660000000001,
-        "longitude" : 106.69599000000001
-      }, {
-        "latitude" : 10.793560000000001,
-        "longitude" : 106.69603000000001
-      }, {
-        "latitude" : 10.79451,
-        "longitude" : 106.69610000000002
-      }, {
-        "latitude" : 10.795750000000002,
-        "longitude" : 106.69618000000001
-      } ]
-    }, {
-      "stationFromId" : 819,
-      "stationToId" : 815,
-      "stationFromName" : "C?u Bông",
-      "stationToName" : "B?nh vi?n Bình Th?nh",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.795750000000002,
-        "longitude" : 106.69618000000001
-      }, {
-        "latitude" : 10.797680000000001,
-        "longitude" : 106.69630000000001
-      }, {
-        "latitude" : 10.79902,
-        "longitude" : 106.69638
-      }, {
-        "latitude" : 10.800040000000001,
-        "longitude" : 106.69644000000001
-      }, {
-        "latitude" : 10.800170000000001,
-        "longitude" : 106.69641000000001
-      }, {
-        "latitude" : 10.800040000000001,
-        "longitude" : 106.69638
-      }, {
-        "latitude" : 10.79902,
-        "longitude" : 106.69629
-      }, {
-        "latitude" : 10.798630000000001,
-        "longitude" : 106.69627000000001
-      } ]
-    }, {
-      "stationFromId" : 815,
-      "stationToId" : 816,
-      "stationFromName" : "B?nh vi?n Bình Th?nh",
-      "stationToName" : "L?ng Ông Bà Chi?u",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.798630000000001,
-        "longitude" : 106.69627000000001
-      }, {
-        "latitude" : 10.79451,
-        "longitude" : 106.69601000000002
-      }, {
-        "latitude" : 10.793560000000001,
-        "longitude" : 106.69594000000001
-      }, {
-        "latitude" : 10.792660000000001,
-        "longitude" : 106.69591000000001
-      }, {
-        "latitude" : 10.792660000000001,
-        "longitude" : 106.69599000000001
-      }, {
-        "latitude" : 10.79321,
-        "longitude" : 106.69601000000002
-      }, {
-        "latitude" : 10.79391,
-        "longitude" : 106.69605000000001
-      }, {
-        "latitude" : 10.79592,
-        "longitude" : 106.69619000000002
-      }, {
-        "latitude" : 10.79823,
-        "longitude" : 106.69633
-      }, {
-        "latitude" : 10.800040000000001,
-        "longitude" : 106.69644000000001
-      }, {
-        "latitude" : 10.800170000000001,
-        "longitude" : 106.69641000000001
-      }, {
-        "latitude" : 10.80066,
-        "longitude" : 106.69644000000001
-      }, {
-        "latitude" : 10.801390000000001,
-        "longitude" : 106.69648000000001
-      } ]
-    }, {
-      "stationFromId" : 816,
-      "stationToId" : 120,
-      "stationFromName" : "L?ng Ông Bà Chi?u",
-      "stationToName" : "UBND Qu?n Bình Th?nh",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.801390000000001,
-        "longitude" : 106.69648000000001
-      }, {
-        "latitude" : 10.802600000000002,
-        "longitude" : 106.69655
-      }, {
-        "latitude" : 10.80268,
-        "longitude" : 106.69599000000001
-      }, {
-        "latitude" : 10.802710000000001,
-        "longitude" : 106.69576
-      } ]
-    }, {
-      "stationFromId" : 120,
-      "stationToId" : 346,
-      "stationFromName" : "UBND Qu?n Bình Th?nh",
-      "stationToName" : "B?nh Vi?n Gia ??nh",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.802710000000001,
-        "longitude" : 106.69576
-      }, {
-        "latitude" : 10.80282,
-        "longitude" : 106.69492000000001
-      }, {
-        "latitude" : 10.80292,
-        "longitude" : 106.69492000000001
-      }, {
-        "latitude" : 10.80348,
-        "longitude" : 106.69494
-      } ]
-    }, {
-      "stationFromId" : 346,
-      "stationToId" : 345,
-      "stationFromName" : "B?nh Vi?n Gia ??nh",
-      "stationToName" : "R?p ??i ??ng",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.80348,
-        "longitude" : 106.69494
-      }, {
-        "latitude" : 10.80588,
-        "longitude" : 106.69501000000001
-      } ]
-    }, {
-      "stationFromId" : 345,
-      "stationToId" : 50,
-      "stationFromName" : "R?p ??i ??ng",
-      "stationToName" : "Ngã T? BÌnh Hòa",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.80588,
-        "longitude" : 106.69501000000001
-      }, {
-        "latitude" : 10.80682,
-        "longitude" : 106.69504
-      }, {
-        "latitude" : 10.80832,
-        "longitude" : 106.69508
-      }, {
-        "latitude" : 10.80851,
-        "longitude" : 106.69466000000001
-      }, {
-        "latitude" : 10.808560000000002,
-        "longitude" : 106.69454
-      } ]
-    }, {
-      "stationFromId" : 50,
-      "stationToId" : 52,
-      "stationFromName" : "Ngã T? BÌnh Hòa",
-      "stationToName" : "Chùa H?ng T? Gia",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.808560000000002,
-        "longitude" : 106.69454
-      }, {
-        "latitude" : 10.80873,
-        "longitude" : 106.69419
-      }, {
-        "latitude" : 10.80887,
-        "longitude" : 106.69396
-      }, {
-        "latitude" : 10.80912,
-        "longitude" : 106.69357000000001
-      }, {
-        "latitude" : 10.809460000000001,
-        "longitude" : 106.69306
-      } ]
-    }, {
-      "stationFromId" : 52,
-      "stationToId" : 53,
-      "stationFromName" : "Chùa H?ng T? Gia",
-      "stationToName" : "Ngã T? Xóm Gà",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.809460000000001,
-        "longitude" : 106.69306
-      }, {
-        "latitude" : 10.80957,
-        "longitude" : 106.69288
-      }, {
-        "latitude" : 10.80971,
-        "longitude" : 106.69274000000001
-      }, {
-        "latitude" : 10.81005,
-        "longitude" : 106.69252
-      }, {
-        "latitude" : 10.81046,
-        "longitude" : 106.6923
-      }, {
-        "latitude" : 10.81071,
-        "longitude" : 106.69212
-      }, {
-        "latitude" : 10.8108,
-        "longitude" : 106.69205000000001
-      }, {
-        "latitude" : 10.81085,
-        "longitude" : 106.69196000000001
-      }, {
-        "latitude" : 10.810860000000002,
-        "longitude" : 106.69186
-      }, {
-        "latitude" : 10.81098,
-        "longitude" : 106.69130000000001
-      }, {
-        "latitude" : 10.811050000000002,
-        "longitude" : 106.69119
-      }, {
-        "latitude" : 10.81117,
-        "longitude" : 106.69103000000001
-      }, {
-        "latitude" : 10.811620000000001,
-        "longitude" : 106.69076000000001
-      }, {
-        "latitude" : 10.81225,
-        "longitude" : 106.69034
-      } ]
-    }, {
-      "stationFromId" : 53,
-      "stationToId" : 54,
-      "stationFromName" : "Ngã T? Xóm Gà",
-      "stationToName" : "Chùa Già Lam",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.81225,
-        "longitude" : 106.69034
-      }, {
-        "latitude" : 10.812790000000001,
-        "longitude" : 106.68999000000001
-      }, {
-        "latitude" : 10.813160000000002,
-        "longitude" : 106.68987000000001
-      }, {
-        "latitude" : 10.813460000000001,
-        "longitude" : 106.6898
-      }, {
-        "latitude" : 10.814100000000002,
-        "longitude" : 106.68972000000001
-      }, {
-        "latitude" : 10.81428,
-        "longitude" : 106.68968000000001
-      } ]
-    }, {
-      "stationFromId" : 54,
-      "stationToId" : 3755,
-      "stationFromName" : "Chùa Già Lam",
-      "stationToName" : "Ngã Ba Nguyên H?ng",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.81428,
-        "longitude" : 106.68968000000001
-      }, {
-        "latitude" : 10.81459,
-        "longitude" : 106.68961
-      }, {
-        "latitude" : 10.814770000000001,
-        "longitude" : 106.68954000000001
-      }, {
-        "latitude" : 10.814860000000001,
-        "longitude" : 106.68948
-      }, {
-        "latitude" : 10.81497,
-        "longitude" : 106.68935
-      }, {
-        "latitude" : 10.81507,
-        "longitude" : 106.68922
-      }, {
-        "latitude" : 10.815180000000002,
-        "longitude" : 106.68913
-      }, {
-        "latitude" : 10.815370000000001,
-        "longitude" : 106.68892000000001
-      }, {
-        "latitude" : 10.81572,
-        "longitude" : 106.68869000000001
-      }, {
-        "latitude" : 10.81601,
-        "longitude" : 106.68860000000001
-      }, {
-        "latitude" : 10.816350000000002,
-        "longitude" : 106.68856000000001
-      }, {
-        "latitude" : 10.817240000000002,
-        "longitude" : 106.68891
-      }, {
-        "latitude" : 10.818460000000002,
-        "longitude" : 106.68949
-      }, {
-        "latitude" : 10.81878,
-        "longitude" : 106.68967
-      } ]
-    }, {
-      "stationFromId" : 3755,
-      "stationToId" : 3507,
-      "stationFromName" : "Ngã Ba Nguyên H?ng",
-      "stationToName" : "Tr??ng ??i h?c Công nghi?p",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.81878,
-        "longitude" : 106.68967
-      }, {
-        "latitude" : 10.819370000000001,
-        "longitude" : 106.68997
-      }, {
-        "latitude" : 10.819360000000001,
-        "longitude" : 106.69001000000002
-      }, {
-        "latitude" : 10.819360000000001,
-        "longitude" : 106.69003000000001
-      }, {
-        "latitude" : 10.81938,
-        "longitude" : 106.69007
-      }, {
-        "latitude" : 10.819450000000002,
-        "longitude" : 106.69012000000001
-      }, {
-        "latitude" : 10.81953,
-        "longitude" : 106.69010000000002
-      }, {
-        "latitude" : 10.81957,
-        "longitude" : 106.69007
-      }, {
-        "latitude" : 10.81958,
-        "longitude" : 106.69005000000001
-      }, {
-        "latitude" : 10.81976,
-        "longitude" : 106.69002
-      }, {
-        "latitude" : 10.819870000000002,
-        "longitude" : 106.68994
-      }, {
-        "latitude" : 10.820110000000001,
-        "longitude" : 106.68979
-      }, {
-        "latitude" : 10.82037,
-        "longitude" : 106.68957
-      }, {
-        "latitude" : 10.8207,
-        "longitude" : 106.68917
-      }, {
-        "latitude" : 10.820780000000001,
-        "longitude" : 106.68910000000001
-      }, {
-        "latitude" : 10.82112,
-        "longitude" : 106.68895
-      }, {
-        "latitude" : 10.82146,
-        "longitude" : 106.68879000000001
-      }, {
-        "latitude" : 10.821610000000002,
-        "longitude" : 106.68870000000001
-      } ]
-    }, {
-      "stationFromId" : 3507,
-      "stationToId" : 3505,
-      "stationFromName" : "Tr??ng ??i h?c Công nghi?p",
-      "stationToName" : "Ngã Ba Nguy?n Du",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.821610000000002,
-        "longitude" : 106.68870000000001
-      }, {
-        "latitude" : 10.822120000000002,
-        "longitude" : 106.68844000000001
-      }, {
-        "latitude" : 10.82285,
-        "longitude" : 106.68808000000001
-      }, {
-        "latitude" : 10.82304,
-        "longitude" : 106.68794000000001
-      }, {
-        "latitude" : 10.82346,
-        "longitude" : 106.68752
-      }, {
-        "latitude" : 10.82437,
-        "longitude" : 106.68624000000001
-      }, {
-        "latitude" : 10.82502,
-        "longitude" : 106.68542000000001
-      }, {
-        "latitude" : 10.82525,
-        "longitude" : 106.68496
-      } ]
-    }, {
-      "stationFromId" : 3505,
-      "stationToId" : 3460,
-      "stationFromName" : "Ngã Ba Nguy?n Du",
-      "stationToName" : "Chi c?c Thu? Qu?n Gò V?p",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.82525,
-        "longitude" : 106.68496
-      }, {
-        "latitude" : 10.82554,
-        "longitude" : 106.68442
-      }, {
-        "latitude" : 10.825840000000001,
-        "longitude" : 106.68403
-      }, {
-        "latitude" : 10.82606,
-        "longitude" : 106.68377000000001
-      }, {
-        "latitude" : 10.82618,
-        "longitude" : 106.68354000000001
-      }, {
-        "latitude" : 10.82623,
-        "longitude" : 106.68344
-      }, {
-        "latitude" : 10.826250000000002,
-        "longitude" : 106.68323000000001
-      }, {
-        "latitude" : 10.82628,
-        "longitude" : 106.68288000000001
-      }, {
-        "latitude" : 10.826310000000001,
-        "longitude" : 106.68272
-      } ]
-    }, {
-      "stationFromId" : 3460,
-      "stationToId" : 3484,
-      "stationFromName" : "Chi c?c Thu? Qu?n Gò V?p",
-      "stationToName" : "Siêu th? V?n Lang",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.826310000000001,
-        "longitude" : 106.68272
-      }, {
-        "latitude" : 10.82638,
-        "longitude" : 106.68233000000001
-      }, {
-        "latitude" : 10.82632,
-        "longitude" : 106.68199000000001
-      }, {
-        "latitude" : 10.826210000000001,
-        "longitude" : 106.68148000000001
-      }, {
-        "latitude" : 10.8262,
-        "longitude" : 106.68135000000001
-      }, {
-        "latitude" : 10.826260000000001,
-        "longitude" : 106.68071
-      }, {
-        "latitude" : 10.82633,
-        "longitude" : 106.68037000000001
-      }, {
-        "latitude" : 10.826410000000001,
-        "longitude" : 106.68011000000001
-      }, {
-        "latitude" : 10.82643,
-        "longitude" : 106.68012
-      }, {
-        "latitude" : 10.82647,
-        "longitude" : 106.68013
-      }, {
-        "latitude" : 10.826500000000001,
-        "longitude" : 106.68013
-      }, {
-        "latitude" : 10.82657,
-        "longitude" : 106.68010000000001
-      }, {
-        "latitude" : 10.82661,
-        "longitude" : 106.68004
-      }, {
-        "latitude" : 10.826630000000002,
-        "longitude" : 106.67996000000001
-      }, {
-        "latitude" : 10.826600000000001,
-        "longitude" : 106.67989000000001
-      }, {
-        "latitude" : 10.82657,
-        "longitude" : 106.67986
-      }, {
-        "latitude" : 10.826720000000002,
-        "longitude" : 106.67935000000001
-      } ]
-    }, {
-      "stationFromId" : 3484,
-      "stationToId" : 3482,
-      "stationFromName" : "Siêu th? V?n Lang",
-      "stationToName" : "Công ty 32",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.826720000000002,
-        "longitude" : 106.67935000000001
-      }, {
-        "latitude" : 10.826860000000002,
-        "longitude" : 106.67894000000001
-      }, {
-        "latitude" : 10.827380000000002,
-        "longitude" : 106.6774
-      }, {
-        "latitude" : 10.827670000000001,
-        "longitude" : 106.67655
-      } ]
-    }, {
-      "stationFromId" : 3482,
-      "stationToId" : 3480,
-      "stationFromName" : "Công ty 32",
-      "stationToName" : "Nhà Th? Xóm Thu?c",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.827670000000001,
-        "longitude" : 106.67655
-      }, {
-        "latitude" : 10.828240000000001,
-        "longitude" : 106.67485
-      }, {
-        "latitude" : 10.82892,
-        "longitude" : 106.67297
-      }, {
-        "latitude" : 10.829070000000002,
-        "longitude" : 106.67257000000001
-      } ]
-    }, {
-      "stationFromId" : 3480,
-      "stationToId" : 3490,
-      "stationFromName" : "Nhà Th? Xóm Thu?c",
-      "stationToName" : "UBND Qu?n Gò V?p",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.829070000000002,
-        "longitude" : 106.67257000000001
-      }, {
-        "latitude" : 10.829320000000001,
-        "longitude" : 106.67197
-      }, {
-        "latitude" : 10.830300000000001,
-        "longitude" : 106.67012000000001
-      }, {
-        "latitude" : 10.8305,
-        "longitude" : 106.66979
-      }, {
-        "latitude" : 10.831270000000002,
-        "longitude" : 106.66884
-      } ]
-    }, {
-      "stationFromId" : 3490,
-      "stationToId" : 3489,
-      "stationFromName" : "UBND Qu?n Gò V?p",
-      "stationToName" : "VKS nhân dân Qu?n Gò V?p",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ ]
-    }, {
-      "stationFromId" : 3489,
-      "stationToId" : 3488,
-      "stationFromName" : "VKS nhân dân Qu?n Gò V?p",
-      "stationToName" : "Chùa Hu?nh Kim",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.833260000000001,
-        "longitude" : 106.66631000000001
-      }, {
-        "latitude" : 10.834180000000002,
-        "longitude" : 106.66515000000001
-      }, {
-        "latitude" : 10.83449,
-        "longitude" : 106.66466000000001
-      }, {
-        "latitude" : 10.834810000000001,
-        "longitude" : 106.66403000000001
-      }, {
-        "latitude" : 10.8351,
-        "longitude" : 106.66336000000001
-      } ]
-    }, {
-      "stationFromId" : 3488,
-      "stationToId" : 3487,
-      "stationFromName" : "Chùa Hu?nh Kim",
-      "stationToName" : "Siêu th? Bình Dân, Quang Trung",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.8351,
-        "longitude" : 106.66336000000001
-      }, {
-        "latitude" : 10.83538,
-        "longitude" : 106.66263000000001
-      }, {
-        "latitude" : 10.835510000000001,
-        "longitude" : 106.66210000000001
-      }, {
-        "latitude" : 10.8359,
-        "longitude" : 106.66066000000001
-      } ]
-    }, {
-      "stationFromId" : 3487,
-      "stationToId" : 3425,
-      "stationFromName" : "Siêu th? Bình Dân, Quang Trung",
-      "stationToName" : "Ch? Thông Tây",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.8359,
-        "longitude" : 106.66066000000001
-      }, {
-        "latitude" : 10.83632,
-        "longitude" : 106.65908
-      }, {
-        "latitude" : 10.83655,
-        "longitude" : 106.65813000000001
-      }, {
-        "latitude" : 10.83674,
-        "longitude" : 106.65734
-      } ]
-    }, {
-      "stationFromId" : 3425,
-      "stationToId" : 3437,
-      "stationFromName" : "Ch? Thông Tây",
-      "stationToName" : "Tr??ng THPT Nguy?n Công Tr?",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.83674,
-        "longitude" : 106.65734
-      }, {
-        "latitude" : 10.837900000000001,
-        "longitude" : 106.65270000000001
-      } ]
-    }, {
-      "stationFromId" : 3437,
-      "stationToId" : 3436,
-      "stationFromName" : "Tr??ng THPT Nguy?n Công Tr?",
-      "stationToName" : "D?t may Ph??ng ?ông",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.837900000000001,
-        "longitude" : 106.65270000000001
-      }, {
-        "latitude" : 10.83857,
-        "longitude" : 106.65008
-      } ]
-    }, {
-      "stationFromId" : 3436,
-      "stationToId" : 3443,
-      "stationFromName" : "D?t may Ph??ng ?ông",
-      "stationToName" : "Làng SOS",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.83857,
-        "longitude" : 106.65008
-      }, {
-        "latitude" : 10.83914,
-        "longitude" : 106.64784
-      }, {
-        "latitude" : 10.83928,
-        "longitude" : 106.64726
-      }, {
-        "latitude" : 10.83932,
-        "longitude" : 106.64717
-      }, {
-        "latitude" : 10.839490000000001,
-        "longitude" : 106.64694000000001
-      }, {
-        "latitude" : 10.83975,
-        "longitude" : 106.64663
-      } ]
-    }, {
-      "stationFromId" : 3443,
-      "stationToId" : 3441,
-      "stationFromName" : "Làng SOS",
-      "stationToName" : "Công ty ??ng Tâm",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.83975,
-        "longitude" : 106.64663
-      }, {
-        "latitude" : 10.840610000000002,
-        "longitude" : 106.64559000000001
-      }, {
-        "latitude" : 10.840890000000002,
-        "longitude" : 106.64522000000001
-      }, {
-        "latitude" : 10.84157,
-        "longitude" : 106.64424000000001
-      }, {
-        "latitude" : 10.842070000000001,
-        "longitude" : 106.6435
-      }, {
-        "latitude" : 10.842210000000001,
-        "longitude" : 106.64331000000001
-      } ]
-    }, {
-      "stationFromId" : 3441,
-      "stationToId" : 3439,
-      "stationFromName" : "Công ty ??ng Tâm",
-      "stationToName" : "Ngã T? C?u c?ng",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.842210000000001,
-        "longitude" : 106.64331000000001
-      }, {
-        "latitude" : 10.84365,
-        "longitude" : 106.64115000000001
-      } ]
-    }, {
-      "stationFromId" : 3439,
-      "stationToId" : 3438,
-      "stationFromName" : "Ngã T? C?u c?ng",
-      "stationToName" : "Ch? C?u",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.84365,
-        "longitude" : 106.64115000000001
-      }, {
-        "latitude" : 10.84434,
-        "longitude" : 106.64016000000001
-      }, {
-        "latitude" : 10.84492,
-        "longitude" : 106.63935000000001
-      }, {
-        "latitude" : 10.845210000000002,
-        "longitude" : 106.63887000000001
-      }, {
-        "latitude" : 10.84548,
-        "longitude" : 106.6384
-      } ]
-    }, {
-      "stationFromId" : 3438,
-      "stationToId" : 1156,
-      "stationFromName" : "Ch? C?u",
-      "stationToName" : "Ch? C?u",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.84548,
-        "longitude" : 106.6384
-      }, {
-        "latitude" : 10.845780000000001,
-        "longitude" : 106.63788000000001
-      }, {
-        "latitude" : 10.845960000000002,
-        "longitude" : 106.63753000000001
-      }, {
-        "latitude" : 10.846250000000001,
-        "longitude" : 106.63706
-      }, {
-        "latitude" : 10.846860000000001,
-        "longitude" : 106.63621
-      }, {
-        "latitude" : 10.847460000000002,
-        "longitude" : 106.63533000000001
-      }, {
-        "latitude" : 10.84767,
-        "longitude" : 106.63501000000001
-      }, {
-        "latitude" : 10.848020000000002,
-        "longitude" : 106.63452000000001
-      } ]
-    }, {
-      "stationFromId" : 1156,
-      "stationToId" : 1162,
-      "stationFromName" : "Ch? C?u",
-      "stationToName" : "C?u v??t Quang Trung",
-      "transferTurn" : 0,
-      "type" : "CONNECTED_BUS",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.848020000000002,
-        "longitude" : 106.63452000000001
-      }, {
-        "latitude" : 10.84917,
-        "longitude" : 106.63293
-      }, {
-        "latitude" : 10.84974,
-        "longitude" : 106.63218
-      } ]
-    }, {
-      "stationFromId" : 1162,
-      "stationToId" : 466,
-      "stationFromName" : "C?u v??t Quang Trung",
-      "stationToName" : "Công viên ph?n m?m Quang Trung",
-      "transferTurn" : 0,
-      "type" : "CRITICAL_PATH",
-      "routeNo" : 0,
-      "distance" : 0.0,
-      "time" : null,
-      "points" : [ {
-        "latitude" : 10.84974,
-        "longitude" : 106.63218
-      }, {
-        "latitude" : 10.849960000000001,
-        "longitude" : 106.63188000000001
-      }, {
-        "latitude" : 10.85008,
-        "longitude" : 106.63163000000002
-      }, {
-        "latitude" : 10.850370000000002,
-        "longitude" : 106.63113000000001
-      }, {
-        "latitude" : 10.850560000000002,
-        "longitude" : 106.63064000000001
-      }, {
-        "latitude" : 10.85074,
-        "longitude" : 106.62994
-      }, {
-        "latitude" : 10.850940000000001,
-        "longitude" : 106.62892000000001
-      }, {
-        "latitude" : 10.85116,
-        "longitude" : 106.62774
-      }, {
-        "latitude" : 10.851260000000002,
-        "longitude" : 106.62741000000001
-      }, {
-        "latitude" : 10.85147,
-        "longitude" : 106.62712
-      }, {
-        "latitude" : 10.85167,
-        "longitude" : 106.62695000000001
-      }, {
-        "latitude" : 10.8521,
-        "longitude" : 106.62670000000001
-      }, {
-        "latitude" : 10.85246,
-        "longitude" : 106.62659000000001
-      }, {
-        "latitude" : 10.85298,
-        "longitude" : 106.62631
-      }, {
-        "latitude" : 10.85307,
-        "longitude" : 106.62626
-      } ]
-    } ]
-  }, {
-    "stationFromId" : 0,
-    "stationToId" : 0,
-    "stationFromName" : "End",
-    "stationToName" : "End",
-    "transferTurn" : 0,
-    "type" : "WALKING",
-    "routeNo" : 0,
-    "distance" : 100.0,
-    "time" : {
-      "hours" : 0,
-      "minutes" : 1,
-      "seconds" : 30,
-      "millis" : 0,
-      "weeks" : 0,
-      "years" : 0,
-      "days" : 0,
-      "months" : 0,
-      "periodType" : {
-        "name" : "Standard"
-      },
-      "values" : [ 0, 0, 0, 0, 0, 1, 30, 0 ],
-      "fieldTypes" : [ {
-        "name" : "years"
-      }, {
-        "name" : "months"
-      }, {
-        "name" : "weeks"
-      }, {
-        "name" : "days"
-      }, {
-        "name" : "hours"
-      }, {
-        "name" : "minutes"
-      }, {
-        "name" : "seconds"
-      }, {
-        "name" : "millis"
-      } ]
-    },
-    "points" : null
-  } ]
+"code": "success",
+"totalDistance": 20749.849214217284,
+"totalTime": "PT35M1731.949S",
+"minutes": 63,
+"totalTransfer": 2,
+"nodeList": [
+{
+"iNode": "Path",
+"stationFromId": 0,
+"stationToId": 0,
+"stationFromName": "Start",
+"stationToName": "Bê?n Tha?nh C",
+"transferTurn": 0,
+"fuckingDrive": "WALKING",
+"routeNo": 0,
+"distance": 100.0,
+"time": "PT1M30S"
+},
+{
+"iNode": "Segment",
+"routeId": 6,
+"routeName": "B?n Thành- Th?nh L?c",
+"routeNo": 3,
+"tranferNo": 1,
+"pathType": "CONNECTED_BUS",
+"segmentDistance": 1481.7304964087773,
+"segmentTime": "PT2M134.909S",
+"paths": [
+{
+"stationFromId": 1445,
+"stationToId": 3960,
+"stationFromName": "Bê?n Tha?nh C",
+"stationToName": "Tr??ng Ernst Thalmann",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.770850000000001,
+"longitude": 106.69850000000001
+},
+{
+"latitude": 10.77035,
+"longitude": 106.69745
+},
+{
+"latitude": 10.76979,
+"longitude": 106.69615
+},
+{
+"latitude": 10.76966,
+"longitude": 106.69581000000001
+}
+]
+},
+{
+"stationFromId": 3960,
+"stationToId": 3959,
+"stationFromName": "Tr??ng Ernst Thalmann",
+"stationToName": "?? Thám",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.76966,
+"longitude": 106.69581000000001
+},
+{
+"latitude": 10.768970000000001,
+"longitude": 106.69413000000002
+}
+]
+},
+{
+"stationFromId": 3959,
+"stationToId": 3962,
+"stationFromName": "?? Thám",
+"stationToName": "Bãi xe buýt công viên 23-9",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.768970000000001,
+"longitude": 106.69413000000002
+},
+{
+"latitude": 10.76828,
+"longitude": 106.69238000000001
+},
+{
+"latitude": 10.76753,
+"longitude": 106.69049000000001
+},
+{
+"latitude": 10.76721,
+"longitude": 106.68969000000001
+}
+]
+},
+{
+"stationFromId": 3962,
+"stationToId": 1931,
+"stationFromName": "Bãi xe buýt công viên 23-9",
+"stationToName": "Ga xe buýt Sài Gòn",
+"transferTurn": 0,
+"fuckingDrive": "CRITICAL_PATH",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.76721,
+"longitude": 106.68969000000001
+},
+{
+"latitude": 10.76674,
+"longitude": 106.68836
+},
+{
+"latitude": 10.76674,
+"longitude": 106.68835000000001
+},
+{
+"latitude": 10.766760000000001,
+"longitude": 106.68834000000001
+},
+{
+"latitude": 10.766770000000001,
+"longitude": 106.68832
+},
+{
+"latitude": 10.766770000000001,
+"longitude": 106.68831000000002
+},
+{
+"latitude": 10.76702,
+"longitude": 106.68836
+},
+{
+"latitude": 10.76739,
+"longitude": 106.6885
+},
+{
+"latitude": 10.76778,
+"longitude": 106.68874000000001
+},
+{
+"latitude": 10.768040000000001,
+"longitude": 106.68897000000001
+}
+]
+}
+]
+},
+{
+"iNode": "Segment",
+"routeId": 79,
+"routeName": "B?n Thành - Ch? Hi?p Thành",
+"routeNo": 18,
+"tranferNo": 2,
+"pathType": "CONNECTED_BUS",
+"segmentDistance": 19068.118717808506,
+"segmentTime": "PT31M1537.040S",
+"paths": [
+{
+"stationFromId": 1931,
+"stationToId": 3954,
+"stationFromName": "Ga xe buýt Sài Gòn",
+"stationToName": "Tôn Th?t Tùng",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.76811,
+"longitude": 106.68907000000002
+},
+{
+"latitude": 10.7682,
+"longitude": 106.68921
+},
+{
+"latitude": 10.76847,
+"longitude": 106.68996000000001
+},
+{
+"latitude": 10.768590000000001,
+"longitude": 106.69026000000001
+}
+]
+},
+{
+"stationFromId": 3954,
+"stationToId": 3952,
+"stationFromName": "Tôn Th?t Tùng",
+"stationToName": "Nguy?n Th? Ngh?a",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.768590000000001,
+"longitude": 106.69026000000001
+},
+{
+"latitude": 10.76959,
+"longitude": 106.69268000000001
+},
+{
+"latitude": 10.76983,
+"longitude": 106.69330000000001
+}
+]
+},
+{
+"stationFromId": 3952,
+"stationToId": 3957,
+"stationFromName": "Nguy?n Th? Ngh?a",
+"stationToName": "Khách s?n New world",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.76983,
+"longitude": 106.69330000000001
+},
+{
+"latitude": 10.77031,
+"longitude": 106.69458
+},
+{
+"latitude": 10.771180000000001,
+"longitude": 106.69667000000001
+},
+{
+"latitude": 10.771210000000002,
+"longitude": 106.69673
+}
+]
+},
+{
+"stationFromId": 3957,
+"stationToId": 1459,
+"stationFromName": "Khách s?n New world",
+"stationToName": "Bê?n Tha?nh F",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.771210000000002,
+"longitude": 106.69673
+},
+{
+"latitude": 10.77167,
+"longitude": 106.69787000000001
+},
+{
+"latitude": 10.771600000000001,
+"longitude": 106.69804
+},
+{
+"latitude": 10.77149,
+"longitude": 106.69802000000001
+},
+{
+"latitude": 10.77138,
+"longitude": 106.69802000000001
+},
+{
+"latitude": 10.77129,
+"longitude": 106.69806000000001
+},
+{
+"latitude": 10.771220000000001,
+"longitude": 106.69813
+},
+{
+"latitude": 10.771180000000001,
+"longitude": 106.69819000000001
+},
+{
+"latitude": 10.77035,
+"longitude": 106.69745
+},
+{
+"latitude": 10.77022,
+"longitude": 106.69753000000001
+},
+{
+"latitude": 10.770600000000002,
+"longitude": 106.69839
+}
+]
+},
+{
+"stationFromId": 1459,
+"stationToId": 3911,
+"stationFromName": "Bê?n Tha?nh F",
+"stationToName": "Hàm Nghi",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.770600000000002,
+"longitude": 106.69839
+},
+{
+"latitude": 10.77081,
+"longitude": 106.69888
+},
+{
+"latitude": 10.77096,
+"longitude": 106.69898
+},
+{
+"latitude": 10.770950000000001,
+"longitude": 106.69957000000001
+}
+]
+},
+{
+"stationFromId": 3911,
+"stationToId": 3910,
+"stationFromName": "Hàm Nghi",
+"stationToName": "Ch? C?",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.770950000000001,
+"longitude": 106.69957000000001
+},
+{
+"latitude": 10.77086,
+"longitude": 106.70193
+}
+]
+},
+{
+"stationFromId": 3910,
+"stationToId": 2864,
+"stationFromName": "Ch? C?",
+"stationToName": "??n Th? ?n Giáo",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.77086,
+"longitude": 106.70193
+},
+{
+"latitude": 10.77083,
+"longitude": 106.70251
+},
+{
+"latitude": 10.77097,
+"longitude": 106.70246
+},
+{
+"latitude": 10.77227,
+"longitude": 106.70188
+},
+{
+"latitude": 10.773240000000001,
+"longitude": 106.70149
+},
+{
+"latitude": 10.773570000000001,
+"longitude": 106.70134
+}
+]
+},
+{
+"stationFromId": 2864,
+"stationToId": 2863,
+"stationFromName": "??n Th? ?n Giáo",
+"stationToName": "Lê Thánh Tôn",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.773570000000001,
+"longitude": 106.70134
+},
+{
+"latitude": 10.77433,
+"longitude": 106.70100000000001
+},
+{
+"latitude": 10.77505,
+"longitude": 106.70069000000001
+}
+]
+},
+{
+"stationFromId": 2863,
+"stationToId": 2865,
+"stationFromName": "Lê Thánh Tôn",
+"stationToName": "Lý T? Tr?ng",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.77505,
+"longitude": 106.70069000000001
+},
+{
+"latitude": 10.776760000000001,
+"longitude": 106.69996
+},
+{
+"latitude": 10.77706,
+"longitude": 106.69963000000001
+}
+]
+},
+{
+"stationFromId": 2865,
+"stationToId": 2870,
+"stationFromName": "Lý T? Tr?ng",
+"stationToName": "Phòng Công Ch?ng S? 1",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.77706,
+"longitude": 106.69963000000001
+},
+{
+"latitude": 10.778260000000001,
+"longitude": 106.69828000000001
+}
+]
+},
+{
+"stationFromId": 2870,
+"stationToId": 2498,
+"stationFromName": "Phòng Công Ch?ng S? 1",
+"stationToName": "UBND Qu?n 1",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.778260000000001,
+"longitude": 106.69828000000001
+},
+{
+"latitude": 10.77912,
+"longitude": 106.69734000000001
+},
+{
+"latitude": 10.78026,
+"longitude": 106.69844
+},
+{
+"latitude": 10.780890000000001,
+"longitude": 106.69902
+}
+]
+},
+{
+"stationFromId": 2498,
+"stationToId": 2871,
+"stationFromName": "UBND Qu?n 1",
+"stationToName": "Tòa Nhà Kumho",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.780890000000001,
+"longitude": 106.69902
+},
+{
+"latitude": 10.782110000000001,
+"longitude": 106.70018
+}
+]
+},
+{
+"stationFromId": 2871,
+"stationToId": 2873,
+"stationFromName": "Tòa Nhà Kumho",
+"stationToName": "Cty X? S? Ki?n Thi?t",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.782110000000001,
+"longitude": 106.70018
+},
+{
+"latitude": 10.78434,
+"longitude": 106.70230000000001
+}
+]
+},
+{
+"stationFromId": 2873,
+"stationToId": 3881,
+"stationFromName": "Cty X? S? Ki?n Thi?t",
+"stationToName": "??i h?c Khoa h?c xã h?i nhân v?n",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.78434,
+"longitude": 106.70230000000001
+},
+{
+"latitude": 10.78518,
+"longitude": 106.70308000000001
+},
+{
+"latitude": 10.785630000000001,
+"longitude": 106.7026
+}
+]
+},
+{
+"stationFromId": 3881,
+"stationToId": 3880,
+"stationFromName": "??i h?c Khoa h?c xã h?i nhân v?n",
+"stationToName": "SV? Hoa L?",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.785630000000001,
+"longitude": 106.7026
+},
+{
+"latitude": 10.786840000000002,
+"longitude": 106.7013
+}
+]
+},
+{
+"stationFromId": 3880,
+"stationToId": 3886,
+"stationFromName": "SV? Hoa L?",
+"stationToName": "Nguy?n ?ình Chi?u",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.786840000000002,
+"longitude": 106.7013
+},
+{
+"latitude": 10.78819,
+"longitude": 106.69984000000001
+}
+]
+},
+{
+"stationFromId": 3886,
+"stationToId": 3884,
+"stationFromName": "Nguy?n ?ình Chi?u",
+"stationToName": "?i?n Biên Ph?",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.78819,
+"longitude": 106.69984000000001
+},
+{
+"latitude": 10.78983,
+"longitude": 106.69807000000002
+}
+]
+},
+{
+"stationFromId": 3884,
+"stationToId": 819,
+"stationFromName": "?i?n Biên Ph?",
+"stationToName": "C?u Bông",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.78983,
+"longitude": 106.69807000000002
+},
+{
+"latitude": 10.79039,
+"longitude": 106.69753000000001
+},
+{
+"latitude": 10.79086,
+"longitude": 106.69701
+},
+{
+"latitude": 10.79166,
+"longitude": 106.69614000000001
+},
+{
+"latitude": 10.791830000000001,
+"longitude": 106.69594000000001
+},
+{
+"latitude": 10.792660000000001,
+"longitude": 106.69599000000001
+},
+{
+"latitude": 10.793560000000001,
+"longitude": 106.69603000000001
+},
+{
+"latitude": 10.79451,
+"longitude": 106.69610000000002
+},
+{
+"latitude": 10.795750000000002,
+"longitude": 106.69618000000001
+}
+]
+},
+{
+"stationFromId": 819,
+"stationToId": 815,
+"stationFromName": "C?u Bông",
+"stationToName": "B?nh vi?n Bình Th?nh",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.795750000000002,
+"longitude": 106.69618000000001
+},
+{
+"latitude": 10.797680000000001,
+"longitude": 106.69630000000001
+},
+{
+"latitude": 10.79902,
+"longitude": 106.69638
+},
+{
+"latitude": 10.800040000000001,
+"longitude": 106.69644000000001
+},
+{
+"latitude": 10.800170000000001,
+"longitude": 106.69641000000001
+},
+{
+"latitude": 10.800040000000001,
+"longitude": 106.69638
+},
+{
+"latitude": 10.79902,
+"longitude": 106.69629
+},
+{
+"latitude": 10.798630000000001,
+"longitude": 106.69627000000001
+}
+]
+},
+{
+"stationFromId": 815,
+"stationToId": 816,
+"stationFromName": "B?nh vi?n Bình Th?nh",
+"stationToName": "L?ng Ông Bà Chi?u",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.798630000000001,
+"longitude": 106.69627000000001
+},
+{
+"latitude": 10.79451,
+"longitude": 106.69601000000002
+},
+{
+"latitude": 10.793560000000001,
+"longitude": 106.69594000000001
+},
+{
+"latitude": 10.792660000000001,
+"longitude": 106.69591000000001
+},
+{
+"latitude": 10.792660000000001,
+"longitude": 106.69599000000001
+},
+{
+"latitude": 10.79321,
+"longitude": 106.69601000000002
+},
+{
+"latitude": 10.79391,
+"longitude": 106.69605000000001
+},
+{
+"latitude": 10.79592,
+"longitude": 106.69619000000002
+},
+{
+"latitude": 10.79823,
+"longitude": 106.69633
+},
+{
+"latitude": 10.800040000000001,
+"longitude": 106.69644000000001
+},
+{
+"latitude": 10.800170000000001,
+"longitude": 106.69641000000001
+},
+{
+"latitude": 10.80066,
+"longitude": 106.69644000000001
+},
+{
+"latitude": 10.801390000000001,
+"longitude": 106.69648000000001
+}
+]
+},
+{
+"stationFromId": 816,
+"stationToId": 120,
+"stationFromName": "L?ng Ông Bà Chi?u",
+"stationToName": "UBND Qu?n Bình Th?nh",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.801390000000001,
+"longitude": 106.69648000000001
+},
+{
+"latitude": 10.802600000000002,
+"longitude": 106.69655
+},
+{
+"latitude": 10.80268,
+"longitude": 106.69599000000001
+},
+{
+"latitude": 10.802710000000001,
+"longitude": 106.69576
+}
+]
+},
+{
+"stationFromId": 120,
+"stationToId": 346,
+"stationFromName": "UBND Qu?n Bình Th?nh",
+"stationToName": "B?nh Vi?n Gia ??nh",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.802710000000001,
+"longitude": 106.69576
+},
+{
+"latitude": 10.80282,
+"longitude": 106.69492000000001
+},
+{
+"latitude": 10.80292,
+"longitude": 106.69492000000001
+},
+{
+"latitude": 10.80348,
+"longitude": 106.69494
+}
+]
+},
+{
+"stationFromId": 346,
+"stationToId": 345,
+"stationFromName": "B?nh Vi?n Gia ??nh",
+"stationToName": "R?p ??i ??ng",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.80348,
+"longitude": 106.69494
+},
+{
+"latitude": 10.80588,
+"longitude": 106.69501000000001
+}
+]
+},
+{
+"stationFromId": 345,
+"stationToId": 50,
+"stationFromName": "R?p ??i ??ng",
+"stationToName": "Ngã T? BÌnh Hòa",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.80588,
+"longitude": 106.69501000000001
+},
+{
+"latitude": 10.80682,
+"longitude": 106.69504
+},
+{
+"latitude": 10.80832,
+"longitude": 106.69508
+},
+{
+"latitude": 10.80851,
+"longitude": 106.69466000000001
+},
+{
+"latitude": 10.808560000000002,
+"longitude": 106.69454
+}
+]
+},
+{
+"stationFromId": 50,
+"stationToId": 52,
+"stationFromName": "Ngã T? BÌnh Hòa",
+"stationToName": "Chùa H?ng T? Gia",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.808560000000002,
+"longitude": 106.69454
+},
+{
+"latitude": 10.80873,
+"longitude": 106.69419
+},
+{
+"latitude": 10.80887,
+"longitude": 106.69396
+},
+{
+"latitude": 10.80912,
+"longitude": 106.69357000000001
+},
+{
+"latitude": 10.809460000000001,
+"longitude": 106.69306
+}
+]
+},
+{
+"stationFromId": 52,
+"stationToId": 53,
+"stationFromName": "Chùa H?ng T? Gia",
+"stationToName": "Ngã T? Xóm Gà",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.809460000000001,
+"longitude": 106.69306
+},
+{
+"latitude": 10.80957,
+"longitude": 106.69288
+},
+{
+"latitude": 10.80971,
+"longitude": 106.69274000000001
+},
+{
+"latitude": 10.81005,
+"longitude": 106.69252
+},
+{
+"latitude": 10.81046,
+"longitude": 106.6923
+},
+{
+"latitude": 10.81071,
+"longitude": 106.69212
+},
+{
+"latitude": 10.8108,
+"longitude": 106.69205000000001
+},
+{
+"latitude": 10.81085,
+"longitude": 106.69196000000001
+},
+{
+"latitude": 10.810860000000002,
+"longitude": 106.69186
+},
+{
+"latitude": 10.81098,
+"longitude": 106.69130000000001
+},
+{
+"latitude": 10.811050000000002,
+"longitude": 106.69119
+},
+{
+"latitude": 10.81117,
+"longitude": 106.69103000000001
+},
+{
+"latitude": 10.811620000000001,
+"longitude": 106.69076000000001
+},
+{
+"latitude": 10.81225,
+"longitude": 106.69034
+}
+]
+},
+{
+"stationFromId": 53,
+"stationToId": 54,
+"stationFromName": "Ngã T? Xóm Gà",
+"stationToName": "Chùa Già Lam",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.81225,
+"longitude": 106.69034
+},
+{
+"latitude": 10.812790000000001,
+"longitude": 106.68999000000001
+},
+{
+"latitude": 10.813160000000002,
+"longitude": 106.68987000000001
+},
+{
+"latitude": 10.813460000000001,
+"longitude": 106.6898
+},
+{
+"latitude": 10.814100000000002,
+"longitude": 106.68972000000001
+},
+{
+"latitude": 10.81428,
+"longitude": 106.68968000000001
+}
+]
+},
+{
+"stationFromId": 54,
+"stationToId": 3755,
+"stationFromName": "Chùa Già Lam",
+"stationToName": "Ngã Ba Nguyên H?ng",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.81428,
+"longitude": 106.68968000000001
+},
+{
+"latitude": 10.81459,
+"longitude": 106.68961
+},
+{
+"latitude": 10.814770000000001,
+"longitude": 106.68954000000001
+},
+{
+"latitude": 10.814860000000001,
+"longitude": 106.68948
+},
+{
+"latitude": 10.81497,
+"longitude": 106.68935
+},
+{
+"latitude": 10.81507,
+"longitude": 106.68922
+},
+{
+"latitude": 10.815180000000002,
+"longitude": 106.68913
+},
+{
+"latitude": 10.815370000000001,
+"longitude": 106.68892000000001
+},
+{
+"latitude": 10.81572,
+"longitude": 106.68869000000001
+},
+{
+"latitude": 10.81601,
+"longitude": 106.68860000000001
+},
+{
+"latitude": 10.816350000000002,
+"longitude": 106.68856000000001
+},
+{
+"latitude": 10.817240000000002,
+"longitude": 106.68891
+},
+{
+"latitude": 10.818460000000002,
+"longitude": 106.68949
+},
+{
+"latitude": 10.81878,
+"longitude": 106.68967
+}
+]
+},
+{
+"stationFromId": 3755,
+"stationToId": 3507,
+"stationFromName": "Ngã Ba Nguyên H?ng",
+"stationToName": "Tr??ng ??i h?c Công nghi?p",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.81878,
+"longitude": 106.68967
+},
+{
+"latitude": 10.819370000000001,
+"longitude": 106.68997
+},
+{
+"latitude": 10.819360000000001,
+"longitude": 106.69001000000002
+},
+{
+"latitude": 10.819360000000001,
+"longitude": 106.69003000000001
+},
+{
+"latitude": 10.81938,
+"longitude": 106.69007
+},
+{
+"latitude": 10.819450000000002,
+"longitude": 106.69012000000001
+},
+{
+"latitude": 10.81953,
+"longitude": 106.69010000000002
+},
+{
+"latitude": 10.81957,
+"longitude": 106.69007
+},
+{
+"latitude": 10.81958,
+"longitude": 106.69005000000001
+},
+{
+"latitude": 10.81976,
+"longitude": 106.69002
+},
+{
+"latitude": 10.819870000000002,
+"longitude": 106.68994
+},
+{
+"latitude": 10.820110000000001,
+"longitude": 106.68979
+},
+{
+"latitude": 10.82037,
+"longitude": 106.68957
+},
+{
+"latitude": 10.8207,
+"longitude": 106.68917
+},
+{
+"latitude": 10.820780000000001,
+"longitude": 106.68910000000001
+},
+{
+"latitude": 10.82112,
+"longitude": 106.68895
+},
+{
+"latitude": 10.82146,
+"longitude": 106.68879000000001
+},
+{
+"latitude": 10.821610000000002,
+"longitude": 106.68870000000001
+}
+]
+},
+{
+"stationFromId": 3507,
+"stationToId": 3505,
+"stationFromName": "Tr??ng ??i h?c Công nghi?p",
+"stationToName": "Ngã Ba Nguy?n Du",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.821610000000002,
+"longitude": 106.68870000000001
+},
+{
+"latitude": 10.822120000000002,
+"longitude": 106.68844000000001
+},
+{
+"latitude": 10.82285,
+"longitude": 106.68808000000001
+},
+{
+"latitude": 10.82304,
+"longitude": 106.68794000000001
+},
+{
+"latitude": 10.82346,
+"longitude": 106.68752
+},
+{
+"latitude": 10.82437,
+"longitude": 106.68624000000001
+},
+{
+"latitude": 10.82502,
+"longitude": 106.68542000000001
+},
+{
+"latitude": 10.82525,
+"longitude": 106.68496
+}
+]
+},
+{
+"stationFromId": 3505,
+"stationToId": 3460,
+"stationFromName": "Ngã Ba Nguy?n Du",
+"stationToName": "Chi c?c Thu? Qu?n Gò V?p",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.82525,
+"longitude": 106.68496
+},
+{
+"latitude": 10.82554,
+"longitude": 106.68442
+},
+{
+"latitude": 10.825840000000001,
+"longitude": 106.68403
+},
+{
+"latitude": 10.82606,
+"longitude": 106.68377000000001
+},
+{
+"latitude": 10.82618,
+"longitude": 106.68354000000001
+},
+{
+"latitude": 10.82623,
+"longitude": 106.68344
+},
+{
+"latitude": 10.826250000000002,
+"longitude": 106.68323000000001
+},
+{
+"latitude": 10.82628,
+"longitude": 106.68288000000001
+},
+{
+"latitude": 10.826310000000001,
+"longitude": 106.68272
+}
+]
+},
+{
+"stationFromId": 3460,
+"stationToId": 3484,
+"stationFromName": "Chi c?c Thu? Qu?n Gò V?p",
+"stationToName": "Siêu th? V?n Lang",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.826310000000001,
+"longitude": 106.68272
+},
+{
+"latitude": 10.82638,
+"longitude": 106.68233000000001
+},
+{
+"latitude": 10.82632,
+"longitude": 106.68199000000001
+},
+{
+"latitude": 10.826210000000001,
+"longitude": 106.68148000000001
+},
+{
+"latitude": 10.8262,
+"longitude": 106.68135000000001
+},
+{
+"latitude": 10.826260000000001,
+"longitude": 106.68071
+},
+{
+"latitude": 10.82633,
+"longitude": 106.68037000000001
+},
+{
+"latitude": 10.826410000000001,
+"longitude": 106.68011000000001
+},
+{
+"latitude": 10.82643,
+"longitude": 106.68012
+},
+{
+"latitude": 10.82647,
+"longitude": 106.68013
+},
+{
+"latitude": 10.826500000000001,
+"longitude": 106.68013
+},
+{
+"latitude": 10.82657,
+"longitude": 106.68010000000001
+},
+{
+"latitude": 10.82661,
+"longitude": 106.68004
+},
+{
+"latitude": 10.826630000000002,
+"longitude": 106.67996000000001
+},
+{
+"latitude": 10.826600000000001,
+"longitude": 106.67989000000001
+},
+{
+"latitude": 10.82657,
+"longitude": 106.67986
+},
+{
+"latitude": 10.826720000000002,
+"longitude": 106.67935000000001
+}
+]
+},
+{
+"stationFromId": 3484,
+"stationToId": 3482,
+"stationFromName": "Siêu th? V?n Lang",
+"stationToName": "Công ty 32",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.826720000000002,
+"longitude": 106.67935000000001
+},
+{
+"latitude": 10.826860000000002,
+"longitude": 106.67894000000001
+},
+{
+"latitude": 10.827380000000002,
+"longitude": 106.6774
+},
+{
+"latitude": 10.827670000000001,
+"longitude": 106.67655
+}
+]
+},
+{
+"stationFromId": 3482,
+"stationToId": 3480,
+"stationFromName": "Công ty 32",
+"stationToName": "Nhà Th? Xóm Thu?c",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.827670000000001,
+"longitude": 106.67655
+},
+{
+"latitude": 10.828240000000001,
+"longitude": 106.67485
+},
+{
+"latitude": 10.82892,
+"longitude": 106.67297
+},
+{
+"latitude": 10.829070000000002,
+"longitude": 106.67257000000001
+}
+]
+},
+{
+"stationFromId": 3480,
+"stationToId": 3490,
+"stationFromName": "Nhà Th? Xóm Thu?c",
+"stationToName": "UBND Qu?n Gò V?p",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.829070000000002,
+"longitude": 106.67257000000001
+},
+{
+"latitude": 10.829320000000001,
+"longitude": 106.67197
+},
+{
+"latitude": 10.830300000000001,
+"longitude": 106.67012000000001
+},
+{
+"latitude": 10.8305,
+"longitude": 106.66979
+},
+{
+"latitude": 10.831270000000002,
+"longitude": 106.66884
+}
+]
+},
+{
+"stationFromId": 3490,
+"stationToId": 3489,
+"stationFromName": "UBND Qu?n Gò V?p",
+"stationToName": "VKS nhân dân Qu?n Gò V?p",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": []
+},
+{
+"stationFromId": 3489,
+"stationToId": 3488,
+"stationFromName": "VKS nhân dân Qu?n Gò V?p",
+"stationToName": "Chùa Hu?nh Kim",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.833260000000001,
+"longitude": 106.66631000000001
+},
+{
+"latitude": 10.834180000000002,
+"longitude": 106.66515000000001
+},
+{
+"latitude": 10.83449,
+"longitude": 106.66466000000001
+},
+{
+"latitude": 10.834810000000001,
+"longitude": 106.66403000000001
+},
+{
+"latitude": 10.8351,
+"longitude": 106.66336000000001
+}
+]
+},
+{
+"stationFromId": 3488,
+"stationToId": 3487,
+"stationFromName": "Chùa Hu?nh Kim",
+"stationToName": "Siêu th? Bình Dân, Quang Trung",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.8351,
+"longitude": 106.66336000000001
+},
+{
+"latitude": 10.83538,
+"longitude": 106.66263000000001
+},
+{
+"latitude": 10.835510000000001,
+"longitude": 106.66210000000001
+},
+{
+"latitude": 10.8359,
+"longitude": 106.66066000000001
+}
+]
+},
+{
+"stationFromId": 3487,
+"stationToId": 3425,
+"stationFromName": "Siêu th? Bình Dân, Quang Trung",
+"stationToName": "Ch? Thông Tây",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.8359,
+"longitude": 106.66066000000001
+},
+{
+"latitude": 10.83632,
+"longitude": 106.65908
+},
+{
+"latitude": 10.83655,
+"longitude": 106.65813000000001
+},
+{
+"latitude": 10.83674,
+"longitude": 106.65734
+}
+]
+},
+{
+"stationFromId": 3425,
+"stationToId": 3437,
+"stationFromName": "Ch? Thông Tây",
+"stationToName": "Tr??ng THPT Nguy?n Công Tr?",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.83674,
+"longitude": 106.65734
+},
+{
+"latitude": 10.837900000000001,
+"longitude": 106.65270000000001
+}
+]
+},
+{
+"stationFromId": 3437,
+"stationToId": 3436,
+"stationFromName": "Tr??ng THPT Nguy?n Công Tr?",
+"stationToName": "D?t may Ph??ng ?ông",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.837900000000001,
+"longitude": 106.65270000000001
+},
+{
+"latitude": 10.83857,
+"longitude": 106.65008
+}
+]
+},
+{
+"stationFromId": 3436,
+"stationToId": 3443,
+"stationFromName": "D?t may Ph??ng ?ông",
+"stationToName": "Làng SOS",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.83857,
+"longitude": 106.65008
+},
+{
+"latitude": 10.83914,
+"longitude": 106.64784
+},
+{
+"latitude": 10.83928,
+"longitude": 106.64726
+},
+{
+"latitude": 10.83932,
+"longitude": 106.64717
+},
+{
+"latitude": 10.839490000000001,
+"longitude": 106.64694000000001
+},
+{
+"latitude": 10.83975,
+"longitude": 106.64663
+}
+]
+},
+{
+"stationFromId": 3443,
+"stationToId": 3441,
+"stationFromName": "Làng SOS",
+"stationToName": "Công ty ??ng Tâm",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.83975,
+"longitude": 106.64663
+},
+{
+"latitude": 10.840610000000002,
+"longitude": 106.64559000000001
+},
+{
+"latitude": 10.840890000000002,
+"longitude": 106.64522000000001
+},
+{
+"latitude": 10.84157,
+"longitude": 106.64424000000001
+},
+{
+"latitude": 10.842070000000001,
+"longitude": 106.6435
+},
+{
+"latitude": 10.842210000000001,
+"longitude": 106.64331000000001
+}
+]
+},
+{
+"stationFromId": 3441,
+"stationToId": 3439,
+"stationFromName": "Công ty ??ng Tâm",
+"stationToName": "Ngã T? C?u c?ng",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.842210000000001,
+"longitude": 106.64331000000001
+},
+{
+"latitude": 10.84365,
+"longitude": 106.64115000000001
+}
+]
+},
+{
+"stationFromId": 3439,
+"stationToId": 3438,
+"stationFromName": "Ngã T? C?u c?ng",
+"stationToName": "Ch? C?u",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.84365,
+"longitude": 106.64115000000001
+},
+{
+"latitude": 10.84434,
+"longitude": 106.64016000000001
+},
+{
+"latitude": 10.84492,
+"longitude": 106.63935000000001
+},
+{
+"latitude": 10.845210000000002,
+"longitude": 106.63887000000001
+},
+{
+"latitude": 10.84548,
+"longitude": 106.6384
+}
+]
+},
+{
+"stationFromId": 3438,
+"stationToId": 1156,
+"stationFromName": "Ch? C?u",
+"stationToName": "Ch? C?u",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.84548,
+"longitude": 106.6384
+},
+{
+"latitude": 10.845780000000001,
+"longitude": 106.63788000000001
+},
+{
+"latitude": 10.845960000000002,
+"longitude": 106.63753000000001
+},
+{
+"latitude": 10.846250000000001,
+"longitude": 106.63706
+},
+{
+"latitude": 10.846860000000001,
+"longitude": 106.63621
+},
+{
+"latitude": 10.847460000000002,
+"longitude": 106.63533000000001
+},
+{
+"latitude": 10.84767,
+"longitude": 106.63501000000001
+},
+{
+"latitude": 10.848020000000002,
+"longitude": 106.63452000000001
+}
+]
+},
+{
+"stationFromId": 1156,
+"stationToId": 1162,
+"stationFromName": "Ch? C?u",
+"stationToName": "C?u v??t Quang Trung",
+"transferTurn": 0,
+"fuckingDrive": "CONNECTED_BUS",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.848020000000002,
+"longitude": 106.63452000000001
+},
+{
+"latitude": 10.84917,
+"longitude": 106.63293
+},
+{
+"latitude": 10.84974,
+"longitude": 106.63218
+}
+]
+},
+{
+"stationFromId": 1162,
+"stationToId": 466,
+"stationFromName": "C?u v??t Quang Trung",
+"stationToName": "Công viên ph?n m?m Quang Trung",
+"transferTurn": 0,
+"fuckingDrive": "CRITICAL_PATH",
+"routeNo": 0,
+"distance": 0.0,
+"points": [
+{
+"latitude": 10.84974,
+"longitude": 106.63218
+},
+{
+"latitude": 10.849960000000001,
+"longitude": 106.63188000000001
+},
+{
+"latitude": 10.85008,
+"longitude": 106.63163000000002
+},
+{
+"latitude": 10.850370000000002,
+"longitude": 106.63113000000001
+},
+{
+"latitude": 10.850560000000002,
+"longitude": 106.63064000000001
+},
+{
+"latitude": 10.85074,
+"longitude": 106.62994
+},
+{
+"latitude": 10.850940000000001,
+"longitude": 106.62892000000001
+},
+{
+"latitude": 10.85116,
+"longitude": 106.62774
+},
+{
+"latitude": 10.851260000000002,
+"longitude": 106.62741000000001
+},
+{
+"latitude": 10.85147,
+"longitude": 106.62712
+},
+{
+"latitude": 10.85167,
+"longitude": 106.62695000000001
+},
+{
+"latitude": 10.8521,
+"longitude": 106.62670000000001
+},
+{
+"latitude": 10.85246,
+"longitude": 106.62659000000001
+},
+{
+"latitude": 10.85298,
+"longitude": 106.62631
+},
+{
+"latitude": 10.85307,
+"longitude": 106.62626
+}
+]
+}
+]
+},
+{
+"iNode": "Path",
+"stationFromId": 0,
+"stationToId": 0,
+"stationFromName": "End",
+"stationToName": "End",
+"transferTurn": 0,
+"fuckingDrive": "WALKING",
+"routeNo": 0,
+"distance": 100.0,
+"time": "PT1M30S"
+}
+]
 }

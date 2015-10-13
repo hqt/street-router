@@ -269,7 +269,7 @@ public class RaptorAlgorithm {
     /**
      * buildIndex a node result from begin to end station. use just for clearer when view.
      * user don't do anything in those bus.
-     * last path will always type critical. means user should take care
+     * last path will always fuckingDrive critical. means user should take care
      */
     private Segment buildMiddleResult(Station begin, Station end, Route route, int transferTurn) {
         Segment segment = new Segment();
@@ -300,9 +300,9 @@ public class RaptorAlgorithm {
 
             path.points = pathInfo.middleLocations;
             if (order < endOrder-1) {
-                path.type = PathType.CONNECTED_BUS;
+                path.fuckingDrive = PathType.CONNECTED_BUS;
             } else {
-                path.type = PathType.CRITICAL_PATH;
+                path.fuckingDrive = PathType.CRITICAL_PATH;
             }
 
             res.add(path);
