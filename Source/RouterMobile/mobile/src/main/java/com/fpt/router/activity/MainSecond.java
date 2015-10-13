@@ -35,7 +35,7 @@ public class MainSecond extends AppCompatActivity {
     static final int TIME_DIALOG_ID = 0;
     private TextView edit_1;
     private TextView edit_2;
-    private ViewPagerAdapter adapter;
+    public static ViewPagerAdapter adapter;
     public static List<String> listLocation = new ArrayList<>();
     private List<String> location;
     public static Boolean optimize = true;
@@ -94,7 +94,7 @@ public class MainSecond extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainSecond.this, MainSearch.class);
                 intent.putExtra("number", 1);
-                intent.putExtra("message",edit_1.getText());
+                intent.putExtra("message", edit_1.getText());
                 startActivityForResult(intent, 1);// Activity is started with requestCode 1
             }
         });
@@ -103,7 +103,7 @@ public class MainSecond extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainSecond.this, MainSearch.class);
                 intent.putExtra("number", 2);
-                intent.putExtra("message",edit_2.getText());
+                intent.putExtra("message", edit_2.getText());
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
@@ -137,11 +137,11 @@ public class MainSecond extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //check from and to not null
-                if("".equals(edit_1.getText())){
+                if ("".equals(edit_1.getText())) {
                     Toast.makeText(MainSecond.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
-                }else if("".equals(edit_2.getText())){
+                } else if ("".equals(edit_2.getText())) {
                     Toast.makeText(MainSecond.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainSecond.this);
                     _view_pager.setAdapter(adapter);
                     _view_pager.setCurrentItem(1);

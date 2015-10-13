@@ -11,7 +11,6 @@ import com.fpt.router.artifacter.model.helper.PathType;
 import com.fpt.router.artifacter.model.viewmodel.Path;
 import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.utils.DistanceUtils;
-import com.fpt.router.artifacter.utils.TimeUtils;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
@@ -45,7 +44,7 @@ public class TwoPointAlgorithm {
         if (DistanceUtils.distance(start, end) < 350) {
             return "{" +
                         "\"code\": \"success\"" +
-                        "\"type:\":\"walking\"" +
+                        "\"fuckingDrive:\":\"walking\"" +
                     "}";
         }
 
@@ -54,7 +53,7 @@ public class TwoPointAlgorithm {
 
         String failMessage = "{" +
                                 "\"code\": \"fail\"" +
-                                "\"type:\":\"start location too far\"" +
+                                "\"fuckingDrive:\":\"start location too far\"" +
                             "}";
         if (nearStartStations.size() == 0) {
             return failMessage;
@@ -75,7 +74,7 @@ public class TwoPointAlgorithm {
                 Path startPath = new Path();
                 startPath.stationFromName = startAddress;
                 startPath.stationToName = fromStation.name;
-                startPath.type = PathType.WALKING;
+                startPath.fuckingDrive = PathType.WALKING;
                 startPath.transferTurn = 0;
                 startPath.distance = DistanceUtils.distance(start, fromStation.location);
                 int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S);
@@ -85,7 +84,7 @@ public class TwoPointAlgorithm {
                 Path endPath = new Path();
                 endPath.stationFromName = toStation.name;
                 endPath.stationToName = endAddress;
-                endPath.type = PathType.WALKING;
+                endPath.fuckingDrive = PathType.WALKING;
                 endPath.transferTurn = 0;
                 endPath.distance = DistanceUtils.distance(end, toStation.location);
                 millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S);
@@ -115,7 +114,11 @@ public class TwoPointAlgorithm {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // convert again json to list
+
         return json;
+
     }
 
 

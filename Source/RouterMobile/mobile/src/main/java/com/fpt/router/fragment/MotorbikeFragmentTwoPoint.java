@@ -14,13 +14,11 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-import com.fpt.router.adapter.MotorbikeAdapterFourPoint;
 import com.fpt.router.adapter.MotorbikeAdapterTwoPoint;
 import com.fpt.router.adapter.RecyclerAdapterShowError;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.RouterDetailFourPoint;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.model.motorbike.Step;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
+import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 
@@ -45,7 +43,7 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     private String status;
     private List<String> listError;
 
-    private List<RouterDetailTwoPoint> routerDetailTwoPoints;
+    public static List<RouterDetailTwoPoint> routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
 
     public MotorbikeFragmentTwoPoint() {
 
@@ -73,17 +71,18 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         if (listLocation.size() > 1) {
             JSONParseTask jsonParseTask = new JSONParseTask();
             jsonParseTask.execute();
-
-        } else {
+        }else {
             routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
         }
 
         View v = inflater.inflate(R.layout.fragment_list_view, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return v;
     }
 

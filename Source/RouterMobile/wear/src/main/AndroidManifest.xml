@@ -37,11 +37,6 @@
             android:name=".wear.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.DeviceDefault.Light" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service android:name=".wear.config.DataLayerListenerService" >

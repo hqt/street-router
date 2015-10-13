@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.fpt.router.library.config.MessagePath;
+import com.fpt.router.library.model.Model;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageEvent;
@@ -28,7 +31,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 public class DataLayerListenerService extends WearableListenerService
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private static final String TAG = "Listener";
+    private static final String TAG = "DataLayerListenerService";
 
     private static final String WEARABLE_DATA_PATH = "/wearable_data";
 
@@ -41,6 +44,7 @@ public class DataLayerListenerService extends WearableListenerService
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e("hqthao", "DataLayerListenerService OnCreated");
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
@@ -57,40 +61,39 @@ public class DataLayerListenerService extends WearableListenerService
     @Override
     public void onPeerConnected(Node peer) {
         super.onPeerConnected(peer);
-        Log.e(TAG, "Connected: name=" + peer.getDisplayName() + ", id=" + peer.getId());
+        // this method rarely "see" when debugging
+        Log.e("hqthao", "Connected: name=" + peer.getDisplayName() + ", id=" + peer.getId());
     }
 
     @Override
     public void onMessageReceived(MessageEvent m) {
-        Log.d(TAG, "onMessageReceived: " + m.getPath());
-        if(m.getPath().equals("start")) {
-            Intent startIntent = new Intent(this, MainActivity.class);
-            startIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(startIntent);
+        Log.d("hqthao", "onMessageReceived: " + m.getPath());
+        if(m.getPath().equals(MessagePath.MESSAGE_PATH)) {
+            Log.e("hqthao", "Message Path: " + "ABC");
+            // Intent startIntent = new Intent(this, MainActivity.class);
+            // startIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
+            // startActivity(startIntent);
         }
     }
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
+        Log.e("hqthao", "On Data Changed");
 
-        DataMap dataMap;
         for (DataEvent event : dataEvents) {
 
             // Check the data type
             if (event.getType() == DataEvent.TYPE_CHANGED) {
+                DataItem dataItem = event.getDataItem();
                 // Check the data path
-                String path = event.getDataItem().getUri().getPath();
-                if (path.equals(WEARABLE_DATA_PATH)) {}
-                dataMap = DataMapItem.fromDataItem(event.getDataItem()).getDataMap();
-                Double lat = 0.0;
-                Double lng = 0.0;
-                if(dataMap != null) {
-                    lat = dataMap.getDouble("lat");
-                    lng = dataMap.getDouble("lng");
+                String path = dataItem.getUri().getPath();
+                if (path.equals(MessagePath.MESSAGE_PATH)) {
+                    DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
+                    Model model = new Model();
+                    model.dataMapToModel(dataMap);
+                    Log.e("hqthao", "Model name: " + model.name);
+                    Log.e("hqthao", "submodule name: "  + model.module.name);
+                    Log.e("hqthao", "DataMap received on watch: " + dataMap);
                 }
-                Log.e("hqthao", "Lat: " + lat);
-                Log.e("hqthao", "Lat: " + lng);
-                Log.e("hqthao", "DataMap received on watch: " + dataMap);
-
                 Intent intent = new Intent( this, MainActivity.class );
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -100,19 +103,20 @@ public class DataLayerListenerService extends WearableListenerService
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.e(TAG, "Connected to Google API Client");
+        Log.e("hqthao", "Connected to Google API Client");
         mConnected = true;
     }
 
     @Override
     public void onConnectionSuspended(int i) {
+        Log.e("hqthao", "Suspended Google API Client");
         mConnected = false;
 
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e(TAG, "Failed to connect to the Google API client");
+        Log.e("hqthao", "Failed to connect to the Google API client");
         mConnected = false;
     }
 }

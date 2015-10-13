@@ -11,9 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapBus;
 import com.fpt.router.activity.GoogleMapMotorbikeTwoPoint;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 import java.util.List;
 

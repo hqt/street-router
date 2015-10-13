@@ -2,7 +2,7 @@ package com.fpt.router.utils;
 
 import android.graphics.drawable.Drawable;
 
-import com.fpt.router.config.RouteApplication;
+import com.fpt.router.framework.RouterApplication;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,11 +16,11 @@ import java.io.IOException;
 public class ResourceUtils {
 
     public static String[] loadStringArray(int ResourceId) {
-        return RouteApplication.getAppContext().getResources().getStringArray(ResourceId);
+        return RouterApplication.getAppContext().getResources().getStringArray(ResourceId);
     }
 
     public static Drawable getDrawableFromResId(int id) {
-        return RouteApplication.getAppContext().getResources().getDrawable(id);
+        return RouterApplication.getAppContext().getResources().getDrawable(id);
     }
 
 

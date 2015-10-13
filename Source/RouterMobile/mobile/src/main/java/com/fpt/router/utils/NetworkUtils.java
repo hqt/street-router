@@ -5,8 +5,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-import com.fpt.router.config.PrefStore;
-import com.fpt.router.config.RouteApplication;
+import com.fpt.router.framework.RouterApplication;
+import com.fpt.router.library.config.PrefStore;
+import com.fpt.router.library.model.bus.BusLocation;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -19,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -34,7 +36,7 @@ public class NetworkUtils {
      * >Android Developer</a>} Using to detect network on Android Device if Wifi | 3G -> can synchronize data
      */
     public static boolean isNetworkConnected() {
-        Context ctx = RouteApplication.getAppContext();
+        Context ctx = RouterApplication.getAppContext();
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -67,7 +69,7 @@ public class NetworkUtils {
 
     /** wifi connect or not (not including 3G) */
     public static boolean isWifiConnect() {
-        Context ctx = RouteApplication.getAppContext();
+        Context ctx = RouterApplication.getAppContext();
         ConnectivityManager connectivityManager = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -144,9 +146,16 @@ public class NetworkUtils {
                 + ":(group)" + groupname);
     }
 
-    public static String getJsonFromServer(){
+    public static String getJsonFromServer(List<BusLocation> busLocations){
+        BusLocation A = busLocations.get(0);
+        BusLocation B = busLocations.get(1);
+        Calendar now = Calendar.getInstance();
 
-        return null;
+        String json = "http://localhost:8080/api/twopoint?latA="+A.getLatitude()
+                +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
+                +"&longB="+B.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                +"&addressA="+A.getAddress()+"&addressB="+B.getAddress();
+        return json ;
     }
 
     public static String getLocationGoogleAPI(String addressOfLocation){

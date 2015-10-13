@@ -1,13 +1,10 @@
 package com.fpt.router.utils;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.fpt.router.model.motorbike.DetailLocation;
-import com.fpt.router.model.motorbike.DetailLocationTwoPoint;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.Location;
-import com.fpt.router.model.motorbike.Step;
+import com.fpt.router.library.model.motorbike.DetailLocation;
+import com.fpt.router.library.model.motorbike.DetailLocationTwoPoint;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.motorbike.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +12,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 /**
  * Created by USER on 9/28/2015.
@@ -328,4 +326,27 @@ public class JSONParseUtils {
         }
         return listPlaceID;
     }
+    public static Location getLocation(JSONObject jsonObject){
+        JSONArray jsonArray;
+        JSONObject object;
+        JSONObject geometry;
+        JSONObject location;
+        double latitude;
+        double longitude;
+        try{
+            jsonArray = (JSONArray) jsonObject.get("results");
+            object = jsonArray.getJSONObject(0);
+            geometry = (JSONObject) object.get("geometry");
+            location = (JSONObject) geometry.get("location");
+            latitude = (double) location.get("lat");
+            longitude = (double) location.get("lng");
+            Location loca = new Location(latitude,longitude);
+            return loca;
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

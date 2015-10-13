@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
-import com.fpt.router.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.List;
 

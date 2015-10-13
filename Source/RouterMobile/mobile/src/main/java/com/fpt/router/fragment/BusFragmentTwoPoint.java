@@ -2,6 +2,8 @@ package com.fpt.router.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +15,8 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-import com.fpt.router.adapter.MotorbikeAdapterTwoPoint;
-import com.fpt.router.adapter.RecyclerAdapterShowError;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.model.motorbike.Step;
+import com.fpt.router.library.model.bus.BusLocation;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 
@@ -26,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by asus on 10/12/2015.
@@ -36,11 +36,8 @@ public class BusFragmentTwoPoint extends Fragment {
      */
     private MainSecond activity;
     private List<String> listLocation = MainSecond.listLocation;
-    private Boolean optimize = MainSecond.optimize;
     private RecyclerView recyclerView;
-    private JSONObject jsonObject;
-    private String status;
-    private List<String> listError;
+
 
 
     public BusFragmentTwoPoint() {
@@ -97,14 +94,30 @@ public class BusFragmentTwoPoint extends Fragment {
 
         @Override
         protected String doInBackground(String... args) {
-            String json;
-            String Result;
+            String jsonFromServer = "";
+            List<BusLocation> busLocations = new ArrayList<BusLocation>();
+            try {
+                for (int i=0;i<listLocation.size();i++){
+                    String address_1 = listLocation.get(i);
 
-            String startAddress = listLocation.get(0);
-            json = NetworkUtils.getLocationGoogleAPI(startAddress);
+                    String json = NetworkUtils.getLocationGoogleAPI(address_1);
+                    JSONObject jsonObject = new JSONObject(json);
+                    Location location = JSONParseUtils.getLocation(jsonObject);
+                    BusLocation busLocation = new BusLocation();
+                    busLocation.setAddress(address_1);
+                    busLocation.setLatitude(location.getLatitude());
+                    busLocation.setLongitude(location.getLongitude());
+                    busLocations.add(busLocation);
+                }
+
+                jsonFromServer = NetworkUtils.getJsonFromServer(busLocations);
 
 
-            return json;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return jsonFromServer;
         }
 
         @Override

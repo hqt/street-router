@@ -29,7 +29,7 @@ public class MultiPointAlgorithm {
         this.end = end;
         this.third = third;
 
-        
+
 
 
         return null;

@@ -11,7 +11,7 @@ import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
 import com.fpt.router.adapter.MotorbikeAdapterCuaNam;
 import com.fpt.router.adapter.RecyclerAdapterShowError;
-import com.fpt.router.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 

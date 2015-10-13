@@ -28,8 +28,13 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.0.1'
     compile 'com.sothree.slidinguppanel:library:3.0.0'
-    compile 'joda-time:joda-time:2.8.2'
+    compile 'com.google.android.gms:play-services-ads:8.1.0'
+    compile 'com.google.android.gms:play-services-identity:8.1.0'
+    compile 'com.google.android.gms:play-services-gcm:8.1.0'
     compile project(':library')
 }
+
+
+
 
 

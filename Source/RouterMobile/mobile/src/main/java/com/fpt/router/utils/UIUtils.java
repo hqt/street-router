@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.fpt.router.BuildConfig;
-import com.fpt.router.config.RouteApplication;
+import com.fpt.router.framework.RouterApplication;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -185,7 +185,7 @@ public class UIUtils { private static final String TAG = LogUtils.makeLogTag(UIU
     private static final long sAppLoadTime = System.currentTimeMillis();
 
     public static long getCurrentTime() {
-        Context context = RouteApplication.getAppContext();
+        Context context = RouterApplication.getAppContext();
         if (BuildConfig.DEBUG) {
             return context.getSharedPreferences("mock_data", Context.MODE_PRIVATE)
                     .getLong("mock_current_time", System.currentTimeMillis())
@@ -261,7 +261,7 @@ public class UIUtils { private static final String TAG = LogUtils.makeLogTag(UIU
     }*/
 
     public static boolean isSmallScreen() {
-        Context context = RouteApplication.getAppContext();
+        Context context = RouterApplication.getAppContext();
         int screenLayout = context.getResources().getConfiguration().screenLayout;
         screenLayout &= Configuration.SCREENLAYOUT_SIZE_MASK;
         return (screenLayout == Configuration.SCREENLAYOUT_SIZE_SMALL);

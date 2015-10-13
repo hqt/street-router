@@ -16,7 +16,7 @@ public class Path implements INode {
     public String stationFromName;
     public String stationToName;
     public int transferTurn;
-    public PathType type;
+    public PathType fuckingDrive;
     public int routeNo;
     public double distance;
     public Period time;     // in minute

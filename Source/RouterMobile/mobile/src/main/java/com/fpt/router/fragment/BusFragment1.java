@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-import com.fpt.router.adapter.MotorbikeRecyclerAdapter;
-import com.fpt.router.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.ArrayList;
 import java.util.List;

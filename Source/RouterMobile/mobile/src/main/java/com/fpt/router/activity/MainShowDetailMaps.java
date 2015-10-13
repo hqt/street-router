@@ -14,10 +14,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.model.bus.ArrayAdapterItem;
-import com.fpt.router.model.motorbike.DetailLocation;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.Step;
+import com.fpt.router.library.model.bus.ArrayAdapterItem;
+import com.fpt.router.library.model.motorbike.DetailLocation;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.LockableListView;
 import com.fpt.router.utils.MapUtils;
@@ -221,8 +221,8 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
                     }
                     leg = legs.get(position);
                     DetailLocation detalL = leg.getDetailLocation();
-                    com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                    com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                    com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
+                    com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
                     // latitude and longitude
 
                     latitude = end_location.getLatitude();
@@ -254,8 +254,8 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
                         for (int i = 0; i < 3; i++) {
                             leg = legs.get(i);
                             DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
+                            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
                             // latitude and longitude
 
                             latitude = end_location.getLatitude();
@@ -294,8 +294,8 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
                         for (int i = 3; i < 6; i++) {
                             leg = legs.get(i);
                             DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
+                            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
                             // latitude and longitude
 
                             latitude = end_location.getLatitude();
@@ -326,8 +326,8 @@ public class MainShowDetailMaps extends Fragment implements GoogleApiClient.Conn
                         for (int i = 6; i < legs.size(); i++) {
                             leg = legs.get(i);
                             DetailLocation detalL = leg.getDetailLocation();
-                            com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                            com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
+                            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
                             // latitude and longitude
 
                             latitude = end_location.getLatitude();

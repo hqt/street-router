@@ -15,18 +15,21 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.library.config.Constants;
-import com.fpt.router.model.bus.ArrayAdapterItem;
-import com.fpt.router.model.motorbike.DetailLocation;
-import com.fpt.router.model.motorbike.Leg;
-import com.fpt.router.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.model.motorbike.Step;
+import com.fpt.router.library.config.MessagePath;
+import com.fpt.router.library.model.Model;
+import com.fpt.router.library.model.SubModule;
+import com.fpt.router.library.model.bus.ArrayAdapterItem;
+import com.fpt.router.library.model.motorbike.DetailLocation;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
+import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.LockableListView;
 import com.fpt.router.utils.MapUtils;
 import com.fpt.router.utils.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -46,7 +49,6 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -190,8 +192,8 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
                 DetailLocation detalL = routerDetailTwoPoint.getDetailLocation();
-                com.fpt.router.model.motorbike.Location start_location = detalL.getStart_location();
-                com.fpt.router.model.motorbike.Location end_location = detalL.getEnd_location();
+                com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
+                com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
                 // latitude and longitude
 
                 latitude = end_location.getLatitude();
@@ -364,6 +366,7 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
         }
     }
 
+    static int count = 0;
     @Override
     public void onConnected(Bundle bundle) {
         // send location request
@@ -377,10 +380,10 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
         // Create a DataMap object and send it to the data layer
         DataMap dataMap = new DataMap();
         // dataMap.putLong("time", new Date().getTime());
-        dataMap.putDouble("lng", 106.6249837);
+        dataMap.putDouble("lng", count++);
         dataMap.putDouble("lat", 10.7467632);
         //Requires a new thread to avoid blocking the UI
-        new SendToDataLayerThread(Constants.WEARABLE_DATA_PATH, dataMap).start();
+        new SendToDataLayerThread(MessagePath.MESSAGE_PATH, dataMap).start();
     }
 
     @Override
@@ -407,17 +410,63 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
             NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
 
             for (Node node : nodes.getNodes()) {
-                // Construct a DataRequest and send over the data layer
+
+                // method 1. send over the data layer. This is reliability way for sending data.
+                // If a connection is unavailable when data is posted to the Data API,
+                // it will automatically synchronize with the other device once the connection is reestablished.
+                // this method shares and synchronizes data both devices
+                // Use when:
+                //  . synchronized data that might be modified on both side
+                //  . system will manage and cache data
+                //  . one-way or two-way communication.
+
+                Model model = new Model(1, "thao");
+                SubModule module = new SubModule(2, "Cho nam");
+                model.module = module;
+                DataMap map = new DataMap();
+                map = model.putToDataMap();
+
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
-                putDataMapRequest.getDataMap().putAll(dataMap);
+                putDataMapRequest.getDataMap().putAll(map);
                 PutDataRequest request = putDataMapRequest.asPutDataRequest();
-                DataApi.DataItemResult result = Wearable.DataApi.putDataItem(mGoogleApiClient,request).await();
+
+                // DataItems share among devices and contain small amounts of data. A DataItem has 2 parts:
+                //  1. Path: Like Message API, unique string such as com/fpt/hqt
+                //  2. Payload: a byte array limited to 100KB
+                PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mGoogleApiClient, request);
+
+                /*// asynchronous call
+                pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
+                    @Override
+                    public void onResult(DataApi.DataItemResult dataItemResult) {
+
+                    }
+                });*/
+
+                // synchronous call
+                DataApi.DataItemResult result = pendingResult.await();
                 if (result.getStatus().isSuccess()) {
-                    Log.e("hqthao", "DataMap: " + dataMap + " sent to: " + node.getDisplayName());
+                    Log.e("hqthao", "DataMap: " + map + " sent to: " + node.getDisplayName());
                 } else {
                     // Log an error
                     Log.v("myTag", "ERROR: failed to send DataMap");
                 }
+
+                // method 2. send message. One-way message communication
+                // once the message is sent. there is no confirmation that they were received
+                // Use when:
+                //  . immediately invoke action on other device, such as start an activity, start/stop music
+                //  . one-way communication
+                //  . don't want system to manage and cache messages
+                //Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), MessagePath.MESSAGE_PATH, null);
+
+                // method 3. send asset. When data is larger than 100KB
+                // Asset asset;
+                DataMap dataMap;
+
+                // method 4. ChanelApi.
+
+
             }
         }
     }
