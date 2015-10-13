@@ -1,5 +1,6 @@
 package com.fpt.router.utils;
 
+import com.fpt.router.model.motorbike.Leg;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -42,4 +43,6 @@ public class DecodeUtils {
 
         return poly;
     }
+
+
 }

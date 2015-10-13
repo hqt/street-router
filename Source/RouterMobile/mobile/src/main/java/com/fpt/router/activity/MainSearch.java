@@ -194,7 +194,7 @@ public class MainSearch extends AppCompatActivity {
                adapter.add(string);
             }*/
             if(json == null){
-                result  = new ArrayList<String>();
+                result  = new ArrayList<>();
                 result.add("Cần kết nối Internet");
                 adapter = new GooglePlacesAutocompleteAdapter(MainSearch.this,android.R.layout.simple_list_item_1,result);
                 /*return;*/

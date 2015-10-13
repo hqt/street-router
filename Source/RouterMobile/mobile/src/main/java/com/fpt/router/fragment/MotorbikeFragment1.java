@@ -115,7 +115,7 @@ public class MotorbikeFragment1 extends Fragment {
             List<Leg> listLeg = new ArrayList<Leg>();
             List<String> jsons = new ArrayList<String>();
 
-            url = NetworkUtils.linkGoogleDrirection(listLocation, optimize);
+            url = NetworkUtils.linkGoogleDrirectionForTwoPoint(listLocation.get(0), listLocation.get(1));
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);

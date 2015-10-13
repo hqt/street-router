@@ -150,9 +150,10 @@ public class NetworkUtils {
     }
 
     public static String getLocationGoogleAPI(String addressOfLocation){
-        String address = null;
+        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String address = addressOfLocation;
         try {
-            address = URLEncoder.encode(addressOfLocation,"UTF-8");
+            address = URLEncoder.encode(address,"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -161,54 +162,52 @@ public class NetworkUtils {
         return json;
     }
 
-    public static String linkGoogleDrirection(List<String> listLocation, Boolean optimize){
-        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
-        List<String> listUrl = new ArrayList<>();
-        String startLocation = null;
-        String endLocation = null;
-        String waypoint_1 = "";
-        String waypoint_2 = "";
+    public static String linkGoogleDrirectionForTwoPoint(String start, String end){
+        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String startLocation = start;
+        String endLocation = end;
         try {
-            startLocation = URLEncoder.encode(listLocation.get(0), "UTF-8");
-            endLocation = URLEncoder.encode(listLocation.get(1), "UTF-8");
-            if(listLocation.size() > 2) {
-                waypoint_1 = URLEncoder.encode(listLocation.get(2), "UTF-8");
-            }
-            if(listLocation.size() > 3){
-                waypoint_2 = URLEncoder.encode(listLocation.get(3), "UTF-8");
-            }
+            startLocation = URLEncoder.encode(startLocation, "UTF-8");
+            endLocation = URLEncoder.encode(endLocation, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String waypoints = "";
-        if(waypoint_1 != "" || waypoint_2 != ""){
-            if(optimize) {
-                waypoints = waypoints + "&waypoints=optimize:true" + "|" + waypoint_1 + "|" + waypoint_2;
-            } else  {
-                waypoints = waypoints + "&waypoints=" + waypoint_1 + "|" + waypoint_2;
-            }
-        }
         String url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                     "origin=" + startLocation +
-                     "&destination=" + endLocation + waypoints +
+                     "origin=place_id:" + startLocation +
+                     "&destination=place_id:" + endLocation +
                      "&alternatives=true" +
                      "&mode=driving" +
                      "&key=" + key;
         return url;
     }
 
-    public static List<String> linkCuaNam(List<String> listLocation, Boolean optimize){
-        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+    public static List<String> linkFourPointWithoutOptimize(List<String> listLocation) {
+        String url;
+        List<String> listUrl = new ArrayList<>();
+        for(int x = 0; x < listLocation.size()-1; x++){
+            for(int y = 1; y < listLocation.size(); y++){
+                if((x != y) && (y-x != 3)) {
+                    url = linkGoogleDrirectionForTwoPoint(listLocation.get(x), listLocation.get(y));
+                    listUrl.add(url);
+                }
+            }
+        }
+        return listUrl;
+    }
+
+    public static List<String> linkCuaNam(List<String> listPlaceID, Boolean optimize){
+        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
         List<String> listUrl = new ArrayList<>();
         String startLocation = null;
         String endLocation = null;
         String waypoint_1 = "";
         String waypoint_2 = "";
         int count = 1;
-        if(listLocation.size() == 4){
+        if(listPlaceID.size() == 4){
             count = 3;
         }
-        List<String> listPlace = listLocation;
+        List<String> listPlace = listPlaceID;
+        String waypoints = "";
         for(int n = 0; n < count; n++) {
             try {
                 if(count == 3) {
@@ -218,26 +217,25 @@ public class NetworkUtils {
                 }
                 startLocation = URLEncoder.encode(listPlace.get(0), "UTF-8");
                 endLocation = URLEncoder.encode(listPlace.get(1), "UTF-8");
-                if (listPlace.size() > 2) {
+                if (listPlace.size() == 3) {
                     waypoint_1 = URLEncoder.encode(listPlace.get(2), "UTF-8");
-                }
-                if (listPlace.size() > 3) {
+                    waypoints = waypoints + "&waypoints=place_id:" + waypoint_1;
+
+                }else if (listPlace.size() == 4) {
+                    waypoint_1 = URLEncoder.encode(listPlace.get(2), "UTF-8");
                     waypoint_2 = URLEncoder.encode(listPlace.get(3), "UTF-8");
+                    if (optimize) {
+                        waypoints = waypoints + "&waypoints=optimize:place_id:true" + "|place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
+                    } else {
+                        waypoints = waypoints + "&waypoints=place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
+                    }
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-            String waypoints = "";
-            if (waypoint_1 != null || waypoint_2 != null) {
-                if (optimize) {
-                    waypoints = waypoints + "&waypoints=optimize:true" + "|" + waypoint_1 + "|" + waypoint_2;
-                } else {
-                    waypoints = waypoints + "&waypoints=" + waypoint_1 + "|" + waypoint_2;
-                }
-            }
             String url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                    "origin=" + startLocation +
-                    "&destination=" + endLocation + waypoints +
+                    "origin=place_id:" + startLocation +
+                    "&destination=place_id:" + endLocation + waypoints +
                     "&alternatives=true" +
                     "&mode=driving" +
                     "&key=" + key;
@@ -247,7 +245,7 @@ public class NetworkUtils {
     }
 
     public static String getShortePath(String start, String end,String way_point_1,String way_point_2, Boolean optimize){
-        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
         String startLocation = null;
         String endLocation = null;
         String waypoint_1 = "";
@@ -281,7 +279,7 @@ public class NetworkUtils {
     }
 
     public static String linkGooglePlace(String input){
-        String key = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
+        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
         String text = null;
         try {
             text = URLEncoder.encode(input, "UTF-8");
@@ -293,4 +291,6 @@ public class NetworkUtils {
                      "&types=establishment&components=country:vn&language=vi&sensor=true&key=" + key;
         return url;
     }
+
+
 }

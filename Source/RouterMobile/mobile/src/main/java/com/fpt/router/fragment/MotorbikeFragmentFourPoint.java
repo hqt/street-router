@@ -107,7 +107,7 @@ public class MotorbikeFragmentFourPoint extends Fragment {
             String json;
             String url;
 
-            url = NetworkUtils.linkGoogleDrirection(listLocation, optimize);
+            url = null;
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);

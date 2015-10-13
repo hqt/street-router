@@ -37,7 +37,8 @@ public class MainSecond extends AppCompatActivity {
     private TextView edit_2;
     private ViewPagerAdapter adapter;
     public static List<String> listLocation = new ArrayList<>();
-    public static Boolean optimize = false;
+    private List<String> location;
+    public static Boolean optimize = true;
     private LinearLayout option;
     private ViewPager _view_pager;
 
@@ -117,6 +118,7 @@ public class MainSecond extends AppCompatActivity {
                 int positionTab = tabLayout.getSelectedTabPosition();
                 intent.putExtra("postionTab", positionTab);
                 startActivityForResult(intent, 3);
+                adapter = null;
             }
         });
 
@@ -163,6 +165,7 @@ public class MainSecond extends AppCompatActivity {
                     edit_1.setText(message);
                     if (listLocation.size() > 0) {
                         listLocation.set(0, message);
+
                     } else {
                         listLocation.add(message);
                     }

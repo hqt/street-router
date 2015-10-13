@@ -115,7 +115,7 @@ public class MotorbikeFragment extends Fragment {
         @Override
         protected String doInBackground(String... args) {
             String json;
-            String url = NetworkUtils.linkGoogleDrirection(listLocation, optimize);
+            String url = NetworkUtils.linkGoogleDrirectionForTwoPoint(listLocation.get(0), listLocation.get(1));
             json = NetworkUtils.download(url);
             return json;
         }
@@ -128,7 +128,7 @@ public class MotorbikeFragment extends Fragment {
             List<LatLng> list;
             String encodedString;
             if(listLocation.size() == 2) {
-                ArrayList<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
                 for (int n = 1; n < listLeg.size(); n++) {
                     leg = listLeg.get(n);
                     encodedString = leg.getOverview_polyline();
@@ -155,7 +155,7 @@ public class MotorbikeFragment extends Fragment {
                 MapUtils.drawLine(mMap, list, Color.BLUE);
                 MapUtils.moveCamera(mMap, latitude, longitude, 12);
             } else {
-                ArrayList<Leg> listLeg = JSONParseUtils.getListLegWithFourPoint(json);
+                List<Leg> listLeg = JSONParseUtils.getListLegWithFourPoint(json);
                 for(int n = 0; n < listLeg.size(); n++){
                     leg = listLeg.get(n);
                     DetailLocation detalL = leg.getDetailLocation();
