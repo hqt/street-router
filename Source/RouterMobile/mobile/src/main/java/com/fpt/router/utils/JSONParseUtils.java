@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by USER on 9/28/2015.
@@ -254,6 +255,29 @@ public class JSONParseUtils {
             DetailLocation detailL = new DetailLocation(distance, duration, end_location, start_location);
             return detailL;
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Location getLocation(JSONObject jsonObject){
+        JSONArray jsonArray;
+        JSONObject object;
+        JSONObject geometry;
+        JSONObject location;
+        double latitude;
+        double longitude;
+        try{
+            jsonArray = (JSONArray) jsonObject.get("results");
+            object = jsonArray.getJSONObject(0);
+            geometry = (JSONObject) object.get("geometry");
+            location = (JSONObject) geometry.get("location");
+            latitude = (double) location.get("lat");
+            longitude = (double) location.get("lng");
+            Location loca = new Location(latitude,longitude);
+            return loca;
+
+        }catch (JSONException e){
             e.printStackTrace();
         }
         return null;

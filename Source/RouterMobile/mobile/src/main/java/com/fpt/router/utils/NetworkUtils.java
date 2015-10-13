@@ -5,8 +5,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+<<<<<<< HEAD
 import com.fpt.router.framework.RouterApplication;
 import com.fpt.router.library.config.PrefStore;
+=======
+import com.fpt.router.config.PrefStore;
+import com.fpt.router.config.RouteApplication;
+import com.fpt.router.model.bus.BusLocation;
+>>>>>>> f82caf13f3947e4b09506063742b2b3d52f7e877
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -19,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -144,9 +151,16 @@ public class NetworkUtils {
                 + ":(group)" + groupname);
     }
 
-    public static String getJsonFromServer(){
+    public static String getJsonFromServer(List<BusLocation> busLocations){
+        BusLocation A = busLocations.get(0);
+        BusLocation B = busLocations.get(1);
+        Calendar now = Calendar.getInstance();
 
-        return null;
+        String json = "http://localhost:8080/api/twopoint?latA="+A.getLatitude()
+                +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
+                +"&longB="+B.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                +"&addressA="+A.getAddress()+"&addressB="+B.getAddress();
+        return json ;
     }
 
     public static String getLocationGoogleAPI(String addressOfLocation){

@@ -43,7 +43,7 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     private String status;
     private List<String> listError;
 
-    private List<RouterDetailTwoPoint> routerDetailTwoPoints;
+    public static List<RouterDetailTwoPoint> routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
 
     public MotorbikeFragmentTwoPoint() {
 
@@ -71,17 +71,18 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         if (listLocation.size() > 1) {
             JSONParseTask jsonParseTask = new JSONParseTask();
             jsonParseTask.execute();
-
-        } else {
+        }else {
             routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
         }
 
         View v = inflater.inflate(R.layout.fragment_list_view, container, false);
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
         return v;
     }
 
