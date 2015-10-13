@@ -15,23 +15,17 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.MainSecond;
-<<<<<<< HEAD
-=======
-import com.fpt.router.model.bus.BusLocation;
-import com.fpt.router.model.motorbike.Location;
+import com.fpt.router.library.model.bus.BusLocation;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.utils.JSONParseUtils;
->>>>>>> f82caf13f3947e4b09506063742b2b3d52f7e877
 import com.fpt.router.utils.NetworkUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
-<<<<<<< HEAD
-=======
-import java.io.IOException;
 import java.util.ArrayList;
->>>>>>> f82caf13f3947e4b09506063742b2b3d52f7e877
 import java.util.List;
-import java.util.Locale;
+
 
 /**
  * Created by asus on 10/12/2015.

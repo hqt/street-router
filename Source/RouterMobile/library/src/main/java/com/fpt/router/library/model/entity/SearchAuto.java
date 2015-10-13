@@ -1,4 +1,4 @@
-package com.fpt.router.library.model;
+package com.fpt.router.library.model.entity;
 
 /**
  * Created by asus on 10/6/2015.
