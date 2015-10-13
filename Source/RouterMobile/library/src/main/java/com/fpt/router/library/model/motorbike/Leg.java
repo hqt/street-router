@@ -115,6 +115,8 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
     @Override
     public ArrayList<DataMap> listModelToDataMap(List<Leg> items) {
         ArrayList<DataMap> res = new ArrayList<DataMap>();
+        if (items == null) return res;
+
         for (Leg leg : items) {
             DataMap dataMapItem = leg.putToDataMap();
             res.add(dataMapItem);

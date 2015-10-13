@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.library.model.Model;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -86,15 +87,19 @@ public class DataLayerListenerService extends WearableListenerService
                 DataItem dataItem = event.getDataItem();
                 // Check the data path
                 String path = dataItem.getUri().getPath();
+                Intent intent = new Intent( this, MainActivity.class );
                 if (path.equals(MessagePath.MESSAGE_PATH)) {
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
-                    Model model = new Model();
-                    model.dataMapToModel(dataMap);
-                    Log.e("hqthao", "Model name: " + model.name);
-                    Log.e("hqthao", "submodule name: "  + model.module.name);
-                    Log.e("hqthao", "DataMap received on watch: " + dataMap);
+                    RouterDetailTwoPoint routerDetailTwoPoint = new RouterDetailTwoPoint();
+                    routerDetailTwoPoint.dataMapToModel(dataMap);
+                    Log.e("hqthao", "Start: " + routerDetailTwoPoint.getStartLocation());
+                    Log.e("hqthao", "Latitude: " + routerDetailTwoPoint.getDetailLocation().getStart_location().getLatitude());
+                    Log.e("hqthao", "Longiude: " + routerDetailTwoPoint.getDetailLocation().getStart_location().getLongitude());
+                    Log.e("Name", "All: " + dataMap);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("test", routerDetailTwoPoint);
+                    intent.putExtras(bundle);
                 }
-                Intent intent = new Intent( this, MainActivity.class );
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

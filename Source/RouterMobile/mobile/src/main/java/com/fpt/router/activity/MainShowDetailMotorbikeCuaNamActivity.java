@@ -142,8 +142,6 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-        Log.e("Nam", listLeg.get(0).getStep().get(0).getInstruction());
-
         for(int n = 0; n < listLeg.size(); n ++) {
             listStep.addAll(listLeg.get(n).getStep());
         }

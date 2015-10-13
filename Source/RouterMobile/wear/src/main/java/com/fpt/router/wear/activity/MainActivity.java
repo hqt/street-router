@@ -19,6 +19,7 @@ package com.fpt.router.wear.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.wearable.activity.ConfirmationActivity;
@@ -26,10 +27,15 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
+import com.fpt.router.wear.utils.DecodeUtils;
+import com.fpt.router.wear.utils.MapUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
@@ -51,6 +57,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 
 public class MainActivity extends Activity implements OnMapReadyCallback,
@@ -125,11 +133,27 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         mMap.setOnMapLongClickListener(this);
 
         // Add a marker with a title that is shown in its info window.
-        mMap.addMarker(new MarkerOptions().position(SYDNEY)
-                .title("Sydney Opera House"));
+        Intent intent = new Intent();
+        RouterDetailTwoPoint routerDetailTwoPoint = (RouterDetailTwoPoint) getIntent().getSerializableExtra("test");
+        //Start Point
+        Location start_location = routerDetailTwoPoint.getDetailLocation().getStart_location();
+        Double latitude = start_location.getLatitude();
+        Double longitude = start_location.getLongitude();
+        MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getStartLocation(), BitmapDescriptorFactory.HUE_GREEN);
 
+        //EndPoint
+        Location end_location = routerDetailTwoPoint.getDetailLocation().getEnd_location();
+        latitude = end_location.getLatitude();
+        longitude = end_location.getLongitude();
+        MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getEndLocation(), BitmapDescriptorFactory.HUE_RED);
+        String encodedString;
+        List<LatLng> list;
+        encodedString = routerDetailTwoPoint.getOverview_polyline();
+        list = DecodeUtils.decodePoly(encodedString);
+        MapUtils.drawLine(mMap, list, Color.BLUE);
         // Move the camera to show the marker.
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SYDNEY, 10));
+        LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
     }
 
     @Override

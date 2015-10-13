@@ -198,12 +198,12 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
 
                 latitude = end_location.getLatitude();
                 longitude = end_location.getLongitude();
-                MapUtils.drawEndPoint(mMap, latitude, longitude, routerDetailTwoPoint.getEndLocation());
+                MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getEndLocation(), BitmapDescriptorFactory.HUE_RED);
 
 
                 latitude = start_location.getLatitude();
                 longitude = start_location.getLongitude();
-                MapUtils.drawStartPoint(mMap, latitude, longitude, routerDetailTwoPoint.getStartLocation());
+                MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getStartLocation(), BitmapDescriptorFactory.HUE_GREEN);
                 LatLng latLng = new LatLng(latitude, longitude);
                 moveToLocation(latLng, true);
                 //add polyline
@@ -420,11 +420,8 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
                 //  . system will manage and cache data
                 //  . one-way or two-way communication.
 
-                Model model = new Model(1, "thao");
-                SubModule module = new SubModule(2, "Cho nam");
-                model.module = module;
                 DataMap map = new DataMap();
-                map = model.putToDataMap();
+                map = routerDetailTwoPoint.putToDataMap();
 
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
                 putDataMapRequest.getDataMap().putAll(map);

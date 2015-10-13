@@ -82,6 +82,8 @@ public class Step implements Serializable, IWearableModel<Step> {
     @Override
     public ArrayList<DataMap> listModelToDataMap(List<Step> items) {
         ArrayList<DataMap> res = new ArrayList<DataMap>();
+        if (items == null) return res;
+
         for (Step step : items) {
             DataMap dataMapItem = step.putToDataMap();
             res.add(dataMapItem);
