@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 
-import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
  * Created by Huynh Quang Thao on 10/13/15.
@@ -21,7 +20,7 @@ public class RouterApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        JodaTimeAndroid.init(this);
+        //JodaTimeAndroid.init(this);
         mContext = getApplicationContext();
     }
 

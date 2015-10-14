@@ -44,7 +44,7 @@ public class TwoPointAlgorithm {
         if (DistanceUtils.distance(start, end) < 350) {
             return "{" +
                         "\"code\": \"success\"" +
-                        "\"fuckingDrive:\":\"walking\"" +
+                        "\"pathType:\":\"walking\"" +
                     "}";
         }
 
@@ -53,7 +53,7 @@ public class TwoPointAlgorithm {
 
         String failMessage = "{" +
                                 "\"code\": \"fail\"" +
-                                "\"fuckingDrive:\":\"start location too far\"" +
+                                "\"pathType:\":\"start location too far\"" +
                             "}";
         if (nearStartStations.size() == 0) {
             return failMessage;
@@ -74,7 +74,7 @@ public class TwoPointAlgorithm {
                 Path startPath = new Path();
                 startPath.stationFromName = startAddress;
                 startPath.stationToName = fromStation.name;
-                startPath.fuckingDrive = PathType.WALKING;
+                startPath.pathType = PathType.WALKING;
                 startPath.transferTurn = 0;
                 startPath.distance = DistanceUtils.distance(start, fromStation.location);
                 int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S);
@@ -84,7 +84,7 @@ public class TwoPointAlgorithm {
                 Path endPath = new Path();
                 endPath.stationFromName = toStation.name;
                 endPath.stationToName = endAddress;
-                endPath.fuckingDrive = PathType.WALKING;
+                endPath.pathType = PathType.WALKING;
                 endPath.transferTurn = 0;
                 endPath.distance = DistanceUtils.distance(end, toStation.location);
                 millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S);

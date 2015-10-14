@@ -45,7 +45,7 @@ public class DummyResult {
             "    \"stationFromName\" : \"Start\",\n" +
             "    \"stationToName\" : \"Bê?n Tha?nh C\",\n" +
             "    \"transferTurn\" : 0,\n" +
-            "    \"fuckingDrive\" : \"WALKING\",\n" +
+            "    \"pathType\" : \"WALKING\",\n" +
             "    \"routeNo\" : 0,\n" +
             "    \"distance\" : 100.0,\n" +
             "    \"time\" : {\n" +
@@ -85,7 +85,7 @@ public class DummyResult {
             "    \"routeName\" : \"B?n Thành- Th?nh L?c\",\n" +
             "    \"routeNo\" : 3,\n" +
             "    \"tranferNo\" : 1,\n" +
-            "    \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "    \"pathType\" : \"CONNECTED_BUS\",\n" +
             "    \"segmentDistance\" : 1481.7304964087773,\n" +
             "    \"segmentTime\" : {\n" +
             "      \"hours\" : 0,\n" +
@@ -124,7 +124,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Bê?n Tha?nh C\",\n" +
             "      \"stationToName\" : \"Tr??ng Ernst Thalmann\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -147,7 +147,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Tr??ng Ernst Thalmann\",\n" +
             "      \"stationToName\" : \"?? Thám\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -164,7 +164,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"?? Thám\",\n" +
             "      \"stationToName\" : \"Bãi xe buýt công viên 23-9\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -187,7 +187,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Bãi xe buýt công viên 23-9\",\n" +
             "      \"stationToName\" : \"Ga xe buýt Sài Gòn\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CRITICAL_PATH\",\n" +
+            "      \"pathType\" : \"CRITICAL_PATH\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -228,7 +228,7 @@ public class DummyResult {
             "    \"routeName\" : \"B?n Thành - Ch? Hi?p Thành\",\n" +
             "    \"routeNo\" : 18,\n" +
             "    \"tranferNo\" : 2,\n" +
-            "    \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "    \"pathType\" : \"CONNECTED_BUS\",\n" +
             "    \"segmentDistance\" : 19068.118717808506,\n" +
             "    \"segmentTime\" : {\n" +
             "      \"hours\" : 0,\n" +
@@ -267,7 +267,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ga xe buýt Sài Gòn\",\n" +
             "      \"stationToName\" : \"Tôn Th?t Tùng\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -290,7 +290,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Tôn Th?t Tùng\",\n" +
             "      \"stationToName\" : \"Nguy?n Th? Ngh?a\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -310,7 +310,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Nguy?n Th? Ngh?a\",\n" +
             "      \"stationToName\" : \"Khách s?n New world\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -333,7 +333,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Khách s?n New world\",\n" +
             "      \"stationToName\" : \"Bê?n Tha?nh F\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -377,7 +377,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Bê?n Tha?nh F\",\n" +
             "      \"stationToName\" : \"Hàm Nghi\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -400,7 +400,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Hàm Nghi\",\n" +
             "      \"stationToName\" : \"Ch? C?\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -417,7 +417,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ch? C?\",\n" +
             "      \"stationToName\" : \"??n Th? ?n Giáo\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -446,7 +446,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"??n Th? ?n Giáo\",\n" +
             "      \"stationToName\" : \"Lê Thánh Tôn\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -466,7 +466,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Lê Thánh Tôn\",\n" +
             "      \"stationToName\" : \"Lý T? Tr?ng\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -486,7 +486,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Lý T? Tr?ng\",\n" +
             "      \"stationToName\" : \"Phòng Công Ch?ng S? 1\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -503,7 +503,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Phòng Công Ch?ng S? 1\",\n" +
             "      \"stationToName\" : \"UBND Qu?n 1\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -526,7 +526,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"UBND Qu?n 1\",\n" +
             "      \"stationToName\" : \"Tòa Nhà Kumho\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -543,7 +543,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Tòa Nhà Kumho\",\n" +
             "      \"stationToName\" : \"Cty X? S? Ki?n Thi?t\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -560,7 +560,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Cty X? S? Ki?n Thi?t\",\n" +
             "      \"stationToName\" : \"??i h?c Khoa h?c xã h?i nhân v?n\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -580,7 +580,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"??i h?c Khoa h?c xã h?i nhân v?n\",\n" +
             "      \"stationToName\" : \"SV? Hoa L?\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -597,7 +597,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"SV? Hoa L?\",\n" +
             "      \"stationToName\" : \"Nguy?n ?ình Chi?u\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -614,7 +614,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Nguy?n ?ình Chi?u\",\n" +
             "      \"stationToName\" : \"?i?n Biên Ph?\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -631,7 +631,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"?i?n Biên Ph?\",\n" +
             "      \"stationToName\" : \"C?u Bông\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -669,7 +669,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"C?u Bông\",\n" +
             "      \"stationToName\" : \"B?nh vi?n Bình Th?nh\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -704,7 +704,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"B?nh vi?n Bình Th?nh\",\n" +
             "      \"stationToName\" : \"L?ng Ông Bà Chi?u\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -754,7 +754,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"L?ng Ông Bà Chi?u\",\n" +
             "      \"stationToName\" : \"UBND Qu?n Bình Th?nh\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -777,7 +777,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"UBND Qu?n Bình Th?nh\",\n" +
             "      \"stationToName\" : \"B?nh Vi?n Gia ??nh\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -800,7 +800,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"B?nh Vi?n Gia ??nh\",\n" +
             "      \"stationToName\" : \"R?p ??i ??ng\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -817,7 +817,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"R?p ??i ??ng\",\n" +
             "      \"stationToName\" : \"Ngã T? BÌnh Hòa\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -843,7 +843,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ngã T? BÌnh Hòa\",\n" +
             "      \"stationToName\" : \"Chùa H?ng T? Gia\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -869,7 +869,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Chùa H?ng T? Gia\",\n" +
             "      \"stationToName\" : \"Ngã T? Xóm Gà\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -922,7 +922,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ngã T? Xóm Gà\",\n" +
             "      \"stationToName\" : \"Chùa Già Lam\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -951,7 +951,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Chùa Già Lam\",\n" +
             "      \"stationToName\" : \"Ngã Ba Nguyên H?ng\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1004,7 +1004,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ngã Ba Nguyên H?ng\",\n" +
             "      \"stationToName\" : \"Tr??ng ??i h?c Công nghi?p\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1069,7 +1069,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Tr??ng ??i h?c Công nghi?p\",\n" +
             "      \"stationToName\" : \"Ngã Ba Nguy?n Du\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1104,7 +1104,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ngã Ba Nguy?n Du\",\n" +
             "      \"stationToName\" : \"Chi c?c Thu? Qu?n Gò V?p\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1142,7 +1142,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Chi c?c Thu? Qu?n Gò V?p\",\n" +
             "      \"stationToName\" : \"Siêu th? V?n Lang\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1204,7 +1204,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Siêu th? V?n Lang\",\n" +
             "      \"stationToName\" : \"Công ty 32\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1227,7 +1227,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Công ty 32\",\n" +
             "      \"stationToName\" : \"Nhà Th? Xóm Thu?c\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1250,7 +1250,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Nhà Th? Xóm Thu?c\",\n" +
             "      \"stationToName\" : \"UBND Qu?n Gò V?p\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1276,7 +1276,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"UBND Qu?n Gò V?p\",\n" +
             "      \"stationToName\" : \"VKS nhân dân Qu?n Gò V?p\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1287,7 +1287,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"VKS nhân dân Qu?n Gò V?p\",\n" +
             "      \"stationToName\" : \"Chùa Hu?nh Kim\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1313,7 +1313,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Chùa Hu?nh Kim\",\n" +
             "      \"stationToName\" : \"Siêu th? Bình Dân, Quang Trung\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1336,7 +1336,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Siêu th? Bình Dân, Quang Trung\",\n" +
             "      \"stationToName\" : \"Ch? Thông Tây\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1359,7 +1359,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ch? Thông Tây\",\n" +
             "      \"stationToName\" : \"Tr??ng THPT Nguy?n Công Tr?\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1376,7 +1376,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Tr??ng THPT Nguy?n Công Tr?\",\n" +
             "      \"stationToName\" : \"D?t may Ph??ng ?ông\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1393,7 +1393,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"D?t may Ph??ng ?ông\",\n" +
             "      \"stationToName\" : \"Làng SOS\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1422,7 +1422,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Làng SOS\",\n" +
             "      \"stationToName\" : \"Công ty ??ng Tâm\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1451,7 +1451,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Công ty ??ng Tâm\",\n" +
             "      \"stationToName\" : \"Ngã T? C?u c?ng\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1468,7 +1468,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ngã T? C?u c?ng\",\n" +
             "      \"stationToName\" : \"Ch? C?u\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1494,7 +1494,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ch? C?u\",\n" +
             "      \"stationToName\" : \"Ch? C?u\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1529,7 +1529,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"Ch? C?u\",\n" +
             "      \"stationToName\" : \"C?u v??t Quang Trung\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CONNECTED_BUS\",\n" +
+            "      \"pathType\" : \"CONNECTED_BUS\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1549,7 +1549,7 @@ public class DummyResult {
             "      \"stationFromName\" : \"C?u v??t Quang Trung\",\n" +
             "      \"stationToName\" : \"Công viên ph?n m?m Quang Trung\",\n" +
             "      \"transferTurn\" : 0,\n" +
-            "      \"fuckingDrive\" : \"CRITICAL_PATH\",\n" +
+            "      \"pathType\" : \"CRITICAL_PATH\",\n" +
             "      \"routeNo\" : 0,\n" +
             "      \"distance\" : 0.0,\n" +
             "      \"time\" : null,\n" +
@@ -1606,7 +1606,7 @@ public class DummyResult {
             "    \"stationFromName\" : \"End\",\n" +
             "    \"stationToName\" : \"End\",\n" +
             "    \"transferTurn\" : 0,\n" +
-            "    \"fuckingDrive\" : \"WALKING\",\n" +
+            "    \"pathType\" : \"WALKING\",\n" +
             "    \"routeNo\" : 0,\n" +
             "    \"distance\" : 100.0,\n" +
             "    \"time\" : {\n" +

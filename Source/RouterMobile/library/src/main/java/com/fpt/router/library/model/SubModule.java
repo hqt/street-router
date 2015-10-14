@@ -2,6 +2,7 @@ package com.fpt.router.library.model;
 
 import com.google.android.gms.wearable.DataMap;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,12 +43,12 @@ public class SubModule implements IWearableModel<SubModule> {
     }
 
     @Override
-    public List<SubModule> dataMapToListModel(DataMap dataMap) {
+    public ArrayList<SubModule> dataMapToListModel(DataMap dataMap) {
         return null;
     }
 
     @Override
-    public List<DataMap> listModelToDataMap(List<SubModule> items) {
+    public ArrayList<DataMap> listModelToDataMap(List<SubModule> items) {
         return null;
     }
 }

@@ -29,10 +29,27 @@ public class AlgorithmTest {
         end.latitude = 10.853132;
         end.longitude = 106.626289;
 
+        Location cvpm = new Location();
+        cvpm.latitude = 10.855090;
+        cvpm.longitude= 106.628394;
+
+        Location an_phu = new Location();
+        an_phu.latitude = 10.801913;
+        an_phu.longitude = 106.764747;
+
+        Location cho_ba_chieu = new Location();
+        cho_ba_chieu.latitude = 10.801605;
+        cho_ba_chieu.longitude = 106.698817;
+
+        Location maximark = new Location();
+        maximark.latitude = 10.800767;
+        maximark.longitude = 106.659483;
+
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
         LocalTime time = new LocalTime(10, 0);
-        String res = twoPointAlgorithm.run(map, start, end, "Ben Thanh market", "Software Park", time,
-                                            300, 2, false);
+        String res = twoPointAlgorithm.run(map, cvpm, cho_ba_chieu, "Ben Thanh market", "Software Park", time,
+                                            300, 1
+                , false);
         System.out.println(res);
     }
 }

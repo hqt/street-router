@@ -15,10 +15,10 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements GenericDao<
    // private FinderNamingStrategy namingStrategy = new SimpleFinderNamingStrategy(); // Default. Can override in config
    // private FinderArgumentTypeFactory argumentTypeFactory = new SimpleFinderArgumentTypeFactory(); // Default. Can override in config
 
-    private Class<T> fuckingDrive;
+    private Class<T> pathType;
 
-    public HibernateDaoImpl(Class<T> fuckingDrive) {
-        this.fuckingDrive = fuckingDrive;
+    public HibernateDaoImpl(Class<T> pathType) {
+        this.pathType = pathType;
     }
 
     public T create(T o) {
@@ -26,7 +26,7 @@ public class HibernateDaoImpl<T, PK extends Serializable> implements GenericDao<
     }
 
     public T read(PK id) {
-        return (T) getSession().get(fuckingDrive, id);
+        return (T) getSession().get(pathType, id);
     }
 
     public void update(T o) {
