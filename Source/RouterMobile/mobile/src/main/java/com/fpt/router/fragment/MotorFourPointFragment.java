@@ -12,6 +12,7 @@ import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 
@@ -105,10 +106,10 @@ public class MotorFourPointFragment extends Fragment{
             List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
             List<String> listJson = new ArrayList<>();
             if(!optimize && listLocation.size() == 4) {
-                listUrl = NetworkUtils.linkFourPointWithoutOptimize(listPlaceID);
+                listUrl = GoogleAPIUtils.getFourPointOptimizeDirection(listPlaceID);
                 listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));
                 try {
-                    listUrl = NetworkUtils.linkCuaNam(listPlaceID, optimize);
+                    listUrl = GoogleAPIUtils.getFourPointDirection(listPlaceID, optimize);
                     json = NetworkUtils.download(listUrl.get(0));
                     jsonObject = new JSONObject(json);
                     status = jsonObject.getString("status");
@@ -119,7 +120,7 @@ public class MotorFourPointFragment extends Fragment{
                     e.printStackTrace();
                 }
             } else {
-                listUrl = NetworkUtils.linkCuaNam(listPlaceID, optimize);
+                listUrl = GoogleAPIUtils.getFourPointDirection(listPlaceID, optimize);
                 for (int n = 0; n < listUrl.size(); n++) {
                     json = NetworkUtils.download(listUrl.get(n));
                     listJson.add(json);

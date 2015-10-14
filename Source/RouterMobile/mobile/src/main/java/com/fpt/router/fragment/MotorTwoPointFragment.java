@@ -19,6 +19,7 @@ import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.library.model.motorbike.Step;
+import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 
@@ -106,7 +107,7 @@ public class MotorTwoPointFragment extends Fragment {
             String json;
             String url;
             List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
-            url = NetworkUtils.linkGoogleDrirectionForTwoPoint(listPlaceID.get(0), listPlaceID.get(1));
+            url = GoogleAPIUtils.getTwoPointDirection(listPlaceID.get(0), listPlaceID.get(1));
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);

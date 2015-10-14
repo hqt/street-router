@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
+import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -160,7 +161,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-				String url = NetworkUtils.linkGooglePlace(args[0]);
+				String url = GoogleAPIUtils.getGooglePlace(args[0]);
                 json = NetworkUtils.download(url);
                 if(json == null){
                     return null;

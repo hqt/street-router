@@ -12,7 +12,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 
 /**
  * Created by USER on 9/28/2015.
@@ -317,7 +316,7 @@ public class JSONParseUtils {
         JSONObject jsonO;
         JSONArray jsonA;
         for(int n = 0; n < listLocation.size(); n++) {
-            String url = NetworkUtils.linkGooglePlace(listLocation.get(n));
+            String url = GoogleAPIUtils.getGooglePlace(listLocation.get(n));
             try {
                 jsonO = new JSONObject(NetworkUtils.download(url));
                 jsonA = jsonO.getJSONArray("predictions");
