@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.adapter.RouteItemAdapter;
@@ -49,6 +50,7 @@ import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 10/12/2015.
@@ -83,7 +85,7 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
     int position;
     List<LatLng> list;
     String encodedString;
-    List<Leg> listLeg = MotorFourPointFragment.listLeg;
+    List<Leg> listLeg = SearchRouteActivity.listLeg;
     Leg leg;
     List<Step> listStep = new ArrayList<>();
     List<Leg> listFinalLeg = new ArrayList<>();
@@ -185,7 +187,9 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
             mMap = mMapFragment.getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                if(listLeg.size() == 2){
+                if(SearchRouteActivity.listLocation.size() == 2) {
+                    listFinalLeg.add(listLeg.get(position));
+                } else if (SearchRouteActivity.listLocation.size() == 3) {
                     listFinalLeg.addAll(listLeg);
                 } else {
                     for(int n = position*3; n < position*3+3; n++) {
@@ -196,39 +200,10 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                for (int i = 0; i < listFinalLeg.size(); i++) {
-                    leg = listFinalLeg.get(i);
-                    DetailLocation detalL = leg.getDetailLocation();
-                    com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
-                    com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
-                    // latitude and longitude
-
-                    if(i == 0) {
-                        latitude = end_location.getLatitude();
-                        longitude = end_location.getLongitude();
-                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_YELLOW);
-
-                        latitude = start_location.getLatitude();
-                        longitude = start_location.getLongitude();
-                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_GREEN);
-                    }
-                    if (i == listFinalLeg.size()-1) {
-                        latitude = end_location.getLatitude();
-                        longitude = end_location.getLongitude();
-                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);
-
-                        latitude = start_location.getLatitude();
-                        longitude = start_location.getLongitude();
-                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_YELLOW);
-                    }
-                    LatLng latLng = new LatLng(latitude, longitude);
-                    moveToLocation(latLng, true);
-
-                    //add polyline
-                    encodedString = leg.getOverview_polyline();
-                    list = DecodeUtils.decodePoly(encodedString);
-                    MapUtils.drawLine(mMap, list, Color.BLUE);
-                    MapUtils.moveCamera(mMap, latitude, longitude, 12);
+                if(SearchRouteActivity.listLocation.size() == 2) {
+                    MapUtils.drawMapWithTwoPoint(mMap, listFinalLeg);
+                } else {
+                    MapUtils.drawMapWithFourPoint(mMap, listFinalLeg);
                 }
             }
         }

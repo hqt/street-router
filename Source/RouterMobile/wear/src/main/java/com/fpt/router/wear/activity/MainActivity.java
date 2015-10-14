@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.library.utils.DecodeUtils;
@@ -39,6 +40,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -46,7 +48,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         GoogleMap.OnMapLongClickListener {
 
     private static final LatLng SYDNEY = new LatLng(-33.85704, 151.21522);
-
+    public static ArrayList<Leg> listLeg = new ArrayList<>();
     /**
      * Overlay that shows a short help text when first launched. It also provides an option to
      * exit the app.
@@ -113,27 +115,11 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         // Set the long click listener as a way to exit the map.
         mMap.setOnMapLongClickListener(this);
 
-        // Add a marker with a title that is shown in its info window.
-        RouterDetailTwoPoint routerDetailTwoPoint = (RouterDetailTwoPoint) getIntent().getSerializableExtra("two_point");
-        //Start Point
-        Location start_location = routerDetailTwoPoint.getDetailLocation().getStart_location();
-        Double latitude = start_location.getLatitude();
-        Double longitude = start_location.getLongitude();
-        MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getStartLocation(), BitmapDescriptorFactory.HUE_GREEN);
-
-        //EndPoint
-        Location end_location = routerDetailTwoPoint.getDetailLocation().getEnd_location();
-        latitude = end_location.getLatitude();
-        longitude = end_location.getLongitude();
-        MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getEndLocation(), BitmapDescriptorFactory.HUE_RED);
-        String encodedString;
-        List<LatLng> list;
-        encodedString = routerDetailTwoPoint.getOverview_polyline();
-        list = DecodeUtils.decodePoly(encodedString);
-        MapUtils.drawLine(mMap, list, Color.BLUE);
-        // Move the camera to show the marker.
-        LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+        if(listLeg.size() == 1){
+            MapUtils.drawMapWithTwoPoint(mMap, listLeg);
+        } else {
+            MapUtils.drawMapWithFourPoint(mMap, listLeg);
+        }
     }
 
     @Override

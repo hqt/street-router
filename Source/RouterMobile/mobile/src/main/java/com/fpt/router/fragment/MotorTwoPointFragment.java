@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
+import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.MotorTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -87,7 +88,7 @@ public class MotorTwoPointFragment extends Fragment {
         return v;
     }
 
-    private class JSONParseTask extends AsyncTask<String, String, List<RouterDetailTwoPoint>> {
+    private class JSONParseTask extends AsyncTask<String, String, List<Leg>> {
         private ProgressDialog pDialog;
 
         @Override
@@ -102,8 +103,8 @@ public class MotorTwoPointFragment extends Fragment {
         }
 
         @Override
-        protected List<RouterDetailTwoPoint> doInBackground(String... args) {
-            List<RouterDetailTwoPoint> routerDetailTwoPointList = new ArrayList<RouterDetailTwoPoint>();
+        protected List<Leg> doInBackground(String... args) {
+            List<Leg> listLeg = new ArrayList<>();
             String json;
             String url;
             List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
@@ -118,36 +119,19 @@ public class MotorTwoPointFragment extends Fragment {
                     int duration = 0;
                     double distance = 0;
                     List<Step> steps = new ArrayList<Step>();
-                    List<Leg> legList = JSONParseUtils.getListLegWithTwoPoint(json);
-                    for (int i = 0 ;i<legList.size();i++){
-                        Leg leg = legList.get(i);
-                        duration = leg.getDetailLocation().getDuration();
-                        duration = duration/60;
-                        distance = leg.getDetailLocation().getDistance();
-                        distance = distance / 1000 ;
-                        distance = Math.floor(distance * 100) / 100;
-                        steps = leg.getStep();
-                        RouterDetailTwoPoint routerDetailTwoPoint = new RouterDetailTwoPoint();
-                        routerDetailTwoPoint.setStartLocation(leg.getStartAddress());
-                        routerDetailTwoPoint.setEndLocation(leg.getEndAddress());
-                        routerDetailTwoPoint.setDuration(duration);
-                        routerDetailTwoPoint.setDistance(distance);
-                        routerDetailTwoPoint.setSteps(steps);
-                        routerDetailTwoPoint.setOverview_polyline(leg.getOverview_polyline());
-                        routerDetailTwoPoint.setDetailLocation(leg.getDetailLocation());
-                        routerDetailTwoPointList.add(routerDetailTwoPoint);
-                    }
+                    listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+
                 }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            return routerDetailTwoPointList;
+            return listLeg;
         }
 
         @Override
-        protected void onPostExecute(List<RouterDetailTwoPoint> routerDetailTwoPointList) {
+        protected void onPostExecute(List<Leg> listLeg) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
@@ -165,9 +149,15 @@ public class MotorTwoPointFragment extends Fragment {
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
-
-            routerDetailTwoPoints = routerDetailTwoPointList;
-            recyclerView.setAdapter(new MotorTwoPointAdapter(routerDetailTwoPoints));
+            for(int i = 1; i >= 0; i--) {
+                if(listLeg.get(i+1).getDetailLocation().getDuration() < listLeg.get(i).getDetailLocation().getDuration()) {
+                    Leg leg = listLeg.get(i+1);
+                    listLeg.set(i+1, listLeg.get(i));
+                    listLeg.set(i, leg);
+                }
+            }
+            SearchRouteActivity.listLeg = listLeg;
+            recyclerView.setAdapter(new MotorFourPointAdapter());
         }
     }
 }
