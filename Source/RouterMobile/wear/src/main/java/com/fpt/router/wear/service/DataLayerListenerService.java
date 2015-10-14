@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.MessagePath;
+import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -18,6 +20,8 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
+
+import java.util.ArrayList;
 
 /**
  * A {@link com.google.android.gms.wearable.WearableListenerService} service that is invoked upon
@@ -68,12 +72,7 @@ public class DataLayerListenerService extends WearableListenerService
     @Override
     public void onMessageReceived(MessageEvent m) {
         Log.d("hqthao", "onMessageReceived: " + m.getPath());
-        if(m.getPath().equals(MessagePath.MESSAGE_PATH)) {
-            Log.e("hqthao", "Message Path: " + "ABC");
-            // Intent startIntent = new Intent(this, MainActivity.class);
-            // startIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK);
-            // startActivity(startIntent);
-        }
+
     }
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
@@ -87,7 +86,7 @@ public class DataLayerListenerService extends WearableListenerService
                 // Check the data path
                 String path = dataItem.getUri().getPath();
                 Intent intent = new Intent( this, MainActivity.class );
-                if (path.equals(MessagePath.MESSAGE_PATH)) {
+                if (path.equals(AppConstants.PATH.MESSAGE_PATH_TWO_POINT)) {
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     RouterDetailTwoPoint routerDetailTwoPoint = new RouterDetailTwoPoint();
                     routerDetailTwoPoint.dataMapToModel(dataMap);
@@ -98,9 +97,14 @@ public class DataLayerListenerService extends WearableListenerService
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("test", routerDetailTwoPoint);
                     intent.putExtras(bundle);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT)) {
+                    ArrayList<DataMap> dataMaps = DataMapItem.fromDataItem(dataItem).getDataMap().getDataMapArrayList("list_leg");
+                    Leg leg = new Leg();
+                    Log.e("hqthao", "size: " + dataMaps.size());
+                    leg.dataMapToListModel(dataMaps);
                 }
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
             }
         }
     }

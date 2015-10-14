@@ -13,6 +13,12 @@ public class AppConstants {
     private static final String GOOGLE_KEY_3 = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
     public static final String GOOGLE_KEY = GOOGLE_KEY_3;
 
+    public static final class PATH {
+        private static final String MESSAGE_PATH = "/com/fpt/router/wear";
+        public static final String MESSAGE_PATH_FOUR_POINT = MESSAGE_PATH + "/fourpoint";
+        public static final String MESSAGE_PATH_TWO_POINT = MESSAGE_PATH + "/twopoint";
+    }
+
     public static final class API {
         public static final String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
     }

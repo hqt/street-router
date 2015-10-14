@@ -395,7 +395,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
         dataMap.putDouble("lng", count++);
         dataMap.putDouble("lat", 10.7467632);
         //Requires a new thread to avoid blocking the UI
-        new SendToDataLayerThread(MessagePath.MESSAGE_PATH, dataMap).start();
+        //new SendToDataLayerThread(MessagePath.MESSAGE_PATH, dataMap).start();
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.library.model.motorbike.DetailLocation;
@@ -396,11 +397,8 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
         // send data to wear
         // Create a DataMap object and send it to the data layer
         DataMap dataMap = new DataMap();
-        // dataMap.putLong("time", new Date().getTime());
-        dataMap.putDouble("lng", count++);
-        dataMap.putDouble("lat", 10.7467632);
         //Requires a new thread to avoid blocking the UI
-        new SendToDataLayerThread(MessagePath.MESSAGE_PATH, dataMap).start();
+        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT, dataMap).start();
     }
 
     @Override
