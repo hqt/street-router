@@ -1,4 +1,4 @@
-package com.fpt.router.adapter.error;
+package com.fpt.router.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

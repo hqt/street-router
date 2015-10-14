@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorFourPointAdapter;
-import com.fpt.router.adapter.error.ErrorMessageAdapter;
+import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
