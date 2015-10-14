@@ -115,7 +115,7 @@ public class TwoPointAlgorithm {
         });
 
         if (results.size() > 7) {
-            results = results.subList(0, 1);
+            results = results.subList(0, 5);
         }
 
         /*// convert this list to json
@@ -132,9 +132,12 @@ public class TwoPointAlgorithm {
         String json = gson.toJson(results);
         System.out.println(json);
 
+
+        /*
+
         List<Result> testList = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
 
-        int t = 5;
+        int t = 5;*/
 
 
         return json;

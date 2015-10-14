@@ -21,6 +21,7 @@ import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 import org.lucasr.twowayview.TwoWayView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,8 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
 
     List<Result> results;
     Result result;
-    List<Integer> images;
+    List<Integer> images = new ArrayList<Integer>();
+
 
     public BusAdapterTwoPoint(List<Result> results){
         this.results = results;
@@ -45,7 +47,7 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
 
     @Override
     public void onBindViewHolder(BusViewHoder holder, int position) {
-
+        String viewDetail = null;
         result = results.get(position);
         List<INode> nodeList = result.nodeList;
         for (int i= 0 ;i<nodeList.size() -1;i++){
@@ -57,6 +59,7 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
             if(nodeList.get(i) instanceof Segment){
                 images.add(R.drawable.ic_directions_bus_black_24dp);
                 images.add(R.drawable.ic_chevron_right_black_24dp);
+
             }
         }
         if(nodeList.get(nodeList.size() - 1) instanceof Path){
@@ -66,6 +69,12 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
         if(nodeList.get(nodeList.size() - 1) instanceof Segment){
             images.add(R.drawable.ic_directions_bus_black_24dp);
         }
+        if(nodeList.get(position) instanceof Segment){
+            viewDetail = ((Segment) nodeList.get(position)).routeNo + "-"+((Segment) nodeList.get(position)).routeName;
+        }
+        if(nodeList.get(position) instanceof Path){
+            viewDetail = "Di bo";
+        }
 
         if(position == 0){
             holder.txtTitle.setText("Tuyến đường được đề nghị ");
@@ -74,10 +83,11 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
         }
 
 
+
         BusAdapterShowImage showImage = new BusAdapterShowImage(holder.context,R.layout.activity_show_image,images);
-        holder.txtDuration.setText(result.minutes);
+        holder.txtDuration.setText("" + result.minutes);
         holder.txtDistance.setText(String.valueOf(result.totalDistance));
-        holder.txtContent.setText(result.code);
+        holder.txtContent.setText(viewDetail);
 
     }
 
@@ -110,12 +120,12 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, GoogleMapBusTwoPoint.class);
+            /*Intent intent = new Intent(context, GoogleMapBusTwoPoint.class);
             Bundle bundle = new Bundle();
             Result result = getResult(getPosition());
             bundle.putSerializable("result", result);
             intent.putExtras(bundle);
-            view.getContext().startActivity(intent);
+            view.getContext().startActivity(intent);*/
 
         }
     }
