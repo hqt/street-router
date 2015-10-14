@@ -15,7 +15,7 @@ public class JSONUtils {
     public static Gson buildGson() {
         // for polymorphism
         final RuntimeTypeAdapterFactory<INode> typeFactory = RuntimeTypeAdapterFactory
-                .of(INode.class, "iNode")
+                .of(INode.class, "Node")
                 .registerSubtype(Path.class)
                 .registerSubtype(Segment.class);
 

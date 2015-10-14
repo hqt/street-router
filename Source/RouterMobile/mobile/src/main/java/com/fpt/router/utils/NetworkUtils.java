@@ -150,11 +150,20 @@ public class NetworkUtils {
         BusLocation A = busLocations.get(0);
         BusLocation B = busLocations.get(1);
         Calendar now = Calendar.getInstance();
+        String addressA = null;
+        String addressB = null;
+        try{
+            addressA = URLEncoder.encode(A.getAddress(),"UTF-8");
+            addressB = URLEncoder.encode(B.getAddress(),"UTF-8");
+        }catch(UnsupportedEncodingException e){
+            e.printStackTrace();
+        }
 
-        String json = "http://localhost:8080/api/twopoint?latA="+A.getLatitude()
+        String url = "http://192.168.43.227:8080/api/twopoint?latA="+A.getLatitude()
                 +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
                 +"&longB="+B.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
-                +"&addressA="+A.getAddress()+"&addressB="+B.getAddress();
+                +"&addressA="+addressA+"&addressB="+addressB;
+        String json = NetworkUtils.download(url);
         return json ;
     }
 
