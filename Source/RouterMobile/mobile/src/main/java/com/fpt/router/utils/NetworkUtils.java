@@ -159,7 +159,7 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        String url = "http://192.168.43.227:8080/api/twopoint?latA="+A.getLatitude()
+        String url = "http://192.168.43.33:8080/api/twopoint?latA="+A.getLatitude()
                 +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
                 +"&longB="+B.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
                 +"&addressA="+addressA+"&addressB="+addressB;
