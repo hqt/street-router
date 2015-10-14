@@ -11,10 +11,15 @@ import com.fpt.router.artifacter.model.helper.PathType;
 import com.fpt.router.artifacter.model.viewmodel.Path;
 import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.utils.DistanceUtils;
+import com.fpt.router.artifacter.utils.JSONUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -55,15 +60,16 @@ public class TwoPointAlgorithm {
                                 "\"code\": \"fail\"" +
                                 "\"pathType:\":\"start location too far\"" +
                             "}";
+
         if (nearStartStations.size() == 0) {
             return failMessage;
         } else if (nearStartStations.size() > 3) {
-            nearStartStations = nearStartStations.subList(0, 3);
+           // nearStartStations = nearStartStations.subList(0, 3);
         }
         if (nearEndStations.size() == 0) {
             return failMessage.replace("start", "end");
         } else if (nearEndStations.size() > 3) {
-            nearEndStations = nearEndStations.subList(0, 3);
+          //  nearEndStations = nearEndStations.subList(0, 3);
         }
 
         // brute force here
@@ -99,23 +105,37 @@ public class TwoPointAlgorithm {
             }
         }
 
+
         Collections.sort(results, new Comparator<Result>() {
             @Override
             public int compare(Result r1, Result r2) {
+
                 return r1.minutes - r2.minutes;
             }
         });
 
-        // convert this list to json
+        if (results.size() > 7) {
+            results = results.subList(0, 1);
+        }
+
+        /*// convert this list to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = null;
         try {
             json = ow.writeValueAsString(results);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        // convert again json to list
+        Gson gson = JSONUtils.buildGson();
+
+        String json = gson.toJson(results);
+        System.out.println(json);
+
+        List<Result> testList = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
+
+        int t = 5;
+
 
         return json;
 
