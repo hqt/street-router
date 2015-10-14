@@ -114,8 +114,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         mMap.setOnMapLongClickListener(this);
 
         // Add a marker with a title that is shown in its info window.
-        Intent intent = new Intent();
-        RouterDetailTwoPoint routerDetailTwoPoint = (RouterDetailTwoPoint) getIntent().getSerializableExtra("test");
+        RouterDetailTwoPoint routerDetailTwoPoint = (RouterDetailTwoPoint) getIntent().getSerializableExtra("two_point");
         //Start Point
         Location start_location = routerDetailTwoPoint.getDetailLocation().getStart_location();
         Double latitude = start_location.getLatitude();

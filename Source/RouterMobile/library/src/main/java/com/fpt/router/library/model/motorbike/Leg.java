@@ -1,5 +1,7 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.util.Log;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -77,7 +79,8 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
 
         // dummy step for calling function
         Step step = new Step();
-        dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(Step));
+        this.Step = step.dataMapToListModel(dataMap);
+        // dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(Step));
 
         this.Overview_polyline = dataMap.getString("overview_polyline");
         this.DetailLocation = new DetailLocation();
@@ -105,8 +108,10 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
     public ArrayList<Leg> dataMapToListModel(DataMap dataMap) {
         ArrayList<DataMap> dataMaps = dataMap.getDataMapArrayList("list_leg");
         ArrayList<Leg> res = new ArrayList<Leg>();
+        int count = 0;
         for (DataMap dataMapItem : dataMaps) {
             Leg leg = new Leg();
+            Log.e("hqthao", "item " + count++);
             leg.dataMapToModel(dataMapItem);
             res.add(leg);
         }
@@ -123,5 +128,10 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
             res.add(dataMapItem);
         }
         return res;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
