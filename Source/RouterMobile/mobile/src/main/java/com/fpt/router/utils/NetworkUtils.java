@@ -201,6 +201,9 @@ public class NetworkUtils {
                 }
             }
         }
+        url = listUrl.get(3);
+        listUrl.remove(3);
+        listUrl.add(url);
         return listUrl;
     }
 

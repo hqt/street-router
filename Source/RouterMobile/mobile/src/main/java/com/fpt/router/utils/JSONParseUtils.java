@@ -92,6 +92,9 @@ public class JSONParseUtils {
         List<Leg> listLegFinal = new ArrayList<>();
         Leg leg;
         for(int m = 0; m < 2; m++) {
+            legA.clear();
+            legB.clear();
+            legC.clear();
             legA.addAll(getListLegWithTwoPoint(NetworkUtils.download(listUrl.get(m))));
             legB.addAll(getListLegWithTwoPoint(NetworkUtils.download(listUrl.get(m + 2))));
             legC.addAll(getListLegWithTwoPoint(NetworkUtils.download(listUrl.get(m + 4))));
@@ -107,8 +110,8 @@ public class JSONParseUtils {
                             int valueFinal = totalTime(listLegFinal.get(6), listLegFinal.get(7), listLegFinal.get(8));
                             if (valueFinal > valueCheck) {
                                 listLegFinal.set(6, legA.get(x));
-                                listLegFinal.set(7, legA.get(y));
-                                listLegFinal.set(8, legA.get(z));
+                                listLegFinal.set(7, legB.get(y));
+                                listLegFinal.set(8, legC.get(z));
                             }
                             for (int n = 1; n >= 0; n--) {
                                 valueCheck = totalTime(listLegFinal.get((n + 1) * 3), listLegFinal.get((n + 1) * 3 + 1), listLegFinal.get((n + 1) * 3 + 2));
