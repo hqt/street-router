@@ -1,4 +1,4 @@
-package com.fpt.router.utils;
+package com.fpt.router.library.utils;
 
 /**
  * Created by Huynh Quang Thao on 10/9/15.

@@ -1,4 +1,4 @@
-package com.fpt.router.library.model;
+package com.fpt.router.library.model.common;
 
 import com.google.android.gms.wearable.DataMap;
 

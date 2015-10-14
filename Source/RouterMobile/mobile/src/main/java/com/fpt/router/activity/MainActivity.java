@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.utils.GPSUtils;
-import com.fpt.router.utils.MapUtils;
+import com.fpt.router.service.GPSService;
+import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 
                     initilizeMap();
-                    GPSUtils gpsUtils = new GPSUtils(MainActivity.this);
+                    GPSService gpsUtils = new GPSService(MainActivity.this);
                     Double currentLatitude = gpsUtils.getLatitude();
                     Double currentLongitude = gpsUtils.getLongitude();
                     MapUtils.drawPoint(googleMap, currentLatitude, currentLongitude, "Current Location");

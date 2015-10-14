@@ -1,4 +1,4 @@
-package com.fpt.router.utils;
+package com.fpt.router.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

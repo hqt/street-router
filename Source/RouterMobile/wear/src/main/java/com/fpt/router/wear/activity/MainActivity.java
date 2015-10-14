@@ -17,46 +17,27 @@
 package com.fpt.router.wear.activity;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.wearable.activity.ConfirmationActivity;
 import android.view.View;
-import android.widget.EditText;
 
 import com.fpt.router.R;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.wear.utils.DecodeUtils;
-import com.fpt.router.wear.utils.MapUtils;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
+import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.wearable.MessageApi;
-import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
-import com.google.android.gms.wearable.Wearable;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.support.wearable.view.DismissOverlayView;
-import android.support.wearable.view.WatchViewStub;
-import android.view.View;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 

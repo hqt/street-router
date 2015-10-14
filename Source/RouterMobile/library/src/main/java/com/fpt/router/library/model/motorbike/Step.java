@@ -1,6 +1,6 @@
 package com.fpt.router.library.model.motorbike;
 
-import com.fpt.router.library.model.IWearableModel;
+import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
 import java.io.Serializable;

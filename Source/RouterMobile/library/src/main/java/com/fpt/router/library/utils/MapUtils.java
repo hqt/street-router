@@ -1,4 +1,4 @@
-package com.fpt.router.wear.utils;
+package com.fpt.router.library.utils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -63,7 +63,7 @@ public class MapUtils {
 
     public static Polyline drawLine(GoogleMap map, List<LatLng> middlePoints, int color) {
         //add polyline
-        PolylineOptions options = new PolylineOptions().width(8).color(color).geodesic(true);
+        PolylineOptions options = new PolylineOptions().width(10).color(color).geodesic(true);
         for (int z = 0; z < middlePoints.size(); z++) {
             LatLng point = middlePoints.get(z);
             options.add(point);

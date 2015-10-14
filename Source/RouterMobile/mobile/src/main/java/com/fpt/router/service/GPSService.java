@@ -1,14 +1,16 @@
-package com.fpt.router.utils;
+package com.fpt.router.service;
 
 /**
  * Created by Nguyen Trung Nam on 10/5/2015.
  */
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +19,7 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
-public class GPSUtils extends Service implements LocationListener {
+public class GPSService extends Service implements LocationListener {
 
     private final Context mContext;
 
@@ -43,7 +45,7 @@ public class GPSUtils extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSUtils (Context context) {
+    public GPSService(Context context) {
         this.mContext = context;
         getLocation();
     }
@@ -67,6 +69,16 @@ public class GPSUtils extends Service implements LocationListener {
                 this.canGetLocation = true;
                 // First get location from Network Provider
                 if (isNetworkEnabled) {
+                    if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    public void requestPermissions(@NonNull String[] permissions, int requestCode)
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for Activity#requestPermissions for more details.
+                        return null;
+                    }
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,

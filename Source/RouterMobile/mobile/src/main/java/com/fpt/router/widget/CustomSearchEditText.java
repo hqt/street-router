@@ -17,10 +17,10 @@ import com.fpt.router.R;
 /**
  * Created by asus on 10/10/2015.
  */
-public class SearchEditTextCustom extends EditText {
+public class CustomSearchEditText extends EditText {
     private static final int MAX_LENGTH = 100;
 
-    public SearchEditTextCustom(Context context, AttributeSet attrs) {
+    public CustomSearchEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH) {

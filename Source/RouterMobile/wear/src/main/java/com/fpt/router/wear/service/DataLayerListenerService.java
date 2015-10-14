@@ -1,11 +1,10 @@
-package com.fpt.router.wear.config;
+package com.fpt.router.wear.service;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import com.fpt.router.library.config.MessagePath;
-import com.fpt.router.library.model.Model;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;

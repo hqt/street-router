@@ -3,7 +3,7 @@
  * GitHub fork: https://github.com/dlukashev/AndroidSlidingUpPanel
  * diff: https://github.com/dlukashev/AndroidSlidingUpPanel/commit/e7edb89af96a760423d5d00342ad237d78b75b85
  */
-package com.fpt.router.utils;
+package com.fpt.router.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
