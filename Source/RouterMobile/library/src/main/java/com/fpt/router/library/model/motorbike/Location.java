@@ -1,5 +1,8 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by USER on 9/29/2015.
  */
-public class Location implements Serializable, IWearableModel<Location> {
+public class Location implements IWearableModel<Location> {
     private double latitude;
     private double longitude;
 
@@ -62,5 +65,31 @@ public class Location implements Serializable, IWearableModel<Location> {
     public ArrayList<DataMap> listModelToDataMap(List<Location> items) {
         throw new NoSuchMethodError();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+    }
+
+    protected Location(Parcel in) {
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+        public Location createFromParcel(Parcel source) {
+            return new Location(source);
+        }
+
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+    };
 }
 

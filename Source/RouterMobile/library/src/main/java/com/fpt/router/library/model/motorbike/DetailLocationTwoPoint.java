@@ -1,5 +1,8 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class DetailLocationTwoPoint implements Serializable, IWearableModel<DetailLocationTwoPoint> {
+public class DetailLocationTwoPoint implements IWearableModel<DetailLocationTwoPoint> {
     private String distance;
     private String duration;
     private Location end_location;
@@ -90,4 +93,34 @@ public class DetailLocationTwoPoint implements Serializable, IWearableModel<Deta
     public ArrayList<DataMap> listModelToDataMap(List<DetailLocationTwoPoint> items) {
         throw new NoSuchMethodError();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.distance);
+        dest.writeString(this.duration);
+        dest.writeParcelable(this.end_location, 0);
+        dest.writeParcelable(this.start_location, 0);
+    }
+
+    protected DetailLocationTwoPoint(Parcel in) {
+        this.distance = in.readString();
+        this.duration = in.readString();
+        this.end_location = in.readParcelable(Location.class.getClassLoader());
+        this.start_location = in.readParcelable(Location.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<DetailLocationTwoPoint> CREATOR = new Parcelable.Creator<DetailLocationTwoPoint>() {
+        public DetailLocationTwoPoint createFromParcel(Parcel source) {
+            return new DetailLocationTwoPoint(source);
+        }
+
+        public DetailLocationTwoPoint[] newArray(int size) {
+            return new DetailLocationTwoPoint[size];
+        }
+    };
 }

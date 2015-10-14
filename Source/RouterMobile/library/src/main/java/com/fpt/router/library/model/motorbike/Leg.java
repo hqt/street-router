@@ -1,5 +1,7 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.fpt.router.library.model.common.IWearableModel;
@@ -12,7 +14,7 @@ import java.util.List;
 /**
  * Created by USER on 9/29/2015.
  */
-public class Leg  implements Serializable, IWearableModel<Leg> {
+public class Leg  implements IWearableModel<Leg> {
 
     private String EndAddress;
     private String StartAddress;
@@ -134,4 +136,36 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
     public String toString() {
         return super.toString();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.EndAddress);
+        dest.writeString(this.StartAddress);
+        dest.writeParcelable(this.DetailLocation, 0);
+        dest.writeTypedList(Step);
+        dest.writeString(this.Overview_polyline);
+    }
+
+    protected Leg(Parcel in) {
+        this.EndAddress = in.readString();
+        this.StartAddress = in.readString();
+        this.DetailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
+        this.Step = in.createTypedArrayList(com.fpt.router.library.model.motorbike.Step.CREATOR);
+        this.Overview_polyline = in.readString();
+    }
+
+    public static final Parcelable.Creator<Leg> CREATOR = new Parcelable.Creator<Leg>() {
+        public Leg createFromParcel(Parcel source) {
+            return new Leg(source);
+        }
+
+        public Leg[] newArray(int size) {
+            return new Leg[size];
+        }
+    };
 }
