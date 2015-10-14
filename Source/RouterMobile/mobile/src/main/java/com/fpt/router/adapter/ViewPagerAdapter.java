@@ -50,8 +50,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         } else if(position == 0){
             BusTwoPointFragment busTwoPointFragment = new BusTwoPointFragment();
             return busTwoPointFragment;
+        } else {
+            BusTwoPointFragment busTwoPointFragment = new BusTwoPointFragment();
+            return busTwoPointFragment;
         }
-        return null;
     }
 
     @Override
