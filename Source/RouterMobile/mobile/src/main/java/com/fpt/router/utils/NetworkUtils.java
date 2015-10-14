@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.fpt.router.framework.RouterApplication;
-import com.fpt.router.library.config.PrefStore;
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.model.bus.BusLocation;
 
 import java.io.BufferedInputStream;

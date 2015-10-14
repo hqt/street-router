@@ -1,4 +1,4 @@
-package com.fpt.router.library.model.bus;
+package com.fpt.router.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by asus on 10/5/2015.
  */
-public class ArrayAdapterItem extends ArrayAdapter<Step> {
+public class RouteDetailItemAdapter extends ArrayAdapter<Step> {
 
     private Context mContext;
     private int resource;
@@ -25,7 +25,7 @@ public class ArrayAdapterItem extends ArrayAdapter<Step> {
 
 
 
-    public ArrayAdapterItem(Context context, int resource, List<Step> objects) {
+    public RouteDetailItemAdapter(Context context, int resource, List<Step> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.resource = resource;

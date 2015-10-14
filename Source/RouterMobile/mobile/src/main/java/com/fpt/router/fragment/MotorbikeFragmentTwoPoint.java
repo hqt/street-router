@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.MotorbikeAdapterTwoPoint;
-import com.fpt.router.adapter.RecyclerAdapterShowError;
+import com.fpt.router.adapter.MotorTwoPointAdapter;
+import com.fpt.router.adapter.error.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.library.model.motorbike.Step;
@@ -154,19 +154,19 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
             if (status.equals("NOT_FOUND")) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không được tìm thấy");
-                recyclerView.setAdapter(new RecyclerAdapterShowError((listError)));
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
 
             if (status.equals("ZERO_RESULTS")) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không có kết quả");
-                recyclerView.setAdapter(new RecyclerAdapterShowError((listError)));
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
 
             routerDetailTwoPoints = routerDetailTwoPointList;
-            recyclerView.setAdapter(new MotorbikeAdapterTwoPoint(routerDetailTwoPoints));
+            recyclerView.setAdapter(new MotorTwoPointAdapter(routerDetailTwoPoints));
         }
     }
 }

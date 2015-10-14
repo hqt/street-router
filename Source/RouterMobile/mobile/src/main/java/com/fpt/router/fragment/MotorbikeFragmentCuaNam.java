@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.MotorbikeAdapterCuaNam;
-import com.fpt.router.adapter.RecyclerAdapterShowError;
+import com.fpt.router.adapter.MotorFourPointAdapter;
+import com.fpt.router.adapter.error.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -151,14 +151,14 @@ public class MotorbikeFragmentCuaNam extends Fragment{
             if (status.equals("NOT_FOUND")) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không được tìm thấy");
-                recyclerView.setAdapter(new RecyclerAdapterShowError((listError)));
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
 
             if (status.equals("ZERO_RESULTS")) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không có kết quả");
-                recyclerView.setAdapter(new RecyclerAdapterShowError((listError)));
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
             if(listLocation.size() == 4) {
@@ -175,7 +175,7 @@ public class MotorbikeFragmentCuaNam extends Fragment{
                 }
             }
             listLeg = listLegFinal;
-            recyclerView.setAdapter(new MotorbikeAdapterCuaNam());
+            recyclerView.setAdapter(new MotorFourPointAdapter());
         }
     }
 }

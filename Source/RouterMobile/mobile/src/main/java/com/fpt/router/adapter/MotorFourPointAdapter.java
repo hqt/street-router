@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by asus on 10/11/2015.
  */
-public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapterCuaNam.RouterViewHolder> {
+public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAdapter.RouterViewHolder> {
 
     List<String> listLocation = SearchRouteActivity.listLocation;
     List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;

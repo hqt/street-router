@@ -1,4 +1,4 @@
-package com.fpt.router.adapter;
+package com.fpt.router.adapter.error;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * Created by asus on 10/10/2015.
  */
-public class RecyclerAdapterShowError extends RecyclerView.Adapter<RecyclerAdapterShowError.ViewHolder> {
+public class ErrorMessageAdapter extends RecyclerView.Adapter<ErrorMessageAdapter.ViewHolder> {
     private List<String> listError;
 
-    public RecyclerAdapterShowError(List<String> listError) {
+    public ErrorMessageAdapter(List<String> listError) {
         this.listError = listError;
     }
 

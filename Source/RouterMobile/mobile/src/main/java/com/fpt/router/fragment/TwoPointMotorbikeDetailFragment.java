@@ -1,4 +1,4 @@
-package com.fpt.router.activity;
+package com.fpt.router.fragment;
 
 import android.graphics.Color;
 import android.location.Location;
@@ -15,10 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.adapter.RouteDetailItemAdapter;
 import com.fpt.router.library.config.MessagePath;
-import com.fpt.router.library.model.Model;
-import com.fpt.router.library.model.SubModule;
-import com.fpt.router.library.model.bus.ArrayAdapterItem;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
@@ -54,7 +52,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class TwoPointMotorbikeDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -89,14 +87,14 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
     private int locationSize;
     private List<Step> setAgainSteps;
     private List<Step> steps;
-    private ArrayAdapterItem adapterItem;
+    private RouteDetailItemAdapter adapterItem;
 
-    public MainShowDetailMotorbikeTowPointMaps() {
+    public TwoPointMotorbikeDetailFragment() {
     }
 
 
-    public static MainShowDetailMotorbikeTowPointMaps newInstance(RouterDetailTwoPoint routerDetailTwoPoint) {
-        MainShowDetailMotorbikeTowPointMaps f = new MainShowDetailMotorbikeTowPointMaps();
+    public static TwoPointMotorbikeDetailFragment newInstance(RouterDetailTwoPoint routerDetailTwoPoint) {
+        TwoPointMotorbikeDetailFragment f = new TwoPointMotorbikeDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("routerDetailTwoPoint", routerDetailTwoPoint);
         f.setArguments(args);
@@ -156,7 +154,7 @@ public class MainShowDetailMotorbikeTowPointMaps extends Fragment implements Goo
 
         /** start get list step and show  */
         steps = routerDetailTwoPoint.getSteps();
-        adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
+        adapterItem = new RouteDetailItemAdapter(getContext(), R.layout.activity_list_row_gmap, steps);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/

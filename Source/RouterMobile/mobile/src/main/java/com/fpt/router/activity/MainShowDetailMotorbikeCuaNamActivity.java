@@ -17,12 +17,11 @@ import android.widget.ListView;
 import com.fpt.router.R;
 import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
 import com.fpt.router.library.config.MessagePath;
-import com.fpt.router.library.model.bus.ArrayAdapterItem;
+import com.fpt.router.adapter.RouteDetailItemAdapter;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.utils.DecodeUtils;
-import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.LockableListView;
 import com.fpt.router.utils.MapUtils;
 import com.fpt.router.utils.SlidingUpPanelLayout;
@@ -88,7 +87,7 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
     Leg leg;
     List<Step> listStep = new ArrayList<>();
     List<Leg> listFinalLeg = new ArrayList<>();
-    private ArrayAdapterItem adapterItem;
+    private RouteDetailItemAdapter adapterItem;
 
     public MainShowDetailMotorbikeCuaNamActivity() {
     }
@@ -156,7 +155,7 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
         for(int n = 0; n < listLeg.size(); n ++) {
             listStep.addAll(listLeg.get(n).getStep());
         }
-        adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, listStep);
+        adapterItem = new RouteDetailItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/

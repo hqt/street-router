@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
+import com.fpt.router.fragment.TwoPointMotorbikeDetailFragment;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 /**
@@ -33,7 +34,7 @@ public class TwoPointMotorbikeActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainShowDetailMotorbikeTowPointMaps.newInstance(routerDetailTwoPoint));
+            trans.add(R.id.fragment, TwoPointMotorbikeDetailFragment.newInstance(routerDetailTwoPoint));
             trans.commit();
         }
     }

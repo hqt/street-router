@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.library.model.bus.ArrayAdapterItem;
+import com.fpt.router.adapter.RouteDetailItemAdapter;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailFourPoint;
@@ -75,7 +75,7 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
     List<Leg> legs;
     Leg leg;
     private List<Step> steps;
-    private ArrayAdapterItem adapterItem;
+    private RouteDetailItemAdapter adapterItem;
 
     public MainShowDetailMotorbikeFourPointMaps() {
     }
@@ -142,7 +142,7 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
 
         /** start get list step and show  */
         steps = routerDetailFourPoint.getSteps();
-        adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
+        adapterItem = new RouteDetailItemAdapter(getContext(), R.layout.activity_list_row_gmap, steps);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/

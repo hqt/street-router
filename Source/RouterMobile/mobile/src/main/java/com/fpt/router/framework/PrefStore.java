@@ -1,10 +1,9 @@
-package com.fpt.router.library.config;
+package com.fpt.router.framework;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.fpt.router.framework.RouterApplication;
 import com.fpt.router.utils.LogUtils;
 
 /**

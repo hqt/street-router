@@ -11,25 +11,24 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.test.GoogleMapMotorbikeFourPoint;
-import com.fpt.router.library.model.motorbike.RouterDetailFourPoint;
+import com.fpt.router.activity.TwoPointMotorbikeActivity;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 import java.util.List;
 
 /**
- * Created by asus on 10/11/2015.
+ * Created by asus on 10/12/2015.
  */
-public class MotorbikeAdapterFourPoint extends RecyclerView.Adapter<MotorbikeAdapterFourPoint.RouterViewHolder> {
+public class MotorTwoPointAdapter extends RecyclerView.Adapter<MotorTwoPointAdapter.RouterViewHolder> {
+    List<RouterDetailTwoPoint> routerDetailTwoPoints;
 
-    List<RouterDetailFourPoint> routerDetailFourPoints;
-
-    public MotorbikeAdapterFourPoint(List<RouterDetailFourPoint> routerDetailFourPoints){
-        this.routerDetailFourPoints = routerDetailFourPoints;
+    public MotorTwoPointAdapter(List<RouterDetailTwoPoint> routerDetailTwoPoints) {
+        this.routerDetailTwoPoints = routerDetailTwoPoints;
     }
 
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_two_point,parent,false);
         RouterViewHolder routerViewHolder = new RouterViewHolder(v);
         return routerViewHolder;
     }
@@ -41,20 +40,18 @@ public class MotorbikeAdapterFourPoint extends RecyclerView.Adapter<MotorbikeAda
         }else{
             holder.title.setText("Thêm kết quả cho đi motorbike ");
         }
-        holder.duration.setText(routerDetailFourPoints.get(position).getDuration() + "mins");
-        holder.distance.setText(routerDetailFourPoints.get(position).getDistance()+"km");
-        holder.startLocation.setText(routerDetailFourPoints.get(position).getStartLocation());
-        holder.endLocation.setText(routerDetailFourPoints.get(position).getEndLocation());
-        holder.way_point_1.setText(routerDetailFourPoints.get(position).getWay_point_1());
-        holder.way_point_2.setText(routerDetailFourPoints.get(position).getWay_point_2());
+        holder.duration.setText(routerDetailTwoPoints.get(position).getDuration() + "mins");
+        holder.distance.setText(routerDetailTwoPoints.get(position).getDistance()+"km");
+        holder.startLocation.setText(routerDetailTwoPoints.get(position).getStartLocation());
+        holder.endLocation.setText(routerDetailTwoPoints.get(position).getEndLocation());
     }
 
     @Override
     public int getItemCount() {
-        return routerDetailFourPoints.size();
+        return routerDetailTwoPoints.size();
     }
 
-    public class RouterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class RouterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final Context context;
         CardView cv;
@@ -62,8 +59,6 @@ public class MotorbikeAdapterFourPoint extends RecyclerView.Adapter<MotorbikeAda
         TextView distance;
         TextView startLocation;
         TextView endLocation;
-        TextView way_point_1;
-        TextView way_point_2;
         TextView title;
 
         public RouterViewHolder(View itemView) {
@@ -75,22 +70,22 @@ public class MotorbikeAdapterFourPoint extends RecyclerView.Adapter<MotorbikeAda
             distance = (TextView) itemView.findViewById(R.id.txtDistance);
             startLocation = (TextView) itemView.findViewById(R.id.startLocation);
             endLocation = (TextView) itemView.findViewById(R.id.endLocation);
-            way_point_1 = (TextView) itemView.findViewById(R.id.way_point_1);
-            way_point_2 = (TextView) itemView.findViewById(R.id.way_point_2);
             title = (TextView) itemView.findViewById(R.id.txtTitle);
         }
 
+
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, GoogleMapMotorbikeFourPoint.class);
+            Intent intent = new Intent(context, TwoPointMotorbikeActivity.class);
             Bundle bundle = new Bundle();
-            RouterDetailFourPoint routerDetailFourPoint = getRouterDetailFourPoint(getPosition());
-            bundle.putSerializable("routerDetailFourPoint", routerDetailFourPoint);
+            RouterDetailTwoPoint routerDetailTwoPoint = getRouterDetailTowDetailTwoPoint(getPosition());
+            bundle.putSerializable("routerDetailTwoPoint", routerDetailTwoPoint);
             intent.putExtras(bundle);
             view.getContext().startActivity(intent);
         }
     }
-    public RouterDetailFourPoint getRouterDetailFourPoint(int position){
-        return routerDetailFourPoints.get(position);
+
+    public  RouterDetailTwoPoint getRouterDetailTowDetailTwoPoint(int position){
+        return routerDetailTwoPoints.get(position);
     }
 }
