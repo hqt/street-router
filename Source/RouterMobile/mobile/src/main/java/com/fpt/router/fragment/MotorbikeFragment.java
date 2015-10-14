@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.MainSecond;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Location;
@@ -25,7 +25,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MotorbikeFragment extends Fragment {
@@ -33,10 +32,10 @@ public class MotorbikeFragment extends Fragment {
     private GoogleMap mMap;
     MapView mapView;
     private Double latitude, longitude;
-    private List<String> listLocation = MainSecond.listLocation;
-    private Boolean optimize = MainSecond.optimize;
+    private List<String> listLocation = SearchRouteActivity.listLocation;
+    private Boolean optimize = SearchRouteActivity.optimize;
     /** Main Activity for reference */
-    private MainSecond activity;
+    private SearchRouteActivity activity;
 
     /** empty constructor
      * must have for fragment
@@ -48,7 +47,7 @@ public class MotorbikeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (MainSecond) context;
+        this.activity = (SearchRouteActivity) context;
     }
 
     @Override

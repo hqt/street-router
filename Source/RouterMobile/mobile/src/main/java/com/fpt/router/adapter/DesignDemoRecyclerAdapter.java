@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapBus;
 
 /**
  * Created by asus on 10/5/2015.

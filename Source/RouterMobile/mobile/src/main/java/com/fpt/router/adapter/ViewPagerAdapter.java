@@ -14,10 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.MainSecond;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.fragment.BusFragment1;
 import com.fpt.router.fragment.BusFragmentTwoPoint;
-import com.fpt.router.fragment.MotorbikeFragmentFourPoint;
 import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
 import com.fpt.router.fragment.MotorbikeFragmentTwoPoint;
 
@@ -30,7 +29,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private int[] imageResId = {R.drawable.bus,
             R.drawable.motorbike,
             R.drawable.map};
-    private List<String> listLocation = MainSecond.listLocation;
+    private List<String> listLocation = SearchRouteActivity.listLocation;
     public ViewPagerAdapter(FragmentManager fm, Context context){
         super(fm);
         this.context = context;

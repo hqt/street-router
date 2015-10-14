@@ -1,9 +1,6 @@
 package com.fpt.router.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapBusTwoPoint;
-import com.fpt.router.activity.GoogleMapMotorbikeTwoPoint;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
-import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 import org.lucasr.twowayview.TwoWayView;
 
@@ -120,7 +114,7 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
 
         @Override
         public void onClick(View view) {
-            /*Intent intent = new Intent(context, GoogleMapBusTwoPoint.class);
+            /*Intent intent = new Intent(context, TwoPointBusDetailActivity.class);
             Bundle bundle = new Bundle();
             Result result = getResult(getPosition());
             bundle.putSerializable("result", result);

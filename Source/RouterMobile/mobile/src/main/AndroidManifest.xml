@@ -27,7 +27,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activity.MainFirst"
+            android:name=".activity.MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,54 +36,47 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainSecond"
+            android:name=".activity.SearchRouteActivity"
             android:label="Main Activity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainFirst" />
+                android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.MainSearch"
+            android:name=".activity.AutoCompleteSearchActivity"
             android:label="@string/title_activity_search" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
+                android:value=".activity.SearchRouteActivity" />
         </activity>
         <activity
-            android:name=".activity.MainOptional"
+            android:name=".activity.SearchOptionActivity"
             android:theme="@android:style/Theme.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
+                android:value=".activity.SearchRouteActivity" />
         </activity>
 
         <activity
-            android:name=".activity.GoogleMapBus"
+            android:name=".activity.TwoPointMotorbikeActivity"
             android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
+                android:value=".activity.SearchRouteActivity" />
         </activity>
         <activity
-            android:name=".activity.GoogleMapMotorbikeTwoPoint"
+            android:name=".activity.test.GoogleMapMotorbikeFourPoint"
             android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
+                android:value=".activity.SearchRouteActivity" />
         </activity>
         <activity
-            android:name=".activity.GoogleMapMotorbikeFourPoint"
-            android:label="@string/title_activity_main" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
-        </activity>
-        <activity
-            android:name=".activity.GoogleMapMotorbikeCuaNamActivity"
+            android:name=".activity.FourPointMotorbikeActivity"
             android:label="@string/title_activity_search" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainSecond" />
+                android:value=".activity.SearchRouteActivity" />
         </activity>
 
         <!-- The service listening for incoming messages from the wear device -->
@@ -92,11 +85,6 @@
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
-
-        <activity
-            android:name=".activity.FuckActivity"
-            android:label="@string/title_activity_fuck" >
-        </activity>
 
     </application>
 

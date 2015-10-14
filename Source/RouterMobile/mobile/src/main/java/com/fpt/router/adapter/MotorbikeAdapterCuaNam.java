@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapMotorbikeCuaNamActivity;
-import com.fpt.router.activity.MainSecond;
+import com.fpt.router.activity.FourPointMotorbikeActivity;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
 import com.fpt.router.library.model.motorbike.Leg;
 
@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapterCuaNam.RouterViewHolder> {
 
-    List<String> listLocation = MainSecond.listLocation;
+    List<String> listLocation = SearchRouteActivity.listLocation;
     List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;
     int countPoint = listLocation.size() - 1;
     View v;
@@ -106,7 +106,7 @@ public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapte
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, GoogleMapMotorbikeCuaNamActivity.class);
+            Intent intent = new Intent(context, FourPointMotorbikeActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt("position", getLayoutPosition());
             intent.putExtras(bundle);

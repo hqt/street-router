@@ -1,4 +1,4 @@
-package com.fpt.router.activity;
+package com.fpt.router.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

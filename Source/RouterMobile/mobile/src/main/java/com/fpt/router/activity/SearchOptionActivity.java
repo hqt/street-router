@@ -16,7 +16,7 @@ import com.fpt.router.R;
 /**
  * Created by asus on 10/6/2015.
  */
-public class MainOptional extends Activity {
+public class SearchOptionActivity extends Activity {
 
     private Button yes, no;
     private TextView txtfrom;
@@ -38,12 +38,12 @@ public class MainOptional extends Activity {
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
-        checkBox.setChecked(MainSecond.optimize);
-        if (MainSecond.listLocation.size() > 2) {
-            txtfrom.setText(MainSecond.listLocation.get(2));
+        checkBox.setChecked(SearchRouteActivity.optimize);
+        if (SearchRouteActivity.listLocation.size() > 2) {
+            txtfrom.setText(SearchRouteActivity.listLocation.get(2));
         }
-        if (MainSecond.listLocation.size() > 3) {
-            txtto.setText(MainSecond.listLocation.get(3));
+        if (SearchRouteActivity.listLocation.size() > 3) {
+            txtto.setText(SearchRouteActivity.listLocation.get(3));
         }
 
         //get position disable radio button if postion is motorbike
@@ -58,7 +58,7 @@ public class MainOptional extends Activity {
         txtfrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_1 = new Intent(MainOptional.this, MainSearch.class);
+                Intent intent_1 = new Intent(SearchOptionActivity.this, AutoCompleteSearchActivity.class);
                 intent_1.putExtra("number", 3);
                 intent_1.putExtra("message",txtfrom.getText());
                 startActivityForResult(intent_1, 3);// Activity is started with requestCode 1
@@ -68,7 +68,7 @@ public class MainOptional extends Activity {
         txtto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent_2 = new Intent(MainOptional.this, MainSearch.class);
+                Intent intent_2 = new Intent(SearchOptionActivity.this, AutoCompleteSearchActivity.class);
                 intent_2.putExtra("number", 4);
                 intent_2.putExtra("message",txtto.getText());
                 startActivityForResult(intent_2, 4);// Activity is started with requestCode 2
@@ -79,7 +79,7 @@ public class MainOptional extends Activity {
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainOptional.this, MainSecond.class);
+                Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
                 intent.putExtra("optimize", true);
                 if (!checkBox.isChecked()) {
                     intent.putExtra("optimize", false);
@@ -92,7 +92,7 @@ public class MainOptional extends Activity {
         no.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainOptional.this, MainSecond.class);
+                Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
                 setResult(4, intent);
                 finish();
             }
@@ -109,10 +109,10 @@ public class MainOptional extends Activity {
                 String message = data.getStringExtra("MESSAGE");
                 if (!"".equals(message)) {
                     txtfrom.setText(message);
-                    if (MainSecond.listLocation.size() > 2) {
-                        MainSecond.listLocation.set(2, message);
+                    if (SearchRouteActivity.listLocation.size() > 2) {
+                        SearchRouteActivity.listLocation.set(2, message);
                     } else {
-                        MainSecond.listLocation.add(message);
+                        SearchRouteActivity.listLocation.add(message);
                     }
                 }
 
@@ -121,10 +121,10 @@ public class MainOptional extends Activity {
                 String message = data.getStringExtra("MESSAGE");
                 if (!"".equals(message)) {
                     txtto.setText(message);
-                    if (MainSecond.listLocation.size() > 3) {
-                        MainSecond.listLocation.set(3, message);
+                    if (SearchRouteActivity.listLocation.size() > 3) {
+                        SearchRouteActivity.listLocation.set(3, message);
                     } else {
-                        MainSecond.listLocation.add(message);
+                        SearchRouteActivity.listLocation.add(message);
                     }
                 }
 

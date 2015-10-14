@@ -30,7 +30,7 @@
                 android:ems="10"
                 android:text="" >
             </AutoCompleteTextView>-->
-            <com.fpt.router.activity.SearchEditTextCustom
+            <com.fpt.router.widget.SearchEditTextCustom
                 android:imeOptions="actionNext"
                 android:id="@+id/autoCompleteTextView"
                 android:layout_width="270dip"

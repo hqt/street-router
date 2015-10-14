@@ -1,4 +1,4 @@
-package com.fpt.router.activity;
+package com.fpt.router.fragment;
 
 import android.graphics.Color;
 import android.location.Location;
@@ -12,25 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusAdapterShowDetailSteps;
-import com.fpt.router.adapter.BusAdapterTwoPoint;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.library.model.Model;
 import com.fpt.router.library.model.SubModule;
-import com.fpt.router.library.model.bus.ArrayAdapterItem;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
-import com.fpt.router.library.model.motorbike.DetailLocation;
-import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.library.model.motorbike.Step;
-import com.fpt.router.utils.DecodeUtils;
 import com.fpt.router.utils.LockableListView;
 import com.fpt.router.utils.MapUtils;
 import com.fpt.router.utils.SlidingUpPanelLayout;
@@ -61,7 +53,7 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class MainShowDetailBusTwoPointMaps extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class TwoPointBusDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -98,12 +90,12 @@ public class MainShowDetailBusTwoPointMaps extends Fragment implements GoogleApi
     private List<Segment> segments;
     private List<String> steps;
 
-    public MainShowDetailBusTwoPointMaps() {
+    public TwoPointBusDetailFragment() {
     }
 
 
-    public static MainShowDetailBusTwoPointMaps newInstance(Result result) {
-        MainShowDetailBusTwoPointMaps f = new MainShowDetailBusTwoPointMaps();
+    public static TwoPointBusDetailFragment newInstance(Result result) {
+        TwoPointBusDetailFragment f = new TwoPointBusDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("result", result);
         f.setArguments(args);

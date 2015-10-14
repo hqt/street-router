@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapMotorbikeTwoPoint;
+import com.fpt.router.activity.TwoPointMotorbikeActivity;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 import java.util.List;
@@ -76,7 +76,7 @@ public class MotorbikeAdapterTwoPoint extends RecyclerView.Adapter<MotorbikeAdap
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, GoogleMapMotorbikeTwoPoint.class);
+            Intent intent = new Intent(context, TwoPointMotorbikeActivity.class);
             Bundle bundle = new Bundle();
             RouterDetailTwoPoint routerDetailTwoPoint = getRouterDetailTowDetailTwoPoint(getPosition());
             bundle.putSerializable("routerDetailTwoPoint", routerDetailTwoPoint);

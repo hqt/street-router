@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainSecond extends AppCompatActivity {
+public class SearchRouteActivity extends AppCompatActivity {
 
     private TextView optional;
     private TextView _depart_time;
@@ -92,7 +92,7 @@ public class MainSecond extends AppCompatActivity {
         edit_1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainSecond.this, MainSearch.class);
+                Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
                 intent.putExtra("number", 1);
                 intent.putExtra("message", edit_1.getText());
                 startActivityForResult(intent, 1);// Activity is started with requestCode 1
@@ -101,7 +101,7 @@ public class MainSecond extends AppCompatActivity {
         edit_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainSecond.this, MainSearch.class);
+                Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
                 intent.putExtra("number", 2);
                 intent.putExtra("message", edit_2.getText());
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
@@ -114,7 +114,7 @@ public class MainSecond extends AppCompatActivity {
         optional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainSecond.this, MainOptional.class);
+                Intent intent = new Intent(SearchRouteActivity.this, SearchOptionActivity.class);
                 int positionTab = tabLayout.getSelectedTabPosition();
                 intent.putExtra("postionTab", positionTab);
                 startActivityForResult(intent, 3);
@@ -138,11 +138,11 @@ public class MainSecond extends AppCompatActivity {
             public void onClick(View view) {
                 //check from and to not null
                 if ("".equals(edit_1.getText())) {
-                    Toast.makeText(MainSecond.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
                 } else if ("".equals(edit_2.getText())) {
-                    Toast.makeText(MainSecond.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
                 } else {
-                    adapter = new ViewPagerAdapter(getSupportFragmentManager(), MainSecond.this);
+                    adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);
                     _view_pager.setAdapter(adapter);
                     _view_pager.setCurrentItem(1);
                     option.setVisibility(View.VISIBLE);

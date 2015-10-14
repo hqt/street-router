@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapBus;
 import com.fpt.router.library.model.motorbike.Leg;
 
 import java.io.Serializable;

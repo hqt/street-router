@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.GoogleMapMotorbikeFourPoint;
+import com.fpt.router.activity.test.GoogleMapMotorbikeFourPoint;
 import com.fpt.router.library.model.motorbike.RouterDetailFourPoint;
 
 import java.util.List;

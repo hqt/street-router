@@ -13,7 +13,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -27,7 +26,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainSearch extends AppCompatActivity {
+public class AutoCompleteSearchActivity extends AppCompatActivity {
     public GooglePlacesAutocompleteAdapter adapter;
    /* public AutoCompleteTextView autoComp;*/
     private EditText autoComp;
@@ -196,10 +195,10 @@ public class MainSearch extends AppCompatActivity {
             if(json == null){
                 result  = new ArrayList<>();
                 result.add("Cần kết nối Internet");
-                adapter = new GooglePlacesAutocompleteAdapter(MainSearch.this,android.R.layout.simple_list_item_1,result);
+                adapter = new GooglePlacesAutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,result);
                 /*return;*/
             }else {
-                adapter = new GooglePlacesAutocompleteAdapter(MainSearch.this, android.R.layout.simple_list_item_1, result);
+                adapter = new GooglePlacesAutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, result);
             }
 
            listView.setAdapter(adapter);

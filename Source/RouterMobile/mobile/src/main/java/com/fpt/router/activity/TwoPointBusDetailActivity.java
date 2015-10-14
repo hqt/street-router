@@ -9,13 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
+import com.fpt.router.fragment.TwoPointBusDetailFragment;
 import com.fpt.router.library.model.bus.Result;
-import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 /**
  * Created by asus on 10/13/2015.
  */
-public class GoogleMapBusTwoPoint extends AppCompatActivity {
+public class TwoPointBusDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +34,7 @@ public class GoogleMapBusTwoPoint extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainShowDetailBusTwoPointMaps.newInstance(result));
+            trans.add(R.id.fragment, TwoPointBusDetailFragment.newInstance(result));
             trans.commit();
         }
     }

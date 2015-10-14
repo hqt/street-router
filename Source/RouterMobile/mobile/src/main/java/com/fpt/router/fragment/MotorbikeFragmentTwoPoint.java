@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.MainSecond;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorbikeAdapterTwoPoint;
 import com.fpt.router.adapter.RecyclerAdapterShowError;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -35,9 +35,9 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     /**
      * Main Activity for reference
      */
-    private MainSecond activity;
-    private List<String> listLocation = MainSecond.listLocation;
-    private Boolean optimize = MainSecond.optimize;
+    private SearchRouteActivity activity;
+    private List<String> listLocation = SearchRouteActivity.listLocation;
+    private Boolean optimize = SearchRouteActivity.optimize;
     private RecyclerView recyclerView;
     private JSONObject jsonObject;
     private String status;
@@ -52,7 +52,7 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (MainSecond) context;
+        this.activity = (SearchRouteActivity) context;
     }
 
     @Override

@@ -7,33 +7,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.MainSecond;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusAdapterTwoPoint;
-import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
-import com.fpt.router.library.model.motorbike.Location;
-import com.fpt.router.library.utils.JSONUtils;
-import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.NetworkUtils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -44,8 +27,8 @@ public class BusFragmentTwoPoint extends Fragment {
     /**
      * Main Activity for reference
      */
-    private MainSecond activity;
-    private List<String> listLocation = MainSecond.listLocation;
+    private SearchRouteActivity activity;
+    private List<String> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
     private List<Result> results;
 
@@ -57,7 +40,7 @@ public class BusFragmentTwoPoint extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        this.activity = (MainSecond) context;
+        this.activity = (SearchRouteActivity) context;
     }
 
     @Override

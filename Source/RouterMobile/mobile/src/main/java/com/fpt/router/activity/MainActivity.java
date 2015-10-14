@@ -23,7 +23,7 @@ import com.google.android.gms.maps.MapFragment;
 /**
  * Created by asus on 10/6/2015.
  */
-public class MainFirst extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
@@ -51,7 +51,7 @@ public class MainFirst extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
-                Toast.makeText(MainFirst.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                 return true;
             }
         });
@@ -63,7 +63,7 @@ public class MainFirst extends AppCompatActivity {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    Intent intent = new Intent(MainFirst.this, MainSecond.class);
+                    Intent intent = new Intent(MainActivity.this, SearchRouteActivity.class);
                     startActivity(intent);
                     return true;
                 }
@@ -78,7 +78,7 @@ public class MainFirst extends AppCompatActivity {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
 
                     initilizeMap();
-                    GPSUtils gpsUtils = new GPSUtils(MainFirst.this);
+                    GPSUtils gpsUtils = new GPSUtils(MainActivity.this);
                     Double currentLatitude = gpsUtils.getLatitude();
                     Double currentLongitude = gpsUtils.getLongitude();
                     MapUtils.drawPoint(googleMap, currentLatitude, currentLongitude, "Current Location");

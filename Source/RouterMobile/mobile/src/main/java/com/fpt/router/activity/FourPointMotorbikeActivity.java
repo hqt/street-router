@@ -14,7 +14,7 @@ import com.fpt.router.R;
 /**
  * Created by Nguyen Trung Nam on 10/12/2015.
  */
-public class GoogleMapMotorbikeCuaNamActivity extends AppCompatActivity {
+public class FourPointMotorbikeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -9,12 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
-import com.fpt.router.library.model.motorbike.RouterDetailFourPoint;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 /**
  * Created by asus on 10/12/2015.
  */
-public class GoogleMapMotorbikeFourPoint extends AppCompatActivity {
+public class TwoPointMotorbikeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +26,14 @@ public class GoogleMapMotorbikeFourPoint extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-
+        /*Leg leg = (Leg) getIntent().getSerializableExtra("Leg");
+        Log.i("GoogleMapBus Leg",leg.toString());*/
         Bundle bundle  = getIntent().getExtras();
-        RouterDetailFourPoint routerDetailFourPoint = (RouterDetailFourPoint) getIntent().getSerializableExtra("routerDetailFourPoint");
+        RouterDetailTwoPoint routerDetailTwoPoint = (RouterDetailTwoPoint) getIntent().getSerializableExtra("routerDetailTwoPoint");
 
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainShowDetailMotorbikeFourPointMaps.newInstance(routerDetailFourPoint));
+            trans.add(R.id.fragment, MainShowDetailMotorbikeTowPointMaps.newInstance(routerDetailTwoPoint));
             trans.commit();
         }
     }
