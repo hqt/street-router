@@ -1,4 +1,4 @@
-package com.fpt.router.activity;
+package com.fpt.router.fragment;
 
 import android.graphics.Color;
 import android.location.Location;
@@ -15,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.library.model.motorbike.DetailLocation;
@@ -53,7 +52,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MotorDetailFourPointFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -89,11 +88,11 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
     List<Leg> listFinalLeg = new ArrayList<>();
     private RouteItemAdapter adapterItem;
 
-    public MainShowDetailMotorbikeCuaNamActivity() {
+    public MotorDetailFourPointFragment() {
     }
 
-    public static MainShowDetailMotorbikeCuaNamActivity newInstance(int position) {
-        MainShowDetailMotorbikeCuaNamActivity fragment = new MainShowDetailMotorbikeCuaNamActivity();
+    public static MotorDetailFourPointFragment newInstance(int position) {
+        MotorDetailFourPointFragment fragment = new MotorDetailFourPointFragment();
         Bundle args = new Bundle();
         args.putSerializable("position", position);
         fragment.setArguments(args);

@@ -58,7 +58,7 @@
         </activity>
 
         <activity
-            android:name=".activity.TwoPointMotorbikeActivity"
+            android:name=".activity.MotorTwoPointActivity"
             android:label="@string/title_activity_main" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -72,7 +72,7 @@
                 android:value=".activity.SearchRouteActivity" />
         </activity>
         <activity
-            android:name=".activity.FourPointMotorbikeActivity"
+            android:name=".activity.MotorFourPointActivity"
             android:label="@string/title_activity_search" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.FourPointMotorbikeActivity;
+import com.fpt.router.activity.MotorFourPointActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -106,7 +106,7 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, FourPointMotorbikeActivity.class);
+            Intent intent = new Intent(context, MotorFourPointActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt("position", getLayoutPosition());
             intent.putExtras(bundle);

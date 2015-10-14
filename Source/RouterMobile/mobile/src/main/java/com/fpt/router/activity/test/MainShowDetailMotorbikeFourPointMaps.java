@@ -1,4 +1,4 @@
-package com.fpt.router.activity;
+package com.fpt.router.activity.test;
 
 import android.graphics.Color;
 import android.location.Location;

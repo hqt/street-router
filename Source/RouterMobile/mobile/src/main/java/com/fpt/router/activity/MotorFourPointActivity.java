@@ -1,6 +1,5 @@
 package com.fpt.router.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
@@ -10,11 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
+import com.fpt.router.fragment.MotorDetailFourPointFragment;
 
 /**
  * Created by Nguyen Trung Nam on 10/12/2015.
  */
-public class FourPointMotorbikeActivity extends AppCompatActivity {
+public class MotorFourPointActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +28,7 @@ public class FourPointMotorbikeActivity extends AppCompatActivity {
         int position = getIntent().getIntExtra("position", 0);
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, MainShowDetailMotorbikeCuaNamActivity.newInstance(position));
+            trans.add(R.id.fragment, MotorDetailFourPointFragment.newInstance(position));
             trans.commit();
         }
     }

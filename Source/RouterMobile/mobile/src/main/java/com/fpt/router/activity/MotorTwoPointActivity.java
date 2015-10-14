@@ -9,13 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
-import com.fpt.router.fragment.BusDetailTwoPointFragment;
-import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.fragment.MotorDetailTwoPointFragment;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 
 /**
- * Created by asus on 10/13/2015.
+ * Created by asus on 10/12/2015.
  */
-public class TwoPointBusDetailActivity extends AppCompatActivity {
+public class MotorTwoPointActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,11 +30,11 @@ public class TwoPointBusDetailActivity extends AppCompatActivity {
         /*Leg leg = (Leg) getIntent().getSerializableExtra("Leg");
         Log.i("GoogleMapBus Leg",leg.toString());*/
         Bundle bundle  = getIntent().getExtras();
-        Result result = (Result)getIntent().getSerializableExtra("result");
+        RouterDetailTwoPoint routerDetailTwoPoint = (RouterDetailTwoPoint) getIntent().getSerializableExtra("routerDetailTwoPoint");
 
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
+            trans.add(R.id.fragment, MotorDetailTwoPointFragment.newInstance(routerDetailTwoPoint));
             trans.commit();
         }
     }
