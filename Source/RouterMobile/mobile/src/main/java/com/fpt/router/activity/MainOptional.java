@@ -38,6 +38,7 @@ public class MainOptional extends Activity {
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+        checkBox.setChecked(MainSecond.optimize);
         if (MainSecond.listLocation.size() > 2) {
             txtfrom.setText(MainSecond.listLocation.get(2));
         }

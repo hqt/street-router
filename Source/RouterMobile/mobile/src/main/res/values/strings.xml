@@ -26,7 +26,7 @@
     <string name="bus">43 phÃºt</string>
     <string name="motorbike">65 phÃºt</string>
     <string name="map">Báº£n Ä‘á»“</string>
-    <string name="google_place_key" translatable="false">AIzaSyBLJkSvOukISHGrIXvHd4OSLKQDtS8nQOc</string>
+    <string name="google_place_key">AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ</string>
 
     //Connect to wear
     <string name="received_message1">Received message 1.</string>

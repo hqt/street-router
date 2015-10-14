@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,16 +71,24 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
 
+    int position;
     List<LatLng> list;
     String encodedString;
     List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;
     Leg leg;
-    private List<Step> steps;
+    List<Step> listStep = new ArrayList<>();
     private ArrayAdapterItem adapterItem;
 
     public MainShowDetailMotorbikeCuaNamActivity() {
     }
 
+    public static MainShowDetailMotorbikeCuaNamActivity newInstance(int position) {
+        MainShowDetailMotorbikeCuaNamActivity fragment = new MainShowDetailMotorbikeCuaNamActivity();
+        Bundle args = new Bundle();
+        args.putSerializable("position", position);
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
@@ -124,13 +134,18 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
         super.onActivityCreated(savedInstanceState);
 
         mMapFragment = SupportMapFragment.newInstance();
+
+        position = (int) getArguments().getSerializable("position");
+
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.mapContainer, mMapFragment, "map");
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-        steps = listLeg.get(0).getStep();
-        adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, steps);
+        for(int n = 0; n < listLeg.size(); n ++) {
+            listStep.addAll(listLeg.get(n).getStep());
+        }
+        adapterItem = new ArrayAdapterItem(getContext(), R.layout.activity_list_row_gmap, listStep);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/
@@ -159,24 +174,42 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
             mMap = mMapFragment.getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-
+                List<Leg> listFinalLeg = new ArrayList<>();
+                if(listLeg.size() == 2){
+                    listFinalLeg.addAll(listLeg);
+                } else {
+                    for(int n = position*3; n < position*3+3; n++) {
+                        listFinalLeg.add(listLeg.get(n));
+                    }
+                }
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                for (int i = 0; i < listLeg.size(); i++) {
+                for (int i = 0; i < listFinalLeg.size(); i++) {
                     leg = listLeg.get(i);
                     DetailLocation detalL = leg.getDetailLocation();
                     com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
                     com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
                     // latitude and longitude
 
-                    latitude = end_location.getLatitude();
-                    longitude = end_location.getLongitude();
-                    MapUtils.drawEndPoint(mMap, latitude, longitude, leg.getEndAddress());
+                    if(i == 0) {
+                        latitude = end_location.getLatitude();
+                        longitude = end_location.getLongitude();
+                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_YELLOW);
 
-                    latitude = start_location.getLatitude();
-                    longitude = start_location.getLongitude();
-                    MapUtils.drawStartPoint(mMap, latitude, longitude, leg.getStartAddress());
+                        latitude = start_location.getLatitude();
+                        longitude = start_location.getLongitude();
+                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_GREEN);
+                    }
+                    if (i == listFinalLeg.size()-1) {
+                        latitude = end_location.getLatitude();
+                        longitude = end_location.getLongitude();
+                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);
+
+                        latitude = start_location.getLatitude();
+                        longitude = start_location.getLongitude();
+                        MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_YELLOW);
+                    }
                     LatLng latLng = new LatLng(latitude, longitude);
                     moveToLocation(latLng, true);
 

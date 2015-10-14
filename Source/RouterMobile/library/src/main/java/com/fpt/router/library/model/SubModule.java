@@ -51,4 +51,5 @@ public class SubModule implements IWearableModel<SubModule> {
     public ArrayList<DataMap> listModelToDataMap(List<SubModule> items) {
         return null;
     }
+
 }

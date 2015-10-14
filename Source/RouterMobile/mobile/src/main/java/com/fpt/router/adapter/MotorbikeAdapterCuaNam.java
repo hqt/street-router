@@ -2,6 +2,7 @@ package com.fpt.router.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,18 +23,22 @@ import java.util.List;
  */
 public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapterCuaNam.RouterViewHolder> {
 
+    List<String> listLocation = MainSecond.listLocation;
     List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;
-    int countPoint = MainSecond.listLocation.size() - 1;
+    int countPoint = listLocation.size() - 1;
+    View v;
+    RouterViewHolder routerViewHolder;
 
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
-        RouterViewHolder routerViewHolder = new RouterViewHolder(v);
+        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
+        routerViewHolder = new RouterViewHolder(v);
         return routerViewHolder;
     }
 
     @Override
     public void onBindViewHolder(RouterViewHolder holder, int position) {
+
         if(position == 0){
             holder.title.setText("Tuyến đường được đề nghị ");
         }else{
@@ -50,20 +55,15 @@ public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapte
         holder.distance.setText(totalDistance/1000+" Km");
         holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
         holder.way_point_1.setText(listLeg.get(position*countPoint).getEndAddress());
-        if(MainSecond.listLocation.size() == 4) {
+        if(listLocation.size() == 4) {
             holder.way_point_2.setText(listLeg.get(position * countPoint + (countPoint - 1)).getStartAddress());
-        } else {
-            holder.middle_1.setText("Middle:");
-            ((ViewGroup)holder.way_point_2.getParent()).removeView(holder.way_point_2);
-            ((ViewGroup)holder.middle_2.getParent()).removeView(holder.middle_2);
-
         }
         holder.endLocation.setText(listLeg.get(position*countPoint+(countPoint-1)).getEndAddress());
     }
 
     @Override
     public int getItemCount() {
-        if(MainSecond.listLocation.size() == 3){
+        if(listLeg.size() == 2){
             return 1;
         } else {
             return 3;
@@ -103,6 +103,9 @@ public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapte
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(context, GoogleMapMotorbikeCuaNamActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", getLayoutPosition());
+            intent.putExtras(bundle);
             view.getContext().startActivity(intent);
         }
     }

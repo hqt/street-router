@@ -100,31 +100,45 @@ public class MotorbikeFragmentCuaNam extends Fragment{
         @Override
         protected List<Leg> doInBackground(String... args) {
             List<Leg> listLegFinal = new ArrayList<>();
+            List<String> listUrl;
             String json;
-            String url;
-
-            List<String> listUrl = NetworkUtils.linkCuaNam(listLocation, optimize);
+            List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
             List<String> listJson = new ArrayList<>();
-            for(int n = 0 ; n < listUrl.size(); n++) {
-                json = NetworkUtils.download(listUrl.get(n));
-                listJson.add(json);
-            }
-            try {
-                jsonObject = new JSONObject(listJson.get(0));
-                status = jsonObject.getString("status");
-                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS")) {
-                    return null;
-                } else {
-                    for(int i = 0; i < listJson.size(); i++) {
-                        List<Leg> mediumList = new ArrayList<>();
-                        mediumList = JSONParseUtils.getListLegWithFourPoint(listJson.get(i));
-                        listLegFinal.addAll(mediumList);
+            if(!optimize && listLocation.size() == 4) {
+                listUrl = NetworkUtils.linkFourPointWithoutOptimize(listPlaceID);
+                listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));
+                try {
+                    listUrl = NetworkUtils.linkCuaNam(listPlaceID, optimize);
+                    json = NetworkUtils.download(listUrl.get(0));
+                    jsonObject = new JSONObject(json);
+                    status = jsonObject.getString("status");
+                    if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS")) {
+                        return null;
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            } else {
+                listUrl = NetworkUtils.linkCuaNam(listPlaceID, optimize);
+                for (int n = 0; n < listUrl.size(); n++) {
+                    json = NetworkUtils.download(listUrl.get(n));
+                    listJson.add(json);
+                }
 
+                try {
+                    jsonObject = new JSONObject(listJson.get(0));
+                    status = jsonObject.getString("status");
+                    if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS")) {
+                        return null;
+                    } else {
+                        for (int i = 0; i < listJson.size(); i++) {
+                            listLegFinal.addAll(JSONParseUtils.getListLegWithFourPoint(listJson.get(i)));
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
             return listLegFinal;
         }
 

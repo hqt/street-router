@@ -105,8 +105,8 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
             List<RouterDetailTwoPoint> routerDetailTwoPointList = new ArrayList<RouterDetailTwoPoint>();
             String json;
             String url;
-
-            url = NetworkUtils.linkGoogleDrirection(listLocation, optimize);
+            List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
+            url = NetworkUtils.linkGoogleDrirectionForTwoPoint(listPlaceID.get(0), listPlaceID.get(1));
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Iterator;
 
 /**
@@ -23,9 +24,9 @@ public class JSONParseUtils {
 
     }
 
-    public static ArrayList<Leg> getListLegWithTwoPoint(String json){
+    public static List<Leg> getListLegWithTwoPoint(String json){
         Leg leg;
-        ArrayList<Leg> listLeg = new ArrayList<>();
+        List<Leg> listLeg = new ArrayList<>();
         String EndAddress;
         String StartAddress;
         DetailLocation legDetailL;
@@ -84,7 +85,54 @@ public class JSONParseUtils {
         return null;
     }
 
+    public static List<Leg> sortLegForFourPointWithoutOptimize(List<String> listUrl) {
+        List<Leg> legA = new ArrayList<>();
+        List<Leg> legB = new ArrayList<>();
+        List<Leg> legC = new ArrayList<>();
+        List<Leg> listLegFinal = new ArrayList<>();
+        Leg leg;
+        for(int m = 0; m < 2; m++) {
+            legA.addAll(getListLegWithTwoPoint(NetworkUtils.download(listUrl.get(m))));
+            legB.addAll(getListLegWithTwoPoint(NetworkUtils.download(listUrl.get(m + 2))));
+            legC.addAll(getListLegWithTwoPoint(NetworkUtils.download(listUrl.get(m + 4))));
+            for (int x = 0; x < legA.size(); x++) {
+                for (int y = 0; y < legB.size(); y++) {
+                    for (int z = 0; z < legC.size(); z++) {
+                        if (listLegFinal.size() < 9) {
+                            listLegFinal.add(legA.get(x));
+                            listLegFinal.add(legB.get(y));
+                            listLegFinal.add(legC.get(z));
+                        } else {
+                            int valueCheck = totalTime(legA.get(x), legB.get(y), legC.get(z));
+                            int valueFinal = totalTime(listLegFinal.get(6), listLegFinal.get(7), listLegFinal.get(8));
+                            if (valueFinal > valueCheck) {
+                                listLegFinal.set(6, legA.get(x));
+                                listLegFinal.set(7, legA.get(y));
+                                listLegFinal.set(8, legA.get(z));
+                            }
+                            for (int n = 1; n >= 0; n--) {
+                                valueCheck = totalTime(listLegFinal.get((n + 1) * 3), listLegFinal.get((n + 1) * 3 + 1), listLegFinal.get((n + 1) * 3 + 2));
+                                valueFinal = totalTime(listLegFinal.get(n * 3), listLegFinal.get(n * 3 + 1), listLegFinal.get(n * 3 + 2));
+                                if (valueFinal > valueCheck) {
+                                    for (int i = 0; i < 3; i++) {
+                                        leg = listLegFinal.get((n + 1) * 3 + i);
+                                        listLegFinal.set((n + 1) * 3 + i, listLegFinal.get(n * 3 + i));
+                                        listLegFinal.set(n * 3 + i, leg);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return listLegFinal;
+    }
 
+    public static int totalTime(Leg leg_1, Leg leg_2, Leg leg_3) {
+        int total = leg_1.getDetailLocation().getDuration() + leg_2.getDetailLocation().getDuration() + leg_3.getDetailLocation().getDuration();
+        return total;
+    }
 
     public static String replaceInstruction (String instruction) {
         String text = instruction;
@@ -143,7 +191,7 @@ public class JSONParseUtils {
         return text;
     }
 
-    public static ArrayList<Leg> getListLegWithFourPoint(String json){
+    public static List<Leg> getListLegWithFourPoint(String json){
         Leg leg;
         ArrayList<Leg> listLeg = new ArrayList<>();
         String EndAddress;
@@ -203,6 +251,7 @@ public class JSONParseUtils {
         return null;
     }
 
+
     public static DetailLocationTwoPoint getDetailLoationTwoPoint(JSONObject jsonObject){
         String distance;
         String duration;
@@ -260,6 +309,23 @@ public class JSONParseUtils {
         return null;
     }
 
+    public static List<String> listPlaceID(List<String> listLocation) {
+        List<String> listPlaceID = new ArrayList<>();
+        JSONObject jsonO;
+        JSONArray jsonA;
+        for(int n = 0; n < listLocation.size(); n++) {
+            String url = NetworkUtils.linkGooglePlace(listLocation.get(n));
+            try {
+                jsonO = new JSONObject(NetworkUtils.download(url));
+                jsonA = jsonO.getJSONArray("predictions");
+                jsonO = jsonA.getJSONObject(0);
+                listPlaceID.add(jsonO.getString("place_id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return listPlaceID;
+    }
     public static Location getLocation(JSONObject jsonObject){
         JSONArray jsonArray;
         JSONObject object;
