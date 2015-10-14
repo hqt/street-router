@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.adapter.GooglePlacesAutocompleteAdapter;
+import com.fpt.router.adapter.AutocompleteAdapter;
 import com.fpt.router.utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -27,7 +27,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
-    public GooglePlacesAutocompleteAdapter adapter;
+    public AutocompleteAdapter adapter;
    /* public AutoCompleteTextView autoComp;*/
     private EditText autoComp;
     private  ListView listView;
@@ -39,7 +39,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_search);
 
         listView = (ListView) findViewById(R.id.listview_autosearch);
-        adapter = new GooglePlacesAutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+        adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
         Intent intent = new Intent();
@@ -195,10 +195,10 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             if(json == null){
                 result  = new ArrayList<>();
                 result.add("Cần kết nối Internet");
-                adapter = new GooglePlacesAutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,result);
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,result);
                 /*return;*/
             }else {
-                adapter = new GooglePlacesAutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, result);
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, result);
             }
 
            listView.setAdapter(adapter);

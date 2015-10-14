@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by asus on 10/5/2015.
  */
-public class RouteDetailItemAdapter extends ArrayAdapter<Step> {
+public class RouteItemAdapter extends ArrayAdapter<Step> {
 
     private Context mContext;
     private int resource;
@@ -25,7 +25,7 @@ public class RouteDetailItemAdapter extends ArrayAdapter<Step> {
 
 
 
-    public RouteDetailItemAdapter(Context context, int resource, List<Step> objects) {
+    public RouteItemAdapter(Context context, int resource, List<Step> objects) {
         super(context, resource, objects);
         this.mContext = context;
         this.resource = resource;

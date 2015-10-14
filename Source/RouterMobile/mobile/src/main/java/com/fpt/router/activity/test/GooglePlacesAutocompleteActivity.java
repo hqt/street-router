@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.AutoCompleteTextView;
 
 import com.fpt.router.R;
-import com.fpt.router.adapter.GooglePlacesAutocompleteAdapter;
+import com.fpt.router.adapter.AutocompleteAdapter;
 import com.fpt.router.utils.NetworkUtils;
 
 import org.json.JSONArray;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class GooglePlacesAutocompleteActivity extends Activity {
 
-    public GooglePlacesAutocompleteAdapter adapter;
+    public AutocompleteAdapter adapter;
     public AutoCompleteTextView textView;
 
     @Override
@@ -31,7 +31,7 @@ public class GooglePlacesAutocompleteActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
 
-        adapter = new GooglePlacesAutocompleteAdapter(this, R.layout.list_item, null);
+        adapter = new AutocompleteAdapter(this, R.layout.list_item, null);
         textView = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
         adapter.setNotifyOnChange(true);
         textView.setAdapter(adapter);
@@ -106,7 +106,7 @@ public class GooglePlacesAutocompleteActivity extends Activity {
                 Log.e("hqt", "onPostExecute : result = " + string);
                 adapter.add(string);
             }
-            adapter = new GooglePlacesAutocompleteAdapter(GooglePlacesAutocompleteActivity.this, R.layout.list_item, result);
+            adapter = new AutocompleteAdapter(GooglePlacesAutocompleteActivity.this, R.layout.list_item, result);
             textView.setAdapter(adapter);
             Log.d("YourApp", "onPostExecute : autoCompleteAdapter" + adapter.getCount());
         }

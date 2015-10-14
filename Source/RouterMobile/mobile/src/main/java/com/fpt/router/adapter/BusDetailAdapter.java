@@ -18,14 +18,14 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusAdapterShowDetailSteps extends ArrayAdapter<INode> {
+public class BusDetailAdapter extends ArrayAdapter<INode> {
 
     private Context mContext;
     private int resource;
     private List<INode> nodeList;
 
 
-    public BusAdapterShowDetailSteps(Context context, int resource, List<INode> nodeList){
+    public BusDetailAdapter(Context context, int resource, List<INode> nodeList){
         super(context,resource,nodeList);
         this.mContext = context;
         this.resource = resource;

@@ -18,12 +18,12 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusAdapterShowImage extends ArrayAdapter<Integer> {
+public class BusImageAdapter extends ArrayAdapter<Integer> {
     Context mContext;
     int resource;
     List<Integer> images;
 
-    public BusAdapterShowImage(Context context, int resource, List<Integer> images){
+    public BusImageAdapter(Context context, int resource, List<Integer> images){
         super(context,resource);
         this.mContext = context;
         this.resource = resource;

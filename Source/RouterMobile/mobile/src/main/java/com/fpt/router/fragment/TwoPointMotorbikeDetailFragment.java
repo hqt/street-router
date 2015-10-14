@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.adapter.RouteDetailItemAdapter;
+import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -87,7 +87,7 @@ public class TwoPointMotorbikeDetailFragment extends Fragment implements GoogleA
     private int locationSize;
     private List<Step> setAgainSteps;
     private List<Step> steps;
-    private RouteDetailItemAdapter adapterItem;
+    private RouteItemAdapter adapterItem;
 
     public TwoPointMotorbikeDetailFragment() {
     }
@@ -154,7 +154,7 @@ public class TwoPointMotorbikeDetailFragment extends Fragment implements GoogleA
 
         /** start get list step and show  */
         steps = routerDetailTwoPoint.getSteps();
-        adapterItem = new RouteDetailItemAdapter(getContext(), R.layout.activity_list_row_gmap, steps);
+        adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, steps);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/

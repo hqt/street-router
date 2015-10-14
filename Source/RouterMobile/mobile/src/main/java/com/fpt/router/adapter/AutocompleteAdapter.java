@@ -10,11 +10,11 @@ import java.util.ArrayList;
 /**
  * Created by Nguyen Trung Nam on 10/3/2015.
  */
-public class GooglePlacesAutocompleteAdapter extends ArrayAdapter implements Filterable {
+public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
     private ArrayList<String> resultList;
 
 
-    public GooglePlacesAutocompleteAdapter(Context context, int textViewResourceId, ArrayList<String> arrayList) {
+    public AutocompleteAdapter(Context context, int textViewResourceId, ArrayList<String> arrayList) {
         super(context, textViewResourceId);
         this.resultList = arrayList;
     }

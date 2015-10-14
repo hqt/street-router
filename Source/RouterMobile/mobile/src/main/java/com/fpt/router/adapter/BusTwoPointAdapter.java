@@ -21,14 +21,14 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.BusViewHoder> {
+public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.BusViewHoder> {
 
     List<Result> results;
     Result result;
     List<Integer> images = new ArrayList<Integer>();
 
 
-    public BusAdapterTwoPoint(List<Result> results){
+    public BusTwoPointAdapter(List<Result> results){
         this.results = results;
     }
 
@@ -78,7 +78,7 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
 
 
 
-        BusAdapterShowImage showImage = new BusAdapterShowImage(holder.context,R.layout.activity_show_image,images);
+        BusImageAdapter showImage = new BusImageAdapter(holder.context,R.layout.activity_show_image,images);
         holder.txtDuration.setText("" + result.minutes);
         holder.txtDistance.setText(String.valueOf(result.totalDistance));
         holder.txtContent.setText(viewDetail);

@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.BusAdapterTwoPoint;
+import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.library.model.bus.Result;
 
 import java.util.ArrayList;
@@ -148,7 +148,7 @@ public class BusFragmentTwoPoint extends Fragment {
             }
 
             results = resultList;
-            recyclerView.setAdapter(new BusAdapterTwoPoint(results));
+            recyclerView.setAdapter(new BusTwoPointAdapter(results));
         }
     }
 }

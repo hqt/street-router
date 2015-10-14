@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.adapter.BusAdapterShowDetailSteps;
+import com.fpt.router.adapter.BusDetailAdapter;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.library.model.Model;
 import com.fpt.router.library.model.SubModule;
@@ -85,7 +85,7 @@ public class TwoPointBusDetailFragment extends Fragment implements GoogleApiClie
     String encodedString;
     private List<INode> iNodeList;
     private List<Path> paths;
-    private BusAdapterShowDetailSteps adapterItem;
+    private BusDetailAdapter adapterItem;
     private List<Location> points;
     private List<Segment> segments;
     private List<String> steps;
@@ -171,7 +171,7 @@ public class TwoPointBusDetailFragment extends Fragment implements GoogleApiClie
             }
         }
 
-        adapterItem = new BusAdapterShowDetailSteps(getContext(),R.layout.activity_show_detail_bus_steps,iNodeList);
+        adapterItem = new BusDetailAdapter(getContext(),R.layout.activity_show_detail_bus_steps,iNodeList);
 
         mListView.addHeaderView(mTransparentHeaderView);
       /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, steps));*/
