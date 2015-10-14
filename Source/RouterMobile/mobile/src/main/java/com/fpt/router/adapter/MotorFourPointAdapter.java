@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.FourPointMotorbikeActivity;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
+import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
 public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAdapter.RouterViewHolder> {
 
     List<String> listLocation = SearchRouteActivity.listLocation;
-    List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;
+    List<Leg> listLeg = MotorFourPointFragment.listLeg;
     int countPoint = listLocation.size() - 1;
     View v;
     RouterViewHolder routerViewHolder;

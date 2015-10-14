@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.fpt.router.R;
-import com.fpt.router.fragment.TwoPointBusDetailFragment;
+import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.library.model.bus.Result;
 
 /**
@@ -34,7 +34,7 @@ public class TwoPointBusDetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, TwoPointBusDetailFragment.newInstance(result));
+            trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
             trans.commit();
         }
     }

@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * Created by Nguyen Trung Nam on 10/12/2015.
  */
-public class MotorbikeFragmentCuaNam extends Fragment{
+public class MotorFourPointFragment extends Fragment{
     /**
      * Main Activity for reference
      */
@@ -42,7 +42,7 @@ public class MotorbikeFragmentCuaNam extends Fragment{
 
     public static List<Leg> listLeg = new ArrayList<>();
 
-    public MotorbikeFragmentCuaNam() {
+    public MotorFourPointFragment() {
 
     }
 

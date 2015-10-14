@@ -52,7 +52,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class TwoPointMotorbikeDetailFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MotorDetailTwoPointFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -89,12 +89,12 @@ public class TwoPointMotorbikeDetailFragment extends Fragment implements GoogleA
     private List<Step> steps;
     private RouteItemAdapter adapterItem;
 
-    public TwoPointMotorbikeDetailFragment() {
+    public MotorDetailTwoPointFragment() {
     }
 
 
-    public static TwoPointMotorbikeDetailFragment newInstance(RouterDetailTwoPoint routerDetailTwoPoint) {
-        TwoPointMotorbikeDetailFragment f = new TwoPointMotorbikeDetailFragment();
+    public static MotorDetailTwoPointFragment newInstance(RouterDetailTwoPoint routerDetailTwoPoint) {
+        MotorDetailTwoPointFragment f = new MotorDetailTwoPointFragment();
         Bundle args = new Bundle();
         args.putSerializable("routerDetailTwoPoint", routerDetailTwoPoint);
         f.setArguments(args);

@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
-public class MotorbikeFragment extends Fragment {
+public class MotorFragment extends Fragment {
 
     private GoogleMap mMap;
     MapView mapView;
@@ -40,7 +40,7 @@ public class MotorbikeFragment extends Fragment {
     /** empty constructor
      * must have for fragment
      */
-    public MotorbikeFragment() {
+    public MotorFragment() {
 
     }
 

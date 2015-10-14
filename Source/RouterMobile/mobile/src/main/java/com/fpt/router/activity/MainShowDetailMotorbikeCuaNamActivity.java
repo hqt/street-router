@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
+import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.library.model.motorbike.DetailLocation;
@@ -83,7 +83,7 @@ public class MainShowDetailMotorbikeCuaNamActivity extends Fragment implements G
     int position;
     List<LatLng> list;
     String encodedString;
-    List<Leg> listLeg = MotorbikeFragmentCuaNam.listLeg;
+    List<Leg> listLeg = MotorFourPointFragment.listLeg;
     Leg leg;
     List<Step> listStep = new ArrayList<>();
     List<Leg> listFinalLeg = new ArrayList<>();

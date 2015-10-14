@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by asus on 10/11/2015.
  */
-public class MotorbikeFragmentTwoPoint extends Fragment {
+public class MotorTwoPointFragment extends Fragment {
     /**
      * Main Activity for reference
      */
@@ -45,7 +45,7 @@ public class MotorbikeFragmentTwoPoint extends Fragment {
 
     public static List<RouterDetailTwoPoint> routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
 
-    public MotorbikeFragmentTwoPoint() {
+    public MotorTwoPointFragment() {
 
     }
 

@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.fragment.BusFragmentTwoPoint;
-import com.fpt.router.fragment.MotorbikeFragmentCuaNam;
-import com.fpt.router.fragment.MotorbikeFragmentTwoPoint;
+import com.fpt.router.fragment.BusTwoPointFragment;
+import com.fpt.router.fragment.MotorFourPointFragment;
+import com.fpt.router.fragment.MotorTwoPointFragment;
 
 import java.util.List;
 
@@ -38,18 +38,18 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         if(position == 1){
             if(listLocation.size() == 2){
-                MotorbikeFragmentTwoPoint motorbikeFragmentTwoPoint = new MotorbikeFragmentTwoPoint();
-                return motorbikeFragmentTwoPoint;
+                MotorTwoPointFragment motorTwoPointFragment = new MotorTwoPointFragment();
+                return motorTwoPointFragment;
             }else if(listLocation.size() == 3) {
-                MotorbikeFragmentCuaNam motorbikeFragmentThirdPoint = new MotorbikeFragmentCuaNam();
+                MotorFourPointFragment motorbikeFragmentThirdPoint = new MotorFourPointFragment();
                 return motorbikeFragmentThirdPoint;
             }else {
-                MotorbikeFragmentCuaNam motorbikeFragmentFourPoint = new MotorbikeFragmentCuaNam();
+                MotorFourPointFragment motorbikeFragmentFourPoint = new MotorFourPointFragment();
                 return motorbikeFragmentFourPoint;
             }
         } else if(position == 0){
-            BusFragmentTwoPoint busFragmentTwoPoint = new BusFragmentTwoPoint();
-            return busFragmentTwoPoint;
+            BusTwoPointFragment busTwoPointFragment = new BusTwoPointFragment();
+            return busTwoPointFragment;
         }
         return null;
     }

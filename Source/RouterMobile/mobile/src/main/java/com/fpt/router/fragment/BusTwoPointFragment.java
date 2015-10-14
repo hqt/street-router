@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class BusFragmentTwoPoint extends Fragment {
+public class BusTwoPointFragment extends Fragment {
     /**
      * Main Activity for reference
      */
@@ -33,7 +33,7 @@ public class BusFragmentTwoPoint extends Fragment {
     private List<Result> results;
 
 
-    public BusFragmentTwoPoint() {
+    public BusTwoPointFragment() {
 
     }
 
