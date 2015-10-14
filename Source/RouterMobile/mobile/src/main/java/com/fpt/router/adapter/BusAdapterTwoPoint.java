@@ -72,6 +72,9 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
         if(nodeList.get(position) instanceof Segment){
             viewDetail = ((Segment) nodeList.get(position)).routeNo + "-"+((Segment) nodeList.get(position)).routeName;
         }
+        if(nodeList.get(position) instanceof Path){
+            viewDetail = "Di bo";
+        }
 
         if(position == 0){
             holder.txtTitle.setText("Tuyến đường được đề nghị ");
@@ -117,12 +120,12 @@ public class BusAdapterTwoPoint extends RecyclerView.Adapter<BusAdapterTwoPoint.
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, GoogleMapBusTwoPoint.class);
+            /*Intent intent = new Intent(context, GoogleMapBusTwoPoint.class);
             Bundle bundle = new Bundle();
             Result result = getResult(getPosition());
             bundle.putSerializable("result", result);
             intent.putExtras(bundle);
-            view.getContext().startActivity(intent);
+            view.getContext().startActivity(intent);*/
 
         }
     }

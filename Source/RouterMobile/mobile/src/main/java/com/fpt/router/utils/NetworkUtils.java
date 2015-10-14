@@ -168,7 +168,7 @@ public class NetworkUtils {
     }
 
     public static String getLocationGoogleAPI(String addressOfLocation){
-        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String key = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
         String address = addressOfLocation;
         try {
             address = URLEncoder.encode(address,"UTF-8");
@@ -181,7 +181,7 @@ public class NetworkUtils {
     }
 
     public static String linkGoogleDrirectionForTwoPoint(String start, String end){
-        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String key = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
         String startLocation = start;
         String endLocation = end;
         try {
@@ -217,7 +217,7 @@ public class NetworkUtils {
     }
 
     public static List<String> linkCuaNam(List<String> listPlaceID, Boolean optimize){
-        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String key = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
         List<String> listUrl = new ArrayList<>();
         String startLocation = null;
         String endLocation = null;
@@ -266,7 +266,7 @@ public class NetworkUtils {
     }
 
     public static String getShortePath(String start, String end,String way_point_1,String way_point_2, Boolean optimize){
-        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String key = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
         String startLocation = null;
         String endLocation = null;
         String waypoint_1 = "";
@@ -300,7 +300,7 @@ public class NetworkUtils {
     }
 
     public static String linkGooglePlace(String input){
-        String key = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
+        String key = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
         String text = null;
         try {
             text = URLEncoder.encode(input, "UTF-8");
