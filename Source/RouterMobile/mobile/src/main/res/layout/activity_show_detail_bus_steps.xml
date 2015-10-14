@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dip">
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:orientation="horizontal"
+    android:padding="5dip"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
-    <TextView
-        android:id="@+id/txtTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="8"
-        android:gravity="left|center"
-        android:padding="5dip"
-        android:textColor="#616161"
-        android:textSize="16sp" />
+        android:orientation="horizontal">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        card_view:cardCornerRadius="4dp">
+        <ImageView
+            android:id="@+id/imgRoute"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="6" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtStartLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:text="Tran Thanh Ngoan"
+                android:textColor="#000"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -40,56 +47,29 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/txtRouteNo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:layout_weight="5"
+                        android:gravity="center"
                         android:padding="5dip"
-                        android:text="Duration:"
+                        android:text="18"
                         android:textColor="#1E88E5" />
 
                     <TextView
-                        android:id="@+id/txtDurationTime"
+                        android:id="@+id/txtRouteName"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dip"
                         android:layout_weight="1"
                         android:gravity="left|center"
+
                         android:padding="5dip"
                         android:textColor="#FB8C00"
                         android:textSize="14sp"
                         android:textStyle="normal" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="left|center"
-                        android:padding="5dip"
-                        android:text="Distance:"
-                        android:textColor="#1E88E5" />
-
-                    <TextView
-                        android:id="@+id/txtDistance"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dip"
-                        android:layout_weight="1"
-                        android:gravity="left|center"
-                        android:padding="5dip"
-                        android:textColor="#FB8C00"
-                        android:textSize="15sp"
-                        android:textStyle="normal" />
-
-                </LinearLayout>
-
 
             </LinearLayout>
 
@@ -98,33 +78,47 @@
                 android:layout_height="50dip"
                 android:orientation="horizontal">
 
-                <org.lucasr.twowayview.TwoWayView xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
-                    android:id="@+id/lvItems"
-                    style="@style/TwoWayView"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:drawSelectorOnTop="false" />
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgDrive"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:gravity="center"
+                        android:padding="7dip" />
+
+                    <TextView
+                        android:id="@+id/txtDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dip"
+                        android:layout_weight="1"
+                        android:gravity="left|center"
+
+                        android:padding="5dip"
+                        android:textColor="#FB8C00"
+                        android:textSize="14sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:padding="10dip"
-                    android:text="Tran Thanh Ngoan"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                android:text="Tran Thanh Ngoan"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:id="@+id/txtEndLocation"
+                android:gravity="left|center"/>
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+
 
 </LinearLayout>
