@@ -228,27 +228,29 @@ public class NetworkUtils {
             count = 3;
         }
         List<String> listPlace = listPlaceID;
-        String waypoints = "";
+
         for(int n = 0; n < count; n++) {
+            String waypoints = "";
             try {
                 if(count == 3) {
-                    String change = listPlace.get(n+1);
-                    listPlace.set(n+1, listPlace.get(1));
-                    listPlace.set(1, change);
+                    String change = listPlace.get(1);
+                    listPlace.set(1, listPlace.get(2));
+                    listPlace.set(2, listPlace.get(3));
+                    listPlace.set(3, change);
                 }
                 startLocation = URLEncoder.encode(listPlace.get(0), "UTF-8");
                 endLocation = URLEncoder.encode(listPlace.get(1), "UTF-8");
                 if (listPlace.size() == 3) {
                     waypoint_1 = URLEncoder.encode(listPlace.get(2), "UTF-8");
-                    waypoints = waypoints + "&waypoints=place_id:" + waypoint_1;
+                    waypoints = "&waypoints=place_id:" + waypoint_1;
 
                 }else if (listPlace.size() == 4) {
                     waypoint_1 = URLEncoder.encode(listPlace.get(2), "UTF-8");
                     waypoint_2 = URLEncoder.encode(listPlace.get(3), "UTF-8");
                     if (optimize) {
-                        waypoints = waypoints + "&waypoints=optimize:place_id:true" + "|place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
+                        waypoints = "&waypoints=optimize:place_id:true" + "|place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
                     } else {
-                        waypoints = waypoints + "&waypoints=place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
+                        waypoints = "&waypoints=place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
                     }
                 }
             } catch (UnsupportedEncodingException e) {
