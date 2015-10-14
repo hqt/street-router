@@ -1,5 +1,7 @@
 package com.fpt.router.library.model.common;
 
+import android.os.Parcel;
+
 import com.google.android.gms.wearable.DataMap;
 
 import java.util.ArrayList;
@@ -55,4 +57,33 @@ public class Model implements IWearableModel<Model> {
         return null;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.name);
+        dest.writeLong(this.time);
+        dest.writeParcelable(this.module, 0);
+    }
+
+    protected Model(Parcel in) {
+        this.id = in.readInt();
+        this.name = in.readString();
+        this.time = in.readLong();
+        this.module = in.readParcelable(SubModule.class.getClassLoader());
+    }
+
+    public static final Creator<Model> CREATOR = new Creator<Model>() {
+        public Model createFromParcel(Parcel source) {
+            return new Model(source);
+        }
+
+        public Model[] newArray(int size) {
+            return new Model[size];
+        }
+    };
 }
