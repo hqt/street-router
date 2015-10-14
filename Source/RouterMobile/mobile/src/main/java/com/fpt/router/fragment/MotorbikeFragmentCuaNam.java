@@ -161,7 +161,19 @@ public class MotorbikeFragmentCuaNam extends Fragment{
                 recyclerView.setAdapter(new RecyclerAdapterShowError((listError)));
                 return;
             }
-
+            if(listLocation.size() == 4) {
+                for (int n = 1; n >= 0; n--) {
+                    int valueCheck = JSONParseUtils.totalTime(listLegFinal.get((n + 1) * 3), listLegFinal.get((n + 1) * 3 + 1), listLegFinal.get((n + 1) * 3 + 2));
+                    int valueFinal = JSONParseUtils.totalTime(listLegFinal.get(n * 3), listLegFinal.get(n * 3 + 1), listLegFinal.get(n * 3 + 2));
+                    if (valueFinal > valueCheck) {
+                        for (int i = 0; i < 3; i++) {
+                            Leg leg = listLegFinal.get((n + 1) * 3 + i);
+                            listLegFinal.set((n + 1) * 3 + i, listLegFinal.get(n * 3 + i));
+                            listLegFinal.set(n * 3 + i, leg);
+                        }
+                    }
+                }
+            }
             listLeg = listLegFinal;
             recyclerView.setAdapter(new MotorbikeAdapterCuaNam());
         }

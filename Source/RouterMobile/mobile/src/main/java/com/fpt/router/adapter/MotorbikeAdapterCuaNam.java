@@ -32,6 +32,9 @@ public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapte
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
+        if(listLocation.size() == 3) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_three_point,parent,false);
+        }
         routerViewHolder = new RouterViewHolder(v);
         return routerViewHolder;
     }

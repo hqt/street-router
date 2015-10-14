@@ -15,7 +15,7 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
     private String EndAddress;
     private String StartAddress;
     private DetailLocation DetailLocation;
-    private ArrayList<Step> Step;
+    private List<Step> Step;
     private String Overview_polyline;
 
     public Leg() {
@@ -54,7 +54,7 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
         DetailLocation = detailLocation;
     }
 
-    public ArrayList<com.fpt.router.library.model.motorbike.Step> getStep() {
+    public List<com.fpt.router.library.model.motorbike.Step> getStep() {
         return Step;
     }
 
@@ -72,31 +72,32 @@ public class Leg  implements Serializable, IWearableModel<Leg> {
 
     @Override
     public void dataMapToModel(DataMap dataMap) {
-        this.EndAddress = dataMap.getString("end_address");
-        this.StartAddress = dataMap.getString("start_address");
-
-        this.DetailLocation = new DetailLocation();
-        this.DetailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
+        this.StartAddress = dataMap.getString("start_location");
+        this.EndAddress = dataMap.getString("end_location");
 
         // dummy step for calling function
         Step step = new Step();
-        this.Step = step.dataMapToListModel(dataMap.getDataMap("list_step"));
+        dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(Step));
 
         this.Overview_polyline = dataMap.getString("overview_polyline");
+        this.DetailLocation = new DetailLocation();
+        this.DetailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
     }
 
     @Override
     public DataMap putToDataMap() {
         DataMap dataMap = new DataMap();
-        dataMap.putString("end_address", EndAddress);
-        dataMap.putString("start_address", StartAddress);
-        dataMap.putDataMap("detail_location", DetailLocation.putToDataMap());
+
+        dataMap.putString("start_location", StartAddress);
+        dataMap.putString("end_location", EndAddress);
 
         // dummy step for calling function
         Step step = new Step();
         dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(Step));
 
         dataMap.putString("overview_polyline", Overview_polyline);
+        dataMap.putDataMap("detail_location", DetailLocation.putToDataMap());
+
         return dataMap;
     }
 

@@ -153,7 +153,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         MapUtils.drawLine(mMap, list, Color.BLUE);
         // Move the camera to show the marker.
         LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
     }
 
     @Override
