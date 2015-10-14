@@ -53,8 +53,9 @@ public class MotorbikeAdapterCuaNam extends RecyclerView.Adapter<MotorbikeAdapte
             duration = duration + listLeg.get(n).getDetailLocation().getDuration();
             distance = distance + listLeg.get(n).getDetailLocation().getDistance();
         }
+        Double totalDuration = (double)duration;
         Double totalDistance = (double)distance;
-        holder.duration.setText(duration + "");
+        holder.duration.setText(totalDuration/60 + " phút");
         holder.distance.setText(totalDistance/1000+" Km");
         holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
         holder.way_point_1.setText(listLeg.get(position*countPoint).getEndAddress());
