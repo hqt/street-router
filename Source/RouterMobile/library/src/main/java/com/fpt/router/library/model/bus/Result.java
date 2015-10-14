@@ -2,6 +2,7 @@ package com.fpt.router.library.model.bus;
 
 import org.joda.time.Period;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Purpose:
  * Created by Huynh Quang Thao on 10/4/15.
  */
-public class Result {
+public class Result implements Serializable {
     public String code;
     public double totalDistance;
     public Period totalTime;

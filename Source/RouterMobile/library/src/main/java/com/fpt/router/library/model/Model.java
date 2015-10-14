@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Huynh Quang Thao on 10/13/15.
  */
-public class Model implements IWearableModel {
+public class Model implements IWearableModel<Model> {
     public static int count = 0;
 
     public int id;

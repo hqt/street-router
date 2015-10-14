@@ -107,13 +107,13 @@ import com.google.gson.stream.JsonWriter;
  * }</pre>
  * Next register all of your subtypes. Every subtype must be explicitly
  * registered. This protects your application from injection attacks. If you
- * don't supply an explicit fuckingDrive label, the fuckingDrive's simple name will be used.
+ * don't supply an explicit type label, the type's simple name will be used.
  * <pre>   {@code
  *   shapeAdapter.registerSubtype(Rectangle.class, "Rectangle");
  *   shapeAdapter.registerSubtype(Circle.class, "Circle");
  *   shapeAdapter.registerSubtype(Diamond.class, "Diamond");
  * }</pre>
- * Finally, register the fuckingDrive adapter in your application's GSON builder:
+ * Finally, register the type adapter in your application's GSON builder:
  * <pre>   {@code
  *   Gson gson = new GsonBuilder()
  *       .registerTypeAdapter(Shape.class, shapeAdapter)

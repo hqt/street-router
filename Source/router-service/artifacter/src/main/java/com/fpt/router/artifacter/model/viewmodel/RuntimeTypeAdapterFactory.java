@@ -38,8 +38,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
 /**
- * Adapts values whose runtime fuckingDrive may differ from their declaration fuckingDrive. This
- * is necessary when a field's fuckingDrive is not the same fuckingDrive that GSON should create
+ * Adapts values whose runtime pathType may differ from their declaration pathType. This
+ * is necessary when a field's pathType is not the same pathType that GSON should create
  * when deserializing that field. For example, consider these types:
  * <pre>   {@code
  *   abstract class Shape {
@@ -62,7 +62,7 @@ import com.google.gson.stream.JsonWriter;
  *     Shape topShape;
  *   }
  * }</pre>
- * <p>Without additional fuckingDrive information, the serialized JSON is ambiguous. Is
+ * <p>Without additional pathType information, the serialized JSON is ambiguous. Is
  * the bottom shape in this drawing a rectangle or a diamond? <pre>   {@code
  *   {
  *     "bottomShape": {
@@ -77,43 +77,43 @@ import com.google.gson.stream.JsonWriter;
  *       "y": 1
  *     }
  *   }}</pre>
- * This class addresses this problem by adding fuckingDrive information to the
- * serialized JSON and honoring that fuckingDrive information when the JSON is
+ * This class addresses this problem by adding pathType information to the
+ * serialized JSON and honoring that pathType information when the JSON is
  * deserialized: <pre>   {@code
  *   {
  *     "bottomShape": {
- *       "fuckingDrive": "Diamond",
+ *       "pathType": "Diamond",
  *       "width": 10,
  *       "height": 5,
  *       "x": 0,
  *       "y": 0
  *     },
  *     "topShape": {
- *       "fuckingDrive": "Circle",
+ *       "pathType": "Circle",
  *       "radius": 2,
  *       "x": 4,
  *       "y": 1
  *     }
  *   }}</pre>
- * Both the fuckingDrive field name ({@code "fuckingDrive"}) and the fuckingDrive labels ({@code
+ * Both the pathType field name ({@code "pathType"}) and the pathType labels ({@code
  * "Rectangle"}) are configurable.
  * <p/>
  * <h3>Registering Types</h3>
- * Create a {@code RuntimeTypeAdapter} by passing the base fuckingDrive and fuckingDrive field
- * name to the {@link #of} factory method. If you don't supply an explicit fuckingDrive
- * field name, {@code "fuckingDrive"} will be used. <pre>   {@code
+ * Create a {@code RuntimeTypeAdapter} by passing the base pathType and pathType field
+ * name to the {@link #of} factory method. If you don't supply an explicit pathType
+ * field name, {@code "pathType"} will be used. <pre>   {@code
  *   RuntimeTypeAdapter<Shape> shapeAdapter
- *       = RuntimeTypeAdapter.of(Shape.class, "fuckingDrive");
+ *       = RuntimeTypeAdapter.of(Shape.class, "pathType");
  * }</pre>
  * Next register all of your subtypes. Every subtype must be explicitly
  * registered. This protects your application from injection attacks. If you
- * don't supply an explicit fuckingDrive label, the fuckingDrive's simple name will be used.
+ * don't supply an explicit pathType label, the pathType's simple name will be used.
  * <pre>   {@code
  *   shapeAdapter.registerSubtype(Rectangle.class, "Rectangle");
  *   shapeAdapter.registerSubtype(Circle.class, "Circle");
  *   shapeAdapter.registerSubtype(Diamond.class, "Diamond");
  * }</pre>
- * Finally, register the fuckingDrive adapter in your application's GSON builder:
+ * Finally, register the pathType adapter in your application's GSON builder:
  * <pre>   {@code
  *   Gson gson = new GsonBuilder()
  *       .registerTypeAdapter(Shape.class, shapeAdapter)
@@ -141,27 +141,27 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
     }
 
     /**
-     * Creates a new runtime fuckingDrive adapter using for {@code baseType} using {@code
-     * typeFieldName} as the fuckingDrive field name. Type field names are case sensitive.
+     * Creates a new runtime pathType adapter using for {@code baseType} using {@code
+     * typeFieldName} as the pathType field name. Type field names are case sensitive.
      */
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName) {
         return new RuntimeTypeAdapterFactory<T>(baseType, typeFieldName);
     }
 
     /**
-     * Creates a new runtime fuckingDrive adapter for {@code baseType} using {@code "fuckingDrive"} as
-     * the fuckingDrive field name.
+     * Creates a new runtime pathType adapter for {@code baseType} using {@code "pathType"} as
+     * the pathType field name.
      */
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType) {
-        return new RuntimeTypeAdapterFactory<T>(baseType, "fuckingDrive");
+        return new RuntimeTypeAdapterFactory<T>(baseType, "pathType");
     }
 
     /**
-     * Registers {@code fuckingDrive} identified by {@code label}. Labels are case
+     * Registers {@code pathType} identified by {@code label}. Labels are case
      * sensitive.
      *
-     * @throws IllegalArgumentException if either {@code fuckingDrive} or {@code label}
-     *                                  have already been registered on this fuckingDrive adapter.
+     * @throws IllegalArgumentException if either {@code pathType} or {@code label}
+     *                                  have already been registered on this pathType adapter.
      */
     public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label) {
         if (type == null || label == null) {
@@ -176,11 +176,11 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
     }
 
     /**
-     * Registers {@code fuckingDrive} identified by its {@link Class#getSimpleName simple
+     * Registers {@code pathType} identified by its {@link Class#getSimpleName simple
      * name}. Labels are case sensitive.
      *
-     * @throws IllegalArgumentException if either {@code fuckingDrive} or its simple name
-     *                                  have already been registered on this fuckingDrive adapter.
+     * @throws IllegalArgumentException if either {@code pathType} or its simple name
+     *                                  have already been registered on this pathType adapter.
      */
     public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type) {
         return registerSubtype(type, type.getSimpleName());

@@ -2,6 +2,7 @@ package com.fpt.router.crawler.test;
 
 
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
+import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.MapDAL;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
@@ -29,10 +30,26 @@ public class AlgorithmTest {
         end.latitude = 10.853132;
         end.longitude = 106.626289;
 
+        Location cvpm = new Location();
+        cvpm.latitude = 10.855090;
+        cvpm.longitude= 106.628394;
+
+        Location an_phu = new Location();
+        an_phu.latitude = 10.801913;
+        an_phu.longitude = 106.764747;
+
+        Location cho_ba_chieu = new Location();
+        cho_ba_chieu.latitude = 10.801605;
+        cho_ba_chieu.longitude = 106.698817;
+
+        Location maximark = new Location();
+        maximark.latitude = 10.800767;
+        maximark.longitude = 106.659483;
+
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
         LocalTime time = new LocalTime(10, 0);
-        String res = twoPointAlgorithm.run(map, start, end, "Ben Thanh market", "Software Park", time,
-                                            300, 2, false);
+        String res = twoPointAlgorithm.run(map, cvpm, maximark, "Ben Thanh market", "Software Park", time,
+                Config.WALKING_DISTANCE, 2, false);
         System.out.println(res);
     }
 }
