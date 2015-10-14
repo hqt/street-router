@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
+import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ public class SearchRouteActivity extends AppCompatActivity {
     private TextView edit_1;
     private TextView edit_2;
     public static ViewPagerAdapter adapter;
+    public static List<Leg> listLeg = new ArrayList<>();
+
     public static List<String> listLocation = new ArrayList<>();
     private List<String> location;
     public static Boolean optimize = true;

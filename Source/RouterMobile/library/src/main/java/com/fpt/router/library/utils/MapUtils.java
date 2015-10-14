@@ -1,5 +1,11 @@
 package com.fpt.router.library.utils;
 
+import android.graphics.Color;
+
+import com.fpt.router.library.model.motorbike.DetailLocation;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -77,4 +83,66 @@ public class MapUtils {
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
+    public static void drawMapWithTwoPoint(GoogleMap mMap, List<Leg> input) {
+        List<Leg> listLeg = input;
+        //Start Point
+        Leg leg = listLeg.get(0);
+        Location start_location = leg.getDetailLocation().getStart_location();
+        Double latitude = start_location.getLatitude();
+        Double longitude = start_location.getLongitude();
+        drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_GREEN);
+
+        //EndPoint
+        Location end_location = leg.getDetailLocation().getEnd_location();
+        latitude = end_location.getLatitude();
+        longitude = end_location.getLongitude();
+        drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);
+        String encodedString;
+        List<LatLng> list;
+        encodedString = leg.getOverview_polyline();
+        list = DecodeUtils.decodePoly(encodedString);
+        drawLine(mMap, list, Color.BLUE);
+        // Move the camera to show the marker.
+        LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
+        moveCamera(mMap, latLng.latitude, latLng.longitude, 13);
+    }
+
+    public static void drawMapWithFourPoint(GoogleMap mMap, List<Leg> listFinalLeg) {
+        Leg leg;
+        Double latitude;
+        Double longitude;
+        for (int i = 0; i < listFinalLeg.size(); i++) {
+            leg = listFinalLeg.get(i);
+            DetailLocation detalL = leg.getDetailLocation();
+            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
+            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
+            // latitude and longitude
+
+            if (i == 0) {
+                latitude = end_location.getLatitude();
+                longitude = end_location.getLongitude();
+                MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_YELLOW);
+
+                latitude = start_location.getLatitude();
+                longitude = start_location.getLongitude();
+                drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_GREEN);
+            }
+            if (i == listFinalLeg.size() - 1) {
+                latitude = end_location.getLatitude();
+                longitude = end_location.getLongitude();
+                drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);
+
+                latitude = start_location.getLatitude();
+                longitude = start_location.getLongitude();
+                drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_YELLOW);
+            }
+
+            //add polyline
+            String encodedString = leg.getOverview_polyline();
+            List<LatLng> listLatLng = DecodeUtils.decodePoly(encodedString);
+            drawLine(mMap, listLatLng, Color.BLUE);
+            LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
+            moveCamera(mMap, latLng.latitude, latLng.longitude, 12);
+        }
+    }
 }

@@ -190,27 +190,6 @@ public class MotorDetailTwoPointFragment extends Fragment implements GoogleApiCl
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-                DetailLocation detalL = routerDetailTwoPoint.getDetailLocation();
-                com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
-                com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
-                // latitude and longitude
-
-                latitude = end_location.getLatitude();
-                longitude = end_location.getLongitude();
-                MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getEndLocation(), BitmapDescriptorFactory.HUE_RED);
-
-
-                latitude = start_location.getLatitude();
-                longitude = start_location.getLongitude();
-                MapUtils.drawPointColor(mMap, latitude, longitude, routerDetailTwoPoint.getStartLocation(), BitmapDescriptorFactory.HUE_GREEN);
-                LatLng latLng = new LatLng(latitude, longitude);
-                moveToLocation(latLng, true);
-                //add polyline
-                encodedString = routerDetailTwoPoint.getOverview_polyline();
-                list = DecodeUtils.decodePoly(encodedString);
-                MapUtils.drawLine(mMap, list, Color.BLUE);
-                MapUtils.moveCamera(mMap, latitude, longitude, 12);
-
             }
         }
     }
@@ -382,7 +361,7 @@ public class MotorDetailTwoPointFragment extends Fragment implements GoogleApiCl
         dataMap.putDouble("lng", count++);
         dataMap.putDouble("lat", 10.7467632);
         //Requires a new thread to avoid blocking the UI
-        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_TWO_POINT, dataMap).start();
+        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_LEG, dataMap).start();
     }
 
     @Override

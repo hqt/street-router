@@ -17,6 +17,7 @@ public class AppConstants {
         private static final String MESSAGE_PATH = "/com/fpt/router/wear";
         public static final String MESSAGE_PATH_FOUR_POINT = MESSAGE_PATH + "/fourpoint";
         public static final String MESSAGE_PATH_TWO_POINT = MESSAGE_PATH + "/twopoint";
+        public static final String MESSAGE_PATH_LEG = MESSAGE_PATH + "/leg";
     }
 
     public static final class API {

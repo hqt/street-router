@@ -24,16 +24,19 @@ import java.util.List;
 public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAdapter.RouterViewHolder> {
 
     List<String> listLocation = SearchRouteActivity.listLocation;
-    List<Leg> listLeg = MotorFourPointFragment.listLeg;
+    List<Leg> listLeg = SearchRouteActivity.listLeg;
     int countPoint = listLocation.size() - 1;
     View v;
     RouterViewHolder routerViewHolder;
 
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
-        if(listLocation.size() == 3) {
+        if (listLocation.size() == 2 ){
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_two_point,parent,false);
+        }else if (listLocation.size() == 3) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_three_point,parent,false);
+        } else if (listLocation.size() == 4) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
         }
         routerViewHolder = new RouterViewHolder(v);
         return routerViewHolder;
@@ -53,13 +56,14 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
             duration = duration + listLeg.get(n).getDetailLocation().getDuration();
             distance = distance + listLeg.get(n).getDetailLocation().getDistance();
         }
-        Double totalDuration = (double)duration;
         Double totalDistance = (double)distance;
-        holder.duration.setText(totalDuration/60 + " phút");
+        holder.duration.setText(duration/60 + " phút");
         holder.distance.setText(totalDistance/1000+" Km");
         holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
-        holder.way_point_1.setText(listLeg.get(position*countPoint).getEndAddress());
-        if(listLocation.size() == 4) {
+        if (listLocation.size() > 2) {
+            holder.way_point_1.setText(listLeg.get(position * countPoint).getEndAddress());
+        }
+        if (listLocation.size() > 3) {
             holder.way_point_2.setText(listLeg.get(position * countPoint + (countPoint - 1)).getStartAddress());
         }
         holder.endLocation.setText(listLeg.get(position*countPoint+(countPoint-1)).getEndAddress());

@@ -41,8 +41,6 @@ public class MotorFourPointFragment extends Fragment{
     private String status;
     private List<String> listError;
 
-    public static List<Leg> listLeg = new ArrayList<>();
-
     public MotorFourPointFragment() {
 
     }
@@ -74,7 +72,7 @@ public class MotorFourPointFragment extends Fragment{
             jsonParseTask.execute();
 
         } else {
-            listLeg = new ArrayList<>();
+            SearchRouteActivity.listLeg = new ArrayList<>();
         }
 
         View v = inflater.inflate(R.layout.fragment_list_view, container, false);
@@ -175,7 +173,7 @@ public class MotorFourPointFragment extends Fragment{
                     }
                 }
             }
-            listLeg = listLegFinal;
+            SearchRouteActivity.listLeg = listLegFinal;
             recyclerView.setAdapter(new MotorFourPointAdapter());
         }
     }

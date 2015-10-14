@@ -88,27 +88,14 @@ public class DataLayerListenerService extends WearableListenerService
                 String path = dataItem.getUri().getPath();
                 Intent intent = new Intent( this, MainActivity.class );
                 Bundle bundle = new Bundle();
-                if (path.equals(AppConstants.PATH.MESSAGE_PATH_TWO_POINT)) {
-                    DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
-                    RouterDetailTwoPoint routerDetailTwoPoint = new RouterDetailTwoPoint();
-                    routerDetailTwoPoint.dataMapToModel(dataMap);
-                    Log.e("hqthao", "Start: " + routerDetailTwoPoint.getStartLocation());
-                    Log.e("hqthao", "Latitude: " + routerDetailTwoPoint.getDetailLocation().getStart_location().getLatitude());
-                    Log.e("hqthao", "Longiude: " + routerDetailTwoPoint.getDetailLocation().getStart_location().getLongitude());
-                    Log.e("Name", "All: " + dataMap);
-
-                    // send to activity
-                    bundle.putSerializable("two_point", routerDetailTwoPoint);
-                } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT)) {
+                if (path.equals(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT)) {
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     Leg leg = new Leg();
-                    ArrayList<Leg> legs = leg.dataMapToListModel(dataMap);
-
+                    MainActivity.listLeg = leg.dataMapToListModel(dataMap);
                     // send to activity
-                    bundle.putSerializable("four_point", legs);
                 }
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
