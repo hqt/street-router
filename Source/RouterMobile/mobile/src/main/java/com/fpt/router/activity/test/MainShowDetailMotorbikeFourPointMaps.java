@@ -84,7 +84,7 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
     public static MainShowDetailMotorbikeFourPointMaps newInstance(RouterDetailFourPoint routerDetailFourPoint) {
         MainShowDetailMotorbikeFourPointMaps f = new MainShowDetailMotorbikeFourPointMaps();
         Bundle args = new Bundle();
-        args.putSerializable("routerDetailFourPoint", routerDetailFourPoint);
+        args.putParcelable("routerDetailFourPoint", routerDetailFourPoint);
         f.setArguments(args);
         return f;
     }

@@ -1,5 +1,8 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by asus on 10/11/2015.
  */
-public class RouterDetailTwoPoint implements Serializable, IWearableModel<RouterDetailTwoPoint> {
+public class RouterDetailTwoPoint implements IWearableModel<RouterDetailTwoPoint> {
     private int duration;
     private double distance;
     private String startLocation;
@@ -132,4 +135,40 @@ public class RouterDetailTwoPoint implements Serializable, IWearableModel<Router
     public ArrayList<DataMap> listModelToDataMap(List<RouterDetailTwoPoint> items) {
         throw new NoSuchMethodError();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.duration);
+        dest.writeDouble(this.distance);
+        dest.writeString(this.startLocation);
+        dest.writeString(this.endLocation);
+        dest.writeTypedList(steps);
+        dest.writeString(this.overview_polyline);
+        dest.writeParcelable(this.detailLocation, 0);
+    }
+
+    protected RouterDetailTwoPoint(Parcel in) {
+        this.duration = in.readInt();
+        this.distance = in.readDouble();
+        this.startLocation = in.readString();
+        this.endLocation = in.readString();
+        this.steps = in.createTypedArrayList(Step.CREATOR);
+        this.overview_polyline = in.readString();
+        this.detailLocation = in.readParcelable(DetailLocation.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<RouterDetailTwoPoint> CREATOR = new Parcelable.Creator<RouterDetailTwoPoint>() {
+        public RouterDetailTwoPoint createFromParcel(Parcel source) {
+            return new RouterDetailTwoPoint(source);
+        }
+
+        public RouterDetailTwoPoint[] newArray(int size) {
+            return new RouterDetailTwoPoint[size];
+        }
+    };
 }

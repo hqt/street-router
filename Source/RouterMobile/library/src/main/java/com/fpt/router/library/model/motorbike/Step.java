@@ -1,5 +1,8 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by USER on 9/29/2015.
  */
-public class Step implements Serializable, IWearableModel<Step> {
+public class Step implements IWearableModel<Step> {
     private String Instruction;
     private String Maneuver;
     private DetailLocation DetailLocation;
@@ -90,4 +93,32 @@ public class Step implements Serializable, IWearableModel<Step> {
         }
         return res;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.Instruction);
+        dest.writeString(this.Maneuver);
+        dest.writeParcelable(this.DetailLocation, 0);
+    }
+
+    protected Step(Parcel in) {
+        this.Instruction = in.readString();
+        this.Maneuver = in.readString();
+        this.DetailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
+        public Step createFromParcel(Parcel source) {
+            return new Step(source);
+        }
+
+        public Step[] newArray(int size) {
+            return new Step[size];
+        }
+    };
 }

@@ -1,5 +1,8 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by USER on 9/29/2015.
  */
-public class DetailLocation implements Serializable, IWearableModel<DetailLocation> {
+public class DetailLocation implements IWearableModel<DetailLocation> {
     private int distance;
     private int duration;
     private Location end_location;
@@ -90,4 +93,34 @@ public class DetailLocation implements Serializable, IWearableModel<DetailLocati
     public ArrayList<DataMap> listModelToDataMap(List<DetailLocation> items) {
         throw new NoSuchMethodError();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.distance);
+        dest.writeInt(this.duration);
+        dest.writeParcelable(this.end_location, 0);
+        dest.writeParcelable(this.start_location, 0);
+    }
+
+    protected DetailLocation(Parcel in) {
+        this.distance = in.readInt();
+        this.duration = in.readInt();
+        this.end_location = in.readParcelable(Location.class.getClassLoader());
+        this.start_location = in.readParcelable(Location.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<DetailLocation> CREATOR = new Parcelable.Creator<DetailLocation>() {
+        public DetailLocation createFromParcel(Parcel source) {
+            return new DetailLocation(source);
+        }
+
+        public DetailLocation[] newArray(int size) {
+            return new DetailLocation[size];
+        }
+    };
 }

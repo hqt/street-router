@@ -1,5 +1,8 @@
 package com.fpt.router.library.model.motorbike;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
@@ -10,7 +13,7 @@ import java.util.List;
 /**
  * Created by asus on 10/11/2015.
  */
-public class RouterDetailFourPoint implements Serializable, IWearableModel<RouterDetailFourPoint> {
+public class RouterDetailFourPoint implements IWearableModel<RouterDetailFourPoint> {
     private int duration;
     private double distance;
     private String startLocation;
@@ -147,4 +150,42 @@ public class RouterDetailFourPoint implements Serializable, IWearableModel<Route
     public ArrayList<DataMap> listModelToDataMap(List<RouterDetailFourPoint> items) {
         throw new NoSuchMethodError();
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.duration);
+        dest.writeDouble(this.distance);
+        dest.writeString(this.startLocation);
+        dest.writeString(this.endLocation);
+        dest.writeString(this.way_point_1);
+        dest.writeString(this.way_point_2);
+        dest.writeTypedList(steps);
+        dest.writeTypedList(legs);
+    }
+
+    protected RouterDetailFourPoint(Parcel in) {
+        this.duration = in.readInt();
+        this.distance = in.readDouble();
+        this.startLocation = in.readString();
+        this.endLocation = in.readString();
+        this.way_point_1 = in.readString();
+        this.way_point_2 = in.readString();
+        this.steps = in.createTypedArrayList(Step.CREATOR);
+        this.legs = in.createTypedArrayList(Leg.CREATOR);
+    }
+
+    public static final Parcelable.Creator<RouterDetailFourPoint> CREATOR = new Parcelable.Creator<RouterDetailFourPoint>() {
+        public RouterDetailFourPoint createFromParcel(Parcel source) {
+            return new RouterDetailFourPoint(source);
+        }
+
+        public RouterDetailFourPoint[] newArray(int size) {
+            return new RouterDetailFourPoint[size];
+        }
+    };
 }
