@@ -27,8 +27,6 @@ public class BusDetailTwoPointActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        /*Leg leg = (Leg) getIntent().getSerializableExtra("Leg");
-        Log.i("GoogleMapBus Leg",leg.toString());*/
         Bundle bundle  = getIntent().getExtras();
         Result result = (Result)getIntent().getSerializableExtra("result");
 
