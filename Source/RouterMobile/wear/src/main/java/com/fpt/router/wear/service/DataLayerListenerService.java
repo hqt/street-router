@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.MessagePath;
+import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -22,6 +24,8 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * A {@link com.google.android.gms.wearable.WearableListenerService} service that is invoked upon
@@ -40,6 +44,7 @@ public class DataLayerListenerService extends WearableListenerService
     private static final String WEARABLE_DATA_PATH = "/wearable_data";
 
     private GoogleApiClient mGoogleApiClient;
+    private EventBus bus = EventBus.getDefault();
 
     private boolean mConnected = false;
     private final static long TIMEOUT_S = 10; // how long to wait for GoogleApi Client connection
@@ -79,7 +84,6 @@ public class DataLayerListenerService extends WearableListenerService
         Log.e("hqthao", "On Data Changed");
 
         for (DataEvent event : dataEvents) {
-            int c = 10;
 
             // Check the data type
             if (event.getType() == DataEvent.TYPE_CHANGED) {
@@ -92,12 +96,22 @@ public class DataLayerListenerService extends WearableListenerService
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     Leg leg = new Leg();
                     MainActivity.listLeg = leg.dataMapToListModel(dataMap);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    Log.e("Nam", dataMap+ "");
                     // send to activity
+                } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_GPS)) {
+                    Log.e("Nam", "aaa");
+                    DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
+                    dataMap = dataMap.getDataMap("location");
+                    Location location = new Location();
+                    location.dataMapToModel(dataMap);
+                    LocationGPSMessage locationGPSMessage = new LocationGPSMessage(location);
+                    bus.post(locationGPSMessage);
+                    Log.e("Nam", dataMap +"");
                 }
 
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtras(bundle);
-                startActivity(intent);
+
             }
         }
     }

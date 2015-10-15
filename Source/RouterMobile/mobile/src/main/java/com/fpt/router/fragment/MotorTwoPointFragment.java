@@ -149,7 +149,7 @@ public class MotorTwoPointFragment extends Fragment {
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
-            for(int i = 1; i >= 0; i--) {
+            for(int i = listLeg.size()-2; i >= 0; i--) {
                 if(listLeg.get(i+1).getDetailLocation().getDuration() < listLeg.get(i).getDetailLocation().getDuration()) {
                     Leg leg = listLeg.get(i+1);
                     listLeg.set(i+1, listLeg.get(i));

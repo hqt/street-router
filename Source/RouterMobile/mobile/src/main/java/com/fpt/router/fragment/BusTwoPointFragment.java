@@ -103,7 +103,7 @@ public class BusTwoPointFragment extends Fragment {
 
                     String json = NetworkUtils.getLocationGoogleAPI(address_1);
                     JSONObject jsonObject = new JSONObject(json);
-                    Location location = JSONParseUtils.getLocation(jsonObject);
+                    Location location = JSONParseUtils.getmCurrentLocation(jsonObject);
                     BusLocation busLocation = new BusLocation();
                     busLocation.setAddress(address_1);
                     busLocation.setLatitude(location.getLatitude());

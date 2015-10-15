@@ -27,4 +27,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.2.0'
     compile 'com.google.android.gms:play-services-maps:8.1.0'
+    compile 'de.greenrobot:eventbus:2.4.0'
+
 }

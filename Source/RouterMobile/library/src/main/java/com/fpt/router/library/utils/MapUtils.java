@@ -11,6 +11,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -32,7 +33,8 @@ public class MapUtils {
         // adding marker
         map.addMarker(marker);
     }
-    public static void drawPointColor(GoogleMap map, double latitude, double longitude, String title, float colorMarker) {
+
+    public static Marker drawPointColor(GoogleMap map, double latitude, double longitude, String title, float colorMarker) {
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
                 .title(title);
@@ -41,7 +43,7 @@ public class MapUtils {
         marker.icon(BitmapDescriptorFactory.defaultMarker(colorMarker));
 
         // adding marker
-        map.addMarker(marker);
+        return map.addMarker(marker);
     }
 
     public static void drawStartPoint(GoogleMap map, double latitude, double longitude, String title){
@@ -55,6 +57,7 @@ public class MapUtils {
         // adding marker
         map.addMarker(marker);
     }
+
     public static void drawEndPoint(GoogleMap map, double latitude, double longitude, String title){
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
@@ -144,5 +147,9 @@ public class MapUtils {
             LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
             moveCamera(mMap, latLng.latitude, latLng.longitude, 12);
         }
+    }
+
+    public static void navigateMap(Location location) {
+
     }
 }

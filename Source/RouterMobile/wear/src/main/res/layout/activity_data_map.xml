@@ -17,9 +17,9 @@
   limitations under the License.
   -->
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:id="@+id/root_container"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
@@ -34,6 +34,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:name="com.google.android.gms.maps.MapFragment"/>
+
+        <ImageView
+            android:id="@+id/tracking_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fabSize="normal"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:maxHeight="32dp"
+            android:maxWidth="32dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            app:backgroundTint="#F1F1F1"
+            android:src="@drawable/current_place"
+            android:layout_gravity="right|top" />
 
     </FrameLayout>
 
