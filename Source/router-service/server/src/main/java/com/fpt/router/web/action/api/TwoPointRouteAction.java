@@ -63,13 +63,13 @@ public class TwoPointRouteAction implements IAction {
         end.latitude = latB;
         end.longitude = longB;
 
-        TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
-        String json = algorithm.run(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false);
+//        TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
+//        String json = algorithm.run(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false);
 
         System.out.println("algorithm finish zzzzzz");
         PrintWriter out = context.getWriter();
-        System.out.println(json);
-        out.write(json);
+        System.out.println(DummyResult.twoPointJSonStr);
+        out.write(DummyResult.twoPointJSonStr);
 
 
         return Config.AJAX_FORMAT;

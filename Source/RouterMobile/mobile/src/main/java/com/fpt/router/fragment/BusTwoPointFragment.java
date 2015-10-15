@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +16,21 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.utils.NetworkUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
+import org.json.JSONArray;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +46,6 @@ public class BusTwoPointFragment extends Fragment {
     private List<String> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
     private List<Result> results;
-
 
     public BusTwoPointFragment() {
 
@@ -53,6 +67,22 @@ public class BusTwoPointFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open("test.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
     @Override
@@ -89,14 +119,26 @@ public class BusTwoPointFragment extends Fragment {
 
         @Override
         protected List<Result> doInBackground(String... args) {
-            return new ArrayList<Result>();
+
+            List<Result> resultList = new ArrayList<Result>();
+
+
+            //test with file in assets
+            /*Gson gson1 = JSONUtils.buildGson();
+            try {
+                resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
+                }.getType());
+           } catch (Exception e) {
+                e.printStackTrace();
+            }*/
+
+
+            //test test with service real
             /*String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
             List<Result> resultList = new ArrayList<Result>();
-
-            Gson gson = new Gson();
             try {
                 for (int i = 0; i < listLocation.size(); i++) {
                     String address_1 = listLocation.get(i);
@@ -110,35 +152,24 @@ public class BusTwoPointFragment extends Fragment {
                     busLocation.setLongitude(location.getLongitude());
                     busLocations.add(busLocation);
                 }
-
-                *//*String url = "http://192.168.43.33:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
-                String json = NetworkUtils.download(url);*//*
                 jsonFromServer = NetworkUtils.getJsonFromServer(busLocations);
-               *//* Result result = JSONParseUtils.parseJsonResult(json);*//*
-               *//*object = new JSONObject(jsonFromServer);
-                jsonArray = object.getJSONArray("abc");
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject resultObject = jsonArray.getJSONObject(i);
-                    BufferedReader br = new BufferedReader(
-                            new StringReader(jsonFromServer));
-                    Result result = gson.fromJson(br, Result.class);
-                    resultList.add(result);
-                }
-*//*
-               *//* BufferedReader br = new BufferedReader(
-                        new StringReader(jsonFromServer));*//*
                 Gson gson1 = JSONUtils.buildGson();
-                resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>(){}.getType());
-                Log.e("hqthao", resultList.size() + "  FUCK");
-                int a  = 3;
+                resultList = gson1.fromJson(json, new TypeToken<List<Result>>(){}.getType());
+                */
 
-               // Result result = gson.fromJson(jsonFromServer, Result.class);
-               // resultList.add(result);
 
-            } catch (JSONException e) {
+            //test server
+
+            String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
+            String json = NetworkUtils.download(url);
+            Gson gson1 = JSONUtils.buildGson();
+            resultList = gson1.fromJson(json, new TypeToken<List<Result>>() {
+            }.getType());
+
+           /* } catch (JSONException e) {
                 e.printStackTrace();
-            }
-            return resultList;*/
+            }*/
+            return resultList;
         }
 
         @Override

@@ -1,13 +1,18 @@
 package com.fpt.router.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.BusDetailTwoPointActivity;
+import com.fpt.router.adapter.test.TestAdapter;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
@@ -25,7 +30,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
     List<Result> results;
     Result result;
-    List<Integer> images = new ArrayList<Integer>();
+
 
 
     public BusTwoPointAdapter(List<Result> results){
@@ -42,8 +47,10 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
     @Override
     public void onBindViewHolder(BusViewHoder holder, int position) {
         String viewDetail = null;
+        List<Integer> images = new ArrayList<Integer>();
         result = results.get(position);
         List<INode> nodeList = result.nodeList;
+        //set list image
         for (int i= 0 ;i<nodeList.size() -1;i++){
 
             if(nodeList.get(i) instanceof Path){
@@ -63,11 +70,12 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         if(nodeList.get(nodeList.size() - 1) instanceof Segment){
             images.add(R.drawable.ic_directions_bus_black_24dp);
         }
-        if(nodeList.get(position) instanceof Segment){
-            viewDetail = ((Segment) nodeList.get(position)).routeNo + "-"+((Segment) nodeList.get(position)).routeName;
-        }
-        if(nodeList.get(position) instanceof Path){
-            viewDetail = "Di bo";
+
+        //set total segment
+        for (int j=0;j<nodeList.size();j++){
+            if(nodeList.get(j) instanceof Segment){
+                viewDetail = "Tổng số tuyến xe bus: "+result.totalTransfer+" (tuyến số: "+((Segment) nodeList.get(j)).routeNo+" - tuyến số: "+((Segment) nodeList.get(j=j+1)).routeNo+")";
+            }
         }
 
         if(position == 0){
@@ -76,13 +84,22 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             holder.txtTitle.setText("Thêm kết quả cho đi motorbike ");
         }
 
+        /*List<String> items = new ArrayList<String>();
+        items.add("Item 1");
+        items.add("Item 2");
+        items.add("Item 3");
+        items.add("Item 4");
+*/
+        /*TestAdapter showImage = new TestAdapter(holder.context,images);*/
+        BusImageAdapter showImage = new BusImageAdapter(holder.context,images);
+        /*ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(holder.context,R.layout.simple_list_item_1,images);*/
+        holder.tvList.setAdapter(showImage);
 
-
-        BusImageAdapter showImage = new BusImageAdapter(holder.context,R.layout.activity_show_image,images);
-        holder.txtDuration.setText("" + result.minutes);
-        holder.txtDistance.setText(String.valueOf(result.totalDistance));
+        holder.txtDuration.setText(result.minutes+" mins");
+        double totalDistance = result.totalDistance/1000;
+        totalDistance = Math.floor(totalDistance*100)/100;
+        holder.txtDistance.setText(String.valueOf(totalDistance)+" km");
         holder.txtContent.setText(viewDetail);
-
     }
 
     @Override
@@ -114,12 +131,12 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
         @Override
         public void onClick(View view) {
-            /*Intent intent = new Intent(context, BusDetailTwoPointActivity.class);
+            Intent intent = new Intent(context, BusDetailTwoPointActivity.class);
             Bundle bundle = new Bundle();
             Result result = getResult(getPosition());
             bundle.putSerializable("result", result);
             intent.putExtras(bundle);
-            view.getContext().startActivity(intent);*/
+            view.getContext().startActivity(intent);
 
         }
     }
