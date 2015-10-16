@@ -131,12 +131,12 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, BusDetailTwoPointActivity.class);
+           /* Intent intent = new Intent(context, BusDetailTwoPointActivity.class);
             Bundle bundle = new Bundle();
             Result result = getResult(getPosition());
             bundle.putSerializable("result", result);
             intent.putExtras(bundle);
-            view.getContext().startActivity(intent);
+            view.getContext().startActivity(intent);*/
 
         }
     }
