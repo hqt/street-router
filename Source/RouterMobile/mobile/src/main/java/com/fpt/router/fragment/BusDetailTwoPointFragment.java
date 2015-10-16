@@ -16,7 +16,6 @@ import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
-import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.library.model.common.Model;
 import com.fpt.router.library.model.common.SubModule;
 import com.fpt.router.library.model.bus.INode;

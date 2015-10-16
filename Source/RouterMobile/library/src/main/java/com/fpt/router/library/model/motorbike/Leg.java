@@ -7,7 +7,6 @@ import android.util.Log;
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,54 +15,54 @@ import java.util.List;
  */
 public class Leg  implements IWearableModel<Leg> {
 
-    private String EndAddress;
-    private String StartAddress;
-    private DetailLocation DetailLocation;
-    private List<Step> Step;
+    private String endAddress;
+    private String startAddress;
+    private DetailLocation detailLocation;
+    private List<Step> steps;
     private String Overview_polyline;
 
     public Leg() {
 
     }
 
-    public Leg(String endAddress, String startAddress, com.fpt.router.library.model.motorbike.DetailLocation detailLocation, ArrayList<com.fpt.router.library.model.motorbike.Step> step, String overview_polyline) {
-        EndAddress = endAddress;
-        StartAddress = startAddress;
-        DetailLocation = detailLocation;
-        Step = step;
+    public Leg(String endAddress, String startAddress, com.fpt.router.library.model.motorbike.DetailLocation detailLocation, ArrayList<com.fpt.router.library.model.motorbike.Step> steps, String overview_polyline) {
+        this.endAddress = endAddress;
+        this.startAddress = startAddress;
+        this.detailLocation = detailLocation;
+        this.steps = steps;
         Overview_polyline = overview_polyline;
     }
 
     public String getEndAddress() {
-        return EndAddress;
+        return endAddress;
     }
 
     public void setEndAddress(String endAddress) {
-        EndAddress = endAddress;
+        this.endAddress = endAddress;
     }
 
     public String getStartAddress() {
-        return StartAddress;
+        return startAddress;
     }
 
     public void setStartAddress(String startAddress) {
-        StartAddress = startAddress;
+        this.startAddress = startAddress;
     }
 
     public com.fpt.router.library.model.motorbike.DetailLocation getDetailLocation() {
-        return DetailLocation;
+        return detailLocation;
     }
 
     public void setDetailLocation(com.fpt.router.library.model.motorbike.DetailLocation detailLocation) {
-        DetailLocation = detailLocation;
+        this.detailLocation = detailLocation;
     }
 
-    public List<com.fpt.router.library.model.motorbike.Step> getStep() {
-        return Step;
+    public List<com.fpt.router.library.model.motorbike.Step> getSteps() {
+        return steps;
     }
 
-    public void setStep(ArrayList<com.fpt.router.library.model.motorbike.Step> step) {
-        Step = step;
+    public void setSteps(ArrayList<com.fpt.router.library.model.motorbike.Step> steps) {
+        this.steps = steps;
     }
 
     public String getOverview_polyline() {
@@ -76,32 +75,32 @@ public class Leg  implements IWearableModel<Leg> {
 
     @Override
     public void dataMapToModel(DataMap dataMap) {
-        this.StartAddress = dataMap.getString("start_location");
-        this.EndAddress = dataMap.getString("end_location");
+        this.startAddress = dataMap.getString("start_location");
+        this.endAddress = dataMap.getString("end_location");
 
         // dummy step for calling function
         Step step = new Step();
-        this.Step = step.dataMapToListModel(dataMap);
-        // dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(Step));
+        this.steps = step.dataMapToListModel(dataMap);
+        // dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(steps));
 
         this.Overview_polyline = dataMap.getString("overview_polyline");
-        this.DetailLocation = new DetailLocation();
-        this.DetailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
+        this.detailLocation = new DetailLocation();
+        this.detailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
     }
 
     @Override
     public DataMap putToDataMap() {
         DataMap dataMap = new DataMap();
 
-        dataMap.putString("start_location", StartAddress);
-        dataMap.putString("end_location", EndAddress);
+        dataMap.putString("start_location", startAddress);
+        dataMap.putString("end_location", endAddress);
 
         // dummy step for calling function
         Step step = new Step();
-        dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(Step));
+        dataMap.putDataMapArrayList("list_step", step.listModelToDataMap(steps));
 
         dataMap.putString("overview_polyline", Overview_polyline);
-        dataMap.putDataMap("detail_location", DetailLocation.putToDataMap());
+        dataMap.putDataMap("detail_location", detailLocation.putToDataMap());
 
         return dataMap;
     }
@@ -145,18 +144,18 @@ public class Leg  implements IWearableModel<Leg> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.EndAddress);
-        dest.writeString(this.StartAddress);
-        dest.writeParcelable(this.DetailLocation, 0);
-        dest.writeTypedList(Step);
+        dest.writeString(this.endAddress);
+        dest.writeString(this.startAddress);
+        dest.writeParcelable(this.detailLocation, 0);
+        dest.writeTypedList(steps);
         dest.writeString(this.Overview_polyline);
     }
 
     protected Leg(Parcel in) {
-        this.EndAddress = in.readString();
-        this.StartAddress = in.readString();
-        this.DetailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
-        this.Step = in.createTypedArrayList(com.fpt.router.library.model.motorbike.Step.CREATOR);
+        this.endAddress = in.readString();
+        this.startAddress = in.readString();
+        this.detailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
+        this.steps = in.createTypedArrayList(com.fpt.router.library.model.motorbike.Step.CREATOR);
         this.Overview_polyline = in.readString();
     }
 

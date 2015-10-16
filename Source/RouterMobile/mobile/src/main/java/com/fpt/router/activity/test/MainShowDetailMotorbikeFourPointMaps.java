@@ -179,8 +179,8 @@ public class MainShowDetailMotorbikeFourPointMaps extends Fragment implements Go
                 for (int i = 0; i < legs.size(); i++) {
                     leg = legs.get(i);
                     DetailLocation detalL = leg.getDetailLocation();
-                    com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
-                    com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
+                    com.fpt.router.library.model.motorbike.Location start_location = detalL.getStartLocation();
+                    com.fpt.router.library.model.motorbike.Location end_location = detalL.getEndLocation();
                     // latitude and longitude
                     latitude = start_location.getLatitude();
                     longitude = start_location.getLongitude();

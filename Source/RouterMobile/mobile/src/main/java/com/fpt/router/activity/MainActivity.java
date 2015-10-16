@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         if (isTracking) {
             MapUtils.moveCamera(googleMap, latitude, longitude, 15);
         }
-        
+
         //DataMap dataMap = new DataMap();
 
         //new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, dataMap, local).start();

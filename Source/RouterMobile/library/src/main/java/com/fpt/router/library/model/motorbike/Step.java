@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +13,9 @@ import java.util.List;
  * Created by USER on 9/29/2015.
  */
 public class Step implements IWearableModel<Step> {
-    private String Instruction;
-    private String Maneuver;
-    private DetailLocation DetailLocation;
+    private String instruction;
+    private String maneuver;
+    private DetailLocation detailLocation;
 
     public Step() {
 
@@ -24,49 +23,49 @@ public class Step implements IWearableModel<Step> {
 
     public Step(String Instruction, String Maneuver, DetailLocation DetailLocation) {
 
-        this.Instruction = Instruction;
-        this.Maneuver = Maneuver;
-        this.DetailLocation = DetailLocation;
+        this.instruction = Instruction;
+        this.maneuver = Maneuver;
+        this.detailLocation = DetailLocation;
     }
 
     public String getInstruction() {
-        return Instruction;
+        return instruction;
     }
 
     public void setInstruction(String instruction) {
-        Instruction = instruction;
+        this.instruction = instruction;
     }
 
     public String getManeuver() {
-        return Maneuver;
+        return maneuver;
     }
 
     public void setManeuver(String maneuver) {
-        Maneuver = maneuver;
+        this.maneuver = maneuver;
     }
 
     public com.fpt.router.library.model.motorbike.DetailLocation getDetailLocation() {
-        return DetailLocation;
+        return detailLocation;
     }
 
     public void setDetailLocation(com.fpt.router.library.model.motorbike.DetailLocation detailLocation) {
-        DetailLocation = detailLocation;
+        this.detailLocation = detailLocation;
     }
 
     @Override
     public void dataMapToModel(DataMap dataMap) {
-        this.Instruction = dataMap.getString("instruction");
-        this.Maneuver = dataMap.getString("maneuver");
-        this.DetailLocation = new DetailLocation();
-        this.DetailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
+        this.instruction = dataMap.getString("instruction");
+        this.maneuver = dataMap.getString("maneuver");
+        this.detailLocation = new DetailLocation();
+        this.detailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
     }
 
     @Override
     public DataMap putToDataMap() {
         DataMap dataMap = new DataMap();
-        dataMap.putString("instruction", Instruction);
-        dataMap.putString("maneuver", Maneuver);
-        dataMap.putDataMap("detail_location", DetailLocation.putToDataMap());
+        dataMap.putString("instruction", instruction);
+        dataMap.putString("maneuver", maneuver);
+        dataMap.putDataMap("detail_location", detailLocation.putToDataMap());
         return  dataMap;
     }
 
@@ -101,15 +100,15 @@ public class Step implements IWearableModel<Step> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.Instruction);
-        dest.writeString(this.Maneuver);
-        dest.writeParcelable(this.DetailLocation, 0);
+        dest.writeString(this.instruction);
+        dest.writeString(this.maneuver);
+        dest.writeParcelable(this.detailLocation, 0);
     }
 
     protected Step(Parcel in) {
-        this.Instruction = in.readString();
-        this.Maneuver = in.readString();
-        this.DetailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
+        this.instruction = in.readString();
+        this.maneuver = in.readString();
+        this.detailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {

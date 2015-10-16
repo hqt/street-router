@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,18 +15,18 @@ import java.util.List;
 public class DetailLocation implements IWearableModel<DetailLocation> {
     private int distance;
     private int duration;
-    private Location end_location;
-    private Location start_location;
+    private Location endLocation;
+    private Location startLocation;
 
     public DetailLocation() {
 
     }
 
-    public DetailLocation(int distance, int duration, Location end_location, Location start_location) {
+    public DetailLocation(int distance, int duration, Location endLocation, Location start_location) {
         this.distance = distance;
         this.duration = duration;
-        this.end_location = end_location;
-        this.start_location = start_location;
+        this.endLocation = endLocation;
+        this.startLocation = start_location;
     }
 
     public int getDistance() {
@@ -46,20 +45,20 @@ public class DetailLocation implements IWearableModel<DetailLocation> {
         this.duration = duration;
     }
 
-    public Location getEnd_location() {
-        return end_location;
+    public Location getEndLocation() {
+        return endLocation;
     }
 
-    public void setEnd_location(Location end_location) {
-        this.end_location = end_location;
+    public void setEndLocation(Location endLocation) {
+        this.endLocation = endLocation;
     }
 
-    public Location getStart_location() {
-        return start_location;
+    public Location getStartLocation() {
+        return startLocation;
     }
 
-    public void setStart_location(Location start_location) {
-        this.start_location = start_location;
+    public void setStartLocation(Location startLocation) {
+        this.startLocation = startLocation;
     }
 
     @Override
@@ -67,11 +66,11 @@ public class DetailLocation implements IWearableModel<DetailLocation> {
         this.distance = dataMap.getInt("distance");
         this.duration = dataMap.getInt("duration");
 
-        this.end_location = new Location();
-        this.end_location.dataMapToModel(dataMap.getDataMap("end_location"));
+        this.endLocation = new Location();
+        this.endLocation.dataMapToModel(dataMap.getDataMap("end_location"));
 
-        this.start_location = new Location();
-        this.start_location.dataMapToModel(dataMap.getDataMap("start_location"));
+        this.startLocation = new Location();
+        this.startLocation.dataMapToModel(dataMap.getDataMap("start_location"));
     }
 
     @Override
@@ -79,8 +78,8 @@ public class DetailLocation implements IWearableModel<DetailLocation> {
         DataMap dataMap = new DataMap();
         dataMap.putInt("distance", distance);
         dataMap.putInt("duration", duration);
-        dataMap.putDataMap("end_location", end_location.putToDataMap());
-        dataMap.putDataMap("start_location", start_location.putToDataMap());
+        dataMap.putDataMap("end_location", endLocation.putToDataMap());
+        dataMap.putDataMap("start_location", startLocation.putToDataMap());
         return dataMap;
     }
 
@@ -103,15 +102,15 @@ public class DetailLocation implements IWearableModel<DetailLocation> {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.distance);
         dest.writeInt(this.duration);
-        dest.writeParcelable(this.end_location, 0);
-        dest.writeParcelable(this.start_location, 0);
+        dest.writeParcelable(this.endLocation, 0);
+        dest.writeParcelable(this.startLocation, 0);
     }
 
     protected DetailLocation(Parcel in) {
         this.distance = in.readInt();
         this.duration = in.readInt();
-        this.end_location = in.readParcelable(Location.class.getClassLoader());
-        this.start_location = in.readParcelable(Location.class.getClassLoader());
+        this.endLocation = in.readParcelable(Location.class.getClassLoader());
+        this.startLocation = in.readParcelable(Location.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<DetailLocation> CREATOR = new Parcelable.Creator<DetailLocation>() {
