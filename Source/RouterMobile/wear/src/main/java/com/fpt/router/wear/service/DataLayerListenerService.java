@@ -94,12 +94,21 @@ public class DataLayerListenerService extends WearableListenerService
                 Bundle bundle = new Bundle();
                 if (path.equals(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT)) {
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
-                    Leg leg = new Leg();
-                    MainActivity.listLeg = leg.dataMapToListModel(dataMap);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
                     Log.e("Nam", dataMap+ "");
+                    long time = dataMap.getLong("time");
+                    Leg leg = new Leg();
+                    ArrayList<Leg> listLeg = leg.dataMapToListModel(dataMap);
+
+                    // set global variable for activity :)
+                    MainActivity.listLeg = listLeg;
+                    MainActivity.DATA_OLD_TIME_GET = MainActivity.DATA_NEW_TIME_GET;
+                    MainActivity.DATA_NEW_TIME_GET = time;
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    //intent.putParcelableArrayListExtra("list_leg", listLeg);
                     // send to activity
+                    startActivity(intent);
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_GPS)) {
                     Log.e("Nam", "aaa");
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();

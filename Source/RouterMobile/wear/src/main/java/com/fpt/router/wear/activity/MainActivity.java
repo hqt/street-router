@@ -57,6 +57,9 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
 
     private static final LatLng SYDNEY = new LatLng(-33.85704, 151.21522);
     public static ArrayList<Leg> listLeg = new ArrayList<>();
+    public static long DATA_NEW_TIME_GET = -1;
+    public static long DATA_OLD_TIME_GET = -1;
+
     Marker now;
 
     boolean isTracking = true;
@@ -83,6 +86,16 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
 
         // Set the layout. It only contains a SupportMapFragment and a DismissOverlay.
         setContentView(R.layout.activity_data_map);
+
+        /*Log.e("Nam:", "Leg: tren if");
+        if(getIntent().getParcelableArrayListExtra("list_leg") != null) {
+            Log.e("Nam:", "Leg: list lag != null" );
+            listLeg = getIntent().getParcelableArrayListExtra("list_leg");
+            Log.e("Nam:", "Leg: " + listLeg.size());
+            if(mMap != null) {
+                mMap.clear();
+            }
+        }*/
 
         // Retrieve the containers for the root of the layout and the map. Margins will need to be
         // set on them to account for the system window insets.
@@ -134,10 +147,14 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
 
     protected void onResume() {
         super.onResume();
-        if(listLeg.size() == 1){
-            MapUtils.drawMapWithTwoPoint(mMap, listLeg);
-        } else {
-            MapUtils.drawMapWithFourPoint(mMap, listLeg);
+
+        if((listLeg != null) && (DATA_NEW_TIME_GET != DATA_OLD_TIME_GET)) {
+            mMap.clear();
+            if (listLeg.size() == 1) {
+                MapUtils.drawMapWithTwoPoint(mMap, listLeg);
+            } else {
+                MapUtils.drawMapWithFourPoint(mMap, listLeg);
+            }
         }
         Log.e("hqthao", "register bus");
         bus.register(this);

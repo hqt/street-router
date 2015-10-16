@@ -49,6 +49,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -415,6 +416,7 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
 
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
                 putDataMapRequest.getDataMap().putDataMapArrayList("list_leg", dataMaps);
+                putDataMapRequest.getDataMap().putLong("time", new Date().getTime());
 
                 PutDataRequest request = putDataMapRequest.asPutDataRequest();
 

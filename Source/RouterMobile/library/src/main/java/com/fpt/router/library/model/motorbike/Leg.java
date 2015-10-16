@@ -129,6 +129,7 @@ public class Leg  implements IWearableModel<Leg> {
             DataMap dataMapItem = leg.putToDataMap();
             res.add(dataMapItem);
         }
+
         return res;
     }
 
