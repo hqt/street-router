@@ -1,16 +1,14 @@
-package com.fpt.router.service;
+package com.fpt.router.wear.service;
 
 /**
  * Created by Nguyen Trung Nam on 10/5/2015.
  */
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,20 +18,16 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.fpt.router.library.model.message.LocationMessage;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-
-import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class GPSService extends Service implements LocationListener {
+public class GPSServiceOld extends Service implements LocationListener {
 
     public static final String  LOCATION_CHANGE_SIGNAL = "location_change_signal";
 
     private EventBus bus = EventBus.getDefault();
 
-    private  Context mContext;
+    private final Context mContext;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -57,19 +51,9 @@ public class GPSService extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
-    public GPSService() {
-
-    }
-
- /*   public GPSService(Context context) {
+    public GPSServiceOld(Context context) {
         this.mContext = context;
         getLocation();
-    }*/
-
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.e("hqthao", "start command");
-        getLocation();
-        return START_STICKY;
     }
 
     public Location getLocation() {

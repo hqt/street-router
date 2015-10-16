@@ -20,9 +20,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.message.LocationGPSMessage;
+import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
@@ -32,16 +35,21 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import android.support.wearable.view.DismissOverlayView;
 import android.view.WindowInsets;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 
 public class MainActivity extends Activity implements OnMapReadyCallback,
@@ -49,11 +57,19 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
 
     private static final LatLng SYDNEY = new LatLng(-33.85704, 151.21522);
     public static ArrayList<Leg> listLeg = new ArrayList<>();
+    Marker now;
+
+    boolean isTracking = true;
+
+    ImageView trackingButton;
+
     /**
      * Overlay that shows a short help text when first launched. It also provides an option to
      * exit the app.
      */
     private DismissOverlayView mDismissOverlay;
+    private EventBus bus = EventBus.getDefault();
+
 
     /**
      * The map. It is initialized when the map has been fully loaded and is ready to be used.
@@ -100,11 +116,38 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         mDismissOverlay.setIntroText(R.string.intro_text);
         mDismissOverlay.showIntroIfNecessary();
 
+        trackingButton = (ImageView) findViewById(R.id.tracking_button);
+        trackingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("hqthao", "tracking button click. current status: " + isTracking);
+                isTracking = !isTracking;
+            }
+        });
+
         // Obtain the MapFragment and set the async listener to be notified when the map is ready.
         MapFragment mapFragment =
                 (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+    }
+
+    protected void onResume() {
+        super.onResume();
+        if(listLeg.size() == 1){
+            MapUtils.drawMapWithTwoPoint(mMap, listLeg);
+        } else {
+            MapUtils.drawMapWithFourPoint(mMap, listLeg);
+        }
+        Log.e("hqthao", "register bus");
+        bus.register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        Log.e("hqthao", "unregister bus");
+        bus.unregister(this);
+        super.onPause();
     }
 
     @Override
@@ -126,5 +169,24 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
     public void onMapLongClick(LatLng latLng) {
         // Display the dismiss overlay with a button to exit this activity.
         mDismissOverlay.show();
+    }
+
+    public void onEventMainThread(LocationGPSMessage event){
+        Log.e("hqthao", event.location.getLatitude() + "");
+        updateGPS(event.location);
+    }
+
+    public void updateGPS(Location location) {
+        if(now != null){
+            now.remove();
+        }
+        Double latitude = location.getLatitude();
+        Double longitude = location.getLongitude();
+        Log.e("Nam:" , latitude + "" + longitude);
+        now = MapUtils.drawPointColor(mMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
+        if (isTracking) {
+            MapUtils.moveCamera(mMap, latitude, longitude, 15);
+        }
+
     }
 }

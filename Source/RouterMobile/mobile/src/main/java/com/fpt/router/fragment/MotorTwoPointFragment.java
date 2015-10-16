@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
@@ -75,17 +76,23 @@ public class MotorTwoPointFragment extends Fragment {
 
 
         if (listLocation.size() > 1) {
-            JSONParseTask jsonParseTask = new JSONParseTask();
-            jsonParseTask.execute();
-        }else {
-            routerDetailTwoPoints = new ArrayList<RouterDetailTwoPoint>();
+
+            View v = inflater.inflate(R.layout.fragment_list_view, container, false);
+            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            if(SearchRouteActivity.listLeg.size() != 0){
+                recyclerView.setAdapter(new MotorFourPointAdapter());
+            }else{
+                JSONParseTask jsonParseTask = new JSONParseTask();
+                jsonParseTask.execute();
+            }
+
+            return v;
+
+        } else {
+            TextView textView = new TextView(getActivity());
+            return textView;
         }
-
-        View v = inflater.inflate(R.layout.fragment_list_view, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        return v;
     }
 
     private class JSONParseTask extends AsyncTask<String, String, List<Leg>> {
@@ -149,7 +156,7 @@ public class MotorTwoPointFragment extends Fragment {
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
-            for(int i = 1; i >= 0; i--) {
+            for(int i = listLeg.size()-2; i >= 0; i--) {
                 if(listLeg.get(i+1).getDetailLocation().getDuration() < listLeg.get(i).getDetailLocation().getDuration()) {
                     Leg leg = listLeg.get(i+1);
                     listLeg.set(i+1, listLeg.get(i));

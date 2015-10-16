@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
@@ -52,7 +53,6 @@ public class BusTwoPointFragment extends Fragment {
     private SearchRouteActivity activity;
     private List<String> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
-    private List<Result> results;
 
     public BusTwoPointFragment() {
 
@@ -97,17 +97,22 @@ public class BusTwoPointFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (listLocation.size() > 1) {
-            JSONParseTask jsonParseTask = new JSONParseTask();
-            jsonParseTask.execute();
+            View v = inflater.inflate(R.layout.fragment_list_view, container, false);
+            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            if(SearchRouteActivity.results.size() > 0){
+                recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
+            }else{
+                JSONParseTask jsonParseTask = new JSONParseTask();
+                jsonParseTask.execute();
+            }
+
+            return v;
 
         } else {
-            results = new ArrayList<Result>();
+            TextView textView = new TextView(getActivity());
+            return textView;
         }
-
-        View v = inflater.inflate(R.layout.fragment_list_view, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return v;
     }
 
     private class JSONParseTask extends AsyncTask<String, String, List<Result>> {
@@ -150,7 +155,7 @@ public class BusTwoPointFragment extends Fragment {
 
                     String json = APIUtils.getLocationGoogleAPI(address_1);
                     JSONObject jsonObject = new JSONObject(json);
-                    Location location = JSONParseUtils.getLocation(jsonObject);
+                    Location location = JSONParseUtils.getmCurrentLocation(jsonObject);
                     BusLocation busLocation = new BusLocation();
                     busLocation.setAddress(address_1);
                     busLocation.setLatitude(location.getLatitude());
@@ -183,8 +188,8 @@ public class BusTwoPointFragment extends Fragment {
                 pDialog.dismiss();
             }
 
-            results = resultList;
-            recyclerView.setAdapter(new BusTwoPointAdapter(results));
+            SearchRouteActivity.results = resultList;
+            recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
         }
     }
 }

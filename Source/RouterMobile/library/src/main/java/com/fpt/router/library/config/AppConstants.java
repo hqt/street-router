@@ -18,6 +18,7 @@ public class AppConstants {
         public static final String MESSAGE_PATH_FOUR_POINT = MESSAGE_PATH + "/fourpoint";
         public static final String MESSAGE_PATH_TWO_POINT = MESSAGE_PATH + "/twopoint";
         public static final String MESSAGE_PATH_LEG = MESSAGE_PATH + "/leg";
+        public static final String MESSAGE_PATH_GPS = MESSAGE_PATH + "/gps";
     }
 
     public static final class API {
