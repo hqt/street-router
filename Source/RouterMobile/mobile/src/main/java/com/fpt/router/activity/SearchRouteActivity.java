@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,9 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
+import com.fpt.router.fragment.BusTwoPointFragment;
+import com.fpt.router.fragment.MotorFourPointFragment;
+import com.fpt.router.fragment.MotorTwoPointFragment;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.Leg;
 
@@ -28,6 +32,12 @@ import java.util.List;
 
 
 public class SearchRouteActivity extends AppCompatActivity {
+
+    public enum SearchType {
+        BUS_TWO_POINT,
+        MOTOR_TWO_POINT,
+        MOTOR_FOUR_POINT
+    }
 
     private TextView optional;
     private TextView _depart_time;
@@ -46,6 +56,10 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static Boolean optimize = true;
     private LinearLayout option;
     private ViewPager _view_pager;
+
+    // variable for controlling which fragment should be to refreshed
+    public boolean needToSearch = false;
+    public SearchType searchType;
 
 
     @Override
@@ -78,7 +92,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
-       // _view_pager.setCurrentItem(1);
+        // _view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
         _depart_time.setClickable(false);
         _depart_time.setFocusableInTouchMode(false);
@@ -140,19 +154,36 @@ public class SearchRouteActivity extends AppCompatActivity {
         _btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //check from and to not null
+                // validation
                 if ("".equals(edit_1.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
                 } else if ("".equals(edit_2.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                // try to search
+                else {
+                    needToSearch = true;
+                    int tabPosition = _view_pager.getCurrentItem();
+                    if (tabPosition == 0) {
+                        Log.e("hqthao", "Search bus two point");
+                        searchType = SearchType.BUS_TWO_POINT;
+                    } else if (tabPosition == 1) {
+                        if (listLocation.size() == 2) {
+                            Log.e("hqthao", "Search motor two point");
+                            searchType = SearchType.MOTOR_TWO_POINT;
+                        } else {
+                            Log.e("hqthao", "Search motor four point");
+                            searchType = SearchType.MOTOR_FOUR_POINT;
+                        }
+                    }
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);
                     _view_pager.setAdapter(adapter);
-                   // _view_pager.setCurrentItem(1);
                     option.setVisibility(View.VISIBLE);
-                }
+                    _view_pager.setCurrentItem(tabPosition);
                /* adapter = new ViewPagerAdapter(getSupportFragmentManager(),SearchRouteActivity.this);
                 _view_pager.setAdapter(adapter);*/
+
+                }
             }
         });
     }

@@ -73,11 +73,11 @@ public class MotorFourPointFragment extends Fragment{
             View v = inflater.inflate(R.layout.fragment_list_view, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            if(SearchRouteActivity.listLeg.size() != 0){
-                recyclerView.setAdapter(new MotorFourPointAdapter());
-            }else{
+            if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.MOTOR_FOUR_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
+            } else if (SearchRouteActivity.listLeg.size() > 0) {
+                recyclerView.setAdapter(new MotorFourPointAdapter());
             }
 
             return v;
@@ -153,6 +153,9 @@ public class MotorFourPointFragment extends Fragment{
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+
+            activity.searchType = null;
+            activity.needToSearch = false;
 
             if (status.equals("NOT_FOUND")) {
                 listError = new ArrayList<String>();

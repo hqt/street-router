@@ -100,11 +100,11 @@ public class BusTwoPointFragment extends Fragment {
             View v = inflater.inflate(R.layout.fragment_list_view, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            if(SearchRouteActivity.results.size() > 0){
-                recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
-            }else{
+            if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
+            } else if (SearchRouteActivity.results.size() > 0) {
+                recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
             }
 
             return v;
@@ -164,8 +164,13 @@ public class BusTwoPointFragment extends Fragment {
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);
                 Gson gson1 = JSONUtils.buildGson();
-                resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>() {
-                }.getType());
+
+                try {
+                    resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>() {
+                    }.getType());
+                } catch (Exception e) {
+
+                }
 
 
             } catch (JSONException e) {
@@ -188,6 +193,9 @@ public class BusTwoPointFragment extends Fragment {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+
+            activity.searchType = null;
+            activity.needToSearch = false;
 
             SearchRouteActivity.results = resultList;
             recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));

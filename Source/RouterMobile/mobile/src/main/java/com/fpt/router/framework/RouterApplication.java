@@ -2,7 +2,11 @@ package com.fpt.router.framework;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.fpt.router.service.GPSServiceOld;
 
 
 /**
@@ -22,6 +26,12 @@ public class RouterApplication extends Application {
         super.onCreate();
         //JodaTimeAndroid.init(this);
         mContext = getApplicationContext();
+        if (mContext != null) {
+            Log.e("hqthao", "khac null");
+        }
+        //GPSServiceOld gpsService = new GPSServiceOld(mContext);
+        Intent intent = new Intent(mContext, GPSServiceOld.class);
+        startService(intent);
     }
 
     @Override
