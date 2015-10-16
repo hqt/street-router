@@ -1,3 +1,4 @@
+/*
 package com.fpt.router.library.utils;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -6,9 +7,11 @@ import com.google.common.collect.Multimap;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by Huynh Quang Thao on 10/15/15.
- */
+ *//*
+
 public class GoogleAutoCompleteUtils {
     public static Multimap<String, String> types = ArrayListMultimap.create();
 
@@ -324,3 +327,4 @@ public class GoogleAutoCompleteUtils {
     }
 
 }
+*/

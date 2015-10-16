@@ -25,7 +25,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-wearable:8.1.0'
     compile 'joda-time:joda-time:2.8.2'
     compile 'com.google.code.gson:gson:2.4'
-    compile 'com.google.guava:guava:18.0'
     compile 'com.fatboyindustrial.gson-jodatime-serialisers:gson-jodatime-serialisers:1.2.0'
     compile 'com.google.android.gms:play-services-maps:8.1.0'
     compile 'de.greenrobot:eventbus:2.4.0'
