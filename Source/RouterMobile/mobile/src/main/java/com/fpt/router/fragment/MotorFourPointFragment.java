@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -23,6 +24,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,19 +69,23 @@ public class MotorFourPointFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(listLocation.size() > 1){
+            View v = inflater.inflate(R.layout.fragment_list_view, container, false);
+            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            if(SearchRouteActivity.listLeg.size() != 0){
+                recyclerView.setAdapter(new MotorFourPointAdapter());
+            }else{
+                JSONParseTask jsonParseTask = new JSONParseTask();
+                jsonParseTask.execute();
+            }
 
-        if (listLocation.size() > 1) {
-            JSONParseTask jsonParseTask = new JSONParseTask();
-            jsonParseTask.execute();
-
-        } else {
-            SearchRouteActivity.listLeg = new ArrayList<>();
+            return v;
+        }else {
+            TextView textView = new TextView(getActivity());
+            return textView;
         }
 
-        View v = inflater.inflate(R.layout.fragment_list_view, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return v;
     }
 
 

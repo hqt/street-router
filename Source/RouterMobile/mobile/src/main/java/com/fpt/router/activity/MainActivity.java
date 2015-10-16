@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
 
+
             // check if map is created successfully or not
             if (googleMap == null) {
                 Toast.makeText(getApplicationContext(),

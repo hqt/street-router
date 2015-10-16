@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
+import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class SearchRouteActivity extends AppCompatActivity {
     private TextView edit_2;
     public static ViewPagerAdapter adapter;
     public static List<Leg> listLeg = new ArrayList<>();
+    public static List<Result> results = new ArrayList<Result>();
 
     public static List<String> listLocation = new ArrayList<>();
     private List<String> location;
@@ -76,7 +78,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
-        _view_pager.setCurrentItem(1);
+       // _view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
         _depart_time.setClickable(false);
         _depart_time.setFocusableInTouchMode(false);
@@ -89,7 +91,6 @@ public class SearchRouteActivity extends AppCompatActivity {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(adapter.getTabView(i));
         }
-
 
         //edit text 1
         edit_1.setOnClickListener(new View.OnClickListener() {
@@ -147,9 +148,11 @@ public class SearchRouteActivity extends AppCompatActivity {
                 } else {
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);
                     _view_pager.setAdapter(adapter);
-                    _view_pager.setCurrentItem(1);
+                   // _view_pager.setCurrentItem(1);
                     option.setVisibility(View.VISIBLE);
                 }
+               /* adapter = new ViewPagerAdapter(getSupportFragmentManager(),SearchRouteActivity.this);
+                _view_pager.setAdapter(adapter);*/
             }
         });
     }

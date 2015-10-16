@@ -11,12 +11,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.utils.APIUtils;
+import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +30,8 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -45,7 +53,6 @@ public class BusTwoPointFragment extends Fragment {
     private SearchRouteActivity activity;
     private List<String> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
-    private List<Result> results;
 
     public BusTwoPointFragment() {
 
@@ -90,17 +97,22 @@ public class BusTwoPointFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (listLocation.size() > 1) {
-            JSONParseTask jsonParseTask = new JSONParseTask();
-            jsonParseTask.execute();
+            View v = inflater.inflate(R.layout.fragment_list_view, container, false);
+            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            if(SearchRouteActivity.results.size() > 0){
+                recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
+            }else{
+                JSONParseTask jsonParseTask = new JSONParseTask();
+                jsonParseTask.execute();
+            }
+
+            return v;
 
         } else {
-            results = new ArrayList<Result>();
+            TextView textView = new TextView(getActivity());
+            return textView;
         }
-
-        View v = inflater.inflate(R.layout.fragment_list_view, container, false);
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return v;
     }
 
     private class JSONParseTask extends AsyncTask<String, String, List<Result>> {
@@ -120,7 +132,7 @@ public class BusTwoPointFragment extends Fragment {
         @Override
         protected List<Result> doInBackground(String... args) {
 
-            List<Result> resultList = new ArrayList<Result>();
+           // List<Result> resultList = new ArrayList<Result>();
 
 
             //test with file in assets
@@ -131,10 +143,8 @@ public class BusTwoPointFragment extends Fragment {
            } catch (Exception e) {
                 e.printStackTrace();
             }*/
-
-
             //test test with service real
-            /*String jsonFromServer = "";
+            String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
@@ -143,7 +153,7 @@ public class BusTwoPointFragment extends Fragment {
                 for (int i = 0; i < listLocation.size(); i++) {
                     String address_1 = listLocation.get(i);
 
-                    String json = NetworkUtils.getLocationGoogleAPI(address_1);
+                    String json = APIUtils.getLocationGoogleAPI(address_1);
                     JSONObject jsonObject = new JSONObject(json);
                     Location location = JSONParseUtils.getmCurrentLocation(jsonObject);
                     BusLocation busLocation = new BusLocation();
@@ -152,23 +162,23 @@ public class BusTwoPointFragment extends Fragment {
                     busLocation.setLongitude(location.getLongitude());
                     busLocations.add(busLocation);
                 }
-                jsonFromServer = NetworkUtils.getJsonFromServer(busLocations);
+                jsonFromServer = APIUtils.getJsonFromServer(busLocations);
+                Log.e("Thao", jsonFromServer);
                 Gson gson1 = JSONUtils.buildGson();
-                resultList = gson1.fromJson(json, new TypeToken<List<Result>>(){}.getType());
-                */
+                resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>(){}.getType());
 
 
             //test server
 
-            String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
+            /*String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
             String json = NetworkUtils.download(url);
             Gson gson1 = JSONUtils.buildGson();
             resultList = gson1.fromJson(json, new TypeToken<List<Result>>() {
-            }.getType());
+            }.getType());*/
 
-           /* } catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
+            }
             return resultList;
         }
 
@@ -178,8 +188,8 @@ public class BusTwoPointFragment extends Fragment {
                 pDialog.dismiss();
             }
 
-            results = resultList;
-            recyclerView.setAdapter(new BusTwoPointAdapter(results));
+            SearchRouteActivity.results = resultList;
+            recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
         }
     }
 }

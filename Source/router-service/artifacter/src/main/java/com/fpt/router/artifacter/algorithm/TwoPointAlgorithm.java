@@ -63,13 +63,15 @@ public class TwoPointAlgorithm {
 
         if (nearStartStations.size() == 0) {
             return failMessage;
-        } else if (nearStartStations.size() > 3) {
-           // nearStartStations = nearStartStations.subList(0, 3);
+        } else if (nearStartStations.size() > Config.BUS_LIMIT) {
+            System.out.println("near stations size: " + nearStartStations.size());
+           nearStartStations = nearStartStations.subList(0, Config.BUS_LIMIT);
         }
         if (nearEndStations.size() == 0) {
             return failMessage.replace("start", "end");
-        } else if (nearEndStations.size() > 3) {
-          //  nearEndStations = nearEndStations.subList(0, 3);
+        } else if (nearEndStations.size() > Config.BUS_LIMIT) {
+            System.out.println("near stations size: " + nearEndStations.size());
+            nearEndStations = nearEndStations.subList(0, Config.BUS_LIMIT);
         }
 
         // brute force here
@@ -130,7 +132,9 @@ public class TwoPointAlgorithm {
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(results);
-        System.out.println(json);
+        //System.out.println(json);
+
+        ArrayList<Result> res = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
 
 
         /*

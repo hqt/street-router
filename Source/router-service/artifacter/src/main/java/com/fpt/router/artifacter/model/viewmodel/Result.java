@@ -14,7 +14,6 @@ import java.util.List;
 public class Result {
     public String code;
     public double totalDistance;
-    @JsonDeserialize(using=PeriodDeserializer.class)
     public Period totalTime;
     public int minutes;
     public int totalTransfer;

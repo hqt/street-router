@@ -27,7 +27,9 @@ public class Config {
     public static final String USER = "root";
     public static final String PASS = "root";
 
-    public static double EPS = 0.00001;
+    public static final double EPS = 0.00001;
+
+    public static final int BUS_LIMIT = 6;
 
     public static final double WALKING_BUS_DISTANCE = 300;
     public static final double WALKING_DISTANCE = 550;

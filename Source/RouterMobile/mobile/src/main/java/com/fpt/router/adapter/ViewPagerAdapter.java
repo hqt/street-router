@@ -19,6 +19,7 @@ import com.fpt.router.activity.test.DemoBusFragment;
 import com.fpt.router.fragment.BusTwoPointFragment;
 import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.fragment.MotorTwoPointFragment;
+import com.fpt.router.fragment.test.DemoFragmentPosition3;
 
 import java.util.List;
 
@@ -37,7 +38,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if(position == 1){
+        if(position == 0){
+            BusTwoPointFragment busTwoPointFragment = new BusTwoPointFragment();
+            return busTwoPointFragment;
+        }else if(position == 1){
             if(listLocation.size() == 2){
                 MotorTwoPointFragment motorTwoPointFragment = new MotorTwoPointFragment();
                 return motorTwoPointFragment;
@@ -48,13 +52,9 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 MotorFourPointFragment motorbikeFragmentFourPoint = new MotorFourPointFragment();
                 return motorbikeFragmentFourPoint;
             }
-        } else if(position == 0){
-            BusTwoPointFragment busTwoPointFragment = new BusTwoPointFragment();
-           /*DemoBusFragment busTwoPointFragment = new DemoBusFragment();*/
-            return busTwoPointFragment;
-        } else {
-            BusTwoPointFragment busTwoPointFragment = new BusTwoPointFragment();
-            return busTwoPointFragment;
+        }else{
+            DemoFragmentPosition3 demo = new DemoFragmentPosition3();
+            return demo;
         }
     }
 
