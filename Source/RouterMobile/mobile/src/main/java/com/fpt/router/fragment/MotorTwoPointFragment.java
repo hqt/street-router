@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
+import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.MotorTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
@@ -80,11 +81,11 @@ public class MotorTwoPointFragment extends Fragment {
             View v = inflater.inflate(R.layout.fragment_list_view, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            if(SearchRouteActivity.listLeg.size() != 0){
-                recyclerView.setAdapter(new MotorFourPointAdapter());
-            }else{
+            if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.MOTOR_TWO_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
+            } else if (SearchRouteActivity.listLeg.size() > 0) {
+                recyclerView.setAdapter(new MotorFourPointAdapter());
             }
 
             return v;
@@ -142,6 +143,9 @@ public class MotorTwoPointFragment extends Fragment {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+
+            activity.searchType = null;
+            activity.needToSearch = false;
 
             if (status.equals("NOT_FOUND")) {
                 listError = new ArrayList<String>();

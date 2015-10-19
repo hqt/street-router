@@ -100,11 +100,11 @@ public class BusTwoPointFragment extends Fragment {
             View v = inflater.inflate(R.layout.fragment_list_view, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            if(SearchRouteActivity.results.size() > 0){
-                recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
-            }else{
+            if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
+            } else if (SearchRouteActivity.results.size() > 0) {
+                recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
             }
 
             return v;
@@ -131,8 +131,7 @@ public class BusTwoPointFragment extends Fragment {
 
         @Override
         protected List<Result> doInBackground(String... args) {
-
-           // List<Result> resultList = new ArrayList<Result>();
+            List<Result> resultList = new ArrayList<Result>();
 
 
             //test with file in assets
@@ -143,19 +142,20 @@ public class BusTwoPointFragment extends Fragment {
            } catch (Exception e) {
                 e.printStackTrace();
             }*/
+
+
             //test test with service real
             String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
-            List<Result> resultList = new ArrayList<Result>();
             try {
                 for (int i = 0; i < listLocation.size(); i++) {
                     String address_1 = listLocation.get(i);
 
                     String json = APIUtils.getLocationGoogleAPI(address_1);
                     JSONObject jsonObject = new JSONObject(json);
-                    Location location = JSONParseUtils.getmCurrentLocation(jsonObject);
+                    Location location = JSONParseUtils.getLocation(jsonObject);
                     BusLocation busLocation = new BusLocation();
                     busLocation.setAddress(address_1);
                     busLocation.setLatitude(location.getLatitude());
@@ -163,22 +163,28 @@ public class BusTwoPointFragment extends Fragment {
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);
-                Log.e("Thao", jsonFromServer);
                 Gson gson1 = JSONUtils.buildGson();
-                resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>(){}.getType());
 
+                try {
+                    resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>() {
+                    }.getType());
+                } catch (Exception e) {
 
-            //test server
+                }
 
-            /*String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
-            String json = NetworkUtils.download(url);
-            Gson gson1 = JSONUtils.buildGson();
-            resultList = gson1.fromJson(json, new TypeToken<List<Result>>() {
-            }.getType());*/
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+
+            //test server
+/*
+            String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
+            String json = NetworkUtils.download(url);
+            Gson gson1 = JSONUtils.buildGson();
+            resultList = gson1.fromJson(json, new TypeToken<List<Result>>() {
+            }.getType());*/
             return resultList;
         }
 
@@ -187,6 +193,9 @@ public class BusTwoPointFragment extends Fragment {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
+
+            activity.searchType = null;
+            activity.needToSearch = false;
 
             SearchRouteActivity.results = resultList;
             recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));

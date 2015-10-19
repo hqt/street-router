@@ -93,6 +93,9 @@
         <service android:name=".service.GPSService" >
         </service>
 
+        <service android:name=".service.GPSServiceOld" >
+        </service>
+
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Location;
-import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -90,13 +89,13 @@ public class MapUtils {
         List<Leg> listLeg = input;
         //Start Point
         Leg leg = listLeg.get(0);
-        Location start_location = leg.getDetailLocation().getStart_location();
+        Location start_location = leg.getDetailLocation().getStartLocation();
         Double latitude = start_location.getLatitude();
         Double longitude = start_location.getLongitude();
         drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_GREEN);
 
         //EndPoint
-        Location end_location = leg.getDetailLocation().getEnd_location();
+        Location end_location = leg.getDetailLocation().getEndLocation();
         latitude = end_location.getLatitude();
         longitude = end_location.getLongitude();
         drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);
@@ -117,8 +116,8 @@ public class MapUtils {
         for (int i = 0; i < listFinalLeg.size(); i++) {
             leg = listFinalLeg.get(i);
             DetailLocation detalL = leg.getDetailLocation();
-            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStart_location();
-            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEnd_location();
+            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStartLocation();
+            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEndLocation();
             // latitude and longitude
 
             if (i == 0) {

@@ -73,8 +73,10 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
         //set total segment
         for (int j=0;j<nodeList.size();j++){
-            if(nodeList.get(j) instanceof Segment){
-                viewDetail = "Tổng số tuyến xe bus: "+result.totalTransfer+" (tuyến số: "+((Segment) nodeList.get(j)).routeNo+" - tuyến số: "+((Segment) nodeList.get(j=j+1)).routeNo+")";
+            if((nodeList.get(j) instanceof Segment) && (nodeList.get(j+1) instanceof Segment)) {
+                viewDetail = "Tổng số tuyến xe bus: "+result.totalTransfer+" (tuyến số: "+
+                        ((Segment) nodeList.get(j)).routeNo+" - tuyến số: "+
+                        ((Segment) nodeList.get(j=j+1)).routeNo+")";
             }
         }
 

@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     private Marker now;
     private GoogleApiClient mGoogleApiClient;
 
+    boolean isTracking = false;
+
     private EventBus bus = EventBus.getDefault();
 
     @Override
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         //Make DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
+
+        googleMap = ((MapFragment) getFragmentManager().findFragmentById(
+                R.id.map)).getMap();
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -113,9 +119,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    initializeMap();
-                    GPSServiceOld gpsService = new GPSServiceOld(MainActivity.this);
-                    MapUtils.drawPointColor(googleMap, gpsService.getLatitude(), gpsService.getLongitude(), "Current", BitmapDescriptorFactory.HUE_RED);
+                    // initializeMap();
+                    isTracking = !isTracking;
+                    // GPSServiceOld gpsService = new GPSServiceOld(MainActivity.this);
+                    // MapUtils.drawPointColor(googleMap, gpsService.getLatitude(), gpsService.getLongitude(), "Current", BitmapDescriptorFactory.HUE_RED);
                     return true;
                 }
                 return true; // consume the event
@@ -126,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     protected void onStart(){
         super.onStart();
-        Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
-        startService(intent);
+        // Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
+        // startService(intent);
     }
 
     protected void onResume() {
@@ -195,10 +202,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Log.e("Nam:", local.getLatitude() + "@#@" + local.getLongitude());
 
         now = MapUtils.drawPointColor(googleMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
-        MapUtils.moveCamera(googleMap, latitude, longitude, 15);
-        DataMap dataMap = new DataMap();
 
-        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, dataMap, local).start();
+        if (isTracking) {
+            MapUtils.moveCamera(googleMap, latitude, longitude, 15);
+        }
+
+        //DataMap dataMap = new DataMap();
+
+        //new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, dataMap, local).start();
     }
 
     @Override
@@ -216,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
-    class SendToDataLayerThread extends Thread {
+    /*class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;
         com.fpt.router.library.model.motorbike.Location location;
@@ -253,5 +264,5 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
             }
         }
-    }
+    }*/
 }

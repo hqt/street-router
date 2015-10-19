@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,17 +15,17 @@ import java.util.List;
 public class DetailLocationTwoPoint implements IWearableModel<DetailLocationTwoPoint> {
     private String distance;
     private String duration;
-    private Location end_location;
-    private Location start_location;
+    private Location endLocation;
+    private Location startLocation;
 
     public DetailLocationTwoPoint() {
     }
 
-    public DetailLocationTwoPoint(String distance, String duration, Location end_location, Location start_location) {
+    public DetailLocationTwoPoint(String distance, String duration, Location end_location, Location startLocation) {
         this.distance = distance;
         this.duration = duration;
-        this.end_location = end_location;
-        this.start_location = start_location;
+        this.endLocation = end_location;
+        this.startLocation = startLocation;
     }
 
     public String getDistance() {
@@ -45,20 +44,20 @@ public class DetailLocationTwoPoint implements IWearableModel<DetailLocationTwoP
         this.duration = duration;
     }
 
-    public Location getEnd_location() {
-        return end_location;
+    public Location getEndLocation() {
+        return endLocation;
     }
 
-    public void setEnd_location(Location end_location) {
-        this.end_location = end_location;
+    public void setEndLocation(Location endLocation) {
+        this.endLocation = endLocation;
     }
 
-    public Location getStart_location() {
-        return start_location;
+    public Location getStartLocation() {
+        return startLocation;
     }
 
-    public void setStart_location(Location start_location) {
-        this.start_location = start_location;
+    public void setStartLocation(Location startLocation) {
+        this.startLocation = startLocation;
     }
 
     @Override
@@ -66,11 +65,11 @@ public class DetailLocationTwoPoint implements IWearableModel<DetailLocationTwoP
         this.distance = dataMap.getString("distance");
         this.duration = dataMap.getString("duration");
 
-        this.end_location = new Location();
-        this.end_location.dataMapToModel(dataMap.getDataMap("end_location"));
+        this.endLocation = new Location();
+        this.endLocation.dataMapToModel(dataMap.getDataMap("end_location"));
 
-        this.start_location = new Location();
-        this.start_location.dataMapToModel(dataMap.getDataMap("start_location"));
+        this.startLocation = new Location();
+        this.startLocation.dataMapToModel(dataMap.getDataMap("start_location"));
 
     }
 
@@ -79,8 +78,8 @@ public class DetailLocationTwoPoint implements IWearableModel<DetailLocationTwoP
         DataMap dataMap = new DataMap();
         dataMap.putString("distance",distance);
         dataMap.putString("duration", duration);
-        dataMap.putDataMap("end_location", end_location.putToDataMap());
-        dataMap.putDataMap("start_location", start_location.putToDataMap());
+        dataMap.putDataMap("end_location", endLocation.putToDataMap());
+        dataMap.putDataMap("start_location", startLocation.putToDataMap());
         return dataMap;
     }
 
@@ -103,15 +102,15 @@ public class DetailLocationTwoPoint implements IWearableModel<DetailLocationTwoP
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.distance);
         dest.writeString(this.duration);
-        dest.writeParcelable(this.end_location, 0);
-        dest.writeParcelable(this.start_location, 0);
+        dest.writeParcelable(this.endLocation, 0);
+        dest.writeParcelable(this.startLocation, 0);
     }
 
     protected DetailLocationTwoPoint(Parcel in) {
         this.distance = in.readString();
         this.duration = in.readString();
-        this.end_location = in.readParcelable(Location.class.getClassLoader());
-        this.start_location = in.readParcelable(Location.class.getClassLoader());
+        this.endLocation = in.readParcelable(Location.class.getClassLoader());
+        this.startLocation = in.readParcelable(Location.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<DetailLocationTwoPoint> CREATOR = new Parcelable.Creator<DetailLocationTwoPoint>() {

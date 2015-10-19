@@ -19,19 +19,33 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class GPSServiceOld extends Service implements LocationListener {
+public class GPSServiceOld extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
 
-    public static final String  LOCATION_CHANGE_SIGNAL = "location_change_signal";
+    public static final String LOCATION_CHANGE_SIGNAL = "location_change_signal";
 
-    private EventBus bus = EventBus.getDefault();
+    private EventBus bus;
 
-    private final Context mContext;
+    private Context mContext;
 
     // flag for GPS status
     boolean isGPSEnabled = false;
@@ -55,12 +69,42 @@ public class GPSServiceOld extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    GoogleApiClient mGoogleApiClient;
+    boolean mConnected = false;
+
+    public GPSServiceOld() {
+        Log.e("hqthao", "empty constructor has been called");
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.e("hqthao", "Oncreated");
+        this.mContext = getApplicationContext();
+        bus = EventBus.getDefault();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        mGoogleApiClient.connect();
+        getLocation();
+    }
+
     public GPSServiceOld(Context context) {
         this.mContext = context;
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        mGoogleApiClient.connect();
         getLocation();
     }
 
     public Location getLocation() {
+        Log.e("hqthao", "getLocation called");
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
@@ -133,9 +177,9 @@ public class GPSServiceOld extends Service implements LocationListener {
 
     /**
      * Function to get latitude
-     * */
-    public double getLatitude(){
-        if(location != null){
+     */
+    public double getLatitude() {
+        if (location != null) {
             latitude = location.getLatitude();
         }
 
@@ -145,9 +189,9 @@ public class GPSServiceOld extends Service implements LocationListener {
 
     /**
      * Function to get longitude
-     * */
-    public double getLongitude(){
-        if(location != null){
+     */
+    public double getLongitude() {
+        if (location != null) {
             longitude = location.getLongitude();
         }
 
@@ -157,8 +201,9 @@ public class GPSServiceOld extends Service implements LocationListener {
 
     /**
      * Function to check GPS/wifi enabled
+     *
      * @return boolean
-     * */
+     */
     public boolean canGetLocation() {
         return this.canGetLocation;
     }
@@ -166,8 +211,8 @@ public class GPSServiceOld extends Service implements LocationListener {
     /**
      * Function to show settings alert dialog
      * On pressing Settings button will lauch Settings Options
-     * */
-    public void showSettingsAlert(){
+     */
+    public void showSettingsAlert() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         // Setting Dialog Title
@@ -178,7 +223,7 @@ public class GPSServiceOld extends Service implements LocationListener {
 
         // On pressing Settings button
         alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog,int which) {
+            public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 mContext.startActivity(intent);
             }
@@ -201,6 +246,13 @@ public class GPSServiceOld extends Service implements LocationListener {
         Log.e("Nam", "Ket qua: " + location.getLatitude() + " : " + location.getLongitude());
         LocationMessage message = new LocationMessage(location);
         bus.post(message);
+
+        if (mConnected) {
+            com.fpt.router.library.model.motorbike.Location local = new com.fpt.router.library.model.motorbike.Location();
+            local.setLatitude(location.getLatitude());
+            local.setLongitude(location.getLongitude());
+            new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
+        }
     }
 
     @Override
@@ -220,6 +272,60 @@ public class GPSServiceOld extends Service implements LocationListener {
         return null;
     }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.e("hqthao", "GoogleAPIClient of GPS Service started");
+        mConnected = true;
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        mConnected = false;
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        mConnected = false;
+    }
+
+
+    class SendToDataLayerThread extends Thread {
+        String path;
+        com.fpt.router.library.model.motorbike.Location location;
+
+        // Constructor for sending data objects to the data layer
+        SendToDataLayerThread(String p, com.fpt.router.library.model.motorbike.Location local) {
+            path = p;
+            location = local;
+        }
+
+        public void run() {
+            Log.e("Nam", "aaaa");
+            NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+            Log.e("Nam", "bbbb");
+            for (Node node : nodes.getNodes()) {
+                Leg leg = new Leg();
+                DataMap dataMaps = location.putToDataMap();
+                Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
+
+                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
+                putDataMapRequest.getDataMap().putDataMap("location", dataMaps);
+
+                PutDataRequest request = putDataMapRequest.asPutDataRequest();
+
+                PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mGoogleApiClient, request);
+
+                DataApi.DataItemResult result = pendingResult.await();
+                if (result.getStatus().isSuccess()) {
+                    Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
+                } else {
+                    // Log an error
+                    Log.v("myTag", "ERROR: failed to send DataMap");
+                }
+
+            }
+        }
+    }
 
 
 }

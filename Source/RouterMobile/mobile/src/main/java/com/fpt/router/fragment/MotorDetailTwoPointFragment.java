@@ -1,6 +1,5 @@
 package com.fpt.router.fragment;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,14 +16,10 @@ import android.widget.ListView;
 import com.fpt.router.R;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.config.MessagePath;
-import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.library.model.motorbike.Step;
-import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.widget.LockableListView;
-import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

@@ -1,6 +1,5 @@
 package com.fpt.router.fragment;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,12 +16,9 @@ import android.widget.ListView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.config.MessagePath;
 import com.fpt.router.adapter.RouteItemAdapter;
-import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
-import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
@@ -51,7 +47,6 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by asus on 10/12/2015.
@@ -156,7 +151,7 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
 
         /** start get list step and show  */
         for(int n = 0; n < listLeg.size(); n ++) {
-            listStep.addAll(listLeg.get(n).getStep());
+            listStep.addAll(listLeg.get(n).getSteps());
         }
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
