@@ -1,5 +1,7 @@
 package com.fpt.router.crawler.work;
 
+import com.fpt.router.artifacter.dao.MapDAL;
+import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.entity.CityMap;
 
 /**
@@ -30,7 +32,12 @@ public class Work {
 
         System.out.println("Size Route on Map: " + map.getRoutes().size());
 
+        MapDAL.insertDatabase(map);
+
+        JPADaoImpl.closeFactory();
         return map;
+
+
     }
 
     public static void main(String[] args) {
