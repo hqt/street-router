@@ -103,7 +103,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_bus_detail_twopoint, container, false);
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
@@ -170,7 +170,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
             }
         }
 
-        adapterItem = new BusDetailAdapter(getContext(),R.layout.activity_show_detail_bus_steps,iNodeList);
+        adapterItem = new BusDetailAdapter(getContext(),R.layout.adapter_show_detail_bus_steps,iNodeList);
 
         mListView.addHeaderView(mTransparentHeaderView);
       /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, steps));*/

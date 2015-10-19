@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -70,7 +69,7 @@ public class MotorFourPointFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if(listLocation.size() > 1){
-            View v = inflater.inflate(R.layout.fragment_list_view, container, false);
+            View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.MOTOR_FOUR_POINT) {

@@ -99,7 +99,7 @@ public class MotorDetailTwoPointFragment extends Fragment implements GoogleApiCl
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_bus_detail_twopoint, container, false);
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 

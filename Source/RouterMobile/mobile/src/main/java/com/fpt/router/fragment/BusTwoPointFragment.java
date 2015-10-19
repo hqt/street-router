@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,29 +15,21 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.NetworkUtils;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +88,7 @@ public class BusTwoPointFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (listLocation.size() > 1) {
-            View v = inflater.inflate(R.layout.fragment_list_view, container, false);
+            View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {

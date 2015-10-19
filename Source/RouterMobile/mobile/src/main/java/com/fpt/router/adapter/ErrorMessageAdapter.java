@@ -22,7 +22,7 @@ public class ErrorMessageAdapter extends RecyclerView.Adapter<ErrorMessageAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_error, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_error_message, viewGroup, false);
 
         return new ViewHolder(v);
     }

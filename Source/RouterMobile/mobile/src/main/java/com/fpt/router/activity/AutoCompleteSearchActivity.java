@@ -40,7 +40,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_search);
+        setContentView(R.layout.activity_autocomplete_search);
 
         listView = (ListView) findViewById(R.id.listview_autosearch);
         adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());

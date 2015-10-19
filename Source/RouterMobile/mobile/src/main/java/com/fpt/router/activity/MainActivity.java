@@ -1,10 +1,8 @@
 package com.fpt.router.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,31 +17,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.service.GPSFuseService;
 import com.fpt.router.library.utils.MapUtils;
-import com.fpt.router.service.GPSService;
-import com.fpt.router.service.GPSServiceOld;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-
-import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
@@ -65,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_first);
+        setContentView(R.layout.activity_main);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)

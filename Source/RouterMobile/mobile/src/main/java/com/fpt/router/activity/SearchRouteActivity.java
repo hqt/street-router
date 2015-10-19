@@ -21,9 +21,6 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
-import com.fpt.router.fragment.BusTwoPointFragment;
-import com.fpt.router.fragment.MotorFourPointFragment;
-import com.fpt.router.fragment.MotorTwoPointFragment;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.Leg;
 
@@ -65,7 +62,7 @@ public class SearchRouteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_second);
+        setContentView(R.layout.activity_search_route);
         /**set Toolbar*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -31,11 +31,11 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (listLocation.size() == 2 ){
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_two_point,parent,false);
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_twopoint,parent,false);
         }else if (listLocation.size() == 3) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_three_point,parent,false);
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_threepoint,parent,false);
         } else if (listLocation.size() == 4) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_motorbike_four_point,parent,false);
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_fourpoint,parent,false);
         }
         routerViewHolder = new RouterViewHolder(v);
         return routerViewHolder;

@@ -62,7 +62,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     }
 
     public View getTabView(int position){
-        View view = LayoutInflater.from(context).inflate(R.layout.tab_layout, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.viewpager_tab_layout, null);
         TextView tv= (TextView) view.findViewById(R.id.tab_title);
         tv.setText(tabTitles[position]);
         ImageView img = (ImageView) view.findViewById(R.id.tab_icon);

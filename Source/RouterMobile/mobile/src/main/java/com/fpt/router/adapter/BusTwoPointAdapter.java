@@ -1,8 +1,6 @@
 package com.fpt.router.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +34,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
     @Override
     public BusViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_show_list_bus,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_show_list_bus,parent,false);
         BusViewHoder busViewHoder = new BusViewHoder(v);
         return busViewHoder;
     }
@@ -91,7 +89,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 */
         /*TestAdapter showImage = new TestAdapter(holder.context,images);*/
         BusImageAdapter showImage = new BusImageAdapter(holder.context,images);
-        /*ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(holder.context,R.layout.simple_list_item_1,images);*/
+        /*ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(holder.context,R.layout.bus_item_image,images);*/
         holder.tvList.setAdapter(showImage);
 
         holder.txtDuration.setText(result.minutes+" mins");
