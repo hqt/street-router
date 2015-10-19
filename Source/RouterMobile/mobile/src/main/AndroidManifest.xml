@@ -57,13 +57,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
-        <activity
-            android:name=".activity.test.GoogleMapMotorbikeFourPoint"
-            android:label="@string/title_activity_main" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.SearchRouteActivity" />
-        </activity>
 
         <!-- The service listening for incoming messages from the wear device -->
         <service android:name=".service.FeedbackListenerService" >
