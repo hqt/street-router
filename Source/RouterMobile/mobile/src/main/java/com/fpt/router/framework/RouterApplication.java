@@ -34,6 +34,11 @@ public class RouterApplication extends Application {
         startService(intent);
     }
 
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // MultiDex.install(this);
+    }
+
     @Override
     public void onTerminate() {
         super.onTerminate();

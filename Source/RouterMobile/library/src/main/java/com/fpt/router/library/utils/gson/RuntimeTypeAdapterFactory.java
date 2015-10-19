@@ -1,4 +1,4 @@
-package com.fpt.router.library.utils;
+package com.fpt.router.library.utils.gson;
 
 /**
  * Purpose:

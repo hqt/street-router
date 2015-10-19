@@ -59,10 +59,6 @@
         <service android:name=".wear.service.GPSFuseService" >
         </service>
 
-        <activity
-            android:name=".wear.activity.MapsActivity"
-            android:label="@string/title_activity_maps"
-            android:launchMode="singleTop"></activity>
     </application>
 
 </manifest>

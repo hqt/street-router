@@ -88,7 +88,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count % 2 == 1) {
-                    GetPlaces task = new GetPlaces();
+                    GetPlacesTask task = new GetPlacesTask();
                     //now pass the argument in the textview to the task
                     task.execute(autoComp.getText().toString());
                 }
@@ -148,7 +148,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         }
     }
 
-    class GetPlaces extends AsyncTask<String, Void, ArrayList<String>> {
+    class GetPlacesTask extends AsyncTask<String, Void, ArrayList<String>> {
 
         @Override
         // three dots is java for an array of strings
@@ -183,7 +183,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 }
             } catch (JSONException e)
             {
-                Log.e("YourApp", "GetPlaces : doInBackground", e);
+                Log.e("YourApp", "GetPlacesTask : doInBackground", e);
             }
 
             return predictionsArr;
