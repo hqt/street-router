@@ -132,18 +132,24 @@ public class GoogleAPIUtils {
         return json;
     }
 
-    public static String getGooglePlace(String autoCompleteText){
+    public static List<String> getGooglePlace(String autoCompleteText){
         String key = AppConstants.GOOGLE_KEY;
         String text = null;
+        List<String> listUrl = new ArrayList<>();
+        String[] listTypes = {"geocode", "address", "establishment"};
         try {
             text = URLEncoder.encode(autoCompleteText, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
-                "input=" + text +
-                "&types=establishment&components=country:vn&language=vi&sensor=true&key=" + key;
-        return url;
+        for(int i = 0; i < listTypes.length; i++) {
+            String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
+                    "input=" + text +
+                    "&types=" + listTypes[i] +
+                    "&components=country:vn&language=vi&sensor=true&key=" + key;
+            listUrl.add(url);
+        }
+        return listUrl;
     }
 
 }

@@ -26,13 +26,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
     public AutocompleteAdapter adapter;
    /* public AutoCompleteTextView autoComp;*/
     private EditText autoComp;
     private  ListView listView;
-    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,20 +161,25 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-				String url = GoogleAPIUtils.getGooglePlace(args[0]);
-                json = NetworkUtils.download(url);
+				List<String> listUrl = GoogleAPIUtils.getGooglePlace(args[0]);
+                List<String> json = new ArrayList<>();
+                for(int n = 0; n < listUrl.size(); n++) {
+                    json.add(NetworkUtils.download(listUrl.get(n)));
+                }
                 if(json == null){
                     return null;
                 }
                 //turn that string into a JSON object
-                JSONObject predictions = new JSONObject(json);
-                //now get the JSON array that's inside that object
-                JSONArray ja = new JSONArray(predictions.getString("predictions"));
+                for(int x = 0; x < json.size(); x++) {
+                    JSONObject predictions = new JSONObject(json.get(x));
+                    //now get the JSON array that's inside that object
+                    JSONArray ja = new JSONArray(predictions.getString("predictions"));
 
-                for (int i = 0; i < ja.length(); i++) {
-                    JSONObject jo = (JSONObject) ja.get(i);
-                    //add each entry to our array
-                    predictionsArr.add(jo.getString("description"));
+                    for (int y = 0; y < ja.length(); y++) {
+                        JSONObject jo = (JSONObject) ja.get(y);
+                        //add each entry to our array
+                        predictionsArr.add(jo.getString("description"));
+                    }
                 }
             } catch (JSONException e)
             {
@@ -193,8 +198,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 Log.e("hqt", "onPostExecute : result = " + string);
                adapter.add(string);
             }*/
-            if(json == null){
-                result  = new ArrayList<>();
+            if(result == null){
                 result.add("Cần kết nối Internet");
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,result);
                 /*return;*/
@@ -202,7 +206,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, result);
             }
 
-           listView.setAdapter(adapter);
+            listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
             /*autoComp.setAdapter(adapter);*/
             Log.d("YourApp", "onPostExecute : autoCompleteAdapter" + adapter.getCount());
