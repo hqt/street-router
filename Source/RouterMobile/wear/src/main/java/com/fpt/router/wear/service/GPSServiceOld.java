@@ -9,12 +9,15 @@ import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.fpt.router.library.model.message.LocationMessage;
@@ -58,6 +61,16 @@ public class GPSServiceOld extends Service implements LocationListener {
 
     public Location getLocation() {
         try {
+
+            // from android with sdk >= 23. User can deny some permission.
+            // so we must check permission programmatically on code
+            /*if ( Build.VERSION.SDK_INT >= 23 &&
+                    ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
+                    ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return  null;
+            }*/
+
+
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
 
@@ -71,6 +84,7 @@ public class GPSServiceOld extends Service implements LocationListener {
 
             if (!isGPSEnabled && !isNetworkEnabled) {
                 // no network provider is enabled
+                Log.e("hqthao", "No network provider is enabled");
             } else {
                 this.canGetLocation = true;
                 // First get mCurrentLocation from Network Provider
