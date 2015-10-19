@@ -18,6 +18,7 @@ import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
+import com.fpt.router.library.utils.string.LevenshteinDistance;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
 
@@ -26,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
@@ -150,6 +153,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
 
     class GetPlacesTask extends AsyncTask<String, Void, ArrayList<String>> {
 
+        private String searchString;
+
         @Override
         // three dots is java for an array of strings
         protected ArrayList<String> doInBackground(String... args)
@@ -161,7 +166,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-				List<String> listUrl = GoogleAPIUtils.getGooglePlace(args[0]);
+                searchString = args[0];
+                List<String> listUrl = GoogleAPIUtils.getGooglePlace(searchString);
                 List<String> json = new ArrayList<>();
                 for(int n = 0; n < listUrl.size(); n++) {
                     json.add(NetworkUtils.download(listUrl.get(n)));
@@ -192,18 +198,48 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         //then our post
 
         @Override
-        protected void onPostExecute(ArrayList<String> result){
+        protected void onPostExecute(ArrayList<String> results){
             adapter.clear();
            /* for (String string : result) {
                 Log.e("hqt", "onPostExecute : result = " + string);
                adapter.add(string);
             }*/
-            if(result == null){
-                result.add("Cần kết nối Internet");
-                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,result);
+            if(results == null){
+                results = new ArrayList<String>();
+                results.add("Cần kết nối Internet");
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,results);
                 /*return;*/
             }else {
-                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, result);
+                // sort result
+                Collections.sort(results, new Comparator<String>() {
+                    @Override
+                    public int compare(String s1, String s2) {
+                        int distanceS1 = LevenshteinDistance.computeDistance(s1, searchString);
+                        int distanceS2 = LevenshteinDistance.computeDistance(s2, searchString);
+                        return distanceS1 - distanceS2;
+                    }
+                });
+
+                List<String> shortenList = new ArrayList<String>();
+                for (int i = 0; i < results.size(); i++) {
+                    if (i == 0) {
+                        shortenList.add(results.get(i));
+                        continue;
+                    }
+
+                    // just add string that different than previous string
+                    String current = results.get(i);
+                    String previous = results.get(i-1);
+                    if (LevenshteinDistance.computeDistance(current, previous) > 1) {
+                        shortenList.add(current);
+                    }
+                }
+
+                if (shortenList.size() > 10) {
+                    shortenList = shortenList.subList(0, 10);
+                }
+
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, shortenList);
             }
 
             listView.setAdapter(adapter);

@@ -6,15 +6,16 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nguyen Trung Nam on 10/3/2015.
  */
 public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
-    private ArrayList<String> resultList;
+    private List<String> resultList;
 
 
-    public AutocompleteAdapter(Context context, int textViewResourceId, ArrayList<String> arrayList) {
+    public AutocompleteAdapter(Context context, int textViewResourceId, List<String> arrayList) {
         super(context, textViewResourceId);
         this.resultList = arrayList;
     }

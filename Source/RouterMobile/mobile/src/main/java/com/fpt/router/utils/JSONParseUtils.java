@@ -318,13 +318,14 @@ public class JSONParseUtils {
         for(int n = 0; n < listLocation.size(); n++) {
             List<String> listUrl = GoogleAPIUtils.getGooglePlace(listLocation.get(n));
             try {
-                for(int i = 0; i < listUrl.size(); i++)
-                jsonO = new JSONObject(NetworkUtils.download(listUrl.get(i)));
-                jsonA = jsonO.getJSONArray("predictions");
-                jsonO = jsonA.getJSONObject(0);
-                if(jsonO.getString("place_id") != null) {
-                    listPlaceID.add(jsonO.getString("place_id"));
-                    break;
+                for(int i = 0; i < listUrl.size(); i++) {
+                    jsonO = new JSONObject(NetworkUtils.download(listUrl.get(i)));
+                    jsonA = jsonO.getJSONArray("predictions");
+                    jsonO = jsonA.getJSONObject(0);
+                    if (jsonO.getString("place_id") != null) {
+                        listPlaceID.add(jsonO.getString("place_id"));
+                        break;
+                    }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
