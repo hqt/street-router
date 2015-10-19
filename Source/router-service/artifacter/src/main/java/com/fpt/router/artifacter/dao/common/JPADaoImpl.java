@@ -76,7 +76,9 @@ public class JPADaoImpl<T extends IEntity, PK extends Serializable> implements G
 
     public List<T> findAll() {
         EntityManager entityManager = factory.createEntityManager();
-        return entityManager.createQuery("from " + entityClass.getName()).getResultList();
+        List<T> resultList = entityManager.createQuery("from " + entityClass.getName()).getResultList();
+        entityManager.close();
+        return resultList;
     }
 
     public void deleteAll() {

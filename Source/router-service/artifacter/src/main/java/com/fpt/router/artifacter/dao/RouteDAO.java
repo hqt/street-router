@@ -13,6 +13,13 @@ import java.util.List;
  * Created by Huynh Quang Thao on 9/27/2015.
  */
 public class RouteDAO extends JPADaoImpl<Route, Integer> {
+
+    public EntityManager getEntityManager() {
+        EntityManagerFactory factory = JPADaoImpl.factory;
+        EntityManager entityManager = factory.createEntityManager();
+        return entityManager;
+    }
+
     public List<Route> getRoutesAtPage(int pageNum) {
         EntityManagerFactory factory = JPADaoImpl.factory;
         EntityManager entityManager = factory.createEntityManager();
@@ -27,4 +34,5 @@ public class RouteDAO extends JPADaoImpl<Route, Integer> {
         entityManager.close();
         return resultList;
     }
+
 }

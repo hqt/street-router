@@ -37,16 +37,25 @@ public class PathInfoDAO extends JPADaoImpl<PathInfo, Integer> {
         return null;
     }
 
-    public static List<Station> getListPathInfoByRouteId(int routeId) {
+    public static List<Station> getListPathInfoByRouteNo(int routeNo) {
 
-        Route route = getEntiyManager().find(Route.class, routeId);
-        List<PathInfo> pathInfos = route.getPathInfos();
         List<Station> stations = new ArrayList<Station>();
-        for (PathInfo pathInfo : pathInfos) {
-            Station stationFrom = pathInfo.getFrom();
-            stations.add(stationFrom);
+
+        // create hql
+        String hql = "select r from Route r where r.routeNo= :routeno";
+
+        Query query = getEntiyManager().createQuery(hql);
+        query.setParameter("routeno", routeNo);
+        List<Route> routes = query.getResultList();
+
+        for (Route r : routes) {
+            List<PathInfo> pathInfos = r.getPathInfos();
+            for (PathInfo p : pathInfos) {
+                Station stationFrom = p.getFrom();
+                stations.add(stationFrom);
+            }
         }
-        getEntiyManager().close();
+
         return stations;
     }
 }
