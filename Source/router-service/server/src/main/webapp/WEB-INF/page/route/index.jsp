@@ -20,6 +20,7 @@
         <c:set var="subRoute" scope="request" value="${requestScope.subRoute}"/>
         <c:import url="../../common/sidebar.jsp"/>
         <c:import url="content.jsp"/>
+        <c:import url="../../common/footer.jsp"/>
     </div>
 </div>
 </body>
