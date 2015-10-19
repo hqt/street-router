@@ -15,9 +15,7 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.MotorFourPointAdapter;
-import com.fpt.router.adapter.MotorTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;

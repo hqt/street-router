@@ -235,9 +235,9 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                     }
                 }
 
-                if (shortenList.size() > 10) {
+                /*if (shortenList.size() > 10) {
                     shortenList = shortenList.subList(0, 10);
-                }
+                }*/
 
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, shortenList);
             }
