@@ -25,6 +25,9 @@
         <url-pattern>/paging</url-pattern>
         <url-pattern>/detail</url-pattern>
         <url-pattern>/api/twopoint</url-pattern>
+        <url-pattern>/main</url-pattern>
+        <url-pattern>/child</url-pattern>
+        <url-pattern>/content</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>

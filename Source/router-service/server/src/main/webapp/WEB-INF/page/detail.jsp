@@ -940,30 +940,23 @@ License: You must have a valid license purchased only from themeforest(the above
                 <div class="table-scrollable">
                   <table class="table table-striped table-hover">
                     <thead>
-                    <tr>
-                      <th>
-                        #
-                      </th>
-                      <th>
-                        Route Name
-                      </th>
-                      <th>
-                        Action
-                      </th>
-                    </tr>
+                      <tr>
+                        <th>
+                          #
+                        </th>
+                        <th>
+                          Station Name
+                        </th>
+                        <th>
+                          Action
+                        </th>
+                      </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="route" items="${requestScope.routes}" varStatus="count">
+                    <c:forEach var="station" items="${requestScope.stations}" varStatus="count">
                       <tr>
                         <td>${count.count}</td>
-                        <td>
-                          <form action="DispatcherServlet" method="post">
-                            <input type="hidden" value="${route.routeId}" name="routeId"/>
-                            <button type="submit" class="btn btn-link" name="action" value="detail">
-                              <span>${route.routeName}</span>
-                            </button>
-                          </form>
-                        </td>
+                        <td>${station.stationName}</td>
                         <td>
                           <div class="btn-group">
                             <button type="button" class="btn blue">
@@ -976,11 +969,11 @@ License: You must have a valid license purchased only from themeforest(the above
                             </button>
                           </div>
                         </td>
-                      </tr
+                      </tr>
                     </c:forEach>
                     </tbody>
                   </table>
-                  <a title="Next" class="btn btn-sm default next" onclick="loadRoutesAtPage()"><i class="fa fa-angle-right"></i></a>
+                  <%--<a title="Next" class="btn btn-sm default next" onclick="loadRoutesAtPage()"><i class="fa fa-angle-right"></i></a>--%>
                 </div>
               </div>
             </div>

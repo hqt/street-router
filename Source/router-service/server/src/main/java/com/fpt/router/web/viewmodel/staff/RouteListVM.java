@@ -10,6 +10,8 @@ import java.util.List;
  * Created by datnt on 10/11/2015.
  */
 public class RouteListVM {
+
+    private int numberOfItems;
     private List<RouteVM> routeListVMs;
 
     public RouteListVM() {
@@ -22,6 +24,14 @@ public class RouteListVM {
 
     public void setRouteListVMs(List<RouteVM> routeListVMs) {
         this.routeListVMs = routeListVMs;
+    }
+
+    public int getNumberOfItems() {
+        return numberOfItems;
+    }
+
+    public void setNumberOfItems(int numberOfItems) {
+        this.numberOfItems = numberOfItems;
     }
 
     public RouteListVM (List<Route> routes) {

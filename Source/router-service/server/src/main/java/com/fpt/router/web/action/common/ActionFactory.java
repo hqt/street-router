@@ -2,9 +2,7 @@ package com.fpt.router.web.action.common;
 
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
-import com.fpt.router.web.action.staff.RouteListAJAXAction;
-import com.fpt.router.web.action.staff.DetailRouteAction;
-import com.fpt.router.web.action.staff.RouteListAction;
+import com.fpt.router.web.action.staff.*;
 import com.fpt.router.web.config.ApplicationContext;
 
 /**
@@ -30,8 +28,7 @@ public class ActionFactory implements IActionFactory {
         } else if (url.equals("/paging")) {
             action = new RouteListAJAXAction();
         } else if (url.equals("/detail")) {
-            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "detail.jsp");
-            action = new DirectPageAction();
+            action = new StationListAction();
         } else if (url.equals("/api/twopoint")) {
             action = new TwoPointRouteAction();
         }
@@ -52,6 +49,8 @@ public class ActionFactory implements IActionFactory {
                 action = new RouteListAJAXAction();
             } else if (actionCommand.equals("detail")) {
                 action = new DetailRouteAction();
+            } else if (actionCommand.equals("notification")) {
+                // new action
             }
         }
 

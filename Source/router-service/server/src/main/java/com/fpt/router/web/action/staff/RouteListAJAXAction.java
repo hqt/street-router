@@ -16,14 +16,15 @@ import java.util.List;
  * Created by datnt on 10/11/2015.
  */
 public class RouteListAJAXAction extends StaffAction {
+
     @Override
     public String execute(ApplicationContext context) {
 
-        int pageNum = context.getIntParameter("pageNum");
-        RouteDAO routeDAO = new RouteDAO();
-        List<Route> routes = routeDAO.getRoutesAtPage(pageNum);
-        RouteListVM routeListVM = new RouteListVM(routes);
+        @SuppressWarnings("unchecked") List<Route> routes = (List<Route>) context.getSessionAttribute("routes"); // to get routes from session
+        int limit = context.getIntParameter("pageNum"); // to get page num for sub list of routes.
+        List<Route> routesLimit = getSubList(routes, limit - 1); // to sub list route
 
+        RouteListVM routeListVM = new RouteListVM(routesLimit); // convert entity to model
         // convert this list to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = null;
@@ -35,7 +36,19 @@ public class RouteListAJAXAction extends StaffAction {
         PrintWriter out = context.getWriter();
         out.write(json);
 
-
         return Config.AJAX_FORMAT;
+
+    }
+
+    public List<Route> getSubList(List<Route> routes, int index) {
+
+        int y = index + 9;
+        if (y > routes.size()) {
+            y = routes.size();
+        }
+
+        List<Route> subRoute = routes.subList(index, y);
+        return subRoute;
+
     }
 }

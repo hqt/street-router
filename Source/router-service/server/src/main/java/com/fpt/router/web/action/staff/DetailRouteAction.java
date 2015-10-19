@@ -3,6 +3,8 @@ package com.fpt.router.web.action.staff;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.web.config.ApplicationContext;
+import com.fpt.router.web.viewmodel.staff.RouteListVM;
+import com.fpt.router.web.viewmodel.staff.StationListVM;
 
 /**
  * Created by datnt on 10/11/2015.
@@ -11,23 +13,20 @@ public class DetailRouteAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        // get parameter route id
-        String paramRouteID = context.getParameter("routeId");
+        // Check session out. if session out, redirect staff to login view else continue...
 
-        int routeId = -1;
+
+        // get parameter route no
+        String paramRouteNo = context.getParameter("routeNo");
+
+        int routeNo = -1;
         try {
-            routeId = Integer.parseInt(paramRouteID);
+            routeNo = Integer.parseInt(paramRouteNo);
         } catch (NumberFormatException ex) {
-            System.out.println("Cannot parse string id to int");
+            ex.printStackTrace();
         }
+        context.setSessionAttribute("routeNo", routeNo);
 
-        // process to get list station of route through pathinfo
-        PathInfoDAO pathInfoDao = new PathInfoDAO();
-        if (routeId != -1) {
-            pathInfoDao.getListPathInfoByRouteId(routeId);
-            return Config.WEB.REDIRECT + "detail"; // redirect detail route view
-        }
-
-        return ""; // stay at page
+        return Config.WEB.REDIRECT + "/detail";
     }
 }
