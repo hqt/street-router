@@ -1,4 +1,4 @@
-package com.fpt.router.library.utils;
+package com.fpt.router.library.utils.gson;
 
 /**
  * Created by Huynh Quang Thao on 10/13/15.

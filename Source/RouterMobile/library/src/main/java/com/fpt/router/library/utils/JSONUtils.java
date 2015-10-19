@@ -4,6 +4,8 @@ import com.fatboyindustrial.gsonjodatime.Converters;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.utils.gson.PeriodConverter;
+import com.fpt.router.library.utils.gson.RuntimeTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

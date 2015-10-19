@@ -1,4 +1,4 @@
-package com.fpt.router.utils;
+package com.fpt.router.library.utils;
 
 import android.content.res.Resources;
 import android.util.TypedValue;
