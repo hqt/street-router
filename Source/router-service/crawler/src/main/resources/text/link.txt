@@ -1,0 +1,137 @@
+1;1;Bến Thành- BX Chợ Lớn
+2;2;Bến Thành- BX Miền Tây
+3;3;Bến Thành- Thạnh Lộc
+4;4;Bến Thành- Cộng Hòa- An Sương
+135;5;Bến xe Chợ Lớn - Biên Hòa
+5;6;Bến xe Chợ Lớn- Đại học Nông Lâm
+6;7;Bến xe Chợ Lớn- Gò vấp
+7;8;Bến xe Quận 8- Đại học Quốc Gia
+8;9;Chợ Lớn- Quốc Lộ 1A- Hưng Long
+9;10;Đại học Quốc Gia- Bến xe Miền Tây
+109;100;Bến xe Củ Chi - Cầu Tân Thái
+110;101;Bến xe Chợ Lớn - Bến Phú Định
+111;102;Bến Thành - Nguyễn Văn Linh - Bến xe Miền Tây
+112;103;Bến xe Chợ Lớn - Bến xe Ngã 4 Ga
+113;104;Bến xe An Sương - Đại học Nông Lâm
+117;107;Bến xe Củ Chi - Bố Heo
+10;11;Bến Thành- Đầm Sen
+118;110;Phú Xuân – Hiệp Phước
+136;12;Bến Thành – Thác Giang Điền
+119;122;Bến xe An Sương - Tân Quy
+120;123;Phú Mỹ Hưng (khi H) - Quận 1
+121;124;Phú Mỹ Hưng (khu S) - Quận 1
+122;126;Bến xe Củ Chi - Bình Mỹ
+11;13;Bến Thành- Bến xe Củ Chi
+123;139;Bến xe Miền Tây - Phú Xuân
+12;14;Miền Đông- 3 tháng 2- Miền Tây
+124;140;Công viên 23/9 - Phạm Thế Hiển - Ba Tơ
+125;141;KDL BCR - Long Trường - KCX Linh Trung 2
+126;144;Bến xe Miền Tây - Chợ Lớn - CV Đầm Sen - CX Nhiêu Lộc
+127;145;Bến xe Chợ Lớn - Chợ Hiệp Thành
+128;146;Bến xe Miền Đông - Chợ Hiệp Thành
+129;148;Bến xe Miền Tây - Gò Vấp
+130;149;Công viên 23/9 – Chợ Bình Hưng Hòa
+13;15;Bến Phú Định- Đầm Sen
+131;150;Bến xe Chợ Lớn - Ngã 3 Tân Vạn
+115;151;Bến xe Miền Tây - Bến xe An Sương
+114;152;Khu dân cư Trung Sơn – Bến Thành - Sân bay Tân Sơn Nhất
+14;16;Bến xe Chợ Lớn – ĐH Công nghiệp thực phẩm
+15;17;Bến Xe Chợ Lớn - ĐH Sài Gòn - KCX Tân Thuận
+16;18;Bến Thành - Chợ Hiệp Thành
+17;19;Bến Thành - Khu Chế Xuất Linh Trung - Đại Học Quốc Gia
+18;20;Bến Thành - Nhà Bè
+19;22;Bến Xe Quận 8 - KCN Lê Minh Xuân
+20;23;Bến xe Chợ Lớn - Ngã 3 Giồng - Cầu Lớn
+21;24;Bến Xe Miền Đông - Hóc Môn
+22;25;Bến Xe Quận 8 - Khu Dân Cư Vĩnh Lộc A
+23;26;Bến Xe Miền Đông - Bến Xe An Sương
+24;27;Bến Thành - Âu Cơ - An Sương
+25;28;Bến Thành - Chợ Xuân Thới Thượng
+26;29;Bến Phà Cát Lái - Chợ Nông Sản Thủ Đức
+27;30;Chợ Tân Hương - Đại học Quốc tế
+28;31;Khu dân cư Tân Quy - Bến Thành - Khu dân cư Bình Lợi
+29;32;Bến Xe Miền Tây - Bến Xe Ngã Tư Ga
+30;33;Bến Xe An Sương - Suối Tiên - Đại học Quốc Gia
+31;34;Bến Thành - Đại Học Công Nghệ Sài Gòn
+32;35;Tuyến xe buýt Quận 1
+33;36;Bến Thành - Thới An
+34;37;Cảng Quận 4 - Nhơn Đức
+35;38;KDC Tân Quy - Đầm Sen
+36;39;Bến Thành - Võ Văn Kiệt - Bến Xe Miền Tây
+37;40;Bến xe Miền Đông- Bến xe Ngã Tư Ga
+38;41;Bến xe Miền Tây- Ngã tư Bốn xã- Bến xe An Sương
+137;42;Chợ Cầu Muối-Chợ nông sản Thủ Đức
+39;43;Bến xe Miền Đông- Phà Cát Lái
+40;44;Cảng Quận 4- Bình Quới
+41;45;Bến xe Quận 8- Bến Thành- Bến xe Miền Đông
+42;46;Cảng Quận 4- Bến Thành- Bến Mễ Cốc
+44;47;Bến xe Chợ Lớn - Quốc lộ 50 - Hưng Long
+45;48;Siêu thị CMC - Công viên phần mềm Quang Trung
+46;50;Đại học Bách khoa - Bến Thành - Đại học Quốc gia
+47;51;Bến xe Miền Đông - Bình Hưng Hòa
+48;52;Bến Thành - Đại học Quốc tế
+49;53;Lê Hồng Phong - Đại học Quốc gia
+50;54;Bến xe Miền Đông - Bến xe Chợ Lớn
+51;55;Công viên phần mềm Quang Trung - Khu Công nghệ cao (Q9)
+52;56;Bến xe Chợ Lớn - Đại học Giao thông Vận tải
+53;57;Chợ Phước Bình - Trường THPT Hiệp Bình
+54;58;Bến xe Ngã 4 Ga - Bình Mỹ
+55;59;Bến xe Quận 8 - Bến xe Ngã 4 Ga
+56;60;Bến xe An Sương - KCN Lê Minh Xuân
+138;601;BX Miền Tây - BX Biên Hòa
+139;603;Bến xe Miền Đông – Khu Công nghiệp Nhơn Trạch
+140;604;Bến xe Miền Đông - Bến xe Hố Nai
+57;61;Bến xe Chợ Lớn - KCN Lê Minh Xuân
+141;611;Thủ Đức - Dĩ An
+142;613;Bến xe An Sương – Thủ Dầu Một
+143;614;Bến Dược – Dầu Tiếng
+144;616;Bến Thành - Khu Du lịch Đại Nam
+145;617;Bến đò Bình Mỹ - Bến xe Bình Dương
+146;618;Bến xe Miền Tây – Khu Du lịch Đại Nam
+58;62;Bến xe Quận 8 -Thới An
+147;6210;Bến xe Chợ Lớn - Thanh Vĩnh Đông
+148;6211;Bến xe Miền Tây - Tân Tập
+149;622;Bến xe Chợ Lớn - Ngã 3 Tân Lân
+150;623;Bến Củ Chi - Bến xe Hậu Nghĩa
+151;624;Thị trấn Tân Túc - Chợ Bến Lức
+152;625;Bến xe An Sương - Bến xe Hậu Nghĩa
+153;627;Bến xe Chợ Lớn - Bến xe Đức Huệ
+154;628;Bến xe Chợ Lớn - Bến xe Tân An
+155;629;Bến xe Quận 8 – Cầu Nổi
+59;64;Bến xe Miền Đông - Đầm Sen
+75;65;Bến Thành - CMT8 - Bến xe An Sương
+76;66;Bến xe Chợ Lớn - Bến xe An Sương
+77;68;Bến xe Chợ Lớn - KCX Tân Thuận
+78;69;Công viên 23/9 – KCN Tân Bình
+79;70;Tân Quy - Bến Súc
+156;701;Bến xe Củ Chi - Bến xe Gò Dầu
+157;702;BX Củ Chi – Hòa Thành
+158;703;Bến Thành – Mộc Bài
+159;705;Bố Heo - Lộc Hưng
+80;71;Bến xe An Sương - Phật Cô Đơn
+81;72;Công viên 23/9 – Hiệp Phước
+82;73;Chợ Bình Chánh - KCN Lê Minh Xuân
+86;74;Bến xe An Sương - Bến xe Củ Chi
+87;75;Sài Gòn - Cần Giờ
+88;76;Long Phước - Suối Tiên - Đền Vua Hùng
+89;77;Đồng Hòa – Cần Thạnh
+90;78;Thới An – Hóc Môn
+91;79;Bến xe Củ Chi - Đền Bến Dược
+92;80;Bến xe Chợ Lớn - Ba Làng
+93;81;Bến xe Chợ Lớn - Lê Minh Xuân
+94;82;Bến xe Chợ Lớn - Ngã 3 Tân Qúy Tây
+95;83;Bến xe Củ Chi - Cầu Thầy Cai
+96;84;Bến xe Chợ Lớn - Tân Túc
+132;85;Bến xe An Sương- Hậu Nghĩa
+97;86;Bến Thành - Đại học Tôn Đức Thắng
+98;87;Bến xe Củ Chi - An Nhơn Tây
+99;88;Bến Thành - Chợ Long Phước
+100;89;Đại học Nông Lâm - Trường THPT Hiệp Bình
+101;90;Phà Bình Khánh - Cần Thạnh
+102;91;Bến xe Miền Tây - Chợ nông sản Thủ Đức
+103;92;Bến xe Chợ Lớn - Chợ Bình Chánh
+104;93;Bến Thành - Đại học Nông Lâm
+105;94;Bến xe Chợ Lớn - Bến xe Củ Chi
+106;95;Bến xe Miền Đông - KCN Tân Bình
+107;96;Bến Thành - Chợ Bình Điền
+108;99;Chợ Thạnh Mỹ Lợi - Đại học Quốc gia
