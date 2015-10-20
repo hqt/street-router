@@ -11,11 +11,28 @@ import java.util.List;
  */
 public class RouteListVM {
 
-    private int numberOfItems;
+    private int totalPage;
+    private int pageNum;
     private List<RouteVM> routeListVMs;
 
     public RouteListVM() {
 
+    }
+
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
     }
 
     public List<RouteVM> getRouteListVMs() {
@@ -24,14 +41,6 @@ public class RouteListVM {
 
     public void setRouteListVMs(List<RouteVM> routeListVMs) {
         this.routeListVMs = routeListVMs;
-    }
-
-    public int getNumberOfItems() {
-        return numberOfItems;
-    }
-
-    public void setNumberOfItems(int numberOfItems) {
-        this.numberOfItems = numberOfItems;
     }
 
     public RouteListVM (List<Route> routes) {
