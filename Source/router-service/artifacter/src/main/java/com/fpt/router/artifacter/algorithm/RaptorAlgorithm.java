@@ -272,6 +272,8 @@ public class RaptorAlgorithm {
      * last path will always pathType critical. means user should take care
      */
     private Segment buildMiddleResult(Station begin, Station end, Route route, int transferTurn) {
+
+        // this segment includes many paths
         Segment segment = new Segment();
         segment.routeId = route.routeId;
         segment.routeName = route.routeName;
