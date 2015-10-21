@@ -50,7 +50,7 @@ public class JPADaoImpl<T extends IEntity, PK extends Serializable> implements G
     public T read(PK id) {
         EntityManager entityManager = factory.createEntityManager();
         T t = entityManager.find(entityClass, id);
-        entityManager.close();
+        //entityManager.close();
         return t;
     }
 
@@ -77,7 +77,7 @@ public class JPADaoImpl<T extends IEntity, PK extends Serializable> implements G
     public List<T> findAll() {
         EntityManager entityManager = factory.createEntityManager();
         List<T> resultList = entityManager.createQuery("from " + entityClass.getName()).getResultList();
-        entityManager.close();
+        //entityManager.close();
         return resultList;
     }
 

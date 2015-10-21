@@ -124,7 +124,7 @@ public class TwoPointAlgorithm {
         }
 
         // brute force here
-        List<Result> results = new ArrayList<Result>();
+        results = new ArrayList<Result>();
         for (Station fromStation : nearStartStations) {
             for (Station toStation : nearEndStations) {
                 // create start path
