@@ -50,7 +50,7 @@ public class AlgorithmTest {
 
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
         LocalTime time = new LocalTime(10, 0);
-        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, maximark, "Ben Thanh market", "Software Park", time,
+        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, cho_ba_chieu, "Ben Thanh market", "Software Park", time,
                 Config.WALKING_DISTANCE, 2, false);
         System.out.println(res);
     }

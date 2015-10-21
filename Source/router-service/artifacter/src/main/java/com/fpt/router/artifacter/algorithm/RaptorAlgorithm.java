@@ -216,6 +216,7 @@ public class RaptorAlgorithm {
     private Result buildResult() {
 
         int transferTurn = K;
+        int realTransferTurn = 0;
         double totalDistance = startPath.distance + endPath.distance;
         Period totalTime = startPath.time.plus(endPath.time);
 
@@ -235,6 +236,7 @@ public class RaptorAlgorithm {
 
             // create middle stationMap in same route
             Segment segment = buildMiddleResult(previousHopStation, currentHopStation, route, transferTurn--);
+            realTransferTurn++;
             res.add(segment);
 
             // accumulate value for distance and time
@@ -245,6 +247,20 @@ public class RaptorAlgorithm {
         }
 
         res.add(startPath);
+
+        // save for reuse later. because realTransferTurn will be changed in next loop :)
+        transferTurn = realTransferTurn;
+
+        // build again real transfer turn
+        for (int i = 0; i < res.size(); i++) {
+            INode node = res.get(i);
+            if (node instanceof Segment) {
+                Segment segment = (Segment) node;
+                segment.tranferNo = realTransferTurn;
+                realTransferTurn--;
+            }
+        }
+
         // reverse again this list
         res = Lists.reverse(res);
 
@@ -254,7 +270,7 @@ public class RaptorAlgorithm {
         result.nodeList = res;
         result.totalDistance = totalDistance;
         result.totalTime = totalTime;
-        result.totalTransfer = K;
+        result.totalTransfer = transferTurn;
         result.minutes = (int) (TimeUtils.convertToMilliseconds(totalTime) / (1000 * 60));
 
         if (res.size() == 2) {
