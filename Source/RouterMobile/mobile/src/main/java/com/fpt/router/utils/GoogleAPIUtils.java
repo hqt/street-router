@@ -136,7 +136,7 @@ public class GoogleAPIUtils {
         String key = AppConstants.GOOGLE_KEY;
         String text = null;
         List<String> listUrl = new ArrayList<>();
-        String city = ", Hồ Chí Minh";
+        String city = ", Hồ Chí Minh, Việt Nam";
         String[] listTypes = {"geocode", "address", "establishment"};
         try {
             text = URLEncoder.encode(autoCompleteText, "UTF-8");

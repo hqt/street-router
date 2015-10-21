@@ -90,7 +90,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         autoComp.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count % 2 == 1) {
+                if (count % 3 == 1) {
                     GetPlacesTask task = new GetPlacesTask();
                     //now pass the argument in the textview to the task
                     task.execute(autoComp.getText().toString());
