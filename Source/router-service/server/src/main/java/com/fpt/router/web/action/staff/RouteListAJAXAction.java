@@ -17,14 +17,19 @@ import java.util.List;
  */
 public class RouteListAJAXAction extends StaffAction {
 
+    public static final int itemsPerPage = 10;
+
     @Override
     public String execute(ApplicationContext context) {
 
         @SuppressWarnings("unchecked") List<Route> routes = (List<Route>) context.getSessionAttribute("routes"); // to get routes from session
-        int limit = context.getIntParameter("pageNum"); // to get page num for sub list of routes.
-        List<Route> routesLimit = getSubList(routes, limit - 1); // to sub list route
-
+        int pageNum = context.getIntParameter("pageNum"); // to get page num for sub list of routes.
+        List<Route> routesLimit = getSubList(routes, pageNum - 1); // to sub list route
+        int totalPage = getTotalPage(routes.size());
         RouteListVM routeListVM = new RouteListVM(routesLimit); // convert entity to model
+        routeListVM.setTotalPage(totalPage);
+        routeListVM.setPageNum(pageNum);
+
         // convert this list to json
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = null;
@@ -51,4 +56,17 @@ public class RouteListAJAXAction extends StaffAction {
         return subRoute;
 
     }
+
+    public int getTotalPage(int size) {
+        int totalPage = -1;
+
+        if ((size % itemsPerPage) == 0) {
+            totalPage = size / totalPage;
+        } else {
+            totalPage = (size / totalPage) + 1;
+        }
+
+        return totalPage;
+    }
+
 }

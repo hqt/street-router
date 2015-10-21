@@ -16,10 +16,10 @@ android {
     }
 
     // add more memory when compiling mobile due to multidex compile
-    dexOptions {
+    /*dexOptions {
         incremental true
         javaMaxHeapSize "2048M"
-    }
+    }*/
 
     /*productFlavors {
         // Define separate dev and prod product flavors.

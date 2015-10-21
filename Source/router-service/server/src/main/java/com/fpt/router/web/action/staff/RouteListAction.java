@@ -18,7 +18,7 @@ public class RouteListAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        String command = super.execute(context);
+        /*String command = super.execute(context);
         if (command != null) return command;
 
         RouteDAO routeDao = new RouteDAO();
@@ -27,7 +27,7 @@ public class RouteListAction extends StaffAction {
         if (!routes.isEmpty()) {
             context.setSessionAttribute("routes", routes);
             context.setAttribute("subRoute", routes.subList(0,9));
-        }
+        }*/
 
        return Config.WEB.PAGE + "/route/index.jsp";
     }

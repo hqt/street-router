@@ -226,7 +226,6 @@ public class BusCrawlerPipe {
 
                         // set from & to station
                         pathInfo.setFrom(s);  // van set sb
-                        pathInfo.setPathInfoNo(busId);
                         pathInfo.setRoute(route);
                         listPathInfo.add(pathInfo);
 
@@ -255,7 +254,13 @@ public class BusCrawlerPipe {
                     pathInfo.setMiddleLocations(data);
                     break;
                 case 5:
-
+                    int no = -1;
+                    try {
+                        no = Integer.parseInt(data);
+                    } catch (NumberFormatException ex) {
+                        ex.printStackTrace();
+                    }
+                    pathInfo.setPathInfoNo(no);
                     break;
                 case 7:
                     station.setName(data);
