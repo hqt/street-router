@@ -322,7 +322,7 @@ public class JSONParseUtils {
                     jsonO = new JSONObject(NetworkUtils.download(listUrl.get(i)));
                     jsonA = jsonO.getJSONArray("predictions");
                     jsonO = jsonA.getJSONObject(0);
-                    if (jsonO.getString("place_id") != null) {
+                    if ((jsonO.getString("place_id") != null) && (listLocation.get(n) == jsonO.getString("description"))) {
                         listPlaceID.add(jsonO.getString("place_id"));
                         break;
                     }
