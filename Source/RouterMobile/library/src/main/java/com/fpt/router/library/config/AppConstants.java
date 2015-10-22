@@ -21,6 +21,12 @@ public class AppConstants {
         public static final String MESSAGE_PATH_GPS = MESSAGE_PATH + "/gps";
     }
 
+    public static final class Vibrator {
+        public static final int DELAY_VIBRATE = 500;
+        public static final int OFF_VIBRATE = 1000;
+        public static final int ON_VIBRATE = 2000;
+    }
+
     public static final class API {
         public static final String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
     }
