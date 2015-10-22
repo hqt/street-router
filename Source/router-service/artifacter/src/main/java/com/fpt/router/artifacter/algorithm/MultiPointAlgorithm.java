@@ -19,7 +19,7 @@ public class MultiPointAlgorithm {
     Location third;
 
     public String run(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      Location third, List<String> addresses,
+                      List<Location> middleLocations, List<String> middleAddresses,
                       LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
         // assign variable

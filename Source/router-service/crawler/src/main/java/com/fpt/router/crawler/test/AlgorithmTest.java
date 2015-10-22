@@ -4,6 +4,7 @@ package com.fpt.router.crawler.test;
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.MapDAL;
+import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Path;
@@ -19,6 +20,7 @@ public class AlgorithmTest {
     public static void main(String[] args) {
 
         CityMap map = MapDAL.readDatabase();
+        JPADaoImpl.closeFactory();
 
         // start
         Location start = new Location();
@@ -48,7 +50,7 @@ public class AlgorithmTest {
 
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
         LocalTime time = new LocalTime(10, 0);
-        String res = twoPointAlgorithm.run(map, cvpm, maximark, "Ben Thanh market", "Software Park", time,
+        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, cho_ba_chieu, "Ben Thanh market", "Software Park", time,
                 Config.WALKING_DISTANCE, 2, false);
         System.out.println(res);
     }

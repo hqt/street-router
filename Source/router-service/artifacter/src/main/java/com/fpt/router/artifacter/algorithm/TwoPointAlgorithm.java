@@ -35,47 +35,96 @@ public class TwoPointAlgorithm {
     double walkingDistance;
     Location start;
     Location end;
+    String startAddress;
+    String endAddress;
+    List<Result> results;
+    String message;
 
-    public String run(CityMap map, Location start, Location end, String startAddress, String endAddress,
+
+    public List<Result> solveAndReturnObject(CityMap map, Location start, Location end, String startAddress, String endAddress,
+                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
+        solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK);
+        if (message != null) {
+            return null;
+        } else {
+            return results;
+        }
+    }
+
+    public String solveAndReturnJSon(CityMap map, Location start, Location end, String startAddress, String endAddress,
                       LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
+        solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK);
+
+        if (message != null) {
+            return message;
+        }
+
+        /*// convert this list to json
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = null;
+        try {
+            json = ow.writeValueAsString(results);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        Gson gson = JSONUtils.buildGson();
+
+        String json = gson.toJson(results);
+        //System.out.println(json);
+
+        ArrayList<Result> res = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
+
+        return json;
+
+    }
+
+    public void solve(CityMap map, Location start, Location end, String startAddress, String endAddress,
+                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
         // assign to local variables
         this.map = map;
         this.start = start;
         this.end = end;
         this.walkingDistance = walkingDistance;
+        this.startAddress = startAddress;
+        this.endAddress = endAddress;
 
         // can walking
         if (DistanceUtils.distance(start, end) < 350) {
-            return "{" +
-                        "\"code\": \"success\"" +
-                        "\"pathType:\":\"walking\"" +
+            message =  "{" +
+                    "\"code\": \"success\"" +
+                    "\"pathType:\":\"walking\"" +
                     "}";
+
+            return;
         }
 
         List<Station> nearStartStations = findNearestStations(start);
         List<Station> nearEndStations = findNearestStations(end);
 
         String failMessage = "{" +
-                                "\"code\": \"fail\"" +
-                                "\"pathType:\":\"start location too far\"" +
-                            "}";
+                "\"code\": \"fail\"" +
+                "\"pathType:\":\"start location too far\"" +
+                "}";
 
         if (nearStartStations.size() == 0) {
-            return failMessage;
+            message= failMessage;
+            return;
         } else if (nearStartStations.size() > Config.BUS_LIMIT) {
             System.out.println("near stations size: " + nearStartStations.size());
-           nearStartStations = nearStartStations.subList(0, Config.BUS_LIMIT);
+            nearStartStations = nearStartStations.subList(0, Config.BUS_LIMIT);
         }
         if (nearEndStations.size() == 0) {
-            return failMessage.replace("start", "end");
+            message = failMessage.replace("start", "end");
+            return;
         } else if (nearEndStations.size() > Config.BUS_LIMIT) {
             System.out.println("near stations size: " + nearEndStations.size());
             nearEndStations = nearEndStations.subList(0, Config.BUS_LIMIT);
         }
 
         // brute force here
-        List<Result> results = new ArrayList<Result>();
+        results = new ArrayList<Result>();
         for (Station fromStation : nearStartStations) {
             for (Station toStation : nearEndStations) {
                 // create start path
@@ -107,44 +156,28 @@ public class TwoPointAlgorithm {
             }
         }
 
-
+        // sort priority
+        // 1. transfer turn
+        // 2. travel time
+        // 3. travel distance
         Collections.sort(results, new Comparator<Result>() {
             @Override
             public int compare(Result r1, Result r2) {
+                if (r1.totalTransfer != r2.totalTransfer) {
+                    return r1.totalTransfer - r2.totalTransfer;
+                }
 
-                return r1.minutes - r2.minutes;
+                if (r1.minutes != r2.minutes) {
+                    return r1.minutes - r2.minutes;
+                }
+
+                return (int) (r1.totalDistance - r2.totalDistance);
             }
         });
 
-        if (results.size() > 7) {
-            results = results.subList(0, 5);
+        if (results.size() > Config.BUS_RESULT_LIMIT) {
+            results = results.subList(0, Config.BUS_RESULT_LIMIT);
         }
-
-        /*// convert this list to json
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = null;
-        try {
-            json = ow.writeValueAsString(results);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        Gson gson = JSONUtils.buildGson();
-
-        String json = gson.toJson(results);
-        //System.out.println(json);
-
-        ArrayList<Result> res = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
-
-
-        /*
-
-        List<Result> testList = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
-
-        int t = 5;*/
-
-
-        return json;
 
     }
 

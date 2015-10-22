@@ -1,4 +1,4 @@
-package com.fpt.router.artifacter.model.viewmodel;
+package com.fpt.router.artifacter.json;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
