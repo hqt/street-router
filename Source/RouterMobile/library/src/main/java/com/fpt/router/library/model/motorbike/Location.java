@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by USER on 9/29/2015.
  */
-public class Location implements IWearableModel<Location> {
+public class Location implements IWearableModel<Location>,Serializable {
     private double latitude;
     private double longitude;
 

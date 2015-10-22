@@ -21,7 +21,7 @@ public class StationListAction implements IAction {
         if (paramRouteNo != -1) {
             StationListVM stationListVM = new StationListVM(pathInfoDao.getListPathInfoByRouteNo(paramRouteNo));
             context.setAttribute("stations", stationListVM.getStationListVM());
-            return Config.WEB.PAGE + "detail.jsp"; // redirect detail route view
+            return Config.WEB.PAGE + "station/index.jsp"; // redirect detail route view
         }
 
         return null;

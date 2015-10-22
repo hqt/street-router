@@ -4,6 +4,7 @@ import com.fpt.router.artifacter.config.Config;
 //import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.admin.AdminAction;
 import com.fpt.router.web.action.admin.StaffListAction;
+import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.staff.*;
 import com.fpt.router.web.config.ApplicationContext;
 
@@ -32,7 +33,7 @@ public class ActionFactory implements IActionFactory {
         } else if (url.equals("/detail")) {
             action = new StationListAction();
         } else if (url.equals("/api/twopoint")) {
-//            action = new TwoPointRouteAction();
+            action = new TwoPointRouteAction();
         } else if (url.equals("/update")) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/update.jsp");
             action = new DirectPageAction();

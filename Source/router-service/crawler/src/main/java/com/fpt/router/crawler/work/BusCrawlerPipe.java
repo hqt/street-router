@@ -188,7 +188,7 @@ public class BusCrawlerPipe {
                 JsonNode rootNode = om.readTree(in);
                 JsonNode table = rootNode.path("TABLE");
 
-                if (table.get(0) == null) return stationMap;
+                if (table.get(0) == null) return null;
 
                 // get routes
                 Route route = getRoutes(busNo,name,isgo);

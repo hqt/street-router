@@ -1,5 +1,6 @@
 package com.fpt.router.web.action.common;
 
+import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.web.config.ApplicationContext;
 
 import java.io.UnsupportedEncodingException;
@@ -14,6 +15,21 @@ public class AuthAction implements IAction {
 
     @Override
     public String execute(ApplicationContext context) {
+
+        LoginAction.User user = (LoginAction.User) context.getSessionAttribute("user");
+
+        if (user == null) {
+            return Config.WEB.PAGE + "/login.jsp";
+        }
+
+        if (user.getRole().equals("admin")) {
+            return "admin";
+        } else if (user.getRole().equals("staff")) {
+            return "staff";
+        } else if (user.getRole().equals("guest")) {
+            return "guest";
+        }
+
         return null;
     }
 

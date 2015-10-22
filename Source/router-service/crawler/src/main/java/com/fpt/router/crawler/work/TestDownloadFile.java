@@ -4,13 +4,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +54,88 @@ public class TestDownloadFile {
                     continue;
                 }
             }
+        }
+    }
+
+    public static void downloadJsonFile(int busNo, boolean type) {
+        try {
+
+            String link = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations&rid=" + busNo + "&" + type + "=false";
+
+            URL url = new URL(link);
+            BufferedReader buf = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8));
+            ReadableByteChannel rbc = Channels.newChannel(url.openStream());
+            //Set connection timeout
+            URLConnection urlConnection = url.openConnection();
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.setReadTimeout(15000);
+
+            String pathFolder = "D:\\Capstone\\street-router2\\Source\\router-service\\crawler\\src\\main\\resources\\json";
+            String pathFile = pathFolder + "\\" + busNo + "-" + type + "." + "json";
+            FileOutputStream fos = new FileOutputStream(pathFile);
+
+            fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+            fos.flush();
+            fos.close();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void downloadJsonFile2(int busNo, boolean type) {
+
+        String link = "http://mapbus.ebms.vn/ajax.aspx?action=listRouteStations&rid=" + busNo + "&" + "isgo=" + type;
+        System.out.println(link);
+
+
+
+        String pathFolder = "D:\\Capstone\\street-router2\\Source\\router-service\\crawler\\src\\main\\resources\\json";
+        String pathFile = pathFolder + "\\" + busNo + "-" + type + "." + "json";
+        System.out.println(pathFile);
+        File f = new File(pathFile);
+
+        InputStream inputStream;
+        try {
+
+            URL url = new URL(link);
+            inputStream = new BufferedInputStream(url.openStream());
+
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+
+            FileOutputStream fos = new FileOutputStream(f);
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                fos.write(bytes, 0, read);
+            }
+
+            System.out.println(busNo + "-" + type + " Download Done!");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void writefile(String content) {
+        File file = new File("C:\\Users\\datnt\\Desktop\\abc.txt");
+        if (file == null) {
+            System.out.println("Ân Càng Thâm, Oán Càng Sâu");
+        }
+        try {
+            PrintWriter fw = new PrintWriter("link.txt", "UTF-8");
+            fw.println(content);
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -123,8 +205,12 @@ public class TestDownloadFile {
     }
 
     public static void main(String args[]) {
-        TestDownloadFile testDownloadFile = new TestDownloadFile();
-        testDownloadFile.getAllExcelLink();
-        testDownloadFile.processDownload();
+        /*TestDownloadFile testDownloadFile = new TestDownloadFile();*/
+
+        //downloadJsonFile();
+        /*testDownloadFile.getAllExcelLink();
+        testDownloadFile.processDownload();*/
+        /*String content = "Cái éo gì đây";
+        writefile(content);*/
     }
 }

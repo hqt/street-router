@@ -5,7 +5,7 @@ package com.fpt.router.library.config;
  */
 public class AppConstants {
     private static final int SERVER_PORT = 8080;
-    private static final String SERVER_IP = "http://192.168.137.42";
+    private static final String SERVER_IP = "http://192.168.1.128";
     public static final String SERVER_ADDRESS = SERVER_IP + ":" + SERVER_PORT;
 
     private static final String GOOGLE_KEY_1 = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
@@ -30,5 +30,6 @@ public class AppConstants {
 
     public static final class API {
         public static final String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
+        public static final String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
 }

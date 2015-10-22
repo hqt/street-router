@@ -1,7 +1,6 @@
 package com.fpt.router.fragment;
 
 import android.graphics.Color;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,12 +15,15 @@ import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.Model;
 import com.fpt.router.library.model.common.SubModule;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
@@ -47,6 +49,8 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -80,13 +84,12 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
     private Toolbar toolbar;
 
     Result result;
-    List<LatLng> list;
-    String encodedString;
+
     private List<INode> iNodeList;
     private List<Path> paths;
     private BusDetailAdapter adapterItem;
     private List<Location> points;
-    private List<Segment> segments;
+
     private List<String> steps;
 
     public BusDetailTwoPointFragment() {
@@ -155,20 +158,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
         /** start get list step and show  */
 
         iNodeList = result.nodeList;
-        for (int i=0;i<iNodeList.size();i++){
-            if(iNodeList.get(i) instanceof Segment){
-                Segment segment = (Segment) iNodeList.get(i);
-                segments.add(segment);
-                paths = segment.paths;
-                for (int j = 0; j<paths.size();j++){
-                    points = paths.get(i).points;
-                    for (int n = 0; n <points.size();n++){
-                        LatLng latLng = new LatLng(points.get(n).getLatitude(),points.get(n).getLongitude());
-                        list.add(latLng);
-                    }
-                }
-            }
-        }
+
 
         adapterItem = new BusDetailAdapter(getContext(),R.layout.adapter_show_detail_bus_steps,iNodeList);
 
@@ -201,9 +191,28 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
 
+
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                List<Segment> segments = new ArrayList<Segment>();
+                for (int i=0;i<iNodeList.size();i++){
+                    if(iNodeList.get(i) instanceof Segment){
+                        Segment segment = (Segment) iNodeList.get(i);
+                        segments.add(segment);
+                    }
+                }
+                List<LatLng> list = new ArrayList<LatLng>();
+                for(int m = 0 ;m <segments.size();m++){
+                    paths = segments.get(m).paths;
+                    for (int j = 0; j<paths.size();j++){
+                        points = paths.get(j).points;
+                        for (int n = 0; n <points.size();n++){
+                            LatLng latLng = new LatLng(points.get(n).getLatitude(),points.get(n).getLongitude());
+                            list.add(latLng);
+                        }
+                    }
+                }
 
 
                 LatLng startLocation = list.get(0);
@@ -301,7 +310,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                 .position(latLng).anchor(0.5f, 0.5f));
     }
 
-    private void moveToLocation(Location location) {
+    private void moveToLocation(android.location.Location location) {
         if (location == null) {
             return;
         }
@@ -371,7 +380,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
     }
 
     @Override
-    public void onLocationChanged(Location location) {
+    public void onLocationChanged(android.location.Location location) {
         if (mIsNeedLocationUpdate) {
             moveToLocation(location);
         }
@@ -390,11 +399,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
         // send data to wear
         // Create a DataMap object and send it to the data layer
         DataMap dataMap = new DataMap();
-        // dataMap.putLong("time", new Date().getTime());
-        dataMap.putDouble("lng", count++);
-        dataMap.putDouble("lat", 10.7467632);
         //Requires a new thread to avoid blocking the UI
-        //new SendToDataLayerThread(MessagePath.MESSAGE_PATH, dataMap).start();
     }
 
     @Override
@@ -407,79 +412,5 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
 
     }
 
-    class SendToDataLayerThread extends Thread {
-        String path;
-        DataMap dataMap;
-
-        // Constructor for sending data objects to the data layer
-        SendToDataLayerThread(String p, DataMap data) {
-            path = p;
-            dataMap = data;
-        }
-
-        public void run() {
-            NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
-
-            for (Node node : nodes.getNodes()) {
-
-                // method 1. send over the data layer. This is reliability way for sending data.
-                // If a connection is unavailable when data is posted to the Data API,
-                // it will automatically synchronize with the other device once the connection is reestablished.
-                // this method shares and synchronizes data both devices
-                // Use when:
-                //  . synchronized data that might be modified on both side
-                //  . system will manage and cache data
-                //  . one-way or two-way communication.
-
-                Model model = new Model(1, "thao");
-                SubModule module = new SubModule(2, "Cho nam");
-                model.module = module;
-                DataMap map = new DataMap();
-                map = model.putToDataMap();
-
-                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
-                putDataMapRequest.getDataMap().putAll(map);
-                PutDataRequest request = putDataMapRequest.asPutDataRequest();
-
-                // DataItems share among devices and contain small amounts of data. A DataItem has 2 parts:
-                //  1. Path: Like Message API, unique string such as com/fpt/hqt
-                //  2. Payload: a byte array limited to 100KB
-                PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mGoogleApiClient, request);
-
-                /*// asynchronous call
-                pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
-                    @Override
-                    public void onResult(DataApi.DataItemResult dataItemResult) {
-
-                    }
-                });*/
-
-                // synchronous call
-                DataApi.DataItemResult result = pendingResult.await();
-                if (result.getStatus().isSuccess()) {
-                    Log.e("hqthao", "DataMap: " + map + " sent to: " + node.getDisplayName());
-                } else {
-                    // Log an error
-                    Log.v("myTag", "ERROR: failed to send DataMap");
-                }
-
-                // method 2. send message. One-way message communication
-                // once the message is sent. there is no confirmation that they were received
-                // Use when:
-                //  . immediately invoke action on other device, such as start an activity, start/stop music
-                //  . one-way communication
-                //  . don't want system to manage and cache messages
-                //Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), MessagePath.MESSAGE_PATH, null);
-
-                // method 3. send asset. When data is larger than 100KB
-                // Asset asset;
-                DataMap dataMap;
-
-                // method 4. ChanelApi.
-
-
-            }
-        }
-    }
 
 }

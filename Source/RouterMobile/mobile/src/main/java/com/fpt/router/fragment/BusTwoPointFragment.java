@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
+import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.Location;
@@ -44,7 +45,7 @@ public class BusTwoPointFragment extends Fragment {
     private SearchRouteActivity activity;
     private List<String> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
-
+    private List<String> listError = new ArrayList<String>();
     public BusTwoPointFragment() {
 
     }
@@ -183,6 +184,12 @@ public class BusTwoPointFragment extends Fragment {
         protected void onPostExecute(List<Result> resultList) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
+            }
+            if(!resultList.get(0).code.equals("success")){
+                listError = new ArrayList<String>();
+                listError.add(resultList.get(0).code);
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                return;
             }
 
             activity.searchType = null;

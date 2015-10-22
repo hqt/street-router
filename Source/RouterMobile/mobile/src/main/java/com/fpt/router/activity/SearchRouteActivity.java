@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
+import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.Leg;
 
@@ -32,6 +33,7 @@ public class SearchRouteActivity extends AppCompatActivity {
 
     public enum SearchType {
         BUS_TWO_POINT,
+        BUS_FOUR_POINT,
         MOTOR_TWO_POINT,
         MOTOR_FOUR_POINT
     }
@@ -47,6 +49,7 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static ViewPagerAdapter adapter;
     public static List<Leg> listLeg = new ArrayList<>();
     public static List<Result> results = new ArrayList<Result>();
+    public static List<Journey> journeys = new ArrayList<Journey>();
 
     public static List<String> listLocation = new ArrayList<>();
     private List<String> location;
@@ -162,8 +165,13 @@ public class SearchRouteActivity extends AppCompatActivity {
                     needToSearch = true;
                     int tabPosition = _view_pager.getCurrentItem();
                     if (tabPosition == 0) {
-                        Log.e("hqthao", "Search bus two point");
-                        searchType = SearchType.BUS_TWO_POINT;
+                        if(listLocation.size() == 2){
+                            Log.e("hqthao", "Search bus two point");
+                            searchType = SearchType.BUS_TWO_POINT;
+                        }else{
+                            Log.e("hqthao", "Search bus four point");
+                            searchType = SearchType.BUS_FOUR_POINT;
+                        }
                     } else if (tabPosition == 1) {
                         if (listLocation.size() == 2) {
                             Log.e("hqthao", "Search motor two point");

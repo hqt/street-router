@@ -53,26 +53,29 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         Result result = (Result)getIntent().getSerializableExtra("result");
+        if(result == null){
+            int position = getIntent().getIntExtra("position", 0);
+            if (savedInstanceState == null) {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                fragment = MotorDetailFourPointFragment.newInstance(position);
+                trans.add(R.id.fragment, fragment);
+                trans.commit();
+            }
+
+        }else{
+            if (savedInstanceState == null) {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
+                trans.commit();
+            }
+        }
 
 
         // currently. just implement FourPointMotor.
         // in future. we need add control variable for understanding which fragment to initialize.
-        int position = getIntent().getIntExtra("position", 0);
-        if (savedInstanceState == null) {
-            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            fragment = MotorDetailFourPointFragment.newInstance(position);
-            trans.add(R.id.fragment, fragment);
-            trans.commit();
-        }
 
         // bus detail two point activity comment here for usage later.
-        Bundle bundle  = getIntent().getExtras();
 
-        if (savedInstanceState == null) {
-            FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-            trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
-            trans.commit();
-        }
     }
 
     @Override

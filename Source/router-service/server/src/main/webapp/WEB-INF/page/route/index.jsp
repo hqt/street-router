@@ -24,4 +24,5 @@
     </div>
 </div>
 </body>
+<c:import url="../../common/scripts.jsp"/>
 </html>

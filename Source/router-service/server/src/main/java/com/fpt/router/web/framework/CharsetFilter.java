@@ -1,6 +1,7 @@
 package com.fpt.router.web.framework;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -18,11 +19,11 @@ public class CharsetFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain next)
             throws IOException, ServletException {
+
         // Respect the client-specified character encoding
         // (see HTTP specification section 3.4.1)
         if (null == request.getCharacterEncoding())
             request.setCharacterEncoding(encoding);
-
 
         /**
          * Set the default response content type and encoding
