@@ -11,7 +11,8 @@ public class AppConstants {
     private static final String GOOGLE_KEY_1 = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
     private static final String GOOGLE_KEY_2 = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
     private static final String GOOGLE_KEY_3 = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
-    public static final String GOOGLE_KEY = GOOGLE_KEY_3;
+    private static final String GOOGLE_KEY_4 = "AIzaSyCRk-SLZE8HAJe_p67z-fxKgYfZzDKMyj0";
+    public static final String GOOGLE_KEY = GOOGLE_KEY_4;
 
     public static final class PATH {
         private static final String MESSAGE_PATH = "/com/fpt/router/wear";
