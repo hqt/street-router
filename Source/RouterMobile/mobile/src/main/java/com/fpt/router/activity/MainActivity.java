@@ -1,10 +1,15 @@
 package com.fpt.router.activity;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,6 +22,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fpt.router.R;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -29,12 +35,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.Date;
+
 import de.greenrobot.event.EventBus;
+
+import static com.fpt.router.library.config.AppConstants.Vibrator.*;
 
 /**
  * Created by asus on 10/6/2015.
  */
-public class MainActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+public class MainActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
@@ -60,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-            setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -112,10 +122,58 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 return true; // consume the event
             }
         });
+
+        // notification testing
+        int notificationId = (int) new Date().getTime();
+
+        // Build intent for mobile: open SearchRouteActivity when click to intent
+        Intent viewIntent = new Intent(this, SearchRouteActivity.class);
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(this, 0, viewIntent, 0);
+
+        // build notification for wearable side
+
+        // WearableExtender. Using this for add functionality for wear. (more advanced)
+        NotificationCompat.WearableExtender wearableExtender =
+                new NotificationCompat.WearableExtender()
+                        .setHintHideIcon(false)                 // show app icon
+                ;
+
+        // Create second page notification. for longer message. only show on wear. mobile will not see those pages
+        NotificationCompat.BigTextStyle wearSecondPageNotif = new NotificationCompat.BigTextStyle();
+        wearSecondPageNotif.setBigContentTitle("Page 2")
+                .bigText("Huynh Quang Thao is really superman. Huynh Quang Thao will kill the world. Bla Bla Bla Bla. Ha ha ha ha" +
+                        "Tran Kim Du is big big bear. Tran Kim Du will kick ass all people around her. Bla bla bla bla. hahahaha");
+
+        // create notification from builder
+        Notification secondPageNotification =
+                new NotificationCompat.Builder(this)
+                        .setStyle(wearSecondPageNotif)
+                        .build();
+
+        wearableExtender.addPage(secondPageNotification);
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_done)
+                        .setContentTitle("Huynh Quang Thao")
+                        .setContentText("Pham Huong Lan is really superman. Pham Huong Lan will kill the world. Bla Bla Bla Bla. Ha ha ha ha\" +\n" +
+                                "                         \"Pham Huong Lan is big big bear. Pham Huong Lan will kick ass all people around her. Bla bla bla bla. hahahaha")
+                        .setVibrate(new long[]{DELAY_VIBRATE, ON_VIBRATE, OFF_VIBRATE, ON_VIBRATE, OFF_VIBRATE, ON_VIBRATE})
+                        .setColor(Color.BLUE)
+                        .extend(wearableExtender)
+                        .setContentIntent(viewPendingIntent);
+
+
+        // Get an instance of the NotificationManager service
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        // Build the notification and issues it with notification manager.
+        notificationManager.notify(notificationId, notificationBuilder.build());
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         // Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
         // startService(intent);
@@ -138,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch (id){
+        switch (id) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
@@ -149,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEvent(LocationMessage event){
+    public void onEvent(LocationMessage event) {
         Log.e("hqthao", event.location.getLatitude() + "");
         onLocationChanged(event.location);
     }
@@ -175,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public void onLocationChanged(Location location) {
-        if(now != null){
+        if (now != null) {
             now.remove();
         }
         double latitude = location.getLatitude();

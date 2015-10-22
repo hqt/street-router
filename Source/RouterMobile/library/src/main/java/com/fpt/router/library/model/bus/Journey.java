@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Huynh Quang Thao on 10/21/15.
  */
 public class Journey {
+    public String code;
     public Period totalTime;
     public int minutes;
     public double totalDistance;

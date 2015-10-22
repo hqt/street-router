@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
 
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -75,6 +77,9 @@
             android:name=".activity.SearchDetailActivity"
             android:label="@string/title_activity_search_detail"
             android:theme="@style/AppTheme1" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SearchRouteActivity" />
         </activity>
     </application>
 

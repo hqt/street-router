@@ -1,19 +1,15 @@
 package com.fpt.router.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
@@ -25,32 +21,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by asus on 10/13/2015.
+ * Created by ngoan on 10/21/2015.
  */
-public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.BusViewHoder> {
+public class BusListItemResultFourPoint extends RecyclerView.Adapter<BusListItemResultFourPoint.BusItemViewHolder> {
 
     List<Result> results;
     Result result;
 
-
-
-    public BusTwoPointAdapter(List<Result> results){
+    public BusListItemResultFourPoint(List<Result> results){
         this.results = results;
     }
 
     @Override
-    public BusViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_show_list_bus,parent,false);
-        BusViewHoder busViewHoder = new BusViewHoder(v);
-        return busViewHoder;
+    public BusItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item_four_bus,parent,false);
+        BusItemViewHolder viewHolder = new BusItemViewHolder(v);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final BusViewHoder holder, int position) {
+    public void onBindViewHolder(final BusItemViewHolder holder, int position) {
         String viewDetail = "";
+        String from = "";
+        String to = "";
         List<Integer> images = new ArrayList<Integer>();
         result = results.get(position);
         List<INode> nodeList = result.nodeList;
+        // set from and to
+        if(nodeList.get(0) instanceof Path){
+            from = ((Path)nodeList.get(0)).stationFromName;
+        }
+        if(nodeList.get(0) instanceof Segment){
+            List<Path> paths = new ArrayList<Path>();
+            paths = ((Segment)nodeList.get(0)).paths;
+            for (int n = 0; n< paths.size();n++){
+                from = paths.get(0).stationFromName;
+            }
+        }
+
+        if(nodeList.get(nodeList.size() - 1) instanceof Path){
+            to = ((Path)nodeList.get(nodeList.size() - 1)).stationToName;
+        }
+        if(nodeList.get(nodeList.size() - 1) instanceof Segment){
+            List<Path> paths = new ArrayList<Path>();
+            paths = ((Segment)nodeList.get(nodeList.size() - 1)).paths;
+            for (int n = 0; n< paths.size();n++){
+                to = paths.get(paths.size() - 1).stationToName;
+            }
+        }
         //set list image
         for (int i= 0 ;i<nodeList.size() -1;i++){
 
@@ -86,22 +104,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             viewDetail +="Tuyến số: "+segments.get(m).routeNo+"\n   Lên trạm : "+paths.get(0).stationFromName+"\n   Xuống trạm : "+paths.get(paths.size()-1).stationToName+"\n";
         }
 
-
-        if(position == 0){
-            holder.txtTitle.setText("Tuyến đường được đề nghị ");
-        }else{
-            holder.txtTitle.setText("Thêm kết quả cho đi xe bus ");
-        }
-
-        /*List<String> items = new ArrayList<String>();
-        items.add("Item 1");
-        items.add("Item 2");
-        items.add("Item 3");
-        items.add("Item 4");
-*/
-        /*TestAdapter showImage = new TestAdapter(holder.context,images);*/
         BusImageAdapter showImage = new BusImageAdapter(holder.context,images);
-        /*ArrayAdapter<Integer> arrayAdapter = new ArrayAdapter<Integer>(holder.context,R.layout.bus_item_image,images);*/
         holder.tvList.setAdapter(showImage);
 
         holder.txtDuration.setText(result.minutes+" phút");
@@ -109,6 +112,8 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         totalDistance = Math.floor(totalDistance*100)/100;
         holder.txtDistance.setText(String.valueOf(totalDistance)+" km");
         holder.txtContent.setText(viewDetail);
+        holder.txtFrom.setText(from);
+        holder.txtTo.setText(to);
         holder.viewDetail.setVisibility(View.GONE);
         holder.btnShow.setVisibility(View.VISIBLE);
         holder.btnHide.setVisibility(View.GONE);
@@ -129,6 +134,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             }
         });
 
+
     }
 
     @Override
@@ -136,47 +142,32 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         return results.size();
     }
 
-
-    public class BusViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        private final  Context context;
+    public class BusItemViewHolder extends RecyclerView.ViewHolder {
+        private final Context context;
         TwoWayView tvList;
         TextView txtDuration;
         TextView txtDistance;
         TextView txtContent;
-        TextView txtTitle;
+        TextView txtFrom;
+        TextView txtTo;
         LinearLayout viewDetail;
         ImageButton btnShow;
         ImageButton btnHide;
 
-        public BusViewHoder(View itemView) {
+        public BusItemViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             context = itemView.getContext();
-
             txtDistance = (TextView) itemView.findViewById(R.id.txtDistance);
             txtDuration = (TextView) itemView.findViewById(R.id.txtDurationTime);
             txtContent = (TextView) itemView.findViewById(R.id.txtContent);
             tvList = (TwoWayView) itemView.findViewById(R.id.lvItems);
-            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
             viewDetail = (LinearLayout) itemView.findViewById(R.id.viewDetail);
             btnShow = (ImageButton) itemView.findViewById(R.id.btnShowDetail);
             btnHide = (ImageButton) itemView.findViewById(R.id.btnHide);
+            txtFrom = (TextView) itemView.findViewById(R.id.txtFrom);
+            txtTo = (TextView) itemView.findViewById(R.id.txtTo);
         }
 
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(context, SearchDetailActivity.class);
-            Bundle bundle = new Bundle();
-            Result result = getResult(getPosition());
-            bundle.putSerializable("result", result);
-            intent.putExtras(bundle);
-            view.getContext().startActivity(intent);
-
-        }
     }
 
-    public Result getResult(int position){
-        return results.get(position);
-    }
 }

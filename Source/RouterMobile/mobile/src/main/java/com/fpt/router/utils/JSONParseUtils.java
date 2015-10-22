@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -321,10 +323,14 @@ public class JSONParseUtils {
                 for(int i = 0; i < listUrl.size(); i++) {
                     jsonO = new JSONObject(NetworkUtils.download(listUrl.get(i)));
                     jsonA = jsonO.getJSONArray("predictions");
-                    jsonO = jsonA.getJSONObject(0);
-                    if ((jsonO.getString("place_id") != null) && (listLocation.get(n) == jsonO.getString("description"))) {
-                        listPlaceID.add(jsonO.getString("place_id"));
-                        break;
+                    for(int x = 0; x < jsonA.length(); x++) {
+                        jsonO = jsonA.getJSONObject(x);
+                        String oldLocation = listLocation.get(n);
+                        String newLocation = jsonO.getString("description");
+                        if ((jsonO.getString("place_id") != null) && (oldLocation.equals(newLocation))) {
+                            listPlaceID.add(jsonO.getString("place_id"));
+                            break;
+                        }
                     }
                 }
             } catch (JSONException e) {

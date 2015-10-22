@@ -16,6 +16,8 @@ public class RouterApplication extends Application {
 
     public static Context mContext;
 
+
+
     /** this is just application context. Use this function carefully to avoid error */
     public static Context getAppContext() {
         return mContext;
