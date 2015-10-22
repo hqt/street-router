@@ -220,6 +220,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                     }
                 });
 
+                // Avoid duplicate result
                 List<String> shortenList = new ArrayList<String>();
                 for (int i = 0; i < results.size(); i++) {
                     if (i == 0) {
@@ -235,9 +236,6 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                     }
                 }
 
-                /*if (shortenList.size() > 10) {
-                    shortenList = shortenList.subList(0, 10);
-                }*/
 
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, shortenList);
             }

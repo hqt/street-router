@@ -156,17 +156,27 @@ public class TwoPointAlgorithm {
             }
         }
 
-
+        // sort priority
+        // 1. transfer turn
+        // 2. travel time
+        // 3. travel distance
         Collections.sort(results, new Comparator<Result>() {
             @Override
             public int compare(Result r1, Result r2) {
+                if (r1.totalTransfer != r2.totalTransfer) {
+                    return r1.totalTransfer - r2.totalTransfer;
+                }
 
-                return r1.minutes - r2.minutes;
+                if (r1.minutes != r2.minutes) {
+                    return r1.minutes - r2.minutes;
+                }
+
+                return (int) (r1.totalDistance - r2.totalDistance);
             }
         });
 
-        if (results.size() > 5) {
-            results = results.subList(0, 5);
+        if (results.size() > Config.BUS_RESULT_LIMIT) {
+            results = results.subList(0, Config.BUS_RESULT_LIMIT);
         }
 
     }
