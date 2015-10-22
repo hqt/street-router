@@ -203,8 +203,12 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
 
                     for (int y = 0; y < ja.length(); y++) {
                         JSONObject jo = (JSONObject) ja.get(y);
-                        //add each entry to our array
-                        predictionsArr.add(jo.getString("description"));
+                        String address = jo.getString("description");
+                        String hcm_1 = "Hồ Chí Minh";
+                        String hcm_2 = "Ho Chi Minh";
+                        if(address.toLowerCase().contains(hcm_1.toLowerCase()) || address.toLowerCase().contains(hcm_2.toLowerCase())) {
+                            predictionsArr.add(address);
+                        }
                     }
                 }
             } catch (JSONException e)
