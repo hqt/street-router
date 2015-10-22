@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
@@ -36,6 +37,10 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
    /* public AutoCompleteTextView autoComp;*/
     private EditText autoComp;
     private  ListView listView;
+    private ProgressBar progressBar;
+
+    boolean state = false;
+    String phraseShouldToSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,12 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_autocomplete_search);
 
         listView = (ListView) findViewById(R.id.listview_autosearch);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+        // default. hide progress bar
+        progressBar.setVisibility(View.INVISIBLE);
+
         adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
@@ -73,7 +84,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         if(adapter != null) {
             listView.setAdapter(adapter);
         }
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -90,10 +101,10 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         autoComp.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count % 3 == 1) {
-                    GetPlacesTask task = new GetPlacesTask();
-                    //now pass the argument in the textview to the task
-                    task.execute(autoComp.getText().toString());
+                phraseShouldToSearch = autoComp.getText().toString().trim();
+
+                if ((phraseShouldToSearch.length() > 0) && (!state)) {
+                    startThreadSearch();
                 }
             }
 
@@ -129,6 +140,15 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    private void startThreadSearch() {
+        Log.e("hqthao", "start searching " + phraseShouldToSearch);
+        progressBar.setVisibility(View.VISIBLE);
+        state = true;
+        GetPlacesTask task = new GetPlacesTask();
+        //now pass the argument in the textview to the task
+        task.execute(phraseShouldToSearch);
     }
 
 
@@ -200,6 +220,14 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<String> results){
             adapter.clear();
+
+            state = false;
+            if (!phraseShouldToSearch.equals(searchString)) {
+                startThreadSearch();
+            } else {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
            /* for (String string : result) {
                 Log.e("hqt", "onPostExecute : result = " + string);
                adapter.add(string);

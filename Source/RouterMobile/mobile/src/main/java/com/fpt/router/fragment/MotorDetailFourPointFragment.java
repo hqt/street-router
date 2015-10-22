@@ -51,7 +51,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class MotorDetailFourPointFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MotorDetailFourPointFragment extends AbstractMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -77,6 +77,8 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
+
+    private Marker now;
 
     int position;
     List<LatLng> list;
@@ -380,6 +382,17 @@ public class MotorDetailFourPointFragment extends Fragment implements GoogleApiC
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void drawCurrentLocation(Double lat, Double lng) {
+        if(now != null){
+            now.remove();
+        }
+
+        Log.e("Nam:", lat + "@#@" + lng);
+
+        now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
     }
 
     class SendToDataLayerThread extends Thread {
