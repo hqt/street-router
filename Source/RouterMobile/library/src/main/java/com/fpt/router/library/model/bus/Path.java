@@ -1,19 +1,21 @@
 package com.fpt.router.library.model.bus;
 
-import android.location.Location;
+
 
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.entity.PathType;
+import com.fpt.router.library.model.motorbike.Location;
 
 import org.joda.time.Period;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Purpose: A Path is a detail information from stationA to stationB in one journey
  * Created by Huynh Quang Thao on 10/4/15.
  */
-public class Path implements INode {
+public class Path implements INode,Serializable {
     public int stationFromId;
     public int stationToId;
     public String stationFromName;
