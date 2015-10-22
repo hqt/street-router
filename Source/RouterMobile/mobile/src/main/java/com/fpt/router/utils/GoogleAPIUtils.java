@@ -136,21 +136,16 @@ public class GoogleAPIUtils {
         String key = AppConstants.GOOGLE_KEY;
         String text = null;
         List<String> listUrl = new ArrayList<>();
-        String city = ", Hồ Chí Minh, Việt Nam";
-        String[] listTypes = {"geocode", "address", "establishment"};
         try {
             text = URLEncoder.encode(autoCompleteText, "UTF-8");
-            city = URLEncoder.encode(city, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        for(int i = 0; i < listTypes.length; i++) {
-            String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
-                    "input=" + text + city +
-                    "&types=" + listTypes[i] +
+        String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
+                    "input=" + text +
                     "&components=country:vn&language=vi&sensor=true&key=" + key;
-            listUrl.add(url);
-        }
+        listUrl.add(url);
+
         return listUrl;
     }
 
