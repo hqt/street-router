@@ -48,9 +48,22 @@ public class AlgorithmTest {
         maximark.latitude = 10.800767;
         maximark.longitude = 106.659483;
 
+        Location a = new Location();
+        a.longitude = 106.6283935;
+        a.latitude = 10.8550896;
+
+        Location b = new Location();
+        b.longitude = 106.788796;
+        b.latitude = 10.858353 ;
+
+        Location c = new Location();
+        c.longitude = 106.6989938;
+        c.latitude = 10.7797858;
+
+
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
         LocalTime time = new LocalTime(10, 0);
-        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, cho_ba_chieu, "Ben Thanh market", "Software Park", time,
+        String res = twoPointAlgorithm.solveAndReturnJSon(map, a, b, "Ben Thanh market", "Software Park", time,
                 Config.WALKING_DISTANCE, 2, false);
         System.out.println(res);
     }

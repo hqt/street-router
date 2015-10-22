@@ -19,7 +19,6 @@
 
     <servlet-mapping>
         <servlet-name>DispatcherServlet</servlet-name>
-        <url-pattern>/DispatcherServlet</url-pattern>
         <url-pattern>/login</url-pattern>
         <url-pattern>/list</url-pattern>
         <url-pattern>/paging</url-pattern>
@@ -28,6 +27,11 @@
         <url-pattern>/main</url-pattern>
         <url-pattern>/child</url-pattern>
         <url-pattern>/content</url-pattern>
+        <url-pattern>/update</url-pattern>
+        <url-pattern>/staff</url-pattern>
+        <url-pattern>/admin</url-pattern>
+        <url-pattern>/staff/index</url-pattern>
+        <url-pattern>/search/multi</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>
@@ -52,7 +56,8 @@
         </jsp-property-group>
     </jsp-config>
 
-    <!--<filter>
+
+    <filter>
         <filter-name>CharsetFilter</filter-name>
         <filter-class>com.fpt.router.web.framework.CharsetFilter</filter-class>
         <init-param>
@@ -64,8 +69,7 @@
     <filter-mapping>
         <filter-name>CharsetFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
-
+    </filter-mapping>
     <!--<error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/views/common/error_404.jsp</location>

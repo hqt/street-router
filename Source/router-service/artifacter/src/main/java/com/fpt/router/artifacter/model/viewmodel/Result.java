@@ -23,4 +23,8 @@ public class Result {
     public Result() {
         nodeList = new ArrayList<INode>();
     }
+
+    public Period getTotalTime() {
+        return totalTime;
+    }
 }

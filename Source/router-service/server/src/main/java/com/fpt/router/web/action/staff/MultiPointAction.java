@@ -9,11 +9,15 @@ import com.fpt.router.artifacter.dao.StationDAO;
 import com.fpt.router.artifacter.model.entity.Station;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
+import com.fpt.router.artifacter.model.viewmodel.Result;
+import com.fpt.router.artifacter.utils.JSONUtils;
 import com.fpt.router.web.action.common.IAction;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.servlet.StartupServlet;
 import com.fpt.router.web.viewmodel.api.JourneyVM;
 import com.fpt.router.web.viewmodel.api.ListJourneyVM;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.joda.time.LocalTime;
 
 import java.io.IOException;
@@ -61,7 +65,7 @@ public class MultiPointAction implements IAction {
         String minuteStr = context.getParameter("minute");
         int hour = Integer.parseInt(hourStr);
         int minute = Integer.parseInt(minuteStr);
-        LocalTime departureTime = new LocalTime(hour, minute, 0);;
+        LocalTime departureTime = new LocalTime(hour, minute, 0);
 
 
         // parse string param to double
@@ -105,20 +109,26 @@ public class MultiPointAction implements IAction {
         middleLocations.add(second);
         // End - Build Middle Locations
 
+        System.out.println("first: " + start.longitude + "\t" + start.latitude);
+        System.out.println("second: " + first.longitude + "\t" + first.latitude);
+        System.out.println("third: " + second.longitude + "\t" + second.latitude);
+        System.out.println("fourth: " + end.longitude + "\t" + end.latitude);
+
         int K = 2;
-        List<Journey> journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
-        ListJourneyVM listJourneyVM = new ListJourneyVM(journeys);
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = null;
-        try {
-            json = ow.writeValueAsString(listJourneyVM);
-        } catch (IOException e) {
-            e.printStackTrace();
+        List<Journey> journeys;
+        if (isOp) {
+            journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
+        } else {
+            journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
         }
-        PrintWriter out = context.getWriter();
-        out.write(json);
 
+        Gson gson = JSONUtils.buildGson();
+
+        String json = gson.toJson(journeys);
+        PrintWriter out = context.getWriter();
+        System.out.println(json);
+        out.write(json);
         return Config.AJAX_FORMAT;
     }
 }

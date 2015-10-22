@@ -3,6 +3,7 @@ package com.fpt.router.crawler.work;
 import com.fpt.router.artifacter.dao.MapDAL;
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.entity.CityMap;
+import com.fpt.router.artifacter.model.entity.Route;
 
 /**
  * Purpose:

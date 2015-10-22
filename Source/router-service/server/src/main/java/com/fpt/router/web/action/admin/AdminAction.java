@@ -14,9 +14,12 @@ import com.fpt.router.web.config.ApplicationContext;
 public class AdminAction extends AuthAction {
     public String execute(ApplicationContext context) {
         String command = super.execute(context);
-        if (command != null) return command;
+
+        if (!command.equals("admin") || command == null) {
+            return "/login.jsp";
+        }
 
         // check role here
-        return null;
+        return context.getServletPath() + ".jsp" ;
     }
 }

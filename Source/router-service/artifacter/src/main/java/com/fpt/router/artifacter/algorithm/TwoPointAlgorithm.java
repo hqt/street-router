@@ -1,8 +1,6 @@
 package com.fpt.router.artifacter.algorithm;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.algorithm.Station;
@@ -13,13 +11,9 @@ import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.utils.DistanceUtils;
 import com.fpt.router.artifacter.utils.JSONUtils;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -41,11 +35,11 @@ public class TwoPointAlgorithm {
     String message;
 
 
-    public List<Result> solveAndReturnObject(CityMap map, Location start, Location end, String startAddress, String endAddress,
+    public Object solveAndReturnObject(CityMap map, Location start, Location end, String startAddress, String endAddress,
                       LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
         solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK);
         if (message != null) {
-            return null;
+           return message;
         } else {
             return results;
         }
@@ -72,9 +66,8 @@ public class TwoPointAlgorithm {
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(results);
-        //System.out.println(json);
+        System.out.println(json);
 
-        ArrayList<Result> res = gson.fromJson(json, new TypeToken<List<Result>>(){}.getType());
 
         return json;
 
@@ -103,24 +96,20 @@ public class TwoPointAlgorithm {
         List<Station> nearStartStations = findNearestStations(start);
         List<Station> nearEndStations = findNearestStations(end);
 
-        String failMessage = "{" +
-                "\"code\": \"fail\"" +
-                "\"pathType:\":\"start location too far\"" +
-                "}";
 
         if (nearStartStations.size() == 0) {
-            message= failMessage;
+            message= "start location too far.";
             return;
-        } else if (nearStartStations.size() > Config.BUS_LIMIT) {
+        } else if (nearStartStations.size() > Config.NEAR_BUS_STATION_LIMIT) {
             System.out.println("near stations size: " + nearStartStations.size());
-            nearStartStations = nearStartStations.subList(0, Config.BUS_LIMIT);
+            nearStartStations = nearStartStations.subList(0, Config.NEAR_BUS_STATION_LIMIT);
         }
         if (nearEndStations.size() == 0) {
-            message = failMessage.replace("start", "end");
+            message = "near location too far";
             return;
-        } else if (nearEndStations.size() > Config.BUS_LIMIT) {
+        } else if (nearEndStations.size() > Config.NEAR_BUS_STATION_LIMIT) {
             System.out.println("near stations size: " + nearEndStations.size());
-            nearEndStations = nearEndStations.subList(0, Config.BUS_LIMIT);
+            nearEndStations = nearEndStations.subList(0, Config.NEAR_BUS_STATION_LIMIT);
         }
 
         // brute force here

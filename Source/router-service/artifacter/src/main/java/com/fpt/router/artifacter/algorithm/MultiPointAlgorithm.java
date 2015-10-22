@@ -50,8 +50,21 @@ public class MultiPointAlgorithm {
         }
 
         if (middleLocations.size() == 2) {
-            journeys.addAll(fourPoint1(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK));
-            journeys.addAll(fourPoint2(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK));
+            List<Journey> journeys1 = fourPoint1(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK);
+
+            String failMess = null;
+            if (!journeys1.get(0).code.equals("success")) {
+                failMess = journeys1.get(0).code;
+            } else {
+                journeys.addAll(journeys1);
+            }
+
+            List<Journey> journeys2 = fourPoint2(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK);
+            if (!journeys2.get(0).code.equals("success") && failMess != null) {
+                return journeys1;
+            } else {
+                journeys.addAll(journeys2);
+            }
         }
 
         sort(journeys);
@@ -63,16 +76,38 @@ public class MultiPointAlgorithm {
                              List<Location> middleLocations, List<String> middleAddresses,
                              LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
-        List<Result> results1 = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
-        List<Result> results2 = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, startAddress,
+        Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
                 endAddress, departureTime, walkingDistance, K, isOptimizeK);
 
-        if (results1 == null || results2 == null) {
-            return null;
+        List<Result> results1, results2;
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            Journey journey = new Journey();
+            journey.code = msg;
+            List<Journey> dummyJourneys = new ArrayList<Journey>();
+            dummyJourneys.add(journey);
+            return dummyJourneys;
+        } else {
+            results1 = (List<Result>) resultObj;
+        }
+
+        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, startAddress,
+                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            Journey journey = new Journey();
+            journey.code = msg;
+            List<Journey> dummyJourneys = new ArrayList<Journey>();
+            dummyJourneys.add(journey);
+            return dummyJourneys;
+        } else {
+            results2 = (List<Result>) resultObj;
         }
 
         List<Journey> journeys = new ArrayList<Journey>();
+
         for (int x = 0; x < results1.size(); x++) {
             for (int y = 0; y < results2.size(); y++) {
                 Result first = results1.get(x);
@@ -83,6 +118,7 @@ public class MultiPointAlgorithm {
                 journey.totalTime = p;
                 journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
                 journey.totalDistance = first.totalDistance + second.totalDistance;
+                journey.code = "success";
                 journey.results.add(first);
                 journey.results.add(second);
                 journeys.add(journey);
@@ -96,20 +132,62 @@ public class MultiPointAlgorithm {
                              List<Location> middleLocations, List<String> middleAddresses,
                              LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
-        List<Result> results1 = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
-        List<Result> results2 = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), middleLocations.get(1), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
-        List<Result> results3 = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), end, startAddress,
+        System.out.println("result 1. point 1: " + start.toString());
+        System.out.println("result 1. point 2: " + middleLocations.get(1).toString());
+        Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(1), startAddress,
+                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK);
+
+        List<Result> results1, results2, results3;
+
+
+        Journey journey = new Journey();
+        List<Journey> dummyJourneys = new ArrayList<Journey>();
+        dummyJourneys.add(journey);
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            journey.code = msg;
+            return dummyJourneys;
+        } else {
+            results1 = (List<Result>) resultObj;
+            if (results1.size() == 0) {
+                journey.code = "result not found";
+                return dummyJourneys;
+            }
+        }
+
+
+        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), middleLocations.get(0), middleAddresses.get(1),
+                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK);
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            journey.code = msg;
+            return dummyJourneys;
+        } else {
+            results2 = (List<Result>) resultObj;
+            if (results2.size() == 0) {
+                journey.code = "result not found";
+                return dummyJourneys;
+            }
+        }
+
+        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, middleAddresses.get(0),
                 endAddress, departureTime, walkingDistance, K, isOptimizeK);
 
-        List<Journey> journeys = new ArrayList<Journey>();
-        if (results1 == null || results2 == null || results3 == null) {
-            Journey journey = new Journey();
-            journey.code = "fail";
-            journeys.add(journey);
-            return journeys;
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            journey.code = msg;
+            return dummyJourneys;
+        } else {
+            results3 = (List<Result>) resultObj;
+            if (results3.size() == 0) {
+                journey.code = "result not found";
+                return dummyJourneys;
+            }
         }
+
+        List<Journey> journeys = new ArrayList<Journey>();
 
         for (int x = 0; x < results1.size(); x++) {
             for (int y = 0; y < results2.size(); y++) {
@@ -119,7 +197,7 @@ public class MultiPointAlgorithm {
                     Result second = results2.get(y);
                     Result third = results3.get(z);
 
-                    Journey journey = new Journey();
+                    journey = new Journey();
                     Period p = first.totalTime.plus(second.totalTime.plus(third.totalTime));
                     journey.totalTime = p;
                     journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
@@ -127,6 +205,7 @@ public class MultiPointAlgorithm {
                     journey.results.add(first);
                     journey.results.add(second);
                     journey.results.add(third);
+                    journey.code = "success";
                     journeys.add(journey);
                 }
             }
@@ -139,21 +218,66 @@ public class MultiPointAlgorithm {
                              List<Location> middleLocations, List<String> middleAddresses,
                              LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
-        List<Result> results1 = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
-        List<Result> results2 = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), middleLocations.get(0), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
-        List<Result> results3 = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+        System.out.println("result 1. point 1: " + start.toString());
+        System.out.println("result 1. point 2: " + middleLocations.get(0).toString());
+        Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
+                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK);
 
-        List<Journey> journeys = new ArrayList<Journey>();
-        if (results1 == null || results2 == null || results3 == null) {
-            Journey journey = new Journey();
-            journey.code = "fail";
-            journeys.add(journey);
-            return journeys;
+        List<Result> results1, results2, results3;
+
+        Journey journey = new Journey();
+        List<Journey> dummyJourneys = new ArrayList<Journey>();
+        dummyJourneys.add(journey);
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            journey.code = msg;
+            return dummyJourneys;
+        } else {
+            results1 = (List<Result>) resultObj;
+            if (results1.size() == 0) {
+                journey.code = "result not found";
+                return dummyJourneys;
+            }
         }
 
+
+        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), middleLocations.get(1), middleAddresses.get(0),
+                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK);
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            journey.code = msg;
+            return dummyJourneys;
+        } else {
+            results2 = (List<Result>) resultObj;
+            if (results2.size() == 0) {
+                journey.code = "result not found";
+                return dummyJourneys;
+            }
+        }
+
+        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), end, middleAddresses.get(1),
+                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+
+        if (resultObj instanceof String) {
+            String msg = (String) resultObj;
+            journey.code = msg;
+            return dummyJourneys;
+        } else {
+            results3 = (List<Result>) resultObj;
+            if (results3.size() == 0) {
+                journey.code = "result not found";
+                return dummyJourneys;
+            }
+        }
+
+        System.out.println("Size R1 " + results1.size());
+        System.out.println("Size R2 " + results2.size());
+        System.out.println("Size R3 " + results3.size());
+
+
+        List<Journey> journeys = new ArrayList<Journey>();
         for (int x = 0; x < results1.size(); x++) {
             for (int y = 0; y < results2.size(); y++) {
                 for (int z = 0; z < results3.size(); z++) {
@@ -162,7 +286,7 @@ public class MultiPointAlgorithm {
                     Result second = results2.get(y);
                     Result third = results3.get(z);
 
-                    Journey journey = new Journey();
+                    journey = new Journey();
                     Period p = first.totalTime.plus(second.totalTime.plus(third.totalTime));
                     journey.totalTime = p;
                     journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));

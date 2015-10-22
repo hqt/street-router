@@ -16,9 +16,14 @@
 <c:import url="../../common/header.jsp"/>
 <div class="container">
   <div class="page-container">
+
+    <%--set parameter--%>
+    <c:set var="stations" value="${requestScope.stations}" scope="request"/>
+
     <c:import url="../../common/sidebar.jsp"/>
     <c:import url="content.jsp"/>
   </div>
 </div>
 </body>
+<c:import url="../../common/scripts.jsp"/>
 </html>
