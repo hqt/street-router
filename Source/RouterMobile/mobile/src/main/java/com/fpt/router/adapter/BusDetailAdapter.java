@@ -13,6 +13,8 @@ import com.fpt.router.R;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.utils.TimeUtils;
+import com.fpt.router.utils.UIUtils;
 
 import java.util.List;
 
@@ -63,7 +65,7 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
             }
             double distance = path.distance / 1000;
             distance = Math.floor(distance * 100)/100;
-            txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+path.time+")");
+            txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
         }
         /*if bus*/
         if(nodeList.get(position) instanceof Segment){
@@ -75,7 +77,7 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
             txtStartLocation.setText(paths.get(0).stationFromName);
             txtRouteNo.setText(segment.routeNo+"");
             txtRouteName.setText(segment.routeName);
-            txtDetail.setText("Đi "+ paths.size()+" điểm dừng ("+segment.segmentTime+")");
+            txtDetail.setText("Đi "+ paths.size()+" điểm dừng ("+ TimeUtils.convertPeriodToMinute(segment.segmentTime)+" phút)");
         }
 
         return convertView;
