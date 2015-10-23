@@ -5,14 +5,15 @@ package com.fpt.router.library.config;
  */
 public class AppConstants {
     private static final int SERVER_PORT = 8080;
-    private static final String SERVER_IP = "http://192.168.1.128";
+    private static final String SERVER_IP = "http://192.168.43.110";
     public static final String SERVER_ADDRESS = SERVER_IP + ":" + SERVER_PORT;
 
     private static final String GOOGLE_KEY_1 = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
     private static final String GOOGLE_KEY_2 = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
     private static final String GOOGLE_KEY_3 = "AIzaSyDQAnDaneVMCW_k_yxhUCZp6EIbw0PLb5A";
     private static final String GOOGLE_KEY_4 = "AIzaSyCRk-SLZE8HAJe_p67z-fxKgYfZzDKMyj0";
-    public static final String GOOGLE_KEY = GOOGLE_KEY_4;
+    private static final String GOOGLE_KEY_5 = "AIzaSyAdLWUhmoL7awJylFZRmrQv8-CEkjLZaT8";
+    public static final String GOOGLE_KEY = GOOGLE_KEY_5;
 
     public static final class PATH {
         private static final String MESSAGE_PATH = "/com/fpt/router/wear";
