@@ -64,7 +64,7 @@ public class TwoPointRouteAction implements IAction {
         end.longitude = longB;
 
          TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
-          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false);
+          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false, TwoPointAlgorithm.SearchType.TWO_POINT);
 
         System.out.println("algorithm finish zzzzzz");
         PrintWriter out = context.getWriter();

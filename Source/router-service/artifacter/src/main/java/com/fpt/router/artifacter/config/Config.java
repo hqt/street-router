@@ -29,7 +29,12 @@ public class Config {
 
     public static final double EPS = 0.00001;
 
-    public static final int NEAR_BUS_STATION_LIMIT = 6;
+    public static final class NearBusStationLimit {
+        public static final int HIGH = 6;
+        public static final int MEDIUM = 4;
+        public static final int LOW = 3;
+    }
+
     public static final int BUS_RESULT_LIMIT = 6;
 
     public static final double WALKING_BUS_DISTANCE = 300;

@@ -19,8 +19,8 @@ public class StartupServlet extends HttpServlet {
     public void init() throws ServletException {
         System.out.println("----------");
         System.out.println("Loading Database zzzz");
-        /*map = MapDAL.readDatabase();
-        JPADaoImpl.closeFactory();*/
+        map = MapDAL.readDatabase();
+        JPADaoImpl.closeFactory();
         System.out.println("fuck");
         System.out.println("----------");
     }

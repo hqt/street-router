@@ -1,5 +1,6 @@
 package com.fpt.router.artifacter.algorithm;
 
+import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm.SearchType;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
@@ -77,7 +78,7 @@ public class MultiPointAlgorithm {
                              LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
         Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.THREE_POINT);
 
         List<Result> results1, results2;
 
@@ -93,7 +94,7 @@ public class MultiPointAlgorithm {
         }
 
         resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.THREE_POINT);
 
         if (resultObj instanceof String) {
             String msg = (String) resultObj;
@@ -135,7 +136,7 @@ public class MultiPointAlgorithm {
         System.out.println("result 1. point 1: " + start.toString());
         System.out.println("result 1. point 2: " + middleLocations.get(1).toString());
         Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(1), startAddress,
-                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK);
+                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
 
         List<Result> results1, results2, results3;
 
@@ -158,7 +159,7 @@ public class MultiPointAlgorithm {
 
 
         resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), middleLocations.get(0), middleAddresses.get(1),
-                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK);
+                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
 
         if (resultObj instanceof String) {
             String msg = (String) resultObj;
@@ -173,7 +174,7 @@ public class MultiPointAlgorithm {
         }
 
         resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, middleAddresses.get(0),
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
 
         if (resultObj instanceof String) {
             String msg = (String) resultObj;
@@ -221,7 +222,7 @@ public class MultiPointAlgorithm {
         System.out.println("result 1. point 1: " + start.toString());
         System.out.println("result 1. point 2: " + middleLocations.get(0).toString());
         Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK);
+                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
 
         List<Result> results1, results2, results3;
 
@@ -243,7 +244,7 @@ public class MultiPointAlgorithm {
 
 
         resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), middleLocations.get(1), middleAddresses.get(0),
-                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK);
+                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
 
         if (resultObj instanceof String) {
             String msg = (String) resultObj;
@@ -258,7 +259,7 @@ public class MultiPointAlgorithm {
         }
 
         resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), end, middleAddresses.get(1),
-                endAddress, departureTime, walkingDistance, K, isOptimizeK);
+                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
 
         if (resultObj instanceof String) {
             String msg = (String) resultObj;

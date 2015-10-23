@@ -2,6 +2,7 @@ package com.fpt.router.artifacter.algorithm;
 
 
 import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.artifacter.config.Config.NearBusStationLimit;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.algorithm.Station;
 import com.fpt.router.artifacter.model.helper.Location;
@@ -25,6 +26,13 @@ import java.util.List;
  */
 public class TwoPointAlgorithm {
 
+    public static enum SearchType {
+        TWO_POINT,
+        THREE_POINT,
+        FOUR_POINT,
+        FOUR_POINT_OPT
+    }
+
     CityMap map;
     double walkingDistance;
     Location start;
@@ -35,9 +43,10 @@ public class TwoPointAlgorithm {
     String message;
 
 
+
     public Object solveAndReturnObject(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
-        solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK);
+                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK, SearchType searchType) {
+        solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK, searchType);
         if (message != null) {
            return message;
         } else {
@@ -46,9 +55,9 @@ public class TwoPointAlgorithm {
     }
 
     public String solveAndReturnJSon(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
+                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK, SearchType searchType) {
 
-        solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK);
+        solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK, searchType);
 
         if (message != null) {
             return message;
@@ -74,7 +83,7 @@ public class TwoPointAlgorithm {
     }
 
     public void solve(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
+                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK, SearchType searchType) {
         // assign to local variables
         this.map = map;
         this.start = start;
@@ -96,20 +105,36 @@ public class TwoPointAlgorithm {
         List<Station> nearStartStations = findNearestStations(start);
         List<Station> nearEndStations = findNearestStations(end);
 
+        // choose limit stations. for optimize time to run.
+        int busStationLimit = 0;
+        switch (searchType) {
+            case TWO_POINT:
+                busStationLimit = NearBusStationLimit.HIGH;
+                break;
+            case THREE_POINT:
+                busStationLimit = NearBusStationLimit.HIGH;
+                break;
+            case FOUR_POINT:
+                busStationLimit = NearBusStationLimit.MEDIUM;
+                break;
+            case FOUR_POINT_OPT:
+                busStationLimit = NearBusStationLimit.MEDIUM;
+                break;
+        }
 
         if (nearStartStations.size() == 0) {
             message= "start location too far.";
             return;
-        } else if (nearStartStations.size() > Config.NEAR_BUS_STATION_LIMIT) {
+        } else if (nearStartStations.size() > busStationLimit) {
             System.out.println("near stations size: " + nearStartStations.size());
-            nearStartStations = nearStartStations.subList(0, Config.NEAR_BUS_STATION_LIMIT);
+            nearStartStations = nearStartStations.subList(0, busStationLimit);
         }
         if (nearEndStations.size() == 0) {
             message = "near location too far";
             return;
-        } else if (nearEndStations.size() > Config.NEAR_BUS_STATION_LIMIT) {
+        } else if (nearEndStations.size() > busStationLimit) {
             System.out.println("near stations size: " + nearEndStations.size());
-            nearEndStations = nearEndStations.subList(0, Config.NEAR_BUS_STATION_LIMIT);
+            nearEndStations = nearEndStations.subList(0,busStationLimit);
         }
 
         // brute force here
