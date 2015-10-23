@@ -2,6 +2,7 @@ package com.fpt.router.crawler.test;
 
 
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
+import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm.SearchType;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.MapDAL;
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
@@ -48,23 +49,30 @@ public class AlgorithmTest {
         maximark.latitude = 10.800767;
         maximark.longitude = 106.659483;
 
+        // cvpm
         Location a = new Location();
-        a.longitude = 106.6283935;
         a.latitude = 10.8550896;
+        a.longitude = 106.6283935;
 
+        // doi dien dh_nl
         Location b = new Location();
-        b.longitude = 106.788796;
-        b.latitude = 10.858353 ;
+        b.latitude = 10.867109;
+        b.longitude = 106.787324;
 
+        // ben xe dai hoc nong lam
         Location c = new Location();
-        c.longitude = 106.6989938;
-        c.latitude = 10.7797858;
+        c.latitude = 10.868261;
+        c.longitude = 106.787673;
 
+        // dai hoc nong lam
+        Location d = new Location();
+        d.latitude = 10.868261;
+        d.longitude = 106.787673;
 
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
         LocalTime time = new LocalTime(10, 0);
-        String res = twoPointAlgorithm.solveAndReturnJSon(map, a, b, "Ben Thanh market", "Software Park", time,
-                Config.WALKING_DISTANCE, 2, false);
+        String res = twoPointAlgorithm.solveAndReturnJSon(map, b, a, "Ben Thanh market", "Software Park", time,
+                1500, 2, false, SearchType.TWO_POINT);
         System.out.println(res);
     }
 }

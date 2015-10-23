@@ -37,7 +37,7 @@ public class TwoPointRouteAction implements IAction {
         int hour = Integer.parseInt(hourStr);
         int minute = Integer.parseInt(minuteStr);
 
-        LocalTime departureTime = new LocalTime(hour, minute, 0);
+        LocalTime departureTime = new LocalTime(13, 30, 0);
 
         double walkingDistance = Config.WALKING_DISTANCE;
 
@@ -64,13 +64,16 @@ public class TwoPointRouteAction implements IAction {
         end.longitude = longB;
 
          TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
-          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false, TwoPointAlgorithm.SearchType.TWO_POINT);
+          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end,
+                  addressA, addressB, departureTime, walkingDistance,
+                  K, false, TwoPointAlgorithm.SearchType.TWO_POINT);
 
         System.out.println("algorithm finish zzzzzz");
         PrintWriter out = context.getWriter();
         //System.out.println(DummyResult.twoPointJSonStr);
         if (json.length() < 100) System.out.println(json);
         out.write(json);
+        System.out.println(json);
 
 
         return Config.AJAX_FORMAT;

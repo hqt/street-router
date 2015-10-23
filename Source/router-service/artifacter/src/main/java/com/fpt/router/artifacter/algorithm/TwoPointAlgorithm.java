@@ -60,7 +60,14 @@ public class TwoPointAlgorithm {
         solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK, searchType);
 
         if (message != null) {
-            return message;
+            return message;/*
+            List<Result> dummyResults = new ArrayList<Result>();
+            Result result = new Result();
+            result.code = message;
+            dummyResults.add(result);
+            Gson gson = JSONUtils.buildGson();
+            String json = gson.toJson(dummyResults);
+            return json;*/
         }
 
         /*// convert this list to json
@@ -75,7 +82,6 @@ public class TwoPointAlgorithm {
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(results);
-        System.out.println(json);
 
 
         return json;
@@ -93,7 +99,7 @@ public class TwoPointAlgorithm {
         this.endAddress = endAddress;
 
         // can walking
-        if (DistanceUtils.distance(start, end) < 350) {
+        if (DistanceUtils.distance(start, end) < Config.WALKING_DISTANCE) {
             message =  "{" +
                     "\"code\": \"success\"" +
                     "\"pathType:\":\"walking\"" +
@@ -109,6 +115,7 @@ public class TwoPointAlgorithm {
         int busStationLimit = 0;
         switch (searchType) {
             case TWO_POINT:
+                System.out.println("two point");
                 busStationLimit = NearBusStationLimit.HIGH;
                 break;
             case THREE_POINT:
@@ -122,6 +129,7 @@ public class TwoPointAlgorithm {
                 break;
         }
 
+
         if (nearStartStations.size() == 0) {
             message= "start location too far.";
             return;
@@ -130,7 +138,7 @@ public class TwoPointAlgorithm {
             nearStartStations = nearStartStations.subList(0, busStationLimit);
         }
         if (nearEndStations.size() == 0) {
-            message = "near location too far";
+            message = "end location too far";
             return;
         } else if (nearEndStations.size() > busStationLimit) {
             System.out.println("near stations size: " + nearEndStations.size());
@@ -191,6 +199,8 @@ public class TwoPointAlgorithm {
 
         if (results.size() > Config.BUS_RESULT_LIMIT) {
             results = results.subList(0, Config.BUS_RESULT_LIMIT);
+        } else if (results.size() == 0) {
+            System.out.println("algorithm wrong");
         }
 
     }

@@ -20,6 +20,7 @@ public class StartupServlet extends HttpServlet {
         System.out.println("----------");
         System.out.println("Loading Database zzzz");
         map = MapDAL.readDatabase();
+        System.out.println("station size: " + map.stations.size());
         JPADaoImpl.closeFactory();
         System.out.println("fuck");
         System.out.println("----------");
