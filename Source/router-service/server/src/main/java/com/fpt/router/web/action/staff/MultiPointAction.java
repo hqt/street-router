@@ -53,13 +53,17 @@ public class MultiPointAction implements IAction {
         String isOpParam = context.getParameter("isOp");
         boolean isOp = Boolean.parseBoolean(isOpParam);
 
+        // start
         String addressA = context.getParameter("addressA");
+        // end
         String addressB = context.getParameter("addressB");
+        // middle
         String addressC = context.getParameter("addressC");
+        // middle
         String addressD = context.getParameter("addressD");
-        List<String> middleAddess = new ArrayList<>();
-        middleAddess.add(addressC);
-        middleAddess.add(addressD);
+        List<String> middleAddresses = new ArrayList<>();
+        middleAddresses.add(addressC);
+        middleAddresses.add(addressD);
 
         String hourStr = context.getParameter("hour");
         String minuteStr = context.getParameter("minute");
@@ -118,16 +122,19 @@ public class MultiPointAction implements IAction {
 
         List<Journey> journeys;
         if (isOp) {
-            journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
+            middleLocations.add(end);
+            middleAddresses.add(addressB);
+            journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, addressA, middleLocations, middleAddresses,
+                    departureTime, Config.WALKING_DISTANCE, K, isOp);
         } else {
-            journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
+            journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressA, addressB,
+                    middleLocations, middleAddresses, departureTime, Config.WALKING_DISTANCE, K, isOp);
         }
 
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(journeys);
         PrintWriter out = context.getWriter();
-        System.out.println(json);
         out.write(json);
         return Config.AJAX_FORMAT;
     }

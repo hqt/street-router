@@ -1,19 +1,18 @@
 package com.fpt.router.artifacter.algorithm;
 
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm.SearchType;
+import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
 import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.utils.TimeUtils;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.jar.JarOutputStream;
+import java.util.*;
 
 /**
  * Purpose:
@@ -22,305 +21,197 @@ import java.util.jar.JarOutputStream;
 public class MultiPointAlgorithm {
 
     CityMap map;
-    double walkingDistance;
     Location start;
     Location end;
-    TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
+    String startAddress;
+    String endAddress;
+    LocalTime departureTime;
+    double walkingDistance;
+    int K;
+    boolean isOptimizeK;
 
     public List<Journey> run(CityMap map, Location start, Location end, String startAddress, String endAddress,
                              List<Location> middleLocations, List<String> middleAddresses,
                              LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
-        return limitJourney(getJourneys(map, start, end, startAddress, endAddress,
-                 middleLocations, middleAddresses,
-                 departureTime, walkingDistance, K, isOptimizeK));
-    }
 
-    public List<Journey> getJourneys(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      List<Location> middleLocations, List<String> middleAddresses,
-                      LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
-
-        // assign variable
         this.map = map;
-        this.walkingDistance = walkingDistance;
         this.start = start;
         this.end = end;
+        this.startAddress = startAddress;
+        this.endAddress = endAddress;
+        this.departureTime = departureTime;
+        this.walkingDistance = walkingDistance;
+        this.K = K;
+        this.isOptimizeK = isOptimizeK;
 
-        List<Journey> journeys = new ArrayList<Journey>();
+        List<Journey> journeys = buildFourPoint(middleLocations, middleAddresses);
+
         if (middleLocations.size() == 1) {
-            journeys.addAll(threePoint(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK));
-        }
-
-        if (middleLocations.size() == 2) {
-            List<Journey> journeys1 = fourPoint1(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK);
-
-            String failMess = null;
-            if (!journeys1.get(0).code.equals("success")) {
-                failMess = journeys1.get(0).code;
-            } else {
-                journeys.addAll(journeys1);
-            }
-
-            List<Journey> journeys2 = fourPoint2(map, start, end, startAddress, endAddress, middleLocations, middleAddresses, departureTime, walkingDistance, K, isOptimizeK);
-            if (!journeys2.get(0).code.equals("success") && failMess != null) {
-                return journeys1;
-            } else {
-                journeys.addAll(journeys2);
-            }
-        }
-
-        sort(journeys);
-
-        return journeys;
-    }
-
-    public List<Journey> threePoint(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                             List<Location> middleLocations, List<String> middleAddresses,
-                             LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
-
-        Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.THREE_POINT);
-
-        List<Result> results1, results2;
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            Journey journey = new Journey();
-            journey.code = msg;
-            List<Journey> dummyJourneys = new ArrayList<Journey>();
-            dummyJourneys.add(journey);
-            return dummyJourneys;
+            buildThreePoint(middleLocations.get(0), middleAddresses.get(0));
         } else {
-            results1 = (List<Result>) resultObj;
+            journeys = buildFourPoint(middleLocations, middleAddresses);
         }
 
-        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, startAddress,
-                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.THREE_POINT);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            Journey journey = new Journey();
-            journey.code = msg;
-            List<Journey> dummyJourneys = new ArrayList<Journey>();
-            dummyJourneys.add(journey);
-            return dummyJourneys;
-        } else {
-            results2 = (List<Result>) resultObj;
-        }
-
-        List<Journey> journeys = new ArrayList<Journey>();
-
-        for (int x = 0; x < results1.size(); x++) {
-            for (int y = 0; y < results2.size(); y++) {
-                Result first = results1.get(x);
-                Result second = results2.get(y);
-
-                Journey journey = new Journey();
-                Period p = first.totalTime.plus(second.totalTime);
-                journey.totalTime = p;
-                journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
-                journey.totalDistance = first.totalDistance + second.totalDistance;
-                journey.code = "success";
-                journey.results.add(first);
-                journey.results.add(second);
-                journeys.add(journey);
-            }
-        }
-
-        return journeys;
-    }
-
-    public List<Journey> fourPoint2(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                             List<Location> middleLocations, List<String> middleAddresses,
-                             LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
-
-        System.out.println("result 1. point 1: " + start.toString());
-        System.out.println("result 1. point 2: " + middleLocations.get(1).toString());
-        Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(1), startAddress,
-                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
-
-        List<Result> results1, results2, results3;
-
-
-        Journey journey = new Journey();
-        List<Journey> dummyJourneys = new ArrayList<Journey>();
-        dummyJourneys.add(journey);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            journey.code = msg;
-            return dummyJourneys;
-        } else {
-            results1 = (List<Result>) resultObj;
-            if (results1.size() == 0) {
-                journey.code = "result not found";
-                return dummyJourneys;
-            }
-        }
-
-
-        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), middleLocations.get(0), middleAddresses.get(1),
-                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            journey.code = msg;
-            return dummyJourneys;
-        } else {
-            results2 = (List<Result>) resultObj;
-            if (results2.size() == 0) {
-                journey.code = "result not found";
-                return dummyJourneys;
-            }
-        }
-
-        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), end, middleAddresses.get(0),
-                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            journey.code = msg;
-            return dummyJourneys;
-        } else {
-            results3 = (List<Result>) resultObj;
-            if (results3.size() == 0) {
-                journey.code = "result not found";
-                return dummyJourneys;
-            }
-        }
-
-        List<Journey> journeys = new ArrayList<Journey>();
-
-        for (int x = 0; x < results1.size(); x++) {
-            for (int y = 0; y < results2.size(); y++) {
-                for (int z = 0; z < results3.size(); z++) {
-
-                    Result first = results1.get(x);
-                    Result second = results2.get(y);
-                    Result third = results3.get(z);
-
-                    journey = new Journey();
-                    Period p = first.totalTime.plus(second.totalTime.plus(third.totalTime));
-                    journey.totalTime = p;
-                    journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
-                    journey.totalDistance = first.totalDistance + second.totalDistance + third.totalDistance;
-                    journey.results.add(first);
-                    journey.results.add(second);
-                    journey.results.add(third);
-                    journey.code = "success";
-                    journeys.add(journey);
-                }
-            }
-        }
-
-        return journeys;
-    }
-
-    public List<Journey> fourPoint1(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                             List<Location> middleLocations, List<String> middleAddresses,
-                             LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
-
-        System.out.println("result 1. point 1: " + start.toString());
-        System.out.println("result 1. point 2: " + middleLocations.get(0).toString());
-        Object resultObj = twoPointAlgorithm.solveAndReturnObject(map, start, middleLocations.get(0), startAddress,
-                middleAddresses.get(0), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
-
-        List<Result> results1, results2, results3;
-
-        Journey journey = new Journey();
-        List<Journey> dummyJourneys = new ArrayList<Journey>();
-        dummyJourneys.add(journey);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            journey.code = msg;
-            return dummyJourneys;
-        } else {
-            results1 = (List<Result>) resultObj;
-            if (results1.size() == 0) {
-                journey.code = "result not found";
-                return dummyJourneys;
-            }
-        }
-
-
-        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(0), middleLocations.get(1), middleAddresses.get(0),
-                middleAddresses.get(1), departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            journey.code = msg;
-            return dummyJourneys;
-        } else {
-            results2 = (List<Result>) resultObj;
-            if (results2.size() == 0) {
-                journey.code = "result not found";
-                return dummyJourneys;
-            }
-        }
-
-        resultObj = twoPointAlgorithm.solveAndReturnObject(map, middleLocations.get(1), end, middleAddresses.get(1),
-                endAddress, departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
-
-        if (resultObj instanceof String) {
-            String msg = (String) resultObj;
-            journey.code = msg;
-            return dummyJourneys;
-        } else {
-            results3 = (List<Result>) resultObj;
-            if (results3.size() == 0) {
-                journey.code = "result not found";
-                return dummyJourneys;
-            }
-        }
-
-        System.out.println("Size R1 " + results1.size());
-        System.out.println("Size R2 " + results2.size());
-        System.out.println("Size R3 " + results3.size());
-
-
-        List<Journey> journeys = new ArrayList<Journey>();
-        for (int x = 0; x < results1.size(); x++) {
-            for (int y = 0; y < results2.size(); y++) {
-                for (int z = 0; z < results3.size(); z++) {
-
-                    Result first = results1.get(x);
-                    Result second = results2.get(y);
-                    Result third = results3.get(z);
-
-                    journey = new Journey();
-                    Period p = first.totalTime.plus(second.totalTime.plus(third.totalTime));
-                    journey.totalTime = p;
-                    journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
-                    journey.totalDistance = first.totalDistance + second.totalDistance + third.totalDistance;
-                    journey.results.add(first);
-                    journey.results.add(second);
-                    journey.results.add(third);
-                    journey.code = "success";
-                    journeys.add(journey);
-                }
-            }
-        }
-
-        return journeys;
-    }
-
-    public void sort(List<Journey> journeys) {
         Collections.sort(journeys, new Comparator<Journey>() {
             @Override
             public int compare(Journey j1, Journey j2) {
-                if (j1.minutes == j2.minutes) {
-                    return (int) (j1.totalDistance - j2.totalDistance);
+                if (j1.minutes != j2.minutes) {
+                    return j1.minutes - j2.minutes;
                 }
-
-                return j1.minutes - j2.minutes;
+                return (int) (j1.totalDistance - j2.totalDistance);
             }
         });
-    }
 
-    public List<Journey> limitJourney(List<Journey> journeys) {
-        if (journeys.size() > 5) {
-            return journeys.subList(0, 5);
+        if (journeys.size() > Config.BUS_RESULT_LIMIT) {
+            return journeys.subList(0, Config.BUS_RESULT_LIMIT);
         }
         return journeys;
     }
+
+
+    private List<Location> buildLocations(Location start, Location end, Location... middleLocations) {
+        List<Location> res = new ArrayList<Location>();
+        res.add(start);
+        res.addAll(Arrays.asList(middleLocations));
+        res.add(end);
+        return res;
+    }
+
+    private List<String> buildAddresses(String start, String end, String... middleAddresses) {
+        List<String> res = new ArrayList<String>();
+        res.add(start);
+        res.addAll(Arrays.asList(middleAddresses));
+        res.add(end);
+        return res;
+    }
+
+    public List<Journey> buildThreePoint(Location middleLocation, String middleAddress) {
+        // A -> B -> C
+        List<Location> searchLocations = buildLocations(start, end, middleLocation);
+        List<String> searchAddresses = buildAddresses(startAddress, endAddress, middleAddress);
+        List<Journey> results = solve(searchLocations, searchAddresses);
+        return results;
+    }
+
+    public List<Journey> buildFourPoint(List<Location> middleLocations, List<String> middleAddresses) {
+
+        List<Journey> journeys = new ArrayList<Journey>();
+
+        List<Location> searchLocations;
+        List<String> searchAddresses;
+
+        // A -> B -> C -> D
+        searchLocations = buildLocations(start, end, middleLocations.get(0), middleLocations.get(1));
+        searchAddresses = buildAddresses(startAddress, endAddress, middleAddresses.get(0), middleAddresses.get(1));
+        List<Journey> results = solve(searchLocations, searchAddresses);
+        journeys.addAll(results);
+
+        // A -> C -> B -> D
+        searchLocations = buildLocations(start, end, middleLocations.get(1), middleLocations.get(0));
+        searchAddresses = buildAddresses(startAddress, endAddress, middleAddresses.get(1), middleAddresses.get(0));
+        results = solve(searchLocations, searchAddresses);
+        journeys.addAll(results);
+
+        return journeys;
+    }
+
+    public List<Journey> solve(List<Location> searchLocations, List<String> searchAddresses) {
+
+        List<Journey> res;
+
+        ArrayListMultimap<Integer, Result> journeyCombines = ArrayListMultimap.create();
+        int count = 0;
+
+        // build middle results for each locations
+        for (int i = 0; i < searchLocations.size()-1; i++) {
+            Location first = searchLocations.get(i);
+            String firstAddress = searchAddresses.get(i);
+
+            Location second = searchLocations.get(i+1);
+            String secondAddress = searchAddresses.get(i+1);
+
+            TwoPointAlgorithm algor = new TwoPointAlgorithm();
+            Object resultObj = algor.solveAndReturnObject(map, first, second, firstAddress, secondAddress,
+                    departureTime, walkingDistance, K, isOptimizeK, SearchType.FOUR_POINT);
+
+            // just cannot find route at one middle path. terminate program ASAP
+            // because we cannot find route for whole paths
+            if (resultObj instanceof  String) {
+                List<Journey> dummyJourneys = new ArrayList<Journey>();
+                Journey dummyJourney = new Journey();
+                dummyJourney.code = (String) resultObj;
+                dummyJourneys.add(dummyJourney);
+                return dummyJourneys;
+            } else {
+                System.out.println("put: " + i);
+                List<Result> results = (List<Result>) resultObj;
+                journeyCombines.putAll(i, results);
+                count++;
+            }
+        }
+
+        // combine all results. to find best routes
+        if (count == 3) {
+            // four points
+            res = combineResultFourPoints(journeyCombines.get(0), journeyCombines.get(1), journeyCombines.get(2));
+        } else {
+            // three points
+            res = combineResultThreePoints(journeyCombines.get(0), journeyCombines.get(1));
+        }
+
+        return res;
+    }
+
+    private List<Journey> combineResultFourPoints(List<Result> r1, List<Result> r2, List<Result> r3) {
+
+        List<Journey> journeys = new ArrayList<Journey>();
+
+        for (Result first : r1) {
+            for (Result second : r2) {
+                for (Result third : r3) {
+
+                    Journey journey = new Journey();
+                    Period p = first.totalTime.plus(second.totalTime.plus(third.totalTime));
+                    journey.totalTime = p;
+                    journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
+                    journey.totalDistance = first.totalDistance + second.totalDistance + third.totalDistance;
+                    journey.code = Config.CODE.SUCCESS;
+
+                    // combine all single results into journey
+                    journey.results.add(first);
+                    journey.results.add(second);
+                    journey.results.add(third);
+
+                    journeys.add(journey);
+                }
+            }
+        }
+
+        return journeys;
+    }
+
+    private List<Journey> combineResultThreePoints(List<Result> r1, List<Result> r2) {
+        List<Journey> journeys = new ArrayList<Journey>();
+
+        for (Result first : r1) {
+            for (Result second : r2) {
+
+                    Journey journey = new Journey();
+                    Period p = first.totalTime.plus(second.totalTime);
+                    journey.totalTime = p;
+                    journey.minutes = (int) (TimeUtils.convertToMilliseconds(p) / (60 * 1000));
+                    journey.totalDistance = first.totalDistance + second.totalDistance;
+                    journey.code = Config.CODE.SUCCESS;
+
+                    // combine all single results into journey
+                    journey.results.add(first);
+                    journey.results.add(second);
+
+                    journeys.add(journey);
+                }
+            }
+
+        return journeys;
+    }
+
 }

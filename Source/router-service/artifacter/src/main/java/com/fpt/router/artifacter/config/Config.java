@@ -31,14 +31,14 @@ public class Config {
 
     public static final class NearBusStationLimit {
         public static final int HIGH = 8;
-        public static final int MEDIUM = 4;
+        public static final int MEDIUM = 3;
         public static final int LOW = 3;
     }
 
     public static final int BUS_RESULT_LIMIT = 6;
 
     public static final double WALKING_BUS_DISTANCE = 300;
-    public static final double WALKING_DISTANCE = 1000;
+    public static final double WALKING_DISTANCE = 400;
 
     private static final double BUS_SPEED_KM_H = 20.0;
     private static final double HUMAN_SPEED_KM_H = 5.0;
@@ -60,6 +60,11 @@ public class Config {
         public static final String PAGE = "/WEB-INF/page";
         public static final String REDIRECT = "redirect.";
         public static final String DIRECT_PAGE_ATTRIBUTE = "direct_page_attribute";
+    }
+
+    public static class CODE {
+        public static final String SUCCESS = "success";
+        public static final String FAIL = "fail";
     }
 
     // bug from those route. should be avoid

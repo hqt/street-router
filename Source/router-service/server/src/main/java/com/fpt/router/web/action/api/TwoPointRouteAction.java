@@ -37,7 +37,7 @@ public class TwoPointRouteAction implements IAction {
         int hour = Integer.parseInt(hourStr);
         int minute = Integer.parseInt(minuteStr);
 
-        LocalTime departureTime = new LocalTime(13, 30, 0);
+        LocalTime departureTime = new LocalTime(hour, minute, 0);
 
         double walkingDistance = Config.WALKING_DISTANCE;
 

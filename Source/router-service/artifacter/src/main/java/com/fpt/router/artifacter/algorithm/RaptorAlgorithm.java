@@ -274,9 +274,9 @@ public class RaptorAlgorithm {
         result.minutes = (int) (TimeUtils.convertToMilliseconds(totalTime) / (1000 * 60));
 
         if (res.size() == 2) {
-            result.code = "fail";
+            result.code = Config.CODE.FAIL;
         } else {
-            result.code = "success";
+            result.code = Config.CODE.SUCCESS;
         }
 
         return result;

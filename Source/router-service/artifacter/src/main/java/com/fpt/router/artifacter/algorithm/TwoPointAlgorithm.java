@@ -98,13 +98,12 @@ public class TwoPointAlgorithm {
         this.startAddress = startAddress;
         this.endAddress = endAddress;
 
+        // prevent testint at midnight :)
+        departureTime = new LocalTime(8, 0, 0);
+
         // can walking
         if (DistanceUtils.distance(start, end) < Config.WALKING_DISTANCE) {
-            message =  "{" +
-                    "\"code\": \"success\"" +
-                    "\"pathType:\":\"walking\"" +
-                    "}";
-
+            message = "có thể đi bộ trực tiếp giữa hai điểm";
             return;
         }
 
@@ -131,14 +130,14 @@ public class TwoPointAlgorithm {
 
 
         if (nearStartStations.size() == 0) {
-            message= "start location too far.";
+            message= "không có trạm xe buýt nào gần " + startAddress;
             return;
         } else if (nearStartStations.size() > busStationLimit) {
             System.out.println("near stations size: " + nearStartStations.size());
             nearStartStations = nearStartStations.subList(0, busStationLimit);
         }
         if (nearEndStations.size() == 0) {
-            message = "end location too far";
+            message = "không có trạm xe buýt nào gần " + endAddress;
             return;
         } else if (nearEndStations.size() > busStationLimit) {
             System.out.println("near stations size: " + nearEndStations.size());
@@ -154,9 +153,9 @@ public class TwoPointAlgorithm {
                 startPath.stationFromName = startAddress;
                 startPath.stationToName = fromStation.name;
                 startPath.pathType = PathType.WALKING;
-                startPath.transferTurn = 0;
+                startPath.transferTurn = -1;
                 startPath.distance = DistanceUtils.distance(start, fromStation.location);
-                int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S);
+                int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
                 startPath.time = new Period(millis);
 
                 // create end path
@@ -164,18 +163,23 @@ public class TwoPointAlgorithm {
                 endPath.stationFromName = toStation.name;
                 endPath.stationToName = endAddress;
                 endPath.pathType = PathType.WALKING;
-                endPath.transferTurn = 0;
+                endPath.transferTurn = -2;
                 endPath.distance = DistanceUtils.distance(end, toStation.location);
-                millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S);
+                millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
                 endPath.time = new Period(millis);
 
                 RaptorAlgorithm algor = new RaptorAlgorithm();
                 Result result = algor.run(map, fromStation, toStation, startPath, endPath, K, isOptimizeK, departureTime);
 
-                if (result.code.equals("success")) {
+                if (result.code.equals(Config.CODE.SUCCESS)) {
                     results.add(result);
                 }
             }
+        }
+
+        if (results.size() == 0) {
+            message = "Không tìm được tuyến xe buýt từ " + startAddress + " đến " + endAddress;
+            return;
         }
 
         // sort priority
@@ -199,8 +203,6 @@ public class TwoPointAlgorithm {
 
         if (results.size() > Config.BUS_RESULT_LIMIT) {
             results = results.subList(0, Config.BUS_RESULT_LIMIT);
-        } else if (results.size() == 0) {
-            System.out.println("algorithm wrong");
         }
 
     }
