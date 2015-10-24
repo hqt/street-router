@@ -117,7 +117,7 @@ public class TwoPointAlgorithm {
 
         results = new ArrayList<Result>();
         if (isOptimizeVersion) {
-            solveUsingRaptorOptimize();
+            solveUsingRaptorOptimize(searchType);
         } else {
             solveUsingRaptorClassical(searchType);
         }
@@ -221,7 +221,25 @@ public class TwoPointAlgorithm {
         }
     }
 
-    private void solveUsingRaptorOptimize() {
+    private void solveUsingRaptorOptimize(SearchType searchType) {
+
+        // because this is optimize version. we just care about start near station
+        int limit = -1;
+        switch (searchType) {
+            case FOUR_POINT:
+                limit = 12;
+                break;
+            case FOUR_POINT_OPT:
+                limit = 10;
+                break;
+        }
+
+        if ((limit != -1) && (nearStartStations.size() > limit)) {
+            nearStartStations = nearStartStations.subList(0, limit);
+        }
+
+        System.out.println("Searching from : " + startAddress + " to " + endAddress);
+
 
         // brute force here
         results = new ArrayList<Result>();

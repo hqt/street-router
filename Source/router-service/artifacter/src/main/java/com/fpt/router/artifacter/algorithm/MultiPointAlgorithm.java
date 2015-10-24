@@ -44,10 +44,10 @@ public class MultiPointAlgorithm {
         this.K = K;
         this.isOptimizeK = isOptimizeK;
 
-        List<Journey> journeys = buildFourPoint(middleLocations, middleAddresses);
+        List<Journey> journeys;
 
         if (middleLocations.size() == 1) {
-            buildThreePoint(middleLocations.get(0), middleAddresses.get(0));
+            journeys = buildThreePoint(middleLocations.get(0), middleAddresses.get(0));
         } else {
             journeys = buildFourPoint(middleLocations, middleAddresses);
         }
@@ -87,6 +87,7 @@ public class MultiPointAlgorithm {
 
     public List<Journey> buildThreePoint(Location middleLocation, String middleAddress) {
         // A -> B -> C
+        System.out.println("Building.. three point");
         List<Location> searchLocations = buildLocations(start, end, middleLocation);
         List<String> searchAddresses = buildAddresses(startAddress, endAddress, middleAddress);
         List<Journey> results = solve(searchLocations, searchAddresses);
@@ -143,7 +144,6 @@ public class MultiPointAlgorithm {
                 dummyJourneys.add(dummyJourney);
                 return dummyJourneys;
             } else {
-                System.out.println("put: " + i);
                 List<Result> results = (List<Result>) resultObj;
                 journeyCombines.putAll(i, results);
                 count++;
