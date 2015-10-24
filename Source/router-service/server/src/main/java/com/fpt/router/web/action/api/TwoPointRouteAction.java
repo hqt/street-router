@@ -23,13 +23,13 @@ public class TwoPointRouteAction implements IAction {
     public String execute(ApplicationContext context) {
 
         // get all parameters
-        String latAStr = context.getParameter("latA");
-        String latBStr = context.getParameter("latB");
-        String longAStr = context.getParameter("longA");
-        String longBStr = context.getParameter("longB");
+        String latStartParam = context.getParameter("latStart");
+        String longStartParam = context.getParameter("longStart");
+        String latEndParam = context.getParameter("latEnd");
+        String longEndParam = context.getParameter("longEnd");
 
-        String addressA = context.getParameter("addressA");
-        String addressB = context.getParameter("addressB");
+        String addressStart = context.getParameter("addressStart");
+        String addressEnd = context.getParameter("addressEnd");
 
         String hourStr = context.getParameter("hour");
         String minuteStr = context.getParameter("minute");
@@ -44,15 +44,15 @@ public class TwoPointRouteAction implements IAction {
         int K = 2;
 
         double latA, latB, longA, longB;
-        latA = Double.parseDouble(latAStr);
-        latB = Double.parseDouble(latBStr);
-        longA = Double.parseDouble(longAStr);
-        longB = Double.parseDouble(longBStr);
+        latA = Double.parseDouble(latStartParam);
+        latB = Double.parseDouble(latEndParam);
+        longA = Double.parseDouble(longStartParam);
+        longB = Double.parseDouble(longEndParam);
 
         System.out.println("latA: " + latA + "  " + "longA: " + longA);
         System.out.println("latB: " + latB + "  " + "longB: " + longB);
-        System.out.println("address a: " + addressA);
-        System.out.println("address b: " + addressB);
+        System.out.println("address a: " + addressStart);
+        System.out.println("address b: " + addressEnd);
         System.out.println("Time: " + hourStr + ":" + minuteStr);
 
         Location start = new Location();
@@ -64,13 +64,16 @@ public class TwoPointRouteAction implements IAction {
         end.longitude = longB;
 
          TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
-          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end, addressA, addressB, departureTime, walkingDistance, K, false, TwoPointAlgorithm.SearchType.TWO_POINT);
+          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end,
+                  addressStart, addressEnd, departureTime, walkingDistance,
+                  K, false, TwoPointAlgorithm.SearchType.TWO_POINT);
 
         System.out.println("algorithm finish zzzzzz");
         PrintWriter out = context.getWriter();
         //System.out.println(DummyResult.twoPointJSonStr);
         if (json.length() < 100) System.out.println(json);
         out.write(json);
+        System.out.println(json);
 
 
         return Config.AJAX_FORMAT;

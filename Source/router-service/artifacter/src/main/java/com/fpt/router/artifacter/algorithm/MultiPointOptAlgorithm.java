@@ -1,5 +1,6 @@
 package com.fpt.router.artifacter.algorithm;
 
+import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
@@ -16,93 +17,65 @@ import java.util.List;
  */
 public class MultiPointOptAlgorithm {
 
-    CityMap map;
-    double walkingDistance;
-    Location start;
-    Location end;
-    TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
-    MultiPointAlgorithm multiPointAlgorithm = new MultiPointAlgorithm();
 
-    public List<Journey> run(CityMap map, Location start, Location end, String startAddress, String endAddress,
-                      List<Location> middleLocations, List<String> middleAddresses,
+    public List<Journey> run(CityMap map, Location start, String startAddress,
+                             List<Location> middleLocations, List<String> middleAddresses,
                       LocalTime departureTime, double walkingDistance, int K, boolean isOptimizeK) {
 
-        this.map = map;
-        this.start = start;
-        this.end = end;
-        this.walkingDistance = walkingDistance;
 
-        List<Journey> journeys = new ArrayList<Journey>();
+        List<Journey> res = new ArrayList<Journey>();
 
-        List<List<Location>> swap = swap(middleLocations, end);
-        for (int i = 0; i < swap.size(); i++) {
-            List<Location> middle = swap.get(i);
-            end = middle.get(2);
-            middle.remove(2);
-            journeys.addAll(multiPointAlgorithm.getJourneys(map, start, end, startAddress, endAddress,
-                    middle, middleAddresses,
-                    departureTime, walkingDistance, K, isOptimizeK));
+        String message = null;
+
+        // four point optimize algorithm
+        for (int i = 0; i < middleLocations.size(); i++) {
+            MultiPointAlgorithm algorithm = new MultiPointAlgorithm();
+
+            // get temp middle locations.
+            List<Location> tmpMiddleLocations = new ArrayList<Location>(middleLocations);
+            tmpMiddleLocations.remove(i);
+
+            // get temp middle addresses
+            List<String> tmpMiddleAddresses = new ArrayList<String>(middleAddresses);
+            tmpMiddleAddresses.remove(i);
+
+            Location end = middleLocations.get(i);
+            String endAddress = middleAddresses.get(i);
+
+            List<Journey> journeys = algorithm.run(map, start, end, startAddress, endAddress, tmpMiddleLocations, tmpMiddleAddresses,
+                    departureTime, walkingDistance, K, isOptimizeK);
+
+            if (!journeys.get(0).code.equals(Config.CODE.SUCCESS)) {
+                System.out.println(journeys.get(0).code);
+                message = journeys.get(0).code;
+            } else {
+                res.addAll(journeys);
+            }
         }
 
-//        for(int i = 0; i < 3; i ++) {
-//            Location swap = end;
-//            end = middleLocations.get(0);
-//            middleLocations.remove(0);
-//            middleLocations.add(swap);
-//            journeys.addAll(multiPointAlgorithm.getJourneys(map, start, end, startAddress, endAddress,
-//                    middleLocations, middleAddresses,
-//                    departureTime, walkingDistance, K, isOptimizeK));
-//            int a = 3;
-//        }
+        if (res.size() == 0) {
+            Journey dummyJourney = new Journey();
+            dummyJourney.code = message;
+            res.add(dummyJourney);
+            return res;
+        }
 
-        sort(journeys);
 
-        return limitJourney(journeys);
-    }
 
-    public List<List<Location>> swap(List<Location> middleLocations, Location end) {
-        List<List<Location>> resultSwapLocation = new ArrayList<List<Location>>();
-
-        middleLocations.add(end);
-
-        List<Location> locations1 = new ArrayList<Location>();
-        locations1.add(middleLocations.get(0));
-        locations1.add(middleLocations.get(1));
-        locations1.add(middleLocations.get(2));
-
-        List<Location> locations2 = new ArrayList<Location>();
-        locations2.add(middleLocations.get(2));
-        locations2.add(middleLocations.get(1));
-        locations2.add(middleLocations.get(0));
-
-        List<Location> locations3 = new ArrayList<Location>();
-        locations3.add(middleLocations.get(0));
-        locations3.add(middleLocations.get(2));
-        locations3.add(middleLocations.get(1));
-
-        resultSwapLocation.add(locations1);
-        resultSwapLocation.add(locations2);
-        resultSwapLocation.add(locations3);
-        return resultSwapLocation;
-    }
-
-    public void sort(List<Journey> journeys) {
-        Collections.sort(journeys, new Comparator<Journey>() {
+        Collections.sort(res, new Comparator<Journey>() {
             @Override
             public int compare(Journey j1, Journey j2) {
-                if (j1.minutes == j2.minutes) {
-                    return (int) (j1.totalDistance - j2.totalDistance);
+                if (j1.minutes != j2.minutes) {
+                    return j1.minutes - j2.minutes;
                 }
-
-                return j1.minutes - j2.minutes;
+                return (int) (j1.totalDistance - j2.totalDistance);
             }
         });
-    }
 
-    public List<Journey> limitJourney(List<Journey> journeys) {
-        if (journeys.size() > 5) {
-            return journeys.subList(0, 5);
+        if (res.size() > Config.BUS_RESULT_LIMIT) {
+            return res.subList(0, Config.BUS_RESULT_LIMIT);
         }
-        return journeys;
+
+        return res;
     }
 }

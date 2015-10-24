@@ -31,8 +31,7 @@ import java.util.List;
 public class MultiPointAction implements IAction {
 
     StationDAO dao = new StationDAO();
-    MultiPointAlgorithm multiPointAlgorithm = new MultiPointAlgorithm();
-    MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
+
 
     @Override
     public String execute(ApplicationContext context) {
@@ -40,26 +39,34 @@ public class MultiPointAction implements IAction {
         // get parameter from client
 
         // Begin - get lat long of all location
-        String latStartParam = context.getParameter("latA");
-        String longStartParam = context.getParameter("longA");
-        String latEndParam = context.getParameter("latB");
-        String longEndParam = context.getParameter("longB");
-        String latMidFirstParam = context.getParameter("latC");
-        String longMidFirstParam = context.getParameter("longC");
-        String latMidSecondParam = context.getParameter("latD");
-        String longMidSecondParam = context.getParameter("longD");
+        String latStartParam = context.getParameter("latStart");
+        String longStartParam = context.getParameter("longStart");
+        String latEndParam = context.getParameter("latEnd");
+        String longEndParam = context.getParameter("longEnd");
+        String latMidFirstParam = context.getParameter("latMidFirst");
+        String longMidFirstParam = context.getParameter("longMidFirst");
+        String latMidSecondParam = context.getParameter("latMidSecond");
+        String longMidSecondParam = context.getParameter("longMidSecond");
         // End - get lat long of all locations
 
         String isOpParam = context.getParameter("isOp");
         boolean isOp = Boolean.parseBoolean(isOpParam);
 
-        String addressA = context.getParameter("addressA");
-        String addressB = context.getParameter("addressB");
-        String addressC = context.getParameter("addressC");
-        String addressD = context.getParameter("addressD");
-        List<String> middleAddess = new ArrayList<>();
-        middleAddess.add(addressC);
-        middleAddess.add(addressD);
+        // start
+        String addressStart = context.getParameter("addressStart");
+        // end
+        String addressEnd = context.getParameter("addressEnd");
+        // middle First
+        String addressMidFirst = context.getParameter("addressMidFirst");
+        // middle Second
+        String addressMidSecond = context.getParameter("addressMidSecond");
+        List<String> middleAddresses = new ArrayList<>();
+        if (addressMidFirst != null) {
+            middleAddresses.add(addressMidFirst);
+        }
+        if (addressMidSecond != null) {
+            middleAddresses.add(addressMidSecond);
+        }
 
         String hourStr = context.getParameter("hour");
         String minuteStr = context.getParameter("minute");
@@ -77,10 +84,14 @@ public class MultiPointAction implements IAction {
             longStart = Double.parseDouble(longStartParam);
             latEnd = Double.parseDouble(latEndParam);
             longEnd = Double.parseDouble(longEndParam);
-            latMidFirst = Double.parseDouble(latMidFirstParam);
-            longMidFirst = Double.parseDouble(longMidFirstParam);
-            latMidSecond = Double.parseDouble(latMidSecondParam);
-            longMidSecond = Double.parseDouble(longMidSecondParam);
+            if (latMidFirstParam != null && longMidFirstParam != null) {
+                latMidFirst = Double.parseDouble(latMidFirstParam);
+                longMidFirst = Double.parseDouble(longMidFirstParam);
+            }
+            if (latMidSecondParam != null && longMidSecondParam != null) {
+                latMidSecond = Double.parseDouble(latMidSecondParam);
+                longMidSecond = Double.parseDouble(longMidSecondParam);
+            }
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
@@ -105,8 +116,14 @@ public class MultiPointAction implements IAction {
         second.longitude = longMidSecond;
 
         List<Location> middleLocations = new ArrayList<>();
-        middleLocations.add(first);
-        middleLocations.add(second);
+
+        if (addressMidFirst != null) {
+            middleLocations.add(first);
+        }
+        if (addressMidSecond != null) {
+            middleLocations.add(second);
+        }
+        middleLocations.add(end);
         // End - Build Middle Locations
 
         System.out.println("first: " + start.longitude + "\t" + start.latitude);
@@ -117,17 +134,25 @@ public class MultiPointAction implements IAction {
         int K = 2;
 
         List<Journey> journeys;
+
+        MultiPointAlgorithm multiPointAlgorithm = new MultiPointAlgorithm();
+        MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
         if (isOp) {
-            journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
+            middleAddresses.add(addressEnd);
+            System.out.println("Cal multi with optimize");
+            System.out.println("Waking Distance: " + Config.WALKING_DISTANCE);
+            System.out.println("K: " +K);
+            journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, addressStart, middleLocations, middleAddresses,
+                    departureTime, Config.WALKING_DISTANCE, K, isOp);
         } else {
-            journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressA, addressB, middleLocations, middleAddess, departureTime, Config.WALKING_DISTANCE, K, isOp);
+            journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressStart, addressEnd,
+                    middleLocations, middleAddresses, departureTime, Config.WALKING_DISTANCE, K, isOp);
         }
 
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(journeys);
         PrintWriter out = context.getWriter();
-        System.out.println(json);
         out.write(json);
         return Config.AJAX_FORMAT;
     }

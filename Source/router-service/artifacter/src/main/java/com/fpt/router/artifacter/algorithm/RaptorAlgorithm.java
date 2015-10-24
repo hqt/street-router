@@ -15,37 +15,71 @@ import org.joda.time.Period;
 
 import java.util.*;
 
+import static com.fpt.router.artifacter.config.Config.*;
+
 /**
  * Purpose: Raptor Algorithm
  * Created by Huynh Quang Thao on 9/20/15.
  */
 public class RaptorAlgorithm {
+    // same variables for both version
     CityMap map;
     Station start;
-    Station end;
     Path startPath;
-    Path endPath;
     LocalTime departure_time;
+    // number of change bus
+    int K;
+    boolean isOptimizeK;
+    boolean isOptimizeVersion;
 
-    public Result run(CityMap map, Station start, Station end, Path startPath, Path endPath, int K, boolean isOptimizeK, LocalTime departureTime) {
+    // classical version: just one end point
+    Station end;
+    Path endPath;
+
+    // optimize version: multi end point
+    Map<Integer, Station> endStations;
+    Map<Integer, Path> endPaths;
+
+    public List<Result> runOpt(CityMap map, Station start, Map<Integer, Station> endStations, Path startPath
+            , Map<Integer, Path> endPaths, int K, boolean isOptimizeK, LocalTime departureTime) {
         this.map = map;
         this.start = start;
-        this.end = end;
         this.startPath = startPath;
-        this.endPath = endPath;
         this.K = K;
         this.isOptimizeK = isOptimizeK;
         this.departure_time = departureTime;
 
+        this.endStations = endStations;
+        this.endPaths = endPaths;
+
+        isOptimizeVersion = true;
+
+        initialize();
+
+        raptor();
+
+        return buildResultList();
+    }
+
+    public Result runClassical(CityMap map, Station start, Station end, Path startPath, Path endPath,
+                               int K, boolean isOptimizeK, LocalTime departureTime) {
+        this.map = map;
+        this.start = start;
+        this.startPath = startPath;
+        this.K = K;
+        this.isOptimizeK = isOptimizeK;
+        this.departure_time = departureTime;
+
+        this.end = end;
+        this.endPath = endPath;
+
+        isOptimizeVersion = false;
+
         initialize();
         raptor();
 
-        return buildResult();
+        return buildResult(startPath, end, endPath);
     }
-
-    // number of change bus
-    int K;
-    boolean isOptimizeK;
 
     // limit route for each turn. just care station that can be hop on
     List<Integer> markedStationIds;
@@ -70,14 +104,14 @@ public class RaptorAlgorithm {
         Q = new HashMap<Integer, Integer>();
 
         // initialize for traceUsedRoute.
-        traceUsedRoute = new int[K+1][map.stations.size()];
-        for (int i = 0; i < K+1; i++) {
+        traceUsedRoute = new int[K + 1][map.stations.size()];
+        for (int i = 0; i < K + 1; i++) {
             Arrays.fill(traceUsedRoute[i], -1);
         }
 
         // initialize for traceFromStation
-        traceFromStation = new int[K+1][map.stations.size()];
-        for (int i = 0; i < K+1; i++) {
+        traceFromStation = new int[K + 1][map.stations.size()];
+        for (int i = 0; i < K + 1; i++) {
             Arrays.fill(traceFromStation[i], -1);
         }
 
@@ -87,13 +121,13 @@ public class RaptorAlgorithm {
 
         // initialize earliest arrival totalTime
         earliest_arrival_time = new LocalTime[map.stations.size()];
-        Arrays.fill(earliest_arrival_time, Config.MAXIMUM_TIME);
+        Arrays.fill(earliest_arrival_time, MAXIMUM_TIME);
         earliest_arrival_time[start.id] = departure_time;
 
         // initialize for result
-        result = new LocalTime[K+1][map.stations.size()];
-        for (int i = 0; i < K+1; i++) {
-            Arrays.fill(result[i], Config.MAXIMUM_TIME);
+        result = new LocalTime[K + 1][map.stations.size()];
+        for (int i = 0; i < K + 1; i++) {
+            Arrays.fill(result[i], MAXIMUM_TIME);
         }
         result[0][start.id] = departure_time;
     }
@@ -106,15 +140,15 @@ public class RaptorAlgorithm {
 
             // assign upper bound on the earliest arrival time at p with at most k-trip
             System.arraycopy(result[k - 1], 0, result[k], 0, map.stations.size());
-            System.arraycopy(traceFromStation[k-1], 0, traceFromStation[k], 0, map.stations.size());
-            System.arraycopy(traceUsedRoute[k-1], 0, traceUsedRoute[k], 0, map.stations.size());
+            System.arraycopy(traceFromStation[k - 1], 0, traceFromStation[k], 0, map.stations.size());
+            System.arraycopy(traceUsedRoute[k - 1], 0, traceUsedRoute[k], 0, map.stations.size());
 
 
             // step 1. find the  first stop that satisfy condition
             for (Integer p : markedStationIds) {
                 // all routes that go through this stop
                 for (Route route : map.getStationById(p).routes) {
-                    if (Config.blockRoute.contains(route.routeNo)) continue;
+                    if (blockRoute.contains(route.routeNo)) continue;
                     // if (!Config.allowRoute.contains(route.routeNo)) continue;
                     if (Q.containsKey(route.routeId)) {
                         // station already in queue respectively with route r
@@ -147,10 +181,10 @@ public class RaptorAlgorithm {
 
                 // optimize from this station to end on same route
                 // **Note 1** first station: t always null. so not trace back (true). because it has been traced at previous totalTransfer
-                for (int order = startOrder; order < route.getTotalStations() ; order++) {
+                for (int order = startOrder; order < route.getTotalStations(); order++) {
                     Station p_i = route.getStationByOrder(order);
 
-                    if (t!= null) {
+                    if (t != null) {
                         // get arrival totalTime of trip at station p (this trip has been taken at previous station)
                         LocalTime arrivalTime = t.getArrivalTime(p_i);
 
@@ -159,7 +193,8 @@ public class RaptorAlgorithm {
 
                         // get minimum
                         LocalTime minimum;
-                        if (earliest_arrival_time[p_i.id].compareTo(earliest_arrival_time[end.id]) <= 0) {
+                        if ((isOptimizeVersion) ||
+                                (earliest_arrival_time[p_i.id].compareTo(earliest_arrival_time[end.id])) <= 0) {
                             minimum = earliest_arrival_time[p_i.id];
                         } else {
                             minimum = earliest_arrival_time[end.id];
@@ -188,12 +223,12 @@ public class RaptorAlgorithm {
                             count++;
                         }
 
-                        if (result[k-1] == null || result[k-1][p_i.id] == null || trip.getDepartureTime(p_i) == null) {
+                        if (result[k - 1] == null || result[k - 1][p_i.id] == null || trip.getDepartureTime(p_i) == null) {
                             System.out.println("fucking wrong here");
-                            int  a = 3;
+                            int a = 3;
                         }
 
-                         if (result[k-1][p_i.id].compareTo(trip.getDepartureTime(p_i)) < 0) {
+                        if (result[k - 1][p_i.id].compareTo(trip.getDepartureTime(p_i)) < 0) {
                             t = trip;
                             currentTripIndex = tripIndex;
                             break;
@@ -213,19 +248,35 @@ public class RaptorAlgorithm {
 
     int count = 0;
 
-    private Result buildResult() {
+    private List<Result> buildResultList() {
+        List<Result> results = new ArrayList<Result>();
+        for (Map.Entry<Integer, Station> entry : endStations.entrySet()) {
+            int stationId = entry.getKey();
+            Station endStation = entry.getValue();
+            Path endPath = endPaths.get(stationId);
+            if (traceFromStation[K][stationId] != -1) {
+                Result result = buildResult(startPath, endStation, endPath);
+                if (result.code.equals(CODE.SUCCESS)) {
+                    results.add(result);
+                }
+            }
+        }
+        return results;
+    }
+
+    private Result buildResult(Path startPath, Station endStation, Path endPath) {
 
         int transferTurn = K;
         int realTransferTurn = 0;
         double totalDistance = startPath.distance + endPath.distance;
         Period totalTime = startPath.time.plus(endPath.time);
 
-        int currentHopStationId = end.id;
+        int currentHopStationId = endStation.id;
 
         List<INode> res = new ArrayList<INode>();
         res.add(endPath);
 
-        while(traceFromStation[transferTurn][currentHopStationId] != -1) {
+        while (traceFromStation[transferTurn][currentHopStationId] != -1) {
             Station currentHopStation = map.getStationById(currentHopStationId);
 
             int previousHopStationId = traceFromStation[transferTurn][currentHopStationId];
@@ -252,8 +303,7 @@ public class RaptorAlgorithm {
         transferTurn = realTransferTurn;
 
         // build again real transfer turn
-        for (int i = 0; i < res.size(); i++) {
-            INode node = res.get(i);
+        for (INode node : res) {
             if (node instanceof Segment) {
                 Segment segment = (Segment) node;
                 segment.tranferNo = realTransferTurn;
@@ -274,9 +324,9 @@ public class RaptorAlgorithm {
         result.minutes = (int) (TimeUtils.convertToMilliseconds(totalTime) / (1000 * 60));
 
         if (res.size() == 2) {
-            result.code = "fail";
+            result.code = CODE.FAIL;
         } else {
-            result.code = "success";
+            result.code = CODE.SUCCESS;
         }
 
         return result;
@@ -305,7 +355,7 @@ public class RaptorAlgorithm {
 
         int startOrder = route.getOrderByStation(begin);
         int endOrder = route.getOrderByStation(end);
-        for (int order = startOrder; order < endOrder ; order++) {
+        for (int order = startOrder; order < endOrder; order++) {
             PathInfo pathInfo = route.pathInfos.get(order);
             Path path = new Path();
 
@@ -317,7 +367,7 @@ public class RaptorAlgorithm {
             path.stationToName = pathInfo.to.name;
 
             path.points = pathInfo.middleLocations;
-            if (order < endOrder-1) {
+            if (order < endOrder - 1) {
                 path.pathType = PathType.CONNECTED_BUS;
             } else {
                 path.pathType = PathType.CRITICAL_PATH;
