@@ -25,6 +25,8 @@ public class MultiPointOptAlgorithm {
 
         List<Journey> res = new ArrayList<Journey>();
 
+        String message = null;
+
         // four point optimize algorithm
         for (int i = 0; i < middleLocations.size(); i++) {
             MultiPointAlgorithm algorithm = new MultiPointAlgorithm();
@@ -45,10 +47,20 @@ public class MultiPointOptAlgorithm {
 
             if (!journeys.get(0).code.equals(Config.CODE.SUCCESS)) {
                 System.out.println(journeys.get(0).code);
+                message = journeys.get(0).code;
             } else {
                 res.addAll(journeys);
             }
         }
+
+        if (res.size() == 0) {
+            Journey dummyJourney = new Journey();
+            dummyJourney.code = message;
+            res.add(dummyJourney);
+            return res;
+        }
+
+
 
         Collections.sort(res, new Comparator<Journey>() {
             @Override

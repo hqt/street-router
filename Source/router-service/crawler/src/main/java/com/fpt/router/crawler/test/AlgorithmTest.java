@@ -76,17 +76,24 @@ public class AlgorithmTest {
         dai_hoc_nong_lam.latitude = 10.868261;
         dai_hoc_nong_lam.longitude = 106.787673;
 
+        // dai hoc nong lam
+        Location dai_hoc_nong_lam_2 = new Location();
+        dai_hoc_nong_lam.latitude = 10.872103;
+        dai_hoc_nong_lam.longitude = 106.7928171;
+
+
         // duc ba
         Location duc_ba = new Location();
         duc_ba.latitude = 10.779786;
         duc_ba.longitude = 106.698994;
         String addressDucBa = "Duc Ba";
 
-       /* MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
+        MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
+
         List<Location> middleLocations = new ArrayList<Location>();
         middleLocations.add(duc_ba);
         middleLocations.add(cho_ba_chieu);
-        middleLocations.add(dai_hoc_nong_lam);
+        middleLocations.add(dai_hoc_nong_lam_2);
 
         List<String> middleAddress = new ArrayList<String>();
         middleAddress.add(addressDucBa);
@@ -95,12 +102,12 @@ public class AlgorithmTest {
 
         List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
                 middleLocations, middleAddress, time, 1500, 2, true);
-        int abcd = 3;*/
+        int abcd = 3;
 
 
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
 
-        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, doi_dien_dai_hoc_nong_lam, "Start Location", "End Location", time,
+        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, dai_hoc_nong_lam_2, "Start Location", "End Location", time,
                 Config.WALKING_DISTANCE, 2, false, SearchType.TWO_POINT);
         System.out.println(res);
 
