@@ -18,6 +18,7 @@ import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
@@ -43,7 +44,7 @@ public class BusTwoPointFragment extends Fragment {
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<String> listLocation = SearchRouteActivity.listLocation;
+    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
     public BusTwoPointFragment() {
@@ -143,7 +144,7 @@ public class BusTwoPointFragment extends Fragment {
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
             try {
                 for (int i = 0; i < listLocation.size(); i++) {
-                    String address_1 = listLocation.get(i);
+                    String address_1 = listLocation.get(i).getName();
 
                     String json = APIUtils.getLocationGoogleAPI(address_1);
                     JSONObject jsonObject = new JSONObject(json);

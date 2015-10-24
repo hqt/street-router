@@ -11,6 +11,7 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
@@ -36,7 +37,7 @@ public class MotorFourPointFragment extends Fragment{
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<String> listLocation = SearchRouteActivity.listLocation;
+    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
     private Boolean optimize = SearchRouteActivity.optimize;
     private RecyclerView recyclerView;
     private JSONObject jsonObject;
@@ -107,13 +108,12 @@ public class MotorFourPointFragment extends Fragment{
             List<Leg> listLegFinal = new ArrayList<>();
             List<String> listUrl;
             String json;
-            List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
             List<String> listJson = new ArrayList<>();
             if(!optimize && listLocation.size() == 4) {
-                listUrl = GoogleAPIUtils.getFourPointOptimizeDirection(listPlaceID);
+                listUrl = GoogleAPIUtils.getFourPointWithoutOptimizeDirection(SearchRouteActivity.listLocation);
                 listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));
                 try {
-                    listUrl = GoogleAPIUtils.getFourPointDirection(listPlaceID, optimize);
+                    listUrl = GoogleAPIUtils.getFourPointDirection(listLocation, optimize);
                     json = NetworkUtils.download(listUrl.get(0));
                     jsonObject = new JSONObject(json);
                     status = jsonObject.getString("status");
@@ -124,7 +124,7 @@ public class MotorFourPointFragment extends Fragment{
                     e.printStackTrace();
                 }
             } else {
-                listUrl = GoogleAPIUtils.getFourPointDirection(listPlaceID, optimize);
+                listUrl = GoogleAPIUtils.getFourPointDirection(listLocation, optimize);
                 for (int n = 0; n < listUrl.size(); n++) {
                     json = NetworkUtils.download(listUrl.get(n));
                     listJson.add(json);
@@ -170,14 +170,16 @@ public class MotorFourPointFragment extends Fragment{
                 return;
             }
             if(listLocation.size() == 4) {
-                for (int n = 1; n >= 0; n--) {
-                    int valueCheck = JSONParseUtils.totalTime(listLegFinal.get((n + 1) * 3), listLegFinal.get((n + 1) * 3 + 1), listLegFinal.get((n + 1) * 3 + 2));
-                    int valueFinal = JSONParseUtils.totalTime(listLegFinal.get(n * 3), listLegFinal.get(n * 3 + 1), listLegFinal.get(n * 3 + 2));
-                    if (valueFinal > valueCheck) {
-                        for (int i = 0; i < 3; i++) {
-                            Leg leg = listLegFinal.get((n + 1) * 3 + i);
-                            listLegFinal.set((n + 1) * 3 + i, listLegFinal.get(n * 3 + i));
-                            listLegFinal.set(n * 3 + i, leg);
+                for (int x = 0; x < 2; x++) {
+                    for (int y = 1; y < 3; y++) {
+                        int value_1 = JSONParseUtils.totalTime(listLegFinal.get(x * 3), listLegFinal.get(x * 3 + 1), listLegFinal.get(x * 3 + 2));
+                        int value_2 = JSONParseUtils.totalTime(listLegFinal.get(y * 3), listLegFinal.get(y * 3 + 1), listLegFinal.get(y * 3 + 2));
+                        if (value_1 > value_2) {
+                            for (int i = 0; i < 3; i++) {
+                                Leg leg = listLegFinal.get(x * 3 + i);
+                                listLegFinal.set(x * 3 + i, listLegFinal.get(y * 3 + i));
+                                listLegFinal.set(y * 3 + i, leg);
+                            }
                         }
                     }
                 }

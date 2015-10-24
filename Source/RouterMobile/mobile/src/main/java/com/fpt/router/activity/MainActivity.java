@@ -141,8 +141,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         // Create second page notification. for longer message. only show on wear. mobile will not see those pages
         NotificationCompat.BigTextStyle wearSecondPageNotif = new NotificationCompat.BigTextStyle();
         wearSecondPageNotif.setBigContentTitle("Page 2")
-                .bigText("Huynh Quang Thao is really superman. Huynh Quang Thao will kill the world. Bla Bla Bla Bla. Ha ha ha ha" +
-                        "Tran Kim Du is big big bear. Tran Kim Du will kick ass all people around her. Bla bla bla bla. hahahaha");
+                .bigText("Nam Đẹp Trai");
 
         // create notification from builder
         Notification secondPageNotification =
@@ -155,9 +154,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_done)
-                        .setContentTitle("Huynh Quang Thao")
-                        .setContentText("Pham Huong Lan is really superman. Pham Huong Lan will kill the world. Bla Bla Bla Bla. Ha ha ha ha\" +\n" +
-                                "                         \"Pham Huong Lan is big big bear. Pham Huong Lan will kick ass all people around her. Bla bla bla bla. hahahaha")
+                        .setContentTitle("Nguyễn Trung Nam")
+                        .setContentText("Nam Dễ Thương")
                         .setVibrate(new long[]{DELAY_VIBRATE, ON_VIBRATE, OFF_VIBRATE, ON_VIBRATE, OFF_VIBRATE, ON_VIBRATE})
                         .setColor(Color.BLUE)
                         .extend(wearableExtender)

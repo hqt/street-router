@@ -19,6 +19,7 @@ import com.fpt.router.fragment.BusFourPointFragment;
 import com.fpt.router.fragment.BusTwoPointFragment;
 import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.fragment.MotorTwoPointFragment;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private int[] imageResId = {R.drawable.bus,
             R.drawable.motorbike,
             R.drawable.map};
-    private List<String> listLocation = SearchRouteActivity.listLocation;
+    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
     public ViewPagerAdapter(FragmentManager fm, Context context){
         super(fm);
         this.context = context;

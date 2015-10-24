@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.activity.SearchRouteActivity;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAdapter.RouterViewHolder> {
 
-    List<String> listLocation = SearchRouteActivity.listLocation;
+    List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
     int countPoint = listLocation.size() - 1;
     View v;
@@ -55,8 +56,10 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
             duration = duration + listLeg.get(n).getDetailLocation().getDuration();
             distance = distance + listLeg.get(n).getDetailLocation().getDistance();
         }
-        Double totalDistance = (double)distance;
-        holder.duration.setText(duration/60 + " phút");
+        duration = duration/6;
+        Double totalDuration = (double) duration/10;
+        Double totalDistance = (double) distance;
+        holder.duration.setText(totalDuration + " phút");
         holder.distance.setText(totalDistance/1000+" Km");
         holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
         if (listLocation.size() > 2) {

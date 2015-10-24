@@ -17,6 +17,7 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.library.model.motorbike.Step;
@@ -38,7 +39,7 @@ public class MotorTwoPointFragment extends Fragment {
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<String> listLocation = SearchRouteActivity.listLocation;
+    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
     private Boolean optimize = SearchRouteActivity.optimize;
     private RecyclerView recyclerView;
     private JSONObject jsonObject;
@@ -113,8 +114,7 @@ public class MotorTwoPointFragment extends Fragment {
             List<Leg> listLeg = new ArrayList<>();
             String json;
             String url;
-            List<String> listPlaceID = JSONParseUtils.listPlaceID(listLocation);
-            url = GoogleAPIUtils.getTwoPointDirection(listPlaceID.get(0), listPlaceID.get(1));
+            url = GoogleAPIUtils.getTwoPointDirection(listLocation.get(0).getPlace_id(), listLocation.get(1).getPlace_id());
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);
@@ -158,11 +158,15 @@ public class MotorTwoPointFragment extends Fragment {
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
-            for(int i = listLeg.size()-2; i >= 0; i--) {
-                if(listLeg.get(i+1).getDetailLocation().getDuration() < listLeg.get(i).getDetailLocation().getDuration()) {
-                    Leg leg = listLeg.get(i+1);
-                    listLeg.set(i+1, listLeg.get(i));
-                    listLeg.set(i, leg);
+            if(listLeg.size() > 1) {
+                for (int x = 0; x < listLeg.size() - 1; x++) {
+                    for (int y = 1; y < listLeg.size(); y++) {
+                        if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
+                            Leg leg = listLeg.get(x);
+                            listLeg.set(x, listLeg.get(y));
+                            listLeg.set(y, leg);
+                        }
+                    }
                 }
             }
             SearchRouteActivity.listLeg = listLeg;

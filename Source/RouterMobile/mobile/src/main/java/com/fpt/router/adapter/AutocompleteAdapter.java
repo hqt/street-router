@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,10 +14,10 @@ import java.util.List;
  * Created by Nguyen Trung Nam on 10/3/2015.
  */
 public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
-    private List<String> resultList;
+    private List<AutocompleteObject> resultList;
 
 
-    public AutocompleteAdapter(Context context, int textViewResourceId, List<String> arrayList) {
+    public AutocompleteAdapter(Context context, int textViewResourceId, List<AutocompleteObject> arrayList) {
         super(context, textViewResourceId);
         this.resultList = arrayList;
     }
@@ -27,7 +29,7 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
 
     @Override
     public String getItem(int index) {
-        return resultList.get(index);
+        return resultList.get(index).getName();
     }
 
     @Override

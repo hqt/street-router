@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.utils.string.LevenshteinDistance;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -38,7 +39,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private EditText autoComp;
     private  ListView listView;
     private ProgressBar progressBar;
-
+    private List<AutocompleteObject> listLocation = new ArrayList<>();
+    private AutocompleteObject location;
     boolean state = false;
     String phraseShouldToSearch;
 
@@ -54,7 +56,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         // default. hide progress bar
         progressBar.setVisibility(View.INVISIBLE);
 
-        adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<String>());
+        adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<AutocompleteObject>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
         Intent intent = new Intent();
@@ -93,8 +95,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                String itemValue = (String) listView.getItemAtPosition(position);
-                autoComp.setText(itemValue);
+                location = listLocation.get(position);
+                autoComp.setText(location.getName());
             }
         });
 
@@ -126,10 +128,12 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                         case KeyEvent.KEYCODE_ENTER:
                         case KeyEvent.FLAG_EDITOR_ACTION:
                         case 12:
-                            String message = autoComp.getText().toString();
                             Intent intent = new Intent();
-                            intent.putExtra("MESSAGE", message);
-							int number = getIntent().getIntExtra("number", 1);
+                            if(location != null) {
+                                intent.putExtra("NAME", location.getName());
+                                intent.putExtra("PLACE_ID", location.getPlace_id());
+                            }
+                            int number = getIntent().getIntExtra("number", 1);
                             setResult(number, intent);
                             finish();//finishing activity
                             return true;
@@ -159,9 +163,11 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
-                String message = autoComp.getText().toString();
                 Intent intent = new Intent();
-                intent.putExtra("MESSAGE", message);
+                if(location != null) {
+                    intent.putExtra("NAME", location.getName());
+                    intent.putExtra("PLACE_ID", location.getPlace_id());
+                }
                 int number = getIntent().getIntExtra("number", 1);
                 setResult(number, intent);
                 finish();//finishing activity
@@ -171,18 +177,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         }
     }
 
-    class GetPlacesTask extends AsyncTask<String, Void, ArrayList<String>> {
+    class GetPlacesTask extends AsyncTask<String, Void, ArrayList<AutocompleteObject>> {
 
         private String searchString;
 
         @Override
         // three dots is java for an array of strings
-        protected ArrayList<String> doInBackground(String... args)
+        protected ArrayList<AutocompleteObject> doInBackground(String... args)
         {
             Log.d("gottaGo", "doInBackground");
 
-            ArrayList<String> predictionsArr = new ArrayList<String>();
-
+            ArrayList<AutocompleteObject> predictionsArr = new ArrayList<>();
             try
             {
                 //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
@@ -203,12 +208,9 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
 
                     for (int y = 0; y < ja.length(); y++) {
                         JSONObject jo = (JSONObject) ja.get(y);
-                        String address = jo.getString("description");
-                        String hcm_1 = "Hồ Chí Minh";
-                        String hcm_2 = "Ho Chi Minh";
-                        if(address.toLowerCase().contains(hcm_1.toLowerCase()) || address.toLowerCase().contains(hcm_2.toLowerCase())) {
-                            predictionsArr.add(address);
-                        }
+                        String name = jo.getString("description");
+                        String place_id = jo.getString("place_id");
+                        predictionsArr.add(new AutocompleteObject(name, place_id));
                     }
                 }
             } catch (JSONException e)
@@ -222,7 +224,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         //then our post
 
         @Override
-        protected void onPostExecute(ArrayList<String> results){
+        protected void onPostExecute(ArrayList<AutocompleteObject> results){
             adapter.clear();
 
             state = false;
@@ -237,40 +239,15 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                adapter.add(string);
             }*/
             if(results == null){
-                results = new ArrayList<String>();
-                results.add("Cần kết nối Internet");
+                AutocompleteObject autocompleteObject = null;
+                results = new ArrayList<>();
+                autocompleteObject.setName("Cần kết nối Internet");
+                results.add(autocompleteObject);
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,results);
                 /*return;*/
-            }else {
-                // sort result
-                Collections.sort(results, new Comparator<String>() {
-                    @Override
-                    public int compare(String s1, String s2) {
-                        int distanceS1 = LevenshteinDistance.computeDistance(s1, searchString);
-                        int distanceS2 = LevenshteinDistance.computeDistance(s2, searchString);
-                        return distanceS1 - distanceS2;
-                    }
-                });
-
-                // Avoid duplicate result
-                List<String> shortenList = new ArrayList<String>();
-                for (int i = 0; i < results.size(); i++) {
-                    if (i == 0) {
-                        shortenList.add(results.get(i));
-                        continue;
-                    }
-
-                    // just add string that different than previous string
-                    String current = results.get(i);
-                    String previous = results.get(i-1);
-                    if (LevenshteinDistance.computeDistance(current, previous) > 1) {
-                        shortenList.add(current);
-                    }
-                }
-
-
-                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, shortenList);
             }
+            listLocation = results;
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, results);
 
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
