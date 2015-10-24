@@ -4,6 +4,7 @@ import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
+import com.fpt.router.artifacter.utils.NoResultHelper;
 import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
@@ -54,10 +55,7 @@ public class MultiPointOptAlgorithm {
         }
 
         if (res.size() == 0) {
-            Journey dummyJourney = new Journey();
-            dummyJourney.code = message;
-            res.add(dummyJourney);
-            return res;
+           return NoResultHelper.NoJourneyFound(message);
         }
 
 
