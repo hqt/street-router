@@ -38,7 +38,7 @@ public class Config {
     public static final int BUS_RESULT_LIMIT = 6;
 
     public static final double WALKING_BUS_DISTANCE = 300;
-    public static final double WALKING_DISTANCE = 400;
+    public static final double WALKING_DISTANCE = 600;
 
     private static final double BUS_SPEED_KM_H = 20.0;
     private static final double HUMAN_SPEED_KM_H = 5.0;

@@ -28,6 +28,8 @@ public class AlgorithmTest {
         CityMap map = MapDAL.readDatabase();
         JPADaoImpl.closeFactory();
 
+        LocalTime time = new LocalTime(8, 30, 0);
+
         // start
         Location start = new Location();
         start.latitude = 10.771918;
@@ -55,15 +57,19 @@ public class AlgorithmTest {
         maximark.latitude = 10.800767;
         maximark.longitude = 106.659483;
 
+        Location cho_kim_bien = new Location();
+        cho_kim_bien.latitude = 0;
+        cho_kim_bien.longitude = 10;
+
         // doi dien dh_nl
-        Location b = new Location();
-        b.latitude = 10.867109;
-        b.longitude = 106.787324;
+        Location doi_dien_dai_hoc_nong_lam = new Location();
+        doi_dien_dai_hoc_nong_lam.latitude = 10.867109;
+        doi_dien_dai_hoc_nong_lam.longitude = 106.787324;
 
         // ben xe dai hoc nong lam
-        Location c = new Location();
-        c.latitude = 10.868261;
-        c.longitude = 106.787673;
+        Location ben_xe_nong_lam = new Location();
+        ben_xe_nong_lam.latitude = 10.868261;
+        ben_xe_nong_lam.longitude = 106.787673;
 
         // dai hoc nong lam
         Location dai_hoc_nong_lam = new Location();
@@ -76,7 +82,7 @@ public class AlgorithmTest {
         duc_ba.longitude = 106.698994;
         String addressDucBa = "Duc Ba";
 
-        MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
+       /* MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
         List<Location> middleLocations = new ArrayList<Location>();
         middleLocations.add(duc_ba);
         middleLocations.add(cho_ba_chieu);
@@ -87,18 +93,16 @@ public class AlgorithmTest {
         middleAddress.add(addressChoBaChieu);
         middleAddress.add("dai hoc nong lam");
 
-        LocalTime time = new LocalTime(10, 0);
-
         List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
                 middleLocations, middleAddress, time, 1500, 2, true);
-        int abcd = 3;
+        int abcd = 3;*/
 
 
-       /* TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
+        TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
 
-        String res = twoPointAlgorithm.solveAndReturnJSon(map, b, cvpm, "Ben Thanh market", "Software Park", time,
-                1500, 2, false, SearchType.TWO_POINT);
-        System.out.println(res);*/
+        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, doi_dien_dai_hoc_nong_lam, "Start Location", "End Location", time,
+                Config.WALKING_DISTANCE, 2, false, SearchType.TWO_POINT);
+        System.out.println(res);
 
 
     }

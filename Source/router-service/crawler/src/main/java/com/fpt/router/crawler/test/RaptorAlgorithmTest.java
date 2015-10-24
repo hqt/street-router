@@ -50,7 +50,7 @@ public class RaptorAlgorithmTest {
         endPath.distance = 100;
         endPath.time = new Period(0, 1, 30, 0);
 
-        Result res = algor.run(map, start, end, startPath, endPath, 2, false, new LocalTime(8, 30));
+        Result res = algor.runClassical(map, start, end, startPath, endPath, 2, false, new LocalTime(8, 30));
         int a = 3;
 
         /*// convert this list to json

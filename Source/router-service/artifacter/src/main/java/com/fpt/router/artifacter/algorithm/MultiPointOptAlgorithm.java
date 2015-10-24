@@ -28,18 +28,17 @@ public class MultiPointOptAlgorithm {
         // four point optimize algorithm
         for (int i = 0; i < middleLocations.size(); i++) {
             MultiPointAlgorithm algorithm = new MultiPointAlgorithm();
-            // get temp middle locations
+
+            // get temp middle locations.
             List<Location> tmpMiddleLocations = new ArrayList<Location>(middleLocations);
             tmpMiddleLocations.remove(i);
 
-            // get temp middle address
+            // get temp middle addresses
             List<String> tmpMiddleAddresses = new ArrayList<String>(middleAddresses);
             tmpMiddleAddresses.remove(i);
 
             Location end = middleLocations.get(i);
             String endAddress = middleAddresses.get(i);
-
-            System.out.println("middle location size: " + tmpMiddleLocations.size());
 
             List<Journey> journeys = algorithm.run(map, start, end, startAddress, endAddress, tmpMiddleLocations, tmpMiddleAddresses,
                     departureTime, walkingDistance, K, isOptimizeK);

@@ -15,10 +15,7 @@ import com.google.gson.Gson;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Purpose: Find shortest bus route go through two points
@@ -39,8 +36,16 @@ public class TwoPointAlgorithm {
     Location end;
     String startAddress;
     String endAddress;
+    int K;
+    boolean isOptimizeK;
+    LocalTime departureTime;
     List<Result> results;
     String message;
+
+    List<Station> nearStartStations;
+    List<Station> nearEndStations;
+
+    final boolean isOptimizeVersion = true;
 
 
 
@@ -60,30 +65,18 @@ public class TwoPointAlgorithm {
         solve(map, start, end, startAddress, endAddress, departureTime, walkingDistance, K, isOptimizeK, searchType);
 
         if (message != null) {
-            return message;/*
+            // return message;
             List<Result> dummyResults = new ArrayList<Result>();
             Result result = new Result();
             result.code = message;
             dummyResults.add(result);
             Gson gson = JSONUtils.buildGson();
             String json = gson.toJson(dummyResults);
-            return json;*/
+            return json;
         }
 
-        /*// convert this list to json
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String json = null;
-        try {
-            json = ow.writeValueAsString(results);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
         Gson gson = JSONUtils.buildGson();
-
         String json = gson.toJson(results);
-
-
         return json;
 
     }
@@ -94,12 +87,15 @@ public class TwoPointAlgorithm {
         this.map = map;
         this.start = start;
         this.end = end;
-        this.walkingDistance = walkingDistance;
         this.startAddress = startAddress;
         this.endAddress = endAddress;
+        this.walkingDistance = walkingDistance;
+        this.isOptimizeK = isOptimizeK;
+        this.departureTime = departureTime;
+        this.K = K;
 
-        // prevent testint at midnight :)
-        departureTime = new LocalTime(8, 0, 0);
+        // prevent testing at midnight :)
+        this.departureTime = new LocalTime(12, 0, 0);
 
         // can walking
         if (DistanceUtils.distance(start, end) < Config.WALKING_DISTANCE) {
@@ -107,74 +103,23 @@ public class TwoPointAlgorithm {
             return;
         }
 
-        List<Station> nearStartStations = findNearestStations(start);
-        List<Station> nearEndStations = findNearestStations(end);
-
-        // choose limit stations. for optimize time to run.
-        int busStationLimit = 0;
-        switch (searchType) {
-            case TWO_POINT:
-                System.out.println("two point");
-                busStationLimit = NearBusStationLimit.HIGH;
-                break;
-            case THREE_POINT:
-                busStationLimit = NearBusStationLimit.HIGH;
-                break;
-            case FOUR_POINT:
-                busStationLimit = NearBusStationLimit.MEDIUM;
-                break;
-            case FOUR_POINT_OPT:
-                busStationLimit = NearBusStationLimit.MEDIUM;
-                break;
-        }
-
+        nearStartStations = findNearestStations(start);
+        nearEndStations = findNearestStations(end);
 
         if (nearStartStations.size() == 0) {
             message= "không có trạm xe buýt nào gần " + startAddress;
             return;
-        } else if (nearStartStations.size() > busStationLimit) {
-            System.out.println("near stations size: " + nearStartStations.size());
-            nearStartStations = nearStartStations.subList(0, busStationLimit);
         }
         if (nearEndStations.size() == 0) {
             message = "không có trạm xe buýt nào gần " + endAddress;
             return;
-        } else if (nearEndStations.size() > busStationLimit) {
-            System.out.println("near stations size: " + nearEndStations.size());
-            nearEndStations = nearEndStations.subList(0,busStationLimit);
         }
 
-        // brute force here
         results = new ArrayList<Result>();
-        for (Station fromStation : nearStartStations) {
-            for (Station toStation : nearEndStations) {
-                // create start path
-                Path startPath = new Path();
-                startPath.stationFromName = startAddress;
-                startPath.stationToName = fromStation.name;
-                startPath.pathType = PathType.WALKING;
-                startPath.transferTurn = -1;
-                startPath.distance = DistanceUtils.distance(start, fromStation.location);
-                int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
-                startPath.time = new Period(millis);
-
-                // create end path
-                Path endPath = new Path();
-                endPath.stationFromName = toStation.name;
-                endPath.stationToName = endAddress;
-                endPath.pathType = PathType.WALKING;
-                endPath.transferTurn = -2;
-                endPath.distance = DistanceUtils.distance(end, toStation.location);
-                millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
-                endPath.time = new Period(millis);
-
-                RaptorAlgorithm algor = new RaptorAlgorithm();
-                Result result = algor.run(map, fromStation, toStation, startPath, endPath, K, isOptimizeK, departureTime);
-
-                if (result.code.equals(Config.CODE.SUCCESS)) {
-                    results.add(result);
-                }
-            }
+        if (isOptimizeVersion) {
+            solveUsingRaptorOptimize();
+        } else {
+            solveUsingRaptorClassical(searchType);
         }
 
         if (results.size() == 0) {
@@ -205,6 +150,116 @@ public class TwoPointAlgorithm {
             results = results.subList(0, Config.BUS_RESULT_LIMIT);
         }
 
+    }
+
+    private void solveUsingRaptorClassical(SearchType searchType) {
+        // choose limit stations. for optimize time to runClassical.
+        int busStationLimit = 0;
+        switch (searchType) {
+            case TWO_POINT:
+                busStationLimit = NearBusStationLimit.HIGH;
+                break;
+            case THREE_POINT:
+                busStationLimit = NearBusStationLimit.HIGH;
+                break;
+            case FOUR_POINT:
+                busStationLimit = NearBusStationLimit.MEDIUM;
+                break;
+            case FOUR_POINT_OPT:
+                busStationLimit = NearBusStationLimit.MEDIUM;
+                break;
+        }
+        System.out.println("limit bus station limit: " + busStationLimit);
+
+        System.out.println("near start stations size: " + nearStartStations.size());
+        if (nearStartStations.size() > busStationLimit) {
+            nearStartStations = nearStartStations.subList(0, busStationLimit);
+        }
+
+
+        System.out.println("near end stations size: " + nearEndStations.size());
+        if (nearEndStations.size() > busStationLimit) {
+            nearEndStations = nearEndStations.subList(0, busStationLimit);
+        }
+
+        // brute force here
+        results = new ArrayList<Result>();
+        for (Station fromStation : nearStartStations) {
+            for (Station toStation : nearEndStations) {
+                // create start path
+                Path startPath = new Path();
+                startPath.stationFromName = startAddress;
+                startPath.stationToName = fromStation.name;
+                startPath.pathType = PathType.WALKING;
+                startPath.transferTurn = -1;
+                startPath.distance = DistanceUtils.distance(start, fromStation.location);
+                int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
+                startPath.time = new Period(millis);
+
+                // create end path
+                Path endPath = new Path();
+                endPath.stationFromName = toStation.name;
+                endPath.stationToName = endAddress;
+                endPath.pathType = PathType.WALKING;
+                endPath.transferTurn = -2;
+                endPath.distance = DistanceUtils.distance(end, toStation.location);
+                millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
+                endPath.time = new Period(millis);
+
+                if (fromStation.id == 1445 && toStation.id == 466) {
+                    int c = 3;
+                }
+
+                RaptorAlgorithm algor = new RaptorAlgorithm();
+                Result result = algor.runClassical(map, fromStation, toStation, startPath, endPath,
+                        K, isOptimizeK, departureTime);
+
+                if (result.code.equals(Config.CODE.SUCCESS)) {
+                    results.add(result);
+                }
+            }
+        }
+    }
+
+    private void solveUsingRaptorOptimize() {
+
+        // brute force here
+        results = new ArrayList<Result>();
+        for (Station fromStation : nearStartStations) {
+            // create start path
+            Path startPath = new Path();
+            startPath.stationFromName = startAddress;
+            startPath.stationToName = fromStation.name;
+            startPath.pathType = PathType.WALKING;
+            startPath.transferTurn = -1;
+            startPath.distance = DistanceUtils.distance(start, fromStation.location);
+            int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
+            startPath.time = new Period(millis);
+
+            // build a list of all end stations
+            Map<Integer, Station> endStations = new HashMap<Integer, Station>();
+            Map<Integer, Path> endPaths = new HashMap<Integer, Path>();
+
+            for (Station endStation : nearEndStations) {
+                // create end path
+                Path endPath = new Path();
+                endPath.stationFromName = endStation.name;
+                endPath.stationToName = endAddress;
+                endPath.pathType = PathType.WALKING;
+                endPath.transferTurn = -2;
+                endPath.distance = DistanceUtils.distance(end, endStation.location);
+                millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
+                endPath.time = new Period(millis);
+
+                endStations.put(endStation.id, endStation);
+                endPaths.put(endStation.id, endPath);
+            }
+
+            RaptorAlgorithm algorithm = new RaptorAlgorithm();
+            List<Result> middleResults = algorithm.runOpt(map, fromStation, endStations, startPath, endPaths,
+                    K, isOptimizeK, departureTime);
+            results.addAll(middleResults);
+        }
     }
 
 
