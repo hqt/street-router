@@ -23,7 +23,9 @@ import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,12 +49,10 @@ public class SearchRouteActivity extends AppCompatActivity {
     private TextView edit_1;
     private TextView edit_2;
     public static ViewPagerAdapter adapter;
-    public static List<Leg> listLeg = new ArrayList<>();
     public static List<Result> results = new ArrayList<Result>();
     public static List<Journey> journeys = new ArrayList<Journey>();
-
-    public static List<String> listLocation = new ArrayList<>();
-    private List<String> location;
+    public static List<Leg> listLeg;
+    public static List<AutocompleteObject> listLocation = new ArrayList<>();
     public static Boolean optimize = true;
     private LinearLayout option;
     private ViewPager _view_pager;
@@ -83,10 +83,10 @@ public class SearchRouteActivity extends AppCompatActivity {
         edit_2 = (TextView) findViewById(R.id.edit_2);
 
         if (listLocation.size() > 0) {
-            edit_1.setText(listLocation.get(0));
+            edit_1.setText(listLocation.get(0).getName());
         }
         if (listLocation.size() > 1) {
-            edit_2.setText(listLocation.get(1));
+            edit_2.setText(listLocation.get(1).getName());
         }
         //Tabs
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
@@ -159,6 +159,8 @@ public class SearchRouteActivity extends AppCompatActivity {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
                 } else if ("".equals(edit_2.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
+                } else if (!NetworkUtils.isNetworkConnected()) {
+                    Toast.makeText(SearchRouteActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
                 // try to search
                 else {
@@ -202,26 +204,30 @@ public class SearchRouteActivity extends AppCompatActivity {
         // set Fragmentclass Arguments
         if (data != null) {
             if (requestCode == 1) {
-                String message = data.getStringExtra("MESSAGE");
-                if (!"".equals(message)) {
-                    edit_1.setText(message);
+                String name = data.getStringExtra("NAME");
+                String place_id = data.getStringExtra("PLACE_ID");
+                if (!"".equals(name) || name == null) {
+                    edit_1.setText(name);
                     if (listLocation.size() > 0) {
-                        listLocation.set(0, message);
+                        listLocation.set(0, new AutocompleteObject(name, place_id));
 
                     } else {
-                        listLocation.add(message);
+                        listLocation.add(new AutocompleteObject(name, place_id));
                     }
                 }
 
             }
             if (requestCode == 2) {
-                String message = data.getStringExtra("MESSAGE");
-                if (!"".equals(message)) {
-                    edit_2.setText(message);
-                    if (listLocation.size() > 1) {
-                        listLocation.set(1, message);
+                String name = data.getStringExtra("NAME");
+                String place_id = data.getStringExtra("PLACE_ID");
+                if (!"".equals(name) || name == null) {
+                    edit_2.setText(name);
+                    if(listLocation == null) {
+                        listLocation.add(new AutocompleteObject("", ""));
+                    } else if (listLocation.size() > 1) {
+                        listLocation.set(1, new AutocompleteObject(name, place_id));
                     } else {
-                        listLocation.add(message);
+                        listLocation.add(new AutocompleteObject(name, place_id));
                     }
                 }
             }

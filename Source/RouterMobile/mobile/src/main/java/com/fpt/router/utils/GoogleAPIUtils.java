@@ -1,6 +1,7 @@
 package com.fpt.router.utils;
 
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -30,13 +31,13 @@ public class GoogleAPIUtils {
         return url;
     }
 
-    public static List<String> getFourPointOptimizeDirection(List<String> listLocation) {
+    public static List<String> getFourPointWithoutOptimizeDirection(List<AutocompleteObject> listLocation) {
         String url;
         List<String> listUrl = new ArrayList<>();
         for(int x = 0; x < listLocation.size()-1; x++){
             for(int y = 1; y < listLocation.size(); y++){
                 if((x != y) && (y-x != 3)) {
-                    url = getTwoPointDirection(listLocation.get(x), listLocation.get(y));
+                    url = getTwoPointDirection(listLocation.get(x).getPlace_id(), listLocation.get(y).getPlace_id());
                     listUrl.add(url);
                 }
             }
@@ -47,7 +48,7 @@ public class GoogleAPIUtils {
         return listUrl;
     }
 
-    public static List<String> getFourPointDirection(List<String> listPlaceID, Boolean optimize){
+    public static List<String> getFourPointDirection(List<AutocompleteObject> listLocation, Boolean optimize){
         String key = AppConstants.GOOGLE_KEY;
         List<String> listUrl = new ArrayList<>();
         String startLocation = null;
@@ -55,29 +56,29 @@ public class GoogleAPIUtils {
         String waypoint_1 = "";
         String waypoint_2 = "";
         int count = 1;
-        if(listPlaceID.size() == 4){
+        if(listLocation.size() == 4){
             count = 3;
         }
-        List<String> listPlace = listPlaceID;
+        List<AutocompleteObject> list = listLocation;
 
         for(int n = 0; n < count; n++) {
             String waypoints = "";
             try {
                 if(count == 3) {
-                    String change = listPlace.get(1);
-                    listPlace.set(1, listPlace.get(2));
-                    listPlace.set(2, listPlace.get(3));
-                    listPlace.set(3, change);
+                    AutocompleteObject change = list.get(1);
+                    list.set(1, list.get(2));
+                    list.set(2, list.get(3));
+                    list.set(3, change);
                 }
-                startLocation = URLEncoder.encode(listPlace.get(0), "UTF-8");
-                endLocation = URLEncoder.encode(listPlace.get(1), "UTF-8");
-                if (listPlace.size() == 3) {
-                    waypoint_1 = URLEncoder.encode(listPlace.get(2), "UTF-8");
+                startLocation = URLEncoder.encode(list.get(0).getPlace_id(), "UTF-8");
+                endLocation = URLEncoder.encode(list.get(1).getPlace_id(), "UTF-8");
+                if (list.size() == 3) {
+                    waypoint_1 = URLEncoder.encode(list.get(2).getPlace_id(), "UTF-8");
                     waypoints = "&waypoints=place_id:" + waypoint_1;
 
-                }else if (listPlace.size() == 4) {
-                    waypoint_1 = URLEncoder.encode(listPlace.get(2), "UTF-8");
-                    waypoint_2 = URLEncoder.encode(listPlace.get(3), "UTF-8");
+                } else if (list.size() == 4) {
+                    waypoint_1 = URLEncoder.encode(list.get(2).getPlace_id(), "UTF-8");
+                    waypoint_2 = URLEncoder.encode(list.get(3).getPlace_id(), "UTF-8");
                     if (optimize) {
                         waypoints = "&waypoints=optimize:place_id:true" + "|place_id:" + waypoint_1 + "|place_id:" + waypoint_2;
                     } else {
@@ -96,40 +97,6 @@ public class GoogleAPIUtils {
             listUrl.add(url);
         }
         return listUrl;
-    }
-
-    public static String getShortePath(String start, String end,String way_point_1,String way_point_2, Boolean optimize){
-        String key = AppConstants.GOOGLE_KEY;
-        String startLocation = null;
-        String endLocation = null;
-        String waypoint_1 = "";
-        String waypoint_2 = "";
-        try {
-            startLocation = URLEncoder.encode(start, "UTF-8");
-            endLocation = URLEncoder.encode(end, "UTF-8");
-            waypoint_1 = URLEncoder.encode(way_point_1,"UTF-8");
-            waypoint_2 = URLEncoder.encode(way_point_2,"UTF-8");
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        String waypoints = "&waypoints=";
-        if(waypoint_1 != null || waypoint_2 != null){
-            if(optimize) {
-                waypoints = waypoints + "optimize:true" + "|" + waypoint_1 + "|" + waypoint_2;
-            } else  {
-                waypoints = waypoints + waypoint_1 + "|" + waypoint_2;
-            }
-        }
-        String url = "https://maps.googleapis.com/maps/api/directions/json?" +
-                "origin=" + startLocation +
-                "&destination=" + endLocation + waypoints +
-                "&alternatives=true" +
-                "&mode=driving" +
-                "&key=" + key;
-
-        String json = NetworkUtils.download(url);
-        return json;
     }
 
     public static List<String> getGooglePlace(String autoCompleteText){

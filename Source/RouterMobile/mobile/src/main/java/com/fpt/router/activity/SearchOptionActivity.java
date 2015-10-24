@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 
 /**
  * Created by asus on 10/6/2015.
@@ -40,10 +41,10 @@ public class SearchOptionActivity extends Activity {
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         checkBox.setChecked(SearchRouteActivity.optimize);
         if (SearchRouteActivity.listLocation.size() > 2) {
-            txtfrom.setText(SearchRouteActivity.listLocation.get(2));
+            txtfrom.setText(SearchRouteActivity.listLocation.get(2).getName());
         }
         if (SearchRouteActivity.listLocation.size() > 3) {
-            txtto.setText(SearchRouteActivity.listLocation.get(3));
+            txtto.setText(SearchRouteActivity.listLocation.get(3).getName());
         }
 
         //get position disable radio button if postion is motorbike
@@ -106,25 +107,27 @@ public class SearchOptionActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if(data != null){
             if (requestCode == 3) {
-                String message = data.getStringExtra("MESSAGE");
-                if (!"".equals(message)) {
-                    txtfrom.setText(message);
+                String name = data.getStringExtra("NAME");
+                String place_id = data.getStringExtra("PLACE_ID");
+                if (!"".equals(name)) {
+                    txtfrom.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 2) {
-                        SearchRouteActivity.listLocation.set(2, message);
+                        SearchRouteActivity.listLocation.set(2, new AutocompleteObject(name, place_id));
                     } else {
-                        SearchRouteActivity.listLocation.add(message);
+                        SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                     }
                 }
 
             }
             if (requestCode == 4) {
-                String message = data.getStringExtra("MESSAGE");
-                if (!"".equals(message)) {
-                    txtto.setText(message);
+                String name = data.getStringExtra("NAME");
+                String place_id = data.getStringExtra("PLACE_ID");
+                if (!"".equals(name)) {
+                    txtto.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 3) {
-                        SearchRouteActivity.listLocation.set(3, message);
+                        SearchRouteActivity.listLocation.set(3, new AutocompleteObject(name, place_id));
                     } else {
-                        SearchRouteActivity.listLocation.add(message);
+                        SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                     }
                 }
 
