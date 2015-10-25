@@ -34,12 +34,14 @@ public class TwoPointRouteAction implements IAction {
         String hourStr = context.getParameter("hour");
         String minuteStr = context.getParameter("minute");
 
+        // option paramater
+        int walkingDistance = context.getIntParameter("walkingDistance");
+        int transferTurn = context.getIntParameter("transferTurn");
+
         int hour = Integer.parseInt(hourStr);
         int minute = Integer.parseInt(minuteStr);
 
         LocalTime departureTime = new LocalTime(hour, minute, 0);
-
-        double walkingDistance = Config.WALKING_DISTANCE;
 
         int K = 2;
 
@@ -66,7 +68,7 @@ public class TwoPointRouteAction implements IAction {
          TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
           String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end,
                   addressStart, addressEnd, departureTime, walkingDistance,
-                  K, false, TwoPointAlgorithm.SearchType.TWO_POINT);
+                  transferTurn, false, TwoPointAlgorithm.SearchType.TWO_POINT);
 
         System.out.println("algorithm finish zzzzzz");
         PrintWriter out = context.getWriter();
