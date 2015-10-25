@@ -19,9 +19,5 @@
             android:id="@+id/navigation_item_history"
             android:icon="@drawable/ic_assignment_black_24dp"
             android:title="@string/nav_item_history"/>
-        <item
-            android:id="@+id/navigation_item_change_ip"
-            android:icon="@drawable/ic_cached_black_24dp"
-            android:title="@string/nav_item_change_ip"/>
     </group>
 </menu>

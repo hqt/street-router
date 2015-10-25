@@ -26,6 +26,11 @@ public class PrefStore {
     /** Preference key contain is 3g or not */
     public static final String PREF_IS_MOBILE_NETWORK = "is_mobile_network";
 
+    /** Preference key contain is 3g or not */
+    public static final String PREF_BUS_SERVER_IP = "bus_server_ip_address";
+
+    /** Preference key contain is 3g or not */
+    public static final String PREF_BUS_SERVER_PORT = "bus_server_port";
 
     ///////////////////////////////////////////////////////////////
     /////////////////   DEFAULT VALUE   ///////////////////////////
@@ -40,6 +45,13 @@ public class PrefStore {
 
     /** Default value for {@link PrefStore#PREF_IS_MOBILE_NETWORK} */
     public static final boolean DEFAULT_AUTO_MOBILE_NETWORK = true;
+
+    /** Default value for {@link PrefStore#PREF_BUS_SERVER_IP} */
+    public static final String DEFAULT_BUS_SERVER_IP = "192.168.1.1";
+
+    /** Default value for {@link PrefStore#PREF_BUS_SERVER_PORT} */
+    public static final int DEFAULT_BUS_SERVER_PORT = 8080;
+
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
@@ -63,6 +75,14 @@ public class PrefStore {
         return getSharedPreferences().getBoolean(PREF_IS_MOBILE_NETWORK, DEFAULT_AUTO_MOBILE_NETWORK);
     }
 
+    public static String getServerIp() {
+        return getSharedPreferences().getString(PREF_BUS_SERVER_IP, DEFAULT_BUS_SERVER_IP);
+    }
+
+    public static int getServerPort() {
+        return getSharedPreferences().getInt(PREF_BUS_SERVER_PORT, DEFAULT_BUS_SERVER_PORT);
+    }
+
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  SETTER //////////////////////////////
 
@@ -81,6 +101,18 @@ public class PrefStore {
     public static void setCanMobileNetwork(boolean state) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putBoolean(PREF_IS_MOBILE_NETWORK, state);
+        editor.commit();
+    }
+
+    public static void setBusServerIp(String ip) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putString(PREF_BUS_SERVER_IP, ip);
+        editor.commit();
+    }
+
+    public static void setBusServerPort(int port) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_BUS_SERVER_PORT, port);
         editor.commit();
     }
 
