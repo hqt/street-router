@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
@@ -82,4 +84,6 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
 
         return convertView;
     }
+
+
 }

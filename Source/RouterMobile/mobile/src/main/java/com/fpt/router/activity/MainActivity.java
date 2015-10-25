@@ -84,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 R.id.map)).getMap();
 
 
+		/**
+         * Click event in menu item
+         */
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {

@@ -81,6 +81,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
+
     </application>
 
 </manifest>
