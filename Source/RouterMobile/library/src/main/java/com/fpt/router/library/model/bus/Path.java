@@ -20,6 +20,8 @@ public class Path implements INode,Serializable {
     public int stationToId;
     public String stationFromName;
     public String stationToName;
+    public Location stationFromLocation;
+    public Location stationToLocation;
     public int transferTurn;
     public PathType type;
     public int routeNo;
