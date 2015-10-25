@@ -26,6 +26,7 @@ import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.MapUtils;
+import com.fpt.router.service.GPSServiceOld;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -135,8 +136,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     // initializeMap();
                     isTracking = !isTracking;
-                    // GPSServiceOld gpsService = new GPSServiceOld(MainActivity.this);
-                    // MapUtils.drawPointColor(googleMap, gpsService.getLatitude(), gpsService.getLongitude(), "Current", BitmapDescriptorFactory.HUE_RED);
+                    //GPSServiceOld gpsService = new GPSServiceOld(MainActivity.this);
+                    //MapUtils.drawPointColor(googleMap, gpsService.getLatitude(), gpsService.getLongitude(), "Current", BitmapDescriptorFactory.HUE_RED);
                     return true;
                 }
                 return true; // consume the event
@@ -193,8 +194,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     protected void onStart() {
         super.onStart();
-        // Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
-        // startService(intent);
+        /*Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
+        startService(intent);*/
     }
 
     protected void onResume() {
@@ -264,6 +265,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         now = MapUtils.drawPointColor(googleMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
 
         if (isTracking) {
+            Log.e("hqthao", "Move to " + latitude + "\t" + longitude);
             MapUtils.moveCamera(googleMap, latitude, longitude, 15);
         }
 
