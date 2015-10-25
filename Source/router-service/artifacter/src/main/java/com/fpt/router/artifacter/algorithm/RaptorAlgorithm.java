@@ -271,6 +271,9 @@ public class RaptorAlgorithm {
         double totalDistance = startPath.distance + endPath.distance;
         Period totalTime = startPath.time.plus(endPath.time);
 
+        // add end station to end path
+        endPath.stationFromLocation = endStation.location;
+
         int currentHopStationId = endStation.id;
 
         List<INode> res = new ArrayList<INode>();
@@ -365,6 +368,8 @@ public class RaptorAlgorithm {
             path.stationToId = pathInfo.to.id;
             path.stationFromName = pathInfo.from.name;
             path.stationToName = pathInfo.to.name;
+            path.stationFromLocation = pathInfo.from.location;
+            path.stationToLocation = pathInfo.to.location;
 
             path.points = pathInfo.middleLocations;
             if (order < endOrder - 1) {
