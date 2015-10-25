@@ -11,15 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.fpt.router.R;
+import com.fpt.router.framework.PrefStore;
+import com.fpt.router.library.config.AppConstants;
 
 /**
  * Created by ngoan on 10/25/2015.
  */
 public class SettingActivity extends AppCompatActivity {
-    EditText edit_port;
-    EditText edit_ip;
-    Button btn_ok;
-    Button btn_cancel;
+    EditText portEditText;
+    EditText ipEditText;
+    Button okButton;
+    Button cancelButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,24 +36,41 @@ public class SettingActivity extends AppCompatActivity {
         /**
          * get id of IP and Port editext
          */
-        edit_ip = (EditText) findViewById(R.id.edit_ip);
-        edit_port = (EditText) findViewById(R.id.edit_port);
-        btn_ok = (Button) findViewById(R.id.btn_ok);
-        btn_cancel = (Button) findViewById(R.id.btn_cancel);
+        ipEditText = (EditText) findViewById(R.id.edit_ip);
+        portEditText = (EditText) findViewById(R.id.edit_port);
+        okButton = (Button) findViewById(R.id.btn_ok);
+        cancelButton = (Button) findViewById(R.id.btn_cancel);
+
+        ipEditText.setText(PrefStore.getServerIp());
+        portEditText.setText(PrefStore.getServerPort() + "");
 
         /**
          * click listener
          */
-        btn_ok.setOnClickListener(new View.OnClickListener() {
+        okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // save to pref store
+                PrefStore.setBusServerIp(ipEditText.getText().toString());
+                int port;
+                try {
+                    port = Integer.parseInt(portEditText.getText().toString());
+                } catch (Exception e) {
+                    port = 8080;
+                }
+                PrefStore.setBusServerPort(port);
 
+                // set again variable
+                AppConstants.SERVER_IP = PrefStore.getServerIp();
+                AppConstants.SERVER_PORT = PrefStore.getServerPort();
+
+                finish();
             }
         });
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 

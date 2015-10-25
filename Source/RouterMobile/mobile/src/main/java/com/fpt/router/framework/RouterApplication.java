@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.service.GPSServiceOld;
 
 
@@ -31,6 +32,11 @@ public class RouterApplication extends Application {
         if (mContext != null) {
             Log.e("hqthao", "khac null");
         }
+
+        // set some system variable
+        AppConstants.SERVER_IP = PrefStore.getServerIp();
+        AppConstants.SERVER_PORT = PrefStore.getServerPort();
+
         //GPSServiceOld gpsService = new GPSServiceOld(mContext);
         Intent intent = new Intent(mContext, GPSServiceOld.class);
         startService(intent);

@@ -63,6 +63,7 @@
                 android:layout_weight="1"
                 android:hint="8080"
                 android:textColor="#000"
+                android:inputType="number"
                 android:gravity="left|center"
                 android:paddingLeft="10dp"/>
         </LinearLayout>
