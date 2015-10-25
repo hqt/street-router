@@ -214,12 +214,20 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                     }
                 }
 
+                /**
+                 * start location
+                 */
+                Path path = (Path) iNodeList.get(0);
+                Location startLocation = path.stationFromLocation;
+                latitude = startLocation.getLatitude();
+                longitude = startLocation.getLongitude();
+                MapUtils.drawStartPoint(mMap,latitude,longitude,path.stationFromName);
 
-                LatLng startLocation = list.get(0);
+               /* LatLng startLocation = list.get(0);
 
                 latitude = startLocation.latitude;
                 longitude = startLocation.longitude;
-                MapUtils.drawEndPoint(mMap, latitude, longitude, segments.get(0).routeName);
+                MapUtils.drawEndPoint(mMap, latitude, longitude, segments.get(0).routeName);*/
 
                 LatLng endLocation = list.get(list.size()-1);
 

@@ -2,6 +2,7 @@ package com.fpt.router.utils;
 
 import android.util.Log;
 
+import com.fpt.router.activity.SearchOptionActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
@@ -39,7 +40,8 @@ public class APIUtils {
             String url = AppConstants.API.SEARCH_BUS_ROUTE + "?latStart="+ startPoint.getLatitude()
                     +"&latEnd="+endPoint.getLatitude()+"&longStart="+startPoint.getLongitude()
                     +"&longEnd="+endPoint.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
-                    +"&addressStart="+addressStart+"&addressEnd="+addressEnd;
+                    +"&addressStart="+addressStart+"&addressEnd="+addressEnd
+                    +"&walkingDistance="+ SearchOptionActivity.walkingDistance+"&transferTurn="+SearchOptionActivity.transferNumber;
             Log.d("URL TWO POINT : ",url);
             String json = NetworkUtils.download(url);
             return json ;
@@ -61,7 +63,8 @@ public class APIUtils {
                     +"&latMidFirst="+middleFirstPoint.getLatitude()+"&longMidFirst="+middleFirstPoint.getLongitude()
                     +"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
                     +"&addressStart="+addressStart+"&addressEnd="+addressEnd
-                    +"&addressMidFirst="+addressMiddleFirst+"&isOp="+ SearchRouteActivity.optimize;
+                    +"&addressMidFirst="+addressMiddleFirst+"&isOp="+ SearchRouteActivity.optimize
+                    +"&walkingDistance="+ SearchOptionActivity.walkingDistance+"&transferTurn="+SearchOptionActivity.transferNumber;
             Log.d("URL THREE POINT : ",url);
             String json = NetworkUtils.download(url);
             return json ;
@@ -86,7 +89,8 @@ public class APIUtils {
                     +"&latMidSecond="+middleSecondPoint.getLatitude()+"&longMidSecond="+middleSecondPoint.getLongitude()
                     +"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
                     +"&addressStart="+addressStart+"&addressEnd="+addressEnd
-                    +"&addressMidFirst="+addressMiddleFirst+"&addressMidSecond="+addressMiddleSecond+"&isOp="+ SearchRouteActivity.optimize;
+                    +"&addressMidFirst="+addressMiddleFirst+"&addressMidSecond="+addressMiddleSecond+"&isOp="+ SearchRouteActivity.optimize
+                    +"&walkingDistance="+ SearchOptionActivity.walkingDistance+"&transferTurn="+SearchOptionActivity.transferNumber;
             Log.d("URL FOUR POINT : ",url);
             String json = NetworkUtils.download(url);
             return json ;

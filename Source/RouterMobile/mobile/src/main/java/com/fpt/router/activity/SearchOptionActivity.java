@@ -28,6 +28,8 @@ public class SearchOptionActivity extends Activity {
     private TextView walkingDistanceTextView;
     private Spinner transferNumberSpinner;
     private Intent intent;
+    public static int walkingDistance = 300;
+    public static int transferNumber = 0;
 
 
     @Override
@@ -46,6 +48,9 @@ public class SearchOptionActivity extends Activity {
 
 
         optimizeCheckbox.setChecked(SearchRouteActivity.optimize);
+        transferNumberSpinner.setSelection(1);
+
+
 
         if (SearchRouteActivity.listLocation.size() > 2) {
             fromTextView.setText(SearchRouteActivity.listLocation.get(2).getName());
@@ -81,6 +86,11 @@ public class SearchOptionActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
                 boolean isChecked = optimizeCheckbox.isChecked();
+                if(!"".equals(String.valueOf(walkingDistanceTextView.getText()))){
+                    walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceTextView.getText()));
+                }
+
+                transferNumber = transferNumberSpinner.getSelectedItemPosition()+1;
                 intent.putExtra("optimize", isChecked);
                 setResult(3, intent);
                 finish();
