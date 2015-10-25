@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.fpt.router.R;
@@ -19,12 +19,14 @@ import com.fpt.router.library.model.motorbike.AutocompleteObject;
  */
 public class SearchOptionActivity extends Activity {
 
-    private Button yes, no;
-    private TextView txtfrom;
-    private TextView txtto;
-    private CheckBox checkBox;
+    private Button acceptButton, cancelButton;
+    private ImageButton swapLocationButton;
+    private TextView fromTextView;
+    private TextView toTextView;
+    private CheckBox optimizeCheckbox;
+    private TextView walkingDistanceTextView;
+    private Spinner transferNumberSpinner;
     private Intent intent;
-    private RadioGroup radioGroup;
 
 
     @Override
@@ -32,65 +34,58 @@ public class SearchOptionActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_search_option);
-        yes = (Button) findViewById(R.id.btn_yes);
-        no = (Button) findViewById(R.id.btn_no);
-        txtfrom = (TextView) findViewById(R.id.fromId);
-        txtto = (TextView) findViewById(R.id.toId);
-        radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        acceptButton = (Button) findViewById(R.id.btn_yes);
+        cancelButton = (Button) findViewById(R.id.btn_no);
+        fromTextView = (TextView) findViewById(R.id.fromId);
+        toTextView = (TextView) findViewById(R.id.toId);
+        walkingDistanceTextView = (TextView) findViewById(R.id.walking_distance_txt);
+        transferNumberSpinner = (Spinner) findViewById(R.id.number_spinner);
+        optimizeCheckbox = (CheckBox) findViewById(R.id.checkBox);
+        swapLocationButton = (ImageButton) findViewById(R.id.swap_location_btn);
 
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
-        checkBox.setChecked(SearchRouteActivity.optimize);
+        optimizeCheckbox.setChecked(SearchRouteActivity.optimize);
+
         if (SearchRouteActivity.listLocation.size() > 2) {
-            txtfrom.setText(SearchRouteActivity.listLocation.get(2).getName());
+            fromTextView.setText(SearchRouteActivity.listLocation.get(2).getName());
         }
+
         if (SearchRouteActivity.listLocation.size() > 3) {
-            txtto.setText(SearchRouteActivity.listLocation.get(3).getName());
+            toTextView.setText(SearchRouteActivity.listLocation.get(3).getName());
         }
 
-        //get position disable radio button if postion is motorbike
-        intent = getIntent();
-        int positionTab = intent.getIntExtra("postionTab",1);
-        if(positionTab == 1){
-            for (int i=0; i<radioGroup.getChildCount();i++){
-                ((RadioButton)radioGroup.getChildAt(i)).setEnabled(false);
-            }
-        }
-
-        txtfrom.setOnClickListener(new View.OnClickListener() {
+        fromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent_1 = new Intent(SearchOptionActivity.this, AutoCompleteSearchActivity.class);
                 intent_1.putExtra("number", 3);
-                intent_1.putExtra("message",txtfrom.getText());
+                intent_1.putExtra("message", fromTextView.getText());
                 startActivityForResult(intent_1, 3);// Activity is started with requestCode 1
             }
         });
 
-        txtto.setOnClickListener(new View.OnClickListener() {
+        toTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent_2 = new Intent(SearchOptionActivity.this, AutoCompleteSearchActivity.class);
                 intent_2.putExtra("number", 4);
-                intent_2.putExtra("message",txtto.getText());
+                intent_2.putExtra("message", toTextView.getText());
                 startActivityForResult(intent_2, 4);// Activity is started with requestCode 2
             }
         });
 
 
-        yes.setOnClickListener(new View.OnClickListener() {
+        acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
-                intent.putExtra("optimize", true);
-                if (!checkBox.isChecked()) {
-                    intent.putExtra("optimize", false);
-                }
+                boolean isChecked = optimizeCheckbox.isChecked();
+                intent.putExtra("optimize", isChecked);
                 setResult(3, intent);
                 finish();
             }
         });
 
-        no.setOnClickListener(new View.OnClickListener() {
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
@@ -110,7 +105,7 @@ public class SearchOptionActivity extends Activity {
                 String name = data.getStringExtra("NAME");
                 String place_id = data.getStringExtra("PLACE_ID");
                 if (!"".equals(name)) {
-                    txtfrom.setText(name);
+                    fromTextView.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 2) {
                         SearchRouteActivity.listLocation.set(2, new AutocompleteObject(name, place_id));
                     } else {
@@ -123,7 +118,7 @@ public class SearchOptionActivity extends Activity {
                 String name = data.getStringExtra("NAME");
                 String place_id = data.getStringExtra("PLACE_ID");
                 if (!"".equals(name)) {
-                    txtto.setText(name);
+                    toTextView.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 3) {
                         SearchRouteActivity.listLocation.set(3, new AutocompleteObject(name, place_id));
                     } else {
