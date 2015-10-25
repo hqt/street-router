@@ -4,9 +4,8 @@ package com.fpt.router.library.config;
  * Created by Huynh Quang Thao on 10/13/15.
  */
 public class AppConstants {
-    private static final int SERVER_PORT = 8080;
-    private static final String SERVER_IP = "http://192.168.1.174";
-    public static final String SERVER_ADDRESS = SERVER_IP + ":" + SERVER_PORT;
+
+    public static String SERVER_ADDRESS = "http://192.168.1.1:8080";
 
     private static final String GOOGLE_KEY_1 = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
     private static final String GOOGLE_KEY_2 = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";
@@ -31,7 +30,12 @@ public class AppConstants {
     }
 
     public static final class API {
-        public static final String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
-        public static final String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
+        public static String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
+        public static String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
+    }
+
+    public static void buildAPILink() {
+        API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
+        API.SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
 }

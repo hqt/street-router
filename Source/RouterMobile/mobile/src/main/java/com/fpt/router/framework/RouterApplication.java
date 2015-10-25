@@ -34,8 +34,8 @@ public class RouterApplication extends Application {
         }
 
         // set some system variable
-        /*AppConstants.SERVER_IP = PrefStore.getServerIp();
-        AppConstants.SERVER_PORT = PrefStore.getServerPort();*/
+        AppConstants.SERVER_ADDRESS = "http://" + PrefStore.getServerIp() + ":" + PrefStore.getServerPort();
+        AppConstants.buildAPILink();
 
         //GPSServiceOld gpsService = new GPSServiceOld(mContext);
         Intent intent = new Intent(mContext, GPSServiceOld.class);
