@@ -43,8 +43,6 @@ public class TwoPointRouteAction implements IAction {
 
         LocalTime departureTime = new LocalTime(hour, minute, 0);
 
-        int K = 2;
-
         double latA, latB, longA, longB;
         latA = Double.parseDouble(latStartParam);
         latB = Double.parseDouble(latEndParam);
@@ -55,6 +53,7 @@ public class TwoPointRouteAction implements IAction {
         System.out.println("latB: " + latB + "  " + "longB: " + longB);
         System.out.println("address a: " + addressStart);
         System.out.println("address b: " + addressEnd);
+        System.out.println("K: " + transferTurn + "\tWalking Distance: " + walkingDistance);
         System.out.println("Time: " + hourStr + ":" + minuteStr);
 
         Location start = new Location();
