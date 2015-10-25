@@ -1,5 +1,6 @@
 package com.fpt.router.utils;
 
+import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.DetailLocationTwoPoint;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -362,4 +363,14 @@ public class JSONParseUtils {
         return null;
     }
 
+    public static BusLocation getBusLocation (String json, String address) throws JSONException {
+        JSONObject jsonO = new JSONObject(json);
+        jsonO = jsonO.getJSONObject("result");
+        jsonO = jsonO.getJSONObject("geometry");
+        jsonO = jsonO.getJSONObject("location");
+        Double lat = jsonO.getDouble("lat");
+        Double lng = jsonO.getDouble("lng");
+        BusLocation busLocation = new BusLocation(lat, lng, address);
+        return busLocation;
+    }
 }

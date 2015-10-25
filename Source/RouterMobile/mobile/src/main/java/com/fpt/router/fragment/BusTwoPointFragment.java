@@ -152,15 +152,9 @@ public class BusTwoPointFragment extends Fragment {
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
             try {
                 for (int i = 0; i < listLocation.size(); i++) {
-                    String address_1 = listLocation.get(i).getName();
                     String url = GoogleAPIUtils.getLocationByPlaceID(listLocation.get(i).getPlace_id());
-                    String json = APIUtils.getLocationGoogleAPI(address_1);
-                    JSONObject jsonObject = new JSONObject(json);
-                    Location location = JSONParseUtils.getLocation(jsonObject);
-                    BusLocation busLocation = new BusLocation();
-                    busLocation.setAddress(address_1);
-                    busLocation.setLatitude(location.getLatitude());
-                    busLocation.setLongitude(location.getLongitude());
+                    String json = NetworkUtils.download(url);
+                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, listLocation.get(i).getName());
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);

@@ -142,7 +142,6 @@ public class GoogleAPIUtils {
         String url = "https://maps.googleapis.com/maps/api/place/details/json?" +
                 "placeid=" + input +
                 "&key=" + key;
-
         return url;
     }
 }
