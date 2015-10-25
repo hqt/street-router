@@ -50,7 +50,10 @@ public class MultiPointAction implements IAction {
         // End - get lat long of all locations
 
         String isOpParam = context.getParameter("isOp");
-        boolean isOp = Boolean.parseBoolean(isOpParam);
+        boolean isOp = false;
+        if (isOpParam.equals("true")) {
+            isOp = true;
+        }
 
         // start
         String addressStart = context.getParameter("addressStart");
@@ -60,6 +63,10 @@ public class MultiPointAction implements IAction {
         String addressMidFirst = context.getParameter("addressMidFirst");
         // middle Second
         String addressMidSecond = context.getParameter("addressMidSecond");
+        // option paramater
+        int walkingDistance = context.getIntParameter("walkingDistance");
+        int transferTurn = context.getIntParameter("transferTurn");
+
         List<String> middleAddresses = new ArrayList<>();
         if (addressMidFirst != null) {
             middleAddresses.add(addressMidFirst);
@@ -143,10 +150,10 @@ public class MultiPointAction implements IAction {
             System.out.println("Waking Distance: " + Config.WALKING_DISTANCE);
             System.out.println("K: " +K);
             journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, addressStart, middleLocations, middleAddresses,
-                    departureTime, Config.WALKING_DISTANCE, K, isOp);
+                    departureTime, walkingDistance, transferTurn, isOp);
         } else {
             journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressStart, addressEnd,
-                    middleLocations, middleAddresses, departureTime, Config.WALKING_DISTANCE, K, isOp);
+                    middleLocations, middleAddresses, departureTime, walkingDistance, transferTurn, isOp);
         }
 
         Gson gson = JSONUtils.buildGson();
