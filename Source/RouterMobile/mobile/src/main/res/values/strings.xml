@@ -45,4 +45,11 @@
     <string name="wearable_api_unavailable">Wearable API is unavailable.</string>
     <string name="title_activity_fuck">FuckActivity</string>
     <string name="title_activity_search_detail">SearchDetailActivity</string>
+
+    <string-array name="transfer_turn_arrays">
+        <item>1 lượt</item>
+        <item>2 lượt</item>
+        <item>3 lượt</item>
+    </string-array>
+
 </resources>
