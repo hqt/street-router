@@ -52,7 +52,7 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static ViewPagerAdapter adapter;
     public static List<Result> results = new ArrayList<Result>();
     public static List<Journey> journeys = new ArrayList<Journey>();
-    public static List<Leg> listLeg;
+    public static List<Leg> listLeg = new ArrayList<>();
     public static List<AutocompleteObject> listLocation = new ArrayList<>();
     public static Boolean optimize = true;
     private LinearLayout option;

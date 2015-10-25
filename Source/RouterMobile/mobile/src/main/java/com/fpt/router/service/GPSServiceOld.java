@@ -79,7 +79,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("hqthao", "Oncreated");
         this.mContext = getApplicationContext();
         bus = EventBus.getDefault();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -104,7 +103,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     }
 
     public Location getLocation() {
-        Log.e("hqthao", "getLocation called");
         try {
             locationManager = (LocationManager) mContext
                     .getSystemService(LOCATION_SERVICE);
@@ -137,7 +135,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                             LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
                             MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                    Log.d("Network", "Network");
                     if (locationManager != null) {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
@@ -154,7 +151,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                                 LocationManager.GPS_PROVIDER,
                                 MIN_TIME_BW_UPDATES,
                                 MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-                        Log.d("GPS Enabled", "GPS Enabled");
                         if (locationManager != null) {
                             location = locationManager
                                     .getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -243,7 +239,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     @Override
     public void onLocationChanged(Location locationChanged) {
         this.location = locationChanged;
-        Log.e("Nam", "Ket qua: " + location.getLatitude() + " : " + location.getLongitude());
         LocationMessage message = new LocationMessage(location);
         bus.post(message);
 
@@ -274,7 +269,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     @Override
     public void onConnected(Bundle bundle) {
-        Log.e("hqthao", "GoogleAPIClient of GPS Service started");
         mConnected = true;
     }
 

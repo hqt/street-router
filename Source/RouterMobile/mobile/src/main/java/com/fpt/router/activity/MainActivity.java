@@ -227,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
 
     public void onEvent(LocationMessage event) {
-        Log.e("hqthao", event.location.getLatitude() + "");
         onLocationChanged(event.location);
     }
 
@@ -260,12 +259,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         com.fpt.router.library.model.motorbike.Location local = new com.fpt.router.library.model.motorbike.Location();
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
-        Log.e("Nam:", local.getLatitude() + "@#@" + local.getLongitude());
 
         now = MapUtils.drawPointColor(googleMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
 
         if (isTracking) {
-            Log.e("hqthao", "Move to " + latitude + "\t" + longitude);
             MapUtils.moveCamera(googleMap, latitude, longitude, 15);
         }
 

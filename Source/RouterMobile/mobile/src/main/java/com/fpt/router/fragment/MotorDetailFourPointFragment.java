@@ -152,8 +152,18 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-        for(int n = 0; n < listLeg.size(); n ++) {
-            listStep.addAll(listLeg.get(n).getSteps());
+        if(SearchRouteActivity.listLocation.size() == 2) {
+            listFinalLeg.add(listLeg.get(position));
+        } else if (SearchRouteActivity.listLocation.size() == 3) {
+            listFinalLeg.addAll(listLeg);
+        } else {
+            for(int n = position*3; n < position*3+3; n++) {
+                listFinalLeg.add(listLeg.get(n));
+            }
+        }
+
+        for(int n = 0; n < listFinalLeg.size(); n ++) {
+            listStep.addAll(listFinalLeg.get(n).getSteps());
         }
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
@@ -185,15 +195,6 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
             mMap = mMapFragment.getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                if(SearchRouteActivity.listLocation.size() == 2) {
-                    listFinalLeg.add(listLeg.get(position));
-                } else if (SearchRouteActivity.listLocation.size() == 3) {
-                    listFinalLeg.addAll(listLeg);
-                } else {
-                    for(int n = position*3; n < position*3+3; n++) {
-                        listFinalLeg.add(listLeg.get(n));
-                    }
-                }
 
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
@@ -444,10 +445,8 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
                 // synchronous call
                 DataApi.DataItemResult result = pendingResult.await();
                 if (result.getStatus().isSuccess()) {
-                    Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
                 } else {
                     // Log an error
-                    Log.v("myTag", "ERROR: failed to send DataMap");
                 }
 
                 // method 2. send message. One-way message communication

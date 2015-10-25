@@ -19,6 +19,7 @@ import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -158,6 +159,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         } else {
             count++;
         }
+        List<Step> listStep = new ArrayList<>();
+        for(int n = 0; n < listFinalLeg.size(); n ++) {
+            listStep.addAll(listFinalLeg.get(n).getSteps());
+        }
+
         fragment.drawCurrentLocation(latitude, longitude);
     }
 

@@ -130,11 +130,19 @@ public class GoogleAPIUtils {
             e.printStackTrace();
         }
         String url = "https://maps.googleapis.com/maps/api/place/autocomplete/json?" +
-                    "input=" + text +
-                    "&components=country:vn&language=vi&sensor=true&key=" + key;
+                "input=" + text +
+                "&components=country:vn&language=vi&sensor=true&key=" + key;
         listUrl.add(url);
 
         return listUrl;
     }
 
+    public static String getLocationByPlaceID(String input){
+        String key = AppConstants.GOOGLE_KEY;
+        String url = "https://maps.googleapis.com/maps/api/place/details/json?" +
+                "placeid=" + input +
+                "&key=" + key;
+
+        return url;
+    }
 }

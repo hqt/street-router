@@ -46,7 +46,7 @@ public class DecodeUtils {
     }
 
     public static List<LatLng> getListLocationToFakeGPS (List<Leg> listLeg){
-        List<LatLng> listLatLng = new ArrayList<>();
+        List<LatLng> listLatLng;
         List<LatLng> listLatLngFromListLeg = new ArrayList<>();
         for(int i = 0; i < listLeg.size(); i++) {
             List<LatLng> listLatLngFromOneLeg = decodePoly(listLeg.get(i).getOverview_polyline());

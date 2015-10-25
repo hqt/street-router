@@ -416,10 +416,8 @@ public class MotorDetailTwoPointFragment extends Fragment implements GoogleApiCl
                 // synchronous call
                 DataApi.DataItemResult result = pendingResult.await();
                 if (result.getStatus().isSuccess()) {
-                    Log.e("hqthao", "DataMap: " + map + " sent to: " + node.getDisplayName());
                 } else {
                     // Log an error
-                    Log.v("myTag", "ERROR: failed to send DataMap");
                 }
 
                 // method 2. send message. One-way message communication

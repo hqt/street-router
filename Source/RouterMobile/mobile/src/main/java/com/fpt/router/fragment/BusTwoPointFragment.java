@@ -25,6 +25,7 @@ import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
+import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
 import com.google.gson.Gson;
@@ -152,7 +153,7 @@ public class BusTwoPointFragment extends Fragment {
             try {
                 for (int i = 0; i < listLocation.size(); i++) {
                     String address_1 = listLocation.get(i).getName();
-
+                    String url = GoogleAPIUtils.getLocationByPlaceID(listLocation.get(i).getPlace_id());
                     String json = APIUtils.getLocationGoogleAPI(address_1);
                     JSONObject jsonObject = new JSONObject(json);
                     Location location = JSONParseUtils.getLocation(jsonObject);
