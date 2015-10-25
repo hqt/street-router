@@ -55,6 +55,8 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static List<Leg> listLeg;
     public static List<AutocompleteObject> listLocation = new ArrayList<>();
     public static Boolean optimize = true;
+    public static int walkingDistance = 300;
+    public static int transferNumber = 2;
     private LinearLayout option;
     private ViewPager _view_pager;
 
