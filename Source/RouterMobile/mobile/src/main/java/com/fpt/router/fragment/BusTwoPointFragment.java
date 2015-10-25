@@ -11,11 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.framework.PrefStore;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
@@ -23,6 +26,7 @@ import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.JSONParseUtils;
+import com.fpt.router.utils.NetworkUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -47,6 +51,7 @@ public class BusTwoPointFragment extends Fragment {
     private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
+
     public BusTwoPointFragment() {
 
     }
@@ -94,8 +99,10 @@ public class BusTwoPointFragment extends Fragment {
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
+
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
+
             } else if (SearchRouteActivity.results.size() > 0) {
                 recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
             }
@@ -186,7 +193,7 @@ public class BusTwoPointFragment extends Fragment {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            if(!resultList.get(0).code.equals("success")){
+            if (!resultList.get(0).code.equals("success")) {
                 listError = new ArrayList<String>();
                 listError.add(resultList.get(0).code);
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));

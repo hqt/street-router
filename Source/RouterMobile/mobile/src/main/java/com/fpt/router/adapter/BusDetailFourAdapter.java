@@ -91,7 +91,7 @@ public class BusDetailFourAdapter extends ArrayAdapter<Result> {
 
             // Set list height.
             ViewGroup.LayoutParams params = listView.getLayoutParams();
-            params.height = totalItemsHeight + totalDividersHeight;
+            params.height = totalItemsHeight + totalDividersHeight+50;
             listView.setLayoutParams(params);
             listView.requestLayout();
 
