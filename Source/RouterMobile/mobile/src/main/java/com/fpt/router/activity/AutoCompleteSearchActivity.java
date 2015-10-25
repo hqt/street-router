@@ -130,13 +130,21 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                         case KeyEvent.FLAG_EDITOR_ACTION:
                         case 12:
                             Intent intent = new Intent();
+                            int number = getIntent().getIntExtra("number", 1);
                             if(location != null) {
                                 intent.putExtra("NAME", location.getName());
                                 intent.putExtra("PLACE_ID", location.getPlace_id());
-                            } else {
-                                intent.putExtra("NAME", autoComp.getText().toString().trim());
+                            } else if (!autoComp.getText().toString().equals("")) {
+                                if (SearchRouteActivity.listLocation.size() >= number) {
+                                    if(autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1 ).getName())) {
+                                        intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
+                                        intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
+                                    }
+                                } else {
+                                    intent.putExtra("NAME", autoComp.getText().toString());
+                                    intent.putExtra("PLACE_ID", "");
+                                }
                             }
-                            int number = getIntent().getIntExtra("number", 1);
                             setResult(number, intent);
                             finish();//finishing activity
                             return true;
@@ -167,11 +175,14 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             case android.R.id.home:
                 // NavUtils.navigateUpFromSameTask(this);
                 Intent intent = new Intent();
+                int number = getIntent().getIntExtra("number", 1);
                 if(location != null) {
                     intent.putExtra("NAME", location.getName());
                     intent.putExtra("PLACE_ID", location.getPlace_id());
+                } else if (!autoComp.getText().toString().equals("")){
+                    intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number -1).getName());
+                    intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number -1).getPlace_id());
                 }
-                int number = getIntent().getIntExtra("number", 1);
                 setResult(number, intent);
                 finish();//finishing activity
                 return true;

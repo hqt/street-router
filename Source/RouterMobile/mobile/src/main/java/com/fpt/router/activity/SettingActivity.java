@@ -61,8 +61,8 @@ public class SettingActivity extends AppCompatActivity {
                 PrefStore.setBusServerPort(port);
 
                 // set again variable
-                AppConstants.SERVER_IP = PrefStore.getServerIp();
-                AppConstants.SERVER_PORT = PrefStore.getServerPort();
+             /*   AppConstants.SERVER_IP = PrefStore.getServerIp();
+                AppConstants.SERVER_PORT = PrefStore.getServerPort();*/
 
                 finish();
             }
