@@ -11,6 +11,7 @@ import com.fpt.router.artifacter.model.viewmodel.Path;
 import com.fpt.router.artifacter.model.viewmodel.Result;
 import com.fpt.router.artifacter.utils.DistanceUtils;
 import com.fpt.router.artifacter.utils.JSONUtils;
+import com.fpt.router.artifacter.utils.NoResultHelper;
 import com.google.gson.Gson;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
@@ -66,13 +67,8 @@ public class TwoPointAlgorithm {
 
         if (message != null) {
             // return message;
-            List<Result> dummyResults = new ArrayList<Result>();
-            Result result = new Result();
-            result.code = message;
-            dummyResults.add(result);
             Gson gson = JSONUtils.buildGson();
-            String json = gson.toJson(dummyResults);
-            return json;
+            return gson.toJson(NoResultHelper.NoJourneyFound(message));
         }
 
         Gson gson = JSONUtils.buildGson();
@@ -122,6 +118,7 @@ public class TwoPointAlgorithm {
             solveUsingRaptorClassical(searchType);
         }
 
+        // handle different than multi point algorithm :)
         if (results.size() == 0) {
             message = "Không tìm được tuyến xe buýt từ " + startAddress + " đến " + endAddress;
             return;

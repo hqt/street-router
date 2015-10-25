@@ -6,6 +6,7 @@ import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
 import com.fpt.router.artifacter.model.viewmodel.Result;
+import com.fpt.router.artifacter.utils.NoResultHelper;
 import com.fpt.router.artifacter.utils.TimeUtils;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
@@ -51,6 +52,8 @@ public class MultiPointAlgorithm {
         } else {
             journeys = buildFourPoint(middleLocations, middleAddresses);
         }
+
+
 
         Collections.sort(journeys, new Comparator<Journey>() {
             @Override
@@ -101,17 +104,31 @@ public class MultiPointAlgorithm {
         List<Location> searchLocations;
         List<String> searchAddresses;
 
+        String message = null;
+
+        //  if both two cases fail. make fail message
+        // if just one case fail. reject that case. not print out that result.
+
         // A -> B -> C -> D
         searchLocations = buildLocations(start, end, middleLocations.get(0), middleLocations.get(1));
         searchAddresses = buildAddresses(startAddress, endAddress, middleAddresses.get(0), middleAddresses.get(1));
         List<Journey> results = solve(searchLocations, searchAddresses);
-        journeys.addAll(results);
+        if (results.get(0).code.equals(Config.CODE.SUCCESS)) {
+            journeys.addAll(results);
+        } else {
+            message = results.get(0).code;
+        }
 
         // A -> C -> B -> D
         searchLocations = buildLocations(start, end, middleLocations.get(1), middleLocations.get(0));
         searchAddresses = buildAddresses(startAddress, endAddress, middleAddresses.get(1), middleAddresses.get(0));
         results = solve(searchLocations, searchAddresses);
-        journeys.addAll(results);
+        if (results.get(0).code.equals(Config.CODE.SUCCESS)) {
+            journeys.addAll(results);
+        } else if (message != null) {
+            // both two case fail. return fail message
+            return NoResultHelper.NoJourneyFound(message);
+        }
 
         return journeys;
     }
@@ -138,11 +155,7 @@ public class MultiPointAlgorithm {
             // just cannot find route at one middle path. terminate program ASAP
             // because we cannot find route for whole paths
             if (resultObj instanceof  String) {
-                List<Journey> dummyJourneys = new ArrayList<Journey>();
-                Journey dummyJourney = new Journey();
-                dummyJourney.code = (String) resultObj;
-                dummyJourneys.add(dummyJourney);
-                return dummyJourneys;
+                return NoResultHelper.NoJourneyFound((String) resultObj);
             } else {
                 List<Result> results = (List<Result>) resultObj;
                 journeyCombines.putAll(i, results);
