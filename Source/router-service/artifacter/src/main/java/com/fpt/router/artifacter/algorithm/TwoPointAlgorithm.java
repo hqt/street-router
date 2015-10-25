@@ -251,6 +251,8 @@ public class TwoPointAlgorithm {
             startPath.stationToName = fromStation.name;
             startPath.pathType = PathType.WALKING;
             startPath.transferTurn = -1;
+            startPath.stationFromLocation = start;
+            startPath.stationToLocation = fromStation.location;
             startPath.distance = DistanceUtils.distance(start, fromStation.location);
             int millis = (int) (startPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
             startPath.time = new Period(millis);
@@ -265,6 +267,8 @@ public class TwoPointAlgorithm {
                 endPath.stationFromName = endStation.name;
                 endPath.stationToName = endAddress;
                 endPath.pathType = PathType.WALKING;
+                // delay assign endPath.stationFromLocation to Raptor algorithm
+                endPath.stationToLocation = end;
                 endPath.transferTurn = -2;
                 endPath.distance = DistanceUtils.distance(end, endStation.location);
                 millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
