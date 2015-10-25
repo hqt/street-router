@@ -120,6 +120,7 @@
                 android:textSize="16sp"
                 android:padding="5dp"
                 android:id="@+id/txtEndLocation"
+                android:layout_marginBottom="15dp"
                 android:gravity="left|center"/>
         </LinearLayout>
 

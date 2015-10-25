@@ -103,7 +103,10 @@ public class SearchOptionActivity extends Activity {
         if(data != null){
             if (requestCode == 3) {
                 String name = data.getStringExtra("NAME");
-                String place_id = data.getStringExtra("PLACE_ID");
+                String place_id = "";
+                if(data.getStringExtra("PLACE_ID") != null) {
+                    place_id = data.getStringExtra("PLACE_ID");
+                }
                 if (!"".equals(name)) {
                     fromTextView.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 2) {
@@ -116,7 +119,10 @@ public class SearchOptionActivity extends Activity {
             }
             if (requestCode == 4) {
                 String name = data.getStringExtra("NAME");
-                String place_id = data.getStringExtra("PLACE_ID");
+                String place_id = "";
+                if(data.getStringExtra("PLACE_ID") != null) {
+                    place_id = data.getStringExtra("PLACE_ID");
+                }
                 if (!"".equals(name)) {
                     toTextView.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 3) {

@@ -16,72 +16,78 @@ import java.util.List;
  */
 public class APIUtils {
     public static String getJsonFromServer(List<BusLocation> busLocations){
-        BusLocation A = null;
-        BusLocation B = null;
-        BusLocation C = null;
-        BusLocation D = null;
-        String addressA = null;
-        String addressB = null;
-        String addressC = null;
-        String addressD = null;
+        BusLocation startPoint = null;
+        BusLocation endPoint = null;
+        BusLocation middleFirstPoint = null;
+        BusLocation middleSecondPoint = null;
+        String addressStart = null;
+        String addressEnd = null;
+        String addressMiddleFirst = null;
+        String addressMiddleSecond = null;
         Calendar now = Calendar.getInstance();
         if(busLocations.size() == 2){
-           A =  busLocations.get(0);
-           B =  busLocations.get(1);
+           startPoint =  busLocations.get(0);
+           endPoint =  busLocations.get(1);
 
             try{
-                addressA = URLEncoder.encode(A.getAddress(), "UTF-8");
-                addressB = URLEncoder.encode(B.getAddress(),"UTF-8");
+                addressStart = URLEncoder.encode(startPoint.getAddress(), "UTF-8");
+                addressEnd = URLEncoder.encode(endPoint.getAddress(),"UTF-8");
             }catch(UnsupportedEncodingException e){
                 e.printStackTrace();
             }
 
-            String url = AppConstants.API.SEARCH_BUS_ROUTE + "?latA="+ A.getLatitude()
-                    +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
-                    +"&longB="+B.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
-                    +"&addressA="+addressA+"&addressB="+addressB;
+            String url = AppConstants.API.SEARCH_BUS_ROUTE + "?latStart="+ startPoint.getLatitude()
+                    +"&latEnd="+endPoint.getLatitude()+"&longStart="+startPoint.getLongitude()
+                    +"&longEnd="+endPoint.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                    +"&addressStart="+addressStart+"&addressEnd="+addressEnd;
+            Log.d("URL TWO POINT : ",url);
             String json = NetworkUtils.download(url);
             return json ;
         }else if(busLocations.size() == 3){
-            A =  busLocations.get(0);
-            B =  busLocations.get(1);
-            C = busLocations.get(2);
+            startPoint =  busLocations.get(0);
+            endPoint =  busLocations.get(1);
+            middleFirstPoint = busLocations.get(2);
             try{
-                addressA = URLEncoder.encode(A.getAddress(), "UTF-8");
-                addressB = URLEncoder.encode(B.getAddress(),"UTF-8");
-                addressC = URLEncoder.encode(C.getAddress(),"UTF-8");
+                addressStart = URLEncoder.encode(startPoint.getAddress(), "UTF-8");
+                addressEnd = URLEncoder.encode(endPoint.getAddress(),"UTF-8");
+                addressMiddleFirst = URLEncoder.encode(middleFirstPoint.getAddress(),"UTF-8");
             }catch(UnsupportedEncodingException e){
                 e.printStackTrace();
             }
 
-            String url = AppConstants.API.SEARCH_BUS_ROUTE + "?latA="+ A.getLatitude()
-                    +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
-                    +"&longB="+B.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
-                    +"&addressA="+addressA+"&addressB="+addressB;
+            String url = AppConstants.API.SEARCH_BUS_ROUTE_FOUR_POINT + "?latStart="+ startPoint.getLatitude()
+                    +"&latEnd="+endPoint.getLatitude()+"&longStart="+startPoint.getLongitude()
+                    +"&longEnd="+endPoint.getLongitude()
+                    +"&latMidFirst="+middleFirstPoint.getLatitude()+"&longMidFirst="+middleFirstPoint.getLongitude()
+                    +"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                    +"&addressStart="+addressStart+"&addressEnd="+addressEnd
+                    +"&addressMidFirst="+addressMiddleFirst+"&isOp="+ SearchRouteActivity.optimize;
+            Log.d("URL THREE POINT : ",url);
             String json = NetworkUtils.download(url);
             return json ;
         }else{
-            A =  busLocations.get(0);
-            B =  busLocations.get(1);
-            C = busLocations.get(2);
-            D = busLocations.get(3);
+            startPoint =  busLocations.get(0);
+            endPoint =  busLocations.get(1);
+            middleFirstPoint = busLocations.get(2);
+            middleSecondPoint = busLocations.get(3);
             try{
-                addressA = URLEncoder.encode(A.getAddress(), "UTF-8");
-                addressB = URLEncoder.encode(B.getAddress(),"UTF-8");
-                addressC = URLEncoder.encode(C.getAddress(),"UTF-8");
-                addressD = URLEncoder.encode(D.getAddress(),"UTF-8");
+                addressStart = URLEncoder.encode(startPoint.getAddress(), "UTF-8");
+                addressEnd = URLEncoder.encode(endPoint.getAddress(),"UTF-8");
+                addressMiddleFirst = URLEncoder.encode(middleFirstPoint.getAddress(),"UTF-8");
+                addressMiddleSecond = URLEncoder.encode(middleSecondPoint.getAddress(),"UTF-8");
             }catch(UnsupportedEncodingException e){
                 e.printStackTrace();
             }
 
-            String url = AppConstants.API.SEARCH_BUS_ROUTE_FOUR_POINT + "?latA="+ A.getLatitude()
-                    +"&latB="+B.getLatitude()+"&longA="+A.getLongitude()
-                    +"&longB="+B.getLongitude()
-                    +"&latC="+C.getLatitude()+"&longC="+C.getLongitude()
-                    +"&latD="+D.getLatitude()+"&longD="+D.getLongitude()
+            String url = AppConstants.API.SEARCH_BUS_ROUTE_FOUR_POINT + "?latStart="+ startPoint.getLatitude()
+                    +"&latEnd="+endPoint.getLatitude()+"&longStart="+startPoint.getLongitude()
+                    +"&longEnd="+endPoint.getLongitude()
+                    +"&latMidFirst="+middleFirstPoint.getLatitude()+"&longMidFirst="+middleFirstPoint.getLongitude()
+                    +"&latMidSecond="+middleSecondPoint.getLatitude()+"&longMidSecond="+middleSecondPoint.getLongitude()
                     +"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
-                    +"&addressA="+addressA+"&addressB="+addressB
-                    +"&addressC="+addressC+"&addressD="+addressD+"&isOp="+ SearchRouteActivity.optimize;
+                    +"&addressStart="+addressStart+"&addressEnd="+addressEnd
+                    +"&addressMidFirst="+addressMiddleFirst+"&addressMidSecond="+addressMiddleSecond+"&isOp="+ SearchRouteActivity.optimize;
+            Log.d("URL FOUR POINT : ",url);
             String json = NetworkUtils.download(url);
             return json ;
         }

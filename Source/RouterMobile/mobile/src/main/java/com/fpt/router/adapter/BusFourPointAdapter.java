@@ -1,6 +1,8 @@
 package com.fpt.router.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 
@@ -107,11 +110,16 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
 
         @Override
         public void onClick(View view) {
-
+            Intent intent = new Intent(context, SearchDetailActivity.class);
+            Bundle bundle = new Bundle();
+            Journey journey = getJourney(getPosition());
+            bundle.putSerializable("journey",journey);
+            intent.putExtras(bundle);
+            view.getContext().startActivity(intent);
         }
     }
 
-    public Journey getResult(int position){
+    public Journey getJourney(int position){
         return journeys.get(position);
     }
 }

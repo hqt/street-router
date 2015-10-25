@@ -83,7 +83,7 @@ public class MotorTwoPointFragment extends Fragment {
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.MOTOR_TWO_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
-            } else if (SearchRouteActivity.listLeg.size() > 0) {
+            } else if ((SearchRouteActivity.listLeg != null) && (activity.searchType == SearchRouteActivity.SearchType.MOTOR_TWO_POINT)) {
                 recyclerView.setAdapter(new MotorFourPointAdapter());
             }
 

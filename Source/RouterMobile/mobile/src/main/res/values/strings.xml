@@ -11,6 +11,7 @@
     <string name="nav_item_reference">Thảm khảo tuyến xe bus</string>
     <string name="nav_item_setting">Tùy chỉnh</string>
     <string name="nav_item_history">Quản lý lịch sử tìm kiếm</string>
+<string name="nav_item_change_ip">Tùy chỉnh IP và Port</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

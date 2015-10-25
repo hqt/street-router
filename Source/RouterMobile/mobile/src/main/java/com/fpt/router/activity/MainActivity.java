@@ -84,13 +84,33 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 R.id.map)).getMap();
 
 
+		/**
+         * Click event in menu item
+         */
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
-                Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                return true;
+                Intent intent;
+                switch (menuItem.getItemId()){
+                    case R.id.navigation_item_help:
+                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navigation_item_reference:
+                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    case R.id.navigation_item_setting:
+                        intent = new Intent(MainActivity.this,SettingActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.navigation_item_history:
+                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+                    default:
+                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
+                }
             }
         });
 

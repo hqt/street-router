@@ -12,8 +12,10 @@ import android.view.MenuItem;
 
 import com.fpt.router.R;
 import com.fpt.router.fragment.AbstractMapFragment;
+import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.fragment.MotorDetailFourPointFragment;
+import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.MapUtils;
@@ -53,16 +55,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         Result result = (Result)getIntent().getSerializableExtra("result");
-        if(result == null){
-            int position = getIntent().getIntExtra("position", 0);
-            if (savedInstanceState == null) {
-                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                fragment = MotorDetailFourPointFragment.newInstance(position);
-                trans.add(R.id.fragment, fragment);
-                trans.commit();
-            }
-
-        }else{
+        Journey journey = (Journey) getIntent().getSerializableExtra("journey");
+        int position = getIntent().getIntExtra("position", -1);
+        if(result != null){
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
                 trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
@@ -70,12 +65,22 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             }
         }
 
+        if(position != -1){
+            if (savedInstanceState == null) {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                fragment = MotorDetailFourPointFragment.newInstance(position);
+                trans.add(R.id.fragment, fragment);
+                trans.commit();
+            }
+        }
 
-        // currently. just implement FourPointMotor.
-        // in future. we need add control variable for understanding which fragment to initialize.
-
-        // bus detail two point activity comment here for usage later.
-
+        if(journey != null){
+            if (savedInstanceState == null) {
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                trans.add(R.id.fragment, BusDetailFourPointFragment.newInstance(journey));
+                trans.commit();
+            }
+        }
     }
 
     @Override

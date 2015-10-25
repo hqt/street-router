@@ -100,7 +100,7 @@ public class BusFourPointFragment extends Fragment {
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_FOUR_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
-            } else if (SearchRouteActivity.results.size() > 0) {
+            } else if (SearchRouteActivity.journeys.size() > 0) {
                 recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
             }
 
