@@ -1,8 +1,10 @@
 package com.fpt.router.utils;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.Log;
 
 import com.fpt.router.framework.RouterApplication;
@@ -18,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.Socket;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -83,6 +86,16 @@ public class NetworkUtils {
         } else {
             return false;
         }
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public static boolean hostAvailabilityCheck(String address, int port) {
+        try (Socket s = new Socket(address, port)) {
+            return true;
+        } catch (IOException ex) {
+        /* ignore */
+        }
+        return false;
     }
 
     public static String download(String urlStr) {
