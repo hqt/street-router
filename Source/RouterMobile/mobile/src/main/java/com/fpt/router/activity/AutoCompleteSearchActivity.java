@@ -139,6 +139,9 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                                     if(autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1 ).getName())) {
                                         intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
                                         intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
+                                    }else {
+                                        intent.putExtra("NAME", autoComp.getText().toString());
+                                        intent.putExtra("PLACE_ID", "");
                                     }
                                 } else {
                                     intent.putExtra("NAME", autoComp.getText().toString());
