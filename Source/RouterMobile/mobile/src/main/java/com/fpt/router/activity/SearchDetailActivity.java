@@ -18,6 +18,8 @@ import com.fpt.router.fragment.MotorDetailFourPointFragment;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -25,7 +27,11 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -34,8 +40,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     private EventBus bus = EventBus.getDefault();
     private GoogleApiClient mGoogleApiClient;
     AbstractMapFragment fragment;
-
-
+    private int position;
+    List<Leg> listLeg = SearchRouteActivity.listLeg;
+    int count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +63,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         actionBar.setDisplayShowTitleEnabled(false);
         Result result = (Result)getIntent().getSerializableExtra("result");
         Journey journey = (Journey) getIntent().getSerializableExtra("journey");
-        int position = getIntent().getIntExtra("position", -1);
+        position = getIntent().getIntExtra("position", -1);
         if(result != null){
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -133,8 +140,24 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     @Override
     public void onLocationChanged(Location location) {
         Log.e("Nam", "Nam dep trai");
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        List<Leg> listFinalLeg = new ArrayList<>();
+        if(SearchRouteActivity.listLocation.size() == 2) {
+            listFinalLeg.add(listLeg.get(position));
+        } else if (SearchRouteActivity.listLocation.size() == 3) {
+            listFinalLeg.addAll(listLeg);
+        } else {
+            for(int n = position*3; n < position*3+3; n++) {
+                listFinalLeg.add(listLeg.get(n));
+            }
+        }
+        List<LatLng> listLatLng = DecodeUtils.getListLocationToFakeGPS(listFinalLeg);
+        double latitude = listLatLng.get(count).latitude;
+        double longitude = listLatLng.get(count).longitude;
+        if(count == listLatLng.size()) {
+            count = 0 ;
+        } else {
+            count++;
+        }
         fragment.drawCurrentLocation(latitude, longitude);
     }
 

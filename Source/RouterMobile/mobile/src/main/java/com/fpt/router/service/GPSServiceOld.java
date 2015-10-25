@@ -15,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
@@ -35,6 +36,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -175,75 +177,26 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     }
 
 
-    /**
-     * Function to get latitude
-     */
-    public double getLatitude() {
-        if (location != null) {
-            latitude = location.getLatitude();
-        }
 
-        // return latitude
-        return latitude;
+    boolean isRealGps;
+    List<Location> locations;
+
+    public void signal() {
+        isRealGps = false;
+        // 500 millis run one point
+
     }
-
-    /**
-     * Function to get longitude
-     */
-    public double getLongitude() {
-        if (location != null) {
-            longitude = location.getLongitude();
-        }
-
-        // return longitude
-        return longitude;
-    }
-
-    /**
-     * Function to check GPS/wifi enabled
-     *
-     * @return boolean
-     */
-    public boolean canGetLocation() {
-        return this.canGetLocation;
-    }
-
-    /**
-     * Function to show settings alert dialog
-     * On pressing Settings button will lauch Settings Options
-     */
-    public void showSettingsAlert() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
-
-        // Setting Dialog Title
-        alertDialog.setTitle("GPS is settings");
-
-        // Setting Dialog Message
-        alertDialog.setMessage("GPS is not enabled. Do you want to go to settings menu?");
-
-        // On pressing Settings button
-        alertDialog.setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                mContext.startActivity(intent);
-            }
-        });
-
-        // on pressing cancel button
-        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        // Showing Alert Message
-        alertDialog.show();
-    }
-
     @Override
     public void onLocationChanged(Location locationChanged) {
+        if (isRealGps) {
+            changeLocationManually(locationChanged);
+        }
+    }
+
+    public void changeLocationManually(Location locationChanged) {
         this.location = locationChanged;
         Log.e("Nam", "Ket qua: " + location.getLatitude() + " : " + location.getLongitude());
+        // post for MainActivity and Third Activity
         LocationMessage message = new LocationMessage(location);
         bus.post(message);
 
@@ -254,6 +207,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
         }
     }
+
 
     @Override
     public void onProviderDisabled(String provider) {

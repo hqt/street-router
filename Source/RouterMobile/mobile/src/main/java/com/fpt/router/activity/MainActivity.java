@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.fpt.router.R;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -69,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 .build();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);

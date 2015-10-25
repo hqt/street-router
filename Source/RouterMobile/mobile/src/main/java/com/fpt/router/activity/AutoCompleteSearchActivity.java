@@ -182,9 +182,19 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 if(location != null) {
                     intent.putExtra("NAME", location.getName());
                     intent.putExtra("PLACE_ID", location.getPlace_id());
-                } else if (!autoComp.getText().toString().equals("")){
-                    intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number -1).getName());
-                    intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number -1).getPlace_id());
+                } else if (!autoComp.getText().toString().equals("")) {
+                    if (SearchRouteActivity.listLocation.size() >= number) {
+                        if(autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1 ).getName())) {
+                            intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
+                            intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
+                        }else {
+                            intent.putExtra("NAME", autoComp.getText().toString());
+                            intent.putExtra("PLACE_ID", "");
+                        }
+                    } else {
+                        intent.putExtra("NAME", autoComp.getText().toString());
+                        intent.putExtra("PLACE_ID", "");
+                    }
                 }
                 setResult(number, intent);
                 finish();//finishing activity

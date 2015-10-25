@@ -1,5 +1,7 @@
 package com.fpt.router.library.utils;
 
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Location;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -41,6 +43,46 @@ public class DecodeUtils {
         }
 
         return poly;
+    }
+
+    public static List<LatLng> getListLocationToFakeGPS (List<Leg> listLeg){
+        List<LatLng> listLatLng = new ArrayList<>();
+        List<LatLng> listLatLngFromListLeg = new ArrayList<>();
+        for(int i = 0; i < listLeg.size(); i++) {
+            List<LatLng> listLatLngFromOneLeg = decodePoly(listLeg.get(i).getOverview_polyline());
+            if(i != 0) {
+                listLatLngFromOneLeg.remove(0);
+            }
+            listLatLngFromListLeg.addAll(listLatLngFromOneLeg);
+        }
+        listLatLng = getPointsFromListLocation(listLatLngFromListLeg);
+        return listLatLng;
+    }
+
+    public static List<LatLng> getPointsFromListLocation (List<LatLng> listLatLng) {
+        for(int i = 0; i < listLatLng.size() - 1; i ++) {
+            int checkDistance = (int) calculateDistance(listLatLng.get(i), listLatLng.get(i+1));
+            if(checkDistance > 50) {
+                listLatLng.add(i+1, middlePoint(listLatLng.get(i).latitude, listLatLng.get(i).longitude, listLatLng.get(i+1).latitude, listLatLng.get(i+1).longitude));
+                i--;
+            }
+        }
+        return listLatLng;
+    }
+
+    public static double calculateDistance(LatLng locationFrom, LatLng locationTo) {
+        double fromLat = locationFrom.latitude;
+        double fromLong = locationFrom.longitude;
+        double toLat = locationTo.latitude;
+        double toLong = locationTo.longitude;
+        double d2r = Math.PI / 180;
+        double dLong = (toLong - fromLong) * d2r;
+        double dLat = (toLat - fromLat) * d2r;
+        double a = Math.pow(Math.sin(dLat / 2.0), 2) + Math.cos(fromLat * d2r)
+                * Math.cos(toLat * d2r) * Math.pow(Math.sin(dLong / 2.0), 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = 6367000 * c;
+        return Math.round(d);
     }
 
     public static LatLng middlePoint(Double lat1, Double lon1, Double lat2, Double lon2) {
