@@ -166,6 +166,11 @@ public class SearchRouteActivity extends AppCompatActivity {
                 // try to search
                 else {
                     needToSearch = true;
+                    for(int i = 0; i < listLocation.size(); i++) {
+                        if(listLocation.get(i).getName().equals("")) {
+                            listLocation.remove(i);
+                        }
+                    }
                     int tabPosition = _view_pager.getCurrentItem();
                     if (tabPosition == 0) {
                         if(listLocation.size() == 2){
@@ -218,10 +223,12 @@ public class SearchRouteActivity extends AppCompatActivity {
                     } else {
                         listLocation.add(new AutocompleteObject(name, place_id));
                     }
-                } else {
-                    listLocation.get(requestCode-1).setName("");
-                    listLocation.get(requestCode-1).setPlace_id("");
-                    edit_1.setText(name);
+                } else if (("".equals(name)) || (name == null)){
+                    if(SearchRouteActivity.listLocation.size() > (requestCode-1)) {
+                        listLocation.get(requestCode - 1).setName("");
+                        listLocation.get(requestCode - 1).setPlace_id("");
+                    }
+                    edit_1.setText("");
                 }
 
             }
@@ -240,10 +247,12 @@ public class SearchRouteActivity extends AppCompatActivity {
                     } else {
                         listLocation.add(new AutocompleteObject(name, place_id));
                     }
-                } else {
-                    listLocation.get(requestCode-1).setName("");
-                    listLocation.get(requestCode-1).setPlace_id("");
-                    edit_2.setText(name);
+                } else if (("".equals(name)) || (name == null)){
+                    if(SearchRouteActivity.listLocation.size() > (requestCode-1)) {
+                        listLocation.get(requestCode - 1).setName("");
+                        listLocation.get(requestCode - 1).setPlace_id("");
+                    }
+                    edit_2.setText("");
                 }
             }
             if (requestCode == 3) {

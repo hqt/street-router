@@ -104,29 +104,28 @@ public class SearchOptionActivity extends Activity {
             if (requestCode == 3) {
                 String name = data.getStringExtra("NAME");
                 String place_id = "";
-                if(data.getStringExtra("PLACE_ID") != null) {
+                if (data.getStringExtra("PLACE_ID") != null) {
                     place_id = data.getStringExtra("PLACE_ID");
                 }
-<<<<<<< HEAD
                 if ((!"".equals(name)) && (name != null)) {
-                    txtfrom.setText(name);
-=======
-                if (!"".equals(name)) {
                     fromTextView.setText(name);
->>>>>>> f7dd8a38543f8f4869e2e44db98e796b9394a024
-                    if (SearchRouteActivity.listLocation.size() > 2) {
-                        SearchRouteActivity.listLocation.set(2, new AutocompleteObject(name, place_id));
-                    } else {
-                        for(int i = SearchRouteActivity.listLocation.size(); i < requestCode - 1; i++) {
-                            SearchRouteActivity.listLocation.add(new AutocompleteObject("", ""));
+                    if (!"".equals(name)) {
+                        fromTextView.setText(name);
+                        if (SearchRouteActivity.listLocation.size() > 2) {
+                            SearchRouteActivity.listLocation.set(2, new AutocompleteObject(name, place_id));
+                        } else {
+                            for (int i = SearchRouteActivity.listLocation.size(); i < requestCode - 1; i++) {
+                                SearchRouteActivity.listLocation.add(new AutocompleteObject("", ""));
+                            }
+                            SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                         }
-                        SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                     }
-                } else {
-                    txtfrom.setText("");
-                    SearchRouteActivity.listLocation.remove(requestCode - 1);
+                } else if (("".equals(name)) || (name == null)){
+                    fromTextView.setText("");
+                    if(SearchRouteActivity.listLocation.size() > (requestCode-1)) {
+                        SearchRouteActivity.listLocation.remove(requestCode - 1);
+                    }
                 }
-
             }
             if (requestCode == 4) {
                 String name = data.getStringExtra("NAME");
@@ -135,7 +134,7 @@ public class SearchOptionActivity extends Activity {
                     place_id = data.getStringExtra("PLACE_ID");
                 }
                 if ((!"".equals(name)) && (name != null)) {
-                    txtto.setText(name);
+                    toTextView.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 3) {
                         SearchRouteActivity.listLocation.set(3, new AutocompleteObject(name, place_id));
                     } else {
@@ -144,9 +143,11 @@ public class SearchOptionActivity extends Activity {
                         }
                         SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                     }
-                } else {
-                    txtto.setText("");
-                    SearchRouteActivity.listLocation.remove(requestCode-1);
+                } else if (("".equals(name)) || (name == null)){
+                    toTextView.setText("");
+                    if(SearchRouteActivity.listLocation.size() > (requestCode-1)) {
+                        SearchRouteActivity.listLocation.remove(requestCode - 1);
+                    }
                 }
 
             }
