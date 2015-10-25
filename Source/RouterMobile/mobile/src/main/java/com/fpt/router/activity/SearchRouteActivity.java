@@ -210,7 +210,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                 if(data.getStringExtra("PLACE_ID") != null) {
                     place_id = data.getStringExtra("PLACE_ID");
                 }
-                if (!"".equals(name) || name == null) {
+                if ((!"".equals(name)) && (name != null)) {
                     edit_1.setText(name);
                     if (listLocation.size() > 0) {
                         listLocation.set(0, new AutocompleteObject(name, place_id));
@@ -218,6 +218,10 @@ public class SearchRouteActivity extends AppCompatActivity {
                     } else {
                         listLocation.add(new AutocompleteObject(name, place_id));
                     }
+                } else {
+                    listLocation.get(requestCode-1).setName("");
+                    listLocation.get(requestCode-1).setPlace_id("");
+                    edit_1.setText(name);
                 }
 
             }
@@ -227,7 +231,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                 if(data.getStringExtra("PLACE_ID") != null) {
                     place_id = data.getStringExtra("PLACE_ID");
                 }
-                if (!"".equals(name) || name == null) {
+                if ((!"".equals(name)) && (name != null)) {
                     edit_2.setText(name);
                     if(listLocation == null) {
                         listLocation.add(new AutocompleteObject("", ""));
@@ -236,6 +240,10 @@ public class SearchRouteActivity extends AppCompatActivity {
                     } else {
                         listLocation.add(new AutocompleteObject(name, place_id));
                     }
+                } else {
+                    listLocation.get(requestCode-1).setName("");
+                    listLocation.get(requestCode-1).setPlace_id("");
+                    edit_2.setText(name);
                 }
             }
             if (requestCode == 3) {
