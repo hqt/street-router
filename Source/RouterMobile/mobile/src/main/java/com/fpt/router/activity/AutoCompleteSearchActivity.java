@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
@@ -132,6 +133,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                             if(location != null) {
                                 intent.putExtra("NAME", location.getName());
                                 intent.putExtra("PLACE_ID", location.getPlace_id());
+                            } else {
+                                intent.putExtra("NAME", autoComp.getText().toString().trim());
                             }
                             int number = getIntent().getIntExtra("number", 1);
                             setResult(number, intent);
@@ -197,20 +200,21 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 for(int n = 0; n < listUrl.size(); n++) {
                     json.add(NetworkUtils.download(listUrl.get(n)));
                 }
-                if(json == null){
+                if(json.get(0) == null){
                     return null;
-                }
-                //turn that string into a JSON object
-                for(int x = 0; x < json.size(); x++) {
-                    JSONObject predictions = new JSONObject(json.get(x));
-                    //now get the JSON array that's inside that object
-                    JSONArray ja = new JSONArray(predictions.getString("predictions"));
+                } else {
+                    //turn that string into a JSON object
+                    for (int x = 0; x < json.size(); x++) {
+                        JSONObject predictions = new JSONObject(json.get(x));
+                        //now get the JSON array that's inside that object
+                        JSONArray ja = new JSONArray(predictions.getString("predictions"));
 
-                    for (int y = 0; y < ja.length(); y++) {
-                        JSONObject jo = (JSONObject) ja.get(y);
-                        String name = jo.getString("description");
-                        String place_id = jo.getString("place_id");
-                        predictionsArr.add(new AutocompleteObject(name, place_id));
+                        for (int y = 0; y < ja.length(); y++) {
+                            JSONObject jo = (JSONObject) ja.get(y);
+                            String name = jo.getString("description");
+                            String place_id = jo.getString("place_id");
+                            predictionsArr.add(new AutocompleteObject(name, place_id));
+                        }
                     }
                 }
             } catch (JSONException e)
@@ -239,10 +243,11 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                adapter.add(string);
             }*/
             if(results == null){
-                AutocompleteObject autocompleteObject = null;
+                AutocompleteObject autocompleteObject = new AutocompleteObject();
                 results = new ArrayList<>();
-                autocompleteObject.setName("Cần kết nối Internet");
-                results.add(autocompleteObject);
+                if(!NetworkUtils.isNetworkConnected()) {
+                    Toast.makeText(AutoCompleteSearchActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
+                }
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,results);
                 /*return;*/
             }

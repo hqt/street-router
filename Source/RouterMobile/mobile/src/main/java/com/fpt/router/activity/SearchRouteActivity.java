@@ -3,6 +3,7 @@ package com.fpt.router.activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
@@ -205,7 +206,10 @@ public class SearchRouteActivity extends AppCompatActivity {
         if (data != null) {
             if (requestCode == 1) {
                 String name = data.getStringExtra("NAME");
-                String place_id = data.getStringExtra("PLACE_ID");
+                String place_id = "";
+                if(data.getStringExtra("PLACE_ID") != null) {
+                    place_id = data.getStringExtra("PLACE_ID");
+                }
                 if (!"".equals(name) || name == null) {
                     edit_1.setText(name);
                     if (listLocation.size() > 0) {
@@ -219,7 +223,10 @@ public class SearchRouteActivity extends AppCompatActivity {
             }
             if (requestCode == 2) {
                 String name = data.getStringExtra("NAME");
-                String place_id = data.getStringExtra("PLACE_ID");
+                String place_id = "";
+                if(data.getStringExtra("PLACE_ID") != null) {
+                    place_id = data.getStringExtra("PLACE_ID");
+                }
                 if (!"".equals(name) || name == null) {
                     edit_2.setText(name);
                     if(listLocation == null) {
