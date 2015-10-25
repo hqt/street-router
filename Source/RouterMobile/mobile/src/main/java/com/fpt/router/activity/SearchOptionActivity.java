@@ -107,13 +107,24 @@ public class SearchOptionActivity extends Activity {
                 if(data.getStringExtra("PLACE_ID") != null) {
                     place_id = data.getStringExtra("PLACE_ID");
                 }
+<<<<<<< HEAD
+                if ((!"".equals(name)) && (name != null)) {
+                    txtfrom.setText(name);
+=======
                 if (!"".equals(name)) {
                     fromTextView.setText(name);
+>>>>>>> f7dd8a38543f8f4869e2e44db98e796b9394a024
                     if (SearchRouteActivity.listLocation.size() > 2) {
                         SearchRouteActivity.listLocation.set(2, new AutocompleteObject(name, place_id));
                     } else {
+                        for(int i = SearchRouteActivity.listLocation.size(); i < requestCode - 1; i++) {
+                            SearchRouteActivity.listLocation.add(new AutocompleteObject("", ""));
+                        }
                         SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                     }
+                } else {
+                    txtfrom.setText("");
+                    SearchRouteActivity.listLocation.remove(requestCode - 1);
                 }
 
             }
@@ -123,13 +134,19 @@ public class SearchOptionActivity extends Activity {
                 if(data.getStringExtra("PLACE_ID") != null) {
                     place_id = data.getStringExtra("PLACE_ID");
                 }
-                if (!"".equals(name)) {
-                    toTextView.setText(name);
+                if ((!"".equals(name)) && (name != null)) {
+                    txtto.setText(name);
                     if (SearchRouteActivity.listLocation.size() > 3) {
                         SearchRouteActivity.listLocation.set(3, new AutocompleteObject(name, place_id));
                     } else {
+                        for(int i = SearchRouteActivity.listLocation.size(); i < requestCode - 1; i++) {
+                            SearchRouteActivity.listLocation.add(new AutocompleteObject("", ""));
+                        }
                         SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
                     }
+                } else {
+                    txtto.setText("");
+                    SearchRouteActivity.listLocation.remove(requestCode-1);
                 }
 
             }
