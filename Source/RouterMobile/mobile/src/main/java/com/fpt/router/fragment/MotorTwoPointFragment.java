@@ -119,7 +119,7 @@ public class MotorTwoPointFragment extends Fragment {
             try {
                 jsonObject = new JSONObject(json);
                 status = jsonObject.getString("status");
-                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS")) {
+                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
                     return null;
                 } else {
                     int duration = 0;
@@ -155,6 +155,13 @@ public class MotorTwoPointFragment extends Fragment {
             if (status.equals("ZERO_RESULTS")) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không có kết quả");
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                return;
+            }
+
+            if (status.equals("OVER_QUERY_LIMIT")) {
+                listError = new ArrayList<String>();
+                listError.add("Hết quota cmnr");
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }

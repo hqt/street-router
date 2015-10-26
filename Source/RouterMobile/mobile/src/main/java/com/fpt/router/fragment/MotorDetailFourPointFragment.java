@@ -391,7 +391,6 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
             now.remove();
         }
 
-        Log.e("Nam:", lat + "@#@" + lng);
 
         now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
     }

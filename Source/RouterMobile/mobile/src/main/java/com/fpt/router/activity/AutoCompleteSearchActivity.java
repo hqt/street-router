@@ -44,6 +44,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private AutocompleteObject location;
     boolean state = false;
     String phraseShouldToSearch;
+    private String status;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,13 +233,18 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                     for (int x = 0; x < json.size(); x++) {
                         JSONObject predictions = new JSONObject(json.get(x));
                         //now get the JSON array that's inside that object
-                        JSONArray ja = new JSONArray(predictions.getString("predictions"));
+                        status = predictions.getString("status");
+                        if(status.equals("OVER_QUERY_LIMIT")) {
+                            return null;
+                        } else {
+                            JSONArray ja = new JSONArray(predictions.getString("predictions"));
 
-                        for (int y = 0; y < ja.length(); y++) {
-                            JSONObject jo = (JSONObject) ja.get(y);
-                            String name = jo.getString("description");
-                            String place_id = jo.getString("place_id");
-                            predictionsArr.add(new AutocompleteObject(name, place_id));
+                            for (int y = 0; y < ja.length(); y++) {
+                                JSONObject jo = (JSONObject) ja.get(y);
+                                String name = jo.getString("description");
+                                String place_id = jo.getString("place_id");
+                                predictionsArr.add(new AutocompleteObject(name, place_id));
+                            }
                         }
                     }
                 }
@@ -269,7 +276,9 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             if(results == null){
                 AutocompleteObject autocompleteObject = new AutocompleteObject();
                 results = new ArrayList<>();
-                if(!NetworkUtils.isNetworkConnected()) {
+                if(status.equals("OVER_QUERY_LIMIT")) {
+                    Toast.makeText(AutoCompleteSearchActivity.this, "Hết quota cmnr", Toast.LENGTH_SHORT).show();
+                } else if(!NetworkUtils.isNetworkConnected()) {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,results);

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.fragment.AbstractMapFragment;
@@ -18,16 +19,14 @@ import com.fpt.router.fragment.MotorDetailFourPointFragment;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.library.utils.DecodeUtils;
-import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 
@@ -43,7 +42,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     AbstractMapFragment fragment;
     private int position;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
-    int count = 0;
+    int countListLatLng = 0;
+    int countListStep = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -152,18 +152,24 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             }
         }
         List<LatLng> listLatLng = DecodeUtils.getListLocationToFakeGPS(listFinalLeg);
-        double latitude = listLatLng.get(count).latitude;
-        double longitude = listLatLng.get(count).longitude;
-        if(count == listLatLng.size()) {
-            count = 0 ;
+        double latitude = listLatLng.get(countListLatLng).latitude;
+        double longitude = listLatLng.get(countListLatLng).longitude;
+        if(countListLatLng == listLatLng.size()) {
+            countListLatLng = 0 ;
         } else {
-            count++;
+            countListLatLng++;
         }
         List<Step> listStep = new ArrayList<>();
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
         }
-
+        com.fpt.router.library.model.motorbike.Location startLocation = listStep.get(countListStep).getDetailLocation().getStartLocation();
+        LatLng latlngOfStep = new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
+        Log.e("Khoang cach:", ""+ DecodeUtils.calculateDistance(listLatLng.get(countListLatLng), latlngOfStep));
+        if(DecodeUtils.calculateDistance(listLatLng.get(countListLatLng), latlngOfStep) < 50) {
+            Toast.makeText(SearchDetailActivity.this, listStep.get(countListStep).getInstruction(), Toast.LENGTH_SHORT).show();
+            countListStep++;
+        }
         fragment.drawCurrentLocation(latitude, longitude);
     }
 
