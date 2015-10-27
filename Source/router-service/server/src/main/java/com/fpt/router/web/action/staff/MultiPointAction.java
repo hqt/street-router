@@ -61,8 +61,10 @@ public class MultiPointAction implements IAction {
         String addressEnd = context.getParameter("addressEnd");
         // middle First
         String addressMidFirst = context.getParameter("addressMidFirst");
+        System.out.println("middle first: " + addressMidFirst);
         // middle Second
         String addressMidSecond = context.getParameter("addressMidSecond");
+        System.out.println("middle second: " +addressMidSecond);
         // option paramater
         int walkingDistance = context.getIntParameter("walkingDistance");
         int transferTurn = context.getIntParameter("transferTurn");
@@ -130,7 +132,7 @@ public class MultiPointAction implements IAction {
         if (addressMidSecond != null) {
             middleLocations.add(second);
         }
-        middleLocations.add(end);
+
         // End - Build Middle Locations
 
         System.out.println("first: " + start.longitude + "\t" + start.latitude);
@@ -146,6 +148,7 @@ public class MultiPointAction implements IAction {
         MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
         if (isOp) {
             middleAddresses.add(addressEnd);
+            middleLocations.add(end);
             System.out.println("Cal multi with optimize");
             System.out.println("Waking Distance: " + Config.WALKING_DISTANCE);
             System.out.println("K: " +K);

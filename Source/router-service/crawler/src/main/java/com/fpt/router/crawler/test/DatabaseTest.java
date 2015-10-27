@@ -29,9 +29,11 @@ public class DatabaseTest {
     }
 
     public static void read() {
+        JPADaoImpl.enableStaticEntityManager();
         com.fpt.router.artifacter.model.algorithm.CityMap map = MapDAL.readDatabase();
         DatabaseValidation validation = new DatabaseValidation(map);
         validation.run();
+        JPADaoImpl.disableStaticEntityManager();
         JPADaoImpl.closeFactory();
     }
 

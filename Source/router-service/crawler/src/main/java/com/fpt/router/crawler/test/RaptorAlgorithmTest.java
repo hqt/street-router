@@ -22,7 +22,9 @@ import java.io.StringReader;
  */
 public class RaptorAlgorithmTest {
     public static void main(String[] args) {
+        JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();
+        JPADaoImpl.disableStaticEntityManager();
         JPADaoImpl.closeFactory();
         System.out.println("route size: " + map.routes.size());
         RaptorAlgorithm algor = new RaptorAlgorithm();

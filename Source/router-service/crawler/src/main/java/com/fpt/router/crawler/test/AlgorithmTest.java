@@ -11,6 +11,8 @@ import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
 import com.fpt.router.artifacter.model.viewmodel.Journey;
 import com.fpt.router.artifacter.model.viewmodel.Path;
+import com.fpt.router.artifacter.utils.JSONUtils;
+import com.google.gson.Gson;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
@@ -25,7 +27,9 @@ import java.util.List;
 public class AlgorithmTest {
     public static void main(String[] args) {
 
+        JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();
+        JPADaoImpl.disableStaticEntityManager();
         JPADaoImpl.closeFactory();
 
         LocalTime time = new LocalTime(8, 30, 0);
@@ -86,30 +90,35 @@ public class AlgorithmTest {
         Location duc_ba = new Location();
         duc_ba.latitude = 10.779786;
         duc_ba.longitude = 106.698994;
-        String addressDucBa = "Duc Ba";
+        String addressDucBa = "Đức Bà";
 
         MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
 
         List<Location> middleLocations = new ArrayList<Location>();
         middleLocations.add(duc_ba);
         middleLocations.add(cho_ba_chieu);
-        middleLocations.add(dai_hoc_nong_lam_2);
+        middleLocations.add(ben_xe_nong_lam);
 
         List<String> middleAddress = new ArrayList<String>();
         middleAddress.add(addressDucBa);
         middleAddress.add(addressChoBaChieu);
-        middleAddress.add("dai hoc nong lam");
+        middleAddress.add("đại học nông lâm ");
 
         List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
-                middleLocations, middleAddress, time, 1500, 2, true);
+                middleLocations, middleAddress, time, 500, 2, true);
+        Gson gson = JSONUtils.buildGson();
+
+        String json = gson.toJson(journeys);
+
+        System.out.println(json);
         int abcd = 3;
 
-
+/*
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
 
         String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, dai_hoc_nong_lam_2, "Start Location", "End Location", time,
                 Config.WALKING_DISTANCE, 2, false, SearchType.TWO_POINT);
-        System.out.println(res);
+        System.out.println(res);*/
 
 
     }

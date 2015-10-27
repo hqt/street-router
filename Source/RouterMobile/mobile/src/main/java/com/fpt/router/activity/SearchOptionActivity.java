@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ public class SearchOptionActivity extends Activity {
     private TextView fromTextView;
     private TextView toTextView;
     private CheckBox optimizeCheckbox;
-    private TextView walkingDistanceTextView;
+    private EditText walkingDistanceEditText;
     private Spinner transferNumberSpinner;
     private Intent intent;
 
@@ -39,16 +40,15 @@ public class SearchOptionActivity extends Activity {
         cancelButton = (Button) findViewById(R.id.btn_no);
         fromTextView = (TextView) findViewById(R.id.fromId);
         toTextView = (TextView) findViewById(R.id.toId);
-        walkingDistanceTextView = (TextView) findViewById(R.id.walking_distance_txt);
+        walkingDistanceEditText = (EditText) findViewById(R.id.walking_distance_txt);
         transferNumberSpinner = (Spinner) findViewById(R.id.number_spinner);
         optimizeCheckbox = (CheckBox) findViewById(R.id.checkBox);
         swapLocationButton = (ImageButton) findViewById(R.id.swap_location_btn);
 
 
         optimizeCheckbox.setChecked(SearchRouteActivity.optimize);
-        transferNumberSpinner.setSelection(1);
-
-
+        transferNumberSpinner.setSelection(SearchRouteActivity.transferNumber - 1);
+        walkingDistanceEditText.setText(SearchRouteActivity.walkingDistance + "");
 
         if (SearchRouteActivity.listLocation.size() > 2) {
             fromTextView.setText(SearchRouteActivity.listLocation.get(2).getName());
@@ -84,8 +84,8 @@ public class SearchOptionActivity extends Activity {
             public void onClick(View view) {
                 Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
                 boolean isChecked = optimizeCheckbox.isChecked();
-                if(!"".equals(String.valueOf(walkingDistanceTextView.getText()))){
-                    SearchRouteActivity.walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceTextView.getText()));
+                if(!"".equals(String.valueOf(walkingDistanceEditText.getText()))){
+                    SearchRouteActivity.walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceEditText.getText()));
                 }
 
                 SearchRouteActivity.transferNumber = transferNumberSpinner.getSelectedItemPosition()+1;
