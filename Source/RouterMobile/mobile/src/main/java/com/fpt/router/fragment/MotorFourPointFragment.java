@@ -11,6 +11,8 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.GoogleApiCode;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.GoogleAPIUtils;
@@ -117,7 +119,8 @@ public class MotorFourPointFragment extends Fragment{
                     json = NetworkUtils.download(listUrl.get(0));
                     jsonObject = new JSONObject(json);
                     status = jsonObject.getString("status");
-                    if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS")) {
+                    if ((status.equals(GoogleApiCode.NO_RESULT)) || status.equals(GoogleApiCode.NOT_FOUND)
+                            || status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
                         return null;
                     }
                 } catch (JSONException e) {
@@ -133,7 +136,8 @@ public class MotorFourPointFragment extends Fragment{
                 try {
                     jsonObject = new JSONObject(listJson.get(0));
                     status = jsonObject.getString("status");
-                    if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
+                    if ((status.equals(GoogleApiCode.NOT_FOUND)) || status.equals(GoogleApiCode.NO_RESULT)
+                            || status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
                         return null;
                     } else {
                         for (int i = 0; i < listJson.size(); i++) {
@@ -156,21 +160,21 @@ public class MotorFourPointFragment extends Fragment{
             activity.searchType = null;
             activity.needToSearch = false;
 
-            if (status.equals("NOT_FOUND")) {
+            if (status.equals(GoogleApiCode.NOT_FOUND)) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không được tìm thấy");
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
 
-            if (status.equals("ZERO_RESULTS")) {
+            if (status.equals(GoogleApiCode.NO_RESULT)) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không có kết quả");
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
 
-            if (status.equals("OVER_QUERY_LIMIT")) {
+            if (status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
                 listError = new ArrayList<String>();
                 listError.add("Hết quota cmnr");
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));

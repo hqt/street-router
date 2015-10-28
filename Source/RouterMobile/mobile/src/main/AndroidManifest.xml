@@ -33,13 +33,19 @@
             android:value="AIzaSyD28mTMy7swcMpn1WRRrA4Rz8B-n7dbZZM"/>-->
 
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.VoiceRecordActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/title_activity_main" >
+
         </activity>
         <activity
             android:name=".activity.SearchRouteActivity"

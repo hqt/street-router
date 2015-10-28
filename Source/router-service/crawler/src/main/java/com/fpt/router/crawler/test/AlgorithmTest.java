@@ -27,6 +27,8 @@ import java.util.List;
 public class AlgorithmTest {
     public static void main(String[] args) {
 
+        String a = "huynh";
+
         JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();
         JPADaoImpl.disableStaticEntityManager();
@@ -104,14 +106,14 @@ public class AlgorithmTest {
         middleAddress.add(addressChoBaChieu);
         middleAddress.add("đại học nông lâm ");
 
-        List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
+       /* List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
                 middleLocations, middleAddress, time, 500, 2, true);
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(journeys);
 
         System.out.println(json);
-        int abcd = 3;
+        int abcd = 3;*/
 
 /*
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
