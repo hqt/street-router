@@ -1,5 +1,6 @@
 package com.fpt.router.fragment;
 
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -79,6 +81,7 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
     private Toolbar toolbar;
 
     private Marker now;
+    private Marker markerStep;
 
     int position;
     List<LatLng> list;
@@ -165,6 +168,7 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
         }
+
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
         mListView.addHeaderView(mTransparentHeaderView);
@@ -201,8 +205,13 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 if(SearchRouteActivity.listLocation.size() == 2) {
                     MapUtils.drawMapWithTwoPoint(mMap, listFinalLeg);
+
                 } else {
                     MapUtils.drawMapWithFourPoint(mMap, listFinalLeg);
+                    List<LatLng> step = new ArrayList<>();
+                }
+                for(int n = 0; n < listStep.size(); n++) {
+                    MapUtils.drawPointColor(mMap, listStep.get(n).getDetailLocation().getStartLocation().getLatitude(), listStep.get(n).getDetailLocation().getStartLocation().getLongitude(), "", BitmapDescriptorFactory.HUE_ORANGE);
                 }
             }
         }
@@ -390,8 +399,6 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
         if(now != null){
             now.remove();
         }
-
-
         now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
     }
 

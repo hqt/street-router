@@ -32,6 +32,7 @@ public class GoogleAPIUtils {
                 "origin=" + startLocation +
                 "&destination=" + endLocation +
                 "&alternatives=true" +
+                "&language=vi" +
                 "&mode=driving" +
                 "&key=" + key;
         return url;
@@ -113,6 +114,7 @@ public class GoogleAPIUtils {
                     "origin=" + startLocation +
                     "&destination=" + endLocation + waypoints +
                     "&alternatives=true" +
+                    "&language=vi" +
                     "&mode=driving" +
                     "&key=" + key;
             listUrl.add(url);
