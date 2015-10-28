@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +27,11 @@ public class VoiceRecordActivity extends AppCompatActivity {
 
     private final int REQ_CODE_SPEECH_INPUT = 100;
 
-    ImageButton voiceRecordButton;
+    ImageView voiceRecordButton;
 
     TextView speechTextView;
+    ProgressBar progressBar;
+
 
     TextView fromPlaceTextView;
     TextView toPlaceTextView;
@@ -46,9 +50,13 @@ public class VoiceRecordActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_voice_record);
 
-        voiceRecordButton = (ImageButton) findViewById(R.id.btnSpeak);
+        voiceRecordButton = (ImageView) findViewById(R.id.btnSpeak);
 
         speechTextView = (TextView) findViewById(R.id.speech_text);
+
+        progressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        progressBar.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.MULTIPLY);
+
 
         fromPlaceTextView = (TextView) findViewById(R.id.from_text_view);
         toPlaceTextView = (TextView) findViewById(R.id.to_text_view);

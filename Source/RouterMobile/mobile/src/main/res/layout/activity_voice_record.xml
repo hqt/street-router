@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#e0e0e0"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="34dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
@@ -16,121 +17,273 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-        <ImageButton
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <ImageView
             android:id="@+id/btnSpeak"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@null"
             android:src="@drawable/ico_mic" />
 
-        <LinearLayout
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#000"
-                android:text="Câu bạn đã nói:"/>
+            android:textColor="#757575"
+            android:text="Câu bạn đã nói: (từ .. đến .. qua .. tới ..) "
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"/>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:id="@+id/speech_text"/>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:background="@drawable/drop_shadow"
+            android:id="@+id/speech_text"/>
 
-        </LinearLayout>
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#757575"
+            android:text="Địa điểm nhận dạng từ giọng nói:"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"/>
 
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/drop_shadow"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
             android:orientation="vertical">
 
+            <!--first label-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:textColor="#000"
+                android:text="Xuất phát:"
+                android:textStyle="bold"
+                android:id="@+id/from_label"
+                android:layout_alignParentLeft="true"/>
+
+            <!--first text field-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:id="@+id/from_text_view"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="7dp"
+                android:layout_alignBottom="@+id/from_label"
+                android:layout_toEndOf="@+id/from_label" />
+
+            <!--second label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Trung gian 1:"
+                android:layout_below="@+id/from_label"
+                android:layout_marginTop="6dp"
+                android:id="@+id/first_middle_label"
+                android:layout_alignLeft="@+id/from_label"/>
+
+            <!--second text field-->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="7dp"
+                android:layout_alignBottom="@+id/first_middle_label"
+                android:layout_toEndOf="@+id/first_middle_label"
+                android:id="@+id/first_middle_text_view"/>
+
+            <!--third label-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Trung gian 2:"
+                android:layout_below="@+id/first_middle_label"
+                android:layout_marginTop="6dp"
+                android:id="@+id/second_middle_label"
+                android:layout_alignLeft="@+id/from_label"/>
+
+            <!--third text field-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="7dp"
+                android:layout_alignBottom="@+id/second_middle_label"
+                android:layout_toEndOf="@+id/second_middle_label"
+                android:id="@+id/second_middle_text_view"/>
+
+            <!--fourth label-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Kết thúc:"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/end_label"
+                android:layout_below="@+id/second_middle_label"
+                android:layout_alignLeft="@+id/from_label"/>
+
+            <!--fourth text field-->
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="7dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@+id/end_label"
+                android:id="@+id/to_text_view"
+                android:layout_alignBottom="@+id/end_label" />
+        </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:id="@+id/progress_bar"/>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#757575"
+            android:text="Địa điểm nhận diện được:"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/drop_shadow"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
                 android:textStyle="bold"
                 android:textColor="#000"
                 android:text="Điểm xuất phát:"
-                android:id="@+id/from_label"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/real_from_label"
                 android:layout_alignParentLeft="true"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:id="@+id/from_text_view"
-                android:text="sample"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:id="@+id/real_from_text_view"
                 android:layout_alignParentRight="true"
-                android:layout_alignLeft="@+id/from_label"/>
+                android:layout_alignBottom="@+id/real_from_label"
+                android:layout_toEndOf="@+id/real_from_label" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Điểm trung gian 1:"
+                android:layout_below="@+id/real_from_label"
+                android:layout_marginTop="6dp"
+                android:id="@+id/real_first_middle_label"
+                android:layout_alignLeft="@+id/real_from_label"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:id="@+id/to_text_view"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:id="@+id/first_middle_text_view"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:id="@+id/second_middle_text_view"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
-
-
-        </RelativeLayout>
-
-        <ProgressBar
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="center"/>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:id="@+id/real_from_text_view"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
-                android:id="@+id/real_to_text_view"/>
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/real_first_middle_label"
+                android:layout_toEndOf="@+id/real_first_middle_label"
+                android:layout_alignLeft="@+id/real_from_text_view"
                 android:id="@+id/real_first_middle_text_view"/>
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Điểm trung gian 2:"
+                android:layout_below="@+id/real_first_middle_label"
+                android:layout_marginTop="6dp"
+                android:id="@+id/real_second_middle_label"
+                android:layout_alignLeft="@+id/real_from_label"/>
+
+            <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/real_second_middle_label"
+                android:layout_toEndOf="@+id/real_second_middle_label"
+                android:layout_alignLeft="@+id/real_from_text_view"
                 android:id="@+id/real_second_middle_text_view"/>
 
-        </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#000"
+                android:text="Điểm đến:"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/real_end_label"
+                android:layout_below="@+id/real_second_middle_label"
+                android:layout_alignLeft="@+id/real_from_label"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/real_end_label"
+                android:layout_toEndOf="@+id/real_from_label"
+                android:layout_alignLeft="@+id/real_from_text_view"
+                android:id="@+id/real_to_text_view"/>
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -149,7 +302,6 @@
                 android:text="Đồng ý"
                 android:textColor="#4FC3F7"
                 android:textStyle="bold" />
-
 
             <Button
                 android:id="@+id/btn_no"
