@@ -87,7 +87,9 @@ public class SearchOptionActivity extends Activity {
                 if(!"".equals(String.valueOf(walkingDistanceEditText.getText()))){
                     SearchRouteActivity.walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceEditText.getText()));
                 }
-
+                if((("".equals(toTextView.getText().toString())) || (toTextView.getText().toString() == null)) && (("".equals(fromTextView.getText().toString())) || (fromTextView.getText().toString() == null))) {
+                    SearchRouteActivity.listLocation.remove(2);
+                }
                 SearchRouteActivity.transferNumber = transferNumberSpinner.getSelectedItemPosition()+1;
                 intent.putExtra("optimize", isChecked);
                 setResult(3, intent);
