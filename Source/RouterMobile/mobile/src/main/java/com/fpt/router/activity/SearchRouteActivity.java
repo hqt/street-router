@@ -304,7 +304,7 @@ public class SearchRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SearchRouteActivity.this,VoiceRecordActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
     }
@@ -313,6 +313,7 @@ public class SearchRouteActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("hqthao", "called");
         super.onActivityResult(requestCode, resultCode, data);
         if ((data != null) && (requestCode == 3)) {
             optimize = data.getBooleanExtra("optimize", true);

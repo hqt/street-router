@@ -1,4 +1,4 @@
-package com.fpt.router.web.action.staff;
+package com.fpt.router.web.action.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -55,6 +55,11 @@ public class MultiPointAction implements IAction {
             isOp = true;
         }
 
+        // option parameter
+        int walkingDistance = context.getIntParameter("walkingDistance");
+        int transferTurn = context.getIntParameter("transferTurn");
+
+
         // start
         String addressStart = context.getParameter("addressStart");
         // end
@@ -65,9 +70,6 @@ public class MultiPointAction implements IAction {
         // middle Second
         String addressMidSecond = context.getParameter("addressMidSecond");
         System.out.println("middle second: " +addressMidSecond);
-        // option paramater
-        int walkingDistance = context.getIntParameter("walkingDistance");
-        int transferTurn = context.getIntParameter("transferTurn");
 
         List<String> middleAddresses = new ArrayList<>();
         if (addressMidFirst != null) {
@@ -140,9 +142,9 @@ public class MultiPointAction implements IAction {
         System.out.println("third: " + second.longitude + "\t" + second.latitude);
         System.out.println("fourth: " + end.longitude + "\t" + end.latitude);
 
-        int K = 2;
-
         List<Journey> journeys;
+
+        long startTime = System.currentTimeMillis();
 
         MultiPointAlgorithm multiPointAlgorithm = new MultiPointAlgorithm();
         MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
@@ -151,13 +153,16 @@ public class MultiPointAction implements IAction {
             middleLocations.add(end);
             System.out.println("Cal multi with optimize");
             System.out.println("Waking Distance: " + Config.WALKING_DISTANCE);
-            System.out.println("K: " +K);
+            System.out.println("K: " + transferTurn);
             journeys = multiPointOptAlgorithm.run(StartupServlet.map, start, addressStart, middleLocations, middleAddresses,
                     departureTime, walkingDistance, transferTurn, isOp);
         } else {
             journeys = multiPointAlgorithm.run(StartupServlet.map, start, end, addressStart, addressEnd,
                     middleLocations, middleAddresses, departureTime, walkingDistance, transferTurn, isOp);
         }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Total time: " + (endTime - startTime) / 1000);
 
         Gson gson = JSONUtils.buildGson();
 

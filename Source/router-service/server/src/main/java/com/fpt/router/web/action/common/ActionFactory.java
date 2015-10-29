@@ -4,6 +4,7 @@ import com.fpt.router.artifacter.config.Config;
 //import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.admin.AdminAction;
 import com.fpt.router.web.action.admin.StaffListAction;
+import com.fpt.router.web.action.api.MultiPointAction;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.staff.*;
 import com.fpt.router.web.config.ApplicationContext;
