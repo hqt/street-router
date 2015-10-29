@@ -168,7 +168,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private boolean returnPreviousActivity() {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
-        if (location != null) {
+        if ((location != null) && (location.getName().equals(autoComp.toString()))) {
             mapLocation.put(number, location);
         }
         // user delete field

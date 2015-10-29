@@ -67,6 +67,9 @@ public static String makeURL (double sourcelat, double sourcelog, double destlat
     }
     public static List<String> getFourPointWithoutOptimizeDirection(List<AutocompleteObject> listLocation) {
         String url;
+        AutocompleteObject tmp = listLocation.get(1);
+        listLocation.remove(1);
+        listLocation.add(tmp);
         List<String> listUrl = new ArrayList<>();
         for(int x = 0; x < listLocation.size()-1; x++){
             for(int y = 1; y < listLocation.size(); y++){
