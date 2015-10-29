@@ -1,6 +1,8 @@
 package com.fpt.router.fragment;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +15,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
@@ -22,8 +25,12 @@ import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.MapUtils;
+import com.fpt.router.utils.GoogleAPIUtils;
+import com.fpt.router.utils.JSONParseUtils;
+import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
@@ -41,6 +48,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.Wearable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,6 +95,9 @@ public class BusDetailFourPointFragment extends Fragment implements GoogleApiCli
     private List<Location> points;
     Journey journey;
     List<Result> results = new ArrayList<Result>();
+    private JSONObject jsonObject;
+    private String status;
+    JSONParseTask jsonParseTask;
 
     public BusDetailFourPointFragment() {
     }
@@ -192,43 +205,63 @@ public class BusDetailFourPointFragment extends Fragment implements GoogleApiCli
                     result = results.get(k);
                     iNodeList = result.nodeList;
                     List<Segment> segments = new ArrayList<Segment>();
-                    for (int i=0;i<iNodeList.size();i++){
-                        if(iNodeList.get(i) instanceof Segment){
+                    for (int i = 0; i < iNodeList.size(); i++) {
+                        if (iNodeList.get(i) instanceof Segment) {
                             Segment segment = (Segment) iNodeList.get(i);
                             segments.add(segment);
                         }
                     }
                     List<LatLng> list = new ArrayList<LatLng>();
-                    for(int m = 0 ;m <segments.size();m++){
+                    for (int m = 0; m < segments.size(); m++) {
                         paths = segments.get(m).paths;
-                        for (int j = 0; j<paths.size();j++){
+                        for (int j = 0; j < paths.size(); j++) {
                             points = paths.get(j).points;
-                            for (int n = 0; n <points.size();n++){
-                                LatLng latLng = new LatLng(points.get(n).getLatitude(),points.get(n).getLongitude());
+                            for (int n = 0; n < points.size(); n++) {
+                                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
                                 list.add(latLng);
                             }
                         }
                     }
 
-
-                    if(results.get(0).equals(result)){
-                        LatLng startLocation = list.get(0);
-
-                        latitude = startLocation.latitude;
-                        longitude = startLocation.longitude;
-                        MapUtils.drawStartPoint(mMap, latitude, longitude, segments.get(0).routeName);
-                        LatLng latLng = new LatLng(latitude, longitude);
-                        moveToLocation(latLng, true);
+                    /**
+                     * start location
+                     */
+                    if (iNodeList.get(0) instanceof Path) {
+                        Path path = (Path) iNodeList.get(0);
+                        Location startLocation = path.stationFromLocation;
+                        latitude = startLocation.getLatitude();
+                        longitude = startLocation.getLongitude();
+                        MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
+                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+                        LatLng endLatLng = new LatLng(list.get(0).latitude, list.get(0).longitude);
+                        MapUtils.drawBusPoint(mMap,endLatLng.latitude,endLatLng.longitude,path.stationToName,R.drawable.markerbus);
+                        List<LatLng> start = new ArrayList<LatLng>();
+                        start.add(startLatLng);
+                        start.add(endLatLng);
+                        /*MapUtils.drawLine(mMap, start, Color.RED);*/
+                        jsonParseTask = new JSONParseTask();
+                        jsonParseTask.execute(start);
+                        moveToLocation(startLatLng, true);
                     }
-                    if(results.get(results.size() -1 ).equals(result)){
-                        LatLng endLocation = list.get(list.size()-1);
-
-                        latitude = endLocation.latitude;
-                        longitude = endLocation.longitude;
-                        MapUtils.drawEndPoint(mMap, latitude, longitude, segments.get(segments.size()-1).routeName);
-
+                    /**
+                     * end location
+                     */
+                    if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
+                        Path path = (Path) iNodeList.get(iNodeList.size() - 1);
+                        Location endLocation = path.stationToLocation;
+                        latitude = endLocation.getLatitude();
+                        longitude = endLocation.getLongitude();
+                        MapUtils.drawEndPoint(mMap, latitude, longitude, path.stationToName);
+                        LatLng startLatLng = new LatLng(list.get(list.size()-1).latitude, list.get(list.size() -1).longitude);
+                        MapUtils.drawBusPoint(mMap,startLatLng.latitude,startLatLng.longitude,path.stationToName,R.drawable.markerbus);
+                        LatLng endLatLng = new LatLng(latitude, longitude);
+                        List<LatLng> end = new ArrayList<LatLng>();
+                        end.add(startLatLng);
+                        end.add(endLatLng);
+                        jsonParseTask = new JSONParseTask();
+                        jsonParseTask.execute(end);
+                        /*MapUtils.drawLine(mMap, end, Color.RED);*/
                     }
-
                     //add polyline
                     MapUtils.drawLine(mMap, list, Color.BLUE);
                     MapUtils.moveCamera(mMap, latitude, longitude, 12);
@@ -413,6 +446,73 @@ public class BusDetailFourPointFragment extends Fragment implements GoogleApiCli
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
+    }
+
+    private class JSONParseTask extends AsyncTask<List<LatLng>, String, List<Leg>> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected List<Leg> doInBackground(List<LatLng>... args) {
+            List<Leg> listLeg = new ArrayList<>();
+            String json;
+            String url;
+            LatLng start = (LatLng) args[0].get(0);
+            LatLng end = (LatLng) args[0].get(1);
+            url = GoogleAPIUtils.makeURL(start.latitude, start.longitude, end.latitude, end.longitude);
+            json = NetworkUtils.download(url);
+            try {
+                jsonObject = new JSONObject(json);
+                status = jsonObject.getString("status");
+                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
+                    return null;
+                } else {
+                    listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return listLeg;
+        }
+
+        @Override
+        protected void onPostExecute(List<Leg> listLeg) {
+
+            if (status.equals("NOT_FOUND")) {
+                Toast.makeText(getContext(), "NOT FOUND", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (status.equals("ZERO_RESULTS")) {
+                Toast.makeText(getContext(),"ZERO RESULTS",Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (status.equals("OVER_QUERY_LIMIT")) {
+                Toast.makeText(getContext(),"OVER QUERY LIMIT",Toast.LENGTH_LONG).show();
+                return;
+            }
+           /* if(listLeg.size() > 1) {
+                for (int x = 0; x < listLeg.size() - 1; x++) {
+                    for (int y = 1; y < listLeg.size(); y++) {
+                        if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
+                            Leg leg = listLeg.get(x);
+                            listLeg.set(x, listLeg.get(y));
+                            listLeg.set(y, leg);
+                        }
+                    }
+                }
+            }*/
+            /*listLegResult = listLeg;*/
+            MapUtils.drawMapWithTwoPointCircle(mMap, listLeg);
+        }
     }
 
 

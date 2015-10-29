@@ -65,9 +65,15 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
             if(position == (nodeList.size() - 1)){
                 txtEndLocation.setText(path.stationToName);
             }
-            double distance = path.distance / 1000;
-            distance = Math.floor(distance * 100)/100;
-            txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
+            double distance = path.distance;
+            if(distance > 1000){
+                distance = path.distance/1000;
+                distance = Math.floor(distance*100)/100;
+                txtDetail.setText("Đi bộ "+ distance +" m ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
+            }else{
+                txtDetail.setText("Đi bộ "+ (int)path.distance +" m ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
+            }
+
         }
         /*if bus*/
         if(nodeList.get(position) instanceof Segment){

@@ -14,7 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -29,6 +32,7 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.NetworkUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -41,9 +45,10 @@ public class SearchRouteActivity extends AppCompatActivity {
         MOTOR_FOUR_POINT
     }
 
-    private TextView optional;
-    private TextView _depart_time;
-    private Button _btn_search;
+    private ImageButton optional;
+    private ImageButton _depart_time;
+    private ImageButton _btn_search;
+    private ImageButton mbVoiceSearch;
     private int pHour;
     private int pMinute;
     static final int TIME_DIALOG_ID = 0;
@@ -59,6 +64,13 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static int transferNumber = 2;
     private LinearLayout option;
     private ViewPager _view_pager;
+    private ImageButton changeImageButton;
+
+    LinearLayout top_view;
+    LinearLayout below_view;
+    int viewHeight;
+    boolean noSwap = true;
+    private static int ANIMATION_DURATION = 300;
 
     // variable for controlling which fragment should be to refreshed
     public boolean needToSearch = false;
@@ -78,12 +90,17 @@ public class SearchRouteActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         /**get id in layout*/
-        _depart_time = (TextView) findViewById(R.id.departtime);
+        _depart_time = (ImageButton) findViewById(R.id.departtime);
         option = (LinearLayout) findViewById(R.id.option);
-        _btn_search = (Button) findViewById(R.id.btn_search);
+        _btn_search = (ImageButton) findViewById(R.id.btn_search);
         _view_pager = (ViewPager) findViewById(R.id.viewpager);
         edit_1 = (TextView) findViewById(R.id.edit_1);
         edit_2 = (TextView) findViewById(R.id.edit_2);
+        changeImageButton = (ImageButton) findViewById(R.id.changeImageButton);
+        top_view = (LinearLayout) findViewById(R.id.top_view);
+        below_view = (LinearLayout) findViewById(R.id.below_view);
+        mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
+
 
         if (listLocation.size() > 0) {
             edit_1.setText(listLocation.get(0).getName());
@@ -129,9 +146,74 @@ public class SearchRouteActivity extends AppCompatActivity {
             }
         });
 
+        /**
+         * click change value of two field
+         */
+        ViewTreeObserver viewTreeObserver = edit_1.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    edit_1.getViewTreeObserver().addOnGlobalLayoutListener(this);
+                    viewHeight = edit_1.getHeight()+20;
+                    edit_1.getLayoutParams();
+                    edit_1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+
+            });
+        }
+        changeImageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                if(noSwap){
+                    changeImageButton.animate().rotation(180);
+                    TranslateAnimation ta1 = new TranslateAnimation(0, 0, 0, viewHeight);
+                    ta1.setDuration(ANIMATION_DURATION);
+                    ta1.setFillAfter(true);
+                    top_view.startAnimation(ta1);
+                    top_view.bringToFront();
+                    edit_1.setHint("Chọn điểm đến");
+
+
+                    TranslateAnimation ta2 = new TranslateAnimation(0, 0, 0, -viewHeight);
+                    ta2.setDuration(ANIMATION_DURATION);
+                    ta2.setFillAfter(true);
+                    below_view.startAnimation(ta2);
+                    below_view.bringToFront();
+                    edit_2.setHint("Chọn điểm khởi hành");
+                    if(listLocation.size()>1){
+                        Collections.swap(listLocation, 0, 1);
+                    }
+                    noSwap = false;
+                }else{
+                    changeImageButton.animate().rotation(-180);
+                    TranslateAnimation ta1 = new TranslateAnimation(0, 0, viewHeight, 0);
+                    ta1.setDuration(ANIMATION_DURATION);
+                    ta1.setFillAfter(true);
+                    top_view.startAnimation(ta1);
+                    top_view.bringToFront();
+                    edit_1.setHint("Chọn điểm khởi hành");
+
+                    TranslateAnimation ta2 = new TranslateAnimation(0, 0, -viewHeight, 0);
+                    ta2.setDuration(ANIMATION_DURATION);
+                    ta2.setFillAfter(true);
+                    below_view.startAnimation(ta2);
+                    below_view.bringToFront();
+                    edit_2.setHint("Chọn điểm đến");
+                    if(listLocation.size() > 1){
+                        Collections.swap(listLocation, 0, 1);
+                    }
+                    noSwap = true;
+                }
+
+            }
+        });
+
 
         //optional
-        optional = (TextView) findViewById(R.id.optional);
+        optional = (ImageButton) findViewById(R.id.optional);
         optional.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,6 +273,9 @@ public class SearchRouteActivity extends AppCompatActivity {
                             searchType = SearchType.MOTOR_FOUR_POINT;
                         }
                     }
+                    for (int i=0;i<listLocation.size();i++){
+                        Log.i("List Location Positon",i+" - "+listLocation.get(i).getName());
+                    }
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);
                     _view_pager.setAdapter(adapter);
                     option.setVisibility(View.VISIBLE);
@@ -199,6 +284,17 @@ public class SearchRouteActivity extends AppCompatActivity {
                 _view_pager.setAdapter(adapter);*/
 
                 }
+            }
+        });
+
+        /**
+         * voice search
+         */
+        mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchRouteActivity.this,VoiceRecordActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -5,4 +5,5 @@
     <color name="accent">#FF4081</color>
     <color name="map">#4d90fe</color>
     <color name="gps">#F1F1F1</color>
+    <color name="accent_1">#FFFFFF</color>
 </resources>

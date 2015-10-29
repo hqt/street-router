@@ -143,6 +143,52 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 return true; // consume the event
             }
         });
+
+        /*// notification testing
+        int notificationId = (int) new Date().getTime();
+
+        // Build intent for mobile: open SearchRouteActivity when click to intent
+        Intent viewIntent = new Intent(this, SearchRouteActivity.class);
+        PendingIntent viewPendingIntent = PendingIntent.getActivity(this, 0, viewIntent, 0);
+
+        // build notification for wearable side
+
+        // WearableExtender. Using this for add functionality for wear. (more advanced)
+        NotificationCompat.WearableExtender wearableExtender =
+                new NotificationCompat.WearableExtender()
+                        .setHintHideIcon(false)                 // show app icon
+                ;
+
+        // Create second page notification. for longer message. only show on wear. mobile will not see those pages
+        NotificationCompat.BigTextStyle wearSecondPageNotif = new NotificationCompat.BigTextStyle();
+        wearSecondPageNotif.setBigContentTitle("Page 2")
+                .bigText("Nam Đẹp Trai");
+
+        // create notification from builder
+        Notification secondPageNotification =
+                new NotificationCompat.Builder(this)
+                        .setStyle(wearSecondPageNotif)
+                        .build();
+
+        wearableExtender.addPage(secondPageNotification);
+
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_done)
+                        .setContentTitle("Nguyễn Trung Nam")
+                        .setContentText("Nam Dễ Thương")
+                        .setVibrate(new long[]{DELAY_VIBRATE, ON_VIBRATE, OFF_VIBRATE, ON_VIBRATE, OFF_VIBRATE, ON_VIBRATE})
+                        .setColor(Color.BLUE)
+                        .extend(wearableExtender)
+                        .setContentIntent(viewPendingIntent);
+
+
+        // Get an instance of the NotificationManager service
+        NotificationManagerCompat notificationManager =
+                NotificationManagerCompat.from(this);
+
+        // Build the notification and issues it with notification manager.
+        notificationManager.notify(notificationId, notificationBuilder.build());*/
     }
 
     @Override

@@ -10,8 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        card_view:cardCornerRadius="4dp">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,7 +156,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="5">
+                    android:layout_weight="6">
 
                     <ImageButton
                         android:id="@+id/btnShowDetail"
@@ -166,7 +165,7 @@
                         android:layout_alignParentRight="true"
                         android:background="@android:color/transparent"
                         android:padding="10dip"
-                        android:src="@drawable/increase" />
+                        android:src="@drawable/ic_expand_more_black_24dp" />
 
                     <ImageButton
                         android:id="@+id/btnHide"
@@ -175,7 +174,7 @@
                         android:layout_alignParentRight="true"
                         android:background="@android:color/transparent"
                         android:padding="10dip"
-                        android:src="@drawable/resize4" />
+                        android:src="@drawable/ic_expand_less_black_24dp" />
 
                 </RelativeLayout>
 
@@ -193,7 +192,6 @@
                     android:layout_height="match_parent"
                     android:gravity="left|center"
                     android:padding="10dip"
-                    android:text="Tran Thanh Ngoan"
                     android:textColor="#000"
                     android:textSize="16sp" />
             </LinearLayout>

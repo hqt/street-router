@@ -26,7 +26,7 @@ import java.util.List;
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context context;
-    private String tabTitles[] = {"43 phút","65 phút","Bản đồ"};
+    private String tabTitles[] = {"Xe bus","Xe máy","Bản đồ"};
     private int[] imageResId = {R.drawable.bus,
             R.drawable.motorbike,
             R.drawable.map};

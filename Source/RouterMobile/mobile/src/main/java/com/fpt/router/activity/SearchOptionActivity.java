@@ -2,14 +2,17 @@ package com.fpt.router.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,7 +31,8 @@ public class SearchOptionActivity extends Activity {
     private CheckBox optimizeCheckbox;
     private EditText walkingDistanceEditText;
     private Spinner transferNumberSpinner;
-    private Intent intent;
+    Intent intent;
+	private RelativeLayout disableRelativeLayout;
 
 
     @Override
@@ -44,11 +48,22 @@ public class SearchOptionActivity extends Activity {
         transferNumberSpinner = (Spinner) findViewById(R.id.number_spinner);
         optimizeCheckbox = (CheckBox) findViewById(R.id.checkBox);
         swapLocationButton = (ImageButton) findViewById(R.id.swap_location_btn);
+disableRelativeLayout = (RelativeLayout) findViewById(R.id.optimizeRelative);
 
 
         optimizeCheckbox.setChecked(SearchRouteActivity.optimize);
         transferNumberSpinner.setSelection(SearchRouteActivity.transferNumber - 1);
         walkingDistanceEditText.setText(SearchRouteActivity.walkingDistance + "");
+/**
+         * check position disable when motorbike
+         */
+        intent = getIntent();
+        int tabPositon = intent.getIntExtra("postionTab",0);
+        if(tabPositon == 1){
+            disable(disableRelativeLayout);
+        }else{
+            disableRelativeLayout.setEnabled(true);
+        }
 
         if (SearchRouteActivity.listLocation.size() > 2) {
             fromTextView.setText(SearchRouteActivity.listLocation.get(2).getName());
@@ -87,7 +102,7 @@ public class SearchOptionActivity extends Activity {
                 if(!"".equals(String.valueOf(walkingDistanceEditText.getText()))){
                     SearchRouteActivity.walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceEditText.getText()));
                 }
-                if((("".equals(toTextView.getText().toString())) || (toTextView.getText().toString() == null)) && (("".equals(fromTextView.getText().toString())) || (fromTextView.getText().toString() == null))) {
+                if((("".equals(toTextView.getText().toString())) || (toTextView.getText().toString() == null)) && (("".equals(fromTextView.getText().toString())) || (fromTextView.getText().toString() == null))&& (SearchRouteActivity.listLocation.size() >2)) {
                     SearchRouteActivity.listLocation.remove(2);
                 }
                 SearchRouteActivity.transferNumber = transferNumberSpinner.getSelectedItemPosition()+1;
@@ -165,5 +180,21 @@ public class SearchOptionActivity extends Activity {
             }
         }
 
+    }
+/**
+     * disable view when click motorbike
+     * @param layout
+     */
+    private static void disable(ViewGroup layout) {
+        layout.setEnabled(false);
+        layout.setBackgroundColor(Color.parseColor("#CFD8DC"));
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            View child = layout.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                disable((ViewGroup) child);
+            } else {
+                child.setEnabled(false);
+            }
+        }
     }
 }

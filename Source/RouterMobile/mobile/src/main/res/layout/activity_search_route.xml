@@ -20,33 +20,45 @@
                 android:layout_width="260dip"
                 android:layout_height="90dip"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="250dip"
-                    android:layout_height="30dip"
-                    android:layout_marginTop="10dip"
-                    android:layout_marginBottom="5dip"
-                    android:padding="3dip"
-                    android:hint="Chọn điểm khởi hành"
-                    android:id="@+id/edit_1"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:background="#1565C0"/>
-
-                <TextView
-                    android:layout_width="250dip"
-                    android:layout_height="30dip"
-                    android:layout_marginTop="5dip"
-                    android:padding="3dip"
-                    android:textColor="@android:color/white"
-                    android:hint="Chọn điểm đến"
-                    android:id="@+id/edit_2"
-                    android:ellipsize="end"
-                    android:singleLine="true"
-                    android:background="#1565C0"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/top_view"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="250dip"
+                        android:layout_height="30dip"
+                        android:layout_marginTop="10dip"
+                        android:layout_marginBottom="5dip"
+                        android:padding="3dip"
+                        android:hint="Chọn điểm khởi hành"
+                        android:id="@+id/edit_1"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@android:color/white"
+                        android:background="#1565C0"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/below_view"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="250dip"
+                        android:layout_height="30dip"
+                        android:layout_marginTop="5dip"
+                        android:padding="3dip"
+                        android:textColor="@android:color/white"
+                        android:hint="Chọn điểm đến"
+                        android:id="@+id/edit_2"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:background="#1565C0"/>
+                </LinearLayout>
 
             </LinearLayout>
             <ImageButton
+                android:id="@+id/changeImageButton"
                 android:layout_width="30dip"
                 android:layout_height="30dip"
                 android:background="@drawable/ic_import_export_white_24dp"
@@ -70,37 +82,43 @@
         android:layout_height="wrap_content"
         android:id="@+id/option"
         android:orientation="horizontal">
-        <TextView
+        <ImageButton
             android:layout_width="match_parent"
             android:layout_height="45dip"
+            android:layout_weight="1"
             android:background="?attr/colorPrimary"
-            android:text="Khởi hành lúc"
+            android:padding="5dip"
+            android:gravity="center"
             android:id="@+id/departtime"
-            android:textColor="#ffffff"
-            android:padding="5dip"
-            android:layout_weight="1"
-            android:gravity="center"/>
-        <TextView
+            android:src="@drawable/ic_schedule_white_24dp"/>
+        <ImageButton
             android:layout_width="match_parent"
             android:layout_height="45dip"
+            android:layout_weight="1"
             android:background="?attr/colorPrimary"
-            android:text="Tùy chọn"
+            android:padding="5dip"
+            android:gravity="center"
             android:id="@+id/optional"
-            android:textColor="#ffffff"
-            android:padding="5dip"
-            android:layout_weight="1"
-            android:gravity="center"/>
-        <Button
+            android:src="@drawable/ic_settings_white_24dp"/>
+        <ImageButton
             android:layout_width="match_parent"
             android:layout_height="45dip"
             android:layout_weight="1"
             android:background="?attr/colorPrimary"
-            android:textColor="#fff"
-            android:text="Search"
+            android:padding="5dip"
+            android:gravity="center"
+            android:src="@drawable/ic_mic_white_24dp"
+            android:id="@+id/btn_voice"/>
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="45dip"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary"
             android:padding="5dip"
             android:gravity="center"
             android:id="@+id/btn_search"
-            />
+            android:src="@drawable/ic_search_white_24dp"/>
+
     </LinearLayout>
     <!--View Pager-->
     <android.support.v4.view.ViewPager
