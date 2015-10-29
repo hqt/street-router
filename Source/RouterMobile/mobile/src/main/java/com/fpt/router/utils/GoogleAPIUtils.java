@@ -1,5 +1,6 @@
 package com.fpt.router.utils;
 
+import android.util.Log;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 
@@ -37,7 +38,25 @@ public class GoogleAPIUtils {
                 "&key=" + key;
         return url;
     }
-
+public static String makeURL (double sourcelat, double sourcelog, double destlat, double destlog ){
+        String key = AppConstants.GOOGLE_KEY;
+        StringBuilder urlString = new StringBuilder();
+        urlString.append("https://maps.googleapis.com/maps/api/directions/json");
+        urlString.append("?origin=");// from
+        urlString.append(Double.toString(sourcelat));
+        urlString.append(",");
+        urlString
+                .append(Double.toString(sourcelog));
+        urlString.append("&destination=");// to
+        urlString
+                .append(Double.toString(destlat));
+        urlString.append(",");
+        urlString.append(Double.toString( destlog));
+        urlString.append("&mode=driving&alternatives=true");
+        urlString.append("&key="+key);
+        Log.i("URL Make URL",urlString.toString());
+        return urlString.toString();
+    }
     public static List<String> getFourPointWithoutOptimizeDirection(List<AutocompleteObject> listLocation) {
         String url;
         List<String> listUrl = new ArrayList<>();

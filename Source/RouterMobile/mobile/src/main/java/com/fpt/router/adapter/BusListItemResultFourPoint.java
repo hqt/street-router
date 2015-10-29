@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.bus.BusImage;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
@@ -44,7 +45,7 @@ public class BusListItemResultFourPoint extends RecyclerView.Adapter<BusListItem
         String viewDetail = "";
         String from = "";
         String to = "";
-        List<Integer> images = new ArrayList<Integer>();
+        List<BusImage> images = new ArrayList<BusImage>();
         result = results.get(position);
         List<INode> nodeList = result.nodeList;
         // set from and to
@@ -73,21 +74,23 @@ public class BusListItemResultFourPoint extends RecyclerView.Adapter<BusListItem
         for (int i= 0 ;i<nodeList.size() -1;i++){
 
             if(nodeList.get(i) instanceof Path){
-                images.add(R.drawable.ic_directions_walk_black_24dp);
-                images.add(R.drawable.ic_chevron_right_black_24dp);
+                images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
+                images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
             }
             if(nodeList.get(i) instanceof Segment){
-                images.add(R.drawable.ic_directions_bus_black_24dp);
-                images.add(R.drawable.ic_chevron_right_black_24dp);
+                Segment segment = (Segment) nodeList.get(i);
+                images.add(new BusImage(R.drawable.ic_directions_bus_black_24dp,String.valueOf(segment.routeNo)));
+                images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
 
             }
         }
         if(nodeList.get(nodeList.size() - 1) instanceof Path){
-            images.add(R.drawable.ic_directions_walk_black_24dp);
+            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
         }
 
         if(nodeList.get(nodeList.size() - 1) instanceof Segment){
-            images.add(R.drawable.ic_directions_bus_black_24dp);
+            Segment segment = (Segment) nodeList.get(nodeList.size() - 1);
+            images.add(new BusImage(R.drawable.ic_directions_bus_black_24dp,String.valueOf(segment.routeNo)));
         }
 
         //set total segment

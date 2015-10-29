@@ -136,17 +136,17 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-            /*Gson gson1 = JSONUtils.buildGson();
+            Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());
            } catch (Exception e) {
                 e.printStackTrace();
-            }*/
+            }
 
 
             //test test with service real
-            String jsonFromServer = "";
+            /*String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
@@ -170,7 +170,7 @@ public class BusTwoPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
             //test server

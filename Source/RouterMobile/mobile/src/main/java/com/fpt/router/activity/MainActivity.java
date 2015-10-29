@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             }
         });
 
-        // notification testing
+        /*// notification testing
         int notificationId = (int) new Date().getTime();
 
         // Build intent for mobile: open SearchRouteActivity when click to intent
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 NotificationManagerCompat.from(this);
 
         // Build the notification and issues it with notification manager.
-        notificationManager.notify(notificationId, notificationBuilder.build());
+        notificationManager.notify(notificationId, notificationBuilder.build());*/
     }
 
     @Override
