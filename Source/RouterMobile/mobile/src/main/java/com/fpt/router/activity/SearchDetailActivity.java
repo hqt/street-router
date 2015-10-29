@@ -142,9 +142,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     public void onLocationChanged(Location location) {
         Log.e("Nam", "Nam dep trai");
         List<Leg> listFinalLeg = new ArrayList<>();
-        if(SearchRouteActivity.listLocation.size() == 2) {
+        if(SearchRouteActivity.mapLocation.size() == 2) {
             listFinalLeg.add(listLeg.get(position));
-        } else if (SearchRouteActivity.listLocation.size() == 3) {
+        } else if (SearchRouteActivity.mapLocation.size() == 3) {
             listFinalLeg.addAll(listLeg);
         } else {
             for(int n = position*3; n < position*3+3; n++) {

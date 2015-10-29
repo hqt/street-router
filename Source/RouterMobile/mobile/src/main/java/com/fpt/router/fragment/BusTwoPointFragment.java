@@ -39,6 +39,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -49,7 +50,7 @@ public class BusTwoPointFragment extends Fragment {
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
+    private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
 
@@ -95,7 +96,7 @@ public class BusTwoPointFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (listLocation.size() > 1) {
+        if (mapLocation.size() > 1) {
             View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -151,10 +152,10 @@ public class BusTwoPointFragment extends Fragment {
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
             try {
-                for (int i = 0; i < listLocation.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(listLocation.get(i).getPlace_id());
+                for (int i = 0; i < mapLocation.size(); i++) {
+                    String url = GoogleAPIUtils.getLocationByPlaceID(mapLocation.get(i).getPlace_id());
                     String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, listLocation.get(i).getName());
+                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, mapLocation.get(i).getName());
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);

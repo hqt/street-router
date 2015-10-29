@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.utils.string.LevenshteinDistance;
 import com.fpt.router.utils.GoogleAPIUtils;
@@ -35,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
     public AutocompleteAdapter adapter;
@@ -64,28 +68,26 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<AutocompleteObject>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
-        Intent intent = new Intent();
         int number = getIntent().getIntExtra("number", 1);
         String message = getIntent().getStringExtra("message");
-        if (number == 1) {
+        if ((message != null) && (message.length() > 0)) {
             autoComp.setText(message);
         }
-        if (number == 2) {
-            autoComp.setHint("Chọn điểm đến");
-            if (!"".equals(message)) {
-                autoComp.setText(message);
-            }
-        } else if (number == 3) {
-            autoComp.setHint("Điểm trung gian 1");
-            if (!"".equals(message)) {
-                autoComp.setText(message);
-            }
-        } else if (number == 4) {
-            autoComp.setHint("Điểm trung gian 2");
-            if (!"".equals(message)) {
-                autoComp.setText(message);
-            }
+        switch (number) {
+            case SearchField.FROM_LOCATION:
+                autoComp.setHint("Chọn điểm đi");
+                break;
+            case SearchField.TO_LOCATION:
+                autoComp.setHint("Chọn điểm đến");
+                break;
+            case SearchField.WAY_POINT_1:
+                autoComp.setHint("Điểm trung gian 1");
+                break;
+            case SearchField.WAY_POINT_2:
+                autoComp.setHint("Điểm trung gian 2");
+                break;
         }
+
         adapter.setNotifyOnChange(true);
         /*autoComp.setAdapter(adapter);*/
         if (adapter != null) {
@@ -144,28 +146,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                         case KeyEvent.KEYCODE_ENTER:
                         case KeyEvent.FLAG_EDITOR_ACTION:
                         case 12:
-                            Intent intent = new Intent();
-                            int number = getIntent().getIntExtra("number", 1);
-                            if (location != null) {
-                                intent.putExtra("NAME", location.getName());
-                                intent.putExtra("PLACE_ID", location.getPlace_id());
-                            } else if (!autoComp.getText().toString().equals("")) {
-                                if (SearchRouteActivity.listLocation.size() >= number) {
-                                    if (autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1).getName())) {
-                                        intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
-                                        intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
-                                    } else {
-                                        intent.putExtra("NAME", autoComp.getText().toString());
-                                        intent.putExtra("PLACE_ID", "");
-                                    }
-                                } else {
-                                    intent.putExtra("NAME", autoComp.getText().toString());
-                                    intent.putExtra("PLACE_ID", "");
-                                }
-                            }
-                            setResult(number, intent);
-                            finish();//finishing activity
-                            return true;
+                           returnPreviousActivity();
                         default:
                             break;
                     }
@@ -184,34 +165,33 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         task.execute(phraseShouldToSearch);
     }
 
+    private boolean returnPreviousActivity() {
+        int number = getIntent().getIntExtra("number", 1);
+        // user has chosen one result in auto complete list
+        if (location != null) {
+            mapLocation.put(number, location);
+        }
+        // user delete field
+        else if ((autoComp.getText().toString().length() == 0) &&
+                (mapLocation.get(number) != null)) {
+            mapLocation.remove(number);
+        }
+        // user types random text.
+        else if (autoComp.getText().toString().length() > 0) {
+            AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+            mapLocation.put(number, obj);
+        }
+        setResult(number, null);
+        finish();//finishing activity
+        return true;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
-                Intent intent = new Intent();
-                int number = getIntent().getIntExtra("number", 1);
-                if (location != null) {
-                    intent.putExtra("NAME", location.getName());
-                    intent.putExtra("PLACE_ID", location.getPlace_id());
-                } else if (!autoComp.getText().toString().equals("")) {
-                    if (SearchRouteActivity.listLocation.size() >= number) {
-                        if (autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1).getName())) {
-                            intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
-                            intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
-                        } else {
-                            intent.putExtra("NAME", autoComp.getText().toString());
-                            intent.putExtra("PLACE_ID", "");
-                        }
-                    } else {
-                        intent.putExtra("NAME", autoComp.getText().toString());
-                        intent.putExtra("PLACE_ID", "");
-                    }
-                }
-                setResult(number, intent);
-                finish();//finishing activity
-                return true;
+                returnPreviousActivity();
             default:
                 return super.onOptionsItemSelected(item);
         }

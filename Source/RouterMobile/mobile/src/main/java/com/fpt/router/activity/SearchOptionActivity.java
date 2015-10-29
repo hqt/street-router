@@ -17,7 +17,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
+
+import static com.fpt.router.activity.SearchRouteActivity.*;
 
 /**
  * Created by asus on 10/6/2015.
@@ -32,7 +36,7 @@ public class SearchOptionActivity extends Activity {
     private EditText walkingDistanceEditText;
     private Spinner transferNumberSpinner;
     Intent intent;
-	private RelativeLayout disableRelativeLayout;
+    private RelativeLayout disableRelativeLayout;
 
 
     @Override
@@ -48,36 +52,30 @@ public class SearchOptionActivity extends Activity {
         transferNumberSpinner = (Spinner) findViewById(R.id.number_spinner);
         optimizeCheckbox = (CheckBox) findViewById(R.id.checkBox);
         swapLocationButton = (ImageButton) findViewById(R.id.swap_location_btn);
-disableRelativeLayout = (RelativeLayout) findViewById(R.id.optimizeRelative);
+        disableRelativeLayout = (RelativeLayout) findViewById(R.id.optimizeRelative);
 
 
-        optimizeCheckbox.setChecked(SearchRouteActivity.optimize);
-        transferNumberSpinner.setSelection(SearchRouteActivity.transferNumber - 1);
-        walkingDistanceEditText.setText(SearchRouteActivity.walkingDistance + "");
+        optimizeCheckbox.setChecked(optimize);
+        transferNumberSpinner.setSelection(transferNumber - 1);
+        walkingDistanceEditText.setText(walkingDistance + "");
 /**
-         * check position disable when motorbike
-         */
+ * check position disable when motorbike
+ */
         intent = getIntent();
-        int tabPositon = intent.getIntExtra("postionTab",0);
-        if(tabPositon == 1){
+        int tabPositon = intent.getIntExtra("postionTab", 0);
+        if (tabPositon == 1) {
             disable(disableRelativeLayout);
-        }else{
+        } else {
             disableRelativeLayout.setEnabled(true);
         }
 
-        if (SearchRouteActivity.listLocation.size() > 2) {
-            fromTextView.setText(SearchRouteActivity.listLocation.get(2).getName());
-        }
-
-        if (SearchRouteActivity.listLocation.size() > 3) {
-            toTextView.setText(SearchRouteActivity.listLocation.get(3).getName());
-        }
+        setTextToField();
 
         fromTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent_1 = new Intent(SearchOptionActivity.this, AutoCompleteSearchActivity.class);
-                intent_1.putExtra("number", 3);
+                intent_1.putExtra("number", SearchField.WAY_POINT_1);
                 intent_1.putExtra("message", fromTextView.getText());
                 startActivityForResult(intent_1, 3);// Activity is started with requestCode 1
             }
@@ -87,7 +85,7 @@ disableRelativeLayout = (RelativeLayout) findViewById(R.id.optimizeRelative);
             @Override
             public void onClick(View view) {
                 Intent intent_2 = new Intent(SearchOptionActivity.this, AutoCompleteSearchActivity.class);
-                intent_2.putExtra("number", 4);
+                intent_2.putExtra("number", SearchField.WAY_POINT_2);
                 intent_2.putExtra("message", toTextView.getText());
                 startActivityForResult(intent_2, 4);// Activity is started with requestCode 2
             }
@@ -99,13 +97,10 @@ disableRelativeLayout = (RelativeLayout) findViewById(R.id.optimizeRelative);
             public void onClick(View view) {
                 Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
                 boolean isChecked = optimizeCheckbox.isChecked();
-                if(!"".equals(String.valueOf(walkingDistanceEditText.getText()))){
-                    SearchRouteActivity.walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceEditText.getText()));
+                if (!"".equals(String.valueOf(walkingDistanceEditText.getText()))) {
+                    walkingDistance = Integer.parseInt(String.valueOf(walkingDistanceEditText.getText()));
                 }
-                if((("".equals(toTextView.getText().toString())) || (toTextView.getText().toString() == null)) && (("".equals(fromTextView.getText().toString())) || (fromTextView.getText().toString() == null))&& (SearchRouteActivity.listLocation.size() >2)) {
-                    SearchRouteActivity.listLocation.remove(2);
-                }
-                SearchRouteActivity.transferNumber = transferNumberSpinner.getSelectedItemPosition()+1;
+                transferNumber = transferNumberSpinner.getSelectedItemPosition() + 1;
                 intent.putExtra("optimize", isChecked);
                 setResult(3, intent);
                 finish();
@@ -127,62 +122,24 @@ disableRelativeLayout = (RelativeLayout) findViewById(R.id.optimizeRelative);
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data != null){
-            if (requestCode == 3) {
-                String name = data.getStringExtra("NAME");
-                String place_id = "";
-                if (data.getStringExtra("PLACE_ID") != null) {
-                    place_id = data.getStringExtra("PLACE_ID");
-                }
-                if ((!"".equals(name)) && (name != null)) {
-                    fromTextView.setText(name);
-                    if (!"".equals(name)) {
-                        fromTextView.setText(name);
-                        if (SearchRouteActivity.listLocation.size() > 2) {
-                            SearchRouteActivity.listLocation.set(2, new AutocompleteObject(name, place_id));
-                        } else {
-                            for (int i = SearchRouteActivity.listLocation.size(); i < requestCode - 1; i++) {
-                                SearchRouteActivity.listLocation.add(new AutocompleteObject("", ""));
-                            }
-                            SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
-                        }
-                    }
-                } else if (("".equals(name)) || (name == null)){
-                    fromTextView.setText("");
-                    if(SearchRouteActivity.listLocation.size() > (requestCode-1)) {
-                        SearchRouteActivity.listLocation.remove(requestCode - 1);
-                    }
-                }
-            }
-            if (requestCode == 4) {
-                String name = data.getStringExtra("NAME");
-                String place_id = "";
-                if(data.getStringExtra("PLACE_ID") != null) {
-                    place_id = data.getStringExtra("PLACE_ID");
-                }
-                if ((!"".equals(name)) && (name != null)) {
-                    toTextView.setText(name);
-                    if (SearchRouteActivity.listLocation.size() > 3) {
-                        SearchRouteActivity.listLocation.set(3, new AutocompleteObject(name, place_id));
-                    } else {
-                        for(int i = SearchRouteActivity.listLocation.size(); i < requestCode - 1; i++) {
-                            SearchRouteActivity.listLocation.add(new AutocompleteObject("", ""));
-                        }
-                        SearchRouteActivity.listLocation.add(new AutocompleteObject(name, place_id));
-                    }
-                } else if (("".equals(name)) || (name == null)){
-                    toTextView.setText("");
-                    if(SearchRouteActivity.listLocation.size() > (requestCode-1)) {
-                        SearchRouteActivity.listLocation.remove(requestCode - 1);
-                    }
-                }
+        // assign again to field
+        setTextToField();
+    }
 
-            }
+    private void setTextToField() {
+        if (mapLocation.get(SearchField.WAY_POINT_1) != null) {
+            fromTextView.setText(mapLocation.get(SearchField.WAY_POINT_1).getName());
         }
 
+        if (mapLocation.get(SearchField.WAY_POINT_2) != null) {
+            toTextView.setText(mapLocation.get(SearchField.WAY_POINT_2).getName());
+        }
     }
-/**
+
+
+    /**
      * disable view when click motorbike
+     *
      * @param layout
      */
     private static void disable(ViewGroup layout) {
