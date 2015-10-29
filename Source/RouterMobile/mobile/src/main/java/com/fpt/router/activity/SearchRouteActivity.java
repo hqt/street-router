@@ -1,9 +1,7 @@
 package com.fpt.router.activity;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,7 +25,8 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
-import com.fpt.router.fragment.TimeDialogFragment;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
@@ -36,7 +35,9 @@ import com.fpt.router.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SearchRouteActivity extends AppCompatActivity {
@@ -52,8 +53,8 @@ public class SearchRouteActivity extends AppCompatActivity {
     private ImageButton _depart_time;
     private ImageButton _btn_search;
     private ImageButton mbVoiceSearch;
-    public static int pHour = -1;
-    public static int pMinute = -1;
+    public static int pHour;
+    public static int pMinute;
     static final int TIME_DIALOG_ID = 0;
     private TextView edit_1;
     private TextView edit_2;
@@ -61,7 +62,8 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static List<Result> results = new ArrayList<Result>();
     public static List<Journey> journeys = new ArrayList<Journey>();
     public static List<Leg> listLeg = new ArrayList<>();
-    public static List<AutocompleteObject> listLocation = new ArrayList<>();
+    // public static List<AutocompleteObject> listLocation = new ArrayList<>();
+    public static Map<Integer, AutocompleteObject> mapLocation = new HashMap<>();
     public static Boolean optimize = true;
     public static int walkingDistance = 300;
     public static int transferNumber = 2;
@@ -105,21 +107,23 @@ public class SearchRouteActivity extends AppCompatActivity {
         mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
 
 
-        if (listLocation.size() > 0) {
-            edit_1.setText(listLocation.get(0).getName());
+        if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+            edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         }
-        if (listLocation.size() > 1) {
-            edit_2.setText(listLocation.get(1).getName());
+
+        if (mapLocation.get(SearchField.TO_LOCATION) != null) {
+            edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
         }
+
         //Tabs
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
         // _view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
-        /*_depart_time.setClickable(false);
+        _depart_time.setClickable(false);
         _depart_time.setFocusableInTouchMode(false);
-        _depart_time.setEnabled(false);*/
+        _depart_time.setEnabled(false);
         tabLayout.setupWithViewPager(_view_pager);
         // custom bar
 
@@ -134,7 +138,11 @@ public class SearchRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
-                intent.putExtra("number", 1);
+                if (noSwap) {
+                    intent.putExtra("number", SearchField.FROM_LOCATION);
+                } else {
+                    intent.putExtra("number", SearchField.TO_LOCATION);
+                }
                 intent.putExtra("message", edit_1.getText());
                 startActivityForResult(intent, 1);// Activity is started with requestCode 1
             }
@@ -143,7 +151,11 @@ public class SearchRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
-                intent.putExtra("number", 2);
+                if (noSwap) {
+                    intent.putExtra("number", SearchField.TO_LOCATION);
+                } else {
+                    intent.putExtra("number", SearchField.FROM_LOCATION);
+                }
                 intent.putExtra("message", edit_2.getText());
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
@@ -158,7 +170,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                 @Override
                 public void onGlobalLayout() {
                     edit_1.getViewTreeObserver().addOnGlobalLayoutListener(this);
-                    viewHeight = edit_1.getHeight() + 20;
+                    viewHeight = edit_1.getHeight()+20;
                     edit_1.getLayoutParams();
                     edit_1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
@@ -170,7 +182,7 @@ public class SearchRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (noSwap) {
+                if(noSwap){
                     changeImageButton.animate().rotation(180);
                     TranslateAnimation ta1 = new TranslateAnimation(0, 0, 0, viewHeight);
                     ta1.setDuration(ANIMATION_DURATION);
@@ -186,11 +198,9 @@ public class SearchRouteActivity extends AppCompatActivity {
                     below_view.startAnimation(ta2);
                     below_view.bringToFront();
                     edit_2.setHint("Chọn điểm khởi hành");
-                    if (listLocation.size() > 1) {
-                        Collections.swap(listLocation, 0, 1);
-                    }
+                    swapFromAndTo();
                     noSwap = false;
-                } else {
+                }else{
                     changeImageButton.animate().rotation(-180);
                     TranslateAnimation ta1 = new TranslateAnimation(0, 0, viewHeight, 0);
                     ta1.setDuration(ANIMATION_DURATION);
@@ -205,9 +215,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                     below_view.startAnimation(ta2);
                     below_view.bringToFront();
                     edit_2.setHint("Chọn điểm đến");
-                    if (listLocation.size() > 1) {
-                        Collections.swap(listLocation, 0, 1);
-                    }
+                    swapFromAndTo();
                     noSwap = true;
                 }
 
@@ -215,9 +223,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         });
 
 
-        /**
-         * optional
-         */
+        //optional
         optional = (ImageButton) findViewById(R.id.optional);
         optional.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,14 +236,13 @@ public class SearchRouteActivity extends AppCompatActivity {
             }
         });
 
-        /**
-         * Depart time
-         */
+        //get time
+
+
         _depart_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimeDialogFragment endTime = new TimeDialogFragment(getApplicationContext());
-                endTime.show(getSupportFragmentManager(), "timePicker");
+                showDialog(TIME_DIALOG_ID);
             }
         });
 
@@ -256,22 +261,21 @@ public class SearchRouteActivity extends AppCompatActivity {
                 // try to search
                 else {
                     needToSearch = true;
-                    for (int i = 0; i < listLocation.size(); i++) {
-                        if (listLocation.get(i).getName().equals("")) {
-                            listLocation.remove(i);
-                        }
-                    }
+
                     int tabPosition = _view_pager.getCurrentItem();
+
                     if (tabPosition == 0) {
-                        if (listLocation.size() == 2) {
+                        if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search bus two point");
                             searchType = SearchType.BUS_TWO_POINT;
                         } else {
                             Log.e("hqthao", "Search bus four point");
                             searchType = SearchType.BUS_FOUR_POINT;
                         }
-                    } else if (tabPosition == 1) {
-                        if (listLocation.size() == 2) {
+                    }
+
+                    else if (tabPosition == 1) {
+                        if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search motor two point");
                             searchType = SearchType.MOTOR_TWO_POINT;
                         } else {
@@ -279,15 +283,15 @@ public class SearchRouteActivity extends AppCompatActivity {
                             searchType = SearchType.MOTOR_FOUR_POINT;
                         }
                     }
-                    for (int i = 0; i < listLocation.size(); i++) {
-                        Log.i("List Location Positon", i + " - " + listLocation.get(i).getName());
+
+                    for (Map.Entry<Integer, AutocompleteObject> entry : mapLocation.entrySet()) {
+                        Log.i("hqthao", entry.getKey() + "--> " + entry.getValue().getName());
                     }
+
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);
                     _view_pager.setAdapter(adapter);
                     option.setVisibility(View.VISIBLE);
                     _view_pager.setCurrentItem(tabPosition);
-               /* adapter = new ViewPagerAdapter(getSupportFragmentManager(),SearchRouteActivity.this);
-                _view_pager.setAdapter(adapter);*/
 
                 }
             }
@@ -299,7 +303,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchRouteActivity.this, VoiceRecordActivity.class);
+                Intent intent = new Intent(SearchRouteActivity.this,VoiceRecordActivity.class);
                 startActivity(intent);
             }
         });
@@ -310,60 +314,13 @@ public class SearchRouteActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // check if the request code is same as what is passed  here it is 2
-        // set Fragmentclass Arguments
-        if (data != null) {
-            if (requestCode == 1) {
-                String name = data.getStringExtra("NAME");
-                String place_id = "";
-                if (data.getStringExtra("PLACE_ID") != null) {
-                    place_id = data.getStringExtra("PLACE_ID");
-                }
-                if ((!"".equals(name)) && (name != null)) {
-                    edit_1.setText(name);
-                    if (listLocation.size() > 0) {
-                        listLocation.set(0, new AutocompleteObject(name, place_id));
-
-                    } else {
-                        listLocation.add(new AutocompleteObject(name, place_id));
-                    }
-                } else if (("".equals(name)) || (name == null)) {
-                    if (SearchRouteActivity.listLocation.size() > (requestCode - 1)) {
-                        listLocation.get(requestCode - 1).setName("");
-                        listLocation.get(requestCode - 1).setPlace_id("");
-                    }
-                    edit_1.setText("");
-                }
-
-            }
-            if (requestCode == 2) {
-                String name = data.getStringExtra("NAME");
-                String place_id = "";
-                if (data.getStringExtra("PLACE_ID") != null) {
-                    place_id = data.getStringExtra("PLACE_ID");
-                }
-                if ((!"".equals(name)) && (name != null)) {
-                    edit_2.setText(name);
-                    if (listLocation == null) {
-                        listLocation.add(new AutocompleteObject("", ""));
-                    } else if (listLocation.size() > 1) {
-                        listLocation.set(1, new AutocompleteObject(name, place_id));
-                    } else {
-                        listLocation.add(new AutocompleteObject(name, place_id));
-                    }
-                } else if (("".equals(name)) || (name == null)) {
-                    if (SearchRouteActivity.listLocation.size() > (requestCode - 1)) {
-                        listLocation.get(requestCode - 1).setName("");
-                        listLocation.get(requestCode - 1).setPlace_id("");
-                    }
-                    edit_2.setText("");
-                }
-            }
-            if (requestCode == 3) {
-                optimize = data.getBooleanExtra("optimize", true);
-            }
+        if ((data != null) && (requestCode == 3)) {
+            optimize = data.getBooleanExtra("optimize", true);
         }
+        setTextToField();
     }
+
+
 
 
     @Override
@@ -371,7 +328,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 _view_pager.setAdapter(null);
-                listLocation.clear();
+                mapLocation.clear();
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:
@@ -379,7 +336,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         }
     }
 
-/*
+
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -390,30 +347,57 @@ public class SearchRouteActivity extends AppCompatActivity {
         return null;
     }
 
-    TimePickerDialog.OnTimeSetListener mTimeSetListener =
+    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
             new TimePickerDialog.OnTimeSetListener() {
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     pHour = hourOfDay;
                     pMinute = minute;
+                    displayToast();
                 }
             };
-*/
 
     /**
-     * Display Time
+     *
      */
-   /* private void displayToast() {
+    private void displayToast() {
         Toast.makeText(this, "Time choosen is " + pad(pHour) + ":" + pad(pMinute), Toast.LENGTH_SHORT).show();
-    }*/
+    }
 
     /**
      * Add padding to numbers less than ten
      */
-    public static String pad(int c) {
+    private static String pad(int c) {
         if (c >= 10)
             return String.valueOf(c);
         else
             return "0" + String.valueOf(c);
+    }
+
+    private void swapFromAndTo() {
+        AutocompleteObject obj1 = mapLocation.get(SearchField.FROM_LOCATION);
+        AutocompleteObject obj2 = mapLocation.get(SearchField.TO_LOCATION);
+
+        if (obj2 != null) {
+            mapLocation.put(SearchField.FROM_LOCATION, obj2);
+        }
+
+        if (obj1 != null) {
+            mapLocation.put(SearchField.TO_LOCATION, obj1);
+        }
+    }
+
+    private void setTextToField() {
+        if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+            edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+        }else {
+            edit_1.setText("");
+        }
+
+        if (mapLocation.get(SearchField.TO_LOCATION) != null) {
+            edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
+        }else {
+            edit_2.setText("");
+        }
     }
 
 }

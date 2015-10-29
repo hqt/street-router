@@ -129,10 +129,14 @@ public class SearchOptionActivity extends Activity {
     private void setTextToField() {
         if (mapLocation.get(SearchField.WAY_POINT_1) != null) {
             fromTextView.setText(mapLocation.get(SearchField.WAY_POINT_1).getName());
+        }else {
+            fromTextView.setText("");
         }
 
         if (mapLocation.get(SearchField.WAY_POINT_2) != null) {
             toTextView.setText(mapLocation.get(SearchField.WAY_POINT_2).getName());
+        }else {
+            toTextView.setText("");
         }
     }
 
