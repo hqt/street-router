@@ -146,7 +146,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                         case KeyEvent.KEYCODE_ENTER:
                         case KeyEvent.FLAG_EDITOR_ACTION:
                         case 12:
-                           returnPreviousActivity();
+                           return returnPreviousActivity();
                         default:
                             break;
                     }
@@ -191,7 +191,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                returnPreviousActivity();
+                return returnPreviousActivity();
             default:
                 return super.onOptionsItemSelected(item);
         }
