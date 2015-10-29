@@ -17,6 +17,8 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 10/11/2015.
@@ -39,7 +42,7 @@ public class MotorTwoPointFragment extends Fragment {
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
+    private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private Boolean optimize = SearchRouteActivity.optimize;
     private RecyclerView recyclerView;
     private JSONObject jsonObject;
@@ -75,7 +78,7 @@ public class MotorTwoPointFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
-        if (listLocation.size() > 1) {
+        if (mapLocation.size() > 1) {
 
             View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
@@ -114,7 +117,7 @@ public class MotorTwoPointFragment extends Fragment {
             List<Leg> listLeg = new ArrayList<>();
             String json;
             String url;
-            url = GoogleAPIUtils.getTwoPointDirection(listLocation.get(0), listLocation.get(1));
+            url = GoogleAPIUtils.getTwoPointDirection(mapLocation.get(SearchField.FROM_LOCATION), mapLocation.get(SearchField.FROM_LOCATION));
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -105,10 +106,11 @@ public class VoiceRecordActivity extends AppCompatActivity {
                 // creating list locations return to search route activity
                 List<AutocompleteObject> res = new ArrayList<>();
                 if (fromAutoCompleteObject != null) res.add(fromAutoCompleteObject);
+                if (toAutoCompleteObject != null) res.add(toAutoCompleteObject);
                 if (firstMiddleAutoCompleteObject != null) res.add(firstMiddleAutoCompleteObject);
                 if (secondMiddleAutoCompleteObject != null) res.add(secondMiddleAutoCompleteObject);
-                if (toAutoCompleteObject != null) res.add(toAutoCompleteObject);
-                SearchRouteActivity.listLocation = res;
+                //SearchRouteActivity.listLocation = res;
+                //Log.e("hqthao", "Size: " + SearchRouteActivity.listLocation.size());
                 finish();
             }
         });

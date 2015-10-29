@@ -155,9 +155,9 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-        if(SearchRouteActivity.listLocation.size() == 2) {
+        if(SearchRouteActivity.mapLocation.size() == 2) {
             listFinalLeg.add(listLeg.get(position));
-        } else if (SearchRouteActivity.listLocation.size() == 3) {
+        } else if (SearchRouteActivity.mapLocation.size() == 3) {
             listFinalLeg.addAll(listLeg);
         } else {
             for(int n = position*3; n < position*3+3; n++) {
@@ -203,7 +203,7 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                if(SearchRouteActivity.listLocation.size() == 2) {
+                if(SearchRouteActivity.mapLocation.size() == 2) {
                     MapUtils.drawMapWithTwoPoint(mMap, listFinalLeg);
 
                 } else {
