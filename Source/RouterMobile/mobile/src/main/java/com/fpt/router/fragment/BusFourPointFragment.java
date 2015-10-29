@@ -132,15 +132,16 @@ public class BusFourPointFragment extends Fragment {
         protected List<Journey> doInBackground(String... args) {
             List<Journey> journeyList = new ArrayList<Journey>();
 
-            Gson gson1 = JSONUtils.buildGson();
+            /*Gson gson1 = JSONUtils.buildGson();
             try {
                 journeyList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
                 }.getType());
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
+
             //test test with service real
-            /*String jsonFromServer = "";
+            String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
@@ -165,14 +166,8 @@ public class BusFourPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
+            }
 
-            //test server
-           /* String url = "http://192.168.1.128:8080/search/multi?latA=10.855090&longA=106.628394&latB=10.801605&longB=106.698817&latC=10.800767&longC=106.659483&latD=10.779786&longD=106.698994&addressA=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressC=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressD=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&isOp=false&hour=1&minute=30";
-            String json = NetworkUtils.download(url);
-            Gson gson1 = JSONUtils.buildGson();
-            journeyList = gson1.fromJson(json, new TypeToken<List<Journey>>() {
-            }.getType());*/
             return journeyList;
         }
 

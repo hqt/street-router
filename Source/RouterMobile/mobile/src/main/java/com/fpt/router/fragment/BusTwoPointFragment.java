@@ -137,17 +137,17 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-            Gson gson1 = JSONUtils.buildGson();
+           /* Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());
            } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
             //test test with service real
-            /*String jsonFromServer = "";
+            String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
@@ -171,16 +171,8 @@ public class BusTwoPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
+            }
 
-
-            //test server
-/*
-            String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
-            String json = NetworkUtils.download(url);
-            Gson gson1 = JSONUtils.buildGson();
-            resultList = gson1.fromJson(json, new TypeToken<List<Result>>() {
-            }.getType());*/
             return resultList;
         }
 
