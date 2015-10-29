@@ -17,6 +17,7 @@ import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusFourPointAdapter;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
@@ -132,23 +133,39 @@ public class BusFourPointFragment extends Fragment {
         protected List<Journey> doInBackground(String... args) {
             List<Journey> journeyList = new ArrayList<Journey>();
 
-            Gson gson1 = JSONUtils.buildGson();
+            /*Gson gson1 = JSONUtils.buildGson();
             try {
                 journeyList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
                 }.getType());
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
+
             //test test with service real
-            /*String jsonFromServer = "";
+            String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
+            List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
+            // add to list by ordinary
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
+            }
+
             try {
-                for (int i = 0; i < mapLocation.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(mapLocation.get(i).getPlace_id());
+                for (int i = 0; i < autocompleteObjects.size(); i++) {
+                    String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
                     String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, mapLocation.get(i).getName());
+                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);
@@ -165,14 +182,9 @@ public class BusFourPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-            }*/
 
-            //test server
-           /* String url = "http://192.168.1.128:8080/search/multi?latA=10.855090&longA=106.628394&latB=10.801605&longB=106.698817&latC=10.800767&longC=106.659483&latD=10.779786&longD=106.698994&addressA=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressC=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressD=Qu%C3%A1n+Vitamin%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&isOp=false&hour=1&minute=30";
-            String json = NetworkUtils.download(url);
-            Gson gson1 = JSONUtils.buildGson();
-            journeyList = gson1.fromJson(json, new TypeToken<List<Journey>>() {
-            }.getType());*/
+            }
+
             return journeyList;
         }
 
@@ -181,7 +193,7 @@ public class BusFourPointFragment extends Fragment {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            if(!journeyList.get(0).code.equals("success")){
+            if (!journeyList.get(0).code.equals("success")) {
                 listError = new ArrayList<String>();
                 listError.add(journeyList.get(0).code);
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
