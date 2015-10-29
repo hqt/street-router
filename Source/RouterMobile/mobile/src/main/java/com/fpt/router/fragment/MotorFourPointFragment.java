@@ -13,6 +13,7 @@ import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
+import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.GoogleAPIUtils;
@@ -112,7 +113,22 @@ public class MotorFourPointFragment extends Fragment{
             List<String> listUrl;
             String json;
             List<String> listJson = new ArrayList<>();
-            List<AutocompleteObject> locationAutoCompletes = new ArrayList<>(SearchRouteActivity.mapLocation.values());
+            List<AutocompleteObject> locationAutoCompletes = new ArrayList<>();
+
+            // add to list by ordinary
+            if (SearchRouteActivity.mapLocation.get(SearchField.FROM_LOCATION) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.FROM_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(SearchField.TO_LOCATION) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.TO_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(SearchField.WAY_POINT_1) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.WAY_POINT_1));
+            }
+            if (SearchRouteActivity.mapLocation.get(SearchField.WAY_POINT_2) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.WAY_POINT_2));
+            }
+
             if(!optimize && mapLocation.size() == 4) {
                 listUrl = GoogleAPIUtils.getFourPointWithoutOptimizeDirection(locationAutoCompletes);
                 listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));

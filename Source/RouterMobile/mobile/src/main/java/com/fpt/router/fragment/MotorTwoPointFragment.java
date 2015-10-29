@@ -117,7 +117,7 @@ public class MotorTwoPointFragment extends Fragment {
             List<Leg> listLeg = new ArrayList<>();
             String json;
             String url;
-            url = GoogleAPIUtils.getTwoPointDirection(mapLocation.get(SearchField.FROM_LOCATION), mapLocation.get(SearchField.FROM_LOCATION));
+            url = GoogleAPIUtils.getTwoPointDirection(mapLocation.get(SearchField.FROM_LOCATION), mapLocation.get(SearchField.TO_LOCATION));
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);

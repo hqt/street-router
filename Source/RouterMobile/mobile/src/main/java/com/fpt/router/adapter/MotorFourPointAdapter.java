@@ -53,10 +53,12 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
         }
         int duration = 0;
         int distance = 0;
-        for(int n = position*countPoint; n < (position+1)*countPoint; n++) {
+
+        for (int n = position * countPoint; n < (position + 1) * countPoint; n++) {
             duration = duration + listLeg.get(n).getDetailLocation().getDuration();
             distance = distance + listLeg.get(n).getDetailLocation().getDistance();
         }
+
         duration = duration/6;
         Double totalDuration = (double) duration/10;
         Double totalDistance = (double) distance;
@@ -74,7 +76,9 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
 
     @Override
     public int getItemCount() {
-        if(listLeg.size() == 2){
+        if(mapLocation.size() == 2){
+            return listLeg.size();
+        } else if(mapLocation.size() == 3){
             return 1;
         } else {
             return 3;

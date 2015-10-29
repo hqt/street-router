@@ -168,6 +168,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
             mapLocation.put(number, obj);
         }
+        setResult(number, null);
         finish();//finishing activity
         return true;
     }
