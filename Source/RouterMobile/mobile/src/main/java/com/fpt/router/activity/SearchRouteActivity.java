@@ -293,7 +293,8 @@ public class SearchRouteActivity extends AppCompatActivity {
         mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchRouteActivity.this,)
+                Intent intent = new Intent(SearchRouteActivity.this,VoiceRecordActivity.class);
+                startActivity(intent);
             }
         });
     }

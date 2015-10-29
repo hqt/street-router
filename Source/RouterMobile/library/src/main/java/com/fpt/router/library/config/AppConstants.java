@@ -34,6 +34,12 @@ public class AppConstants {
         public static String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
 
+    public static final class GoogleApiCode {
+        public static final String OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
+        public static final String NOT_FOUND = "NOT_FOUND";
+        public static final String NO_RESULT = "ZERO_RESULTS";
+    }
+
     public static void buildAPILink() {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
         API.SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";

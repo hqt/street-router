@@ -1,8 +1,16 @@
 package com.fpt.router.utils;
 
 import android.util.Log;
+import android.support.v4.util.Pair;
+import android.util.Log;
+
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.GoogleApiCode;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -164,5 +172,44 @@ public static String makeURL (double sourcelat, double sourcelog, double destlat
                 "placeid=" + input +
                 "&key=" + key;
         return url;
+    }
+
+    public static Pair<String, ArrayList<AutocompleteObject>> getAutoCompleteObject(String searchString) {
+        ArrayList<AutocompleteObject> predictionsArr = new ArrayList<>();
+        String status = null;
+        try {
+            //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
+            List<String> listUrl = GoogleAPIUtils.getGooglePlace(searchString);
+            List<String> json = new ArrayList<>();
+            for (int n = 0; n < listUrl.size(); n++) {
+                json.add(NetworkUtils.download(listUrl.get(n)));
+            }
+            if (json.get(0) == null) {
+                return null;
+            } else {
+                //turn that string into a JSON object
+                for (int x = 0; x < json.size(); x++) {
+                    JSONObject predictions = new JSONObject(json.get(x));
+                    //now get the JSON array that's inside that object
+                    status = predictions.getString("status");
+                    if (status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
+                        return new Pair<>(status, null);
+                    } else {
+                        JSONArray ja = new JSONArray(predictions.getString("predictions"));
+
+                        for (int y = 0; y < ja.length(); y++) {
+                            JSONObject jo = (JSONObject) ja.get(y);
+                            String name = jo.getString("description");
+                            String place_id = jo.getString("place_id");
+                            predictionsArr.add(new AutocompleteObject(name, place_id));
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("YourApp", "GetPlacesTask : doInBackground", e);
+        }
+
+        return new Pair<>(status, predictionsArr);
     }
 }
