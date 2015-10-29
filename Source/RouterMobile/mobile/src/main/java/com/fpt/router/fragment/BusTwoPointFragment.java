@@ -137,7 +137,7 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-           /* Gson gson1 = JSONUtils.buildGson();
+          /*  Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());
@@ -151,11 +151,25 @@ public class BusTwoPointFragment extends Fragment {
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
+            List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
+            // add to list by ordinary
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
+            }
             try {
-                for (int i = 0; i < mapLocation.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(mapLocation.get(i).getPlace_id());
+                for (int i = 0; i < autocompleteObjects.size(); i++) {
+                    String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
                     String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, mapLocation.get(i).getName());
+                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);
@@ -171,6 +185,7 @@ public class BusTwoPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
 
             return resultList;

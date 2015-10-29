@@ -17,6 +17,7 @@ import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusFourPointAdapter;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
@@ -145,11 +146,26 @@ public class BusFourPointFragment extends Fragment {
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
+            List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
+            // add to list by ordinary
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
+            }
+
             try {
-                for (int i = 0; i < mapLocation.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(mapLocation.get(i).getPlace_id());
+                for (int i = 0; i < autocompleteObjects.size(); i++) {
+                    String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
                     String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, mapLocation.get(i).getName());
+                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);
@@ -166,6 +182,7 @@ public class BusFourPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
 
             return journeyList;
@@ -176,7 +193,7 @@ public class BusFourPointFragment extends Fragment {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            if(!journeyList.get(0).code.equals("success")){
+            if (!journeyList.get(0).code.equals("success")) {
                 listError = new ArrayList<String>();
                 listError.add(journeyList.get(0).code);
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));

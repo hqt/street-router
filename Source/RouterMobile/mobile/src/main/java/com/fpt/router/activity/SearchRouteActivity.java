@@ -121,9 +121,9 @@ public class SearchRouteActivity extends AppCompatActivity {
         _view_pager.setAdapter(adapter);
         // _view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
-        _depart_time.setClickable(false);
+        /*_depart_time.setClickable(false);
         _depart_time.setFocusableInTouchMode(false);
-        _depart_time.setEnabled(false);
+        _depart_time.setEnabled(false);*/
         tabLayout.setupWithViewPager(_view_pager);
         // custom bar
 
