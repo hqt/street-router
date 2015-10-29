@@ -2,9 +2,12 @@ package com.fpt.router.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,7 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
+import com.fpt.router.adapter.AutocompleteAdapter;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.GoogleApiCode;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.utils.StringUtils;
+import com.fpt.router.utils.GoogleAPIUtils;
+import com.fpt.router.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -99,6 +108,12 @@ public class VoiceRecordActivity extends AppCompatActivity {
             case REQ_CODE_SPEECH_INPUT: {
                 if ((resultCode == RESULT_OK) && (null != data)) {
 
+                    // reset again all text field
+                    fromPlaceTextView.setText("");
+                    toPlaceTextView.setText("");
+                    firstMiddlePlaceTextView.setText("");
+                    secondMiddlePlaceTextView.setText("");
+
                     ArrayList<String> result = data
                             .getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String speech = result.get(0);
@@ -117,8 +132,83 @@ public class VoiceRecordActivity extends AppCompatActivity {
                     if (voiceTokens.get(4) != null) {
                         secondMiddlePlaceTextView.setText(voiceTokens.get(4));
                     }
+
+                    getAutoCompleteResult();
+
                 }
                 break;
+            }
+        }
+    }
+
+    private void closeAnimation() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void getAutoCompleteResult() {
+        progressBar.setVisibility(View.VISIBLE);
+        new GetGooglePlaceTask(fromPlaceTextView.getText().toString(), 1).execute();
+        new GetGooglePlaceTask(fromPlaceTextView.getText().toString(), 2).execute();
+        new GetGooglePlaceTask(fromPlaceTextView.getText().toString(), 3).execute();
+        new GetGooglePlaceTask(fromPlaceTextView.getText().toString(), 4).execute();
+    }
+
+    class GetGooglePlaceTask extends AsyncTask<String, Void, ArrayList<AutocompleteObject>> {
+
+        private String place;
+        private int index;
+        String status;
+
+        public GetGooglePlaceTask(String place, int index) {
+            this.place = place;
+            this.index = index;
+        }
+
+        @Override
+        // three dots is java for an array of strings
+        protected ArrayList<AutocompleteObject> doInBackground(String... args) {
+
+            Pair<String, ArrayList<AutocompleteObject>> res = GoogleAPIUtils.getAutoCompleteObject(place);
+            status = res.first;
+            return res.second;
+        }
+
+        //then our post
+
+        @Override
+        protected void onPostExecute(ArrayList<AutocompleteObject> results) {
+
+            if (results == null) {
+                results = new ArrayList<>();
+                if (status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
+                    Toast.makeText(VoiceRecordActivity.this, "Hết quota. Vui lòng thử lại sau.", Toast.LENGTH_SHORT).show();
+                } else if (!NetworkUtils.isNetworkConnected()) {
+                    Toast.makeText(VoiceRecordActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            // get first result (maybe most accurately)
+            TextView textView = null;
+            switch (index) {
+                case 1:
+                    textView = fromPlaceTextView;
+                    break;
+                case 2:
+                    textView = toPlaceTextView;
+                    break;
+                case 3:
+                    textView = firstMiddlePlaceTextView;
+                    break;
+                case 4:
+                    textView = secondMiddlePlaceTextView;
+                    break;
+            }
+
+            if (results.size() == 0) {
+                textView.setText("không có kết quả");
+            } else {
+                AutocompleteObject obj = results.get(0);
+                textView.setText(obj.getName());
             }
         }
     }
