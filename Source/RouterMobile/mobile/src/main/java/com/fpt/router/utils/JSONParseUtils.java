@@ -34,7 +34,6 @@ public class JSONParseUtils {
         DetailLocation legDetailL;
         String Overview_polyline;
 
-        ArrayList<Step> listStep = new ArrayList<>();
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
@@ -46,6 +45,7 @@ public class JSONParseUtils {
             jsonA = jsonO.getJSONArray("routes");
 
             for(int n = 0; n < jsonA.length(); n++) {
+                ArrayList<Step> listStep = new ArrayList<>();
                 JSONObject jsonOLeg;
                 JSONArray jsonALeg;
                 jsonOLeg = jsonA.getJSONObject(n);
@@ -204,7 +204,6 @@ public class JSONParseUtils {
         DetailLocation legDetailL;
         String Overview_polyline;
 
-        ArrayList<Step> listStep = new ArrayList<>();
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
@@ -221,6 +220,7 @@ public class JSONParseUtils {
             Overview_polyline = jo.getString("points");
 
             jsonA = jsonO.getJSONArray("legs");
+            ArrayList<Step> listStep = new ArrayList<>();
             for(int n = 0; n < jsonA.length(); n++) {
                 JSONObject jsonOLeg;
                 JSONArray jsonALeg;
