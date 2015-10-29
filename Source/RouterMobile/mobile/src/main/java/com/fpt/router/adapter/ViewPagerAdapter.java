@@ -22,6 +22,7 @@ import com.fpt.router.fragment.MotorTwoPointFragment;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 
 import java.util.List;
+import java.util.Map;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -30,7 +31,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private int[] imageResId = {R.drawable.bus,
             R.drawable.motorbike,
             R.drawable.map};
-    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
+    private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     public ViewPagerAdapter(FragmentManager fm, Context context){
         super(fm);
         this.context = context;
@@ -39,10 +40,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if(position == 0){
-            if(listLocation.size() == 2){
+            if(mapLocation.size() == 2){
                 BusTwoPointFragment busFragmentTwoPoint = new BusTwoPointFragment();
                 return busFragmentTwoPoint;
-            }else if(listLocation.size() == 3){
+            }else if(mapLocation.size() == 3){
                 BusFourPointFragment busFragmentThirdPoint = new BusFourPointFragment();
                 return busFragmentThirdPoint;
             }else{
@@ -51,10 +52,10 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             }
 
         }else if(position == 1){
-            if(listLocation.size() == 2){
+            if(mapLocation.size() == 2){
                 MotorTwoPointFragment motorTwoPointFragment = new MotorTwoPointFragment();
                 return motorTwoPointFragment;
-            }else if(listLocation.size() == 3) {
+            }else if(mapLocation.size() == 3) {
                 MotorFourPointFragment motorbikeFragmentThirdPoint = new MotorFourPointFragment();
                 return motorbikeFragmentThirdPoint;
             }else {

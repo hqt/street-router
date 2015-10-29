@@ -13,6 +13,7 @@ import com.fpt.router.adapter.MotorFourPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
+import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.GoogleAPIUtils;
@@ -30,6 +31,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Nguyen Trung Nam on 10/12/2015.
@@ -39,7 +41,7 @@ public class MotorFourPointFragment extends Fragment{
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
+    private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private Boolean optimize = SearchRouteActivity.optimize;
     private RecyclerView recyclerView;
     private JSONObject jsonObject;
@@ -71,7 +73,7 @@ public class MotorFourPointFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if(listLocation.size() > 1){
+        if(mapLocation.size() > 1){
             View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -111,11 +113,27 @@ public class MotorFourPointFragment extends Fragment{
             List<String> listUrl;
             String json;
             List<String> listJson = new ArrayList<>();
-            if(!optimize && listLocation.size() == 4) {
-                listUrl = GoogleAPIUtils.getFourPointWithoutOptimizeDirection(SearchRouteActivity.listLocation);
+            List<AutocompleteObject> locationAutoCompletes = new ArrayList<>();
+
+            // add to list by ordinary
+            if (SearchRouteActivity.mapLocation.get(SearchField.FROM_LOCATION) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.FROM_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(SearchField.TO_LOCATION) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.TO_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(SearchField.WAY_POINT_1) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.WAY_POINT_1));
+            }
+            if (SearchRouteActivity.mapLocation.get(SearchField.WAY_POINT_2) != null) {
+                locationAutoCompletes.add(mapLocation.get(SearchField.WAY_POINT_2));
+            }
+
+            if(!optimize && mapLocation.size() == 4) {
+                listUrl = GoogleAPIUtils.getFourPointWithoutOptimizeDirection(locationAutoCompletes);
                 listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));
                 try {
-                    listUrl = GoogleAPIUtils.getFourPointDirection(listLocation, optimize);
+                    listUrl = GoogleAPIUtils.getFourPointDirection(locationAutoCompletes, optimize);
                     json = NetworkUtils.download(listUrl.get(0));
                     jsonObject = new JSONObject(json);
                     status = jsonObject.getString("status");
@@ -127,7 +145,7 @@ public class MotorFourPointFragment extends Fragment{
                     e.printStackTrace();
                 }
             } else {
-                listUrl = GoogleAPIUtils.getFourPointDirection(listLocation, optimize);
+                listUrl = GoogleAPIUtils.getFourPointDirection(locationAutoCompletes, optimize);
                 for (int n = 0; n < listUrl.size(); n++) {
                     json = NetworkUtils.download(listUrl.get(n));
                     listJson.add(json);
@@ -180,7 +198,7 @@ public class MotorFourPointFragment extends Fragment{
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
-            if(listLocation.size() == 4) {
+            if(mapLocation.size() == 4) {
                 for (int x = 0; x < 2; x++) {
                     for (int y = 1; y < 3; y++) {
                         int value_1 = JSONParseUtils.totalTime(listLegFinal.get(x * 3), listLegFinal.get(x * 3 + 1), listLegFinal.get(x * 3 + 2));

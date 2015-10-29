@@ -17,25 +17,26 @@ import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by asus on 10/11/2015.
  */
 public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAdapter.RouterViewHolder> {
 
-    List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
+    Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
-    int countPoint = listLocation.size() - 1;
+    int countPoint = mapLocation.size() - 1;
     View v;
     RouterViewHolder routerViewHolder;
 
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (listLocation.size() == 2 ){
+        if (mapLocation.size() == 2 ){
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_twopoint,parent,false);
-        }else if (listLocation.size() == 3) {
+        }else if (mapLocation.size() == 3) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_threepoint,parent,false);
-        } else if (listLocation.size() == 4) {
+        } else if (mapLocation.size() == 4) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_fourpoint,parent,false);
         }
         routerViewHolder = new RouterViewHolder(v);
@@ -52,20 +53,22 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
         }
         int duration = 0;
         int distance = 0;
-        for(int n = position*countPoint; n < (position+1)*countPoint; n++) {
+
+        for (int n = position * countPoint; n < (position + 1) * countPoint; n++) {
             duration = duration + listLeg.get(n).getDetailLocation().getDuration();
             distance = distance + listLeg.get(n).getDetailLocation().getDistance();
         }
+
         duration = duration/6;
         Double totalDuration = (double) duration/10;
         Double totalDistance = (double) distance;
         holder.duration.setText(totalDuration + " phút");
         holder.distance.setText(totalDistance/1000+" Km");
         holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
-        if (listLocation.size() > 2) {
+        if (mapLocation.size() > 2) {
             holder.way_point_1.setText(listLeg.get(position * countPoint).getEndAddress());
         }
-        if (listLocation.size() > 3) {
+        if (mapLocation.size() > 3) {
             holder.way_point_2.setText(listLeg.get(position * countPoint + (countPoint - 1)).getStartAddress());
         }
         holder.endLocation.setText(listLeg.get(position*countPoint+(countPoint-1)).getEndAddress());
@@ -73,7 +76,9 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
 
     @Override
     public int getItemCount() {
-        if(listLeg.size() == 2){
+        if(mapLocation.size() == 2){
+            return listLeg.size();
+        } else if(mapLocation.size() == 3){
             return 1;
         } else {
             return 3;

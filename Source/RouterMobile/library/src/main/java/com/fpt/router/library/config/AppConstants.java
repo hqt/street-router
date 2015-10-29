@@ -34,6 +34,13 @@ public class AppConstants {
         public static String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
 
+    public static final class SearchField {
+        public static final int FROM_LOCATION = 1;
+        public static final int TO_LOCATION = 2;
+        public static final int WAY_POINT_1 = 3;
+        public static final int WAY_POINT_2 = 4;
+    }
+
     public static final class GoogleApiCode {
         public static final String OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
         public static final String NOT_FOUND = "NOT_FOUND";
