@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     boolean state = false;
     String phraseShouldToSearch;
     String status;
+    private ImageButton mbVoiceSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview_autosearch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
+        mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
         // default. hide progress bar
         progressBar.setVisibility(View.INVISIBLE);
 
@@ -100,6 +102,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 location = listLocation.get(position);
                 autoComp.setText(location.getName());
+            }
+        });
+
+        /**
+         * voice listener
+         */
+        mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AutoCompleteSearchActivity.this,VoiceRecordActivity.class);
+                startActivity(intent);
             }
         });
 

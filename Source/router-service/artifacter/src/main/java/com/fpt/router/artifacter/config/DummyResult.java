@@ -918,9 +918,7 @@ public class DummyResult {
             "        \"time\": \"PT0.376S\"\n" +
             "      }\n" +
             "    ]\n" +
-            "  }\n" +
-            "]\n" +
-            "[\n" +
+            "  }\n,"+
             "  {\n" +
             "    \"code\": \"success\",\n" +
             "    \"totalDistance\": 12615.968469442618,\n" +
