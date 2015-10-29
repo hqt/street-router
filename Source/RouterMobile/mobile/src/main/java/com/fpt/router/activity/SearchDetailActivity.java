@@ -112,6 +112,36 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
         if(position != -1){
             if (savedInstanceState == null) {
+                if(SearchRouteActivity.mapLocation.size() == 2) {
+                    listFinalLeg.add(listLeg.get(position));
+                } else if (SearchRouteActivity.mapLocation.size() == 3) {
+                    listFinalLeg.addAll(listLeg);
+                } else {
+                    for(int n = position*3; n < position*3+3; n++) {
+                        listFinalLeg.add(listLeg.get(n));
+                    }
+                }
+                for(int n = 0; n < listFinalLeg.size(); n ++) {
+                    listStep.addAll(listFinalLeg.get(n).getSteps());
+                }
+
+                soundButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isPlaySound = !isPlaySound;
+                        if(isPlaySound) {
+                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
+                            downloadAsyncTask.execute();
+                        }
+                    }
+                });
+
+                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        isFakeGPS = !isFakeGPS;
+                    }
+                });
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
                 fragment = MotorDetailFourPointFragment.newInstance(position);
                 trans.add(R.id.fragment, fragment);
@@ -127,36 +157,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             }
         }
 
-        if(SearchRouteActivity.mapLocation.size() == 2) {
-            listFinalLeg.add(listLeg.get(position));
-        } else if (SearchRouteActivity.mapLocation.size() == 3) {
-            listFinalLeg.addAll(listLeg);
-        } else {
-            for(int n = position*3; n < position*3+3; n++) {
-                listFinalLeg.add(listLeg.get(n));
-            }
-        }
-        for(int n = 0; n < listFinalLeg.size(); n ++) {
-            listStep.addAll(listFinalLeg.get(n).getSteps());
-        }
 
-        soundButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isPlaySound = !isPlaySound;
-                if(isFakeGPS) {
-                    DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                    downloadAsyncTask.execute();
-                }
-            }
-        });
-
-        fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isFakeGPS = !isFakeGPS;
-            }
-        });
 
     }
 
@@ -235,10 +236,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 countListLatLng++;
             }
         }
+        LatLng check = new LatLng(latitude, longitude);
         com.fpt.router.library.model.motorbike.Location startLocation = listStep.get(countListStep).getDetailLocation().getStartLocation();
         LatLng latlngOfStep = new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
-        Log.e("Khoang cach:", ""+ DecodeUtils.calculateDistance(listLatLng.get(countListLatLng), latlngOfStep));
-        if(DecodeUtils.calculateDistance(listLatLng.get(countListLatLng), latlngOfStep) < 50) {
+        Log.e("Khoang cach:", ""+ DecodeUtils.calculateDistance(check, latlngOfStep));
+        if(DecodeUtils.calculateDistance(check, latlngOfStep) < 50) {
             String delimiter = "<div style=\"font-size:0.9em\">";
             String[] temp;
             String str = listStep.get(countListStep).getInstruction();
