@@ -20,17 +20,17 @@ import static com.fpt.router.library.config.AppConstants.Vibrator.*;
  * Created by Huynh Quang Thao on 10/29/15.
  */
 public class NotificationUtils {
-    public static void build(Context context, Activity activity, String title, String content,
-                             String pageTwoTitle, String pageTwoContent) {
+    public static void run(Context context, String title, String content,
+                           String pageTwoTitle, String pageTwoContent) {
         // notification testing
         // int notificationId = (int) new Date().getTime();
         int notificationId = 1;
 
         // Build intent for mobile: open SearchRouteActivity when click to intent
-        Intent viewIntent = new Intent(context, activity.getClass());
-        PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, 0);
+        //Intent viewIntent = new Intent(context, activity.getClass());
+        //PendingIntent viewPendingIntent = PendingIntent.getActivity(context, 0, viewIntent, 0);
 
-        // build notification for wearable side
+        // run notification for wearable side
 
         // WearableExtender. Using this for add functionality for wear. (more advanced)
         NotificationCompat.WearableExtender wearableExtender =
@@ -56,10 +56,10 @@ public class NotificationUtils {
                         .setSmallIcon(R.drawable.common_signin_btn_icon_pressed_light)
                         .setContentTitle(title)
                         .setContentText(content)
-                        .setVibrate(new long[]{DELAY_VIBRATE,ON_VIBRATE,OFF_VIBRATE,ON_VIBRATE,OFF_VIBRATE,ON_VIBRATE})
+                        .setVibrate(new long[]{DELAY_VIBRATE,ON_VIBRATE})
                         .setColor(Color.BLUE)
-                        .extend(wearableExtender)
-                        .setContentIntent(viewPendingIntent);
+                        //.setContentIntent(viewPendingIntent)
+                        .extend(wearableExtender);
 
 
         // Get an instance of the NotificationManager service

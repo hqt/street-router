@@ -1,12 +1,10 @@
 package com.fpt.router.fragment;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +16,11 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.adapter.RouteItemAdapter;
+import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
+import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
@@ -32,7 +33,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -53,7 +53,7 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class MotorDetailFourPointFragment extends AbstractMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class MotorDetailFragment extends AbstractMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -92,11 +92,11 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
     List<Leg> listFinalLeg = new ArrayList<>();
     private RouteItemAdapter adapterItem;
 
-    public MotorDetailFourPointFragment() {
+    public MotorDetailFragment() {
     }
 
-    public static MotorDetailFourPointFragment newInstance(int position) {
-        MotorDetailFourPointFragment fragment = new MotorDetailFourPointFragment();
+    public static MotorDetailFragment newInstance(int position) {
+        MotorDetailFragment fragment = new MotorDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable("position", position);
         fragment.setArguments(args);
@@ -168,7 +168,7 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
         }
-
+        GPSServiceOld.setListNotify(getNotifyList());
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
         mListView.addHeaderView(mTransparentHeaderView);
@@ -400,6 +400,30 @@ public class MotorDetailFourPointFragment extends AbstractMapFragment implements
             now.remove();
         }
         now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
+    }
+
+    @Override
+    public List<LatLng> getFakeGPSList() {
+        List<LatLng> listFakeGPS = DecodeUtils.getListLocationToFakeGPS(listFinalLeg);
+        return listFakeGPS;
+    }
+
+    @Override
+    public List<NotifyModel> getNotifyList() {
+        List<NotifyModel>  listNotifies = new ArrayList<>();
+        for(int i = 0; i < listStep.size(); i++) {
+            com.fpt.router.library.model.common.Location location = listStep.get(i).
+                    getDetailLocation().getStartLocation();
+            String smallTittle = listStep.get(i).getManeuver();
+            String longTittle = "Thông tin chi tiết";
+            Pair<String, String> detailInstruction = DecodeUtils.getDetailInstruction(
+                    listStep.get(i).getInstruction());
+            String smallMessage = detailInstruction.first;
+            String longMessage = detailInstruction.second;
+            NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
+            listNotifies.add(notifyModel);
+        }
+        return listNotifies;
     }
 
     class SendToDataLayerThread extends Thread {

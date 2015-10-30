@@ -4,11 +4,8 @@ package com.fpt.router.service;
  * Created by Nguyen Trung Nam on 10/5/2015.
  */
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -18,17 +15,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.library.utils.NotificationUtils;
+import com.fpt.router.library.utils.SoundUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.Node;
@@ -38,6 +39,7 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -45,6 +47,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         GoogleApiClient.OnConnectionFailedListener {
 
     public static final String LOCATION_CHANGE_SIGNAL = "location_change_signal";
+    private static List<LatLng> fakeGPSList;
+
+    private static int fakeGPSIndex = 0;
+    private static int stepIndex = 0;
+    private static int notifyIndex = 0;
 
     private EventBus bus;
 
@@ -53,10 +60,44 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     // flag for GPS status
     boolean isGPSEnabled = false;
 
+
     // flag for network status
     boolean isNetworkEnabled = false;
 
     // flag for GPS status
+    public static boolean isFakeGPS = false;
+    public static boolean isPlaySound = false;
+    private static List<NotifyModel> listNotify;
+
+    public static void setListNotify(List<NotifyModel> listNotify) {
+        GPSServiceOld.listNotify = listNotify;
+        initializeState();
+     }
+
+    public static void turnOnFakeGPS(List<LatLng> latLngs) {
+        fakeGPSList = latLngs;
+        isFakeGPS = true;
+    }
+
+    public static void turnOffFakeGPS() {
+        isFakeGPS = false;
+    }
+
+    public static List<NotifyModel> getNotifyModel() {
+        return listNotify;
+    }
+
+    private static void initializeState() {
+        // reset all state variables
+        GPSServiceOld.fakeGPSIndex = 0;
+        GPSServiceOld.stepIndex = 0;
+        GPSServiceOld.notifyIndex = 0;
+        GPSServiceOld.isFakeGPS = false;
+        GPSServiceOld.isPlaySound = false;
+
+
+    }
+
     boolean canGetLocation = false;
 
     private final Handler handlerThread = new Handler();
@@ -84,6 +125,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     @Override
     public void onCreate() {
         super.onCreate();
+        initializeState();
         this.mContext = getApplicationContext();
         bus = EventBus.getDefault();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -104,7 +146,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    onLocationChanged(new Location("a"));
+                    if (isFakeGPS) {
+                        onLocationChanged(new Location("a"));
+                    }
                 }
             }).start();
             handlerThread.postDelayed(this, 600);
@@ -128,10 +172,10 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
             // from android with sdk >= 23. User can deny some permission.
             // so we must check permission programmatically on code
-            if ( Build.VERSION.SDK_INT >= 23 &&
+            if (Build.VERSION.SDK_INT >= 23 &&
                     ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                     ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return  null;
+                return null;
             }
 
             locationManager = (LocationManager) mContext
@@ -190,15 +234,52 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         return location;
     }
 
+    public boolean isNearLocation(Location location) {
+        if (listNotify == null) {
+            return false;
+        }
+
+        LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
+                listNotify.get(stepIndex).location.getLongitude());
+        if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < AppConstants.NEAR_CIRCULAR_RANGE) {
+            notifyIndex = stepIndex;
+            stepIndex = (stepIndex + 1) % listNotify.size();
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void onLocationChanged(Location locationChanged) {
-        this.location = locationChanged;
+        // this is real gps from system
+        location = locationChanged;
+
+        if (isFakeGPS) {
+            location.setLatitude(fakeGPSList.get(fakeGPSIndex).latitude);
+            location.setLongitude(fakeGPSList.get(fakeGPSIndex).longitude);
+            fakeGPSIndex = (fakeGPSIndex + 1) % fakeGPSList.size();
+        }
+
+        if (isNearLocation(location)) {
+            // Play sound
+            if (isPlaySound) {
+                SoundUtils.playSound(listNotify.get(notifyIndex).smallMessage);
+            }
+
+            // Create nofitication
+            NotifyModel notifyModel = listNotify.get(notifyIndex);
+            NotificationUtils.run(mContext, notifyModel.smallTittle, notifyModel.smallMessage, notifyModel.longTittle, notifyModel.longMessage);
+
+            // Send signal
+            bus.post(notifyModel);
+        }
+
         LocationMessage message = new LocationMessage(location);
         bus.post(message);
 
         if (mConnected) {
-            com.fpt.router.library.model.motorbike.Location local = new com.fpt.router.library.model.motorbike.Location();
+            com.fpt.router.library.model.common.Location local = new com.fpt.router.library.model.common.Location();
             local.setLatitude(location.getLatitude());
             local.setLongitude(location.getLongitude());
             new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
@@ -240,10 +321,10 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     class SendToDataLayerThread extends Thread {
         String path;
-        com.fpt.router.library.model.motorbike.Location location;
+        com.fpt.router.library.model.common.Location location;
 
         // Constructor for sending data objects to the data layer
-        SendToDataLayerThread(String p, com.fpt.router.library.model.motorbike.Location local) {
+        SendToDataLayerThread(String p, com.fpt.router.library.model.common.Location local) {
             path = p;
             location = local;
         }
@@ -264,7 +345,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
                 DataApi.DataItemResult result = pendingResult.await();
                 if (result.getStatus().isSuccess()) {
-                   // Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
+                    // Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
                 } else {
                     // Log an error
                     Log.v("myTag", "ERROR: failed to send DataMap");

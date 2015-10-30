@@ -2,12 +2,9 @@ package com.fpt.router.activity;
 
 import android.app.ProgressDialog;
 import android.location.Location;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -16,8 +13,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -25,25 +20,19 @@ import com.fpt.router.R;
 import com.fpt.router.fragment.AbstractMapFragment;
 import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
-import com.fpt.router.fragment.MotorDetailFourPointFragment;
+import com.fpt.router.fragment.MotorDetailFragment;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.model.motorbike.DetailLocation;
-import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Step;
-import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.service.GPSServiceOld;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 
 import java.io.File;
-import java.io.FileDescriptor;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,8 +41,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -63,9 +50,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     private GoogleApiClient mGoogleApiClient;
     AbstractMapFragment fragment;
     private int position;
-    private List<Leg> listLeg = SearchRouteActivity.listLeg;
-    private List<Leg> listFinalLeg = new ArrayList<>();
-    private List<Step> listStep = new ArrayList<>();
     int countListLatLng = 0;
     int countListStep = 0;
 
@@ -74,10 +58,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
     private static final int BUFFER_SIZE = 4096;
     String host = "http://118.69.135.22/synthesis/file?voiceType=female&text=";
-    MediaPlayer mp;
-    Uri uri;
-    File fileSMAC;
-    FileDescriptor fd = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,18 +93,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
         if(position != -1){
             if (savedInstanceState == null) {
-                if(SearchRouteActivity.mapLocation.size() == 2) {
-                    listFinalLeg.add(listLeg.get(position));
-                } else if (SearchRouteActivity.mapLocation.size() == 3) {
-                    listFinalLeg.addAll(listLeg);
-                } else {
-                    for(int n = position*3; n < position*3+3; n++) {
-                        listFinalLeg.add(listLeg.get(n));
-                    }
-                }
-                for(int n = 0; n < listFinalLeg.size(); n ++) {
-                    listStep.addAll(listFinalLeg.get(n).getSteps());
-                }
+
+                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+                fragment = MotorDetailFragment.newInstance(position);
+                trans.add(R.id.fragment, fragment);
+                trans.commit();
 
                 soundButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -133,6 +107,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
                             downloadAsyncTask.execute();
                         }
+                        GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
                     }
                 });
 
@@ -140,16 +115,15 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     @Override
                     public void onClick(View v) {
                         isFakeGPS = !isFakeGPS;
-
-                        // create alarm manager.
-
+                        if (isFakeGPS) {
+                            GPSServiceOld.turnOnFakeGPS(fragment.getFakeGPSList());
+                        } else {
+                            GPSServiceOld.turnOffFakeGPS();
+                        }
                     }
                 });
 
-                FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                fragment = MotorDetailFourPointFragment.newInstance(position);
-                trans.add(R.id.fragment, fragment);
-                trans.commit();
+
             }
         }
 
@@ -198,8 +172,12 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     }
 
     public void onEventMainThread(LocationMessage event){
-        Log.e("hqthao", event.location.getLatitude() + "aaaa");
         onLocationChanged(event.location);
+    }
+
+    public void onEventMainThread(NotifyModel event){
+        Log.e("hqthao", event.location.getLatitude() + "aaaa");
+        Toast.makeText(SearchDetailActivity.this, event.smallMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -216,53 +194,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     public void onLocationChanged(Location location) {
         Log.e("Nam", "Nam dep trai");
 
-        List<Leg> listFinalLeg = new ArrayList<>();
-        if(SearchRouteActivity.mapLocation.size() == 2) {
-            listFinalLeg.add(listLeg.get(position));
-        } else if (SearchRouteActivity.mapLocation.size() == 3) {
-            listFinalLeg.addAll(listLeg);
-        } else {
-            for(int n = position*3; n < position*3+3; n++) {
-                listFinalLeg.add(listLeg.get(n));
-            }
-        }
-        List<LatLng> listLatLng = DecodeUtils.getListLocationToFakeGPS(listFinalLeg);
-
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-
-        if(isFakeGPS) {
-            latitude = listLatLng.get(countListLatLng).latitude;
-            longitude = listLatLng.get(countListLatLng).longitude;
-            if (countListLatLng == listLatLng.size() - 1) {
-                countListLatLng = 0;
-            } else {
-                countListLatLng++;
-            }
-        }
-        LatLng check = new LatLng(latitude, longitude);
-        com.fpt.router.library.model.motorbike.Location startLocation = listStep.get(countListStep).getDetailLocation().getStartLocation();
-        LatLng latlngOfStep = new LatLng(startLocation.getLatitude(), startLocation.getLongitude());
-        Log.e("Khoang cach:", ""+ DecodeUtils.calculateDistance(check, latlngOfStep));
-        if(DecodeUtils.calculateDistance(check, latlngOfStep) < 50) {
-            String delimiter = "<div style=\"font-size:0.9em\">";
-            String[] temp;
-            String str = listStep.get(countListStep).getInstruction();
-            temp = str.split(delimiter);
-            Toast.makeText(SearchDetailActivity.this, temp[0], Toast.LENGTH_SHORT).show();
-            if(isPlaySound) {
-                playSound(countListStep);
-            }
-            if(countListStep == listStep.size()-1) {
-                countListStep = 0;
-            } else {
-                countListStep++;
-            }
-
-        }
         fragment.drawCurrentLocation(latitude, longitude);
-
-
     }
 
     @Override
@@ -289,18 +223,16 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         protected String doInBackground(String... strings) {
 
             String textInput = null;
-            for(int i = 0; i < listStep.size(); i++) {
+            for(int i = 0; i < GPSServiceOld.getNotifyModel().size(); i++) {
                 try {
-                    String delimiter = "<div style=\"font-size:0.9em\">";
-                    String[] temp;
-                    String str = listStep.get(i).getInstruction();
-                    temp = str.split(delimiter);
-                    textInput = URLEncoder.encode(temp[0], "UTF-8");
+                    textInput = URLEncoder.encode(GPSServiceOld.getNotifyModel().get(i).smallMessage, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
                 String fileURL = host + textInput;
-                String saveDir = i+".wav";
+                String saveDir = GPSServiceOld.getNotifyModel().get(i).smallMessage+".wav";
+
+                
 
                 try {
                     URL url = new URL(fileURL);
@@ -383,33 +315,5 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         }
     }
 
-    public void playSound (int count) {
-        File root = Environment.getExternalStorageDirectory();
-        mp = new MediaPlayer();
-        File dir = new File(root.getAbsolutePath() + "/smac");
-        dir.mkdirs();
-        fileSMAC = new File(dir, count+".wav");
-        uri = Uri.fromFile(fileSMAC);
-        Log.d("QUYYY111", "--" + fileSMAC.getAbsolutePath() + "--");
-        try {
-            FileInputStream fis = new FileInputStream(fileSMAC);
-            fd = fis.getFD();
 
-
-
-            MediaPlayer mp = new MediaPlayer();
-            try {
-                mp.setDataSource(fd);
-                mp.prepare();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mp.start();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

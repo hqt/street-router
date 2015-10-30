@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -17,9 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.SearchField;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
 
 import static com.fpt.router.activity.SearchRouteActivity.*;
 

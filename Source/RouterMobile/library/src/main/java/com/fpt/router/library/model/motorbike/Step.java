@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Step implements IWearableModel<Step> {
     private String instruction;
-    private String maneuver;
+        private String maneuver;
     private DetailLocation detailLocation;
 
     public Step() {

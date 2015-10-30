@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,21 +16,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusDetailAdapter;
-import com.fpt.router.adapter.ErrorMessageAdapter;
-import com.fpt.router.adapter.MotorFourPointAdapter;
-import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.model.common.Model;
-import com.fpt.router.library.model.common.SubModule;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
-import com.fpt.router.library.model.motorbike.Step;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -40,7 +31,6 @@ import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -52,19 +42,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

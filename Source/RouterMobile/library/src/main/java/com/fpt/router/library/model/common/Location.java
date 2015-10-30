@@ -1,9 +1,8 @@
-package com.fpt.router.library.model.motorbike;
+package com.fpt.router.library.model.common;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.fpt.router.library.model.common.IWearableModel;
 import com.google.android.gms.wearable.DataMap;
 
 import java.io.Serializable;

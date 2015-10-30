@@ -26,7 +26,7 @@ public class AppConstants {
     public static final class Vibrator {
         public static final int DELAY_VIBRATE = 500;
         public static final int OFF_VIBRATE = 1000;
-        public static final int ON_VIBRATE = 2000;
+        public static final int ON_VIBRATE = 500;
     }
 
     public static final class API {
@@ -46,6 +46,8 @@ public class AppConstants {
         public static final String NOT_FOUND = "NOT_FOUND";
         public static final String NO_RESULT = "ZERO_RESULTS";
     }
+
+    public static final int NEAR_CIRCULAR_RANGE = 50;
 
     public static void buildAPILink() {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";

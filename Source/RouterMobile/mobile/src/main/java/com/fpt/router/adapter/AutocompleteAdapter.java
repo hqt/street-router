@@ -5,9 +5,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.model.common.AutocompleteObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

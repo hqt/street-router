@@ -1,34 +1,18 @@
 package com.fpt.router.library.utils;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 
-import com.fpt.router.library.R;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.string.DistanceUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -255,8 +239,8 @@ public class MapUtils {
         for (int i = 0; i < listFinalLeg.size(); i++) {
             leg = listFinalLeg.get(i);
             DetailLocation detalL = leg.getDetailLocation();
-            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStartLocation();
-            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEndLocation();
+            Location start_location = detalL.getStartLocation();
+            Location end_location = detalL.getEndLocation();
             // latitude and longitude
 
             if (i == 0) {

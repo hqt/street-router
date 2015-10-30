@@ -16,10 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
 import com.fpt.router.library.config.AppConstants.SearchField;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;

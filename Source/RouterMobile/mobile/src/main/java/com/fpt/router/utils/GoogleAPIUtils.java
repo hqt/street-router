@@ -2,11 +2,10 @@ package com.fpt.router.utils;
 
 import android.util.Log;
 import android.support.v4.util.Pair;
-import android.util.Log;
 
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.model.common.AutocompleteObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;

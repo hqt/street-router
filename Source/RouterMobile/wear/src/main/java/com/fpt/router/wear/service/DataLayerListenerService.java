@@ -7,7 +7,7 @@ import android.util.Log;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

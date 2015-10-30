@@ -22,20 +22,12 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.SearchField;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
-import com.fpt.router.library.utils.string.LevenshteinDistance;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.fpt.router.activity.SearchRouteActivity.mapLocation;

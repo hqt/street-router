@@ -17,29 +17,22 @@
 package com.fpt.router.wear.activity;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.fpt.router.R;
 import com.fpt.router.library.model.message.LocationGPSMessage;
-import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
-import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
-import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import android.support.wearable.view.DismissOverlayView;
 import android.view.WindowInsets;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +40,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.greenrobot.event.EventBus;
 

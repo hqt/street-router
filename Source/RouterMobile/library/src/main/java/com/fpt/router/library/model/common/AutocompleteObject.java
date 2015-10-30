@@ -1,4 +1,4 @@
-package com.fpt.router.library.model.motorbike;
+package com.fpt.router.library.model.common;
 
 /**
  * Created by Nguyen Trung Nam on 10/24/2015.
