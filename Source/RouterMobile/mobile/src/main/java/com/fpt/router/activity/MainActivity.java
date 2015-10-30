@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEvent(LocationMessage event) {
+    public void onEventMainThread(LocationMessage event) {
         onLocationChanged(event.location);
     }
 

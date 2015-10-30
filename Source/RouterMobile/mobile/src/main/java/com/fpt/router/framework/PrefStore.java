@@ -57,7 +57,7 @@ public class PrefStore {
     public static final int DEFAULT_BUS_SERVER_PORT = 8080;
 
     /** Default value for {@link PrefStore#PREF_SIMULATION_SPEED} */
-    public static final int DEFAULT_SIMULATION_SPEED = 40;
+    public static final int DEFAULT_SIMULATION_SPEED = 80;
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
