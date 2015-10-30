@@ -161,17 +161,25 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
         if ((location != null) ) {
-            if(location.getName().equals(location.getName())) {
+            if(autoComp.getText().toString().equals(location.getName())) {
                 mapLocation.put(number, location);
+            } else {
+                AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                mapLocation.put(number, obj);
             }
-        } else if (!autoComp.getText().toString().equals(mapLocation.get(number).getName())) {
-            // user delete field
-            if ((autoComp.getText().toString().length() == 0) &&
-                    (mapLocation.get(number) != null)) {
-                mapLocation.remove(number);
-            }
-            // user types random text.
-            else if (autoComp.getText().toString().length() > 0) {
+        } else {
+            if (mapLocation.get(number) != null) {
+                // user delete field
+                if (autoComp.getText().toString().length() == 0) {
+                    mapLocation.remove(number);
+                }
+                // user types random text.
+                else if ((autoComp.getText().toString().length() > 0) &&
+                        (!mapLocation.get(number).getName().equals(autoComp.getText().toString()))) {
+                    AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                    mapLocation.put(number, obj);
+                }
+            } else {
                 AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
                 mapLocation.put(number, obj);
             }

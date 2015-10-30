@@ -176,7 +176,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     }
 
     public void onEventMainThread(NotifyModel event){
-        Log.e("hqthao", event.location.getLatitude() + "aaaa");
         Toast.makeText(SearchDetailActivity.this, event.smallMessage, Toast.LENGTH_SHORT).show();
     }
 
@@ -192,8 +191,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("Nam", "Nam dep trai");
-
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
         fragment.drawCurrentLocation(latitude, longitude);
