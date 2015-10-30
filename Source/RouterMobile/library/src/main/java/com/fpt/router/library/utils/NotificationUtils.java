@@ -53,7 +53,7 @@ public class NotificationUtils {
 
         NotificationCompat.Builder notificationBuilder=
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.common_signin_btn_icon_pressed_light)
+                        .setSmallIcon(R.drawable.ic_notification)
                         .setContentTitle(title)
                         .setContentText(content)
                         .setVibrate(new long[]{DELAY_VIBRATE,ON_VIBRATE})

@@ -25,6 +25,7 @@ import com.fpt.router.R;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.common.Location;
+import com.fpt.router.library.utils.ColorUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
@@ -122,19 +123,33 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         mDismissOverlay.showIntroIfNecessary();
 
         trackingButton = (ImageView) findViewById(R.id.tracking_button);
+        /*if (isTracking) {
+            ColorUtils.setImageColor(trackingButton, ColorUtils.convertHexaColorToInt("##F44336"));
+        } else {
+            ColorUtils.setImageColor(trackingButton, ColorUtils.convertHexaColorToInt("##9E9E9E"));
+        }*/
         trackingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e("hqthao", "tracking button click. current status: " + isTracking);
                 isTracking = !isTracking;
+                /*if (isTracking) {
+                    ColorUtils.setImageColor(trackingButton, ColorUtils.convertHexaColorToInt("##F44336"));
+                } else {
+                    ColorUtils.setImageColor(trackingButton, ColorUtils.convertHexaColorToInt("##9E9E9E"));
+                }*/
             }
         });
 
         // Obtain the MapFragment and set the async listener to be notified when the map is ready.
         MapFragment mapFragment =
                 (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
 
+        //mapFragment.getMapAsync(this);
+
+        // hqthao. fucking trick for demo :)
+        mMap = mapFragment.getMap();
+        onMapReady(mMap);
     }
 
     protected void onResume() {
