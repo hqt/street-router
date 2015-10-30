@@ -140,8 +140,12 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     @Override
                     public void onClick(View v) {
                         isFakeGPS = !isFakeGPS;
+
+                        // create alarm manager.
+
                     }
                 });
+
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
                 fragment = MotorDetailFourPointFragment.newInstance(position);
                 trans.add(R.id.fragment, fragment);
@@ -193,8 +197,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         }
     }
 
-    public void onEvent(LocationMessage event){
-        Log.e("hqthao", event.location.getLatitude() + "");
+    public void onEventMainThread(LocationMessage event){
+        Log.e("hqthao", event.location.getLatitude() + "aaaa");
         onLocationChanged(event.location);
     }
 

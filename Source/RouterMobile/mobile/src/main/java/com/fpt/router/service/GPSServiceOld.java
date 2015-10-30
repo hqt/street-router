@@ -16,6 +16,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
@@ -58,6 +59,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     // flag for GPS status
     boolean canGetLocation = false;
 
+    private final Handler handlerThread = new Handler();
+
     Location location; // mCurrentLocation
     double latitude; // latitude
     double longitude; // longitude
@@ -90,7 +93,23 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                 .build();
         mGoogleApiClient.connect();
         getLocation();
+
+        handlerThread.removeCallbacks(whatMyName);
+        handlerThread.post(whatMyName);
     }
+
+    private Runnable whatMyName = new Runnable() {
+        @Override
+        public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    onLocationChanged(new Location("a"));
+                }
+            }).start();
+            handlerThread.postDelayed(this, 600);
+        }
+    };
 
     public GPSServiceOld(Context context) {
         this.mContext = context;
@@ -230,13 +249,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         }
 
         public void run() {
-            Log.e("Nam", "aaaa");
             NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
-            Log.e("Nam", "bbbb");
             for (Node node : nodes.getNodes()) {
                 Leg leg = new Leg();
                 DataMap dataMaps = location.putToDataMap();
-                Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
+                //Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
 
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
                 putDataMapRequest.getDataMap().putDataMap("location", dataMaps);
@@ -247,7 +264,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
                 DataApi.DataItemResult result = pendingResult.await();
                 if (result.getStatus().isSuccess()) {
-                    Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
+                   // Log.e("hqthao", "DataMap: " + dataMaps + " sent to: " + node.getDisplayName());
                 } else {
                     // Log an error
                     Log.v("myTag", "ERROR: failed to send DataMap");
