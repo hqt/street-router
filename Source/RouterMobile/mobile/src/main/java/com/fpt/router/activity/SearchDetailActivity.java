@@ -232,7 +232,13 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 String fileURL = host + textInput;
                 String saveDir = GPSServiceOld.getNotifyModel().get(i).smallMessage+".wav";
 
-                
+                File root = Environment.getExternalStorageDirectory();
+                File dir = new File(root.getAbsolutePath() + "/smac");
+                File fileSMAC = new File(dir, saveDir);
+                if(fileSMAC.exists()) {
+                    continue;
+                }
+
 
                 try {
                     URL url = new URL(fileURL);
@@ -270,8 +276,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         String saveFilePath = saveDir + File.separator + fileName;
 
                         //Save file in folder
-                        File root = Environment.getExternalStorageDirectory();
-                        File dir = new File(root.getAbsolutePath() + "/smac");
                         dir.mkdirs();
                         File file = new File(dir, saveDir);
 
