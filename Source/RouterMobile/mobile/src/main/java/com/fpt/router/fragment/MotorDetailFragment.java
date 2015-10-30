@@ -211,7 +211,10 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
                     List<LatLng> step = new ArrayList<>();
                 }
                 for(int n = 0; n < listStep.size(); n++) {
-                    MapUtils.drawPointColor(mMap, listStep.get(n).getDetailLocation().getStartLocation().getLatitude(), listStep.get(n).getDetailLocation().getStartLocation().getLongitude(), "", BitmapDescriptorFactory.HUE_ORANGE);
+                    MapUtils.drawPointIcon(mMap,
+                            listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
+                            listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
+                            "", R.drawable.info);
                 }
             }
         }

@@ -36,6 +36,18 @@ public class MapUtils {
         map.addMarker(marker);
     }
 
+    public static Marker drawPointIcon(GoogleMap map, double latitude, double longitude, String title, int resourceImageID) {
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.fromResource(resourceImageID));
+
+        // adding marker
+        return map.addMarker(marker);
+    }
+
     public static Marker drawPointColor(GoogleMap map, double latitude, double longitude, String title, float colorMarker) {
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))

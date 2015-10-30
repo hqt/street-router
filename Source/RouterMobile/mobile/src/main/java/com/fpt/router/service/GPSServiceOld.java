@@ -18,6 +18,7 @@ import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
@@ -151,6 +152,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                     }
                 }
             }).start();
+            int speed = PrefStore.getSimulationSpeed();
+            double m_s = 25/(speed*1000/3600);
             handlerThread.postDelayed(this, 600);
         }
     };

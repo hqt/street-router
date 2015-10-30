@@ -204,7 +204,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
     }
 
-    private class DownloadAsyncTask extends AsyncTask<String, Void, String> {
+    private class DownloadAsyncTask extends AsyncTask<String, Integer, String> {
 
         private ProgressDialog pDialog;
 
@@ -217,6 +217,14 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             pDialog.setCancelable(true);
             pDialog.show();
 
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int percent = (int) (1.0 * values[0] / GPSServiceOld.getNotifyModel().size() * 100);
+            pDialog.setProgress(percent);
+            pDialog.setMessage("Download " + percent + "% complete");
         }
 
         @Override
@@ -299,11 +307,13 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     httpConn.disconnect();
 
 
+
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                publishProgress(i);
             }
 
             return "";
