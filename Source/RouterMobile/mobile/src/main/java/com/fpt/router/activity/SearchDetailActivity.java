@@ -329,8 +329,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 pDialog.dismiss();
             }
 
-            if(result == "false") {
-                Toast.makeText(SearchDetailActivity.this, "FPT Service is not available, please try again later.", Toast.LENGTH_SHORT).show();
+            if(result.equals("false")) {
+                Toast.makeText(SearchDetailActivity.this, "FPT Service is not available, please try again later.",
+                        Toast.LENGTH_SHORT).show();
             }
 
         }
