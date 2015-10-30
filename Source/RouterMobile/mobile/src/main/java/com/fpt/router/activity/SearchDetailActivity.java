@@ -228,6 +228,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         protected String doInBackground(String... strings) {
 
             String textInput = null;
+            boolean isService = true;
             for(int i = 0; i < GPSServiceOld.getNotifyModel().size(); i++) {
                 try {
                     textInput = URLEncoder.encode(GPSServiceOld.getNotifyModel().get(i).smallMessage, "UTF-8");
@@ -299,6 +300,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
                         System.out.println("File downloaded");
                     } else {
+                        isService = false;
+                        Log.e("Server Die oi", "Die thiet oi");
                         System.out.println("No file to download. Server replied HTTP code: " + responseCode);
                     }
                     httpConn.disconnect();
@@ -312,8 +315,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 }
                 publishProgress(i);
             }
-
-            return "";
+            if(!isService) {
+                return "false";
+            } else {
+                return "";
+            }
         }
 
         @Override
@@ -321,6 +327,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
+            }
+
+            if(result == "false") {
+                Toast.makeText(SearchDetailActivity.this, "FPT Service is not available, please try again later.", Toast.LENGTH_SHORT).show();
             }
 
         }
