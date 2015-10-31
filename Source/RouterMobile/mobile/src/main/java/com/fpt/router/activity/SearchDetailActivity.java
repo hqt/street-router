@@ -4,13 +4,11 @@ import android.app.ProgressDialog;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,31 +19,28 @@ import com.fpt.router.fragment.AbstractMapFragment;
 import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.fragment.MotorDetailFragment;
+import com.fpt.router.library.config.AppConstants.FileCache;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.utils.DiskLruSoundCache;
+import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
+import com.fpt.router.utils.NetworkUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.wearable.Wearable;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 
 import de.greenrobot.event.EventBus;
 
 public class SearchDetailActivity extends AppCompatActivity implements LocationListener,
-        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
+        GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     private EventBus bus = EventBus.getDefault();
     private GoogleApiClient mGoogleApiClient;
     AbstractMapFragment fragment;
@@ -80,10 +75,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-        Result result = (Result)getIntent().getSerializableExtra("result");
+        Result result = (Result) getIntent().getSerializableExtra("result");
         Journey journey = (Journey) getIntent().getSerializableExtra("journey");
         position = getIntent().getIntExtra("position", -1);
-        if(result != null){
+        if (result != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
                 trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
@@ -91,7 +86,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             }
         }
 
-        if(position != -1){
+        if (position != -1) {
             if (savedInstanceState == null) {
 
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -103,7 +98,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     @Override
                     public void onClick(View v) {
                         isPlaySound = !isPlaySound;
-                        if(isPlaySound) {
+                        if (isPlaySound) {
                             DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
                             downloadAsyncTask.execute();
                         }
@@ -127,7 +122,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             }
         }
 
-        if(journey != null){
+        if (journey != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
                 trans.add(R.id.fragment, BusDetailFourPointFragment.newInstance(journey));
@@ -136,11 +131,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         }
 
 
-
     }
 
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         // Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
         // startService(intent);
@@ -171,11 +165,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         }
     }
 
-    public void onEventMainThread(LocationMessage event){
+    public void onEventMainThread(LocationMessage event) {
         onLocationChanged(event.location);
     }
 
-    public void onEventMainThread(NotifyModel event){
+    public void onEventMainThread(NotifyModel event) {
         Toast.makeText(SearchDetailActivity.this, event.smallMessage, Toast.LENGTH_SHORT).show();
     }
 
@@ -228,97 +222,43 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         protected String doInBackground(String... strings) {
 
             String textInput = null;
-            boolean isService = true;
-            for(int i = 0; i < GPSServiceOld.getNotifyModel().size(); i++) {
+            boolean isServiceAvailable = true;
+            DiskLruSoundCache soundCache = new DiskLruSoundCache(getApplicationContext(), FileCache.FOLDER_NAME, FileCache.SYSTEM_SIZE);
+
+            for (int i = 0; i < GPSServiceOld.getNotifyModel().size(); i++) {
+                NotifyModel model = GPSServiceOld.getNotifyModel().get(i);
+
+                // check cache
+                String key = StringUtils.normalizeFileCache(model.smallMessage);
+
+                // already exist. doesn't need to download anymore
+                if (soundCache.containsKey(key)) {
+                    continue;
+                }
+
                 try {
-                    textInput = URLEncoder.encode(GPSServiceOld.getNotifyModel().get(i).smallMessage, "UTF-8");
+                    textInput = URLEncoder.encode(model.smallMessage, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
                 String fileURL = host + textInput;
-                String saveDir = GPSServiceOld.getNotifyModel().get(i).smallMessage+".wav";
 
-                File root = Environment.getExternalStorageDirectory();
-                File dir = new File(root.getAbsolutePath() + "/smac");
-                File fileSMAC = new File(dir, saveDir);
-                if(fileSMAC.exists()) {
-                    continue;
+
+                byte[] data = NetworkUtils.downloadSoundFile(fileURL);
+
+                if (data == null) {
+                    isServiceAvailable = false;
                 }
 
-
-                try {
-                    URL url = new URL(fileURL);
-                    Log.e("FUCKTHAO", "----" + url.toString());
-                    HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-                    int responseCode = httpConn.getResponseCode();
-
-                    // always check HTTP response code first
-                    if (responseCode == HttpURLConnection.HTTP_OK) {
-                        String fileName = "";
-                        String disposition = httpConn.getHeaderField("Content-Disposition");
-                        String contentType = httpConn.getContentType();
-                        int contentLength = httpConn.getContentLength();
-
-                        if (disposition != null) {
-                            // extracts file name from header field
-                            int index = disposition.indexOf("filename=");
-                            if (index > 0) {
-                                fileName = disposition.substring(index + 10,
-                                        disposition.length() - 1);
-                            }
-                        } else {
-                            // extracts file name from URL
-                            fileName = fileURL.substring(fileURL.lastIndexOf("/") + 1,
-                                    fileURL.length());
-                        }
-
-                        System.out.println("Content-Type = " + contentType);
-                        System.out.println("Content-Disposition = " + disposition);
-                        System.out.println("Content-Length = " + contentLength);
-                        System.out.println("fileName = " + fileName);
-
-                        // opens input stream from the HTTP connection
-                        InputStream inputStream = httpConn.getInputStream();
-                        String saveFilePath = saveDir + File.separator + fileName;
-
-                        //Save file in folder
-                        dir.mkdirs();
-                        File file = new File(dir, saveDir);
-
-
-                        // opens an output stream to save into file
-                        FileOutputStream outputStream = new FileOutputStream(file);
-
-                        int bytesRead = -1;
-                        byte[] buffer = new byte[BUFFER_SIZE];
-                        while ((bytesRead = inputStream.read(buffer)) != -1) {
-                            outputStream.write(buffer, 0, bytesRead);
-                        }
-
-                        outputStream.close();
-                        inputStream.close();
-
-                        System.out.println("File downloaded");
-                    } else {
-                        isService = false;
-                        Log.e("Server Die oi", "Die thiet oi");
-                        System.out.println("No file to download. Server replied HTTP code: " + responseCode);
-                    }
-                    httpConn.disconnect();
-
-
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                soundCache.put(key, data);
                 publishProgress(i);
+
             }
-            if(!isService) {
-                return "false";
+
+            if (isServiceAvailable) {
+                return "success";
             } else {
-                return "";
+                return "fail";
             }
         }
 
@@ -329,13 +269,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 pDialog.dismiss();
             }
 
-            if(result.equals("false")) {
+            if (result.equals("fail")) {
                 Toast.makeText(SearchDetailActivity.this, "FPT Service is not available, please try again later.",
                         Toast.LENGTH_SHORT).show();
             }
-
         }
     }
-
-
 }

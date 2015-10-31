@@ -1,15 +1,22 @@
 package com.fpt.router.library.utils;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.v4.util.LruCache;
 import android.util.Log;
+
+import com.fpt.router.library.config.AppConstants;
 
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static com.fpt.router.library.config.AppConstants.*;
 
 /**
  * Created by Nguyen Trung Nam on 10/30/2015.
@@ -17,30 +24,36 @@ import java.io.IOException;
 public class SoundUtils {
     static MediaPlayer mp = new MediaPlayer();
 
-    public static void playSound (String soundName) {
-        Uri uri;
-        File fileSMAC;
-        FileDescriptor fd = null;
+    public static void playSound(Context context, String message) {
 
-        File root = Environment.getExternalStorageDirectory();
-        File dir = new File(root.getAbsolutePath() + "/smac");
-        dir.mkdirs();
-        fileSMAC = new File(dir, soundName+".wav");
-        uri = Uri.fromFile(fileSMAC);
-        Log.e("QUYYY111", "--" + fileSMAC.getAbsolutePath() + "--");
-
+        FileDescriptor fileDescriptor = null;
         try {
-            FileInputStream fis = new FileInputStream(fileSMAC);
-            fd = fis.getFD();
+            String key = StringUtils.normalizeFileCache(message);
+            DiskLruSoundCache soundCache = new DiskLruSoundCache(context, FileCache.FOLDER_NAME, FileCache.SYSTEM_SIZE);
+
+            if (!soundCache.containsKey(key)) {
+                Log.e("hqthao", "Shit Happen here. No File Key Found");
+                return;
+            }
+
+            byte[] sound = soundCache.getData(key);
+
+            // create temporary mp3 file
+            File tempMp3 = File.createTempFile("kurchina", "mp3", context.getCacheDir());
+            tempMp3.deleteOnExit();
+            FileOutputStream fos = new FileOutputStream(tempMp3);
+            fos.write(sound);
+            fos.close();
+
+            // play this temporary file
+            FileInputStream fis = new FileInputStream(tempMp3);
+            fileDescriptor = fis.getFD();
 
             mp.reset();
 
-            try {
-                mp.setDataSource(fd);
-                mp.prepare();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            mp.setDataSource(fileDescriptor);
+            mp.prepare();
+
             mp.start();
 
         } catch (FileNotFoundException e) {
@@ -49,4 +62,6 @@ public class SoundUtils {
             e.printStackTrace();
         }
     }
+
+
 }
