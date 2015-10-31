@@ -1,8 +1,8 @@
 var TableManaged = function () {
 
-    var initTable1 = function () {
+    var initTableRoute = function () {
 
-        var table = $('#sample_1');
+        var table = $('#route');
 
         // begin first table
         table.dataTable({
@@ -28,43 +28,31 @@ var TableManaged = function () {
                 }
             },
 
-            // Or you can use remote translation file
-            //"language": {
-            //   url: '//cdn.datatables.net/plug-ins/3cfcc339e89/i18n/Portuguese.json'
-            //},
-
-            // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-            // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-            // So when dropdowns used the scrollable div should be removed. 
-            //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
-
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
             "columns": [{
-                "orderable": false
+                "orderable": true
             }, {
                 "orderable": true
             }, {
-                "orderable": false
-            }, {
-                "orderable": false
-            }, {
                 "orderable": true
+            },{
+                "orderable": false
             }, {
                 "orderable": false
             }],
             "lengthMenu": [
-                [5, 15, 20, -1],
-                [5, 15, 20, "All"] // change per page values here
+                [6, 16, 21, -1],
+                [6, 16, 21, "All"] // change per page values here
             ],
             // set the initial value
-            "pageLength": 5,            
-            "pagingType": "bootstrap_full_number",
+            "pageLength": 6,
+            "pagingType": "full_numbers",
             "columnDefs": [{  // set default column settings
-                'orderable': false,
+                'orderable': true,
                 'targets': [0]
             }, {
-                "searchable": false,
+                "searchable": true,
                 "targets": [0]
             }],
             "order": [
@@ -96,12 +84,13 @@ var TableManaged = function () {
         tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
     }
 
-    var initTable2 = function () {
+    var initTableStation = function () {
 
-        var table = $('#sample_2');
+        console.log("Initialize Station Table")
+
+        var table = $('#station');
 
         table.dataTable({
-
             // Internationalisation. For more info refer to http://datatables.net/manual/i18n
             "language": {
                 "aria": {
@@ -113,20 +102,29 @@ var TableManaged = function () {
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
                 "lengthMenu": " _MENU_ records",
-                "paging": {
+                "paginate": {
                     "previous": "Prev",
-                    "next": "Next"
+                    "next": "Next",
+                    "last": "Last",
+                    "first": "First"
                 },
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
 
-            // Uncomment below line("dom" parameter) to fix the dropdown overflow issue in the datatable cells. The default datatable layout
-            // setup uses scrollable div(table-scrollable) with overflow:auto to enable vertical scroll(see: assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js). 
-            // So when dropdowns used the scrollable div should be removed. 
-            //"dom": "<'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'f>r>t<'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>",
-
             "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+
+            "columns": [{
+                "orderable": true
+            }, {
+                "orderable": true
+            }, {
+                "orderable": true
+            }, {
+                "orderable": false
+            },{
+                "orderable": false
+            }],
 
             "lengthMenu": [
                 [5, 15, 20, -1],
@@ -134,11 +132,12 @@ var TableManaged = function () {
             ],
             // set the initial value
             "pageLength": 5,
+            "pagingType": "full_numbers",
             "columnDefs": [{  // set default column settings
-                'orderable': false,
+                'orderable': true,
                 'targets': [0]
             }, {
-                "searchable": false,
+                "searchable": true,
                 "targets": [0]
             }],
             "order": [
@@ -164,9 +163,9 @@ var TableManaged = function () {
         tableWrapper.find('.dataTables_length select').select2(); // initialize select2 dropdown
     }
 
-    var initTable3 = function () {
+    var initTableTrip = function () {
 
-        var table = $('#sample_3');
+        var table = $('#trip');
 
         // begin: third table
         table.dataTable({
@@ -181,7 +180,13 @@ var TableManaged = function () {
                 "info": "Showing _START_ to _END_ of _TOTAL_ records",
                 "infoEmpty": "No records found",
                 "infoFiltered": "(filtered1 from _MAX_ total records)",
-                "lengthMenu": "Show _MENU_ records",
+                "lengthMenu": " _MENU_ records",
+                "paginate": {
+                    "previous": "Prev",
+                    "next": "Next",
+                    "last": "Last",
+                    "first": "First"
+                },
                 "search": "Search:",
                 "zeroRecords": "No matching records found"
             },
@@ -198,12 +203,25 @@ var TableManaged = function () {
                 [5, 15, 20, "All"] // change per page values here
             ],
             // set the initial value
+            "pagingType": "full_numbers",
+            "columns": [{
+                "orderable": true
+            }, {
+                "orderable": true
+            }, {
+                "orderable": true
+            }, {
+                "orderable": false
+            },{
+                "orderable": false
+            }],
+
             "pageLength": 5,
             "columnDefs": [{  // set default column settings
-                'orderable': false,
+                'orderable': true,
                 'targets': [0]
             }, {
-                "searchable": false,
+                "searchable": true,
                 "targets": [0]
             }],
             "order": [
@@ -237,9 +255,9 @@ var TableManaged = function () {
                 return;
             }
 
-            initTable1();
-            initTable2();
-            initTable3();
+            initTableRoute();
+            initTableStation();
+            initTableTrip();
         }
 
     };

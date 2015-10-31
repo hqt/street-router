@@ -29,21 +29,22 @@
 <script src="../../assets/global/plugins/amcharts/ammap/maps/js/worldLow.js" type="text/javascript"></script>
 <script src="../../assets/global/plugins/amcharts/amstockcharts/amstock.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script type="text/javascript" src="../../assets/global/plugins/select2/select2.min.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/media/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../assets/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js"></script>
+<!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="../../assets/global/scripts/metronic.js" type="text/javascript"></script>
 <script src="../../assets/admin/layout2/scripts/layout.js" type="text/javascript"></script>
 <script src="../../assets/admin/layout2/scripts/demo.js" type="text/javascript"></script>
-<script src="../../assets/admin/pages/scripts/charts-amcharts.js"></script>
-<script src="../../assets/global/scripts/datatable.js"></script>
-<script src="../../assets/admin/pages/scripts/table-ajax.js"></script>
-<script src="../../static/js/index.js"></script>
+<script src="../../assets/admin/pages/scripts/table-managed.js"></script>
 <script>
-  jQuery(document).ready(function () {
-    // initiate layout and plugins
+  jQuery(document).ready(function() {
     Metronic.init(); // init metronic core components
     Layout.init(); // init current layout
     Demo.init(); // init demo features
-    ChartsAmcharts.init();
+    TableManaged.init();
   });
 </script>
 <!-- END PAGE LEVEL SCRIPTS -->

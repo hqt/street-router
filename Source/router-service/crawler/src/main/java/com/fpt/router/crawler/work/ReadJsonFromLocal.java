@@ -59,8 +59,7 @@ public class ReadJsonFromLocal {
             String line;
             BufferedReader br = null;
             try {
-                FileReader fr = new FileReader(f);
-                br = new BufferedReader(fr);
+                br = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF-8"));
                 int i = 1;
                 while ((line = br.readLine()) != null) {
                     String[] split = line.split(";");
@@ -69,7 +68,7 @@ public class ReadJsonFromLocal {
                     links.put(busNo, routeName);
                     i++;
                 }
-                System.out.println("Number of link: " +i);
+                System.out.println("Number of link: " + i);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -88,7 +87,12 @@ public class ReadJsonFromLocal {
 
     public void crawJsonFromLocal() {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
+        int limit = 0;
         for (Map.Entry<Integer, String> entry : links.entrySet()) {
+            if (limit > 4) {
+                break;
+            }
+            limit++;
             CrawDataThread crawDataThreadTrue = new CrawDataThread(entry.getKey(), true, entry.getValue());
             CrawDataThread crawDataThreadFalse = new CrawDataThread(entry.getKey(), false, entry.getValue());
             executorService.execute(crawDataThreadTrue);

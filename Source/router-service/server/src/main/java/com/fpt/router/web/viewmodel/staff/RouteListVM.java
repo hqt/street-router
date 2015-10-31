@@ -52,4 +52,11 @@ public class RouteListVM {
             routeListVMs.add(new RouteVM(route));
         }*/
     }
+
+    public void convertEntityToModel(List<Route> routes) {
+        routeListVMs = new ArrayList<>();
+        for (Route route : routes) {
+            routeListVMs.add(new RouteVM(route));
+        }
+    }
 }

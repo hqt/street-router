@@ -43,6 +43,12 @@ public class ActionFactory implements IActionFactory {
             action = new StaffListAction();
         } else if (url.equals("/search/multi")) {
             action = new MultiPointAction();
+        } else if (url.equals("/route/detail")) {
+            action = new DetailRouteAction();
+        } else if (url.equals("/station/add")) {
+
+        } else if (url.equals("/compare")) {
+            action = new CompareMapAction();
         }
         // handle "action" parameter that end with jsp. will go directly to jsp page
         /**
@@ -62,7 +68,9 @@ public class ActionFactory implements IActionFactory {
                 action = new DetailRouteAction();
             } else if (actionCommand.equals("update")) {
                 action = new RouteUpdateAction();
-            } else if (actionCommand.equals("multiSearch")) {
+            } else if (actionCommand.equals("addStation")) {
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/station/add.jsp");
+                action = new DetailRouteAction();
             }
         }
 

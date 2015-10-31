@@ -12,6 +12,7 @@ import com.fpt.router.web.viewmodel.staff.StationListVM;
 public class StationListAction implements IAction {
     @Override
     public String execute(ApplicationContext context) {
+/*
 
         // get parameter route no
         int paramRouteNo = (Integer) context.getSessionAttribute("routeNo");
@@ -23,6 +24,7 @@ public class StationListAction implements IAction {
             context.setAttribute("stations", stationListVM.getStationListVM());
             return Config.WEB.PAGE + "station/index.jsp"; // redirect detail route view
         }
+*/
 
         return null;
     }

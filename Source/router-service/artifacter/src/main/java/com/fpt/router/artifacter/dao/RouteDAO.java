@@ -1,6 +1,7 @@
 package com.fpt.router.artifacter.dao;
 
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
+import com.fpt.router.artifacter.model.algorithm.PathInfo;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.artifacter.utils.PaginationUtils;
 
@@ -20,19 +21,11 @@ public class RouteDAO extends JPADaoImpl<Route, Integer> {
         return entityManager;
     }
 
-    public List<Route> getRoutesAtPage(int pageNum) {
-        EntityManagerFactory factory = JPADaoImpl.factory;
-        EntityManager entityManager = factory.createEntityManager();
-
-        String hql = "SELECT a FROM Route a" +
-                " ORDER BY a.routeId DESC";
-
-        Query query = entityManager.createQuery(hql).setFirstResult(PaginationUtils.getOffset(pageNum)).setMaxResults(10);
-        /*query.setParameter("offset", PaginationUtils.getOffset(pageNum));
-        query.setParameter("limit", 10);*/
-        List<Route> resultList = query.getResultList();
-        entityManager.close();
-        return resultList;
+    public Route getRouteLazy(int id) {
+        return getEntityManager().find(Route.class, id);
     }
 
+    public List<Route> findAllRouteLazy() {
+        return getEntityManager().createQuery("from " + entityClass.getName()).getResultList().subList(0, 10);
+    }
 }
