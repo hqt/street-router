@@ -51,4 +51,6 @@ public class AppConstants {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
         API.SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
+
+    public static int DISTANCE_DEMO = 0;
 }

@@ -137,7 +137,7 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-          /*  Gson gson1 = JSONUtils.buildGson();
+            /*Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());

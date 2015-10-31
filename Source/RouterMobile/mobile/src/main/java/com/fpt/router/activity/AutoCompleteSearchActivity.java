@@ -65,7 +65,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         // default. hide progress bar
         progressBar.setVisibility(View.INVISIBLE);
 
-        adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<AutocompleteObject>());
+        adapter = new AutocompleteAdapter(this, R.layout.list_item_autocomplete_search, new ArrayList<AutocompleteObject>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
         int number = getIntent().getIntExtra("number", 1);
@@ -237,11 +237,11 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 } else if (!NetworkUtils.isNetworkConnected()) {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
-                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, results);
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, R.layout.list_item_autocomplete_search, results);
                 /*return;*/
             }
             listLocation = results;
-            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, results);
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, R.layout.list_item_autocomplete_search, results);
 
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();

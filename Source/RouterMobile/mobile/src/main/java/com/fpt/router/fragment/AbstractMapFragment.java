@@ -7,4 +7,5 @@ import android.support.v4.app.Fragment;
  */
 public abstract class AbstractMapFragment extends Fragment {
     public abstract  void drawCurrentLocation(Double lat, Double lng);
+
 }

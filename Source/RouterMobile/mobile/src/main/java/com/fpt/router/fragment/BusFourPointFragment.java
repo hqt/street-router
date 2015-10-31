@@ -184,7 +184,6 @@ public class BusFourPointFragment extends Fragment {
                 e.printStackTrace();
 
             }
-
             return journeyList;
         }
 
