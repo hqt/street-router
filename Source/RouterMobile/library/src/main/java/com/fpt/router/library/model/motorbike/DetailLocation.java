@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.fpt.router.library.model.common.IWearableModel;
+import com.fpt.router.library.model.common.Location;
 import com.google.android.gms.wearable.DataMap;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
  */
 public class DetailLocation implements IWearableModel<DetailLocation> {
     private int distance;
+    private String distanceText;
     private int duration;
     private Location endLocation;
     private Location startLocation;
@@ -27,6 +29,14 @@ public class DetailLocation implements IWearableModel<DetailLocation> {
         this.duration = duration;
         this.endLocation = endLocation;
         this.startLocation = start_location;
+    }
+
+    public String getDistanceText() {
+        return distanceText;
+    }
+
+    public void setDistanceText(String distanceText) {
+        this.distanceText = distanceText;
     }
 
     public int getDistance() {

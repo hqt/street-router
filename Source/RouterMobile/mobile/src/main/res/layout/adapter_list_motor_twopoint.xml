@@ -3,12 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#EEEEEE"
     android:padding="10dip">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="left|center"
-        android:padding="5dip"
+        android:padding="10dip"
         android:id="@+id/txtTitle"
         android:textColor="#616161"
         android:textSize="16sp"
@@ -19,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1"
-        card_view:cardCornerRadius="4dp">
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                         android:padding="5dip"
                         android:gravity="left|center"
                         android:textColor="#FB8C00"
-                        android:textSize="15sp"
+                        android:textSize="14sp"
                         android:textStyle="normal" />
 
                 </LinearLayout>
@@ -94,12 +94,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
@@ -116,14 +117,15 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:paddingLeft="10dp"
-                        android:textColor="#F50057"
+                        android:paddingLeft="2dp"
+                        android:textColor="#FB8C00"
                         android:textSize="14sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dip"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
@@ -140,8 +142,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="left|center"
-                        android:paddingLeft="10dp"
-                        android:textColor="#F50057"
+                        android:paddingLeft="2dp"
+                        android:textColor="#FB8C00"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>

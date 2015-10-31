@@ -25,7 +25,16 @@ public class APIUtils {
         String addressEnd = null;
         String addressMiddleFirst = null;
         String addressMiddleSecond = null;
+        int hour = 0;
+        int minute = 0;
         Calendar now = Calendar.getInstance();
+        if((SearchRouteActivity.pHour < 0) || (SearchRouteActivity.pMinute < 0)){
+            hour = now.get(Calendar.HOUR_OF_DAY);
+            minute = now.get(Calendar.MINUTE);
+        }else {
+            hour = SearchRouteActivity.pHour;
+            minute = SearchRouteActivity.pMinute;
+        }
         if(busLocations.size() == 2){
            startPoint =  busLocations.get(0);
            endPoint =  busLocations.get(1);
@@ -39,7 +48,7 @@ public class APIUtils {
 
             String url = AppConstants.API.SEARCH_BUS_ROUTE + "?latStart="+ startPoint.getLatitude()
                     +"&latEnd="+endPoint.getLatitude()+"&longStart="+startPoint.getLongitude()
-                    +"&longEnd="+endPoint.getLongitude()+"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                    +"&longEnd="+endPoint.getLongitude()+"&hour="+hour+"&minute="+minute
                     +"&addressStart="+addressStart+"&addressEnd="+addressEnd
                     +"&walkingDistance="+ SearchRouteActivity.walkingDistance+"&transferTurn="+SearchRouteActivity.transferNumber;
             Log.d("URL TWO POINT : ",url);
@@ -61,7 +70,7 @@ public class APIUtils {
                     +"&latEnd="+endPoint.getLatitude()+"&longStart="+startPoint.getLongitude()
                     +"&longEnd="+endPoint.getLongitude()
                     +"&latMidFirst="+middleFirstPoint.getLatitude()+"&longMidFirst="+middleFirstPoint.getLongitude()
-                    +"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                    +"&hour="+hour+"&minute="+minute
                     +"&addressStart="+addressStart+"&addressEnd="+addressEnd
                     +"&addressMidFirst="+addressMiddleFirst+"&isOp="+ SearchRouteActivity.optimize
                     +"&walkingDistance="+ SearchRouteActivity.walkingDistance+"&transferTurn="+SearchRouteActivity.transferNumber;
@@ -87,7 +96,7 @@ public class APIUtils {
                     +"&longEnd="+endPoint.getLongitude()
                     +"&latMidFirst="+middleFirstPoint.getLatitude()+"&longMidFirst="+middleFirstPoint.getLongitude()
                     +"&latMidSecond="+middleSecondPoint.getLatitude()+"&longMidSecond="+middleSecondPoint.getLongitude()
-                    +"&hour="+now.get(Calendar.HOUR_OF_DAY)+"&minute="+now.get(Calendar.MINUTE)
+                    +"&hour="+hour+"&minute="+minute
                     +"&addressStart="+addressStart+"&addressEnd="+addressEnd
                     +"&addressMidFirst="+addressMiddleFirst+"&addressMidSecond="+addressMiddleSecond+"&isOp="+ SearchRouteActivity.optimize
                     +"&walkingDistance="+ SearchRouteActivity.walkingDistance+"&transferTurn="+SearchRouteActivity.transferNumber;

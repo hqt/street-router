@@ -2,6 +2,7 @@ package com.fpt.router.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,38 +15,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
-import com.fpt.router.library.utils.string.LevenshteinDistance;
+import com.fpt.router.library.config.AppConstants.SearchField;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
+import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
     public AutocompleteAdapter adapter;
-   /* public AutoCompleteTextView autoComp;*/
+    /* public AutoCompleteTextView autoComp;*/
     private EditText autoComp;
-    private  ListView listView;
+    private ListView listView;
     private ProgressBar progressBar;
     private List<AutocompleteObject> listLocation = new ArrayList<>();
     private AutocompleteObject location;
     boolean state = false;
     String phraseShouldToSearch;
-    private String status;
-
+    String status;
+    private ImageButton mbVoiceSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,38 +53,36 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listview_autosearch);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         progressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
+        mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
         // default. hide progress bar
         progressBar.setVisibility(View.INVISIBLE);
 
         adapter = new AutocompleteAdapter(this, android.R.layout.simple_list_item_1, new ArrayList<AutocompleteObject>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
-        Intent intent = new Intent();
         int number = getIntent().getIntExtra("number", 1);
         String message = getIntent().getStringExtra("message");
-        if(number == 1){
+        if ((message != null) && (message.length() > 0)) {
             autoComp.setText(message);
         }
-        if(number == 2){
-            autoComp.setHint("Chọn điểm đến");
-            if(!"".equals(message)){
-                autoComp.setText(message);
-            }
-        } else if(number == 3) {
-            autoComp.setHint("Điểm trung gian 1");
-            if(!"".equals(message)){
-                autoComp.setText(message);
-            }
-        } else  if (number == 4) {
-            autoComp.setHint("Điểm trung gian 2");
-            if(!"".equals(message)){
-                autoComp.setText(message);
-            }
+        switch (number) {
+            case SearchField.FROM_LOCATION:
+                autoComp.setHint("Chọn điểm đi");
+                break;
+            case SearchField.TO_LOCATION:
+                autoComp.setHint("Chọn điểm đến");
+                break;
+            case SearchField.WAY_POINT_1:
+                autoComp.setHint("Điểm trung gian 1");
+                break;
+            case SearchField.WAY_POINT_2:
+                autoComp.setHint("Điểm trung gian 2");
+                break;
         }
+
         adapter.setNotifyOnChange(true);
         /*autoComp.setAdapter(adapter);*/
-        if(adapter != null) {
+        if (adapter != null) {
             listView.setAdapter(adapter);
         }
 
@@ -100,6 +96,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 location = listLocation.get(position);
                 autoComp.setText(location.getName());
+            }
+        });
+
+        /**
+         * voice listener
+         */
+        mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AutoCompleteSearchActivity.this,VoiceRecordActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -131,28 +138,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                         case KeyEvent.KEYCODE_ENTER:
                         case KeyEvent.FLAG_EDITOR_ACTION:
                         case 12:
-                            Intent intent = new Intent();
-                            int number = getIntent().getIntExtra("number", 1);
-                            if(location != null) {
-                                intent.putExtra("NAME", location.getName());
-                                intent.putExtra("PLACE_ID", location.getPlace_id());
-                            } else if (!autoComp.getText().toString().equals("")) {
-                                if (SearchRouteActivity.listLocation.size() >= number) {
-                                    if(autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1 ).getName())) {
-                                        intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
-                                        intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
-                                    }else {
-                                        intent.putExtra("NAME", autoComp.getText().toString());
-                                        intent.putExtra("PLACE_ID", "");
-                                    }
-                                } else {
-                                    intent.putExtra("NAME", autoComp.getText().toString());
-                                    intent.putExtra("PLACE_ID", "");
-                                }
-                            }
-                            setResult(number, intent);
-                            finish();//finishing activity
-                            return true;
+                           return returnPreviousActivity();
                         default:
                             break;
                     }
@@ -171,36 +157,44 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         task.execute(phraseShouldToSearch);
     }
 
-
+    private boolean returnPreviousActivity() {
+        int number = getIntent().getIntExtra("number", 1);
+        // user has chosen one result in auto complete list
+        if ((location != null) ) {
+            if(autoComp.getText().toString().equals(location.getName())) {
+                mapLocation.put(number, location);
+            } else {
+                AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                mapLocation.put(number, obj);
+            }
+        } else {
+            if (mapLocation.get(number) != null) {
+                // user delete field
+                if (autoComp.getText().toString().length() == 0) {
+                    mapLocation.remove(number);
+                }
+                // user types random text.
+                else if ((autoComp.getText().toString().length() > 0) &&
+                        (!mapLocation.get(number).getName().equals(autoComp.getText().toString()))) {
+                    AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                    mapLocation.put(number, obj);
+                }
+            } else {
+                AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                mapLocation.put(number, obj);
+            }
+        }
+        setResult(number, null);
+        finish();//finishing activity
+        return true;
+    }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
-                // NavUtils.navigateUpFromSameTask(this);
-                Intent intent = new Intent();
-                int number = getIntent().getIntExtra("number", 1);
-                if(location != null) {
-                    intent.putExtra("NAME", location.getName());
-                    intent.putExtra("PLACE_ID", location.getPlace_id());
-                } else if (!autoComp.getText().toString().equals("")) {
-                    if (SearchRouteActivity.listLocation.size() >= number) {
-                        if(autoComp.getText().toString().equals(SearchRouteActivity.listLocation.get(number - 1 ).getName())) {
-                            intent.putExtra("NAME", SearchRouteActivity.listLocation.get(number - 1).getName());
-                            intent.putExtra("PLACE_ID", SearchRouteActivity.listLocation.get(number - 1).getPlace_id());
-                        }else {
-                            intent.putExtra("NAME", autoComp.getText().toString());
-                            intent.putExtra("PLACE_ID", "");
-                        }
-                    } else {
-                        intent.putExtra("NAME", autoComp.getText().toString());
-                        intent.putExtra("PLACE_ID", "");
-                    }
-                }
-                setResult(number, intent);
-                finish();//finishing activity
-                return true;
+                return returnPreviousActivity();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -212,54 +206,20 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
 
         @Override
         // three dots is java for an array of strings
-        protected ArrayList<AutocompleteObject> doInBackground(String... args)
-        {
+        protected ArrayList<AutocompleteObject> doInBackground(String... args) {
             Log.d("gottaGo", "doInBackground");
 
-            ArrayList<AutocompleteObject> predictionsArr = new ArrayList<>();
-            try
-            {
-                //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
-                searchString = args[0];
-                List<String> listUrl = GoogleAPIUtils.getGooglePlace(searchString);
-                List<String> json = new ArrayList<>();
-                for(int n = 0; n < listUrl.size(); n++) {
-                    json.add(NetworkUtils.download(listUrl.get(n)));
-                }
-                if(json.get(0) == null){
-                    return null;
-                } else {
-                    //turn that string into a JSON object
-                    for (int x = 0; x < json.size(); x++) {
-                        JSONObject predictions = new JSONObject(json.get(x));
-                        //now get the JSON array that's inside that object
-                        status = predictions.getString("status");
-                        if(status.equals("OVER_QUERY_LIMIT")) {
-                            return null;
-                        } else {
-                            JSONArray ja = new JSONArray(predictions.getString("predictions"));
-
-                            for (int y = 0; y < ja.length(); y++) {
-                                JSONObject jo = (JSONObject) ja.get(y);
-                                String name = jo.getString("description");
-                                String place_id = jo.getString("place_id");
-                                predictionsArr.add(new AutocompleteObject(name, place_id));
-                            }
-                        }
-                    }
-                }
-            } catch (JSONException e)
-            {
-                Log.e("YourApp", "GetPlacesTask : doInBackground", e);
-            }
-
-            return predictionsArr;
+            //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
+            searchString = args[0];
+            Pair<String, ArrayList<AutocompleteObject>> res = GoogleAPIUtils.getAutoCompleteObject(searchString);
+            String status = res.first;
+            return res.second;
         }
 
         //then our post
 
         @Override
-        protected void onPostExecute(ArrayList<AutocompleteObject> results){
+        protected void onPostExecute(ArrayList<AutocompleteObject> results) {
             adapter.clear();
 
             state = false;
@@ -273,15 +233,14 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 Log.e("hqt", "onPostExecute : result = " + string);
                adapter.add(string);
             }*/
-            if(results == null){
-                AutocompleteObject autocompleteObject = new AutocompleteObject();
+            if (results == null) {
                 results = new ArrayList<>();
-                if(status.equals("OVER_QUERY_LIMIT")) {
+                if (status.equals("OVER_QUERY_LIMIT")) {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Hết quota cmnr", Toast.LENGTH_SHORT).show();
-                } else if(!NetworkUtils.isNetworkConnected()) {
+                } else if (!NetworkUtils.isNetworkConnected()) {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
                 }
-                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,android.R.layout.simple_list_item_1,results);
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_list_item_1, results);
                 /*return;*/
             }
             listLocation = results;

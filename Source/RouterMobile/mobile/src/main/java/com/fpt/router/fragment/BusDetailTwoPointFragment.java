@@ -1,35 +1,36 @@
 package com.fpt.router.fragment;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
-import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.model.common.Model;
-import com.fpt.router.library.model.common.SubModule;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.Location;
+import com.fpt.router.utils.GoogleAPIUtils;
+import com.fpt.router.utils.JSONParseUtils;
+import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -41,16 +42,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -89,8 +87,13 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
     private List<Path> paths;
     private BusDetailAdapter adapterItem;
     private List<Location> points;
+    List<LatLng> list = new ArrayList<LatLng>();
 
     private List<String> steps;
+    private List<String> listError;
+    private JSONObject jsonObject;
+    private String status;
+    JSONParseTask jsonParseTask;
 
     public BusDetailTwoPointFragment() {
     }
@@ -160,7 +163,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
         iNodeList = result.nodeList;
 
 
-        adapterItem = new BusDetailAdapter(getContext(),R.layout.adapter_show_detail_bus_steps,iNodeList);
+        adapterItem = new BusDetailAdapter(getContext(), R.layout.adapter_show_detail_bus_steps, iNodeList);
 
         mListView.addHeaderView(mTransparentHeaderView);
       /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, steps));*/
@@ -195,20 +198,22 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+
                 List<Segment> segments = new ArrayList<Segment>();
-                for (int i=0;i<iNodeList.size();i++){
-                    if(iNodeList.get(i) instanceof Segment){
+                for (int i = 0; i < iNodeList.size(); i++) {
+                    if (iNodeList.get(i) instanceof Segment) {
                         Segment segment = (Segment) iNodeList.get(i);
                         segments.add(segment);
                     }
                 }
-                List<LatLng> list = new ArrayList<LatLng>();
-                for(int m = 0 ;m <segments.size();m++){
+
+                for (int m = 0; m < segments.size(); m++) {
                     paths = segments.get(m).paths;
-                    for (int j = 0; j<paths.size();j++){
+                    for (int j = 0; j < paths.size(); j++) {
                         points = paths.get(j).points;
-                        for (int n = 0; n <points.size();n++){
-                            LatLng latLng = new LatLng(points.get(n).getLatitude(),points.get(n).getLongitude());
+                        for (int n = 0; n < points.size(); n++) {
+                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
                             list.add(latLng);
                         }
                     }
@@ -217,27 +222,45 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                 /**
                  * start location
                  */
-                Path path = (Path) iNodeList.get(0);
-                Location startLocation = path.stationFromLocation;
-                latitude = startLocation.getLatitude();
-                longitude = startLocation.getLongitude();
-                MapUtils.drawStartPoint(mMap,latitude,longitude,path.stationFromName);
+                if (iNodeList.get(0) instanceof Path) {
+                    Path path = (Path) iNodeList.get(0);
+                    Location startLocation = path.stationFromLocation;
+                    latitude = startLocation.getLatitude();
+                    longitude = startLocation.getLongitude();
+                    MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
+                    LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+                    moveToLocation(startLatLng,true);
+                    LatLng endLatLng = new LatLng(list.get(0).latitude, list.get(0).longitude);
+                   /* MapUtils.drawBusPoint(mMap,endLatLng.latitude,endLatLng.longitude,path.stationToName,R.drawable.markerbus);*/
+                    List<LatLng> start = new ArrayList<LatLng>();
+                    start.add(startLatLng);
+                    start.add(endLatLng);
+                    jsonParseTask = new JSONParseTask();
+                    jsonParseTask.execute(start);
 
-               /* LatLng startLocation = list.get(0);
-
-                latitude = startLocation.latitude;
-                longitude = startLocation.longitude;
-                MapUtils.drawEndPoint(mMap, latitude, longitude, segments.get(0).routeName);*/
-
-                LatLng endLocation = list.get(list.size()-1);
-
-                latitude = endLocation.latitude;
-                longitude = endLocation.longitude;
-                MapUtils.drawStartPoint(mMap, latitude, longitude, segments.get(segments.size()-1).routeName);
-                LatLng latLng = new LatLng(latitude, longitude);
-                moveToLocation(latLng, true);
+                }
+                /**
+                 * end location
+                 */
+                if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
+                    Path path = (Path) iNodeList.get(iNodeList.size() - 1);
+                    Location endLocation = path.stationToLocation;
+                    latitude = endLocation.getLatitude();
+                    longitude = endLocation.getLongitude();
+                    MapUtils.drawEndPoint(mMap, latitude, longitude, path.stationToName);
+                    LatLng startLatLng = new LatLng(list.get(list.size()-1).latitude, list.get(list.size() -1).longitude);
+                    /*MapUtils.drawBusPoint(mMap,startLatLng.latitude,startLatLng.longitude,path.stationToName,R.drawable.markerbus);*/
+                    LatLng endLatLng = new LatLng(latitude, longitude);
+                    List<LatLng> end = new ArrayList<LatLng>();
+                    end.add(startLatLng);
+                    end.add(endLatLng);
+                    /*MapUtils.drawLine(mMap, end, Color.RED);*/
+                    jsonParseTask = new JSONParseTask();
+                    jsonParseTask.execute(end);
+                }
                 //add polyline
                 MapUtils.drawLine(mMap, list, Color.BLUE);
+                /*MapUtils.drawCircle(mMap,list);*/
                 MapUtils.moveCamera(mMap, latitude, longitude, 12);
 
             }
@@ -395,6 +418,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
     }
 
     static int count = 0;
+
     @Override
     public void onConnected(Bundle bundle) {
         // send location request
@@ -421,4 +445,73 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
     }
 
 
+    private class JSONParseTask extends AsyncTask<List<LatLng>, String, List<Leg>> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected List<Leg> doInBackground(List<LatLng>... args) {
+            List<Leg> listLeg = new ArrayList<>();
+            String json;
+            String url;
+            LatLng start = (LatLng) args[0].get(0);
+            LatLng end = (LatLng) args[0].get(1);
+            url = GoogleAPIUtils.makeURL(start.latitude, start.longitude, end.latitude, end.longitude);
+            json = NetworkUtils.download(url);
+            try {
+                jsonObject = new JSONObject(json);
+                status = jsonObject.getString("status");
+                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
+                    return null;
+                } else {
+                    listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return listLeg;
+        }
+
+        @Override
+        protected void onPostExecute(List<Leg> listLeg) {
+
+            if (status.equals("NOT_FOUND")) {
+                Toast.makeText(getContext(),"NOT FOUND",Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (status.equals("ZERO_RESULTS")) {
+                Toast.makeText(getContext(),"ZERO RESULTS",Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (status.equals("OVER_QUERY_LIMIT")) {
+                Toast.makeText(getContext(),"OVER QUERY LIMIT",Toast.LENGTH_LONG).show();
+                return;
+            }
+           /* if(listLeg.size() > 1) {
+                for (int x = 0; x < listLeg.size() - 1; x++) {
+                    for (int y = 1; y < listLeg.size(); y++) {
+                        if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
+                            Leg leg = listLeg.get(x);
+                            listLeg.set(x, listLeg.get(y));
+                            listLeg.set(y, leg);
+                        }
+                    }
+                }
+            }*/
+            /*listLegResult = listLeg;*/
+            MapUtils.drawMapWithTwoPointCircle(mMap, listLeg);
+        }
+    }
+
+
 }
+

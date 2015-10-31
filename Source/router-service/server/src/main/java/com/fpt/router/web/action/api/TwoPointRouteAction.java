@@ -10,6 +10,8 @@ import com.fpt.router.web.servlet.StartupServlet;
 import org.joda.time.LocalTime;
 
 import java.io.PrintWriter;
+import java.sql.Time;
+import java.util.Date;
 
 /*
 *
@@ -34,7 +36,7 @@ public class TwoPointRouteAction implements IAction {
         String hourStr = context.getParameter("hour");
         String minuteStr = context.getParameter("minute");
 
-        // option paramater
+        // option parameter
         int walkingDistance = context.getIntParameter("walkingDistance");
         int transferTurn = context.getIntParameter("transferTurn");
 
@@ -64,21 +66,21 @@ public class TwoPointRouteAction implements IAction {
         end.latitude = latB;
         end.longitude = longB;
 
-         TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
-          String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end,
-                  addressStart, addressEnd, departureTime, walkingDistance,
-                  transferTurn, false, TwoPointAlgorithm.SearchType.TWO_POINT);
+        long startTime = System.currentTimeMillis();
+
+        TwoPointAlgorithm algorithm = new TwoPointAlgorithm();
+        String json = algorithm.solveAndReturnJSon(StartupServlet.map, start, end,
+                addressStart, addressEnd, departureTime, walkingDistance,
+                transferTurn, false, TwoPointAlgorithm.SearchType.TWO_POINT);
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("Total time: " + (endTime - startTime) / 1000);
 
         System.out.println("algorithm finish zzzzzz");
         PrintWriter out = context.getWriter();
-        //System.out.println(DummyResult.twoPointJSonStr);
-        if (json.length() < 100) System.out.println(json);
         out.write(json);
-        System.out.println(json);
-
-
+        //System.out.println(DummyResult.twoPointJSonStr);
         return Config.AJAX_FORMAT;
-
-
     }
 }

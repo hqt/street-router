@@ -2,9 +2,8 @@ package com.fpt.router.library.model.bus;
 
 
 
-import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.entity.PathType;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.Location;
 
 import org.joda.time.Period;
 

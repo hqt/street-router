@@ -6,19 +6,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.bus.BusImage;
 
 import java.util.List;
 
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusImageAdapter extends ArrayAdapter<Integer> {
+public class BusImageAdapter extends ArrayAdapter<BusImage> {
     private final Context context;
-    private final List<Integer> values;
+    private final List<BusImage> values;
 
-    public BusImageAdapter(Context context, List<Integer> values){
+    public BusImageAdapter(Context context, List<BusImage> values){
         super(context, R.layout.bus_item_image, values);
         this.context = context;
         this.values = values;
@@ -30,7 +32,10 @@ public class BusImageAdapter extends ArrayAdapter<Integer> {
 
         View rowView = inflater.inflate(R.layout.bus_item_image, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-        imageView.setImageResource(values.get(position));
+        TextView textView = (TextView) rowView.findViewById(R.id.txtBusNumber);
+        BusImage busImage = values.get(position);
+        imageView.setImageResource(busImage.image);
+        textView.setText(busImage.number);
         return rowView;
     }
 }

@@ -1,7 +1,8 @@
 package com.fpt.router.library.utils;
 
+import android.util.Pair;
+
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -102,5 +103,19 @@ public class DecodeUtils {
         LatLng latLng = new LatLng(lat3 , lon3);
 
         return latLng;
+    }
+
+    public static Pair<String, String> getDetailInstruction(String instructions) {
+        Pair<String, String> detailInstruction;
+        String delimiter = "<div style=\"font-size:0.9em\">";
+        String[] temp;
+        String str = instructions;
+        temp = str.split(delimiter);
+        String subTitle = "";
+        for (int i= 1; i<temp.length;i++){
+            subTitle += temp[i]+"\n";
+        }
+        detailInstruction = new Pair<>(temp[0], subTitle);
+        return detailInstruction;
     }
 }

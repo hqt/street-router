@@ -68,6 +68,32 @@
                 android:paddingLeft="10dp"/>
         </LinearLayout>
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:textColor="#1E88E5"
+                android:textStyle="bold"
+                android:text="Simulate speed (km/h) : "/>
+            <EditText
+                android:id="@+id/edit_stimulate_speed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="40"
+                android:textColor="#000"
+                android:inputType="number"
+                android:gravity="left|center"
+                android:paddingLeft="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"

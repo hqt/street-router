@@ -13,7 +13,7 @@ public class AppConstants {
     private static final String GOOGLE_KEY_4 = "AIzaSyCRk-SLZE8HAJe_p67z-fxKgYfZzDKMyj0";
     private static final String GOOGLE_KEY_5 = "AIzaSyAdLWUhmoL7awJylFZRmrQv8-CEkjLZaT8";
     private static final String GOOGLE_KEY_6 = "AIzaSyD28mTMy7swcMpn1WRRrA4Rz8B-n7dbZZM";
-    public static final String GOOGLE_KEY = GOOGLE_KEY_3;
+    public static final String GOOGLE_KEY = GOOGLE_KEY_1;
 
     public static final class PATH {
         private static final String MESSAGE_PATH = "/com/fpt/router/wear";
@@ -26,13 +26,28 @@ public class AppConstants {
     public static final class Vibrator {
         public static final int DELAY_VIBRATE = 500;
         public static final int OFF_VIBRATE = 1000;
-        public static final int ON_VIBRATE = 2000;
+        public static final int ON_VIBRATE = 500;
     }
 
     public static final class API {
         public static String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
         public static String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
+
+    public static final class SearchField {
+        public static final int FROM_LOCATION = 1;
+        public static final int TO_LOCATION = 2;
+        public static final int WAY_POINT_1 = 3;
+        public static final int WAY_POINT_2 = 4;
+    }
+
+    public static final class GoogleApiCode {
+        public static final String OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
+        public static final String NOT_FOUND = "NOT_FOUND";
+        public static final String NO_RESULT = "ZERO_RESULTS";
+    }
+
+    public static final int NEAR_CIRCULAR_RANGE = 50;
 
     public static void buildAPILink() {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";

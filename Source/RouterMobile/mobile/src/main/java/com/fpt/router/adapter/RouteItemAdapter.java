@@ -43,37 +43,106 @@ public class RouteItemAdapter extends ArrayAdapter<Step> {
 
         // object item based on the position
         Step step = objects.get(position);
-        TextView mTitle, mSubTitle;
-        ImageView mImage;
+        TextView mTitle, mSubTitle, mDistance;
+        ImageView mImage,mImageWarning;
+
         mTitle = (TextView) convertView.findViewById(R.id.mTitle);
-
         mSubTitle = (TextView) convertView.findViewById(R.id.mSubTitle);
+        mDistance = (TextView) convertView.findViewById(R.id.txtDistance);
         mImage = (ImageView) convertView.findViewById(R.id.mImage);
+        mImageWarning = (ImageView) convertView.findViewById(R.id.imageWarning);
 
-
-        mTitle.setText(step.getManeuver());
-        mSubTitle.setText(step.getInstruction());
-        if(step.getManeuver().equals("Đi thẳng")){
-            mImage.setImageResource(R.drawable.up);
-        }else if(step.getManeuver().equals("Rẽ trái")){
-            mImage.setImageResource(R.drawable.up_left);
-        }else if(step.getManeuver().equals("Rẽ phải")){
-            mImage.setImageResource(R.drawable.up_right);
-        }else if(step.getManeuver().equals("Rẽ trái một tí")){
-            mImage.setImageResource(R.drawable.left_up);
-        }else if(step.getManeuver().equals("Rẽ phải một tí")){
-            mImage.setImageResource(R.drawable.right_up);
-        }else if(step.getManeuver().equals("Vòng xoay bên phải")){
-            mImage.setImageResource(R.drawable.redo);
-        }else if(step.getManeuver().equals("Vòng xoay bên trái")){
-            mImage.setImageResource(R.drawable.undo);
-        }else if(step.getManeuver().equals("Giao nhau")){
-            mImage.setImageResource(R.drawable.rotate);
-        }else{
-            mImage.setImageResource(R.drawable.down);
+        /**
+         * slice html_instructions
+         */
+        /* delimiter */
+        String delimiter = "<div style=\"font-size:0.9em\">";
+        String[] temp;
+        String str = step.getInstruction();
+        temp = str.split(delimiter);
+        String subTitle = "";
+        for (int i= 1; i<temp.length;i++){
+            subTitle += temp[i]+"\n";
+            if((temp[i].trim().equals("")) || (temp[i].equals(null)) || (temp[i].equals("\n"))){
+                mImageWarning.setImageResource(R.drawable.mwhile);
+            }
+            if(temp[i].equals("Đường bị giới hạn sử dụng")){
+                mImageWarning.setImageResource(R.drawable.warning_yellow);
+            }
+            if((!temp[i].equals("")) && (!temp[i].equals("Đường bị giới hạn sử dụng")) && (!temp[i].equals(null))){
+                mImageWarning.setImageResource(R.drawable.information_blue);
+            }
         }
+        mTitle.setText(temp[0]);
+        mSubTitle.setText(subTitle);
+        mDistance.setText(step.getDetailLocation().getDistanceText());
 
+        if(step.getManeuver().equals("turn-sharp-left")){
+            mImage.setImageResource(R.drawable.turn_sharp_left);
+        }
+        if(step.getManeuver().equals("uturn-right")){
+            mImage.setImageResource(R.drawable.uturn_right);
+        }
+        if(step.getManeuver().equals("turn-slight-right")){
+            mImage.setImageResource(R.drawable.turn_slight_right);
+        }
+        if(step.getManeuver().equals("merge")) {
+            mImage.setImageResource(R.drawable.merge);
+        }
+        if(step.getManeuver().equals("roundabout-left")){
+            mImage.setImageResource(R.drawable.roundabout_left);
+        }
+        if(step.getManeuver().equals("roundabout-right")) {
+            mImage.setImageResource(R.drawable.roundabout_right);
+        }
+        if(step.getManeuver().equals("uturn-left")) {
+            mImage.setImageResource(R.drawable.uturn_left);
+        }
+        if(step.getManeuver().equals("turn-slight-left")){
+            mImage.setImageResource(R.drawable.turn_slight_left);
+        }
+        if(step.getManeuver().equals("turn-left")){
+            mImage.setImageResource(R.drawable.turn_left);
+        }
+        if(step.getManeuver().equals("ramp-right")){
+            mImage.setImageResource(R.drawable.ramp_right);
+        }
+        if(step.getManeuver().equals("turn-right")){
+            mImage.setImageResource(R.drawable.turn_right);
+        }
+        if(step.getManeuver().equals("fork-right")){
+            mImage.setImageResource(R.drawable.fork_right);
+        }
+        if(step.getManeuver().equals("straight")) {
+            mImage.setImageResource(R.drawable.straight);
+        }
+        if(step.getManeuver().equals("fork-left")){
+            mImage.setImageResource(R.drawable.fork_left);
+        }
+        if(step.getManeuver().equals("ferry-train")) {
+            mImage.setImageResource(R.drawable.ferry_train);
+        }
+        if(step.getManeuver().equals("turn-sharp-right")) {
+            mImage.setImageResource(R.drawable.turn_sharp_right);
+        }
+        if(step.getManeuver().equals("ramp-left")){
+            mImage.setImageResource(R.drawable.ramp_left);
+        }
+        if(step.getManeuver().equals("ferry")){
+            mImage.setImageResource(R.drawable.ferry);
+        }
+        if(step.getManeuver().equals("keep-left")) {
+            mImage.setImageResource(R.drawable.keep_left);
+        }
+        if(step.getManeuver().equals("keep-right")) {
+            mImage.setImageResource(R.drawable.keep_right);
+        }
+        if(step.getManeuver().equals("Keep going")){
+            mImage.setImageResource(R.drawable.straight);
+        }
        return convertView;
 
     }
+
+
 }

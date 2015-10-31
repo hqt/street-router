@@ -4,15 +4,13 @@ import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.DetailLocationTwoPoint;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.motorbike.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +32,6 @@ public class JSONParseUtils {
         DetailLocation legDetailL;
         String Overview_polyline;
 
-        ArrayList<Step> listStep = new ArrayList<>();
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
@@ -46,6 +43,7 @@ public class JSONParseUtils {
             jsonA = jsonO.getJSONArray("routes");
 
             for(int n = 0; n < jsonA.length(); n++) {
+                ArrayList<Step> listStep = new ArrayList<>();
                 JSONObject jsonOLeg;
                 JSONArray jsonALeg;
                 jsonOLeg = jsonA.getJSONObject(n);
@@ -68,10 +66,8 @@ public class JSONParseUtils {
                     Instruction = replaceInstruction(Instruction);
                     if(jo.has("maneuver")) {
                         Maneuver = jo.getString("maneuver");
-                        Maneuver = replayManeuver(Maneuver);
                     } else {
                         Maneuver = "Keep going";
-                        Maneuver = replayManeuver(Maneuver);
                     }
                     stepDetailL = getDetailLocation(jo);
                     listStep.add(new Step(Instruction, Maneuver, stepDetailL));
@@ -143,29 +139,9 @@ public class JSONParseUtils {
         String text = instruction;
         text = text.replace("<b>", "");
         text = text.replace("</b>", "");
-        text = text.replace("<div style=\"font-size:0.9em\">", "");
         text = text.replace("</div>", "");
         text = text.replace("&nbsp;", "");
-        text = text.replace("at", "tại");
-        text = text.replace("At", "Tại");
-        text = text.replace("onto", "trên đường");
-        text = text.replace("continue", "tiếp tục đi");
-        text = text.replace("Continue", "Tiếp tục đi");
-        text = text.replace("Turn right", "Quẹo phải");
-        text = text.replace("Turn left", "Quẹo trái");
-        text = text.replace("Pass by", ". Đi qua");
-        text = text.replace("Slight right", "Quẹo phải một chút");
-        text = text.replace("Slight left", "Quẹo trái một chút");
-        text = text.replace("on the right", "phía bên phải");
-        text = text.replace("on the left", "phía bên trái");
-        text = text.replace("Head west on", "Đi theo hướng tây trên đường");
-        text = text.replace("Head east on", "Đi theo hướng đông trên đường");
-        text = text.replace("Head south on", "Đi theo hướng nam trên đường");
-        text = text.replace("Head north on", "Đi theo hướng bắc trên đường");
-        text = text.replace("toward", "hướng về đường");
-        text = text.replace("Sharp left", "Quẹo ngược lại về phía bên trái");
-        text = text.replace("Sharp right", "Quẹo ngược lại về phía bên phải");
-        text = text.replace("Enter", "Đi vào");
+        text = text.replace("&amp;", "");
         text = text.replace("  ", " ");
 
         return text;
@@ -180,7 +156,7 @@ public class JSONParseUtils {
         }else if(text.equals("turn-right")){
             text = text.replace("turn-right","Rẽ phải");
         }else if(text.equals("turn-slight-left")){
-            text = text.replace("turn-slight-left","Rẽ trái một tí");
+            text = text.replace("turn-slight-left","Chếch sang trái");
         }else if(text.equals("turn-slight-right")){
             text = text.replace("turn-slight-right","Rẽ phải một tí");
         }else if(text.equals("roundabout-right")){
@@ -189,6 +165,14 @@ public class JSONParseUtils {
             text = text.replace("roundabout-right","Vòng xoay bên trái");
         }else if(text.equals("merge")){
             text = text.replace("merge","Giao nhau");
+        }else if(text.equals("keep-right")){
+            text = text.replace("keep-right","Đi bên phải");
+        }if(text.equals("keep-left")){
+            text = text.replace("keep-left","Đi bên trái");
+        }else if(text.equals("ramp-right")){
+            text = text.replace("ramp-right","Đi theo lối ra");
+        }else if(text.equals("straight")){
+            text = text.replace("straight","Đi thẳng");
         }else{
             text = "Quay về";
         }
@@ -204,7 +188,6 @@ public class JSONParseUtils {
         DetailLocation legDetailL;
         String Overview_polyline;
 
-        ArrayList<Step> listStep = new ArrayList<>();
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
@@ -221,6 +204,7 @@ public class JSONParseUtils {
             Overview_polyline = jo.getString("points");
 
             jsonA = jsonO.getJSONArray("legs");
+            ArrayList<Step> listStep = new ArrayList<>();
             for(int n = 0; n < jsonA.length(); n++) {
                 JSONObject jsonOLeg;
                 JSONArray jsonALeg;
@@ -237,10 +221,8 @@ public class JSONParseUtils {
                     Instruction = replaceInstruction(Instruction);
                     if(jo.has("maneuver")) {
                         Maneuver = jo.getString("maneuver");
-                        Maneuver = replayManeuver(Maneuver);
                     } else {
                         Maneuver = "Keep going";
-                        Maneuver = replayManeuver(Maneuver);
                     }
                     stepDetailL = getDetailLocation(jo);
                     listStep.add(new Step(Instruction, Maneuver, stepDetailL));
@@ -288,6 +270,7 @@ public class JSONParseUtils {
 
     public static DetailLocation getDetailLocation(JSONObject jsonORoot){
         int distance;
+        String distanceText;
         int duration;
         double latitude;
         double longitude;
@@ -296,6 +279,7 @@ public class JSONParseUtils {
         try {
             jsonO = jsonORoot.getJSONObject("distance");
             distance = jsonO.getInt("value");
+            distanceText = jsonO.getString("text");
             jsonO = jsonORoot.getJSONObject("duration");
             duration = jsonO.getInt("value");
             jsonO = jsonORoot.getJSONObject("end_location");
@@ -307,6 +291,7 @@ public class JSONParseUtils {
             longitude = jsonO.getDouble("lng");
             Location start_location = new Location(latitude, longitude);
             DetailLocation detailL = new DetailLocation(distance, duration, end_location, start_location);
+            detailL.setDistanceText(distanceText);
             return detailL;
         } catch (JSONException e) {
             e.printStackTrace();

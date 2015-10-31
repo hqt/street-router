@@ -11,18 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
-import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
@@ -39,6 +36,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -49,7 +47,7 @@ public class BusTwoPointFragment extends Fragment {
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
-    private List<AutocompleteObject> listLocation = SearchRouteActivity.listLocation;
+    private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
 
@@ -95,7 +93,7 @@ public class BusTwoPointFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if (listLocation.size() > 1) {
+        if (mapLocation.size() > 1) {
             View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -136,7 +134,7 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-            /*Gson gson1 = JSONUtils.buildGson();
+          /*  Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());
@@ -150,11 +148,25 @@ public class BusTwoPointFragment extends Fragment {
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
+            List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
+            // add to list by ordinary
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
+                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
+            }
             try {
-                for (int i = 0; i < listLocation.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(listLocation.get(i).getPlace_id());
+                for (int i = 0; i < autocompleteObjects.size(); i++) {
+                    String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
                     String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, listLocation.get(i).getName());
+                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
                     busLocations.add(busLocation);
                 }
                 jsonFromServer = APIUtils.getJsonFromServer(busLocations);
@@ -170,16 +182,9 @@ public class BusTwoPointFragment extends Fragment {
 
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
 
-
-            //test server
-/*
-            String url = "http://192.168.1.241:8080/api/twopoint?latA=10.8372022&latB=10.7808334&longA=106.6554907&longB=106.702825&hour=15&minute=16&addressA=Galaxy+Quang+Trung%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam&addressB=Diamond+Plaza%2C+B%E1%BA%BFn+Ngh%C3%A9%2C+H%E1%BB%93+Ch%C3%AD+Minh%2C+Vi%E1%BB%87t+Nam";
-            String json = NetworkUtils.download(url);
-            Gson gson1 = JSONUtils.buildGson();
-            resultList = gson1.fromJson(json, new TypeToken<List<Result>>() {
-            }.getType());*/
             return resultList;
         }
 

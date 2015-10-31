@@ -1,7 +1,15 @@
 package com.fpt.router.utils;
 
+import android.util.Log;
+import android.support.v4.util.Pair;
+
 import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.config.AppConstants.GoogleApiCode;
+import com.fpt.router.library.model.common.AutocompleteObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -32,13 +40,35 @@ public class GoogleAPIUtils {
                 "origin=" + startLocation +
                 "&destination=" + endLocation +
                 "&alternatives=true" +
+                "&language=vi" +
                 "&mode=driving" +
                 "&key=" + key;
         return url;
     }
-
+public static String makeURL (double sourcelat, double sourcelog, double destlat, double destlog ){
+        String key = AppConstants.GOOGLE_KEY;
+        StringBuilder urlString = new StringBuilder();
+        urlString.append("https://maps.googleapis.com/maps/api/directions/json");
+        urlString.append("?origin=");// from
+        urlString.append(Double.toString(sourcelat));
+        urlString.append(",");
+        urlString
+                .append(Double.toString(sourcelog));
+        urlString.append("&destination=");// to
+        urlString
+                .append(Double.toString(destlat));
+        urlString.append(",");
+        urlString.append(Double.toString( destlog));
+        urlString.append("&mode=driving&alternatives=true");
+        urlString.append("&key="+key);
+        Log.i("URL Make URL",urlString.toString());
+        return urlString.toString();
+    }
     public static List<String> getFourPointWithoutOptimizeDirection(List<AutocompleteObject> listLocation) {
         String url;
+        AutocompleteObject tmp = listLocation.get(1);
+        listLocation.remove(1);
+        listLocation.add(tmp);
         List<String> listUrl = new ArrayList<>();
         for(int x = 0; x < listLocation.size()-1; x++){
             for(int y = 1; y < listLocation.size(); y++){
@@ -113,6 +143,7 @@ public class GoogleAPIUtils {
                     "origin=" + startLocation +
                     "&destination=" + endLocation + waypoints +
                     "&alternatives=true" +
+                    "&language=vi" +
                     "&mode=driving" +
                     "&key=" + key;
             listUrl.add(url);
@@ -143,5 +174,44 @@ public class GoogleAPIUtils {
                 "placeid=" + input +
                 "&key=" + key;
         return url;
+    }
+
+    public static Pair<String, ArrayList<AutocompleteObject>> getAutoCompleteObject(String searchString) {
+        ArrayList<AutocompleteObject> predictionsArr = new ArrayList<>();
+        String status = null;
+        try {
+            //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
+            List<String> listUrl = GoogleAPIUtils.getGooglePlace(searchString);
+            List<String> json = new ArrayList<>();
+            for (int n = 0; n < listUrl.size(); n++) {
+                json.add(NetworkUtils.download(listUrl.get(n)));
+            }
+            if (json.get(0) == null) {
+                return null;
+            } else {
+                //turn that string into a JSON object
+                for (int x = 0; x < json.size(); x++) {
+                    JSONObject predictions = new JSONObject(json.get(x));
+                    //now get the JSON array that's inside that object
+                    status = predictions.getString("status");
+                    if (status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
+                        return new Pair<>(status, null);
+                    } else {
+                        JSONArray ja = new JSONArray(predictions.getString("predictions"));
+
+                        for (int y = 0; y < ja.length(); y++) {
+                            JSONObject jo = (JSONObject) ja.get(y);
+                            String name = jo.getString("description");
+                            String place_id = jo.getString("place_id");
+                            predictionsArr.add(new AutocompleteObject(name, place_id));
+                        }
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e("YourApp", "GetPlacesTask : doInBackground", e);
+        }
+
+        return new Pair<>(status, predictionsArr);
     }
 }

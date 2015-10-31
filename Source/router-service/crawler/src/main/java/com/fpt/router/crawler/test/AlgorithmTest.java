@@ -18,6 +18,8 @@ import org.joda.time.Period;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /*
  *
@@ -26,6 +28,15 @@ import java.util.List;
 */
 public class AlgorithmTest {
     public static void main(String[] args) {
+
+        String a = "toi muon di den cong vien phan mem quang trung";
+
+        Pattern p = Pattern.compile(".*\\bqua\\b.*");
+        Matcher m = p.matcher(a);
+        System.out.println(m.matches());
+        p = Pattern.compile(".*\\bquang\\b.*");
+        m = p.matcher(a);
+        System.out.println(m.matches());
 
         JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();
@@ -104,14 +115,14 @@ public class AlgorithmTest {
         middleAddress.add(addressChoBaChieu);
         middleAddress.add("đại học nông lâm ");
 
-        List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
+       /* List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
                 middleLocations, middleAddress, time, 500, 2, true);
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(journeys);
 
         System.out.println(json);
-        int abcd = 3;
+        int abcd = 3;*/
 
 /*
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
