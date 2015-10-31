@@ -43,6 +43,14 @@ public class RouteVM {
         }
     }
 
+    public RouteVM convert(Route route) {
+        RouteVM routeVM = new RouteVM();
+        routeVM.routeId = route.getRouteId();
+        routeVM.routeNo = route.getRouteNo();
+        routeVM.routeName = route.getRouteName();
+        routeVM.routeType = route.getRouteType();
+        return routeVM;
+    }
 
     public List<Station> convertPathInfoToStation(List<PathInfo> pathInfos) {
         List<Station> stations = new ArrayList<>();
