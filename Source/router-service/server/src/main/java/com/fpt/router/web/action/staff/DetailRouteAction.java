@@ -1,10 +1,15 @@
 package com.fpt.router.web.action.staff;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.artifacter.dao.PathInfoDAO;
+import com.fpt.router.artifacter.dao.RouteDAO;
+import com.fpt.router.artifacter.model.entity.Route;
+import com.fpt.router.artifacter.model.entity.Station;
+import com.fpt.router.artifacter.model.entity.Trip;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.staff.RouteListVM;
-import com.fpt.router.web.viewmodel.staff.StationListVM;
+import com.fpt.router.web.viewmodel.staff.RouteVM;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by datnt on 10/11/2015.
@@ -13,20 +18,40 @@ public class DetailRouteAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        // Check session out. if session out, redirect staff to login view else continue...
+        System.out.println("In Detail Route Action");
 
+        String idParam = context.getParameter("routeId");
 
-        // get parameter route no
-        String paramRouteNo = context.getParameter("routeNo");
+        System.out.println("idParam " +idParam);
 
-        int routeNo = -1;
-        try {
-            routeNo = Integer.parseInt(paramRouteNo);
-        } catch (NumberFormatException ex) {
-            ex.printStackTrace();
+        if (idParam != null) {
+            // cast string id param to int
+            int routeId = -1;
+            try {
+                routeId = Integer.parseInt(idParam);
+            } catch (NumberFormatException ex) {
+                System.out.println("Cannot cast route id " + idParam + " to int");
+                ex.printStackTrace();
+            }
+
+            List<Station> stations = new ArrayList<>();
+            List<Trip> trips = new ArrayList<>();
+            Route route = null;
+            if (routeId != -1) {
+                // get list station that route passed
+                RouteDAO routeDAO = new RouteDAO();
+                route = routeDAO.getRouteLazy(routeId);
+            }
+
+            // set request attribute
+            if (route != null) {
+                // convert entity to view model
+                RouteVM routeVM = new RouteVM(route);
+                context.setAttribute("routeVM", routeVM);
+                context.setAttribute("focusId", "ÐTC B");
+            }
         }
-        context.setSessionAttribute("routeNo", routeNo);
 
-        return Config.WEB.REDIRECT + "/detail";
+        return Config.WEB.PAGE + "/route/indexDetail.jsp";
     }
 }

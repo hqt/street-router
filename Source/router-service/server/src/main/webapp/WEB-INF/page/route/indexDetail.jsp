@@ -10,26 +10,27 @@
 
 <html>
 <head>
-    <c:import url="../../common/library.jsp"/>
-    <style>
-        a {color: #333;}
-        a:hover {
-            color: #3175af;
-        }
-        a:focus, a:hover, a:active {
-            outline: 0;
-        }
-    </style>
+  <c:import url="../../common/library.jsp"/>
+  <style>
+    a {color: #333;}
+    a:hover {
+      color: #3175af;
+    }
+    a:focus, a:hover, a:active {
+      outline: 0;
+    }
+  </style>
 </head>
 <body class="page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo">
 <c:import url="../../common/header.jsp"/>
 <div class="container">
-    <div class="page-container">
-        <c:set var="routes" scope="request" value="${requestScope.routes}"/>
-        <c:import url="../../common/sidebar.jsp"/>
-        <c:import url="content.jsp"/>
-        <c:import url="../../common/footer.jsp"/>
-    </div>
+  <div class="page-container">
+    <c:set var="routeVM" scope="request" value="${requestScope.routeVM}"/>
+    <c:set var="focusId" scope="request" value="${requestScope.focusId}"/>
+    <c:import url="../../common/sidebar.jsp"/>
+    <c:import url="detail.jsp"/>
+    <c:import url="../../common/footer.jsp"/>
+  </div>
 </div>
 </body>
 <c:import url="../../common/scripts.jsp"/>

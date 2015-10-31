@@ -36,6 +36,14 @@ public class StationVM {
         this.longtitude = station.getLongitude();
     }
 
+    public String getCodeId() {
+        return codeId;
+    }
+
+    public void setCodeId(String codeId) {
+        this.codeId = codeId;
+    }
+
     public String getStationName() {
         return stationName;
     }

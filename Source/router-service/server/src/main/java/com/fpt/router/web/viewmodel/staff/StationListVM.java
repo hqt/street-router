@@ -25,11 +25,10 @@ public class StationListVM {
     }
 
     public StationListVM(List<Station> stations) {
-
         stationListVM = new ArrayList<>();
-
         for (Station s : stations) {
             stationListVM.add(new StationVM(s));
         }
     }
+
 }

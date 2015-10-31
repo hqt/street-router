@@ -10,8 +10,7 @@
 <div class="page-content-wrapper">
   <div class="page-content">
     <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-    <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-         aria-hidden="true">
+    <div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -32,94 +31,28 @@
     </div>
     <!-- /.modal -->
     <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-    <!-- BEGIN STYLE CUSTOMIZER -->
-    <div class="theme-panel hidden-xs hidden-sm">
-      <div class="toggler tooltips" data-container="body" data-placement="left" data-html="true"
-           data-original-title="Click to open advance theme customizer panel">
-        <i class="icon-settings"></i>
-      </div>
-      <div class="toggler-close">
-        <i class="icon-close"></i>
-      </div>
-      <div class="theme-options">
-        <div class="theme-option theme-colors clearfix">
-                        <span>
-                        THEME COLOR </span>
-          <ul>
-            <li class="color-black current color-default" data-style="default">
-            </li>
-            <li class="color-blue" data-style="blue">
-            </li>
-            <li class="color-brown" data-style="brown">
-            </li>
-            <li class="color-purple" data-style="purple">
-            </li>
-            <li class="color-grey" data-style="grey">
-            </li>
-            <li class="color-white color-light" data-style="light">
-            </li>
-          </ul>
-        </div>
-        <div class="theme-option">
-                        <span>
-                        Layout </span>
-          <select class="layout-option form-control input-small">
-            <option value="fluid" selected="selected">Fluid</option>
-            <option value="boxed">Boxed</option>
-          </select>
-        </div>
-        <div class="theme-option">
-                        <span>
-                        Header </span>
-          <select class="page-header-option form-control input-small">
-            <option value="fixed" selected="selected">Fixed</option>
-            <option value="default">Default</option>
-          </select>
-        </div>
-        <div class="theme-option">
-                        <span>
-                        Sidebar </span>
-          <select class="sidebar-option form-control input-small">
-            <option value="fixed">Fixed</option>
-            <option value="default" selected="selected">Default</option>
-          </select>
-        </div>
-        <div class="theme-option">
-                        <span>
-                        Footer </span>
-          <select class="page-footer-option form-control input-small">
-            <option value="fixed">Fixed</option>
-            <option value="default" selected="selected">Default</option>
-          </select>
-        </div>
-      </div>
-    </div>
-    <!-- END BEGIN STYLE CUSTOMIZER -->
     <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">
-      Route
-      <small>showing route information</small>
+      Route Management <small>manage route of city map</small>
     </h3>
-    <div class="page-bar">
+    <%--<div class="page-bar">
       <ul class="page-breadcrumb">
         <li>
           <i class="fa fa-home"></i>
-          <a href="index.html">Home</a>
+          <a href="">Home</a>
           <i class="fa fa-angle-right"></i>
         </li>
         <li>
-          <a href="#">Route</a>
+          <a href="#">Data Tables</a>
           <i class="fa fa-angle-right"></i>
         </li>
         <li>
-          <a href="#">Route Information</a>
+          <a href="#">Managed Datatables</a>
         </li>
       </ul>
       <div class="page-toolbar">
         <div class="btn-group pull-right">
-          <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle"
-                  data-toggle="dropdown" data-hover="dropdown" data-delay="1000"
-                  data-close-others="true">
+          <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
             Actions <i class="fa fa-angle-down"></i>
           </button>
           <ul class="dropdown-menu pull-right" role="menu">
@@ -140,82 +73,65 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div>--%>
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
     <div class="row">
       <div class="col-md-12">
-        <!-- BEGIN SAMPLE TABLE PORTLET-->
-        <div class="portlet box purple">
+        <!-- BEGIN EXAMPLE TABLE PORTLET-->
+        <div class="portlet box grey-cascade">
           <div class="portlet-title">
             <div class="caption">
-              <i class="fa fa-comments"></i>Striped Table
-            </div>
-            <div class="tools">
-              <a href="javascript:;" class="collapse">
-              </a>
-              <a href="#portlet-config" data-toggle="modal" class="config">
-              </a>
-              <a href="javascript:;" class="reload">
-              </a>
-              <a href="javascript:;" class="remove">
-              </a>
+              <i class="fa fa-globe"></i>Route Managed Table
             </div>
           </div>
-          <div class="portlet-body" id="datatable_ajax">
-            <div class="table-scrollable">
-              <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                  <th>
-                    #
-                  </th>
-                  <th>
-                    Route No
-                  </th>
-                  <th>
-                    Route Name
-                  </th>
-                  <th>
-                    Action
-                  </th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach var="route" items="${subRoute}" varStatus="count">
-                  <tr>
-                    <td>${count.count}</td>
-                    <td>${route.routeNo}</td>
-                    <td>
-                      <form action="DispatcherServlet" method="post">
-                        <input type="hidden" value="${route.routeNo}" name="routeNo"/>
-                        <button type="submit" class="btn btn-link" name="action" value="detail">
-                          <span>${route.routeName}</span>
-                        </button>
-                      </form>
-                    </td>
-                    <td>
-                      <div class="btn-group">
-                        <button type="button" class="btn blue">
-                          <i class="fa fa-edit"></i>
-                          Edit
-                        </button>
-                        <button type="button" class="btn red">
-                          <i class="fa fa-times"></i>
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr
-                </c:forEach>
-                </tbody>
-              </table>
-              <a title="Next" class="btn btn-sm default next" onclick="loadRoutesAtPage()"><i
-                      class="fa fa-angle-right"></i></a>
+          <div class="portlet-body">
+            <div class="table-toolbar">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="btn-group">
+                    <button id="sample_editable_1_new" class="btn green">
+                      Add New <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
+            <table class="table table-striped table-bordered table-hover text-center" id="route">
+              <thead>
+                <tr>
+                  <th>Route No</th>
+                  <th>Route Name</th>
+                  <th>Route Type</th>
+                  <th>Update</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach var="route" items="${routes}">
+                  <tr>
+                    <td>
+                      ${route.routeNo}
+                    </td>
+                    <td>
+                      <a href="${pageContext.request.contextPath}/route/detail?routeId=${route.routeId}">
+                          ${route.routeName}
+                      </a>
+                    </td>
+                    <td>${route.routeType}</td>
+                    <td>
+                      <button class="btn btn-link">Update</button>
+                    </td>
+                    <td>
+                      <button class="btn btn-link">Delete</button>
+                    </td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
           </div>
         </div>
-        <!-- END SAMPLE TABLE PORTLET-->
+        <!-- END EXAMPLE TABLE PORTLET-->
       </div>
     </div>
     <!-- END PAGE CONTENT-->

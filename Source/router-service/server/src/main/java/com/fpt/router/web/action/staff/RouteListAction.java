@@ -18,16 +18,16 @@ public class RouteListAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        /*String command = super.execute(context);
-        if (command != null) return command;
-
         RouteDAO routeDao = new RouteDAO();
         List<Route> routes = routeDao.findAll();
 
+        // convert to model
+        RouteListVM routeListVM = new RouteListVM();
         if (!routes.isEmpty()) {
-            context.setSessionAttribute("routes", routes);
-            context.setAttribute("subRoute", routes.subList(0,9));
-        }*/
+            routeListVM.convertEntityToModelLessAttr(routes);
+        }
+
+        context.setSessionAttribute("routes", routeListVM.getRouteListVMs());
 
        return Config.WEB.PAGE + "/route/index.jsp";
     }

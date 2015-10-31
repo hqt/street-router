@@ -1,11 +1,9 @@
 package com.fpt.router.artifacter.dao;
 
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
-import com.fpt.router.artifacter.database.HibernateConnection;
 import com.fpt.router.artifacter.model.entity.PathInfo;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.artifacter.model.entity.Station;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import javax.persistence.EntityManager;
@@ -37,23 +35,21 @@ public class PathInfoDAO extends JPADaoImpl<PathInfo, Integer> {
         return null;
     }
 
-    public static List<Station> getListPathInfoByRouteNo(int routeNo) {
+    public List<Station> getStaionsOfRoutePassed(int routeId) {
 
         List<Station> stations = new ArrayList<Station>();
 
-        // create hql
-        String hql = "select r from Route r where r.routeNo= :routeno";
+        Route route = new Route();
+        route.setRouteId(routeId);
+        String hqlPathInfo = "select p from PathInfo p where p.route = :route";
 
-        Query query = getEntiyManager().createQuery(hql);
-        query.setParameter("routeno", routeNo);
-        List<Route> routes = query.getResultList();
+        Query query = getEntiyManager().createQuery(hqlPathInfo);
+        query.setParameter("route", route);
+        List<PathInfo> pathInfos = query.getResultList();
 
-        for (Route r : routes) {
-            List<PathInfo> pathInfos = r.getPathInfos();
-            for (PathInfo p : pathInfos) {
-                Station stationFrom = p.getFrom();
-                stations.add(stationFrom);
-            }
+        for (PathInfo pathInfo : pathInfos) {
+            Station stationFrom = pathInfo.getFrom();
+            stations.add(stationFrom);
         }
 
         return stations;

@@ -52,4 +52,18 @@ public class RouteListVM {
             routeListVMs.add(new RouteVM(route));
         }*/
     }
+
+    public void convertEntityToModelFullAttr(List<Route> routes) {
+        routeListVMs = new ArrayList<>();
+        for (Route route : routes) {
+            routeListVMs.add(new RouteVM(route));
+        }
+    }
+
+    public void convertEntityToModelLessAttr(List<Route> routes) {
+        routeListVMs = new ArrayList<>();
+        for (Route route : routes) {
+            routeListVMs.add(new RouteVM().convert(route));
+        }
+    }
 }

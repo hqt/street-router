@@ -1,7 +1,8 @@
 package com.fpt.router.web.servlet;
 
 
-import com.fpt.router.artifacter.config.Config;
+
+
 import com.fpt.router.artifacter.dao.MapDAL;
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServlet;
  * Created by Huynh Quang Thao on 9/27/15.
  */
 public class StartupServlet extends HttpServlet {
+
     public static CityMap map;
 
     public void init() throws ServletException {
@@ -23,8 +25,10 @@ public class StartupServlet extends HttpServlet {
         map = MapDAL.readDatabase();
         System.out.println("station size: " + map.stations.size());
         JPADaoImpl.disableStaticEntityManager();
-        JPADaoImpl.closeFactory();
+        //JPADaoImpl.closeFactory();
         System.out.println("fuck");
         System.out.println("----------");
+
     }
+
 }
