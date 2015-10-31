@@ -2,12 +2,9 @@ package com.fpt.router.library.utils;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.net.Uri;
-import android.os.Environment;
-import android.support.v4.util.LruCache;
 import android.util.Log;
 
-import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.utils.cache.DiskLruSoundCache;
 
 import java.io.File;
 import java.io.FileDescriptor;

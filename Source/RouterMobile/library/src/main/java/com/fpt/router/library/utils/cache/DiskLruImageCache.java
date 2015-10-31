@@ -1,14 +1,17 @@
-package com.fpt.router.library.utils;
+package com.fpt.router.library.utils.cache;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
 import com.fpt.router.library.BuildConfig;
+import com.fpt.router.library.utils.FileUtils;
 import com.fpt.router.library.utils.cache.DiskLruCache;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -18,31 +21,35 @@ import java.io.OutputStream;
 /**
  * Created by Huynh Quang Thao on 10/31/15.
  */
-public class DiskLruSoundCache {
+public class DiskLruImageCache {
 
     private DiskLruCache mDiskCache;
+    private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
+    private int mCompressQuality = 70;
     private static final int APP_VERSION = 1;
     private static final int VALUE_COUNT = 1;
-    private static final String TAG = "DiskLruSoundCache";
+    private static final String TAG = "DiskLruImageCache";
 
-    public DiskLruSoundCache(Context context, String uniqueName, int diskCacheSize) {
+    public DiskLruImageCache( Context context,String uniqueName, int diskCacheSize,
+                              Bitmap.CompressFormat compressFormat, int quality ) {
         try {
-            final File diskCacheDir = getDiskCacheDir(context, uniqueName);
-            mDiskCache = DiskLruCache.open(diskCacheDir, APP_VERSION, VALUE_COUNT, diskCacheSize);
+            final File diskCacheDir = getDiskCacheDir(context, uniqueName );
+            mDiskCache = DiskLruCache.open( diskCacheDir, APP_VERSION, VALUE_COUNT, diskCacheSize );
+            mCompressFormat = compressFormat;
+            mCompressQuality = quality;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private boolean writeDataToFile(byte[] data, DiskLruCache.Editor editor)
-            throws FileNotFoundException, IOException {
+    private boolean writeBitmapToFile( Bitmap bitmap, DiskLruCache.Editor editor )
+            throws IOException, FileNotFoundException {
         OutputStream out = null;
         try {
-            out = new BufferedOutputStream(editor.newOutputStream(0), FileUtils.IO_BUFFER_SIZE);
-            out.write(data);
-            return true;
+            out = new BufferedOutputStream( editor.newOutputStream( 0 ), FileUtils.IO_BUFFER_SIZE );
+            return bitmap.compress( mCompressFormat, mCompressQuality, out );
         } finally {
-            if (out != null) {
+            if ( out != null ) {
                 // we don't need to call flush because it has been already called in close.
                 // out.flush();
                 out.close();
@@ -60,38 +67,36 @@ public class DiskLruSoundCache {
                         FileUtils.getExternalCacheDir(context).getPath() :
                         context.getCacheDir().getPath();
 
-        Log.e("hqthao", "FUCK_QUY: " + cachePath);
-
         return new File(cachePath + File.separator + uniqueName);
     }
 
-    public void put(String key, byte[] data) {
+    public void put( String key, Bitmap data ) {
 
         DiskLruCache.Editor editor = null;
         try {
-            editor = mDiskCache.edit(key);
-            if (editor == null) {
+            editor = mDiskCache.edit( key );
+            if ( editor == null ) {
                 return;
             }
 
-            if (writeDataToFile(data, editor)) {
+            if( writeBitmapToFile( data, editor ) ) {
                 mDiskCache.flush();
                 editor.commit();
-                if (BuildConfig.DEBUG) {
+                if ( BuildConfig.DEBUG ) {
                     Log.d("cache_test_DISK_", "image put on disk cache " + key);
                 }
             } else {
                 editor.abort();
-                if (BuildConfig.DEBUG) {
-                    Log.d("cache_test_DISK_", "ERROR on: image put on disk cache " + key);
+                if ( BuildConfig.DEBUG ) {
+                    Log.d( "cache_test_DISK_", "ERROR on: image put on disk cache " + key );
                 }
             }
         } catch (IOException e) {
-            if (BuildConfig.DEBUG) {
-                Log.d("cache_test_DISK_", "ERROR on: image put on disk cache " + key);
+            if ( BuildConfig.DEBUG ) {
+                Log.d( "cache_test_DISK_", "ERROR on: image put on disk cache " + key );
             }
             try {
-                if (editor != null) {
+                if ( editor != null ) {
                     editor.abort();
                 }
             } catch (IOException ignored) {
@@ -100,56 +105,49 @@ public class DiskLruSoundCache {
 
     }
 
-    public byte[] getData(String key) {
+    public Bitmap getBitmap( String key ) {
 
-       byte[] data = null;
+        Bitmap bitmap = null;
         DiskLruCache.Snapshot snapshot = null;
         try {
 
-            snapshot = mDiskCache.get(key);
-            if (snapshot == null) {
+            snapshot = mDiskCache.get( key );
+            if ( snapshot == null ) {
                 return null;
             }
-            final InputStream in = snapshot.getInputStream(0);
-            if (in != null) {
-                // http://stackoverflow.com/questions/1264709/convert-inputstream-to-byte-array-in-java
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-                int nRead;
-                byte[] buffer = new byte[16384];
-                while ((nRead = in.read(buffer, 0, buffer.length)) != -1) {
-                    bos.write(buffer, 0, nRead);
-                }
-                bos.flush();
-                data = bos.toByteArray();
+            final InputStream in = snapshot.getInputStream( 0 );
+            if ( in != null ) {
+                final BufferedInputStream buffIn =
+                        new BufferedInputStream( in, FileUtils.IO_BUFFER_SIZE );
+                bitmap = BitmapFactory.decodeStream(buffIn);
             }
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             e.printStackTrace();
         } finally {
-            if (snapshot != null) {
+            if ( snapshot != null ) {
                 snapshot.close();
             }
         }
 
-        if (BuildConfig.DEBUG) {
-            Log.d("cache_test_DISK_", data == null ? "" : "image read from disk " + key);
+        if ( BuildConfig.DEBUG ) {
+            Log.d( "cache_test_DISK_", bitmap == null ? "" : "image read from disk " + key);
         }
 
-        return data;
+        return bitmap;
 
     }
 
-    public boolean containsKey(String key) {
+    public boolean containsKey( String key ) {
 
         boolean contained = false;
         DiskLruCache.Snapshot snapshot = null;
         try {
-            snapshot = mDiskCache.get(key);
+            snapshot = mDiskCache.get( key );
             contained = snapshot != null;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (snapshot != null) {
+            if ( snapshot != null ) {
                 snapshot.close();
             }
         }
@@ -159,12 +157,12 @@ public class DiskLruSoundCache {
     }
 
     public void clearCache() {
-        if (BuildConfig.DEBUG) {
-            Log.d("cache_test_DISK_", "disk cache CLEARED");
+        if ( BuildConfig.DEBUG ) {
+            Log.d( "cache_test_DISK_", "disk cache CLEARED");
         }
         try {
             mDiskCache.delete();
-        } catch (IOException e) {
+        } catch ( IOException e ) {
             e.printStackTrace();
         }
     }
