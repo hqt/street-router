@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEEEEE"
-    android:orientation="vertical"
-    android:padding="10dip">
+    android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +19,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/card_margin_horizontal"
+        android:layout_marginRight="@dimen/card_margin_horizontal"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardBackgroundColor="@android:color/white"
+        card_view:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,20 +46,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:gravity="center"
                         android:padding="5dip"
                         android:text="Duration:"
-                        android:textColor="#1E88E5" />
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_motorbike_title" />
 
                     <TextView
                         android:id="@+id/txtDurationTime"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dip"
                         android:layout_weight="1"
                         android:gravity="left|center"
                         android:padding="5dip"
-                        android:textColor="#FB8C00"
+                        android:textColor="@color/text_motorbike_content"
                         android:textSize="14sp"
                         android:textStyle="normal" />
                 </LinearLayout>
@@ -70,10 +75,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:gravity="center"
                         android:padding="5dip"
                         android:text="Distance:"
-                        android:textColor="#1E88E5" />
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_motorbike_title" />
 
                     <TextView
                         android:id="@+id/txtDistance"
@@ -83,7 +90,7 @@
                         android:layout_weight="1"
                         android:padding="5dip"
                         android:gravity="left|center"
-                        android:textColor="#FB8C00"
+                        android:textColor="@color/text_motorbike_content"
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
@@ -101,24 +108,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="left|center"
-                        android:text="Start Location:"
-                        android:textColor="#1E88E5" />
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:text="Start:"
+                        android:padding="5dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_motorbike_title" />
 
                     <TextView
                         android:id="@+id/startLocation"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:gravity="left"
                         android:paddingLeft="2dp"
-                        android:textColor="#FB8C00"
+                        android:textColor="@color/text_motorbike_content"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -126,15 +138,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="left|center"
+                        android:layout_weight="4"
+                        android:gravity="center"
                         android:text="Middle 1:"
-                        android:textColor="#1E88E5"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_motorbike_title"
                         android:id="@+id/middle_1"/>
 
                     <TextView
@@ -142,9 +158,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:gravity="left"
                         android:paddingLeft="2dp"
-                        android:textColor="#FB8C00"
+                        android:textColor="@color/text_motorbike_content"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -152,16 +168,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="5dp"
                     android:orientation="horizontal"
                     android:id="@+id/parentOfMiddle">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="left|center"
+                        android:layout_weight="4"
+                        android:gravity="center"
                         android:text="Middle 2:"
-                        android:textColor="#1E88E5"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_motorbike_title"
                         android:id="@+id/middle_2"/>
 
                     <TextView
@@ -169,9 +189,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:gravity="left"
                         android:paddingLeft="2dp"
-                        android:textColor="#FB8C00"
+                        android:textColor="@color/text_motorbike_content"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -179,24 +199,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingBottom="15dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:gravity="left|center"
-                        android:text="End Location:"
-                        android:textColor="#1E88E5" />
+                        android:layout_weight="4"
+                        android:gravity="center"
+                        android:text="End:"
+                        android:padding="5dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_motorbike_title" />
 
                     <TextView
                         android:id="@+id/endLocation"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:gravity="left|center"
+                        android:gravity="left"
                         android:paddingLeft="2dp"
-                        android:textColor="#FB8C00"
+                        android:textColor="@color/text_motorbike_content"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>

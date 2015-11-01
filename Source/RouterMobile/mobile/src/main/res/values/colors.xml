@@ -7,4 +7,7 @@
     <color name="gps">#F1F1F1</color>
     <color name="accent_1">#FFFFFF</color>
     <color name="button_normal">#2962FF</color>
+    <color name="text_motorbike_content">#424242</color>
+    <color name="backgroud_motorbike_content">#448AFF</color>
+    <color name="text_motorbike_title">#000000</color>
 </resources>

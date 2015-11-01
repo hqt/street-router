@@ -60,10 +60,12 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
         }
 
         duration = duration/6;
-        Double totalDuration = (double) duration/10;
+        int totalDuration = (int) duration/10;
         Double totalDistance = (double) distance;
+        totalDistance = totalDistance/1000;
+        totalDistance = Math.floor(totalDistance*100)/100;
         holder.duration.setText(totalDuration + " phút");
-        holder.distance.setText(totalDistance/1000+" Km");
+        holder.distance.setText(totalDistance+" Km");
         holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
         if (mapLocation.size() > 2) {
             holder.way_point_1.setText(listLeg.get(position * countPoint).getEndAddress());

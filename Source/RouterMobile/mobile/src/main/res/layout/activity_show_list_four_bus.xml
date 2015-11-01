@@ -13,6 +13,8 @@
         android:gravity="left|center"
         android:padding="5dip"
         android:textColor="#616161"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textSize="16sp" />
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -22,7 +24,9 @@
         android:layout_gravity="center"
         android:layout_weight="1"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        card_view:cardElevation="4dp"
+        card_view:cardCornerRadius="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,16 +54,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="left|center"
+                            android:gravity="center"
                             android:padding="5dip"
                             android:text="Duration:"
+                            android:textStyle="bold"
                             android:textColor="#FFFFFF" />
 
                         <TextView
                             android:id="@+id/txtDurationTime"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dip"
                             android:layout_weight="1"
                             android:gravity="left|center"
                             android:padding="5dip"
@@ -78,16 +82,16 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="left|center"
+                            android:gravity="center"
                             android:padding="5dip"
                             android:text="Distance:"
+                            android:textStyle="bold"
                             android:textColor="#FFFFFF" />
 
                         <TextView
                             android:id="@+id/txtDistance"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dip"
                             android:layout_weight="1"
                             android:gravity="left|center"
                             android:padding="5dip"

@@ -9,4 +9,5 @@
     <dimen name="divider_height">1dp</dimen>
     <dimen name="panel_height">86dip</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="card_margin_horizontal">-4dp</dimen>
 </resources>

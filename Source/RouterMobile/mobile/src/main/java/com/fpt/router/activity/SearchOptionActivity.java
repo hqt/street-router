@@ -181,9 +181,9 @@ public class SearchOptionActivity extends Activity {
             View child = layout.getChildAt(i);
             if (child instanceof ViewGroup) {
                 disable((ViewGroup) child);
-                walkingDistanceEditText.setTextColor(Color.parseColor("#BDBDBD"));
-                walking_text_view.setTextColor(Color.parseColor("#BDBDBD"));
-                transfer_text_view.setTextColor(Color.parseColor("#BDBDBD"));
+                walkingDistanceEditText.setTextColor(Color.parseColor("#757575"));
+                walking_text_view.setTextColor(Color.parseColor("#757575"));
+                transfer_text_view.setTextColor(Color.parseColor("#757575"));
             } else {
                 child.setEnabled(false);
             }
