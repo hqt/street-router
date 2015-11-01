@@ -249,8 +249,8 @@ public class JSONParseUtils {
             Overview_polyline = jo.getString("points");
 
             jsonA = jsonO.getJSONArray("legs");
-            ArrayList<Step> listStep = new ArrayList<>();
             for (int n = 0; n < jsonA.length(); n++) {
+                ArrayList<Step> listStep = new ArrayList<>();
                 JSONObject jsonOLeg;
                 JSONArray jsonALeg;
                 jsonOLeg = jsonA.getJSONObject(n);

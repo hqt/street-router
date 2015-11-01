@@ -50,15 +50,20 @@ public class DecodeUtils {
         return poly;
     }
 
-    public static List<LatLng> getListLocationToFakeGPS (List<Leg> listLeg){
+    public static List<LatLng> getListLocationToFakeGPS (List<Leg> listLeg, boolean optimize){
         List<LatLng> listLatLng;
         List<LatLng> listLatLngFromListLeg = new ArrayList<>();
-        for(int i = 0; i < listLeg.size(); i++) {
-            List<LatLng> listLatLngFromOneLeg = decodePoly(listLeg.get(i).getOverview_polyline());
-            if(i != 0) {
-                listLatLngFromOneLeg.remove(0);
-            }
+        if(optimize) {
+            List<LatLng> listLatLngFromOneLeg = decodePoly(listLeg.get(0).getOverview_polyline());
             listLatLngFromListLeg.addAll(listLatLngFromOneLeg);
+        } else {
+            for (int i = 0; i < listLeg.size(); i++) {
+                List<LatLng> listLatLngFromOneLeg = decodePoly(listLeg.get(i).getOverview_polyline());
+                if (i != 0) {
+                    listLatLngFromOneLeg.remove(0);
+                }
+                listLatLngFromListLeg.addAll(listLatLngFromOneLeg);
+            }
         }
         listLatLng = getPointsFromListLocation(listLatLngFromListLeg);
         return listLatLng;

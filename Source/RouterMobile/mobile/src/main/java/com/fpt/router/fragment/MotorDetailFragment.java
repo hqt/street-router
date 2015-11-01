@@ -409,7 +409,7 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
 
     @Override
     public List<LatLng> getFakeGPSList() {
-        List<LatLng> listFakeGPS = DecodeUtils.getListLocationToFakeGPS(listFinalLeg);
+        List<LatLng> listFakeGPS = DecodeUtils.getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
         return listFakeGPS;
     }
 
