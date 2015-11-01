@@ -95,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                     case R.id.navigation_item_history:
                         Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;
+                    case R.id.navigation_item_close_service:
+                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        return true;
                     default:
                         Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;

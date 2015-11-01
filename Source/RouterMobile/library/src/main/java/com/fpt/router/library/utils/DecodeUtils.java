@@ -6,7 +6,9 @@ import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.Location;
+import com.fpt.router.library.model.entity.PathType;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Step;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -139,8 +141,11 @@ public class DecodeUtils {
 
         if(iNodeList.get(0) instanceof Path){
             Path path = (Path) iNodeList.get(0);
-            LatLng latLng = new LatLng(path.stationFromLocation.getLatitude(),path.stationFromLocation.getLongitude());
-            latLngList.add(latLng);
+            List<Location> points = path.points;
+            for (int n = 0; n < points.size(); n++) {
+                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                latLngList.add(latLng);
+            }
         }
 
         for (int i=0; i<iNodeList.size();i++){
@@ -159,11 +164,39 @@ public class DecodeUtils {
 
         if(iNodeList.get(iNodeList.size() - 1) instanceof Path){
             Path path = (Path) iNodeList.get(iNodeList.size() - 1);
-            LatLng latLng = new LatLng(path.stationToLocation.getLatitude(),path.stationToLocation.getLongitude());
-            latLngList.add(latLng);
+            List<Location> points = path.points;
+            for (int n = 0; n < points.size(); n++) {
+                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                latLngList.add(latLng);
+            }
         }
 
         latLngs = getPointsFromListLocation(latLngList);
         return latLngs;
+    }
+    /**
+     * List
+     */
+    public static Path covertLegToPath(Leg leg){
+        Path path = new Path();
+        List<LatLng> list;
+        List<Location> locations = new ArrayList<>();
+        String encodedString;
+        path.stationFromName = leg.getStartAddress();
+        path.stationToName = leg.getEndAddress();
+        path.stationFromLocation = leg.getDetailLocation().getStartLocation();
+        path.stationToLocation = leg.getDetailLocation().getEndLocation();
+        path.type = PathType.WALKING;
+        path.distance = leg.getDetailLocation().getDistance();
+        path.time = TimeUtils.covertMinuteToPeriod(leg.getDetailLocation().getDuration());
+        encodedString = leg.getOverview_polyline();
+        list = DecodeUtils.decodePoly(encodedString);
+        for (int i = 0; i<list.size();i++){
+            LatLng latLng = list.get(i);
+            Location location = new Location(latLng.latitude,latLng.longitude);
+            locations.add(location);
+        }
+        path.points = locations;
+        return path;
     }
 }

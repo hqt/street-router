@@ -122,7 +122,7 @@ public class MapUtils {
      * @param listOfPoints
      * @param color
      */
-    private static void drawDashedPolyLine(GoogleMap mMap, List<LatLng> listOfPoints, int color) {
+    public static void drawDashedPolyLine(GoogleMap mMap, List<LatLng> listOfPoints, int color) {
     /* Boolean to control drawing alternate lines */
         boolean added = false;
         for (int i = 0; i < listOfPoints.size() - 1 ; i++) {

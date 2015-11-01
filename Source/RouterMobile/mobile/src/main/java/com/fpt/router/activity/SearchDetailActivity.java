@@ -51,6 +51,12 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     boolean isFakeGPS = false;
     boolean isPlaySound = false;
 
+
+    ImageButton soundButton;
+    ImageButton buttonHidenSound;
+    ImageButton fakeGPSButton ;
+    ImageButton buttonHideFakeGPS ;
+
     private static final int BUFFER_SIZE = 4096;
     String host = "http://118.69.135.22/synthesis/file?voiceType=female&text=";
 
@@ -70,8 +76,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        ImageButton soundButton = (ImageButton) findViewById(R.id.btn_get_sound);
-        ImageButton fakeGPSButton = (ImageButton) findViewById(R.id.btn_fake_gps);
+        soundButton = (ImageButton) findViewById(R.id.btn_get_sound);
+        buttonHidenSound = (ImageButton) findViewById(R.id.btn_hide_get_sound);
+        fakeGPSButton = (ImageButton) findViewById(R.id.btn_fake_gps);
+        buttonHideFakeGPS = (ImageButton) findViewById(R.id.btn_hide_fake_gps);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -81,8 +89,54 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         if (result != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                trans.add(R.id.fragment, BusDetailTwoPointFragment.newInstance(result));
+                fragment = BusDetailTwoPointFragment.newInstance(result);
+                trans.add(R.id.fragment, fragment);
                 trans.commit();
+
+                buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHidenSound.setVisibility(View.GONE);
+                        soundButton.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                soundButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        soundButton.setVisibility(View.GONE);
+                        buttonHidenSound.setVisibility(View.VISIBLE);
+                        isPlaySound = !isPlaySound;
+                        if (isPlaySound) {
+                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
+                            downloadAsyncTask.execute();
+                        }
+                        GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
+
+                    }
+                });
+
+                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHideFakeGPS.setVisibility(View.GONE);
+                        fakeGPSButton.setVisibility(View.VISIBLE);
+                    }
+                });
+                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
+                        fakeGPSButton.setVisibility(View.GONE);
+                        isFakeGPS = !isFakeGPS;
+                        if (isFakeGPS) {
+                            GPSServiceOld.turnOnFakeGPS(fragment.getFakeGPSList());
+                        } else {
+                            GPSServiceOld.turnOffFakeGPS();
+                        }
+                    }
+                });
+
             }
         }
 
@@ -94,9 +148,19 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragment);
                 trans.commit();
 
+                buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHidenSound.setVisibility(View.GONE);
+                        soundButton.setVisibility(View.VISIBLE);
+                    }
+                });
+
                 soundButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        soundButton.setVisibility(View.GONE);
+                        buttonHidenSound.setVisibility(View.VISIBLE);
                         isPlaySound = !isPlaySound;
                         if (isPlaySound) {
                             DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
@@ -106,9 +170,19 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     }
                 });
 
+                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHideFakeGPS.setVisibility(View.GONE);
+                        fakeGPSButton.setVisibility(View.VISIBLE);
+                    }
+                });
+
                 fakeGPSButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
+                        fakeGPSButton.setVisibility(View.GONE);
                         isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
                             GPSServiceOld.turnOnFakeGPS(fragment.getFakeGPSList());
@@ -125,8 +199,52 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         if (journey != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                trans.add(R.id.fragment, BusDetailFourPointFragment.newInstance(journey));
+                fragment = BusDetailFourPointFragment.newInstance(journey);
+                trans.add(R.id.fragment, fragment);
                 trans.commit();
+
+                buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHidenSound.setVisibility(View.GONE);
+                        soundButton.setVisibility(View.VISIBLE);
+                    }
+                });
+                soundButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        soundButton.setVisibility(View.GONE);
+                        buttonHidenSound.setVisibility(View.VISIBLE);
+                        isPlaySound = !isPlaySound;
+                        if (isPlaySound) {
+                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
+                            downloadAsyncTask.execute();
+                        }
+                        GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
+                    }
+                });
+
+                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHideFakeGPS.setVisibility(View.GONE);
+                        fakeGPSButton.setVisibility(View.VISIBLE);
+                    }
+                });
+
+                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
+                        fakeGPSButton.setVisibility(View.GONE);
+                        isFakeGPS = !isFakeGPS;
+                        if (isFakeGPS) {
+                            GPSServiceOld.turnOnFakeGPS(fragment.getFakeGPSList());
+                        } else {
+                            GPSServiceOld.turnOffFakeGPS();
+                        }
+                    }
+                });
             }
         }
 

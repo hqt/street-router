@@ -66,4 +66,10 @@ public class TimeUtils {
         return minutes;
     }
 
+    public static Period covertMinuteToPeriod(int minute){
+        long millis = convertMinuteToMillis(minute);
+        Period period = new Period(millis,PeriodType.standard());
+        return period;
+    }
+
 }

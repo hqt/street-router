@@ -13,31 +13,61 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark" >
         <LinearLayout
             android:layout_width="100dp"
-            android:layout_height="match_parent"
+            android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
             android:layout_gravity="center|right"
             >
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/colorPrimary"
-                android:textColor="#fff"
-                android:padding="5dip"
-                android:gravity="center"
-                android:id="@+id/btn_fake_gps"
-                android:src="@drawable/ic_gps_fixed_white_24dp"
-                />
-            <ImageButton
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="?attr/colorPrimary"
-                android:textColor="#fff"
-                android:src="@drawable/ic_volume_mute_white_24dp"
-                android:padding="5dip"
-                android:gravity="center"
-                android:id="@+id/btn_get_sound" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="#fff"
+                    android:padding="5dip"
+                    android:gravity="center"
+                    android:id="@+id/btn_hide_fake_gps"
+                    android:src="@drawable/ic_gps_off_white_24dp"
+                    />
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="#fff"
+                    android:padding="5dip"
+                    android:gravity="center"
+                    android:id="@+id/btn_fake_gps"
+                    android:src="@drawable/ic_gps_fixed_white_24dp"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="#fff"
+                    android:src="@drawable/ic_volume_off_white_24dp"
+                    android:padding="5dip"
+                    android:gravity="center"
+                    android:id="@+id/btn_hide_get_sound" />
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="#fff"
+                    android:src="@drawable/ic_volume_up_white_24dp"
+                    android:padding="5dip"
+                    android:gravity="center"
+                    android:id="@+id/btn_get_sound" />
+            </RelativeLayout>
+
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>

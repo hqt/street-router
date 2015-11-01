@@ -38,6 +38,8 @@ public class SearchOptionActivity extends Activity {
     private LinearLayout disableRelativeLayout;
     private ImageButton imgDeleteWaypoint_1;
     private ImageButton imgDeleteWaypoint_2;
+    private TextView walking_text_view;
+    private TextView transfer_text_view;
 
 
     @Override
@@ -56,6 +58,8 @@ public class SearchOptionActivity extends Activity {
         disableRelativeLayout = (LinearLayout) findViewById(R.id.optimizeRelative);
         imgDeleteWaypoint_1 = (ImageButton) findViewById(R.id.btn_delete_waypoint_1);
         imgDeleteWaypoint_2 = (ImageButton) findViewById(R.id.btn_delete_waypoint_2);
+        walking_text_view = (TextView) findViewById(R.id.walking_text_view);
+        transfer_text_view = (TextView) findViewById(R.id.transfer_text_view);
 
 
         optimizeCheckbox.setChecked(optimize);
@@ -170,13 +174,16 @@ public class SearchOptionActivity extends Activity {
      *
      * @param layout
      */
-    private static void disable(ViewGroup layout) {
+    private void disable(ViewGroup layout) {
         layout.setEnabled(false);
-        layout.setBackgroundColor(Color.parseColor("#CFD8DC"));
+        /*layout.setBackgroundColor(Color.parseColor("#CFD8DC"));*/
         for (int i = 0; i < layout.getChildCount(); i++) {
             View child = layout.getChildAt(i);
             if (child instanceof ViewGroup) {
                 disable((ViewGroup) child);
+                walkingDistanceEditText.setTextColor(Color.parseColor("#BDBDBD"));
+                walking_text_view.setTextColor(Color.parseColor("#BDBDBD"));
+                transfer_text_view.setTextColor(Color.parseColor("#BDBDBD"));
             } else {
                 child.setEnabled(false);
             }

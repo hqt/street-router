@@ -20,13 +20,18 @@ import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
+import com.fpt.router.library.model.bus.INode;
+import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.common.AutocompleteObject;
+import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -185,6 +190,38 @@ public class BusTwoPointFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
 
+            }
+
+            /**
+             * GET LIST RESULT AND SET AGAIN
+             */
+            for (int i=0;i<resultList.size();i++){
+                Result result = resultList.get(i);
+                List<INode> iNodeList = result.nodeList;
+                for (int j = 0; j <iNodeList.size();j++){
+                    if(iNodeList.get(j) instanceof Path){
+                        Path path = (Path) iNodeList.get(j);
+                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(),path.stationFromLocation.getLongitude());
+                        LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(),path.stationToLocation.getLongitude());
+                        String   url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
+                        String json = NetworkUtils.download(url);
+                        try {
+                           JSONObject jsonObject = new JSONObject(json);
+                           String status = jsonObject.getString("status");
+                            if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
+                                return null;
+                            } else {
+                                List<Leg>  listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                                Leg leg = listLeg.get(0);
+                                path = DecodeUtils.covertLegToPath(leg);
+                                iNodeList.set(j,path);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
 
             return resultList;

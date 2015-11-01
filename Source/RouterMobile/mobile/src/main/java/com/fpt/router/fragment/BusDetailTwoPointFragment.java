@@ -27,8 +27,11 @@ import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.Location;
+import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
+import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -67,7 +70,7 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+public class BusDetailTwoPointFragment extends AbstractMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
@@ -84,6 +87,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
 
     private LatLng mLocation;
     private Marker mLocationMarker;
+    private Marker now;
 
     private SupportMapFragment mMapFragment;
 
@@ -98,6 +102,7 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
 
     private List<INode> iNodeList;
     private List<Path> paths;
+    List<Path> pathFinal = new ArrayList<>();
     private BusDetailAdapter adapterItem;
     private List<Location> points;
     List<LatLng> list = new ArrayList<LatLng>();
@@ -106,7 +111,6 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
     private List<String> listError;
     private JSONObject jsonObject;
     private String status;
-    JSONParseTask jsonParseTask;
 
     public BusDetailTwoPointFragment() {
     }
@@ -212,26 +216,6 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-
-                List<Segment> segments = new ArrayList<Segment>();
-                for (int i = 0; i < iNodeList.size(); i++) {
-                    if (iNodeList.get(i) instanceof Segment) {
-                        Segment segment = (Segment) iNodeList.get(i);
-                        segments.add(segment);
-                    }
-                }
-
-                for (int m = 0; m < segments.size(); m++) {
-                    paths = segments.get(m).paths;
-                    for (int j = 0; j < paths.size(); j++) {
-                        points = paths.get(j).points;
-                        for (int n = 0; n < points.size(); n++) {
-                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                            list.add(latLng);
-                        }
-                    }
-                }
-
                 /**
                  * start location
                  */
@@ -243,15 +227,40 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                     MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
                     LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
                     moveToLocation(startLatLng,true);
-                    LatLng endLatLng = new LatLng(list.get(0).latitude, list.get(0).longitude);
-                   /* MapUtils.drawBusPoint(mMap,endLatLng.latitude,endLatLng.longitude,path.stationToName,R.drawable.markerbus);*/
-                    List<LatLng> start = new ArrayList<LatLng>();
-                    start.add(startLatLng);
-                    start.add(endLatLng);
-                    jsonParseTask = new JSONParseTask();
-                    jsonParseTask.execute(start);
-
+                    pathFinal.add(path);
+                    points = path.points;
+                    List<LatLng> list = new ArrayList<>();
+                    for (int n = 0; n < points.size(); n++) {
+                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                        list.add(latLng);
+                    }
+                    MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
                 }
+
+                /**
+                 * Middle location
+                 */
+                List<Segment> segments = new ArrayList<Segment>();
+                for (int i = 0; i < iNodeList.size(); i++) {
+                    if (iNodeList.get(i) instanceof Segment) {
+                        Segment segment = (Segment) iNodeList.get(i);
+                        segments.add(segment);
+                    }
+                }
+
+                for (int m = 0; m < segments.size(); m++) {
+                    paths = segments.get(m).paths;
+                    pathFinal.add(paths.get(0));
+                    for (int j = 0; j < paths.size(); j++) {
+                        points = paths.get(j).points;
+                        for (int n = 0; n < points.size(); n++) {
+                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                            list.add(latLng);
+                        }
+                    }
+                }
+
+
                 /**
                  * end location
                  */
@@ -261,20 +270,29 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
                     latitude = endLocation.getLatitude();
                     longitude = endLocation.getLongitude();
                     MapUtils.drawEndPoint(mMap, latitude, longitude, path.stationToName);
-                    LatLng startLatLng = new LatLng(list.get(list.size()-1).latitude, list.get(list.size() -1).longitude);
-                    /*MapUtils.drawBusPoint(mMap,startLatLng.latitude,startLatLng.longitude,path.stationToName,R.drawable.markerbus);*/
-                    LatLng endLatLng = new LatLng(latitude, longitude);
-                    List<LatLng> end = new ArrayList<LatLng>();
-                    end.add(startLatLng);
-                    end.add(endLatLng);
-                    /*MapUtils.drawLine(mMap, end, Color.RED);*/
-                    jsonParseTask = new JSONParseTask();
-                    jsonParseTask.execute(end);
+                    pathFinal.add(path);
+                    points = path.points;
+                    List<LatLng> list = new ArrayList<>();
+                    for (int n = 0; n < points.size(); n++) {
+                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                        list.add(latLng);
+                    }
+                    MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
                 }
                 //add polyline
                 MapUtils.drawLine(mMap, list, Color.BLUE);
+
                 /*MapUtils.drawCircle(mMap,list);*/
                 MapUtils.moveCamera(mMap, latitude, longitude, 12);
+
+                for(int n = 1; n < pathFinal.size(); n++) {
+                    Path path = pathFinal.get(n);
+                    MapUtils.drawPointIcon(mMap,
+                            path.stationFromLocation.getLatitude(),
+                            path.stationFromLocation.getLongitude(),
+                            "", R.drawable.info);
+                }
+                GPSServiceOld.setListNotify(getNotifyList());
 
             }
         }
@@ -457,74 +475,44 @@ public class BusDetailTwoPointFragment extends Fragment implements GoogleApiClie
 
     }
 
-
-    private class JSONParseTask extends AsyncTask<List<LatLng>, String, List<Leg>> {
-        private ProgressDialog pDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
+    @Override
+    public void drawCurrentLocation(Double lat, Double lng) {
+        if(now != null){
+            now.remove();
         }
-
-        @Override
-        protected List<Leg> doInBackground(List<LatLng>... args) {
-            List<Leg> listLeg = new ArrayList<>();
-            String json;
-            String url;
-            LatLng start = (LatLng) args[0].get(0);
-            LatLng end = (LatLng) args[0].get(1);
-            url = GoogleAPIUtils.makeURL(start.latitude, start.longitude, end.latitude, end.longitude);
-            json = NetworkUtils.download(url);
-            try {
-                jsonObject = new JSONObject(json);
-                status = jsonObject.getString("status");
-                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
-                    return null;
-                } else {
-                    listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return listLeg;
-        }
-
-        @Override
-        protected void onPostExecute(List<Leg> listLeg) {
-
-            if (status.equals("NOT_FOUND")) {
-                Toast.makeText(getContext(),"NOT FOUND",Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            if (status.equals("ZERO_RESULTS")) {
-                Toast.makeText(getContext(),"ZERO RESULTS",Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            if (status.equals("OVER_QUERY_LIMIT")) {
-                Toast.makeText(getContext(),"OVER QUERY LIMIT",Toast.LENGTH_LONG).show();
-                return;
-            }
-           /* if(listLeg.size() > 1) {
-                for (int x = 0; x < listLeg.size() - 1; x++) {
-                    for (int y = 1; y < listLeg.size(); y++) {
-                        if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
-                            Leg leg = listLeg.get(x);
-                            listLeg.set(x, listLeg.get(y));
-                            listLeg.set(y, leg);
-                        }
-                    }
-                }
-            }*/
-            /*listLegResult = listLeg;*/
-            MapUtils.drawMapWithTwoPointCircle(mMap, listLeg);
-        }
+        now  = MapUtils.drawPointColor(mMap,lat,lng,"",BitmapDescriptorFactory.HUE_RED);
     }
 
+    @Override
+    public List<LatLng> getFakeGPSList() {
+        List<LatLng> latLngList = DecodeUtils.getListLocationFromNodeList(iNodeList);
+        return latLngList;
+    }
+
+    @Override
+    public List<NotifyModel> getNotifyList() {
+        List<NotifyModel>  listNotifies = new ArrayList<>();
+        for(int i=0;i<pathFinal.size();i++){
+            Path path = pathFinal.get(i);
+            Location location = new Location(path.stationFromLocation.getLatitude(),path.stationFromLocation.getLongitude());
+            String smallTittle = "Gần đến trạm";
+            String longTittle = "Thông tin chi tiết";
+            String smallMessage = path.stationFromName;
+            String longMessage = "Chi tiết này để sau";
+            NotifyModel notifyModel = new NotifyModel(location,smallTittle,longTittle,smallMessage,longMessage);
+            listNotifies.add(notifyModel);
+
+        }
+        Path path =  pathFinal.get(pathFinal.size()-1);
+        Location location = new Location(path.stationToLocation.getLatitude(),path.stationToLocation.getLongitude());
+        String smallTittle = "Gần đến trạm";
+        String longTittle = "Thông tin chi tiết";
+        String smallMessage = path.stationToName;
+        String longMessage = "Chi tiết này để sau";
+        NotifyModel notifyModel = new NotifyModel(location,smallTittle,longTittle,smallMessage,longMessage);
+        listNotifies.add(notifyModel);
+        return listNotifies;
+    }
 
 }
 
