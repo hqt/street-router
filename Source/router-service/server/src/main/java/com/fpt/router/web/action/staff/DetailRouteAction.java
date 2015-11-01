@@ -1,18 +1,12 @@
 package com.fpt.router.web.action.staff;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.artifacter.dao.RouteDAO;
-import com.fpt.router.artifacter.dao.TripDAO;
-import com.fpt.router.artifacter.model.entity.PathInfo;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.artifacter.model.entity.Station;
 import com.fpt.router.artifacter.model.entity.Trip;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.staff.RouteListVM;
 import com.fpt.router.web.viewmodel.staff.RouteVM;
-import com.fpt.router.web.viewmodel.staff.StationListVM;
-import com.fpt.router.web.viewmodel.staff.TripListVM;
 
 import java.util.ArrayList;
 import java.util.List;

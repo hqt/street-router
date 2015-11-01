@@ -1,8 +1,6 @@
 package com.fpt.router.web.action.staff;
 
-import com.fpt.router.artifacter.dao.MapDAL;
 import com.fpt.router.artifacter.dao.RouteDAO;
-import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.entity.CityMap;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.crawler.work.BusCrawlerPipe;

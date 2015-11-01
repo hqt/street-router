@@ -267,7 +267,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         if (isNearLocation(location)) {
             // Play sound
             if (isPlaySound) {
-                SoundUtils.playSound(listNotify.get(notifyIndex).smallMessage);
+                SoundUtils.playSound(mContext, listNotify.get(notifyIndex).smallMessage);
             }
 
             // Create nofitication

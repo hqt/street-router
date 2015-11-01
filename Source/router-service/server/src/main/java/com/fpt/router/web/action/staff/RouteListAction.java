@@ -5,9 +5,7 @@ import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.staff.RouteListVM;
-import com.fpt.router.web.viewmodel.staff.RouteVM;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class RouteListAction extends StaffAction {
         // convert to model
         RouteListVM routeListVM = new RouteListVM();
         if (!routes.isEmpty()) {
-            routeListVM.convertEntityToModel(routes);
+            routeListVM.convertEntityToModelLessAttr(routes);
         }
 
         context.setSessionAttribute("routes", routeListVM.getRouteListVMs());

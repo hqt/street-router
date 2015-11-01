@@ -1,14 +1,13 @@
-package com.fpt.router.utils;
+package com.fpt.router.library.utils.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Environment;
-import android.support.design.BuildConfig;
 import android.util.Log;
 
-
+import com.fpt.router.library.BuildConfig;
+import com.fpt.router.library.utils.FileUtils;
 import com.fpt.router.library.utils.cache.DiskLruCache;
 
 import java.io.BufferedInputStream;
@@ -19,20 +18,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public class DiskLruImageCacheUtils {
+/**
+ * Created by Huynh Quang Thao on 10/31/15.
+ */
+public class DiskLruImageCache {
 
     private DiskLruCache mDiskCache;
     private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
     private int mCompressQuality = 70;
     private static final int APP_VERSION = 1;
     private static final int VALUE_COUNT = 1;
-    private static final String TAG = "DiskLruImageCacheUtils";
+    private static final String TAG = "DiskLruImageCache";
 
-    public DiskLruImageCacheUtils(Context context, String uniqueName, int diskCacheSize,
-                                  Bitmap.CompressFormat compressFormat, int quality) {
+    public DiskLruImageCache( Context context,String uniqueName, int diskCacheSize,
+                              Bitmap.CompressFormat compressFormat, int quality ) {
         try {
             final File diskCacheDir = getDiskCacheDir(context, uniqueName );
-            mDiskCache = DiskLruCache.open(diskCacheDir, APP_VERSION, VALUE_COUNT, diskCacheSize);
+            mDiskCache = DiskLruCache.open( diskCacheDir, APP_VERSION, VALUE_COUNT, diskCacheSize );
             mCompressFormat = compressFormat;
             mCompressQuality = quality;
         } catch (IOException e) {
@@ -41,13 +43,15 @@ public class DiskLruImageCacheUtils {
     }
 
     private boolean writeBitmapToFile( Bitmap bitmap, DiskLruCache.Editor editor )
-            throws IOException {
+            throws IOException, FileNotFoundException {
         OutputStream out = null;
         try {
-            out = new BufferedOutputStream( editor.newOutputStream( 0 ), Utils.IO_BUFFER_SIZE );
+            out = new BufferedOutputStream( editor.newOutputStream( 0 ), FileUtils.IO_BUFFER_SIZE );
             return bitmap.compress( mCompressFormat, mCompressQuality, out );
         } finally {
             if ( out != null ) {
+                // we don't need to call flush because it has been already called in close.
+                // out.flush();
                 out.close();
             }
         }
@@ -59,8 +63,8 @@ public class DiskLruImageCacheUtils {
         // otherwise use internal cache dir
         final String cachePath =
                 Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-                        !Utils.isExternalStorageRemovable() ?
-                        Utils.getExternalCacheDir(context).getPath() :
+                        !FileUtils.isExternalStorageRemovable() ?
+                        FileUtils.getExternalCacheDir(context).getPath() :
                         context.getCacheDir().getPath();
 
         return new File(cachePath + File.separator + uniqueName);
@@ -79,7 +83,7 @@ public class DiskLruImageCacheUtils {
                 mDiskCache.flush();
                 editor.commit();
                 if ( BuildConfig.DEBUG ) {
-                    Log.d( "cache_test_DISK_", "image put on disk cache " + key );
+                    Log.d("cache_test_DISK_", "image put on disk cache " + key);
                 }
             } else {
                 editor.abort();
@@ -114,7 +118,7 @@ public class DiskLruImageCacheUtils {
             final InputStream in = snapshot.getInputStream( 0 );
             if ( in != null ) {
                 final BufferedInputStream buffIn =
-                        new BufferedInputStream( in, Utils.IO_BUFFER_SIZE );
+                        new BufferedInputStream( in, FileUtils.IO_BUFFER_SIZE );
                 bitmap = BitmapFactory.decodeStream(buffIn);
             }
         } catch ( IOException e ) {
@@ -154,7 +158,7 @@ public class DiskLruImageCacheUtils {
 
     public void clearCache() {
         if ( BuildConfig.DEBUG ) {
-            Log.d("cache_test_DISK_", "disk cache CLEARED");
+            Log.d( "cache_test_DISK_", "disk cache CLEARED");
         }
         try {
             mDiskCache.delete();
@@ -165,34 +169,6 @@ public class DiskLruImageCacheUtils {
 
     public File getCacheFolder() {
         return mDiskCache.getDirectory();
-    }
-
-    public static class Utils {
-        public static final int IO_BUFFER_SIZE = 8 * 1024;
-
-        private Utils() {};
-
-        public static boolean isExternalStorageRemovable() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                return Environment.isExternalStorageRemovable();
-            }
-            return true;
-        }
-
-        public static File getExternalCacheDir(Context context) {
-            if (hasExternalCacheDir()) {
-                return context.getExternalCacheDir();
-            }
-
-            // Before Froyo we need to construct the external cache dir ourselves
-            final String cacheDir = "/Android/data/" + context.getPackageName() + "/cache/";
-            return new File(Environment.getExternalStorageDirectory().getPath() + cacheDir);
-        }
-
-        public static boolean hasExternalCacheDir() {
-            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO;
-        }
-
     }
 
 }

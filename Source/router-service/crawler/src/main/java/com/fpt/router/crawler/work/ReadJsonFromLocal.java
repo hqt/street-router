@@ -89,10 +89,10 @@ public class ReadJsonFromLocal {
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         int limit = 0;
         for (Map.Entry<Integer, String> entry : links.entrySet()) {
-            if (limit > 4) {
+            /*if (limit > 4) {
                 break;
             }
-            limit++;
+            limit++;*/
             CrawDataThread crawDataThreadTrue = new CrawDataThread(entry.getKey(), true, entry.getValue());
             CrawDataThread crawDataThreadFalse = new CrawDataThread(entry.getKey(), false, entry.getValue());
             executorService.execute(crawDataThreadTrue);
