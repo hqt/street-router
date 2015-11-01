@@ -128,9 +128,14 @@ public class MotorFourPointFragment extends Fragment{
                 locationAutoCompletes.add(mapLocation.get(SearchField.WAY_POINT_2));
             }
 
-            if(!optimize && mapLocation.size() == 4) {
-                listUrl = GoogleAPIUtils.getFourPointWithoutOptimizeDirection(locationAutoCompletes);
-                listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));
+            if(!optimize) {
+                if(mapLocation.size() == 3) {
+                    listUrl = GoogleAPIUtils.getThreePointWithoutOptimizeDirection(locationAutoCompletes);
+                    listLegFinal.addAll(JSONParseUtils.sortLegForThreePointWithoutOptimize(listUrl));
+                } else if (mapLocation.size() == 4) {
+                    listUrl = GoogleAPIUtils.getFourPointWithoutOptimizeDirection(locationAutoCompletes);
+                    listLegFinal.addAll(JSONParseUtils.sortLegForFourPointWithoutOptimize(listUrl));
+                }
                 try {
                     listUrl = GoogleAPIUtils.getFourPointDirection(locationAutoCompletes, optimize);
                     json = NetworkUtils.download(listUrl.get(0));
@@ -197,20 +202,10 @@ public class MotorFourPointFragment extends Fragment{
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
-            if(mapLocation.size() == 4) {
-                for (int x = 0; x < 2; x++) {
-                    for (int y = 1; y < 3; y++) {
-                        int value_1 = JSONParseUtils.totalTime(listLegFinal.get(x * 3), listLegFinal.get(x * 3 + 1), listLegFinal.get(x * 3 + 2));
-                        int value_2 = JSONParseUtils.totalTime(listLegFinal.get(y * 3), listLegFinal.get(y * 3 + 1), listLegFinal.get(y * 3 + 2));
-                        if (value_1 > value_2) {
-                            for (int i = 0; i < 3; i++) {
-                                Leg leg = listLegFinal.get(x * 3 + i);
-                                listLegFinal.set(x * 3 + i, listLegFinal.get(y * 3 + i));
-                                listLegFinal.set(y * 3 + i, leg);
-                            }
-                        }
-                    }
-                }
+            if(mapLocation.size() == 3) {
+                listLegFinal = JSONParseUtils.sortThreePoint(listLegFinal);
+            } else if (mapLocation.size() == 4) {
+                listLegFinal = JSONParseUtils.sortFourPoint(listLegFinal);
             }
             SearchRouteActivity.listLeg = listLegFinal;
             recyclerView.setAdapter(new MotorFourPointAdapter());

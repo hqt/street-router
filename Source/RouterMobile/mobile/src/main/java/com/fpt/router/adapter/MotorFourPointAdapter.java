@@ -79,9 +79,9 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
         if(mapLocation.size() == 2){
             return listLeg.size();
         } else if(mapLocation.size() == 3){
-            return 1;
+            return listLeg.size()/2;
         } else {
-            return 3;
+            return listLeg.size()/3;
         }
     }
 

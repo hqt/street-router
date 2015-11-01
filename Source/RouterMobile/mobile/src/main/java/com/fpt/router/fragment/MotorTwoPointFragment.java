@@ -169,7 +169,7 @@ public class MotorTwoPointFragment extends Fragment {
             }
             if(listLeg.size() > 1) {
                 for (int x = 0; x < listLeg.size() - 1; x++) {
-                    for (int y = 1; y < listLeg.size(); y++) {
+                    for (int y = x+1; y < listLeg.size(); y++) {
                         if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
                             Leg leg = listLeg.get(x);
                             listLeg.set(x, listLeg.get(y));

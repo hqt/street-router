@@ -158,7 +158,9 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
         if(SearchRouteActivity.mapLocation.size() == 2) {
             listFinalLeg.add(listLeg.get(position));
         } else if (SearchRouteActivity.mapLocation.size() == 3) {
-            listFinalLeg.addAll(listLeg);
+            for(int n = position*2; n < position*2+2; n++) {
+                listFinalLeg.add(listLeg.get(n));
+            }
         } else {
             for(int n = position*3; n < position*3+3; n++) {
                 listFinalLeg.add(listLeg.get(n));
