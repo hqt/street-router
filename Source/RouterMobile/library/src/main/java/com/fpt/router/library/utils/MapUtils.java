@@ -1,7 +1,16 @@
 package com.fpt.router.library.utils;
 
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 
+import com.fpt.router.library.R;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;

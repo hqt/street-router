@@ -81,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/option"
+        android:background="?attr/colorPrimary"
         android:orientation="horizontal">
         <ImageButton
             android:layout_width="match_parent"

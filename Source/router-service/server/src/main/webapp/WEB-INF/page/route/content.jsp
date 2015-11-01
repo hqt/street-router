@@ -108,6 +108,7 @@
                 </tr>
               </thead>
               <tbody>
+              <form action=""
                 <c:forEach var="route" items="${routes}">
                   <tr>
                     <td>

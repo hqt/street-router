@@ -72,7 +72,10 @@ public class ActionFactory implements IActionFactory {
             } else if (actionCommand.equals("addStation")) {
                 context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/station/add.jsp");
                 action = new DetailRouteAction();
+            } else if (actionCommand.equals("deleteRoute")) {
+
             }
+
         }
 
         return action;

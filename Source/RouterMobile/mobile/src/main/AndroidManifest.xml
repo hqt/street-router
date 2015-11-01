@@ -35,7 +35,9 @@
         <activity
             android:name=".activity.VoiceRecordActivity"
             android:label="@string/title_activity_main" >
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SearchRouteActivity" />
         </activity>
 
         <activity
@@ -62,7 +64,7 @@
         </activity>
         <activity
             android:name=".activity.SearchOptionActivity"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@android:style/Theme.Holo.Light.Dialog" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />

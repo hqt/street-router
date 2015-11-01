@@ -13,9 +13,14 @@ import com.fpt.router.artifacter.model.viewmodel.Journey;
 import com.fpt.router.artifacter.model.viewmodel.Path;
 import com.fpt.router.artifacter.utils.JSONUtils;
 import com.google.gson.Gson;
+import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -27,16 +32,18 @@ import java.util.regex.Pattern;
  * Created by Huynh Quang Thao on 10/5/15.
 */
 public class AlgorithmTest {
+
+    static final String STRING_KEY_PATTERN = ".+";
+    static final Pattern LEGAL_KEY_PATTERN = Pattern.compile(STRING_KEY_PATTERN);
+
     public static void main(String[] args) {
 
-        String a = "toi muon di den cong vien phan mem quang trung";
+        String str = "thao";
+        Matcher m = LEGAL_KEY_PATTERN.matcher(str);
+        boolean res = m.matches();
 
-        Pattern p = Pattern.compile(".*\\bqua\\b.*");
-        Matcher m = p.matcher(a);
-        System.out.println(m.matches());
-        p = Pattern.compile(".*\\bquang\\b.*");
-        m = p.matcher(a);
-        System.out.println(m.matches());
+
+        String a = "toi muon di den cong vien phan mem quang trung";
 
         JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();

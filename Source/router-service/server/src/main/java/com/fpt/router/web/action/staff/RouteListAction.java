@@ -19,7 +19,7 @@ public class RouteListAction extends StaffAction {
     public String execute(ApplicationContext context) {
 
         RouteDAO routeDao = new RouteDAO();
-        List<Route> routes = routeDao.findAll();
+        List<Route> routes = routeDao.findAllRouteLazy();
 
         // convert to model
         RouteListVM routeListVM = new RouteListVM();

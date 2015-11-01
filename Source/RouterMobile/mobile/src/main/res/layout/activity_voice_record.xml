@@ -3,21 +3,25 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e0e0e0">
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#e0e0e0"
+        android:background="#EEEEEE"
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="fill_parent"
-            android:layout_height="34dp"
+            android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/main_drop_shadow"></View>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -30,34 +34,34 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@null"
                 android:src="@drawable/ico_mic" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#757575"
+                android:textColor="#616161"
                 android:text="Câu bạn đã nói: (từ .. đến .. qua .. tới ..) "
                 android:layout_marginBottom="5dp"
                 android:textSize="15sp"/>
 
             <TextView
                 android:layout_width="fill_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:textColor="#000"
-                android:textStyle="bold"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:background="@drawable/drop_shadow"
                 android:id="@+id/speech_text"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#757575"
+                android:textColor="#616161"
                 android:text="Địa điểm nhận dạng từ giọng nói:"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:textSize="15sp"/>
 
@@ -186,7 +190,7 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#757575"
+                android:textColor="#616161"
                 android:text="Địa điểm nhận diện được:"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
@@ -319,22 +323,24 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="32dp"
-                    android:background="#2f63d9"
+                    android:background="@drawable/button_shadow"
                     android:clickable="true"
                     android:text="Đồng ý"
-                    android:textColor="#4FC3F7"
-                    android:textStyle="bold" />
+                    android:textColor="#FFFFFF"
+                    android:textStyle="normal"
+                    android:textSize="15sp"/>
 
                 <Button
                     android:id="@+id/btn_no"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="5dp"
-                    android:background="#2f63d9"
+                    android:background="@drawable/button_shadow"
                     android:clickable="true"
                     android:text="Hủy"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
+                    android:textColor="#FFFFFF"
+                    android:textStyle="normal"
+                    android:textSize="15sp"/>
 
 
             </LinearLayout>

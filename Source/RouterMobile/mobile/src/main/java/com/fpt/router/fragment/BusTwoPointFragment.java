@@ -11,15 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.Result;
-import com.fpt.router.library.model.common.AutocompleteObject;
+import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
@@ -134,7 +137,7 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-          /*  Gson gson1 = JSONUtils.buildGson();
+            /*Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());

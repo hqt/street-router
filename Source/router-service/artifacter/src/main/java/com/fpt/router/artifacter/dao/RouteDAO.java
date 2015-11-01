@@ -28,4 +28,5 @@ public class RouteDAO extends JPADaoImpl<Route, Integer> {
     public List<Route> findAllRouteLazy() {
         return getEntityManager().createQuery("from " + entityClass.getName()).getResultList().subList(0, 10);
     }
+
 }

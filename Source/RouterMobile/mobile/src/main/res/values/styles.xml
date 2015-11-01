@@ -20,7 +20,11 @@
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent_1</item>
-
+        <item name="colorButtonNormal">@color/button_normal</item>
+    </style>
+    <style name="SpecialButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#555</item>
+        <item name="android:textColorPrimary">#2962FF</item>
     </style>
     <style name="TransparentTheme" parent="@style/Theme.AppCompat">
 

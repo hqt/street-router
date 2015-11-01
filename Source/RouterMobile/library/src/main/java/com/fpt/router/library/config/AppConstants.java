@@ -29,6 +29,12 @@ public class AppConstants {
         public static final int ON_VIBRATE = 500;
     }
 
+    public static final class FileCache {
+        public static final String FOLDER_NAME = "fuckthao";
+        public static final int FOLDER_SIZE = 100;
+        public static final int SYSTEM_SIZE = FOLDER_SIZE * 1024 * 1024;
+    }
+
     public static final class API {
         public static String SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
         public static String SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
@@ -53,4 +59,6 @@ public class AppConstants {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";
         API.SEARCH_BUS_ROUTE_FOUR_POINT = SERVER_ADDRESS + "/search/multi";
     }
+
+    public static int DISTANCE_DEMO = 0;
 }

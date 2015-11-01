@@ -8,7 +8,8 @@ import android.os.Environment;
 import android.support.design.BuildConfig;
 import android.util.Log;
 
-import com.jakewharton.disklrucache.DiskLruCache;
+
+import com.fpt.router.library.utils.cache.DiskLruCache;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -31,7 +32,7 @@ public class DiskLruImageCacheUtils {
                                   Bitmap.CompressFormat compressFormat, int quality) {
         try {
             final File diskCacheDir = getDiskCacheDir(context, uniqueName );
-            mDiskCache = DiskLruCache.open( diskCacheDir, APP_VERSION, VALUE_COUNT, diskCacheSize );
+            mDiskCache = DiskLruCache.open(diskCacheDir, APP_VERSION, VALUE_COUNT, diskCacheSize);
             mCompressFormat = compressFormat;
             mCompressQuality = quality;
         } catch (IOException e) {

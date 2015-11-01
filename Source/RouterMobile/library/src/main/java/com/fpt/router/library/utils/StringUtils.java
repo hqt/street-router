@@ -15,8 +15,17 @@ import java.util.regex.Pattern;
 public class StringUtils {
     public static String normalizeString(String s) {
         s = s.toLowerCase().trim().replaceAll("\\s+", " ");
-        s = s.replaceAll("\\.", "");
+        // s = s.replaceAll("\\.", "");
         s = AccentRemoval.removeAccent(s);
+        return s;
+    }
+
+    public static String normalizeFileCache(String s) {
+        s = s.toLowerCase().trim().replaceAll("\\s+", " ");
+        // s = s.replaceAll("\\.", "");
+        s = AccentRemoval.removeAccent(s);
+        s = s.replaceAll(" ", "_");
+        s = s.replaceAll("[^a-z0-9_-]", "");
         return s;
     }
 
