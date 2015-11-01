@@ -11,13 +11,21 @@
 <html>
 <head>
     <c:import url="../../common/library.jsp"/>
+    <style>
+        a {color: #333;}
+        a:hover {
+            color: #3175af;
+        }
+        a:focus, a:hover, a:active {
+            outline: 0;
+        }
+    </style>
 </head>
 <body class="page-boxed page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-sidebar-closed-hide-logo">
 <c:import url="../../common/header.jsp"/>
 <div class="container">
     <div class="page-container">
-        <%--<c:import url="../../common/sidebar.jsp"/>--%>>
-        <c:set var="subRoute" scope="request" value="${requestScope.subRoute}"/>
+        <c:set var="routes" scope="request" value="${requestScope.routes}"/>
         <c:import url="../../common/sidebar.jsp"/>
         <c:import url="content.jsp"/>
         <c:import url="../../common/footer.jsp"/>

@@ -1,9 +1,5 @@
 package com.fpt.router.library.utils;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -15,22 +11,17 @@ import android.util.Log;
 
 import com.fpt.router.library.R;
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
 import com.fpt.router.library.utils.string.DistanceUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -52,6 +43,18 @@ public class MapUtils {
 
         // adding marker
         map.addMarker(marker);
+    }
+
+    public static Marker drawPointIcon(GoogleMap map, double latitude, double longitude, String title, int resourceImageID) {
+        // create marker
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
+                .title(title);
+
+        // Changing marker icon
+        marker.icon(BitmapDescriptorFactory.fromResource(resourceImageID));
+
+        // adding marker
+        return map.addMarker(marker);
     }
 
     public static Marker drawPointColor(GoogleMap map, double latitude, double longitude, String title, float colorMarker) {
@@ -257,8 +260,8 @@ public class MapUtils {
         for (int i = 0; i < listFinalLeg.size(); i++) {
             leg = listFinalLeg.get(i);
             DetailLocation detalL = leg.getDetailLocation();
-            com.fpt.router.library.model.motorbike.Location start_location = detalL.getStartLocation();
-            com.fpt.router.library.model.motorbike.Location end_location = detalL.getEndLocation();
+            Location start_location = detalL.getStartLocation();
+            Location end_location = detalL.getEndLocation();
             // latitude and longitude
 
             if (i == 0) {

@@ -1,32 +1,23 @@
 package com.fpt.router.activity;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.MapUtils;
-import com.fpt.router.service.GPSServiceOld;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -37,11 +28,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.wearable.Wearable;
 
-import java.util.Date;
-
 import de.greenrobot.event.EventBus;
-
-import static com.fpt.router.library.config.AppConstants.Vibrator.*;
 
 /**
  * Created by asus on 10/6/2015.
@@ -151,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Intent viewIntent = new Intent(this, SearchRouteActivity.class);
         PendingIntent viewPendingIntent = PendingIntent.getActivity(this, 0, viewIntent, 0);
 
-        // build notification for wearable side
+        // run notification for wearable side
 
         // WearableExtender. Using this for add functionality for wear. (more advanced)
         NotificationCompat.WearableExtender wearableExtender =
@@ -168,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         Notification secondPageNotification =
                 new NotificationCompat.Builder(this)
                         .setStyle(wearSecondPageNotif)
-                        .build();
+                        .run();
 
         wearableExtender.addPage(secondPageNotification);
 
@@ -188,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
                 NotificationManagerCompat.from(this);
 
         // Build the notification and issues it with notification manager.
-        notificationManager.notify(notificationId, notificationBuilder.build());*/
+        notificationManager.notify(notificationId, notificationBuilder.run());*/
     }
 
     @Override
@@ -226,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         return super.onOptionsItemSelected(item);
     }
 
-    public void onEvent(LocationMessage event) {
+    public void onEventMainThread(LocationMessage event) {
         onLocationChanged(event.location);
     }
 
@@ -256,7 +243,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         }
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-        com.fpt.router.library.model.motorbike.Location local = new com.fpt.router.library.model.motorbike.Location();
+        com.fpt.router.library.model.common.Location local = new com.fpt.router.library.model.common.Location();
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
 
@@ -289,9 +276,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /*class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;
-        com.fpt.router.library.model.motorbike.Location location;
+        com.fpt.router.library.model.common.Location location;
         // Constructor for sending data objects to the data layer
-        SendToDataLayerThread(String p, DataMap data, com.fpt.router.library.model.motorbike.Location local) {
+        SendToDataLayerThread(String p, DataMap data, com.fpt.router.library.model.common.Location local) {
             path = p;
             dataMap = data;
             location = local;

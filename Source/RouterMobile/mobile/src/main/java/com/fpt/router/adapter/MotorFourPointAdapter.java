@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 
 import java.util.List;

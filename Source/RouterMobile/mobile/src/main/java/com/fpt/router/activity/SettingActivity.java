@@ -20,6 +20,7 @@ import com.fpt.router.library.config.AppConstants;
 public class SettingActivity extends AppCompatActivity {
     EditText portEditText;
     EditText ipEditText;
+    EditText stimulateSpeedText;
     Button okButton;
     Button cancelButton;
     @Override
@@ -38,11 +39,13 @@ public class SettingActivity extends AppCompatActivity {
          */
         ipEditText = (EditText) findViewById(R.id.edit_ip);
         portEditText = (EditText) findViewById(R.id.edit_port);
+        stimulateSpeedText = (EditText) findViewById(R.id.edit_stimulate_speed);
         okButton = (Button) findViewById(R.id.btn_ok);
         cancelButton = (Button) findViewById(R.id.btn_cancel);
 
         ipEditText.setText(PrefStore.getServerIp());
         portEditText.setText(PrefStore.getServerPort() + "");
+        stimulateSpeedText.setText(PrefStore.getSimulationSpeed() + "");
 
         /**
          * click listener
@@ -52,13 +55,19 @@ public class SettingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // save to pref store
                 PrefStore.setBusServerIp(ipEditText.getText().toString());
-                int port;
+
+                int port, simulateSpeed;
                 try {
                     port = Integer.parseInt(portEditText.getText().toString());
+                    simulateSpeed = Integer.parseInt(stimulateSpeedText.getText().toString());
                 } catch (Exception e) {
                     port = 8080;
+                    simulateSpeed = 40;
+
                 }
+
                 PrefStore.setBusServerPort(port);
+                PrefStore.setPrefSimulationSpeed(simulateSpeed);
 
                 // set again variable
                 AppConstants.SERVER_ADDRESS = "http://" + PrefStore.getServerIp() + ":" + PrefStore.getServerPort();

@@ -22,20 +22,12 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.SearchField;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
-import com.fpt.router.library.utils.string.LevenshteinDistance;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
@@ -168,18 +160,29 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private boolean returnPreviousActivity() {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
-        if (location != null) {
-            mapLocation.put(number, location);
-        }
-        // user delete field
-        else if ((autoComp.getText().toString().length() == 0) &&
-                (mapLocation.get(number) != null)) {
-            mapLocation.remove(number);
-        }
-        // user types random text.
-        else if (autoComp.getText().toString().length() > 0) {
-            AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
-            mapLocation.put(number, obj);
+        if ((location != null) ) {
+            if(autoComp.getText().toString().equals(location.getName())) {
+                mapLocation.put(number, location);
+            } else {
+                AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                mapLocation.put(number, obj);
+            }
+        } else {
+            if (mapLocation.get(number) != null) {
+                // user delete field
+                if (autoComp.getText().toString().length() == 0) {
+                    mapLocation.remove(number);
+                }
+                // user types random text.
+                else if ((autoComp.getText().toString().length() > 0) &&
+                        (!mapLocation.get(number).getName().equals(autoComp.getText().toString()))) {
+                    AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                    mapLocation.put(number, obj);
+                }
+            } else {
+                AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
+                mapLocation.put(number, obj);
+            }
         }
         setResult(number, null);
         finish();//finishing activity

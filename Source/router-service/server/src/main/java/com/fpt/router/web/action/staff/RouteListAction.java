@@ -5,7 +5,9 @@ import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.staff.RouteListVM;
+import com.fpt.router.web.viewmodel.staff.RouteVM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,16 +20,16 @@ public class RouteListAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        /*String command = super.execute(context);
-        if (command != null) return command;
-
         RouteDAO routeDao = new RouteDAO();
-        List<Route> routes = routeDao.findAll();
+        List<Route> routes = routeDao.findAllRouteLazy();
 
+        // convert to model
+        RouteListVM routeListVM = new RouteListVM();
         if (!routes.isEmpty()) {
-            context.setSessionAttribute("routes", routes);
-            context.setAttribute("subRoute", routes.subList(0,9));
-        }*/
+            routeListVM.convertEntityToModel(routes);
+        }
+
+        context.setSessionAttribute("routes", routeListVM.getRouteListVMs());
 
        return Config.WEB.PAGE + "/route/index.jsp";
     }

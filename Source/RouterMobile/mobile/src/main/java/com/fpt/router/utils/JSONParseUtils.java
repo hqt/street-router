@@ -4,15 +4,13 @@ import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.DetailLocationTwoPoint;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.motorbike.Step;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

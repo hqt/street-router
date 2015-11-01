@@ -19,9 +19,8 @@ import com.fpt.router.fragment.BusFourPointFragment;
 import com.fpt.router.fragment.BusTwoPointFragment;
 import com.fpt.router.fragment.MotorFourPointFragment;
 import com.fpt.router.fragment.MotorTwoPointFragment;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.model.common.AutocompleteObject;
 
-import java.util.List;
 import java.util.Map;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {

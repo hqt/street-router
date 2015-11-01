@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.fpt.router.library.model.common.IWearableModel;
+import com.fpt.router.library.model.common.Location;
 import com.google.android.gms.wearable.DataMap;
 
 import java.util.ArrayList;

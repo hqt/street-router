@@ -32,6 +32,8 @@
         <url-pattern>/admin</url-pattern>
         <url-pattern>/staff/index</url-pattern>
         <url-pattern>/search/multi</url-pattern>
+        <url-pattern>/route/detail</url-pattern>
+        <url-pattern>/compare</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>

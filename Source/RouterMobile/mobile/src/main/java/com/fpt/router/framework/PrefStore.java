@@ -26,11 +26,15 @@ public class PrefStore {
     /** Preference key contain is 3g or not */
     public static final String PREF_IS_MOBILE_NETWORK = "is_mobile_network";
 
-    /** Preference key contain is 3g or not */
+    /** Preference key for bus server ip */
     public static final String PREF_BUS_SERVER_IP = "bus_server_ip_address";
 
-    /** Preference key contain is 3g or not */
+    /** Preference key for bus server port */
     public static final String PREF_BUS_SERVER_PORT = "bus_server_port";
+
+    /** Preference key for simulation speed  */
+    public static final String PREF_SIMULATION_SPEED = "simulation_speed";
+
 
     ///////////////////////////////////////////////////////////////
     /////////////////   DEFAULT VALUE   ///////////////////////////
@@ -52,6 +56,8 @@ public class PrefStore {
     /** Default value for {@link PrefStore#PREF_BUS_SERVER_PORT} */
     public static final int DEFAULT_BUS_SERVER_PORT = 8080;
 
+    /** Default value for {@link PrefStore#PREF_SIMULATION_SPEED} */
+    public static final int DEFAULT_SIMULATION_SPEED = 80;
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
@@ -81,6 +87,10 @@ public class PrefStore {
 
     public static int getServerPort() {
         return getSharedPreferences().getInt(PREF_BUS_SERVER_PORT, DEFAULT_BUS_SERVER_PORT);
+    }
+
+    public static int getSimulationSpeed() {
+        return getSharedPreferences().getInt(PREF_SIMULATION_SPEED, DEFAULT_SIMULATION_SPEED);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -113,6 +123,12 @@ public class PrefStore {
     public static void setBusServerPort(int port) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putInt(PREF_BUS_SERVER_PORT, port);
+        editor.commit();
+    }
+
+    public static void setPrefSimulationSpeed(int speed) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_SIMULATION_SPEED, speed);
         editor.commit();
     }
 

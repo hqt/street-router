@@ -1,7 +1,12 @@
 package com.fpt.router.library.utils;
 
+import android.util.Pair;
+
+import com.fpt.router.library.model.bus.INode;
+import com.fpt.router.library.model.bus.Path;
+import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -102,5 +107,58 @@ public class DecodeUtils {
         LatLng latLng = new LatLng(lat3 , lon3);
 
         return latLng;
+    }
+
+    public static Pair<String, String> getDetailInstruction(String instructions) {
+        Pair<String, String> detailInstruction;
+        String delimiter = "<div style=\"font-size:0.9em\">";
+        String[] temp;
+        String str = instructions;
+        temp = str.split(delimiter);
+        String subTitle = "";
+        for (int i= 1; i<temp.length;i++){
+            subTitle += temp[i]+"\n";
+        }
+        detailInstruction = new Pair<>(temp[0], subTitle);
+        return detailInstruction;
+    }
+
+    /**
+     * get List LatLong from List iNode
+     * @param iNodeList
+     * @return
+     */
+    public static List<LatLng> getListLocationFromNodeList(List<INode> iNodeList){
+        List<LatLng> latLngs = new ArrayList<LatLng>();
+        List<LatLng> latLngList = new ArrayList<LatLng>();
+
+        if(iNodeList.get(0) instanceof Path){
+            Path path = (Path) iNodeList.get(0);
+            LatLng latLng = new LatLng(path.stationFromLocation.getLatitude(),path.stationFromLocation.getLongitude());
+            latLngList.add(latLng);
+        }
+
+        for (int i=0; i<iNodeList.size();i++){
+            if(iNodeList.get(i) instanceof Segment){
+                Segment segment = (Segment) iNodeList.get(i);
+                List<Path> paths = segment.paths;
+                for (int j = 0; j < paths.size(); j++) {
+                    List<Location> points = paths.get(j).points;
+                    for (int n = 0; n < points.size(); n++) {
+                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                        latLngList.add(latLng);
+                    }
+                }
+            }
+        }
+
+        if(iNodeList.get(iNodeList.size() - 1) instanceof Path){
+            Path path = (Path) iNodeList.get(iNodeList.size() - 1);
+            LatLng latLng = new LatLng(path.stationToLocation.getLatitude(),path.stationToLocation.getLongitude());
+            latLngList.add(latLng);
+        }
+
+        latLngs = getPointsFromListLocation(latLngList);
+        return latLngs;
     }
 }

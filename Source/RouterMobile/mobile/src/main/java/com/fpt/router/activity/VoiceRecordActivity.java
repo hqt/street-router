@@ -21,7 +21,8 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
-import com.fpt.router.library.model.motorbike.AutocompleteObject;
+import com.fpt.router.library.config.AppConstants.SearchField;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -31,6 +32,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
 
 /**
  * Created by Huynh Quang Thao on 10/27/15.
@@ -115,12 +118,21 @@ public class VoiceRecordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // creating list locations return to search route activity
                 List<AutocompleteObject> res = new ArrayList<>();
-                if (fromAutoCompleteObject != null) res.add(fromAutoCompleteObject);
-                if (toAutoCompleteObject != null) res.add(toAutoCompleteObject);
-                if (firstMiddleAutoCompleteObject != null) res.add(firstMiddleAutoCompleteObject);
-                if (secondMiddleAutoCompleteObject != null) res.add(secondMiddleAutoCompleteObject);
-                //SearchRouteActivity.listLocation = res;
-                //Log.e("hqthao", "Size: " + SearchRouteActivity.listLocation.size());
+                if (fromAutoCompleteObject != null) {
+                    mapLocation.put(SearchField.FROM_LOCATION, fromAutoCompleteObject);
+                }
+                if (toAutoCompleteObject != null) {
+                    mapLocation.put(SearchField.TO_LOCATION, toAutoCompleteObject);
+                }
+                if (firstMiddleAutoCompleteObject != null) {
+                    mapLocation.put(SearchField.WAY_POINT_1, firstMiddleAutoCompleteObject);
+                }
+                if (secondMiddleAutoCompleteObject != null) {
+                    mapLocation.put(SearchField.WAY_POINT_2, secondMiddleAutoCompleteObject);
+                }
+
+                Log.e("hqthao", "Size: " + SearchRouteActivity.mapLocation.size());
+                setResult(1, null);
                 finish();
             }
         });
@@ -136,7 +148,7 @@ public class VoiceRecordActivity extends AppCompatActivity {
             startActivityForResult(intent, REQ_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException a) {
             Toast.makeText(getApplicationContext(),
-                    "Tiếng Việt không được hỗ trợ trên thiết bị hiện tại.",
+                    "nhận dạng giọng nói chưa được hỗ trợ trên thiết bị hiện tại.",
                     Toast.LENGTH_SHORT).show();
         }
     }

@@ -7,7 +7,7 @@ import android.util.Log;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.library.model.motorbike.Location;
+import com.fpt.router.library.model.common.Location;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -79,10 +79,8 @@ public class DataLayerListenerService extends WearableListenerService
     }
     @Override
     public void onDataChanged(DataEventBuffer dataEvents) {
-        Log.e("hqthao", "On Data Changed");
 
         for (DataEvent event : dataEvents) {
-
             // Check the data type
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 DataItem dataItem = event.getDataItem();
@@ -108,7 +106,6 @@ public class DataLayerListenerService extends WearableListenerService
                     // send to activity
                     startActivity(intent);
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_GPS)) {
-                    Log.e("Nam", "aaa");
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     dataMap = dataMap.getDataMap("location");
                     Location location = new Location();
