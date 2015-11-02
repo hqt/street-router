@@ -148,6 +148,7 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         //mapFragment.getMapAsync(this);
 
         // hqthao. fucking trick for demo :)
+        // mMap = mapFragment.getMapAsync(this);
         mMap = mapFragment.getMap();
         onMapReady(mMap);
     }

@@ -30,9 +30,6 @@ import java.util.List;
  */
 public class MultiPointAction implements IAction {
 
-    StationDAO dao = new StationDAO();
-
-
     @Override
     public String execute(ApplicationContext context) {
 
@@ -169,6 +166,9 @@ public class MultiPointAction implements IAction {
         String json = gson.toJson(journeys);
         PrintWriter out = context.getWriter();
         out.write(json);
+
+        System.out.println(json);
+
         return Config.AJAX_FORMAT;
     }
 }

@@ -3,9 +3,6 @@ package com.fpt.router.web.action.staff;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.CityMap;
 import com.fpt.router.artifacter.model.entity.Route;
-import com.fpt.router.crawler.work.ReadExcelFileFromLocal;
-import com.fpt.router.crawler.work.ReadJsonFromLocal;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,7 +17,7 @@ public class CompareTwoList {
 
     public static void main(String args[]) {
 
-        // get map from server
+       /* // get map from server
         ReadJsonFromLocal readJsonFromLocal = new ReadJsonFromLocal();
         mapServer = readJsonFromLocal.run();
         ReadExcelFileFromLocal readExcelFileFromLocal = new ReadExcelFileFromLocal(mapServer);
@@ -50,7 +47,7 @@ public class CompareTwoList {
             System.out.println("Name " + r.getRouteName());
         }
 
-        int a = 3;
+        int a = 3;*/
     }
 
 }

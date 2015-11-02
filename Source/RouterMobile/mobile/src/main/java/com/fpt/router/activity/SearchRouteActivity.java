@@ -166,7 +166,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                 @Override
                 public void onGlobalLayout() {
                     edit_1.getViewTreeObserver().addOnGlobalLayoutListener(this);
-                    viewHeight = edit_1.getHeight()+20;
+                    viewHeight = edit_1.getHeight() + 20;
                     edit_1.getLayoutParams();
                     edit_1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
@@ -178,7 +178,7 @@ public class SearchRouteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(noSwap){
+                if (noSwap) {
                     changeImageButton.animate().rotation(180);
                     TranslateAnimation ta1 = new TranslateAnimation(0, 0, 0, viewHeight);
                     ta1.setDuration(ANIMATION_DURATION);
@@ -196,7 +196,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                     edit_2.setHint("Chọn điểm khởi hành");
                     swapFromAndTo();
                     noSwap = false;
-                }else{
+                } else {
                     changeImageButton.animate().rotation(-180);
                     TranslateAnimation ta1 = new TranslateAnimation(0, 0, viewHeight, 0);
                     ta1.setDuration(ANIMATION_DURATION);
@@ -268,9 +268,7 @@ public class SearchRouteActivity extends AppCompatActivity {
                             Log.e("hqthao", "Search bus four point");
                             searchType = SearchType.BUS_FOUR_POINT;
                         }
-                    }
-
-                    else if (tabPosition == 1) {
+                    } else if (tabPosition == 1) {
                         if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search motor two point");
                             searchType = SearchType.MOTOR_TWO_POINT;
@@ -299,7 +297,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SearchRouteActivity.this,VoiceRecordActivity.class);
+                Intent intent = new Intent(SearchRouteActivity.this, VoiceRecordActivity.class);
                 startActivityForResult(intent, 0);
             }
         });
@@ -318,14 +316,10 @@ public class SearchRouteActivity extends AppCompatActivity {
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                _view_pager.setAdapter(null);
-                mapLocation.clear();
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             default:
@@ -386,13 +380,13 @@ public class SearchRouteActivity extends AppCompatActivity {
     private void setTextToField() {
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
-        }else {
+        } else {
             edit_1.setText("");
         }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
             edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
-        }else {
+        } else {
             edit_2.setText("");
         }
     }
