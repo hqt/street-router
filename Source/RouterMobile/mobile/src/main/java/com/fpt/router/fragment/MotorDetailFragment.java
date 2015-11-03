@@ -20,6 +20,7 @@ import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.library.utils.MotorMapUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.library.utils.MapUtils;
@@ -206,10 +207,10 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 if(SearchRouteActivity.mapLocation.size() == 2) {
-                    MapUtils.drawMapWithTwoPoint(mMap, listFinalLeg);
+                    MotorMapUtils.drawMapWithTwoPoint(mMap, listFinalLeg);
 
                 } else {
-                    MapUtils.drawMapWithFourPoint(mMap, listFinalLeg);
+                    MotorMapUtils.drawMapWithFourPoint(mMap, listFinalLeg);
                     List<LatLng> step = new ArrayList<>();
                 }
                 for(int n = 0; n < listStep.size(); n++) {
@@ -372,7 +373,6 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
         }
     }
 
-    static int count = 0;
     @Override
     public void onConnected(Bundle bundle) {
         // send location request

@@ -23,66 +23,41 @@ import com.nutiteq.ui.MapView;
 import com.nutiteq.utils.BitmapUtils;
 import com.nutiteq.vectorelements.Marker;
 
-public class NutiteqMapActivity extends AppCompatActivity {
+public class NutiteqMapActivity extends VectorMapSampleBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // MapSampleBaseActivity creates and configures mapView
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nutiteq_map);
-     //   Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
-        // 0. The initial step: register your license. This must be done before using MapView!
-        // You can get your free/commercial license from: http://developer.nutiteq.com
-        // The license string used here is intended only for Nutiteq demos and WILL NOT WORK with other apps!
-        MapView.registerLicense("XTUMwQ0ZHWnE5RjVURWRZK2M3R3NCR3pFU0tkYnloVklBaFVBa3JZdXk2RTQyb0V3enZTZi9wMlgrM1lqZDBrPQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5mcHQucm91dGVyCndhdGVybWFyaz1udXRpdGVxCnVzZXJLZXk9ZWYzZDA5Y2IwOGRlN2I0NTdjZWNhYjBlZTZjMDkwZGEK",
-                getApplicationContext());
-
-        // 1. Basic map setup
-        // Create map view
-        MapView mapView = (MapView) this.findViewById(R.id.map_view);
-
-        // Set the base projection, that will be used for most MapView, MapEventListener and Options methods
-        EPSG3857 proj = new EPSG3857();
-        mapView.getOptions().setBaseProjection(proj); // note: EPSG3857 is the default, so this is actually not required
-
-        // General options
-        mapView.getOptions().setRotatable(true); // make map rotatable (this is also the default)
-        mapView.getOptions().setTileThreadPoolSize(2); // use 2 download threads for tile downloading
-
-        // Set initial location and other parameters, don't animate
-        mapView.setFocusPos(proj.fromWgs84(new MapPos(13.38933, 52.51704)), 0); // Berlin
-        mapView.setZoom(2, 0); // zoom 2, duration 0 seconds (no animation)
-        mapView.setMapRotation(0, 0);
-        mapView.setTilt(90, 0);
-
-        // Create base layer. Use vector style from assets (osmbright.zip)
-        VectorTileLayer baseLayer = new NutiteqOnlineVectorTileLayer("osmbright.zip");
-        mapView.getLayers().add(baseLayer);
-
-        // 2. Add a pin marker to map
-        // Initialize a local vector data source
-        LocalVectorDataSource vectorDataSource1 = new LocalVectorDataSource(proj);
-
-        // Create marker style, by first loading marker bitmap
-        Bitmap androidMarkerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
-        com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
-        MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
-        markerStyleBuilder.setBitmap(markerBitmap);
-        markerStyleBuilder.setSize(30);
-        MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
-        // Add marker to the local data source
-        Marker marker1 = new Marker(proj.fromWgs84(new MapPos(13.38933, 52.51704)), sharedMarkerStyle);
-        vectorDataSource1.add(marker1);
-
-        // Create a vector layer with the previously created data source
+        // Add a pin marker to map
+        // 1. Initialize a local vector data source
+        LocalVectorDataSource vectorDataSource1 = new LocalVectorDataSource(baseProjection);
+        // Initialize a vector layer with the previous data source
         VectorLayer vectorLayer1 = new VectorLayer(vectorDataSource1);
         // Add the previous vector layer to the map
         mapView.getLayers().add(vectorLayer1);
         // Set visible zoom range for the vector layer
-        vectorLayer1.setVisibleZoomRange(new MapRange(0, 24)); // this is optional, by default layer is visible for all zoom levels
+        vectorLayer1.setVisibleZoomRange(new MapRange(0, 18));
 
+        // 2. Create marker style
+        Bitmap androidMarkerBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
+        com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
 
+        MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
+        markerStyleBuilder.setBitmap(markerBitmap);
+        //markerStyleBuilder.setHideIfOverlapped(false);
+        markerStyleBuilder.setSize(30);
+        MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
+
+        // 3. Add marker
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(106.698994, 10.779786)); // Bến Thành
+        Marker marker1 = new Marker(markerPos, sharedMarkerStyle);
+        vectorDataSource1.add(marker1);
+
+        // finally animate map to the marker
+        mapView.setFocusPos(markerPos, 1);
+        mapView.setZoom(12, 1);
     }
 
 }
