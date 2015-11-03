@@ -73,6 +73,7 @@
                 android:gravity="left|center"
                 android:paddingLeft="10dp"/>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -92,12 +93,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="40"
+                android:hint="120"
                 android:textColor="#000"
                 android:inputType="number"
                 android:gravity="left|center"
                 android:paddingLeft="10dp"/>
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="5dip"
+            android:checked="true"
+            android:text="Tải Map Offline (65MB)"
+            android:textColor="#2962FF"
+            android:textSize="16sp"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="wrap_content"
