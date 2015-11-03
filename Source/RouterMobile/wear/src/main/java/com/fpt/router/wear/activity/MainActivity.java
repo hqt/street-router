@@ -25,8 +25,8 @@ import com.fpt.router.R;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.common.Location;
-import com.fpt.router.library.utils.ColorUtils;
 import com.fpt.router.library.utils.MapUtils;
+import com.fpt.router.library.utils.MotorMapUtils;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import android.support.wearable.view.DismissOverlayView;
@@ -159,9 +159,9 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         if((listLeg != null) && (DATA_NEW_TIME_GET != DATA_OLD_TIME_GET)) {
             mMap.clear();
             if (listLeg.size() == 1) {
-                MapUtils.drawMapWithTwoPoint(mMap, listLeg);
+                MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
             } else {
-                MapUtils.drawMapWithFourPoint(mMap, listLeg);
+                MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
             }
         }
         Log.e("hqthao", "register bus");
@@ -184,9 +184,9 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         mMap.setOnMapLongClickListener(this);
 
         if(listLeg.size() == 1){
-            MapUtils.drawMapWithTwoPoint(mMap, listLeg);
+            MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
         } else {
-            MapUtils.drawMapWithFourPoint(mMap, listLeg);
+            MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
         }
     }
 
