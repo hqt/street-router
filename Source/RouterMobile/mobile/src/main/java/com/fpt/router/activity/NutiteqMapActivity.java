@@ -35,7 +35,7 @@ public class NutiteqMapActivity extends AppCompatActivity {
         // 0. The initial step: register your license. This must be done before using MapView!
         // You can get your free/commercial license from: http://developer.nutiteq.com
         // The license string used here is intended only for Nutiteq demos and WILL NOT WORK with other apps!
-        MapView.registerLicense("XTUMwQ0ZRQ2dmcjhNMW1BeG5BLzh5OFhyYnRUbnVwbnBPQUlVWFRud3JhUUQ5cklqdXJDMEdKVG9CUDc0dEVjPQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5udXRpdGVxLmhlbGxvbWFwMwp3YXRlcm1hcms9bnV0aXRlcQp1c2VyS2V5PTA2ZmRlNDU4ODI0NTliMDI4ZDdjMzViODVhMWMyYjY1Cg",
+        MapView.registerLicense("XTUMwQ0ZHWnE5RjVURWRZK2M3R3NCR3pFU0tkYnloVklBaFVBa3JZdXk2RTQyb0V3enZTZi9wMlgrM1lqZDBrPQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5mcHQucm91dGVyCndhdGVybWFyaz1udXRpdGVxCnVzZXJLZXk9ZWYzZDA5Y2IwOGRlN2I0NTdjZWNhYjBlZTZjMDkwZGEK",
                 getApplicationContext());
 
         // 1. Basic map setup
