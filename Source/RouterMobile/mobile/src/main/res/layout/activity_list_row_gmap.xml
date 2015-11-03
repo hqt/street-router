@@ -12,7 +12,7 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="7"
         android:padding="10dip"
-        android:src="@drawable/cast_ic_notification_2" />
+        android:src="@drawable/bus" />
 
     <LinearLayout
         android:id="@+id/linearLayout"

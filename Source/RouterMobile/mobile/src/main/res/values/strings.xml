@@ -52,5 +52,6 @@
         <item>2 lượt</item>
         <item>3 lượt</item>
     </string-array>
+    <string name="title_activity_nutiteq_map">NutiteqMapActivity</string>
 
 </resources>

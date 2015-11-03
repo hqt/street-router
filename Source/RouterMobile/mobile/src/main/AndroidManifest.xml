@@ -6,8 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -28,9 +27,11 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <!--<meta-data
+        <!--
+            <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD28mTMy7swcMpn1WRRrA4Rz8B-n7dbZZM"/>-->
+            android:value="AIzaSyD28mTMy7swcMpn1WRRrA4Rz8B-n7dbZZM"/>
+        -->
 
         <activity
             android:name=".activity.VoiceRecordActivity"
@@ -39,14 +40,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
-
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.SearchRouteActivity"
@@ -99,7 +95,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.NutiteqMapActivity"
+            android:label="@string/title_activity_nutiteq_map"
+            android:theme="@style/AppTheme1" >
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
