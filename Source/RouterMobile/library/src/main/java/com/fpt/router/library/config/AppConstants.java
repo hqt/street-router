@@ -15,6 +15,22 @@ public class AppConstants {
     private static final String GOOGLE_KEY_6 = "AIzaSyD28mTMy7swcMpn1WRRrA4Rz8B-n7dbZZM";
     public static final String GOOGLE_KEY = GOOGLE_KEY_6;
 
+    public static final class NUTITEQ {
+        public static final String NUTITEQ_KEY = "XTUMwQ0ZHWnE5RjVURWRZK2M3R3NCR3pFU0tkYnloVklBaFVBa3JZdXk2RTQyb0V3enZTZi9wMlgrM1lqZDBrPQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5mcHQucm91dGVyCndhdGVybWFyaz1udXRpdGVxCnVzZXJLZXk9ZWYzZDA5Y2IwOGRlN2I0NTdjZWNhYjBlZTZjMDkwZGEK";
+        public static final String NOTITEQ_VN_CODE = "VN";
+        public static final String OPEN_STREET_MAP = "nutiteq.osm";
+        public static final String GLOBAL_STREET_MAP = "nutiteq.mbstreets";
+
+        public static final class PackageStatus {
+            public static final String PACKAGE_ACTION_READY = "package_action_ready";
+            public static final String PACKAGE_ACTION_WAITING = "package_action_waiting";
+            public static final String PACKAGE_ACTION_COPYING = "package_action_copying";
+            public static final String PACKAGE_ACTION_DOWNLOADING = "package_action_downloading";
+            public static final String PACKAGE_ACTION_REMOVING = "package_action_removing";
+        }
+
+    }
+
     public static final class PATH {
         private static final String MESSAGE_PATH = "/com/fpt/router/wear";
         public static final String MESSAGE_PATH_FOUR_POINT = MESSAGE_PATH + "/fourpoint";

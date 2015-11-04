@@ -35,6 +35,9 @@ public class PrefStore {
     /** Preference key for simulation speed  */
     public static final String PREF_SIMULATION_SPEED = "simulation_speed";
 
+    /** Preference key for map download option  */
+    public static final String PREF_IS_MAP_DOWNLOADED = "is_map_downloaded";
+
 
     ///////////////////////////////////////////////////////////////
     /////////////////   DEFAULT VALUE   ///////////////////////////
@@ -58,6 +61,9 @@ public class PrefStore {
 
     /** Default value for {@link PrefStore#PREF_SIMULATION_SPEED} */
     public static final int DEFAULT_SIMULATION_SPEED = 120;
+
+    /** Default value for {@link PrefStore#PREF_IS_MAP_DOWNLOADED} */
+    public static final boolean DEFAULT_MAP_DOWNLOAD = false;
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
@@ -91,6 +97,10 @@ public class PrefStore {
 
     public static int getSimulationSpeed() {
         return getSharedPreferences().getInt(PREF_SIMULATION_SPEED, DEFAULT_SIMULATION_SPEED);
+    }
+
+    public static boolean getIsMapDownloaded() {
+        return getSharedPreferences().getBoolean(PREF_SIMULATION_SPEED, DEFAULT_MAP_DOWNLOAD);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -131,6 +141,13 @@ public class PrefStore {
         editor.putInt(PREF_SIMULATION_SPEED, speed);
         editor.commit();
     }
+
+    public static void setIsMapDownloaded(boolean state) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putBoolean(PREF_IS_MAP_DOWNLOADED, state);
+        editor.commit();
+    }
+
 
     //////////////////////////////////////////////////////////////////////
     ///////////////////// QUERY DATA EXIST ///////////////////////////////

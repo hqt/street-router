@@ -11,67 +11,46 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:layout_below="@+id/toolbar"
-        android:background="@drawable/main_drop_shadow">
-    </View>
+        android:background="@drawable/main_drop_shadow"></View>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/toolbar"
         android:orientation="vertical"
-        android:padding="5dp"
-        android:layout_alignParentStart="true">
+        android:padding="5dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="Change IP : "
                 android:gravity="left|center"
                 android:padding="5dp"
+                android:text="Change IP : "
                 android:textColor="#1E88E5"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/edit_ip"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="left|center"
                 android:hint="192.168.1.1"
-                android:textColor="#000"
-                android:gravity="left|center"
-                android:paddingLeft="10dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="left|center"
-                android:padding="5dp"
-                android:textColor="#1E88E5"
-                android:textStyle="bold"
-                android:text="Change Port : "/>
-            <EditText
-                android:id="@+id/edit_port"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="8080"
-                android:textColor="#000"
-                android:inputType="number"
-                android:gravity="left|center"
-                android:paddingLeft="10dp"/>
+                android:paddingLeft="10dp"
+                android:textColor="#000" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,25 +58,55 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:gravity="left|center"
                 android:padding="5dp"
+                android:text="Change Port : "
                 android:textColor="#1E88E5"
-                android:textStyle="bold"
-                android:text="Simulate speed (km/h) : "/>
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_port"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:hint="8080"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:text="Simulate speed (km/h) : "
+                android:textColor="#1E88E5"
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/edit_stimulate_speed"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:hint="120"
-                android:textColor="#000"
-                android:inputType="number"
                 android:gravity="left|center"
-                android:paddingLeft="10dp"/>
+                android:hint="120"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:textColor="#000" />
         </LinearLayout>
 
         <CheckBox
@@ -113,30 +122,61 @@
             android:textSize="16sp"
             android:textStyle="normal" />
 
+       <!-- <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="fill_parent"
+                android:layout_height="32dp"/>
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="thao"
+                android:layout_alignBottom="@id/progress_bar"
+                android:layout_alignLeft="@id/progress_bar"
+                android:layout_alignRight="@id/progress_bar"
+                android:layout_alignTop="@id/progress_bar"
+                android:background="#00000000"/>
+
+        </RelativeLayout>-->
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="32dp" />
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="right"
             android:layout_marginTop="30dp"
-            android:paddingRight="30dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingRight="30dp">
+
             <Button
                 android:id="@+id/btn_ok"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="#2196F3"
-                android:textColor="#fff"
-                android:text="OK"/>
+                android:text="OK"
+                android:textColor="#fff" />
+
             <Button
                 android:id="@+id/btn_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="#2196F3"
-                android:textColor="#fff"
-                android:text="Cancel"/>
+                android:text="Cancel"
+                android:textColor="#fff" />
         </LinearLayout>
+
 
     </LinearLayout>
 
