@@ -1,17 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<android.support.v4.widget.DrawerLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:id="@+id/drawer_layout"
+android:layout_height="match_parent"
+android:layout_width="match_parent"
+android:fitsSystemWindows="true">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <com.nutiteq.ui.MapView
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         />
-    <ZoomControls android:id="@+id/zoom_controls"
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_margin="5dip"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="@android:drawable/dialog_holo_light_frame"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:text="Tìm kiếm trên Google Maps"
+                android:textColor="#BDBDBD"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:textSize="18sp"
+                />
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_mic_black_24dp"/>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        app:fabSize="normal"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true" />
-</LinearLayout>
+        android:layout_marginRight="16dip"
+        android:layout_marginBottom="90dip"
+        app:backgroundTint="#F1F1F1"
+        android:src="@drawable/current_place"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:backgroundTint="#4d90fe"
+        android:layout_marginRight="16dip"
+        android:layout_marginBottom="16dip"
+        android:src="@drawable/find_place"/>
+
+</RelativeLayout>
+<!--Navigation Layout-->
+<android.support.design.widget.NavigationView
+    android:id="@+id/navigation_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    app:headerLayout="@layout/drawer_header"
+    app:menu="@menu/drawer"
+    />
+</android.support.v4.widget.DrawerLayout>

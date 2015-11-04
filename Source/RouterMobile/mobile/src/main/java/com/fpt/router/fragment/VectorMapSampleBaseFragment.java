@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fpt.router.framework.RouterApplication;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.google.android.gms.maps.model.LatLng;
 import com.nutiteq.datasources.CompressedCacheTileDataSource;
@@ -87,7 +88,23 @@ public class VectorMapSampleBaseFragment extends MapSampleBaseFragment {
         }
     }
 
+    // loading map offline
     protected TileDataSource createTileDataSource() {
+        if (RouterApplication.dataSource != null) {
+            return loadOfflineMap();
+        } else {
+            return loadOnlineMap();
+        }
+    }
+
+    private TileDataSource loadOfflineMap() {
+        Log.e("hqthao", "Load offline map");
+        return RouterApplication.dataSource;
+    }
+
+    private TileDataSource loadOnlineMap() {
+        Log.e("hqthao", "Load online map");
+
         TileDataSource vectorTileDataSource = new NutiteqOnlineTileDataSource("nutiteq.osm");
 
         // We don't use vectorTileDataSource directly (this would be also option),
@@ -95,8 +112,8 @@ public class VectorMapSampleBaseFragment extends MapSampleBaseFragment {
         // Note that persistent cache requires WRITE_EXTERNAL_STORAGE permission
         TileDataSource cacheDataSource = vectorTileDataSource;
         if (persistentTileCache) {
-            String cacheFile = getActivity().getApplicationContext().getExternalFilesDir(null)+"/mapcache.db";
-            Log.i("NAM:","cacheFile = "+cacheFile);
+            String cacheFile = getActivity().getApplicationContext().getExternalFilesDir(null) + "/mapcache.db";
+            Log.i("hqthao", "cacheFile = " + cacheFile);
             cacheDataSource = new PersistentCacheTileDataSource(vectorTileDataSource, cacheFile);
         } else {
             cacheDataSource = new CompressedCacheTileDataSource(vectorTileDataSource);

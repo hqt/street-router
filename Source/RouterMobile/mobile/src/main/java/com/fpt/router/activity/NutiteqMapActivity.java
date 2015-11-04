@@ -58,8 +58,8 @@ public class NutiteqMapActivity extends VectorMapSampleBaseActivity {
         Marker marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(), 10.855090, 106.628394, R.drawable.ic_notification);
 
         // Add first line
-        listFinalLeg.add(listLeg.get(0));
-        NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
+        //listFinalLeg.add(listLeg.get(0));
+        //NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(106.628394, 10.855090));
         mapView.setFocusPos(markerPos, 1);
         mapView.setZoom(12, 1);

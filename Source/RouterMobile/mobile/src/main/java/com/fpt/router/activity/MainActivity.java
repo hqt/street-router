@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.fpt.router.R;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.MapUtils;
+import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -25,19 +26,22 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.wearable.Wearable;
+import com.nutiteq.core.MapPos;
+import com.nutiteq.core.MapRange;
+import com.nutiteq.datasources.LocalVectorDataSource;
+import com.nutiteq.layers.VectorLayer;
+import com.nutiteq.vectorelements.Marker;
 
 import de.greenrobot.event.EventBus;
 
 /**
  * Created by asus on 10/6/2015.
  */
-public class MainActivity extends AppCompatActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MainActivity extends VectorMapSampleBaseActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
-    private GoogleMap googleMap;
     private Marker now;
     private GoogleApiClient mGoogleApiClient;
 
@@ -48,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
@@ -68,8 +72,24 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
-        googleMap = ((MapFragment) getFragmentManager().findFragmentById(
-                R.id.map)).getMap();
+        // Nutiteq
+        LocalVectorDataSource vectorDataSource = new LocalVectorDataSource(baseProjection);
+        // Initialize a vector layer with the previous data source
+        VectorLayer vectorLayer1 = new VectorLayer(vectorDataSource);
+        // Add the previous vector layer to the map
+        mapView.getLayers().add(vectorLayer1);
+        // Set visible zoom range for the vector layer
+        vectorLayer1.setVisibleZoomRange(new MapRange(0, 18));
+
+        // 2. Create marker style
+        Marker marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(), 10.855090, 106.628394, R.drawable.ic_notification);
+
+        // Add first line
+        //listFinalLeg.add(listLeg.get(0));
+        //NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(106.628394, 10.855090));
+        mapView.setFocusPos(markerPos, 1);
+        mapView.setZoom(12, 1);
 
 
 		/**
@@ -224,25 +244,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     /**
      * open google map
      */
-    private void initializeMap() {
-        if (googleMap == null) {
-            googleMap = ((MapFragment) getFragmentManager().findFragmentById(
-                    R.id.map)).getMap();
-
-
-            // check if map is created successfully or not
-            if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        }
-    }
 
     @Override
     public void onLocationChanged(Location location) {
         if (now != null) {
-            now.remove();
         }
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
@@ -250,10 +255,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
 
-        now = MapUtils.drawPointColor(googleMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
 
         if (isTracking) {
-            MapUtils.moveCamera(googleMap, latitude, longitude, 15);
         }
 
         //DataMap dataMap = new DataMap();

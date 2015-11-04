@@ -100,7 +100,7 @@ public class PrefStore {
     }
 
     public static boolean getIsMapDownloaded() {
-        return getSharedPreferences().getBoolean(PREF_SIMULATION_SPEED, DEFAULT_MAP_DOWNLOAD);
+        return getSharedPreferences().getBoolean(PREF_IS_MAP_DOWNLOADED, DEFAULT_MAP_DOWNLOAD);
     }
 
     ////////////////////////////////////////////////////////////////////
