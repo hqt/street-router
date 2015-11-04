@@ -16,9 +16,13 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.fragment.AbstractMapFragment;
+import com.fpt.router.fragment.AbstractNutiteqMapFragment;
 import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
+import com.fpt.router.fragment.MapSampleBaseFragment;
 import com.fpt.router.fragment.MotorDetailFragment;
+import com.fpt.router.fragment.MotorNutiteqDetailFragment;
+import com.fpt.router.fragment.VectorMapSampleBaseFragment;
 import com.fpt.router.library.config.AppConstants.FileCache;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
@@ -44,6 +48,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     private EventBus bus = EventBus.getDefault();
     private GoogleApiClient mGoogleApiClient;
     AbstractMapFragment fragment;
+    AbstractNutiteqMapFragment fragmentNutiteq;
     private int position;
     int countListLatLng = 0;
     int countListStep = 0;
@@ -142,10 +147,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
         if (position != -1) {
             if (savedInstanceState == null) {
-
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                fragment = MotorDetailFragment.newInstance(position);
-                trans.add(R.id.fragment, fragment);
+                fragmentNutiteq = MotorNutiteqDetailFragment.newInstance(position);
+                trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
 
                 buttonHidenSound.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +189,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         fakeGPSButton.setVisibility(View.GONE);
                         isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
-                            GPSServiceOld.turnOnFakeGPS(fragment.getFakeGPSList());
+                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
                         } else {
                             GPSServiceOld.turnOffFakeGPS();
                         }
@@ -305,7 +309,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     public void onLocationChanged(Location location) {
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
-        fragment.drawCurrentLocation(latitude, longitude);
+        fragmentNutiteq.drawCurrentLocation(latitude, longitude);
     }
 
     @Override
