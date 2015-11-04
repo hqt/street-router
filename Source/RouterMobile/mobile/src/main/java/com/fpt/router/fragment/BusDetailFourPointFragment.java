@@ -1,10 +1,7 @@
 package com.fpt.router.fragment;
 
-import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -13,25 +10,21 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
 import com.fpt.router.adapter.BusDetailFourAdapter;
+import com.fpt.router.fragment.base.AbstractMapFragment;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.NotifyModel;
-import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.service.GPSServiceOld;
-import com.fpt.router.utils.GoogleAPIUtils;
-import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
@@ -50,7 +43,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.Wearable;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;

@@ -1,47 +1,27 @@
 package com.fpt.router.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
-import com.google.android.gms.maps.model.LatLng;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.core.MapRange;
 import com.nutiteq.datasources.LocalVectorDataSource;
-import com.nutiteq.graphics.Color;
-import com.nutiteq.layers.NutiteqOnlineVectorTileLayer;
 import com.nutiteq.layers.VectorLayer;
-import com.nutiteq.layers.VectorTileLayer;
-import com.nutiteq.projections.EPSG3857;
-import com.nutiteq.styles.LineJointType;
-import com.nutiteq.styles.LineStyleBuilder;
-import com.nutiteq.styles.MarkerStyle;
-import com.nutiteq.styles.MarkerStyleBuilder;
-import com.nutiteq.ui.MapView;
-import com.nutiteq.utils.BitmapUtils;
-import com.nutiteq.vectorelements.Line;
 import com.nutiteq.vectorelements.Marker;
-import com.nutiteq.wrappedcommons.MapPosVector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NutiteqMapActivity extends VectorMapSampleBaseActivity {
+public class NutiteqMapActivity extends VectorMapBaseActivity {
     List<Leg> listLeg = SearchRouteActivity.listLeg;
     List<Leg> listFinalLeg = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // MapSampleBaseActivity creates and configures mapView
+        // NutiteqMapBaseActivity creates and configures mapView
         super.onCreate(savedInstanceState);
 
         // Add a pin marker to map

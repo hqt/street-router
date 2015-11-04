@@ -1,4 +1,4 @@
-package com.fpt.router.fragment;
+package com.fpt.router.fragment.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.fpt.router.R;
-import com.fpt.router.library.model.common.NotifyModel;
-import com.google.android.gms.maps.model.LatLng;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.core.MapRange;
 import com.nutiteq.datasources.CompressedCacheTileDataSource;
-import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.datasources.NutiteqOnlineTileDataSource;
 import com.nutiteq.datasources.PersistentCacheTileDataSource;
 import com.nutiteq.datasources.TileDataSource;
@@ -27,12 +24,10 @@ import com.nutiteq.vectortiles.MBVectorTileDecoder;
 import com.nutiteq.vectortiles.MBVectorTileStyleSet;
 import com.nutiteq.wrappedcommons.UnsignedCharVector;
 
-import java.util.List;
-
 /**
  * Created by Nguyen Trung Nam on 11/3/2015.
  */
-public class MapSampleBaseFragment extends Fragment {
+public class NutiteqMapBaseFragment extends Fragment {
     protected MapView mapView;
     protected Projection baseProjection;
     protected TileLayer baseLayer;
@@ -42,11 +37,11 @@ public class MapSampleBaseFragment extends Fragment {
     protected TileDataSource vectorTileDataSource;
     protected MBVectorTileDecoder vectorTileDecoder;
     protected boolean persistentTileCache = false;
-    public MapSampleBaseFragment() {
+    public NutiteqMapBaseFragment() {
     }
 
-    public static MapSampleBaseFragment newInstance(int position) {
-        MapSampleBaseFragment fragment = new MapSampleBaseFragment();
+    public static NutiteqMapBaseFragment newInstance(int position) {
+        NutiteqMapBaseFragment fragment = new NutiteqMapBaseFragment();
         Bundle args = new Bundle();
         args.putSerializable("position", position);
         fragment.setArguments(args);
