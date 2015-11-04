@@ -15,14 +15,11 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.fpt.router.R;
-import com.fpt.router.fragment.AbstractMapFragment;
-import com.fpt.router.fragment.AbstractNutiteqMapFragment;
+import com.fpt.router.fragment.base.AbstractMapFragment;
+import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
 import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
-import com.fpt.router.fragment.MapSampleBaseFragment;
-import com.fpt.router.fragment.MotorDetailFragment;
 import com.fpt.router.fragment.MotorNutiteqDetailFragment;
-import com.fpt.router.fragment.VectorMapSampleBaseFragment;
 import com.fpt.router.library.config.AppConstants.FileCache;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;

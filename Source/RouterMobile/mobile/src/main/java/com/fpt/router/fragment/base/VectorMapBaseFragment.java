@@ -1,13 +1,12 @@
-package com.fpt.router.activity;
+package com.fpt.router.fragment.base;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuItem.OnMenuItemClickListener;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.fpt.router.framework.RouterApplication;
-import com.nutiteq.core.MapRange;
 import com.nutiteq.datasources.CompressedCacheTileDataSource;
 import com.nutiteq.datasources.NutiteqOnlineTileDataSource;
 import com.nutiteq.datasources.PersistentCacheTileDataSource;
@@ -19,10 +18,9 @@ import com.nutiteq.vectortiles.MBVectorTileStyleSet;
 import com.nutiteq.wrappedcommons.UnsignedCharVector;
 
 /**
- * Base activity for vector map samples. Adds menu with multiple style choices.
+ * Created by Nguyen Trung Nam on 11/3/2015.
  */
-public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
-
+public class VectorMapBaseFragment extends NutiteqMapBaseFragment {
     protected TileDataSource vectorTileDataSource;
     protected MBVectorTileDecoder vectorTileDecoder;
     protected boolean persistentTileCache = false;
@@ -31,81 +29,22 @@ public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
     protected String vectorStyleName = "nutibright"; // default style name, each style has corresponding .zip asset
     protected String vectorStyleLang = "vi"; // default map language
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public VectorMapBaseFragment() {
+    }
 
-        // Update options
-        mapView.getOptions().setZoomRange(new MapRange(0, 20));
+    public static VectorMapBaseFragment newInstance(int position) {
+        VectorMapBaseFragment fragment = new VectorMapBaseFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("position", position);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-        // Set default base map - online vector with persistent caching
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         updateBaseLayer();
+        return rootView;
     }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Menu langMenu = menu.addSubMenu("Language");
-        addLanguageMenuOption(langMenu, "English", "en");
-        addLanguageMenuOption(langMenu, "German", "de");
-        addLanguageMenuOption(langMenu, "Spanish", "es");
-        addLanguageMenuOption(langMenu, "Italian", "it");
-        addLanguageMenuOption(langMenu, "French", "fr");
-        addLanguageMenuOption(langMenu, "Russian", "ru");
-        addLanguageMenuOption(langMenu, "Chinese", "zh");
-
-        Menu styleMenu = menu.addSubMenu("Style");
-        addStyleMenuOption(styleMenu, "Basic", "basic");
-        addStyleMenuOption(styleMenu, "NutiBright 2D", "nutibright");
-        addStyleMenuOption(styleMenu, "NutiBright 3D", "nutibright3d");
-        addStyleMenuOption(styleMenu, "OSM Bright Chinese", "osmbright-heilight");
-        addStyleMenuOption(styleMenu, "Loose Leaf", "looseleaf");
-
-        return true;
-    }
-
-    private void addLanguageMenuOption(final Menu menu, String text, final String value) {
-        MenuItem menuItem = menu.add(text).setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                for (int i = 0; i < menu.size(); i++) {
-                    MenuItem otherItem = menu.getItem(i);
-                    if (otherItem == item) {
-                        otherItem.setIcon(android.R.drawable.checkbox_on_background);
-                    } else {
-                        otherItem.setIcon(null);
-                    }
-                }
-                vectorStyleLang = value;
-                updateBaseLayer();
-                return true;
-            }
-        });
-        if (vectorStyleLang.equals(value)) {
-            menuItem.setIcon(android.R.drawable.checkbox_on_background);
-        }
-    }
-
-    private void addStyleMenuOption(final Menu menu, String text, final String value) {
-        MenuItem menuItem = menu.add(text).setOnMenuItemClickListener(new OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                for (int i = 0; i < menu.size(); i++) {
-                    MenuItem otherItem = menu.getItem(i);
-                    if (otherItem == item) {
-                        otherItem.setIcon(android.R.drawable.checkbox_on_background);
-                    } else {
-                        otherItem.setIcon(null);
-                    }
-                }
-                vectorStyleName = value;
-                updateBaseLayer();
-                return true;
-            }
-        });
-        if (vectorStyleName.equals(value)) {
-            menuItem.setIcon(android.R.drawable.checkbox_on_background);
-        }
-    }
-
     private void updateBaseLayer() {
         String styleAssetName = vectorStyleName + ".zip";
         boolean styleBuildings3D = false;
@@ -114,7 +53,7 @@ public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
             styleBuildings3D = true;
         }
         UnsignedCharVector styleBytes = AssetUtils.loadBytes(styleAssetName);
-        if (styleBytes != null) {
+        if (styleBytes != null){
             // Create style set
             MBVectorTileStyleSet vectorTileStyleSet = new MBVectorTileStyleSet(styleBytes);
             vectorTileDecoder = new MBVectorTileDecoder(vectorTileStyleSet);
@@ -125,8 +64,8 @@ public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
             // OSM Bright style set supports choosing between 2d/3d buildings. Set corresponding parameter.
             if (styleAssetName.equals("nutibright.zip")) {
                 vectorTileDecoder.setStyleParameter("buildings3d", styleBuildings3D);
-                vectorTileDecoder.setStyleParameter("markers3d", styleBuildings3D ? "1" : "0");
-                vectorTileDecoder.setStyleParameter("texts3d", styleBuildings3D ? "1" : "0");
+                vectorTileDecoder.setStyleParameter("markers3d",styleBuildings3D ? "1" : "0");
+                vectorTileDecoder.setStyleParameter("texts3d",styleBuildings3D ? "1" : "0");
             }
 
             // Create tile data source for vector tiles
@@ -152,7 +91,6 @@ public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
         } else {
             return loadOnlineMap();
         }
-
     }
 
     private TileDataSource loadOfflineMap() {
@@ -170,7 +108,7 @@ public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
         // Note that persistent cache requires WRITE_EXTERNAL_STORAGE permission
         TileDataSource cacheDataSource = vectorTileDataSource;
         if (persistentTileCache) {
-            String cacheFile = getExternalFilesDir(null) + "/mapcache.db";
+            String cacheFile = getActivity().getApplicationContext().getExternalFilesDir(null) + "/mapcache.db";
             Log.i("hqthao", "cacheFile = " + cacheFile);
             cacheDataSource = new PersistentCacheTileDataSource(vectorTileDataSource, cacheFile);
         } else {
@@ -178,4 +116,5 @@ public class VectorMapSampleBaseActivity extends MapSampleBaseActivity {
         }
         return cacheDataSource;
     }
+
 }

@@ -1,11 +1,8 @@
-package com.fpt.router.activity;
+package com.fpt.router.activity.base;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ZoomControls;
 
 import com.fpt.router.R;
 import com.nutiteq.core.MapPos;
@@ -18,7 +15,7 @@ import com.nutiteq.ui.MapView;
 /**
  * Base activity for map samples. Includes simple lifecycle management
  */
-public class MapSampleBaseActivity extends AppCompatActivity {
+public class NutiteqMapBaseActivity extends AppCompatActivity {
 
     protected MapView mapView;
     protected Projection baseProjection;

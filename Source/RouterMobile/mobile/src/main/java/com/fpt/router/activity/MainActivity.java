@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -16,16 +15,13 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.core.MapRange;
@@ -38,7 +34,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by asus on 10/6/2015.
  */
-public class MainActivity extends VectorMapSampleBaseActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MainActivity extends VectorMapBaseActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
