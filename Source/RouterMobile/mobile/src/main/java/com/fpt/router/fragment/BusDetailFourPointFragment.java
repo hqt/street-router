@@ -84,16 +84,11 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
     List<INode> iNodeList;
 
     private List<Path> paths;
-    private BusDetailAdapter adapterItem;
     private BusDetailFourAdapter detailFourAdapter;
-    private List<Location> points;
+    private List<Location> points = new ArrayList<>();
     Journey journey;
     List<Result> results = new ArrayList<Result>();
-    private JSONObject jsonObject;
     List<Path> pathFinal = new ArrayList<>();
-    private String status;
-
-    List<LatLng> list = new ArrayList<LatLng>();
 
     public BusDetailFourPointFragment() {
     }
@@ -163,7 +158,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
         results = journey.results;
 
         /*adapterItem = new BusDetailAdapter(getContext(),R.layout.adapter_show_detail_bus_steps,iNodeListFourPoint);*/
-        detailFourAdapter = new BusDetailFourAdapter(getContext(),R.layout.detail_four_point_view,results);
+        detailFourAdapter = new BusDetailFourAdapter(getContext(), R.layout.detail_four_point_view, results);
         mListView.addHeaderView(mTransparentHeaderView);
       /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, steps));*/
         mListView.setAdapter(detailFourAdapter);
@@ -199,30 +194,10 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
 
-                for(int k=0;k< results.size();k++){
+                for (int k = 0; k < results.size(); k++) {
+                    List<LatLng> listFinal = new ArrayList<LatLng>();
                     result = results.get(k);
                     iNodeList = result.nodeList;
-
-                    /**
-                     * start location
-                     */
-                    if (iNodeList.get(0) instanceof Path) {
-                        Path path = (Path) iNodeList.get(0);
-                        Location startLocation = path.stationFromLocation;
-                        latitude = startLocation.getLatitude();
-                        longitude = startLocation.getLongitude();
-                        MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
-                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
-                        moveToLocation(startLatLng, true);
-                        pathFinal.add(path);
-                        points = path.points;
-                        List<LatLng> list = new ArrayList<>();
-                        for (int n = 0; n < points.size(); n++) {
-                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                            list.add(latLng);
-                        }
-                        MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
-                    }
 
                     List<Segment> segments = new ArrayList<Segment>();
                     for (int i = 0; i < iNodeList.size(); i++) {
@@ -238,8 +213,39 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                             points = paths.get(j).points;
                             for (int n = 0; n < points.size(); n++) {
                                 LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                                listFinal.add(latLng);
+                            }
+                        }
+                    }
+
+                    /**
+                     * start location
+                     */
+                    if (iNodeList.get(0) instanceof Path) {
+                        Path path = (Path) iNodeList.get(0);
+                        Location startLocation = path.stationFromLocation;
+                        latitude = startLocation.getLatitude();
+                        longitude = startLocation.getLongitude();
+                        MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
+                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+                        moveToLocation(startLatLng, true);
+                        LatLng endLatLng = new LatLng(listFinal.get(0).latitude, listFinal.get(0).longitude);
+                        List<LatLng> startList = new ArrayList<>();
+                        startList.add(startLatLng);
+                        startList.add(endLatLng);
+                        pathFinal.add(path);
+                        points = path.points;
+                        if (points == null) {
+                            MapUtils.drawDashedPolyLine(mMap, startList, Color.parseColor("#FF5722"));
+                        } else {
+                            List<LatLng> list = new ArrayList<>();
+
+
+                            for (int n = 0; n < points.size(); n++) {
+                                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
                                 list.add(latLng);
                             }
+                            MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
                         }
                     }
 
@@ -253,20 +259,31 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                         latitude = endLocation.getLatitude();
                         longitude = endLocation.getLongitude();
                         MapUtils.drawEndPoint(mMap, latitude, longitude, path.stationToName);
+                        LatLng startLatLng = new LatLng(listFinal.get(listFinal.size() - 1).latitude, listFinal.get(listFinal.size() - 1).longitude);
+                        LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
+                        List<LatLng> endList = new ArrayList<>();
+                        endList.add(startLatLng);
+                        endList.add(endLatLng);
                         pathFinal.add(path);
                         points = path.points;
-                        List<LatLng> list = new ArrayList<>();
-                        for (int n = 0; n < points.size(); n++) {
-                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                            list.add(latLng);
+                        if (points == null) {
+                            MapUtils.drawDashedPolyLine(mMap, endList, Color.parseColor("#FF5722"));
+                        } else {
+                            List<LatLng> list = new ArrayList<>();
+                            for (int n = 0; n < points.size(); n++) {
+                                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                                list.add(latLng);
+                            }
+                            MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
                         }
-                        MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
+
+
                     }
                     //add polyline
-                    MapUtils.drawLine(mMap, list, Color.BLUE);
+                    MapUtils.drawLine(mMap, listFinal, Color.BLUE);
                     MapUtils.moveCamera(mMap, latitude, longitude, 12);
 
-                    for(int n = 1; n < pathFinal.size(); n++) {
+                    for (int n = 1; n < pathFinal.size(); n++) {
                         Path path = pathFinal.get(n);
                         MapUtils.drawPointIcon(mMap,
                                 path.stationFromLocation.getLatitude(),
@@ -431,6 +448,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
     }
 
     static int count = 0;
+
     @Override
     public void onConnected(Bundle bundle) {
         // send location request
@@ -458,21 +476,21 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
 
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
-        if(now != null){
+        if (now != null) {
             now.remove();
         }
-        now  = MapUtils.drawPointColor(mMap,lat,lng,"",BitmapDescriptorFactory.HUE_RED);
+        now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
     }
 
     @Override
     public List<LatLng> getFakeGPSList() {
         List<Result> results = journey.results;
         List<LatLng> latLngs = new ArrayList<>();
-        for (int i=0;i<results.size();i++){
+        for (int i = 0; i < results.size(); i++) {
             Result result = results.get(i);
             List<INode> iNodeList = result.nodeList;
             List<LatLng> latLngList = DecodeUtils.getListLocationFromNodeList(iNodeList);
-            for (LatLng latLng : latLngList){
+            for (LatLng latLng : latLngList) {
                 latLngs.add(latLng);
             }
         }
@@ -481,25 +499,25 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
 
     @Override
     public List<NotifyModel> getNotifyList() {
-        List<NotifyModel>  listNotifies = new ArrayList<>();
-        for(int i=0;i<pathFinal.size();i++){
+        List<NotifyModel> listNotifies = new ArrayList<>();
+        for (int i = 0; i < pathFinal.size(); i++) {
             Path path = pathFinal.get(i);
-            Location location = new Location(path.stationFromLocation.getLatitude(),path.stationFromLocation.getLongitude());
+            Location location = new Location(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
             String smallTittle = "Gần đến trạm";
             String longTittle = "Thông tin chi tiết";
             String smallMessage = path.stationFromName;
             String longMessage = "Chi tiết này để sau";
-            NotifyModel notifyModel = new NotifyModel(location,smallTittle,longTittle,smallMessage,longMessage);
+            NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
 
         }
-        Path path =  pathFinal.get(pathFinal.size()-1);
-        Location location = new Location(path.stationToLocation.getLatitude(),path.stationToLocation.getLongitude());
+        Path path = pathFinal.get(pathFinal.size() - 1);
+        Location location = new Location(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
         String smallTittle = "Gần đến trạm";
         String longTittle = "Thông tin chi tiết";
         String smallMessage = path.stationToName;
         String longMessage = "Chi tiết này để sau";
-        NotifyModel notifyModel = new NotifyModel(location,smallTittle,longTittle,smallMessage,longMessage);
+        NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
         listNotifies.add(notifyModel);
         return listNotifies;
     }

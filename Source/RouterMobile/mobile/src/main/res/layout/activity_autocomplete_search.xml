@@ -40,7 +40,7 @@
                 android:padding="3dip"
                 android:hint="Chọn điểm khởi hành"
                 android:textColor="@android:color/white"
-                android:background="@drawable/edittext_bg"
+                android:background="@drawable/white_border"
                 android:ems="10"
                 android:text="" />
             <ImageButton

@@ -82,7 +82,8 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
                 segments.add((Segment) nodeList.get(j));
             }
         }
-        viewDetail = "Tổng số tuyến : "+result.totalTransfer +"\n";
+       // viewDetail = "Tổng số tuyến : "+result.totalTransfer +"\n";
+        holder.txtTotalRoute.setText(String.valueOf(result.totalTransfer));
         for (int m=0;m<segments.size();m++){
             List<Path> paths = new ArrayList<Path>();
             paths = segments.get(m).paths;
@@ -92,8 +93,10 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
         if(position == 0){
             holder.txtTitle.setText("Tuyến đường được đề nghị ");
-        }else{
+        }else if(position == 1){
             holder.txtTitle.setText("Thêm kết quả cho đi xe bus ");
+        }else{
+            holder.txtTitle.setVisibility(View.GONE);
         }
 
         /*List<String> items = new ArrayList<String>();
@@ -148,6 +151,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         TextView txtDistance;
         TextView txtContent;
         TextView txtTitle;
+        TextView txtTotalRoute;
         LinearLayout viewDetail;
         ImageButton btnShow;
         ImageButton btnHide;
@@ -165,6 +169,9 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             viewDetail = (LinearLayout) itemView.findViewById(R.id.viewDetail);
             btnShow = (ImageButton) itemView.findViewById(R.id.btnShowDetail);
             btnHide = (ImageButton) itemView.findViewById(R.id.btnHide);
+
+            txtTotalRoute = (TextView) itemView.findViewById(R.id.txtTotalRoute);
+
         }
 
         @Override

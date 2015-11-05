@@ -3,18 +3,24 @@ package com.fpt.router.fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusFourPointAdapter;
+import com.fpt.router.adapter.BusViewPagerAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
@@ -30,10 +36,10 @@ import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
-import com.fpt.router.widget.MyLinearLayoutManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,21 +50,30 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * Created by ngoan on 10/21/2015.
+ * Created by ngoan on 11/3/2015.
  */
-public class BusFourPointFragment extends Fragment {
+public class BusFourPointFragmentDemo extends Fragment {
 
     /**
      * Main Activity for reference
      */
     private SearchRouteActivity activity;
     private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
-    private RecyclerView recyclerView;
+    private ViewPager _view_pager;
+    BusViewPagerAdapter adapter;
+    CirclePageIndicator pageIndicator;
+
+    List<Journey> journeys;
+    ProgressDialog pDialog;
+
+    private AtomicInteger count;
+
     private List<String> listError = new ArrayList<String>();
 
-    public BusFourPointFragment() {
+    public BusFourPointFragmentDemo() {
 
     }
 
@@ -101,15 +116,22 @@ public class BusFourPointFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         if (mapLocation.size() > 1) {
-            View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
-            recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-            LinearLayoutManager myLinearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-            recyclerView.setLayoutManager(myLinearLayoutManager);
+            View v = inflater.inflate(R.layout.busviewpagerdemo, container, false);
+            _view_pager = (ViewPager) v.findViewById(R.id.pager);
+            pageIndicator = (CirclePageIndicator) v.findViewById(R.id.indicator);
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_FOUR_POINT) {
-                JSONParseTask jsonParseTask = new JSONParseTask();
-                jsonParseTask.execute();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                    new JSONParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    new JSONParseTask().execute();
+                }
+                /*JSONParseTask jsonParseTask = new JSONParseTask();
+                jsonParseTask.execute();*/
             } else if (SearchRouteActivity.journeys.size() > 0) {
-                recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+                adapter = new BusViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), SearchRouteActivity.journeys);
+                _view_pager.setAdapter(adapter);
+
+                pageIndicator.setViewPager(_view_pager);
             }
 
             return v;
@@ -121,8 +143,6 @@ public class BusFourPointFragment extends Fragment {
     }
 
     private class JSONParseTask extends AsyncTask<String, String, List<Journey>> {
-        private ProgressDialog pDialog;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -188,65 +208,105 @@ public class BusFourPointFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
 
-            }
-*/
-            /* *
-            * GET LIST RESULT AND SET AGAIN
-            */
-
-            for (int i = 0; i < journeyList.size(); i++) {
-                Journey journey = journeyList.get(i);
-                List<Result> results = journey.results;
-                for (int k = 0; k < results.size(); k++) {
-                    Result result = results.get(k);
-                    List<INode> iNodeList = result.nodeList;
-                    for (int j = 0; j < iNodeList.size(); j++) {
-                        if (iNodeList.get(j) instanceof Path) {
-                            Path path = (Path) iNodeList.get(j);
-                            LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
-                            LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
-                            String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
-                            String json = NetworkUtils.download(url);
-                            try {
-                                JSONObject jsonObject = new JSONObject(json);
-                                String status = jsonObject.getString("status");
-                                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
-                                    return null;
-                                } else {
-                                    List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
-                                    Leg leg = listLeg.get(0);
-                                    path = DecodeUtils.covertLegToPath(leg);
-                                    iNodeList.set(j, path);
-                                }
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-            }
+            }*/
 
             return journeyList;
         }
 
         @Override
         protected void onPostExecute(List<Journey> journeyList) {
-            if (pDialog.isShowing()) {
-                pDialog.dismiss();
-            }
-            if (!journeyList.get(0).code.equals("success")) {
-                listError = new ArrayList<String>();
-                listError.add(journeyList.get(0).code);
-                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
-                return;
-            }
 
-            activity.searchType = null;
-            activity.needToSearch = false;
+            journeys = journeyList;
 
-            SearchRouteActivity.journeys = journeyList;
-            recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+            count = new AtomicInteger();
+             /* *
+            * GET LIST RESULT AND SET AGAIN
+            */
+            if (journeyList.size() > 0) {
+                for (int i = 0; i < journeyList.size(); i++) {
+                    Journey journey = journeyList.get(i);
+                    List<Result> results = journey.results;
+                    for (int k = 0; k < results.size(); k++) {
+                        Result result = results.get(k);
+                        List<INode> iNodeList = result.nodeList;
+                        for (int j = 0; j < iNodeList.size(); j++) {
+
+                            if (iNodeList.get(j) instanceof Path) {
+                                count.incrementAndGet();
+                                Path path = (Path) iNodeList.get(j);
+                                new DownloadWalkingTask(iNodeList, path, j).execute();
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+
+    private class DownloadWalkingTask extends AsyncTask<Void, Void, Void> {
+        Path path;
+        int index;
+        List<INode> iNodes;
+
+
+        public DownloadWalkingTask(List<INode> iNodes, Path path, int index) {
+            this.path = path;
+            this.index = index;
+            this.iNodes = iNodes;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+            LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
+            String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
+            String json = NetworkUtils.download(url);
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                String status = jsonObject.getString("status");
+                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
+                    Log.i("Ngoan --- > ", status);
+                    Toast.makeText(getContext(), "Ngoan" + status, Toast.LENGTH_SHORT).show();
+                    //return null;
+                    iNodes.set(index, path);
+                } else {
+                    List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                    Leg leg = listLeg.get(0);
+                    path = DecodeUtils.covertLegToPath(leg);
+                    iNodes.set(index, path);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            int remain = count.decrementAndGet();
+
+            if (remain == 0) {
+                if (pDialog.isShowing()) {
+                    pDialog.dismiss();
+                }
+
+                activity.searchType = null;
+                activity.needToSearch = false;
+
+                SearchRouteActivity.journeys = journeys;
+                Log.i("Journeys ", journeys.size() + "");
+                adapter = new BusViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), SearchRouteActivity.journeys);
+                _view_pager.setAdapter(adapter);
+                pageIndicator.setViewPager(_view_pager);
+            }
+        }
+    }
+
 }

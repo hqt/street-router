@@ -1,8 +1,10 @@
 package com.fpt.router.fragment;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,16 +12,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
-import com.fpt.router.framework.PrefStore;
-import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
@@ -27,7 +26,6 @@ import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
-import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -35,7 +33,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,6 +41,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 
 /**
@@ -106,10 +105,17 @@ public class BusTwoPointFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
 
-                JSONParseTask jsonParseTask = new JSONParseTask();
-                jsonParseTask.execute();
+                if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+                    new JSONParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                } else {
+                    new JSONParseTask().execute();
+                }
+
+                /*JSONParseTask jsonParseTask = new JSONParseTask();
+                jsonParseTask.execute();*/
 
             } else if (SearchRouteActivity.results.size() > 0) {
+                recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
                 recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
             }
 
@@ -141,17 +147,17 @@ public class BusTwoPointFragment extends Fragment {
 
 
             //test with file in assets
-            /*Gson gson1 = JSONUtils.buildGson();
+            Gson gson1 = JSONUtils.buildGson();
             try {
                 resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                 }.getType());
-           } catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            }*/
+            }
 
 
             //test test with service real
-            String jsonFromServer = "";
+            /*String jsonFromServer = "";
             JSONObject object;
             JSONArray jsonArray;
             List<BusLocation> busLocations = new ArrayList<BusLocation>();
@@ -191,30 +197,30 @@ public class BusTwoPointFragment extends Fragment {
                 e.printStackTrace();
 
             }
-
+*/
             /**
              * GET LIST RESULT AND SET AGAIN
              */
-            for (int i=0;i<resultList.size();i++){
+            for (int i = 0; i < resultList.size(); i++) {
                 Result result = resultList.get(i);
                 List<INode> iNodeList = result.nodeList;
-                for (int j = 0; j <iNodeList.size();j++){
-                    if(iNodeList.get(j) instanceof Path){
+                for (int j = 0; j < iNodeList.size(); j++) {
+                    if (iNodeList.get(j) instanceof Path) {
                         Path path = (Path) iNodeList.get(j);
-                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(),path.stationFromLocation.getLongitude());
-                        LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(),path.stationToLocation.getLongitude());
-                        String   url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
+                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+                        LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
+                        String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
                         String json = NetworkUtils.download(url);
                         try {
-                           JSONObject jsonObject = new JSONObject(json);
-                           String status = jsonObject.getString("status");
+                            JSONObject jsonObject = new JSONObject(json);
+                            String status = jsonObject.getString("status");
                             if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
-                                return null;
+                                iNodeList.set(j,path);
                             } else {
-                                List<Leg>  listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+                                List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
                                 Leg leg = listLeg.get(0);
                                 path = DecodeUtils.covertLegToPath(leg);
-                                iNodeList.set(j,path);
+                                iNodeList.set(j, path);
                             }
 
                         } catch (JSONException e) {
@@ -243,7 +249,11 @@ public class BusTwoPointFragment extends Fragment {
             activity.needToSearch = false;
 
             SearchRouteActivity.results = resultList;
+            recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
             recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
+
         }
     }
+
+
 }

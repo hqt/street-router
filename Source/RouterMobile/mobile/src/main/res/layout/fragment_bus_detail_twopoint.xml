@@ -50,7 +50,6 @@
                 android:id="@android:id/list"
                 android:cacheColorHint="@android:color/white"
                 android:drawSelectorOnTop="true"
-                android:dividerHeight="@dimen/divider_height"
                 android:divider="@android:color/darker_gray"
                 android:background="@android:color/transparent"
                 android:layout_width="match_parent"
