@@ -38,6 +38,11 @@ public class PrefStore {
     /** Preference key for map download option  */
     public static final String PREF_IS_MAP_DOWNLOADED = "is_map_downloaded";
 
+    /** Preference key for bus notify distance  */
+    public static final String PREF_BUS_NOTIFY_DISTANCE = "bus_notify_distance";
+
+    /** Preference key for motorbike notify distance  */
+    public static final String PREF_MOTOR_NOTIFY_DISTANCE = "motor_notify_distance";
 
     ///////////////////////////////////////////////////////////////
     /////////////////   DEFAULT VALUE   ///////////////////////////
@@ -64,6 +69,12 @@ public class PrefStore {
 
     /** Default value for {@link PrefStore#PREF_IS_MAP_DOWNLOADED} */
     public static final boolean DEFAULT_MAP_DOWNLOAD = false;
+
+    /** Default value for {@link PrefStore#PREF_BUS_NOTIFY_DISTANCE} */
+    public static final int DEFAULT_BUS_NOTIFY_DISTANCE = 150;
+
+    /** Default value for {@link PrefStore#PREF_MOTOR_NOTIFY_DISTANCE} */
+    public static final int DEFAULT_MOTOR_NOTIFY_DISTANCE = 150;
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
@@ -101,6 +112,14 @@ public class PrefStore {
 
     public static boolean getIsMapDownloaded() {
         return getSharedPreferences().getBoolean(PREF_IS_MAP_DOWNLOADED, DEFAULT_MAP_DOWNLOAD);
+    }
+
+    public static int getBusNotifyDistance() {
+        return getSharedPreferences().getInt(PREF_BUS_NOTIFY_DISTANCE, DEFAULT_BUS_NOTIFY_DISTANCE);
+    }
+
+    public static int getMotorNotifyDistance() {
+        return getSharedPreferences().getInt(PREF_MOTOR_NOTIFY_DISTANCE, DEFAULT_MOTOR_NOTIFY_DISTANCE);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -148,6 +167,17 @@ public class PrefStore {
         editor.commit();
     }
 
+    public static void setBusNotifyDistance(int distance) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_BUS_NOTIFY_DISTANCE, distance);
+        editor.commit();
+    }
+
+    public static void setMotorNotifyDistance(int distance) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_MOTOR_NOTIFY_DISTANCE, distance);
+        editor.commit();
+    }
 
     //////////////////////////////////////////////////////////////////////
     ///////////////////// QUERY DATA EXIST ///////////////////////////////

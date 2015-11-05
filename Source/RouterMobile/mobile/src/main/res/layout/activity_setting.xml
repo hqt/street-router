@@ -38,7 +38,7 @@
                 android:layout_weight="2"
                 android:gravity="left|center"
                 android:padding="5dp"
-                android:text="Change IP : "
+                android:text="Bus Server IP : "
                 android:textColor="#1E88E5"
                 android:textStyle="bold" />
 
@@ -65,7 +65,7 @@
                 android:layout_weight="2"
                 android:gravity="left|center"
                 android:padding="5dp"
-                android:text="Change Port : "
+                android:text="Bus Server Port : "
                 android:textColor="#1E88E5"
                 android:textStyle="bold" />
 
@@ -108,6 +108,65 @@
                 android:paddingLeft="10dp"
                 android:textColor="#000" />
         </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:text="Khoảng cách thông báo trạm(m):"
+                android:textColor="#1E88E5"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_bus_distance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:hint="120"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:textColor="#000" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="left|center"
+                android:padding="5dp"
+                android:text="Khoảng cách thông báo xe máy(m):"
+                android:textColor="#1E88E5"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edit_motor_distance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:hint="120"
+                android:inputType="number"
+                android:paddingLeft="10dp"
+                android:textColor="#000" />
+        </LinearLayout>
+
+
 
         <CheckBox
             android:id="@+id/checkBox"
