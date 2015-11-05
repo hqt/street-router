@@ -1,8 +1,14 @@
 package com.fpt.router.fragment;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +83,18 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     private Toolbar toolbar;
 
     private Marker now;
+
+    SensorManager sensorManager;
+    private Sensor sensorAccelerometer;
+    private Sensor sensorMagneticField;
+
+    private float[] valuesAccelerometer;
+    private float[] valuesMagneticField;
+
+    private float[] matrixR;
+    private float[] matrixI;
+    private float[] matrixValues;
+    SensorEventListener sensorEventListener;
 
     int position;
     List<LatLng> list;
@@ -202,27 +220,107 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
-                    R.drawable.info);
+                    R.drawable.orange_small);
         }
+
+        sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        valuesAccelerometer = new float[3];
+        valuesMagneticField = new float[3];
+
+        matrixR = new float[9];
+        matrixI = new float[9];
+        matrixValues = new float[3];
+
+
+
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                // TODO Auto-generated method stub
+
+                switch(event.sensor.getType()){
+                    case Sensor.TYPE_ACCELEROMETER:
+                        valuesAccelerometer = DecodeUtils.lowPass(event.values, valuesAccelerometer);
+                        /*for(int i =0; i < 3; i++){
+                            valuesAccelerometer[i] = event.values[i];
+                        }*/
+                        break;
+                    case Sensor.TYPE_MAGNETIC_FIELD:
+                        valuesMagneticField = DecodeUtils.lowPass(event.values, valuesMagneticField);
+                        /*for(int i =0; i < 3; i++){
+                            valuesMagneticField[i] = event.values[i];
+                        }*/
+                        break;
+                }
+
+                boolean success = SensorManager.getRotationMatrix(
+                        matrixR,
+                        matrixI,
+                        valuesAccelerometer,
+                        valuesMagneticField);
+
+                if(success){
+                    SensorManager.getOrientation(matrixR, matrixValues);
+
+                    float azimuth = (float)Math.toDegrees(matrixValues[0]);
+                    DecodeUtils decodeUtils = new DecodeUtils();
+                    azimuth = decodeUtils.getHeading(azimuth);
+                    if(now != null) {
+                        now.setRotation((float) azimuth-45);
+                        mapView.setMapRotation((float)(360-azimuth), 0);
+                        Log.e("NAM:", "xoay deu, xoay deu: " + azimuth);
+                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        sensorManager.registerListener(sensorEventListener,
+                sensorAccelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorEventListener,
+                sensorMagneticField,
+                SensorManager.SENSOR_DELAY_NORMAL);
         // In case Google Play services has since become available.
         drawMap();
     }
 
     @Override
+    public void onPause() {
+        mGoogleApiClient.disconnect();
+        sensorManager.unregisterListener(sensorEventListener, sensorAccelerometer);
+        sensorManager.unregisterListener(sensorEventListener, sensorMagneticField);
+        super.onPause();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
+        sensorManager.registerListener(sensorEventListener,
+                sensorAccelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorEventListener,
+                sensorMagneticField,
+                SensorManager.SENSOR_DELAY_NORMAL);
         // Connect the client.
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onStop() {
+        sensorManager.unregisterListener(sensorEventListener, sensorAccelerometer);
+        sensorManager.unregisterListener(sensorEventListener, sensorMagneticField);
         // Disconnecting the client invalidates it.
         mGoogleApiClient.disconnect();
         super.onStop();

@@ -79,4 +79,5 @@ public class AppConstants {
     }
 
     public static int DISTANCE_DEMO = 0;
+    public static float ALPHA = 0.1f;
 }

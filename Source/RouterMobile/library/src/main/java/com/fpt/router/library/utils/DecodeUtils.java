@@ -1,7 +1,9 @@
 package com.fpt.router.library.utils;
 
+import android.hardware.GeomagneticField;
 import android.util.Pair;
 
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Segment;
@@ -18,6 +20,8 @@ import java.util.List;
  * Created by USER on 10/3/2015.
  */
 public class DecodeUtils {
+    private GeomagneticField mGeomagneticField;
+
     public static List<LatLng> decodePoly(String encoded) {
 
         List<LatLng> poly = new ArrayList<>();
@@ -198,5 +202,27 @@ public class DecodeUtils {
         }
         path.points = locations;
         return path;
+    }
+
+    public static float[] lowPass( float[] input, float[] output ) {
+        if ( output == null ) return input;
+        for ( int i=0; i<input.length; i++ ) {
+            output[i] = output[i] + AppConstants.ALPHA * (input[i] - output[i]);
+        }
+        return output;
+    }
+
+    public float getHeading(float input) {
+        float output = mod(DecodeUtils.this.computeTrueNorth(input), 360.0F)-6.0F;
+        return output;
+    }
+
+
+    private float computeTrueNorth(float heading) {
+        return this.mGeomagneticField != null?heading + this.mGeomagneticField.getDeclination():heading;
+    }
+
+    private static float mod(float a, float b) {
+        return (a % b + b) % b;
     }
 }

@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
@@ -67,6 +68,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     private float[] matrixR;
     private float[] matrixI;
     private float[] matrixValues;
+    private float test;
     SensorEventListener sensorEventListener;
 
     @Override
@@ -104,8 +106,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         mapView.setFocusPos(markerPos, 1);
         mapView.setZoom(10, 1);
 
-        marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                10.852954, 106.629268, R.drawable.pink);
+        //marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+        //        10.852954, 106.629268, R.drawable.pink);
 
 
         /**
@@ -216,6 +218,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.run());*/
 
+
         sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
         sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
@@ -235,14 +238,16 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
                 switch(event.sensor.getType()){
                     case Sensor.TYPE_ACCELEROMETER:
-                        for(int i =0; i < 3; i++){
+                        valuesAccelerometer = DecodeUtils.lowPass(event.values, valuesAccelerometer);
+                        /*for(int i =0; i < 3; i++){
                             valuesAccelerometer[i] = event.values[i];
-                        }
+                        }*/
                         break;
                     case Sensor.TYPE_MAGNETIC_FIELD:
-                        for(int i =0; i < 3; i++){
+                        valuesMagneticField = DecodeUtils.lowPass(event.values, valuesMagneticField);
+                        /*for(int i =0; i < 3; i++){
                             valuesMagneticField[i] = event.values[i];
-                        }
+                        }*/
                         break;
                 }
 
@@ -255,12 +260,14 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 if(success){
                     SensorManager.getOrientation(matrixR, matrixValues);
 
-                    double azimuth = Math.toDegrees(matrixValues[0]);
-                    double pitch = Math.toDegrees(matrixValues[1]);
-                    double roll = Math.toDegrees(matrixValues[2]);
-                    if(marker != null) {
-                        marker.setRotation((float) azimuth-45);
-                        Log.e("NAM:", "xoay deu, xoay deu: " + azimuth );
+                    float azimuth = (float)Math.toDegrees(matrixValues[0]);
+                    DecodeUtils decodeUtils = new DecodeUtils();
+                    azimuth = decodeUtils.getHeading(azimuth);
+
+                    if(marker != null && Math.abs(azimuth-test) > 1) {
+                        marker.setRotation(azimuth-45);
+                        mapView.setMapRotation((360.0f-azimuth), 0);
+                        Log.e("NAM:", "xoay deu, xoay deu: " + "Double: " +azimuth + " !!!! Float: " + matrixValues[0] );
                     }
                 }
             }
@@ -275,9 +282,17 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
 
 
+
+
     @Override
     protected void onStart() {
         super.onStart();
+        sensorManager.registerListener(sensorEventListener,
+                sensorAccelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorEventListener,
+                sensorMagneticField,
+                SensorManager.SENSOR_DELAY_NORMAL);
         /*Intent intent = new Intent(MainActivity.this, GPSServiceOld.class);
         startService(intent);*/
     }
@@ -342,13 +357,13 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         }
         if(marker == null){
-           /* marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                    10.852954, 106.629268, R.drawable.pink);*/
+           marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    10.852954, 106.629268, R.drawable.pink);
 
         } else {
-            /*MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
+            MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
-            marker.setPos(markerPos);*/
+            marker.setPos(markerPos);
         }
 
     }

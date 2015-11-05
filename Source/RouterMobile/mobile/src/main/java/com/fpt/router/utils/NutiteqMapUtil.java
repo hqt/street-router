@@ -169,4 +169,5 @@ public class NutiteqMapUtil {
             mapView.setFocusPos(markerPos, 1);
             mapView.setZoom(12, 1);        }
     }
+
 }
