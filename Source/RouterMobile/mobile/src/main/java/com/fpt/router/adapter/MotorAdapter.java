@@ -11,12 +11,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.NutiteqMapActivity;
 import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.utils.NutiteqMapUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +22,7 @@ import java.util.Map;
 /**
  * Created by asus on 10/11/2015.
  */
-public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAdapter.RouterViewHolder> {
+public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHolder> {
 
     Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
@@ -122,7 +120,6 @@ public class MotorFourPointAdapter extends RecyclerView.Adapter<MotorFourPointAd
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(context, SearchDetailActivity.class);
-            //Intent intent = new Intent(context, NutiteqMapActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt("position", getLayoutPosition());
             intent.putExtras(bundle);

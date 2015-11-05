@@ -1,6 +1,10 @@
 package com.fpt.router.activity;
 
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,14 +13,17 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,16 +41,33 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by asus on 10/6/2015.
  */
-public class MainActivity extends VectorMapBaseActivity implements LocationListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class MainActivity extends VectorMapBaseActivity implements LocationListener,
+        GoogleApiClient.OnConnectionFailedListener,
+        GoogleApiClient.ConnectionCallbacks {
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
     private Marker now;
     private GoogleApiClient mGoogleApiClient;
-
+    LocalVectorDataSource vectorDataSource;
     boolean isTracking = false;
+    VectorLayer vectorLayer;
 
     private EventBus bus = EventBus.getDefault();
+
+    Marker marker;
+    //Test sensor
+    SensorManager sensorManager;
+    private Sensor sensorAccelerometer;
+    private Sensor sensorMagneticField;
+
+    private float[] valuesAccelerometer;
+    private float[] valuesMagneticField;
+
+    private float[] matrixR;
+    private float[] matrixI;
+    private float[] matrixValues;
+    SensorEventListener sensorEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,26 +93,22 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         // Nutiteq
-        LocalVectorDataSource vectorDataSource = new LocalVectorDataSource(baseProjection);
+        vectorDataSource = new LocalVectorDataSource(baseProjection);
         // Initialize a vector layer with the previous data source
-        VectorLayer vectorLayer1 = new VectorLayer(vectorDataSource);
+        vectorLayer = new VectorLayer(vectorDataSource);
         // Add the previous vector layer to the map
-        mapView.getLayers().add(vectorLayer1);
-        // Set visible zoom range for the vector layer
-        vectorLayer1.setVisibleZoomRange(new MapRange(0, 18));
+        mapView.getLayers().add(vectorLayer);
 
-        // 2. Create marker style
-        Marker marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(), 10.855090, 106.628394, R.drawable.ic_notification);
 
-        // Add first line
-        //listFinalLeg.add(listLeg.get(0));
-        //NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(106.628394, 10.855090));
         mapView.setFocusPos(markerPos, 1);
-        mapView.setZoom(12, 1);
+        mapView.setZoom(10, 1);
+
+        marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                10.852954, 106.629268, R.drawable.pink);
 
 
-		/**
+        /**
          * Click event in menu item
          */
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -135,6 +155,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             }
         });
 
+
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -142,8 +164,6 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     // initializeMap();
                     isTracking = !isTracking;
-                    //GPSServiceOld gpsService = new GPSServiceOld(MainActivity.this);
-                    //MapUtils.drawPointColor(googleMap, gpsService.getLatitude(), gpsService.getLongitude(), "Current", BitmapDescriptorFactory.HUE_RED);
                     return true;
                 }
                 return true; // consume the event
@@ -195,7 +215,65 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         // Build the notification and issues it with notification manager.
         notificationManager.notify(notificationId, notificationBuilder.run());*/
+
+        sensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);
+        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        valuesAccelerometer = new float[3];
+        valuesMagneticField = new float[3];
+
+        matrixR = new float[9];
+        matrixI = new float[9];
+        matrixValues = new float[3];
+
+
+
+        sensorEventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                // TODO Auto-generated method stub
+
+                switch(event.sensor.getType()){
+                    case Sensor.TYPE_ACCELEROMETER:
+                        for(int i =0; i < 3; i++){
+                            valuesAccelerometer[i] = event.values[i];
+                        }
+                        break;
+                    case Sensor.TYPE_MAGNETIC_FIELD:
+                        for(int i =0; i < 3; i++){
+                            valuesMagneticField[i] = event.values[i];
+                        }
+                        break;
+                }
+
+                boolean success = SensorManager.getRotationMatrix(
+                        matrixR,
+                        matrixI,
+                        valuesAccelerometer,
+                        valuesMagneticField);
+
+                if(success){
+                    SensorManager.getOrientation(matrixR, matrixValues);
+
+                    double azimuth = Math.toDegrees(matrixValues[0]);
+                    double pitch = Math.toDegrees(matrixValues[1]);
+                    double roll = Math.toDegrees(matrixValues[2]);
+                    if(marker != null) {
+                        marker.setRotation((float) azimuth-45);
+                        Log.e("NAM:", "xoay deu, xoay deu: " + azimuth );
+                    }
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+            }
+        };
+
     }
+
+
 
     @Override
     protected void onStart() {
@@ -208,6 +286,12 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         super.onResume();
         mGoogleApiClient.connect();
 
+        sensorManager.registerListener(sensorEventListener,
+                sensorAccelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(sensorEventListener,
+                sensorMagneticField,
+                SensorManager.SENSOR_DELAY_NORMAL);
         bus.register(this);
     }
 
@@ -215,6 +299,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     protected void onPause() {
         bus.unregister(this);
         mGoogleApiClient.disconnect();
+        sensorManager.unregisterListener(sensorEventListener, sensorAccelerometer);
+        sensorManager.unregisterListener(sensorEventListener, sensorMagneticField);
         super.onPause();
     }
 
@@ -253,11 +339,18 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
 
         if (isTracking) {
+
+        }
+        if(marker == null){
+           /* marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    10.852954, 106.629268, R.drawable.pink);*/
+
+        } else {
+            /*MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
+                    new MapPos(location.getLongitude(), location.getLatitude()));
+            marker.setPos(markerPos);*/
         }
 
-        //DataMap dataMap = new DataMap();
-
-        //new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, dataMap, local).start();
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.MotorFourPointAdapter;
+import com.fpt.router.adapter.MotorAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
 import com.fpt.router.library.config.AppConstants.SearchField;
@@ -80,7 +80,7 @@ public class MotorFourPointFragment extends Fragment{
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
             } else if ((SearchRouteActivity.listLeg != null) && (activity.searchType == SearchRouteActivity.SearchType.MOTOR_FOUR_POINT)) {
-                recyclerView.setAdapter(new MotorFourPointAdapter());
+                recyclerView.setAdapter(new MotorAdapter());
             }
 
             return v;
@@ -208,7 +208,7 @@ public class MotorFourPointFragment extends Fragment{
                 listLegFinal = JSONParseUtils.sortFourPoint(listLegFinal);
             }
             SearchRouteActivity.listLeg = listLegFinal;
-            recyclerView.setAdapter(new MotorFourPointAdapter());
+            recyclerView.setAdapter(new MotorAdapter());
         }
     }
 }

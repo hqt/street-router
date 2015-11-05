@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.MotorFourPointAdapter;
+import com.fpt.router.adapter.MotorAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.common.AutocompleteObject;
@@ -86,7 +86,7 @@ public class MotorTwoPointFragment extends Fragment {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
             } else if ((SearchRouteActivity.listLeg != null) && (activity.searchType == SearchRouteActivity.SearchType.MOTOR_TWO_POINT)) {
-                recyclerView.setAdapter(new MotorFourPointAdapter());
+                recyclerView.setAdapter(new MotorAdapter());
             }
 
             return v;
@@ -179,7 +179,7 @@ public class MotorTwoPointFragment extends Fragment {
                 }
             }
             SearchRouteActivity.listLeg = listLeg;
-            recyclerView.setAdapter(new MotorFourPointAdapter());
+            recyclerView.setAdapter(new MotorAdapter());
         }
     }
 }

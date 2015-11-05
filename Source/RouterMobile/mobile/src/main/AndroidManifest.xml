@@ -99,11 +99,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
-        <activity
-            android:name=".activity.NutiteqMapActivity"
-            android:label="@string/title_activity_nutiteq_map"
-            android:theme="@style/AppTheme1" >
-        </activity>
     </application>
 
 </manifest>

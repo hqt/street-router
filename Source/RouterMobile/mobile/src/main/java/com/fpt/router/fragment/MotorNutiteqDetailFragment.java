@@ -187,10 +187,10 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         VectorLayer vectorLayer = new VectorLayer(vectorDataSource);
         // Add the previous vector layer to the map
         mapView.getLayers().add(vectorLayer);
-        setUpMapIfNeeded();
+        drawMap();
     }
 
-    private void setUpMapIfNeeded() {
+    private void drawMap() {
         if(SearchRouteActivity.mapLocation.size() == 2) {
             NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
 
@@ -211,7 +211,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     public void onResume() {
         super.onResume();
         // In case Google Play services has since become available.
-        setUpMapIfNeeded();
+        drawMap();
     }
 
     @Override

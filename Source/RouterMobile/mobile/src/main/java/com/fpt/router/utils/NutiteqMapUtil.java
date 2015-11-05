@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.projections.Projection;
+import com.nutiteq.styles.BillboardOrientation;
 import com.nutiteq.styles.LineJointType;
 import com.nutiteq.styles.LineStyle;
 import com.nutiteq.styles.LineStyleBuilder;
@@ -41,6 +42,25 @@ public class NutiteqMapUtil {
         com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
         MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
         markerStyleBuilder.setBitmap(markerBitmap);
+        //markerStyleBuilder.setHideIfOverlapped(false);
+        markerStyleBuilder.setSize(30);
+        MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
+
+        // 3. Add marker
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        int i = 1;
+        Marker marker = new Marker(markerPos,sharedMarkerStyle);
+        vectorDataSource.add(marker);
+        return marker;
+    }
+
+    public static Marker drawCurrentMarkerNutiteq(MapView mapView, LocalVectorDataSource vectorDataSource, Resources res, Double lat, Double lng, int icon) {
+        Bitmap androidMarkerBitmap = BitmapFactory.decodeResource(res, icon);
+        com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
+        MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
+        markerStyleBuilder.setBitmap(markerBitmap);
+        markerStyleBuilder.setOrientationMode(BillboardOrientation.BILLBOARD_ORIENTATION_GROUND);
+        markerStyleBuilder.setAnchorPoint(0, (float)0.);
         //markerStyleBuilder.setHideIfOverlapped(false);
         markerStyleBuilder.setSize(30);
         MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
@@ -78,13 +98,13 @@ public class NutiteqMapUtil {
         Location start_location = leg.getDetailLocation().getStartLocation();
         Double latitude = start_location.getLatitude();
         Double longitude = start_location.getLongitude();
-        drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.ic_notification);
+        drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.blue_1);
 
         //EndPoint
         Location end_location = leg.getDetailLocation().getEndLocation();
         latitude = end_location.getLatitude();
         longitude = end_location.getLongitude();
-        drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.ic_notification);
+        drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.green_1);
         String encodedString;
         List<LatLng> list;
         encodedString = leg.getOverview_polyline();
@@ -114,25 +134,25 @@ public class NutiteqMapUtil {
             if (i == 0) {
                 latitude = end_location.getLatitude();
                 longitude = end_location.getLongitude();
-                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.ic_notification);
+                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.yellow);
 
                 //MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_YELLOW);
 
                 latitude = start_location.getLatitude();
                 longitude = start_location.getLongitude();
-                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.ic_notification);
+                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.blue_1);
 
                 //MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_GREEN);
             }
             if (i == input.size() - 1) {
                 latitude = end_location.getLatitude();
                 longitude = end_location.getLongitude();
-                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.ic_notification);
+                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.green_1);
                 //MapUtils.drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);
 
                 latitude = start_location.getLatitude();
                 longitude = start_location.getLongitude();
-                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.ic_notification);
+                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.yellow);
                 //MapUtils.drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_YELLOW);
             }
 
