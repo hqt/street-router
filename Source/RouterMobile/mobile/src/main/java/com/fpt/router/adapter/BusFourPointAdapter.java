@@ -3,6 +3,7 @@ package com.fpt.router.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
+import com.fpt.router.widget.MyLinearLayoutManager;
 
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
     List<Journey> journeys;
     Journey journey;
     List<Result> results;
+
 
 
 
@@ -55,17 +58,28 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
         double totalDistance = journey.totalDistance/1000;
         totalDistance = Math.floor(totalDistance*100)/100;
         holder.txtDistance.setText(String.valueOf(totalDistance) + " km");
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.context);
+
+        MyLinearLayoutManager linearLayoutManager = new MyLinearLayoutManager(holder.context,LinearLayoutManager.HORIZONTAL,false);
         holder.recycler.setLayoutManager(linearLayoutManager);
         BusListItemResultFourPoint busListItemResultFourPoint = new BusListItemResultFourPoint(results);
         holder.recycler.setAdapter(busListItemResultFourPoint);
+        holder.recycler.setHasFixedSize(true);
+        holder.recycler.setItemAnimator(new DefaultItemAnimator());
         holder.recycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
                 int action = e.getAction();
                 switch (action) {
                     case MotionEvent.ACTION_MOVE:
-                        rv.getParent().requestDisallowInterceptTouchEvent(true);
+                        rv.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                    case MotionEvent.ACTION_DOWN:
+                        // Disallow ScrollView to intercept touch events.
+                        rv.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        //Allow ScrollView to intercept touch events once again.
+                        rv.getParent().requestDisallowInterceptTouchEvent(false);
                         break;
                 }
                 return false;
@@ -94,7 +108,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
         private final Context context;
         TextView txtDuration;
         TextView txtDistance;
-        TextView txtTitle;
+      TextView txtTitle;
         RecyclerView recycler;
 
         public BusViewHoder(View itemView) {

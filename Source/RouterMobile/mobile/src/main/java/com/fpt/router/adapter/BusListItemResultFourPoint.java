@@ -117,10 +117,10 @@ public class BusListItemResultFourPoint extends RecyclerView.Adapter<BusListItem
         holder.txtContent.setText(viewDetail);
         holder.txtFrom.setText(from);
         holder.txtTo.setText(to);
-        holder.viewDetail.setVisibility(View.GONE);
+        /*holder.viewDetail.setVisibility(View.GONE);
         holder.btnShow.setVisibility(View.VISIBLE);
-        holder.btnHide.setVisibility(View.GONE);
-        holder.btnShow.setOnClickListener(new View.OnClickListener() {
+        holder.btnHide.setVisibility(View.GONE);*/
+        /*holder.btnShow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 holder.viewDetail.setVisibility(View.VISIBLE);
@@ -135,7 +135,7 @@ public class BusListItemResultFourPoint extends RecyclerView.Adapter<BusListItem
                 holder.btnShow.setVisibility(View.VISIBLE);
                 holder.btnHide.setVisibility(View.GONE);
             }
-        });
+        });*/
 
 
     }

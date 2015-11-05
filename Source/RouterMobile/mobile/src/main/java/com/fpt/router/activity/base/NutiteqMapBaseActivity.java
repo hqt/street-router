@@ -60,7 +60,7 @@ public class NutiteqMapBaseActivity extends AppCompatActivity {
         mapView.setZoom(2, 0);
         mapView.setMapRotation(0, 0);
         mapView.setTilt(90, 0);
-        
+
     }
 
     @Override

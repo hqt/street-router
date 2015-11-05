@@ -83,13 +83,7 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
     private List<Path> paths;
     List<Path> pathFinal = new ArrayList<>();
     private BusDetailAdapter adapterItem;
-    private List<Location> points;
-    List<LatLng> list = new ArrayList<LatLng>();
-
-    private List<String> steps;
-    private List<String> listError;
-    private JSONObject jsonObject;
-    private String status;
+    private List<Location> points = new ArrayList<>();
 
     public BusDetailTwoPointFragment() {
     }
@@ -194,28 +188,7 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
                 mMap.getUiSettings().setCompassEnabled(false);
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-                /**
-                 * start location
-                 */
-                if (iNodeList.get(0) instanceof Path) {
-                    Path path = (Path) iNodeList.get(0);
-                    Location startLocation = path.stationFromLocation;
-                    latitude = startLocation.getLatitude();
-                    longitude = startLocation.getLongitude();
-                    MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
-                    LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
-                    moveToLocation(startLatLng,true);
-                    pathFinal.add(path);
-                    points = path.points;
-                    List<LatLng> list = new ArrayList<>();
-                    for (int n = 0; n < points.size(); n++) {
-                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                        list.add(latLng);
-                    }
-                    MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
-                }
-
+                List<LatLng> listFinal = new ArrayList<LatLng>();
                 /**
                  * Middle location
                  */
@@ -234,9 +207,39 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
                         points = paths.get(j).points;
                         for (int n = 0; n < points.size(); n++) {
                             LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                            list.add(latLng);
+                            listFinal.add(latLng);
                         }
                     }
+                }
+
+                /**
+                 * start location
+                 */
+                if (iNodeList.get(0) instanceof Path) {
+                    Path path = (Path) iNodeList.get(0);
+                    Location startLocation = path.stationFromLocation;
+                    latitude = startLocation.getLatitude();
+                    longitude = startLocation.getLongitude();
+                    MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
+                    LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+                    moveToLocation(startLatLng, true);
+                    LatLng endLatLng = new LatLng(listFinal.get(0).latitude,listFinal.get(0).longitude);
+                    List<LatLng> startList = new ArrayList<>();
+                    startList.add(startLatLng);
+                    startList.add(endLatLng);
+                    pathFinal.add(path);
+                    points = path.points;
+                    if(points == null){
+                        MapUtils.drawDashedPolyLine(mMap, startList, Color.parseColor("#FF5722"));
+                    }else{
+                        List<LatLng> list = new ArrayList<>();
+                        for (int n = 0; n < points.size(); n++) {
+                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                            list.add(latLng);
+                        }
+                        MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
+                    }
+
                 }
 
 
@@ -249,17 +252,28 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
                     latitude = endLocation.getLatitude();
                     longitude = endLocation.getLongitude();
                     MapUtils.drawEndPoint(mMap, latitude, longitude, path.stationToName);
+                    LatLng startLatLng = new LatLng(listFinal.get(listFinal.size() - 1).latitude,listFinal.get(listFinal.size()-1).longitude);
+                    LatLng endLatLng  = new LatLng(latitude,longitude);
+                    List endList = new ArrayList();
+                    endList.add(startLatLng);
+                    endList.add(endLatLng);
                     pathFinal.add(path);
                     points = path.points;
-                    List<LatLng> list = new ArrayList<>();
-                    for (int n = 0; n < points.size(); n++) {
-                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                        list.add(latLng);
+                    if(points == null){
+                        MapUtils.drawDashedPolyLine(mMap, endList, Color.parseColor("#FF5722"));
+                    }else{
+                        List<LatLng> list = new ArrayList<>();
+                        for (int n = 0; n < points.size(); n++) {
+                            LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                            list.add(latLng);
+                        }
+                        MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
                     }
-                    MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
+
+
                 }
                 //add polyline
-                MapUtils.drawLine(mMap, list, Color.BLUE);
+                MapUtils.drawLine(mMap, listFinal, Color.BLUE);
 
                 /*MapUtils.drawCircle(mMap,list);*/
                 MapUtils.moveCamera(mMap, latitude, longitude, 12);
