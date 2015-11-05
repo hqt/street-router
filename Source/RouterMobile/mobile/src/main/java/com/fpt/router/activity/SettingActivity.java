@@ -47,8 +47,12 @@ public class SettingActivity extends AppCompatActivity {
     EditText portEditText;
     EditText ipEditText;
     EditText stimulateSpeedText;
+    EditText busNotifyDistanceText;
+    EditText motorNotifyDistanceText;
+
     Button okButton;
     Button cancelButton;
+
     ProgressBar progressBar;
     CheckBox downloadCheckBox;
 
@@ -72,6 +76,9 @@ public class SettingActivity extends AppCompatActivity {
         ipEditText = (EditText) findViewById(R.id.edit_ip);
         portEditText = (EditText) findViewById(R.id.edit_port);
         stimulateSpeedText = (EditText) findViewById(R.id.edit_stimulate_speed);
+        busNotifyDistanceText = (EditText) findViewById(R.id.edit_bus_distance);
+        motorNotifyDistanceText = (EditText) findViewById(R.id.edit_motor_distance);
+
         okButton = (Button) findViewById(R.id.btn_ok);
         cancelButton = (Button) findViewById(R.id.btn_cancel);
 
@@ -116,18 +123,23 @@ public class SettingActivity extends AppCompatActivity {
                 // save to pref store
                 PrefStore.setBusServerIp(ipEditText.getText().toString());
 
-                int port, simulateSpeed;
+                int port, simulateSpeed, busNotifyDistance, motorNotifyDistance;
                 try {
                     port = Integer.parseInt(portEditText.getText().toString());
                     simulateSpeed = Integer.parseInt(stimulateSpeedText.getText().toString());
+                    busNotifyDistance = Integer.parseInt(busNotifyDistanceText.getText().toString());
+                    motorNotifyDistance = Integer.parseInt(motorNotifyDistanceText.getText().toString());
                 } catch (Exception e) {
                     port = 8080;
                     simulateSpeed = 40;
-
+                    busNotifyDistance  = 120;
+                    motorNotifyDistance = 120;
                 }
 
                 PrefStore.setBusServerPort(port);
                 PrefStore.setPrefSimulationSpeed(simulateSpeed);
+                PrefStore.setBusNotifyDistance(busNotifyDistance);
+                PrefStore.setMotorNotifyDistance(motorNotifyDistance);
 
                 // set again variable
                 AppConstants.SERVER_ADDRESS = "http://" + PrefStore.getServerIp() + ":" + PrefStore.getServerPort();

@@ -54,6 +54,11 @@ public class SearchRouteActivity extends AppCompatActivity {
     static final int TIME_DIALOG_ID = 0;
     private TextView edit_1;
     private TextView edit_2;
+    private TextView edit_3;
+    private TextView edit_4;
+    private LinearLayout linear_middle_1;
+    private LinearLayout linear_middle_2;
+    private ImageButton img_expand_1;
     public static ViewPagerAdapter adapter;
     public static List<Result> results = new ArrayList<Result>();
     public static List<Journey> journeys = new ArrayList<Journey>();
@@ -97,11 +102,22 @@ public class SearchRouteActivity extends AppCompatActivity {
         _view_pager = (ViewPager) findViewById(R.id.viewpager);
         edit_1 = (TextView) findViewById(R.id.edit_1);
         edit_2 = (TextView) findViewById(R.id.edit_2);
+        edit_3 = (TextView) findViewById(R.id.edit_3);
+        edit_4 = (TextView) findViewById(R.id.edit_4);
+        linear_middle_1 = (LinearLayout) findViewById(R.id.linear_middle_1);
+        linear_middle_2 = (LinearLayout) findViewById(R.id.linear_middle_2);
+        img_expand_1 = (ImageButton) findViewById(R.id.img_expand_1);
         changeImageButton = (ImageButton) findViewById(R.id.changeImageButton);
         top_view = (LinearLayout) findViewById(R.id.top_view);
         below_view = (LinearLayout) findViewById(R.id.below_view);
         mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
 
+        /**
+         * default set hide waypoint_1 and waypoint_2
+         */
+        linear_middle_1.setVisibility(View.GONE);
+        linear_middle_2.setVisibility(View.GONE);
+        img_expand_1.setVisibility(View.GONE);
 
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
@@ -115,6 +131,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
+
         // _view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
         /*_depart_time.setClickable(false);
@@ -156,6 +173,45 @@ public class SearchRouteActivity extends AppCompatActivity {
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
+        edit_3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
+                intent.putExtra("number", SearchField.WAY_POINT_1);
+                intent.putExtra("message", edit_3.getText());
+                startActivityForResult(intent, 3);// Activity is started with requestCode 3
+            }
+        });
+
+        edit_4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
+                intent.putExtra("number", SearchField.WAY_POINT_2);
+                intent.putExtra("message", edit_4.getText());
+                startActivityForResult(intent, 4);// Activity is started with requestCode 3
+            }
+        });
+
+        /**
+         * expand more field
+         */
+        img_expand_1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((mapLocation.size() > 2) && (mapLocation.size() < 4)) {
+                    linear_middle_1.setVisibility(View.VISIBLE);
+                    img_expand_1.setVisibility(View.GONE);
+                }
+                if (mapLocation.size() > 3) {
+                    linear_middle_1.setVisibility(View.VISIBLE);
+                    linear_middle_2.setVisibility(View.VISIBLE);
+                    img_expand_1.setVisibility(View.GONE);
+                }
+
+            }
+        });
+
 
         /**
          * click change value of two field
@@ -311,6 +367,13 @@ public class SearchRouteActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if ((data != null) && (requestCode == 3)) {
             optimize = data.getBooleanExtra("optimize", true);
+            if ((mapLocation.size() > 2) && (mapLocation.size() < 4)) {
+                img_expand_1.setVisibility(View.VISIBLE);
+            }
+            if (mapLocation.size() > 3) {
+                linear_middle_1.setVisibility(View.GONE);
+                img_expand_1.setVisibility(View.VISIBLE);
+            }
         }
         setTextToField();
     }
@@ -388,6 +451,17 @@ public class SearchRouteActivity extends AppCompatActivity {
             edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
         } else {
             edit_2.setText("");
+        }
+        if (mapLocation.get(SearchField.WAY_POINT_1) != null) {
+            edit_3.setText(mapLocation.get(SearchField.WAY_POINT_1).getName());
+        } else {
+            edit_3.setText("");
+        }
+
+        if (mapLocation.get(SearchField.WAY_POINT_2) != null) {
+            edit_4.setText(mapLocation.get(SearchField.WAY_POINT_2).getName());
+        } else {
+            edit_4.setText("");
         }
     }
 

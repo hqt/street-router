@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="150dp"
@@ -15,4 +15,32 @@
         android:textSize="18sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
-</LinearLayout>
+</LinearLayout>-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="189dp"
+android:background="?attr/colorPrimaryDark">
+
+<com.fpt.router.library.model.common.RoundedImageView
+    android:layout_width="70dp"
+    android:layout_height="70dp"
+    android:gravity="center"
+    android:id="@+id/imageView"
+    android:src="@drawable/ic_no_user"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="51dp" />
+
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="Ngoan Tran"
+    android:id="@+id/textview"
+    android:gravity="center"
+    android:layout_margin="10dp"
+    android:textColor="@color/common_signin_btn_dark_text_default"
+    android:layout_gravity="center_vertical"
+    android:layout_below="@+id/imageView"
+    android:layout_centerHorizontal="true"/>
+</RelativeLayout>

@@ -30,6 +30,7 @@ import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.widget.MyLinearLayoutManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -102,7 +103,8 @@ public class BusFourPointFragment extends Fragment {
         if (mapLocation.size() > 1) {
             View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            LinearLayoutManager myLinearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+            recyclerView.setLayoutManager(myLinearLayoutManager);
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_FOUR_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
@@ -136,61 +138,65 @@ public class BusFourPointFragment extends Fragment {
         protected List<Journey> doInBackground(String... args) {
             List<Journey> journeyList = new ArrayList<Journey>();
 
-            /*Gson gson1 = JSONUtils.buildGson();
-            try {
-                journeyList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
-                }.getType());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-*/
-            //test test with service real
-            String jsonFromServer = "";
-            JSONObject object;
-            JSONArray jsonArray;
-            List<BusLocation> busLocations = new ArrayList<BusLocation>();
-            List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
-            // add to list by ordinary
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
-            }
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
-            }
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
-            }
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
-            }
+            Gson gson1 = JSONUtils.buildGson();
 
-            try {
-                for (int i = 0; i < autocompleteObjects.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
-                    String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
-                    busLocations.add(busLocation);
+            if (!AppConstants.IS_REAL_BUS_SERVER) {
+                try {
+                    journeyList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
+                    }.getType());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                jsonFromServer = APIUtils.getJsonFromServer(busLocations);
-                Gson gson1 = JSONUtils.buildGson();
+            } else {
+                //test test with service real
+                String jsonFromServer = "";
+                JSONObject object;
+                JSONArray jsonArray;
+                List<BusLocation> busLocations = new ArrayList<BusLocation>();
+                List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
+                // add to list by ordinary
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                }
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+                }
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
+                }
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
+                }
 
                 try {
-                    journeyList = gson1.fromJson(jsonFromServer, new TypeToken<List<Journey>>() {
-                    }.getType());
+                    for (int i = 0; i < autocompleteObjects.size(); i++) {
+                        String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
+                        String json = NetworkUtils.download(url);
+                        BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
+                        busLocations.add(busLocation);
+                    }
+                    jsonFromServer = APIUtils.getJsonFromServer(busLocations);
+
+                    try {
+                        journeyList = gson1.fromJson(jsonFromServer, new TypeToken<List<Journey>>() {
+                        }.getType());
 
 
-                } catch (Exception e) {
+                    } catch (Exception e) {
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
 
                 }
 
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
             }
 
+
             /* *
-            * GET LIST RESULT AND SET AGAIN
+            * GET LIST RESULT AND SET AGAIN FOR WALKING PATH
             */
 
             for (int i = 0; i < journeyList.size(); i++) {
@@ -225,6 +231,8 @@ public class BusFourPointFragment extends Fragment {
                     }
                 }
             }
+
+
 
             return journeyList;
         }
