@@ -70,6 +70,8 @@ public class AppConstants {
     }
 
     public static final int NEAR_CIRCULAR_RANGE = 50;
+    public static boolean IS_REAL_BUS_SERVER = true;
+
 
     public static void buildAPILink() {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";

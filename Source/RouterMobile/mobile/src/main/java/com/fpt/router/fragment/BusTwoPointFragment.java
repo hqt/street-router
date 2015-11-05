@@ -19,6 +19,8 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
@@ -26,6 +28,7 @@ import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -33,6 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -148,58 +152,59 @@ public class BusTwoPointFragment extends Fragment {
 
             //test with file in assets
             Gson gson1 = JSONUtils.buildGson();
-            try {
-                resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
-                }.getType());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
-
-            //test test with service real
-            /*String jsonFromServer = "";
-            JSONObject object;
-            JSONArray jsonArray;
-            List<BusLocation> busLocations = new ArrayList<BusLocation>();
-            List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
-            // add to list by ordinary
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
-            }
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
-            }
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
-            }
-            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
-                autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
-            }
-            try {
-                for (int i = 0; i < autocompleteObjects.size(); i++) {
-                    String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
-                    String json = NetworkUtils.download(url);
-                    BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
-                    busLocations.add(busLocation);
-                }
-                jsonFromServer = APIUtils.getJsonFromServer(busLocations);
-                Gson gson1 = JSONUtils.buildGson();
-
+            if (!AppConstants.IS_REAL_BUS_SERVER) {
                 try {
-                    resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>() {
+                    resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                     }.getType());
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //test test with service real
+                String jsonFromServer = "";
+                JSONObject object;
+                JSONArray jsonArray;
+                List<BusLocation> busLocations = new ArrayList<BusLocation>();
+                List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
+                // add to list by ordinary
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                }
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+                }
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_1) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_1));
+                }
+                if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.WAY_POINT_2) != null) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.WAY_POINT_2));
+                }
+                try {
+                    for (int i = 0; i < autocompleteObjects.size(); i++) {
+                        String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
+                        String json = NetworkUtils.download(url);
+                        BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
+                        busLocations.add(busLocation);
+                    }
+                    jsonFromServer = APIUtils.getJsonFromServer(busLocations);
+
+                    try {
+                        resultList = gson1.fromJson(jsonFromServer, new TypeToken<List<Result>>() {
+                        }.getType());
+                    } catch (Exception e) {
+
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
 
                 }
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-
             }
-*/
+
             /**
-             * GET LIST RESULT AND SET AGAIN
+             * GET LIST RESULT AND SET AGAIN WALKING PATH
              */
             for (int i = 0; i < resultList.size(); i++) {
                 Result result = resultList.get(i);
