@@ -66,6 +66,11 @@
             <artifactId>htmlunit</artifactId>
             <version>2.18</version>
         </dependency>
+        <dependency>
+            <groupId>com.fpt.router</groupId>
+            <artifactId>artifacter</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

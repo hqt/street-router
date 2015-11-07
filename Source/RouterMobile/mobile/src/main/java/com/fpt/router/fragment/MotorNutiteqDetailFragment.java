@@ -451,7 +451,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         // Create a DataMap object and send it to the data layer
         DataMap dataMap = new DataMap();
         //Requires a new thread to avoid blocking the UI
-        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT, dataMap).start();
+        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_MOTOR, dataMap).start();
     }
 
     @Override

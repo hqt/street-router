@@ -28,14 +28,18 @@ public class AppConstants {
             public static final String PACKAGE_ACTION_DOWNLOADING = "package_action_downloading";
             public static final String PACKAGE_ACTION_REMOVING = "package_action_removing";
         }
+    }
 
+    public static final class FPT_SERVICE {
+        private static final String FPT_SERVER = "http://118.69.135.22";
+        public static final String TEXT_TO_SPEECH = "/synthesis/file?voiceType=female&text=";
     }
 
     public static final class PATH {
         private static final String MESSAGE_PATH = "/com/fpt/router/wear";
-        public static final String MESSAGE_PATH_FOUR_POINT = MESSAGE_PATH + "/fourpoint";
-        public static final String MESSAGE_PATH_TWO_POINT = MESSAGE_PATH + "/twopoint";
-        public static final String MESSAGE_PATH_LEG = MESSAGE_PATH + "/leg";
+        public static final String MESSAGE_PATH_MOTOR = MESSAGE_PATH + "/motor/";
+        public static final String MESSAGE_PATH_BUS_FOUR_POINT = MESSAGE_PATH + "/bus/fourpoint";
+        public static final String MESSAGE_PATH_BUS_TWO_POINT = MESSAGE_PATH + "/bus/twopoint";
         public static final String MESSAGE_PATH_GPS = MESSAGE_PATH + "/gps";
     }
 
@@ -70,7 +74,7 @@ public class AppConstants {
     }
 
     public static final int NEAR_CIRCULAR_RANGE = 50;
-    public static boolean IS_REAL_BUS_SERVER = true;
+    public static boolean IS_REAL_BUS_SERVER = false;
 
 
     public static void buildAPILink() {

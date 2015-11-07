@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.common.Location;
+import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,8 +22,11 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -88,7 +93,7 @@ public class DataLayerListenerService extends WearableListenerService
                 String path = dataItem.getUri().getPath();
                 Intent intent = new Intent( this, MainActivity.class );
                 Bundle bundle = new Bundle();
-                if (path.equals(AppConstants.PATH.MESSAGE_PATH_FOUR_POINT)) {
+                if (path.equals(AppConstants.PATH.MESSAGE_PATH_MOTOR)) {
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     Log.e("Nam", dataMap+ "");
                     long time = dataMap.getLong("time");
@@ -113,6 +118,14 @@ public class DataLayerListenerService extends WearableListenerService
                     LocationGPSMessage locationGPSMessage = new LocationGPSMessage(location);
                     bus.post(locationGPSMessage);
                     Log.e("Nam", dataMap +"");
+                } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_TWO_POINT)) {
+
+                } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_FOUR_POINT)) {
+                    String json = DataMapItem.fromDataItem(dataItem).getDataMap().getString("journey_json");
+                    Gson gson = JSONUtils.buildGson();
+                    Journey journey = gson.fromJson(json, new TypeToken<Journey>() {
+                    }.getType());
+                    Log.e("hqthao", journey.code);
                 }
 
 
