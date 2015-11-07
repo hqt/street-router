@@ -21,6 +21,8 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
+import com.fpt.router.framework.OrientationManager;
+import com.fpt.router.framework.OrientationManager.OnChangedListener;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -46,9 +48,12 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
+import com.nutiteq.core.MapVec;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
+import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.Marker;
+import com.nutiteq.vectorelements.NMLModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,8 +62,9 @@ import java.util.List;
 /**
  * Created by asus on 10/12/2015.
  */
-public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        SlidingUpPanelLayout.PanelSlideListener, LocationListener {
+public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OnChangedListener {
 
     private static final String ARG_LOCATION = "arg.location";
     // latitude and longitude
@@ -67,6 +73,8 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     private LockableListView mListView;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
+
+    private OrientationManager mOrientationManager;
 
     private View mTransparentHeaderView;
     private View mTransparentView;
@@ -84,18 +92,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     private Marker now;
 
-    SensorManager sensorManager;
-    private Sensor sensorAccelerometer;
-    private Sensor sensorMagneticField;
-
-    private float[] valuesAccelerometer;
-    private float[] valuesMagneticField;
-
-    private float[] matrixR;
-    private float[] matrixI;
-    private float[] matrixValues;
-    SensorEventListener sensorEventListener;
-
     int position;
     List<LatLng> list;
     String encodedString;
@@ -105,6 +101,8 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     List<Leg> listFinalLeg = new ArrayList<>();
     private RouteItemAdapter adapterItem;
     LocalVectorDataSource vectorDataSource;
+    NMLModel modelCar;
+    VectorLayer vectorLayer;
 
     public MotorNutiteqDetailFragment() {
     }
@@ -160,7 +158,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
         position = (int) getArguments().getSerializable("position");
 
 
@@ -202,7 +199,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 .build();
         vectorDataSource = new LocalVectorDataSource(baseProjection);
         // Initialize a vector layer with the previous data source
-        VectorLayer vectorLayer = new VectorLayer(vectorDataSource);
+        vectorLayer = new VectorLayer(vectorDataSource);
         // Add the previous vector layer to the map
         mapView.getLayers().add(vectorLayer);
         drawMap();
@@ -223,75 +220,17 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                     R.drawable.orange_small);
         }
 
-        sensorManager = (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        sensorAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorMagneticField = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        valuesAccelerometer = new float[3];
-        valuesMagneticField = new float[3];
+        SensorManager sensorManager =
+                (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        mOrientationManager = new OrientationManager(sensorManager);
 
-        matrixR = new float[9];
-        matrixI = new float[9];
-        matrixValues = new float[3];
-
-
-
-        sensorEventListener = new SensorEventListener() {
-            @Override
-            public void onSensorChanged(SensorEvent event) {
-                // TODO Auto-generated method stub
-
-                switch(event.sensor.getType()){
-                    case Sensor.TYPE_ACCELEROMETER:
-                        valuesAccelerometer = DecodeUtils.lowPass(event.values, valuesAccelerometer);
-                        /*for(int i =0; i < 3; i++){
-                            valuesAccelerometer[i] = event.values[i];
-                        }*/
-                        break;
-                    case Sensor.TYPE_MAGNETIC_FIELD:
-                        valuesMagneticField = DecodeUtils.lowPass(event.values, valuesMagneticField);
-                        /*for(int i =0; i < 3; i++){
-                            valuesMagneticField[i] = event.values[i];
-                        }*/
-                        break;
-                }
-
-                boolean success = SensorManager.getRotationMatrix(
-                        matrixR,
-                        matrixI,
-                        valuesAccelerometer,
-                        valuesMagneticField);
-
-                if(success){
-                    SensorManager.getOrientation(matrixR, matrixValues);
-
-                    float azimuth = (float)Math.toDegrees(matrixValues[0]);
-                    DecodeUtils decodeUtils = new DecodeUtils();
-                    azimuth = decodeUtils.getHeading(azimuth);
-                    if(now != null) {
-                        now.setRotation((float) azimuth-45);
-                        mapView.setMapRotation((float)(360-azimuth), 0);
-                        Log.e("NAM:", "xoay deu, xoay deu: " + azimuth);
-                    }
-                }
-            }
-
-            @Override
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
-            }
-        };
-
+        mOrientationManager.addOnChangedListener(this);
+        mOrientationManager.start();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        sensorManager.registerListener(sensorEventListener,
-                sensorAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(sensorEventListener,
-                sensorMagneticField,
-                SensorManager.SENSOR_DELAY_NORMAL);
         // In case Google Play services has since become available.
         drawMap();
     }
@@ -299,28 +238,18 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     @Override
     public void onPause() {
         mGoogleApiClient.disconnect();
-        sensorManager.unregisterListener(sensorEventListener, sensorAccelerometer);
-        sensorManager.unregisterListener(sensorEventListener, sensorMagneticField);
         super.onPause();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        sensorManager.registerListener(sensorEventListener,
-                sensorAccelerometer,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(sensorEventListener,
-                sensorMagneticField,
-                SensorManager.SENSOR_DELAY_NORMAL);
         // Connect the client.
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onStop() {
-        sensorManager.unregisterListener(sensorEventListener, sensorAccelerometer);
-        sensorManager.unregisterListener(sensorEventListener, sensorMagneticField);
         // Disconnecting the client invalidates it.
         mGoogleApiClient.disconnect();
         super.onStop();
@@ -332,30 +261,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     private LatLng getLastKnownLocation(boolean isMoveMarker) {
         LatLng latLng = new LatLng(latitude, longitude);
-        /*boolean isGPSEnabled = false;
-        boolean isNetworkEnabled = false;
-        LocationManager lm = (LocationManager) TheApp.getAppContext().getSystemService(Context.LOCATION_SERVICE);
 
-        // getting GPS status
-       isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        // getting network status
-        isNetworkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
-        String provider = lm.getBestProvider(criteria, true);
-        if (provider == null) {
-            return null;
-        }
-        Location loc = lm.getLastKnownLocation(provider);
-        if (loc != null) {
-            LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-            if (isMoveMarker) {
-                moveMarker(latLng);
-            }
-            return latLng;
-        }
-        return null;*/
         if (isMoveMarker) {
         }
         return latLng;
@@ -466,11 +372,14 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
-        if(now == null){
-            now = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(), lat, lng, R.drawable.motorcycle);
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        if(modelCar == null){
+            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
+            modelCar.setScale(400);
+            vectorDataSource.add(modelCar);
         } else {
-            MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-            now.setPos(markerPos);
+            modelCar.setPos(markerPos);
+            mapView.setFocusPos(markerPos, 0f);
         }
 
     }
@@ -497,6 +406,21 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             listNotifies.add(notifyModel);
         }
         return listNotifies;
+    }
+
+    @Override
+    public void onOrientationChanged(OrientationManager orientationManager) {
+        float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
+        //System.out.println(azimut);
+        mapView.setMapRotation(360 - azimut, 0f);
+        if(modelCar != null) {
+            modelCar.setRotation(new MapVec(0, 0, 1), 360-azimut);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(OrientationManager orientationManager) {
+
     }
 
 

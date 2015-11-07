@@ -33,7 +33,7 @@ public class NutiteqMapBaseActivity extends AppCompatActivity {
         // You can get your free/commercial license from: http://developer.nutiteq.com
         // The license string used here is intended only for Nutiteq demos and WILL NOT WORK with other apps!
         // already loaded when application start. on loading PackageManager
-        // MapView.registerLicense("XTUN3Q0ZCdzBJSXRNV0tRNG9LMFVwemozek5ieGFpd2ZBaFFOQVc2WWdMM3puS01oNGdKRHpXYmxjZm5ybWc9PQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5mcHQucm91dGVyCndhdGVybWFyaz1udXRpdGVxCnVzZXJLZXk9NjJlNDNjOGY3YWNkMmQ3NTNlZmQ5NzExZTAwYTM3MTYK", getApplicationContext());
+        MapView.registerLicense("XTUN3Q0ZCdzBJSXRNV0tRNG9LMFVwemozek5ieGFpd2ZBaFFOQVc2WWdMM3puS01oNGdKRHpXYmxjZm5ybWc9PQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5mcHQucm91dGVyCndhdGVybWFyaz1udXRpdGVxCnVzZXJLZXk9NjJlNDNjOGY3YWNkMmQ3NTNlZmQ5NzExZTAwYTM3MTYK", getApplicationContext());
 
         // 1. Basic map setup
         // Create map view
@@ -42,13 +42,13 @@ public class NutiteqMapBaseActivity extends AppCompatActivity {
         // Set the base projection, that will be used for most MapView, MapEventListener and Options methods
         baseProjection = new EPSG3857();
         mapView.getOptions().setBaseProjection(baseProjection);
-
         // General options
         mapView.getOptions().setTileDrawSize(256);
 //        mapView.getOptions().setTileThreadPoolSize(4);
 
         // Review following and change if needed
         mapView.getOptions().setRotatable(true);
+
         mapView.getOptions().setZoomRange(new MapRange(0, 18));
 
         Log.d("NAM:", "autoconfigured DPI="+mapView.getOptions().getDPI());
