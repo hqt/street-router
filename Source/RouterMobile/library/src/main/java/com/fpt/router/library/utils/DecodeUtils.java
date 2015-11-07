@@ -78,7 +78,7 @@ public class DecodeUtils {
     public static List<LatLng> getPointsFromListLocation (List<LatLng> listLatLng) {
         for(int i = 0; i < listLatLng.size() - 1; i ++) {
             int checkDistance = (int) calculateDistance(listLatLng.get(i), listLatLng.get(i+1));
-            if(checkDistance > 50) {
+            if(checkDistance > 40) {
                 listLatLng.add(i+1, middlePoint(listLatLng.get(i).latitude, listLatLng.get(i).longitude, listLatLng.get(i+1).latitude, listLatLng.get(i+1).longitude));
                 i--;
             }
@@ -202,27 +202,5 @@ public class DecodeUtils {
         }
         path.points = locations;
         return path;
-    }
-
-    public static float[] lowPass( float[] input, float[] output ) {
-        if ( output == null ) return input;
-        for ( int i=0; i<input.length; i++ ) {
-            output[i] = output[i] + AppConstants.ALPHA * (input[i] - output[i]);
-        }
-        return output;
-    }
-
-    public float getHeading(float input) {
-        float output = mod(DecodeUtils.this.computeTrueNorth(input), 360.0F)-6.0F;
-        return output;
-    }
-
-
-    private float computeTrueNorth(float heading) {
-        return this.mGeomagneticField != null?heading + this.mGeomagneticField.getDeclination():heading;
-    }
-
-    private static float mod(float a, float b) {
-        return (a % b + b) % b;
     }
 }

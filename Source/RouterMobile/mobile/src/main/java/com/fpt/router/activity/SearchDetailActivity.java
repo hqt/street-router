@@ -156,6 +156,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHidenSound.setVisibility(View.GONE);
                         soundButton.setVisibility(View.VISIBLE);
+                        GPSServiceOld.isPlaySound = false;
                     }
                 });
 
@@ -169,7 +170,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
                             downloadAsyncTask.execute();
                         }
-                        GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
+                        GPSServiceOld.isPlaySound = true;
                     }
                 });
 
@@ -178,6 +179,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHideFakeGPS.setVisibility(View.GONE);
                         fakeGPSButton.setVisibility(View.VISIBLE);
+                        isFakeGPS = false;
+                        if(!isFakeGPS) {
+                            GPSServiceOld.turnOffFakeGPS();
+                        }
                     }
                 });
 
@@ -186,16 +191,13 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHideFakeGPS.setVisibility(View.VISIBLE);
                         fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
+                        isFakeGPS = true;
                         if (isFakeGPS) {
                             GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                        } else {
-                            GPSServiceOld.turnOffFakeGPS();
+
                         }
                     }
                 });
-
-
             }
         }
 
