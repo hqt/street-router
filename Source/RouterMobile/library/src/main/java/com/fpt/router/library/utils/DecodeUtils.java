@@ -97,7 +97,7 @@ public class DecodeUtils {
         double a = Math.pow(Math.sin(dLat / 2.0), 2) + Math.cos(fromLat * d2r)
                 * Math.cos(toLat * d2r) * Math.pow(Math.sin(dLong / 2.0), 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double d = 6367000 * c;
+        double d = 1.0 * 6367000 * c;
         return Math.round(d);
     }
 

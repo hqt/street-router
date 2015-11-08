@@ -405,7 +405,45 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
         }
+        modifyNotifyList(listNotifies);
         return listNotifies;
+    }
+
+    private List<NotifyModel> modifyNotifyList(List<NotifyModel> notifyModelList) {
+        List<LatLng> listFakeGPS = getFakeGPSList();
+        int indexOfListFakeGPS = 1;
+        boolean isCatch = false;
+        for(int x = 0; x < listStep.size(); x++) {
+            if(listStep.get(x).getDetailLocation().getDistance() > 2000) {
+                int count = listStep.get(x).getDetailLocation().getDistance() / 1000;
+                int index = 1;
+                for (int y = 0; y < listFakeGPS.size(); y++) {
+                    if(DecodeUtils.calculateDistance(listFakeGPS.get(y),
+                            new LatLng(notifyModelList.get(x).location.getLatitude(),
+                                    notifyModelList.get(x).location.getLongitude())) <= 50) {
+                        isCatch = true;
+                    }
+                    if(isCatch &&(DecodeUtils.calculateDistance(listFakeGPS.get(y),
+                            new LatLng(notifyModelList.get(x).location.getLatitude(),
+                                    notifyModelList.get(x).location.getLongitude())) >= 1000*index)
+                            && (index < count)) {
+                        com.fpt.router.library.model.common.Location location =
+                                new com.fpt.router.library.model.common.Location(
+                                        listFakeGPS.get(y).latitude,
+                                        listFakeGPS.get(y).longitude);
+                        String smallTittle = "Tiếp tục đi thẳng";
+                        String longTittle = "Thông tin chi tiết";
+                        String smallMessage = "Xin tiếp tục đi thẳng trên con đường hiện tại";
+                        String longMessage = "";
+                        NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
+                        notifyModelList.add(x+indexOfListFakeGPS, notifyModel);
+                        index++;
+                        indexOfListFakeGPS++;
+                    }
+                }
+            }
+        }
+        return notifyModelList;
     }
 
     @Override

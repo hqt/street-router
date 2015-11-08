@@ -89,7 +89,6 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
     List<LatLng> list;
     String encodedString;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
-    Leg leg;
     List<Step> listStep = new ArrayList<>();
     List<Leg> listFinalLeg = new ArrayList<>();
     private RouteItemAdapter adapterItem;
@@ -429,7 +428,47 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
         }
+        modifyNotifyList(listNotifies);
         return listNotifies;
+    }
+
+    private List<NotifyModel> modifyNotifyList(List<NotifyModel> notifyModelList) {
+        List<LatLng> listFakeGPS = getFakeGPSList();
+        int indexOfListFakeGPS = 0;
+        boolean isCatch = false;
+        for(int x = 0; x < notifyModelList.size(); x++) {
+            if(listStep.get(x).getDetailLocation().getDistance() > 2000) {
+                int count = listStep.get(x).getDetailLocation().getDistance() / 1000;
+                int index = 1;
+                check:
+                for (;indexOfListFakeGPS < listFakeGPS.size(); indexOfListFakeGPS++) {
+                    if(DecodeUtils.calculateDistance(listFakeGPS.get(indexOfListFakeGPS),
+                            new LatLng(notifyModelList.get(x).location.getLatitude(),
+                                    notifyModelList.get(x).location.getLongitude())) == 0) {
+                        isCatch = true;
+                    }
+                    if(isCatch &&(DecodeUtils.calculateDistance(listFakeGPS.get(indexOfListFakeGPS),
+                            new LatLng(notifyModelList.get(x).location.getLatitude(),
+                                    notifyModelList.get(x).location.getLongitude())) >= 1000*index)
+                             && (index < count)) {
+                        com.fpt.router.library.model.common.Location location =
+                                new com.fpt.router.library.model.common.Location(
+                                        listFakeGPS.get(indexOfListFakeGPS).latitude,
+                                        listFakeGPS.get(indexOfListFakeGPS).longitude);
+                        String smallTittle = "Tiếp tục đi thẳng";
+                        String longTittle = "Thông tin chi tiết";
+                        String smallMessage = "Xin tiếp tục đi thẳng trên con đường hiện tại";
+                        String longMessage = "";
+                        NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
+                        notifyModelList.add(x, notifyModel);
+                        index++;
+                        x++;
+                        break check;
+                    }
+                }
+            }
+        }
+        return notifyModelList;
     }
 
     class SendToDataLayerThread extends Thread {
