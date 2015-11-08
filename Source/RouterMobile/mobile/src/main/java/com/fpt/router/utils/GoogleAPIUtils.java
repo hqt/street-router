@@ -204,8 +204,9 @@ public class GoogleAPIUtils {
             for (int n = 0; n < listUrl.size(); n++) {
                 json.add(NetworkUtils.download(listUrl.get(n)));
             }
+
             if (json.get(0) == null) {
-                return null;
+                return new Pair<>(GoogleApiCode.NO_NETWORK, null);
             } else {
                 //turn that string into a JSON object
                 for (int x = 0; x < json.size(); x++) {

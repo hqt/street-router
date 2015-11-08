@@ -71,6 +71,7 @@ public class AppConstants {
         public static final String OVER_QUERY_LIMIT = "OVER_QUERY_LIMIT";
         public static final String NOT_FOUND = "NOT_FOUND";
         public static final String NO_RESULT = "ZERO_RESULTS";
+        public static final String NO_NETWORK = "NO_NETWORK_CONNECTION";
     }
 
     public static final int NEAR_CIRCULAR_RANGE = 50;
