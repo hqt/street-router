@@ -1,5 +1,7 @@
 package com.fpt.router.fragment;
 
+import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -12,8 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusDetailAdapter;
 import com.fpt.router.fragment.base.AbstractMapFragment;
+import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
+import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
@@ -27,6 +32,7 @@ import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
+import com.fpt.router.utils.NutiteqMapUtil;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
@@ -52,6 +58,12 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.gson.Gson;
+import com.nutiteq.core.MapPos;
+import com.nutiteq.core.MapVec;
+import com.nutiteq.datasources.LocalVectorDataSource;
+import com.nutiteq.layers.VectorLayer;
+import com.nutiteq.utils.AssetUtils;
+import com.nutiteq.vectorelements.NMLModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,8 +72,8 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusDetailTwoPointFragment extends AbstractMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        SlidingUpPanelLayout.PanelSlideListener, LocationListener {
+public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OrientationManager.OnChangedListener {
 
     private static final String ARG_LOCATION = "arg.location";
     // latitude and longitude
@@ -87,14 +99,15 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
-
+    private OrientationManager mOrientationManager;
     Result result;
-
     private List<INode> iNodeList;
-
 
     List<Path> pathFinal = new ArrayList<>();
     private BusDetailAdapter adapterItem;
+    NMLModel modelCar;
+    LocalVectorDataSource vectorDataSource;
+    VectorLayer vectorLayer;
 
     public BusDetailTwoPointFragment() {
     }
@@ -110,7 +123,8 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_bus_detail_twopoint, container, false);
+
+        super.onCreateView(inflater, container, savedInstanceState);
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
@@ -154,20 +168,46 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
 
         result = (Result) getArguments().getSerializable("result");
 
-        mMapFragment = SupportMapFragment.newInstance();
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.mapContainer, mMapFragment, "map");
-        fragmentTransaction.commit();
-
         /** start get list step and show  */
 
         iNodeList = result.nodeList;
 
+        List<Path> paths = new ArrayList<>();
+        /**
+         * Middle location
+         */
+        List<Segment> segments = new ArrayList<Segment>();
+        for (int i = 0; i < iNodeList.size(); i++) {
+            if (iNodeList.get(i) instanceof Segment) {
+                Segment segment = (Segment) iNodeList.get(i);
+                segments.add(segment);
+            }
+        }
 
+        for (int m = 0; m < segments.size(); m++) {
+            paths = segments.get(m).paths;
+            pathFinal.add(paths.get(0));
+        }
+
+        /**
+         * start location
+         */
+        if (iNodeList.get(0) instanceof Path) {
+            Path path = (Path) iNodeList.get(0);
+            pathFinal.add(path);
+        }
+        /**
+         * end location
+         */
+        if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
+            Path path = (Path) iNodeList.get(iNodeList.size() - 1);
+            pathFinal.add(path);
+        }
+
+        GPSServiceOld.setListNotify(getNotifyList());
         adapterItem = new BusDetailAdapter(getContext(), R.layout.adapter_show_detail_bus_steps, iNodeList);
 
         mListView.addHeaderView(mTransparentHeaderView);
-      /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, steps));*/
         mListView.setAdapter(adapterItem);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -183,78 +223,39 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        vectorDataSource = new LocalVectorDataSource(baseProjection);
+        // Initialize a vector layer with the previous data source
+        vectorLayer = new VectorLayer(vectorDataSource);
+        // Add the previous vector layer to the map
+        mapView.getLayers().add(vectorLayer);
+        drawMap();
 
-        setUpMapIfNeeded();
     }
 
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = mMapFragment.getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
-
-
-                mMap.getUiSettings().setCompassEnabled(false);
-                mMap.getUiSettings().setZoomControlsEnabled(false);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-                List<Path> paths = new ArrayList<>();
-                /**
-                 * Middle location
-                 */
-                List<Segment> segments = new ArrayList<Segment>();
-                for (int i = 0; i < iNodeList.size(); i++) {
-                    if (iNodeList.get(i) instanceof Segment) {
-                        Segment segment = (Segment) iNodeList.get(i);
-                        segments.add(segment);
-                    }
-                }
-
-                for (int m = 0; m < segments.size(); m++) {
-                    paths = segments.get(m).paths;
-                    pathFinal.add(paths.get(0));
-                }
-
-                /**
-                 * start location
-                 */
-                if (iNodeList.get(0) instanceof Path) {
-                    Path path = (Path) iNodeList.get(0);
-                    pathFinal.add(path);
-                }
-                /**
-                 * end location
-                 */
-                if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
-                    Path path = (Path) iNodeList.get(iNodeList.size() - 1);
-                    pathFinal.add(path);
-                }
-
-                /**
-                 * draw two point
-                 */
-                BusMapUtils.drawMapWithTwoPoint(mMap, result);
-
-                for (int n = 1; n < pathFinal.size(); n++) {
-                    Path path = pathFinal.get(n);
-                    MapUtils.drawPointIcon(mMap,
-                            path.stationFromLocation.getLatitude(),
-                            path.stationFromLocation.getLongitude(),
-                            "", R.drawable.info);
-                }
-                GPSServiceOld.setListNotify(getNotifyList());
-
-            }
+    private void drawMap() {
+        NutiteqMapUtil.drawMapWithBusTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, result);
+        for (int n = 1; n < pathFinal.size(); n++) {
+            Path path = pathFinal.get(n);
+            NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    path.stationFromLocation.getLatitude(),
+                    path.stationFromLocation.getLongitude(),
+                    R.drawable.orange_small);
         }
+
+        SensorManager sensorManager =
+                (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        mOrientationManager = new OrientationManager(sensorManager);
+
+        mOrientationManager.addOnChangedListener(this);
+        mOrientationManager.start();
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         // In case Google Play services has since become available.
-        setUpMapIfNeeded();
+        drawMap();
     }
 
     @Override
@@ -432,10 +433,16 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
 
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
-        if (now != null) {
-            now.remove();
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        if (modelCar == null) {
+            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
+            modelCar.setScale(400);
+            vectorDataSource.add(modelCar);
+        } else {
+            modelCar.setPos(markerPos);
+            mapView.setFocusPos(markerPos, 0f);
         }
-        now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
+
     }
 
     @Override
@@ -467,6 +474,21 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
         NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
         listNotifies.add(notifyModel);
         return listNotifies;
+    }
+
+    @Override
+    public void onOrientationChanged(OrientationManager orientationManager) {
+        float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
+        //System.out.println(azimut);
+        mapView.setMapRotation(360 - azimut, 0f);
+        if (modelCar != null) {
+            modelCar.setRotation(new MapVec(0, 0, 1), 360 - azimut);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(OrientationManager orientationManager) {
+
     }
 
     class SendToDataLayerThread extends Thread {

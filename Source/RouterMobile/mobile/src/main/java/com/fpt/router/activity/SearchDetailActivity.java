@@ -93,8 +93,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         if (result != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                fragment = BusDetailTwoPointFragment.newInstance(result);
-                trans.add(R.id.fragment, fragment);
+                fragmentNutiteq = BusDetailTwoPointFragment.newInstance(result);
+                trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
 
                 buttonHidenSound.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +134,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         fakeGPSButton.setVisibility(View.GONE);
                         isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
-                            GPSServiceOld.turnOnFakeGPS(fragment.getFakeGPSList());
+                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
                         } else {
                             GPSServiceOld.turnOffFakeGPS();
                         }

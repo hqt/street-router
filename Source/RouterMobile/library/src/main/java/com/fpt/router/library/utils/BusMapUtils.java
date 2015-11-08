@@ -2,17 +2,21 @@ package com.fpt.router.library.utils;
 
 import android.graphics.Color;
 
+import com.fpt.router.library.model.motorbike.Leg;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.Location;
-import com.fpt.router.library.model.motorbike.Leg;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +25,7 @@ import java.util.List;
  * Created by Huynh Quang Thao on 11/2/15.
  */
 public class BusMapUtils {
-    public static void drawBusPoint(GoogleMap map, double latitude, double longitude, String title, int bus){
+    public static void drawBusPoint(GoogleMap map, double latitude, double longitude, String title, int bus) {
         // create marker
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
                 .title(title);
@@ -31,7 +35,7 @@ public class BusMapUtils {
         map.addMarker(marker);
     }
 
-    public static void drawMapWithTwoPointCircle(GoogleMap mMap, List<Leg> input){
+    public static void drawMapWithTwoPointCircle(GoogleMap mMap, List<Leg> input) {
         List<Leg> listLeg = input;
         //Start Point
         Leg leg = listLeg.get(0);
@@ -54,8 +58,8 @@ public class BusMapUtils {
        /* LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
         moveCamera(mMap, latLng.latitude, latLng.longitude, 13);*/
     }
-	
-	public static void drawMapWithTwoPoint(GoogleMap mMap, Result result) {
+
+    public static void drawMapWithTwoPoint(GoogleMap mMap, Result result) {
         List<INode> iNodeList = result.nodeList;
         double latitude = 0.0;
         double longitude = 0.0;
@@ -72,11 +76,6 @@ public class BusMapUtils {
                 segments.add(segment);
             }
         }
-
-
-
-
-
         for (int m = 0; m < segments.size(); m++) {
             paths = segments.get(m).paths;
             for (int j = 0; j < paths.size(); j++) {
@@ -87,11 +86,6 @@ public class BusMapUtils {
                 }
             }
         }
-
-
-
-
-
         /**
          * start location
          */
@@ -118,9 +112,7 @@ public class BusMapUtils {
                 }
                 MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
             }
-
         }
-
 
         /**
          * end location
@@ -158,13 +150,6 @@ public class BusMapUtils {
     }
 
     public static void drawMapWithFourPoint(GoogleMap mMap, Journey journey) {
-
-
-
-
-
-
-
         List<Result> results = journey.results;
         List<Location> points;
         List<Path> paths;
@@ -176,17 +161,6 @@ public class BusMapUtils {
             List<LatLng> listFinal = new ArrayList<LatLng>();
             result = results.get(k);
             iNodeList = result.nodeList;
-
-
-
-
-
-
-
-
-
-
-
 
             List<Segment> segments = new ArrayList<Segment>();
             for (int i = 0; i < iNodeList.size(); i++) {
@@ -205,9 +179,6 @@ public class BusMapUtils {
                     }
                 }
             }
-
-
-
 
             /**
              * start location
@@ -229,8 +200,6 @@ public class BusMapUtils {
                     MapUtils.drawDashedPolyLine(mMap, startList, Color.parseColor("#FF5722"));
                 } else {
                     List<LatLng> list = new ArrayList<>();
-
-
                     for (int n = 0; n < points.size(); n++) {
                         LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
                         list.add(latLng);
@@ -271,6 +240,5 @@ public class BusMapUtils {
             MapUtils.moveCamera(mMap, latitude, longitude, 12);
         }
     }
-	
 
 }
