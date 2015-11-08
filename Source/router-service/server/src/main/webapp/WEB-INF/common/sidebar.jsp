@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: datnt
@@ -20,59 +21,19 @@
     <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
     <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false"
         data-auto-scroll="true" data-slide-speed="200">
-      <li class="start ">
-        <a href="index.html">
-          <i class="icon-home"></i>
-          <span class="title">Staff Dashboard</span>
-        </a>
-      </li>
       <li>
-        <a href="javascript:;">
+        <a href="${pageContext.request.contextPath}/route/list">
           <i class="icon-map"></i>
           <span class="title">Route</span>
           <span class="arrow "></span>
         </a>
-        <ul class="sub-menu">
-          <li>
-            <a href="ecommerce_index.html"> <!-- here, not yet to change link to route -->
-              <i class="icon-home"></i>
-              Dashboard</a>
-          </li>
-          <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to route -->
-              <i class="icon-basket"></i>
-              Route Information</a>
-          </li>
-          <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to route -->
-              <i class="icon-basket"></i>
-              Route Map</a>
-          </li>
-        </ul>
       </li>
       <li>
-        <a href="javascript:;">
-          <i class="icon-star"></i>
+        <a href="${pageContext.request.contextPath}/station/list">
+          <i class="icon-pointer"></i>
           <span class="title">Station</span>
           <span class="arrow "></span>
         </a>
-        <ul class="sub-menu">
-          <li>
-            <a href="ecommerce_index.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-home"></i>
-              Dashboard</a>
-          </li>
-          <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-basket"></i>
-              Station Information</a>
-          </li>
-          <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-basket"></i>
-              Station Map</a>
-          </li>
-        </ul>
       </li>
       <!-- BEGIN NOTIFICATION COMPONENT -->
       <li>
@@ -83,18 +44,13 @@
         </a>
         <ul class="sub-menu">
           <li>
-            <a href="ecommerce_index.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-home"></i>
-              Dashboard</a>
-          </li>
-          <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-basket"></i>
+            <a href=""> <!-- here, not yet to change link to station -->
+              <i class="icon-pointer"></i>
               Station Notification</a>
           </li>
           <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-basket"></i>
+            <a href=""> <!-- here, not yet to change link to station -->
+              <i class="icon-clock"></i>
               Timetable notification</a>
           </li>
         </ul>
@@ -109,23 +65,40 @@
         </a>
         <ul class="sub-menu">
           <li>
-            <a href="ecommerce_index.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-home"></i>
-              Dashboard</a>
+            <a href="${pageContext.request.contextPath}/configuration">
+              <i class="icon-clock"></i>
+              Time Configuration
+            </a> <!-- here, not yet to change link to station -->
           </li>
           <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-basket"></i>
-              Time Configuration</a>
-          </li>
-          <li>
-            <a href="ecommerce_orders.html"> <!-- here, not yet to change link to station -->
-              <i class="icon-basket"></i>
+            <a href=""> <!-- here, not yet to change link to station -->
+              <i class="icon-folder"></i>
               Source Configuration</a>
           </li>
         </ul>
       </li>
       <!-- END CONFIGURATION COMPONENT -->
+      <!-- BEGIN STAFF COMPONENT -->
+      <li>
+        <a href="javascript:;">
+          <i class="icon-user"></i>
+          <span class="title">Staff</span>
+          <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+          <li>
+            <a href="${pageContext.request.contextPath}/staff/list"> <!-- here, not yet to change link to station -->
+              <i class="icon-list"></i>
+              List Staff</a>
+          </li>
+          <li>
+            <a href="${pageContext.request.contextPath}/staff/add"> <!-- here, not yet to change link to station -->
+              <i class="fa fa-user"></i>
+              Create Staff</a>
+          </li>
+        </ul>
+      </li>
+      <!-- END STAFF COMPONENT -->
       <!-- END SIDEBAR MENU -->
     </ul>
   </div>

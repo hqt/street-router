@@ -18,7 +18,12 @@
   <div class="page-container">
     <c:import url="../../common/sidebar.jsp"/>
     <c:import url="content.jsp"/>
+    <c:import url="../../common/footer.jsp"/>
   </div>
 </div>
+<c:import url="../../common/scripts.jsp"/>
+<script type="text/javascript">
+  $('#configureTime').timepicker()
+</script>
 </body>
 </html>

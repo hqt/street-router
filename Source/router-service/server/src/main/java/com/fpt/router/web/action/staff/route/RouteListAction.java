@@ -1,11 +1,14 @@
-package com.fpt.router.web.action.staff;
+package com.fpt.router.web.action.staff.route;
 
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
+import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.staff.RouteListVM;
+import com.fpt.router.web.viewmodel.staff.RouteVM;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,12 +22,11 @@ public class RouteListAction extends StaffAction {
     public String execute(ApplicationContext context) {
 
         RouteDAO routeDao = new RouteDAO();
-        List<Route> routes = routeDao.findAllRouteLazy();
-
+        List<Route> routes = routeDao.findAll();
         // convert to model
         RouteListVM routeListVM = new RouteListVM();
         if (!routes.isEmpty()) {
-            routeListVM.convertEntityToModelLessAttr(routes);
+            routeListVM.convertEntityToModel(routes);
         }
 
         context.setSessionAttribute("routes", routeListVM.getRouteListVMs());

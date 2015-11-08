@@ -12,19 +12,19 @@ public class StationVM {
     private String street;
     private String codeId;
     private double latitude;
-    private double longtitude;
+    private double longitude;
 
     public StationVM() {
 
     }
 
-    public StationVM(long stationId, String stationName, String street, String codeId, double latitude, double longtitude) {
+    public StationVM(long stationId, String stationName, String street, String codeId, double latitude, double longitude) {
         this.stationId = stationId;
         this.stationName = stationName;
         this.street = street;
         this.codeId = codeId;
         this.latitude = latitude;
-        this.longtitude = longtitude;
+        this.longitude = longitude;
     }
 
     public StationVM(Station station) {
@@ -33,7 +33,7 @@ public class StationVM {
         this.street = station.getStreet();
         this.codeId = station.getCodeId();
         this.latitude = station.getLatitude();
-        this.longtitude = station.getLongitude();
+        this.longitude = station.getLongitude();
     }
 
     public String getCodeId() {
@@ -76,12 +76,12 @@ public class StationVM {
         this.latitude = latitude;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 
 }

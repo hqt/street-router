@@ -88,6 +88,7 @@
             </div>
             <div class="portlet-body">
               <div class="note note-info note-bordered">
+                <input type="hidden" id="routeId" value="${routeVM.routeId}"/>
                 <p>
                   <h4>Route No: Tuyến số ${routeVM.routeNo} | Route Name: ${routeVM.routeName} | Route Type: ${routeVM.routeType}</h4>
                 </p>
@@ -114,39 +115,46 @@
                       </div>
                     </div>
                   </div>
-                  <table class="table table-striped table-bordered table-hover text-center" id="station">
+                  <table class="table table-striped table-bordered table-hover text-center" id="pathinfo">
                     <thead>
                     <tr>
-                      <th>Station Id</th>
-                      <th>Station Name</th>
-                      <th>Station Street</th>
+                      <th>Order</th>
+                      <th> Code</th>
+                      <th> Name</th>
+                      <th> Street</th>
+                      <th> Coordinates</th>
                       <th>Update</th>
                       <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <input value="${focusId}" id="focusId" type="hidden"/>
-                    <c:forEach var="station" items="${routeVM.stationsVM.stationListVM}">
-                      <tr id="${station.stationId}">
+                    <c:forEach var="pathInfo" items="${pathInfosVM.pathInfoVMs}">
+                      <tr>
                         <td>
-                            ${station.stationId}
+                            ${pathInfo.pathInfoNo}
                         </td>
                         <td>
-                            ${station.stationName}
+                            ${pathInfo.from.codeId}
                         </td>
                         <td>
-                            ${station.street}
+                            ${pathInfo.from.stationName}
                         </td>
                         <td>
-                          <button class="btn btn-link">
-                            Update
-                          </button>
+                            ${pathInfo.from.street}
                         </td>
                         <td>
-                          <button class="btn btn-link">
-                            Delete
-                          </button>
+                            Latitude: ${pathInfo.from.latitude}
+                            Longitude: ${pathInfo.from.longitude}
                         </td>
+                        <td>
+                          <a class="edit" href="javascript:;">
+                            Edit </a>
+                        </td>
+                        <td>
+                          <a class="delete" href="javascript:;">
+                            Delete </a>
+                        </td>
+                        <input type="hidden" value="${pathInfo.from.stationId}"/>
                       </tr>
                     </c:forEach>
                     </tbody>
@@ -187,20 +195,22 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <c:forEach var="trip" items="${routeVM.tripsVM.tripVMList}">
+                      <c:forEach var="trip" items="${tripsVM.tripVMList}">
                         <tr>
                           <td>${trip.tripId}</td>
-                          <td>${trip.startTime}</td>
-                          <td>${trip.endTime}</td>
                           <td>
-                            <button class="btn btn-link">
-                              Update
-                            </button>
+                            ${trip.viewStartTime}
+                          </td>
+                          <td>${trip.viewEndTime}</td>
+                          <td>
+                            <a class="edit" href="javascript:;">
+                              Edit
+                            </a>
                           </td>
                           <td>
-                            <button class="btn btn-link">
+                            <a class="delete" href="javascript:;" >
                               Delete
-                            </button>
+                            </a>
                           </td>
                         </tr>
                       </c:forEach>

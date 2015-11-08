@@ -19,20 +19,37 @@
 
     <servlet-mapping>
         <servlet-name>DispatcherServlet</servlet-name>
+        <!--<url-pattern>/DispatcherServlet</url-pattern>-->
         <url-pattern>/login</url-pattern>
-        <url-pattern>/list</url-pattern>
-        <url-pattern>/paging</url-pattern>
-        <url-pattern>/detail</url-pattern>
-        <url-pattern>/api/twopoint</url-pattern>
-        <url-pattern>/main</url-pattern>
-        <url-pattern>/child</url-pattern>
-        <url-pattern>/content</url-pattern>
-        <url-pattern>/update</url-pattern>
-        <url-pattern>/staff</url-pattern>
-        <url-pattern>/admin</url-pattern>
-        <url-pattern>/staff/index</url-pattern>
         <url-pattern>/search/multi</url-pattern>
+        <url-pattern>/api/twopoint</url-pattern>
+
+        <url-pattern>/staff/add</url-pattern>
+        <url-pattern>/staff/list</url-pattern>
+        <url-pattern>/staff/delete</url-pattern>
+        <url-pattern>/staff/update</url-pattern>
+
+        <url-pattern>/route/list</url-pattern>
         <url-pattern>/route/detail</url-pattern>
+        <url-pattern>/route/add</url-pattern>
+        <url-pattern>/route/update</url-pattern>
+        <url-pattern>/route/delete</url-pattern>
+
+        <url-pattern>/station/update</url-pattern>
+        <url-pattern>/station/list</url-pattern>
+
+        <url-pattern>/trip/add</url-pattern>
+        <url-pattern>/trip/update</url-pattern>
+        <url-pattern>/trip/delete</url-pattern>
+
+        <url-pattern>/notification/list</url-pattern>
+        <url-pattern>/notification/block</url-pattern>
+        <url-pattern>/notification/unblock</url-pattern>
+        <url-pattern>/notification/delete</url-pattern>
+        <url-pattern>/notification/approve</url-pattern>
+
+        <url-pattern>/configuration</url-pattern>
+
         <url-pattern>/compare</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
@@ -72,10 +89,11 @@
         <filter-name>CharsetFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!--<error-page>
+
+    <error-page>
         <error-code>404</error-code>
-        <location>/WEB-INF/views/common/error_404.jsp</location>
-    </error-page>-->
+        <location>/WEB-INF/page/404/index.jsp</location>
+    </error-page>
 
     <!--<error-page>
         <error-code>500</error-code>

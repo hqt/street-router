@@ -30,26 +30,13 @@ public class RouteVM {
         this.routeNo = route.getRouteNo();
         this.routeName = route.getRouteName();
         this.routeType = route.getRouteType();
-        if (route.getPathInfos() != null && !route.getPathInfos().isEmpty()) {
-            List<Station> stations = convertPathInfoToStation(route.getPathInfos());
-            if (!stations.isEmpty()) {
-                this.stationsVM = new StationListVM(stations);
-            } else {
-                System.out.println("Station isEmpty or Shit happen!!!");
-            }
-        }
-        if (route.getTrips() != null && !route.getTrips().isEmpty()) {
-            this.tripsVM = new TripListVM(route.getTrips());
-        }
     }
 
-    public RouteVM convert(Route route) {
-        RouteVM routeVM = new RouteVM();
-        routeVM.routeId = route.getRouteId();
-        routeVM.routeNo = route.getRouteNo();
-        routeVM.routeName = route.getRouteName();
-        routeVM.routeType = route.getRouteType();
-        return routeVM;
+    public RouteVM(com.fpt.router.artifacter.model.algorithm.Route route) {
+        this.routeId = route.routeId;
+        this.routeNo = route.routeNo;
+        this.routeName = route.routeName;
+        this.routeType = route.routeType;
     }
 
     public List<Station> convertPathInfoToStation(List<PathInfo> pathInfos) {

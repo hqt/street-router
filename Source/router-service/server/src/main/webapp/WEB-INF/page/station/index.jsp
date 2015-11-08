@@ -18,10 +18,11 @@
   <div class="page-container">
 
     <%--set parameter--%>
-    <c:set var="stations" value="${requestScope.stations}" scope="request"/>
+    <c:set var="stationsVM" value="${requestScope.stationsVM}" scope="request"/>
 
     <c:import url="../../common/sidebar.jsp"/>
     <c:import url="content.jsp"/>
+    <c:import url="../../common/footer.jsp"/>
   </div>
 </div>
 </body>
