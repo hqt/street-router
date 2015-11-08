@@ -123,6 +123,7 @@ public class DataLayerListenerService extends WearableListenerService
                     bus.post(locationGPSMessage);
                     Log.e("Nam", dataMap +"");
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_TWO_POINT)) {
+                    Log.e("Ngoan","Bus Two Point in wear");
                     // get asset
                     Asset asset = DataMapItem.fromDataItem(dataItem).getDataMap().getAsset("result_json");
 
@@ -133,6 +134,12 @@ public class DataLayerListenerService extends WearableListenerService
                     Gson gson = JSONUtils.buildGson();
                     Result result = gson.fromJson(json, Result.class);
                     Log.e("hqthao", "result code: " + result.code);
+
+                    // set global variable for activity
+                    MainActivity.result = result;
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
 
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_FOUR_POINT)) {
                     // get asset
@@ -146,6 +153,12 @@ public class DataLayerListenerService extends WearableListenerService
                     Journey journey = gson.fromJson(json, Journey.class);
 
                     Log.e("hqthao", "journey code: " + journey.code);
+
+                    // set global variable for activity
+                    MainActivity.journey = journey;
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
                 }
             }
         }
