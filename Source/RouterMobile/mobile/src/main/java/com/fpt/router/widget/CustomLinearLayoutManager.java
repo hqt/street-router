@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 /**
  * Created by ngoan on 11/3/2015.
  */
-public class MyLinearLayoutManager extends LinearLayoutManager {
+public class CustomLinearLayoutManager extends LinearLayoutManager {
 
-    public MyLinearLayoutManager(Context context, int orientation, boolean reverseLayout)    {
+    public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout)    {
         super(context, orientation, reverseLayout);
     }
 
@@ -72,7 +72,7 @@ public class MyLinearLayoutManager extends LinearLayoutManager {
                     getPaddingTop() + getPaddingBottom(), p.height);
             view.measure(childWidthSpec, childHeightSpec);
             measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;
-            measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin+100;
+            measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
             recycler.recycleView(view);
         }
     }

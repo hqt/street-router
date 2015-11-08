@@ -50,7 +50,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="5dip"
-                        android:text="Duration:"
+                        android:text="Thời gian:"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_motorbike_title" />
@@ -79,7 +79,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="5dip"
-                        android:text="Distance:"
+                        android:text="K/cách:"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_motorbike_title" />
@@ -112,8 +112,16 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="5dp"
                     android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:scaleType="center"
+                        android:padding="5dp"
+                        android:src="@drawable/letter_s" />
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -122,7 +130,7 @@
                         android:padding="5dp"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_motorbike_title" />
+                        android:textColor="@color/text_motorbike_title" />-->
 
                     <TextView
                         android:id="@+id/startLocation"
@@ -142,7 +150,16 @@
                     android:paddingBottom="15dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:scaleType="center"
+                        android:src="@drawable/letter_e" />
+
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -151,7 +168,7 @@
                         android:textSize="15sp"
                         android:padding="5dp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_motorbike_title" />
+                        android:textColor="@color/text_motorbike_title" />-->
 
                     <TextView
                         android:id="@+id/endLocation"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.fpt.router" >
+    package="com.fpt.router">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -20,7 +20,7 @@
         android:allowBackup="true"
         android:icon="@drawable/bus"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme1" >
+        android:theme="@style/AppTheme1">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -30,14 +30,14 @@
 
         <activity
             android:name=".activity.VoiceRecordActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -45,43 +45,40 @@
         </activity>
         <activity
             android:name=".activity.SearchRouteActivity"
-            android:label="Main Activity" >
+            android:label="Main Activity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.AutoCompleteSearchActivity"
-            android:label="@string/title_activity_search" >
+            android:label="@string/title_activity_search">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
         <activity
             android:name=".activity.SearchOptionActivity"
-            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+            android:theme="@android:style/Theme.Holo.Light.Dialog">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
 
         <!-- The service listening for incoming messages from the wear device -->
-        <service android:name=".service.FeedbackListenerService" >
+        <service android:name=".service.FeedbackListenerService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
             </intent-filter>
         </service>
-        <service android:name=".service.GPSFuseService" >
-        </service>
-        <service android:name=".service.GPSService" >
-        </service>
-        <service android:name=".service.GPSServiceOld" >
-        </service>
+        <service android:name=".service.GPSFuseService"></service>
+        <service android:name=".service.GPSService"></service>
+        <service android:name=".service.GPSServiceOld"></service>
 
         <activity
             android:name=".activity.SearchDetailActivity"
             android:label="@string/title_activity_search_detail"
-            android:theme="@style/AppTheme1" >
+            android:theme="@style/AppTheme1">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
@@ -89,10 +86,18 @@
         <activity
             android:name=".activity.SettingActivity"
             android:label="@string/title_activity_search_detail"
-            android:theme="@style/AppTheme1" >
+            android:theme="@style/AppTheme1">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.DetailBusFourPointActivity"
+            android:label="@string/title_activity_search_detail"
+            android:theme="@style/AppTheme1">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SearchRouteActivity" />
         </activity>
     </application>
 

@@ -1,216 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-                <!--Toolbar demo-->
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:minHeight="?attr/actionBarSize"
-                    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    >
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/top_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/edit_1"
-                                    android:layout_width="270dip"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="15dip"
-                                    android:background="@drawable/white_border"
-                                    android:ellipsize="end"
-                                    android:gravity="left|center"
-                                    android:hint="Chọn điểm khởi hành"
-                                    android:padding="5dip"
-                                    android:singleLine="true"
-                                    android:textColor="@android:color/white"
-                                    />
-                            </LinearLayout>
-                            <!-- expand more point -->
-                            <ImageButton
-                                android:id="@+id/img_expand_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:background="@android:color/transparent"
-                                android:src="@drawable/ic_more_horiz_white_24dp" />
-                            <!--add middle point -->
-                            <LinearLayout
-                                android:id="@+id/linear_middle_1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/edit_3"
-                                    android:layout_width="270dip"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dip"
-                                    android:background="@drawable/white_border"
-                                    android:ellipsize="end"
-                                    android:gravity="left|center"
-                                    android:hint="Điểm trung gian 1"
-                                    android:padding="5dip"
-                                    android:singleLine="true"
-                                    android:textColor="@android:color/white"
-                                    />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/linear_middle_2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/edit_4"
-                                    android:layout_width="270dip"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dip"
-                                    android:background="@drawable/white_border"
-                                    android:ellipsize="end"
-                                    android:gravity="left|center"
-                                    android:hint="Điểm trung gian 2"
-                                    android:padding="5dip"
-                                    android:singleLine="true"
-                                    android:textColor="@android:color/white"
-                                     />
-                            </LinearLayout>
-                            <!--end way point -->
-
-                            <LinearLayout
-                                android:id="@+id/below_view"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:id="@+id/edit_2"
-                                    android:layout_width="270dip"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dip"
-                                    android:background="@drawable/white_border"
-                                    android:ellipsize="end"
-                                    android:gravity="left|center"
-                                    android:hint="Chọn điểm đến"
-                                    android:padding="5dip"
-                                    android:singleLine="true"
-                                    android:textColor="@android:color/white"
-                                     />
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                        <ImageButton
-                            android:id="@+id/changeImageButton"
-                            android:layout_width="30dip"
-                            android:layout_height="30dip"
-                            android:layout_marginTop="30dip"
-                            android:background="@drawable/ic_import_export_white_24dp" />
-                    </LinearLayout>
-
-
-                </android.support.v7.widget.Toolbar>
-                <!--Table Layout-->
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tablayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:theme="@style/ThemeOverlay.AppCompat.Light"
-                    app:tabGravity="fill"
-                    />
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark">
+            <!--Toolbar demo-->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
                 <LinearLayout
-                    android:id="@+id/option"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimary"
-                    android:orientation="horizontal"
-                    >
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/top_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/edit_1"
+                                android:layout_width="270dip"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15dip"
+                                android:background="@drawable/white_border"
+                                android:ellipsize="end"
+                                android:gravity="left|center"
+                                android:hint="Chọn điểm khởi hành"
+                                android:padding="5dip"
+                                android:singleLine="true"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+                        <!-- expand more point -->
+                        <ImageButton
+                            android:id="@+id/img_expand_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_more_horiz_white_24dp" />
+                        <!--add middle point -->
+                        <LinearLayout
+                            android:id="@+id/linear_middle_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/edit_3"
+                                android:layout_width="270dip"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dip"
+                                android:background="@drawable/white_border"
+                                android:ellipsize="end"
+                                android:gravity="left|center"
+                                android:hint="Điểm trung gian 1"
+                                android:padding="5dip"
+                                android:singleLine="true"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/linear_middle_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/edit_4"
+                                android:layout_width="270dip"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dip"
+                                android:background="@drawable/white_border"
+                                android:ellipsize="end"
+                                android:gravity="left|center"
+                                android:hint="Điểm trung gian 2"
+                                android:padding="5dip"
+                                android:singleLine="true"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+                        <!--end way point -->
+
+                        <LinearLayout
+                            android:id="@+id/below_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/edit_2"
+                                android:layout_width="270dip"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dip"
+                                android:background="@drawable/white_border"
+                                android:ellipsize="end"
+                                android:gravity="left|center"
+                                android:hint="Chọn điểm đến"
+                                android:padding="5dip"
+                                android:singleLine="true"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <ImageButton
-                        android:id="@+id/departtime"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dip"
-                        android:layout_weight="1"
-                        android:background="?attr/colorPrimary"
-                        android:gravity="center"
-                        android:padding="5dip"
-                        android:src="@drawable/ic_schedule_white_24dp" />
-
-                    <ImageButton
-                        android:id="@+id/optional"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dip"
-                        android:layout_weight="1"
-                        android:background="?attr/colorPrimary"
-                        android:gravity="center"
-                        android:padding="5dip"
-                        android:src="@drawable/ic_settings_white_24dp" />
-
-                    <ImageButton
-                        android:id="@+id/btn_voice"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dip"
-                        android:layout_weight="1"
-                        android:background="?attr/colorPrimary"
-                        android:gravity="center"
-                        android:padding="5dip"
-                        android:src="@drawable/ic_mic_white_24dp" />
-
-                    <ImageButton
-                        android:id="@+id/btn_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="45dip"
-                        android:layout_weight="1"
-                        android:background="?attr/colorPrimary"
-                        android:gravity="center"
-                        android:padding="5dip"
-                        android:src="@drawable/ic_search_white_24dp" />
-
+                        android:id="@+id/changeImageButton"
+                        android:layout_width="30dip"
+                        android:layout_height="30dip"
+                        android:layout_marginTop="30dip"
+                        android:background="@drawable/ic_import_export_white_24dp" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="4dp"
-                    android:background="@drawable/main_drop_shadow"></View>
-            <!--View Pager-->
-            <!--<android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
 
-            <com.fpt.router.widget.CustomViewPager
-                android:id="@+id/viewpager"
+            </android.support.v7.widget.Toolbar>
+            <!--Table Layout-->
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                 />
-    </LinearLayout>
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:tabGravity="fill" />
+
+            <LinearLayout
+                android:id="@+id/option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|enterAlways"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/departtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_schedule_white_24dp" />
+
+                <ImageButton
+                    android:id="@+id/optional"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_settings_white_24dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_voice"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:gravity="center"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_mic_white_24dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dip"
+                    android:layout_weight="1"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center"
+                    android:padding="5dip"
+                    android:src="@drawable/ic_search_white_24dp" />
+            </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/main_drop_shadow"></View>
+
+        </android.support.design.widget.AppBarLayout>
+        <!--View Pager-->
+        <!--<android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
+
+        <com.fpt.router.widget.CustomViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

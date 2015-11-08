@@ -1,5 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -31,43 +31,44 @@
                 android:text="" >
             </AutoCompleteTextView>-->
             <com.fpt.router.widget.CustomSearchEditText
-                android:imeOptions="actionNext"
                 android:id="@+id/autoCompleteTextView"
                 android:layout_width="250dip"
                 android:layout_height="30dip"
-                android:layout_marginTop="10dip"
                 android:layout_marginBottom="5dip"
-                android:padding="3dip"
-                android:hint="Chọn điểm khởi hành"
-                android:textColor="@android:color/white"
+                android:layout_marginTop="10dip"
                 android:background="@drawable/white_border"
                 android:ems="10"
-                android:text="" />
+                android:hint="Chọn điểm khởi hành"
+                android:imeOptions="actionNext"
+                android:padding="3dip"
+                android:text=""
+                android:textColor="@android:color/white" />
+
             <ImageButton
+                android:id="@+id/btn_voice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/ic_mic_white_24dp"
                 android:background="?attr/colorPrimary"
-                android:id="@+id/btn_voice"
-                />
+                android:src="@drawable/ic_mic_white_24dp" />
 
             <ProgressBar
+                android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="2dp"
-                android:id="@+id/progress_bar"/>
+                android:layout_marginRight="2dp" />
 
         </android.support.v7.widget.Toolbar>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@drawable/main_drop_shadow">
-        </View>
+            android:background="@drawable/main_drop_shadow"></View>
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -81,10 +82,9 @@
             android:weightSum="1">
 
             <ListView
-                android:layout_width="match_parent"
-                android:layout_height="500dip"
                 android:id="@+id/listview_autosearch"
-                 />
+                android:layout_width="match_parent"
+                android:layout_height="500dip" />
         </LinearLayout>
 
 

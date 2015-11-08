@@ -1,6 +1,5 @@
 package com.fpt.router.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
@@ -21,9 +20,9 @@ import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
-import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.common.Location;
-import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.common.NotifyModel;
+import com.fpt.router.library.utils.BusMapUtils;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.library.utils.MapUtils;
@@ -55,7 +54,6 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.gson.Gson;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -91,13 +89,10 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
 
-    Result result;
 
-    List<INode> iNodeList;
-
-    private List<Path> paths;
     private BusDetailFourAdapter detailFourAdapter;
-    private List<Location> points = new ArrayList<>();
+
+
     Journey journey;
     List<Result> results = new ArrayList<Result>();
     List<Path> pathFinal = new ArrayList<>();
@@ -166,13 +161,9 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
         fragmentTransaction.commit();
 
         /** start get list step and show  */
-
         results = journey.results;
-
-        /*adapterItem = new BusDetailAdapter(getContext(),R.layout.adapter_show_detail_bus_steps,iNodeListFourPoint);*/
         detailFourAdapter = new BusDetailFourAdapter(getContext(), R.layout.detail_four_point_view, results);
         mListView.addHeaderView(mTransparentHeaderView);
-      /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, steps));*/
         mListView.setAdapter(detailFourAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -205,6 +196,9 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                 mMap.getUiSettings().setZoomControlsEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
+                List<Path> paths;
+                List<INode> iNodeList;
+                Result result;
 
                 for (int k = 0; k < results.size(); k++) {
                     List<LatLng> listFinal = new ArrayList<LatLng>();
@@ -221,13 +215,6 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                     for (int m = 0; m < segments.size(); m++) {
                         paths = segments.get(m).paths;
                         pathFinal.add(paths.get(0));
-                        for (int j = 0; j < paths.size(); j++) {
-                            points = paths.get(j).points;
-                            for (int n = 0; n < points.size(); n++) {
-                                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                                listFinal.add(latLng);
-                            }
-                        }
                     }
 
                     /**
@@ -235,30 +222,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                      */
                     if (iNodeList.get(0) instanceof Path) {
                         Path path = (Path) iNodeList.get(0);
-                        Location startLocation = path.stationFromLocation;
-                        latitude = startLocation.getLatitude();
-                        longitude = startLocation.getLongitude();
-                        MapUtils.drawStartPoint(mMap, latitude, longitude, path.stationFromName);
-                        LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
-                        moveToLocation(startLatLng, true);
-                        LatLng endLatLng = new LatLng(listFinal.get(0).latitude, listFinal.get(0).longitude);
-                        List<LatLng> startList = new ArrayList<>();
-                        startList.add(startLatLng);
-                        startList.add(endLatLng);
                         pathFinal.add(path);
-                        points = path.points;
-                        if (points == null) {
-                            MapUtils.drawDashedPolyLine(mMap, startList, Color.parseColor("#FF5722"));
-                        } else {
-                            List<LatLng> list = new ArrayList<>();
-
-
-                            for (int n = 0; n < points.size(); n++) {
-                                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                                list.add(latLng);
-                            }
-                            MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
-                        }
                     }
 
 
@@ -267,33 +231,11 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                      */
                     if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
                         Path path = (Path) iNodeList.get(iNodeList.size() - 1);
-                        Location endLocation = path.stationToLocation;
-                        latitude = endLocation.getLatitude();
-                        longitude = endLocation.getLongitude();
-                        MapUtils.drawEndPoint(mMap, latitude, longitude, path.stationToName);
-                        LatLng startLatLng = new LatLng(listFinal.get(listFinal.size() - 1).latitude, listFinal.get(listFinal.size() - 1).longitude);
-                        LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
-                        List<LatLng> endList = new ArrayList<>();
-                        endList.add(startLatLng);
-                        endList.add(endLatLng);
                         pathFinal.add(path);
-                        points = path.points;
-                        if (points == null) {
-                            MapUtils.drawDashedPolyLine(mMap, endList, Color.parseColor("#FF5722"));
-                        } else {
-                            List<LatLng> list = new ArrayList<>();
-                            for (int n = 0; n < points.size(); n++) {
-                                LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
-                                list.add(latLng);
-                            }
-                            MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
-                        }
-
-
                     }
-                    //add polyline
-                    MapUtils.drawLine(mMap, listFinal, Color.BLUE);
-                    MapUtils.moveCamera(mMap, latitude, longitude, 12);
+
+
+                    BusMapUtils.drawMapWithFourPoint(mMap, journey);
 
                     for (int n = 1; n < pathFinal.size(); n++) {
                         Path path = pathFinal.get(n);
@@ -540,7 +482,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                 //  . system will manage and cache data
                 //  . one-way or two-way communication.
 
-               // a. convert journey to json again
+                // a. convert journey to json again
                 Gson gson = JSONUtils.buildGson();
                 String json = gson.toJson(journey);
 

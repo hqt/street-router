@@ -5,7 +5,7 @@
     android:background="#fff"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:orientation="horizontal"
-    android:padding="5dip"
+    android:padding="10dip"
     android:textAppearance="?android:attr/textAppearanceListItemSmall">
 
     <LinearLayout
@@ -40,7 +40,8 @@
                 android:gravity="left|center"
                 android:padding="5dp"
                 android:textColor="#000"
-                android:textSize="16sp" />
+                android:textSize="15sp"
+                android:textStyle="normal"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,11 +70,10 @@
                         android:layout_marginLeft="10dip"
                         android:layout_weight="1"
                         android:gravity="left|center"
-
                         android:padding="5dip"
-                        android:textColor="#FB8C00"
+                        android:textColor="#424242"
                         android:textSize="14sp"
-                        android:textStyle="normal" />
+                        android:textStyle="italic" />
                 </LinearLayout>
 
 
@@ -105,11 +105,10 @@
                         android:layout_marginLeft="10dip"
                         android:layout_weight="1"
                         android:gravity="left|center"
-
                         android:padding="5dip"
-                        android:textColor="#FB8C00"
+                        android:textColor="#424242"
                         android:textSize="14sp"
-                        android:textStyle="normal" />
+                        android:textStyle="italic" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -117,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#000"
-                android:textSize="16sp"
+                android:textSize="15sp"
                 android:padding="5dp"
                 android:id="@+id/txtEndLocation"
                 android:layout_marginBottom="15dp"

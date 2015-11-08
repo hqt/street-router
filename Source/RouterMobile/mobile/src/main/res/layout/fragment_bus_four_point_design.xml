@@ -68,11 +68,22 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:padding="5dip"
                             android:textColor="#000"
                             android:textSize="14sp"
                             android:textStyle="normal" />
+                        <Button
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_weight="1"
+                            android:layout_margin="5dp"
+                            android:text="Xem Maps"
+                            android:background="@android:color/transparent"
+                            android:textColor="#000"
+                            android:id="@+id/btn_view_maps"
+                            android:textStyle="normal"
+                            android:textSize="13sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -84,10 +95,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_weight="2"
                             android:gravity="center|right"
                             android:padding="5dip"
-                            android:text="Tổng khoảng cách:"
+                            android:text="Tổng K/cách:"
                             android:textColor="#000"
                             android:textStyle="bold" />
 
@@ -96,7 +107,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:gravity="center"
+                            android:gravity="center|left"
                             android:padding="5dip"
                             android:textColor="#000"
                             android:textSize="15sp"

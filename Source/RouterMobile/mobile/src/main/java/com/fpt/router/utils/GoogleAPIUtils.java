@@ -60,7 +60,7 @@ public class GoogleAPIUtils {
                 .append(Double.toString(destlat));
         urlString.append(",");
         urlString.append(Double.toString(destlog));
-        urlString.append("&mode=driving&alternatives=true");
+        urlString.append("&mode=walking&alternatives=true");
         urlString.append("&key=" + key);
         Log.i("URL Make URL", urlString.toString());
         return urlString.toString();
