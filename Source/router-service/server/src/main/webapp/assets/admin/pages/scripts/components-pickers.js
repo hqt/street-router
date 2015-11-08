@@ -1,5 +1,7 @@
 var ComponentsPickers = function () {
 
+    console.log("You here in ComponentPickers");
+
     var handleDatePickers = function () {
 
         if (jQuery().datepicker) {
@@ -15,7 +17,6 @@ var ComponentsPickers = function () {
     }
 
     var handleTimePickers = function () {
-
         if (jQuery().timepicker) {
             $('.timepicker-default').timepicker({
                 autoclose: true,

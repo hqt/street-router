@@ -17,8 +17,12 @@ public class PathInfoVM {
         this.pathInfoId = pathInfo.getPathInfoId();
         this.pathInfoNo = pathInfo.getPathInfoNo();
         this.middleLocations = pathInfo.getMiddleLocations();
-        this.from = new StationVM(pathInfo.getFrom());
-        this.to = new StationVM(pathInfo.getTo());
+        if (pathInfo.getFrom() != null) {
+            this.from = new StationVM(pathInfo.getFrom());
+        }
+        if (pathInfo.getTo() != null) {
+            this.to = new StationVM(pathInfo.getTo());
+        }
     }
 
     public int getPathInfoId() {

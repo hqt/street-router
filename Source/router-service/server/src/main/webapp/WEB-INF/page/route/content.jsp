@@ -35,45 +35,6 @@
     <h3 class="page-title">
       Route Management <small>manage route of city map</small>
     </h3>
-    <%--<div class="page-bar">
-      <ul class="page-breadcrumb">
-        <li>
-          <i class="fa fa-home"></i>
-          <a href="">Home</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          <a href="#">Data Tables</a>
-          <i class="fa fa-angle-right"></i>
-        </li>
-        <li>
-          <a href="#">Managed Datatables</a>
-        </li>
-      </ul>
-      <div class="page-toolbar">
-        <div class="btn-group pull-right">
-          <button type="button" class="btn btn-fit-height grey-salt dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-            Actions <i class="fa fa-angle-down"></i>
-          </button>
-          <ul class="dropdown-menu pull-right" role="menu">
-            <li>
-              <a href="#">Action</a>
-            </li>
-            <li>
-              <a href="#">Another action</a>
-            </li>
-            <li>
-              <a href="#">Something else here</a>
-            </li>
-            <li class="divider">
-            </li>
-            <li>
-              <a href="#">Separated link</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>--%>
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
     <div class="row">
@@ -108,23 +69,25 @@
                 </tr>
               </thead>
               <tbody>
-              <form action=""
                 <c:forEach var="route" items="${routes}">
                   <tr>
+                    <input type="hidden" value="${route.routeId}" />
                     <td>
                       ${route.routeNo}
                     </td>
                     <td>
-                      <a href="${pageContext.request.contextPath}/route/detail?routeId=${route.routeId}">
-                          ${route.routeName}
+                      <a href="${pageContext.request.contextPath}/route/detail?routeId=${route.routeId}" class="href">
+                        <span>${route.routeName}</span>
                       </a>
                     </td>
                     <td>${route.routeType}</td>
                     <td>
-                      <button class="btn btn-link">Update</button>
+                      <a class="edit" href="javascript:;">
+                        Edit </a>
                     </td>
                     <td>
-                      <button class="btn btn-link">Delete</button>
+                      <a class="delete" href="javascript:;">
+                        Delete </a>
                     </td>
                   </tr>
                 </c:forEach>

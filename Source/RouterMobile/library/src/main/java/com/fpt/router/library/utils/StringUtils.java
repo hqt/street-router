@@ -3,9 +3,18 @@ package com.fpt.router.library.utils;
 import android.util.Log;
 
 import com.fpt.router.library.utils.string.AccentRemoval;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.Asset;
+import com.google.android.gms.wearable.Wearable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,6 +38,68 @@ public class StringUtils {
         return s;
     }
 
+    public static byte[] convertToByteArray(String s) {
+        try {
+            return s.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String convertToString(byte[] encode) {
+        try {
+            return new String(encode, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static byte[] convertInputStreamToByteArray(InputStream inputStream) {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+
+        int nRead;
+        byte[] data = new byte[16384];
+
+        try {
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer.toByteArray();
+    }
+
+    public static Asset convertStringToAsset(String s) {
+        byte[] encode = convertToByteArray(s);
+        return Asset.createFromBytes(encode);
+    }
+
+    public static String convertAssetToString(GoogleApiClient googleApiClient, Asset asset) {
+        ConnectionResult result =
+                googleApiClient.blockingConnect(6000, TimeUnit.MILLISECONDS);
+        if (!result.isSuccess()) {
+            Log.e("hqthao", "Sending asset. timeout when reconnecting :|");
+            return null;
+        }
+        // convert asset into a file descriptor and block until it's ready
+        InputStream assetInputStream = Wearable.DataApi.getFdForAsset(
+                googleApiClient, asset).await().getInputStream();
+
+        // googleApiClient.disconnect();
+
+        if (assetInputStream == null) {
+            Log.e("hqthao", "Requested an unknown Asset.");
+            return null;
+        }
+
+        byte[] data = convertInputStreamToByteArray(assetInputStream);
+
+        return convertToString(data);
+    }
 
     public static Pattern firstPattern = Pattern.compile("(.*\\b)từ(\\b.*)");
     public static Pattern secondPattern = Pattern.compile("(.*\\b)đến(\\b.*)");

@@ -80,17 +80,6 @@ public class MapUtils {
         // adding marker
         map.addMarker(marker);
     }
-    public static void drawBusPoint(GoogleMap map, double latitude, double longitude, String title, int bus){
-        // create marker
-        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude))
-                .title(title);
-
-        // Changing marker icon
-        marker.icon(BitmapDescriptorFactory.fromResource(bus));
-        // adding marker
-        map.addMarker(marker);
-    }
-
 
     public static void drawEndPoint(GoogleMap map, double latitude, double longitude, String title){
         // create marker
@@ -202,31 +191,7 @@ public class MapUtils {
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public static void drawMapWithTwoPointCircle(GoogleMap mMap, List<Leg> input){
-        List<Leg> listLeg = input;
-        //Start Point
-        Leg leg = listLeg.get(0);
-       /* Location start_location = leg.getDetailLocation().getStartLocation();
-        Double latitude = start_location.getLatitude();
-        Double longitude = start_location.getLongitude();
-        drawPointColor(mMap, latitude, longitude, leg.getStartAddress(), BitmapDescriptorFactory.HUE_RED);*/
 
-        //EndPoint
-        /*Location end_location = leg.getDetailLocation().getEndLocation();
-        latitude = end_location.getLatitude();
-        longitude = end_location.getLongitude();
-        drawPointColor(mMap, latitude, longitude, leg.getEndAddress(), BitmapDescriptorFactory.HUE_RED);*/
-        String encodedString;
-        List<LatLng> list;
-        encodedString = leg.getOverview_polyline();
-        list = DecodeUtils.decodePoly(encodedString);
-       /* drawLine(mMap, list, Color.RED);*/
-        MapUtils.drawDashedPolyLine(mMap, list, Color.parseColor("#FF5722"));
-
-        // Move the camera to show the marker.
-       /* LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
-        moveCamera(mMap, latLng.latitude, latLng.longitude, 13);*/
-    }
 
     public static void navigateMap(Location location) {
 

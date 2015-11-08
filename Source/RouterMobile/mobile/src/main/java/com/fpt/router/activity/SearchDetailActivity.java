@@ -20,6 +20,8 @@ import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
 import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.fragment.MotorNutiteqDetailFragment;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.FPT_SERVICE;
 import com.fpt.router.library.config.AppConstants.FileCache;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
@@ -60,7 +62,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     ImageButton buttonHideFakeGPS ;
 
     private static final int BUFFER_SIZE = 4096;
-    String host = "http://118.69.135.22/synthesis/file?voiceType=female&text=";
+
 
 
     @Override
@@ -362,7 +364,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                String fileURL = host + textInput;
+                String fileURL = FPT_SERVICE.TEXT_TO_SPEECH + textInput;
 
 
                 byte[] data = NetworkUtils.downloadSoundFile(fileURL);

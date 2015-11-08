@@ -22,9 +22,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.fpt.router.R;
+import com.fpt.router.library.model.bus.Journey;
+import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.common.Location;
+import com.fpt.router.library.utils.BusMapUtils;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.library.utils.MotorMapUtils;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -52,6 +55,8 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
     public static ArrayList<Leg> listLeg = new ArrayList<>();
     public static long DATA_NEW_TIME_GET = -1;
     public static long DATA_OLD_TIME_GET = -1;
+    public static Result result;
+    public static Journey journey;
 
     Marker now;
 
@@ -163,6 +168,12 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
             } else {
                 MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
             }
+        }else if(result != null){
+            mMap.clear();
+            BusMapUtils.drawMapWithTwoPoint(mMap,result);
+        }else if(journey != null){
+            mMap.clear();
+            BusMapUtils.drawMapWithFourPoint(mMap,journey);
         }
         Log.e("hqthao", "register bus");
         bus.register(this);
@@ -185,9 +196,15 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
 
         if(listLeg.size() == 1){
             MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
-        } else {
+        } else if(listLeg.size() > 1){
             MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
+        }else if(result != null){
+            BusMapUtils.drawMapWithTwoPoint(mMap,result);
+        }else if(journey != null){
+            BusMapUtils.drawMapWithFourPoint(mMap,journey);
         }
+
+
     }
 
     @Override

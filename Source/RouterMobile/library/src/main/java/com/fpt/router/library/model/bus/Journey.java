@@ -14,4 +14,6 @@ public class Journey implements Serializable {
     public int minutes;
     public double totalDistance;
     public List<Result> results;
+
+
 }

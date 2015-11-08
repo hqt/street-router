@@ -60,15 +60,21 @@ public class TimeUtils {
     }
 
     public static long convertPeriodToMinute(Period period) {
+        //int minutes = Minutes.standardMinutesIn(period).getMinutes();
+       // int minutes = (int) (convertToMilliseconds(period)/60);
         long millis = convertToMilliseconds(period);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(millis);
-       /* int minute = (int) (millis / (1000 * 60));*/
+        int minutes = (int) (millis / (1000 * 60));
         return minutes;
     }
 
-    public static Period covertMinuteToPeriod(int minute){
-        long millis = convertMinuteToMillis(minute);
-        Period period = new Period(millis,PeriodType.standard());
+    public static int convertToMinute(Period period){
+        int minutes = (int) (convertToMilliseconds(period)/60);
+        return minutes;
+    }
+
+    public static Period covertMinuteToPeriod(int millis){
+        Period period = new Period(millis);
+        period.toStandardSeconds();
         return period;
     }
 

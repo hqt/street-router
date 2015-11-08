@@ -7,23 +7,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.BusFourPointAdapter;
-import com.fpt.router.adapter.BusViewPagerAdapter;
-import com.fpt.router.adapter.ErrorMessageAdapter;
-import com.fpt.router.library.config.AppConstants;
-import com.fpt.router.library.model.bus.BusLocation;
+import com.fpt.router.adapter.BusFourPointViewPagerAdapter;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
@@ -32,7 +25,6 @@ import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
-import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -41,7 +33,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -63,7 +54,7 @@ public class BusFourPointFragmentDemo extends Fragment {
     private SearchRouteActivity activity;
     private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private ViewPager _view_pager;
-    BusViewPagerAdapter adapter;
+    BusFourPointViewPagerAdapter adapter;
     CirclePageIndicator pageIndicator;
 
     List<Journey> journeys;
@@ -128,7 +119,7 @@ public class BusFourPointFragmentDemo extends Fragment {
                 /*JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();*/
             } else if (SearchRouteActivity.journeys.size() > 0) {
-                adapter = new BusViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), SearchRouteActivity.journeys);
+                adapter = new BusFourPointViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), SearchRouteActivity.journeys);
                 _view_pager.setAdapter(adapter);
 
                 pageIndicator.setViewPager(_view_pager);
@@ -302,7 +293,7 @@ public class BusFourPointFragmentDemo extends Fragment {
 
                 SearchRouteActivity.journeys = journeys;
                 Log.i("Journeys ", journeys.size() + "");
-                adapter = new BusViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), SearchRouteActivity.journeys);
+                adapter = new BusFourPointViewPagerAdapter(getActivity().getSupportFragmentManager(), getContext(), SearchRouteActivity.journeys);
                 _view_pager.setAdapter(adapter);
                 pageIndicator.setViewPager(_view_pager);
             }

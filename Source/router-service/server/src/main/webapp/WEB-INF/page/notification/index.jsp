@@ -16,9 +16,14 @@
 <c:import url="../../common/header.jsp"/>
 <div class="container">
   <div class="page-container">
+
+    <c:set var="nofListVM" value="${requestScope.nofListVM}" scope="session"/>
+
     <c:import url="../../common/sidebar.jsp"/>
     <c:import url="content.jsp"/>
+    <c:import url="../../common/footer.jsp"/>
   </div>
 </div>
+<c:import url="../../common/scripts.jsp"/>
 </body>
 </html>

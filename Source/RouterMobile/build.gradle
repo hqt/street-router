@@ -25,6 +25,9 @@ allprojects {
         maven {
             url "http://repository-nutiteq.forge.cloudbees.com/release/" // added
         }
+        maven {
+            url "http://repository-nutiteq.forge.cloudbees.com/snapshot/"
+        }
     }
 }
 

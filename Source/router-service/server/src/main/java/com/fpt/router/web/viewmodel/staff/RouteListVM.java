@@ -53,17 +53,17 @@ public class RouteListVM {
         }*/
     }
 
-    public void convertEntityToModelFullAttr(List<Route> routes) {
+    public void convertEntityToModel(List<Route> routes) {
         routeListVMs = new ArrayList<>();
         for (Route route : routes) {
             routeListVMs.add(new RouteVM(route));
         }
     }
 
-    public void convertEntityToModelLessAttr(List<Route> routes) {
+    public void convertAlgorithmToModel(List<com.fpt.router.artifacter.model.algorithm.Route> routes) {
         routeListVMs = new ArrayList<>();
-        for (Route route : routes) {
-            routeListVMs.add(new RouteVM().convert(route));
+        for (com.fpt.router.artifacter.model.algorithm.Route route : routes) {
+            routeListVMs.add(new RouteVM(route));
         }
     }
 }

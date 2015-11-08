@@ -2,16 +2,19 @@ package com.fpt.router.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.library.model.motorbike.Step;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -45,12 +48,14 @@ public class RouteItemAdapter extends ArrayAdapter<Step> {
         Step step = objects.get(position);
         TextView mTitle, mSubTitle, mDistance;
         ImageView mImage,mImageWarning;
+        LinearLayout linearTitle;
 
         mTitle = (TextView) convertView.findViewById(R.id.mTitle);
         mSubTitle = (TextView) convertView.findViewById(R.id.mSubTitle);
         mDistance = (TextView) convertView.findViewById(R.id.txtDistance);
         mImage = (ImageView) convertView.findViewById(R.id.mImage);
         mImageWarning = (ImageView) convertView.findViewById(R.id.imageWarning);
+        linearTitle = (LinearLayout) convertView.findViewById(R.id.linearSubTitle);
 
         /**
          * slice html_instructions
@@ -60,19 +65,24 @@ public class RouteItemAdapter extends ArrayAdapter<Step> {
         String[] temp;
         String str = step.getInstruction();
         temp = str.split(delimiter);
+        Log.i("Ngoan delimiter ---->", Arrays.toString(temp));
         String subTitle = "";
-        for (int i= 1; i<temp.length;i++){
-            subTitle += temp[i]+"\n";
-            if((temp[i].trim().equals("")) || (temp[i].equals(null)) || (temp[i].equals("\n"))){
-                mImageWarning.setImageResource(R.drawable.mwhile);
+        if(temp.length >1){
+            for (int i= 1; i<temp.length;i++){
+                subTitle += temp[i]+"\n";
+                Log.i("Ngoan ----------->",subTitle);
+                if(temp[i].equals("Đường bị giới hạn sử dụng")){
+                    mImageWarning.setImageResource(R.drawable.warning_yellow);
+                }
+                if((!temp[i].equals("")) && (!temp[i].equals("Đường bị giới hạn sử dụng")) && (!temp[i].equals(null))){
+                    mImageWarning.setImageResource(R.drawable.information_blue);
+                }
             }
-            if(temp[i].equals("Đường bị giới hạn sử dụng")){
-                mImageWarning.setImageResource(R.drawable.warning_yellow);
-            }
-            if((!temp[i].equals("")) && (!temp[i].equals("Đường bị giới hạn sử dụng")) && (!temp[i].equals(null))){
-                mImageWarning.setImageResource(R.drawable.information_blue);
-            }
+        }else{
+            mImageWarning.setImageResource(R.drawable.mwhile);
+            linearTitle.setVisibility(View.GONE);
         }
+
         mTitle.setText(temp[0]);
         mSubTitle.setText(subTitle);
         mDistance.setText(step.getDetailLocation().getDistanceText());

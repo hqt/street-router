@@ -24,34 +24,31 @@ public class PathInfoDAO extends JPADaoImpl<PathInfo, Integer> {
         return entityManager;
     }
 
-    public static List<PathInfo> getPathInfo(Route route){
-      /*  sessionFactory = HibernateConnection.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from PathInfo where route= :route");
-        query.setEntity("route",route);
-        List<PathInfo> pathInfos = query.list();
-        session.close();*/
-        return null;
-    }
-
-    public List<Station> getStaionsOfRoutePassed(int routeId) {
-
-        List<Station> stations = new ArrayList<Station>();
-
-        Route route = new Route();
-        route.setRouteId(routeId);
+    public List<PathInfo> getPathInfosByRoute(Route route) {
         String hqlPathInfo = "select p from PathInfo p where p.route = :route";
-
-        Query query = getEntiyManager().createQuery(hqlPathInfo);
+        Query query = createEntityManager().createQuery(hqlPathInfo);
         query.setParameter("route", route);
         List<PathInfo> pathInfos = query.getResultList();
+        createEntityManager().close();
+        return pathInfos;
+    }
 
-        for (PathInfo pathInfo : pathInfos) {
-            Station stationFrom = pathInfo.getFrom();
-            stations.add(stationFrom);
+    public void deletePathInfoByRouteId(Route route) {
+        System.out.println("Deleting PathInfo...");
+
+        String hql = "select p from PathInfo p where p.route = :route";
+
+        Query query = createEntityManager().createQuery(hql);
+        query.setParameter("route", route);
+
+        List<PathInfo> deletePathInfos = query.getResultList();
+        createEntityManager().close();
+
+        System.out.println("Paths Size "+deletePathInfos.size());
+        if (!deletePathInfos.isEmpty()) {
+            for (PathInfo p : deletePathInfos) {
+                delete(p);
+            }
         }
-
-        return stations;
     }
 }

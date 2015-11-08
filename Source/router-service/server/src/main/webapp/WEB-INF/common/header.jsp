@@ -11,7 +11,7 @@
     <div class="page-header-inner container">
         <!-- BEGIN LOGO -->
         <div class="page-logo">
-            <a href="index.html">
+            <a href="${pageContext.request.contextPath}/route/list">
                 <img src="../../assets/admin/layout2/img/logo-default.png" alt="logo" class="logo-default"/>
             </a>
 
@@ -97,17 +97,6 @@
         <!-- END PAGE ACTIONS -->
         <!-- BEGIN PAGE TOP -->
         <div class="page-top">
-            <!-- BEGIN HEADER SEARCH BOX -->
-            <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
-            <form class="search-form search-form-expanded" action="extra_search.html" method="GET">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search..." name="query">
-					<span class="input-group-btn">
-					<a href="javascript:;" class="btn submit"><i class="icon-magnifier"></i></a>
-					</span>
-                </div>
-            </form>
-            <!-- END HEADER SEARCH BOX -->
             <!-- BEGIN TOP NAVIGATION MENU -->
             <div class="top-menu">
                 <ul class="nav navbar-nav pull-right">
@@ -234,9 +223,9 @@
                     <li class="dropdown dropdown-user">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                            data-close-others="true">
-                            <img alt="" class="img-circle" src="../../assets/admin/layout2/img/avatar3_small.jpg"/>
+                            <img alt="" class="img-circle" src="../../assets/admin/layout2/img/avatar.png"/>
 						<span class="username username-hide-on-mobile">
-						Nick </span>
+						Ngô Tiến Đạt (hc) </span>
                             <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
@@ -244,30 +233,10 @@
                                 <a href="extra_profile.html">
                                     <i class="icon-user"></i> My Profile </a>
                             </li>
-                            <li>
-                                <a href="page_calendar.html">
-                                    <i class="icon-calendar"></i> My Calendar </a>
-                            </li>
-                            <li>
-                                <a href="inbox.html">
-                                    <i class="icon-envelope-open"></i> My Inbox <span class="badge badge-danger">
-								3 </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="page_todo.html">
-                                    <i class="icon-rocket"></i> My Tasks <span class="badge badge-success">
-								7 </span>
-                                </a>
-                            </li>
                             <li class="divider">
                             </li>
                             <li>
-                                <a href="extra_lock.html">
-                                    <i class="icon-lock"></i> Lock Screen </a>
-                            </li>
-                            <li>
-                                <a href="login.html">
+                                <a href="${pageContext.request.contextPath}/login">
                                     <i class="icon-key"></i> Log Out </a>
                             </li>
                         </ul>

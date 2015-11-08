@@ -49,7 +49,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="5dip"
-                        android:text="Duration:"
+                        android:text="Thời gian:"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_motorbike_title" />
@@ -78,7 +78,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:padding="5dip"
-                        android:text="Distance:"
+                        android:text="K/cách:"
                         android:textSize="15sp"
                         android:textStyle="bold"
                         android:textColor="@color/text_motorbike_title" />
@@ -111,8 +111,15 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="5dp"
                     android:orientation="horizontal">
-
-                    <TextView
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:scaleType="center"
+                        android:padding="5dp"
+                        android:src="@drawable/letter_s" />
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -121,7 +128,7 @@
                         android:padding="5dp"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:textColor="@color/text_motorbike_title" />
+                        android:textColor="@color/text_motorbike_title" />-->
 
                     <TextView
                         android:id="@+id/startLocation"
@@ -141,8 +148,17 @@
                     android:paddingBottom="10dp"
                     android:paddingTop="5dp"
                     android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:scaleType="center"
+                        android:padding="5dp"
+                        android:src="@drawable/letter_m"
+                        android:id="@+id/middle_1"/>
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -152,7 +168,7 @@
                         android:padding="5dp"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:id="@+id/middle_1"/>
+                        android:id="@+id/middle_1"/>-->
 
                     <TextView
                         android:id="@+id/way_point_1"
@@ -174,7 +190,7 @@
                     android:paddingBottom="15dp"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <!--<TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="4"
@@ -183,7 +199,15 @@
                         android:textColor="@color/text_motorbike_title"
                         android:padding="5dp"
                         android:textSize="15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold" />-->
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="8"
+                        android:gravity="center"
+                        android:scaleType="center"
+                        android:padding="5dp"
+                        android:src="@drawable/letter_e" />
 
                     <TextView
                         android:id="@+id/endLocation"
