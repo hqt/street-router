@@ -27,8 +27,6 @@ public class Connection implements IEntity {
     @Column(name = "ArrivalTime")
     private LocalTime arrivalTime;
 
-
-
     @Column(name = "DepartureTime")
     private LocalTime departureTime;
 
