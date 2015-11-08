@@ -145,7 +145,7 @@ public class DataLayerListenerService extends WearableListenerService
                     // get asset
                     Asset asset = DataMapItem.fromDataItem(dataItem).getDataMap().getAsset("journey_json");
 
-                    // convert asset to string
+                    // convert asset to string.
                     String json = StringUtils.convertAssetToString(mGoogleApiClient, asset);
 
                     // convert json to object

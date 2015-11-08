@@ -212,7 +212,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
             searchString = args[0];
             Pair<String, ArrayList<AutocompleteObject>> res = GoogleAPIUtils.getAutoCompleteObject(searchString);
-            String status = res.first;
+            status = res.first;
             return res.second;
         }
 
