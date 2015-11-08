@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
 import com.fpt.router.fragment.base.AbstractMapFragment;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
@@ -21,12 +23,15 @@ import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -38,12 +43,20 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.wearable.Asset;
+import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.PutDataMapRequest;
+import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
+import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -456,6 +469,9 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
         // Create a DataMap object and send it to the data layer
         DataMap dataMap = new DataMap();
         //Requires a new thread to avoid blocking the UI
+
+        //Requires a new thread to avoid blocking the UI
+        new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_BUS_TWO_POINT, dataMap).start();
     }
 
     @Override
@@ -505,6 +521,85 @@ public class BusDetailTwoPointFragment extends AbstractMapFragment implements Go
         NotifyModel notifyModel = new NotifyModel(location,smallTittle,longTittle,smallMessage,longMessage);
         listNotifies.add(notifyModel);
         return listNotifies;
+    }
+
+    class SendToDataLayerThread extends Thread {
+        String path;
+        DataMap dataMap;
+
+        // Constructor for sending data objects to the data layer
+        SendToDataLayerThread(String p, DataMap data) {
+            path = p;
+            dataMap = data;
+        }
+
+
+        public void run() {
+            NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
+
+            for (Node node : nodes.getNodes()) {
+
+                // method 1. send over the data layer. This is reliability way for sending data.
+                // If a connection is unavailable when data is posted to the Data API,
+                // it will automatically synchronize with the other device once the connection is reestablished.
+                // this method shares and synchronizes data both devices
+                // Use when:
+                //  . synchronized data that might be modified on both side
+                //  . system will manage and cache data
+                //  . one-way or two-way communication.
+
+                // a. convert journey to json again
+                Gson gson = JSONUtils.buildGson();
+                String json = gson.toJson(result);
+
+                // b. convert string to asset
+                Asset asset = StringUtils.convertStringToAsset(json);
+
+                // b. put to data map.
+
+                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
+                putDataMapRequest.getDataMap().putAsset("result_json", asset);
+                putDataMapRequest.getDataMap().putLong("time_stamp", new Date().getTime());
+
+                PutDataRequest request = putDataMapRequest.asPutDataRequest();
+
+                // DataItems share among devices and contain small amounts of data. A DataItem has 2 parts:
+                //  1. Path: Like Message API, unique string such as com/fpt/hqt
+                //  2. Payload: a byte array limited to 100KB. if not. must use asset object
+                PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mGoogleApiClient, request);
+
+                /*// asynchronous call
+                pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
+                    @Override
+                    public void onResult(DataApi.DataItemResult dataItemResult) {
+
+                    }
+                });*/
+
+                // synchronous call
+                DataApi.DataItemResult result = pendingResult.await();
+                if (result.getStatus().isSuccess()) {
+                    Log.e("hqthao", "Sending bus data successfully");
+                } else {
+                    Log.e("hqthao", "Sending bus data failed");
+                }
+
+                // method 2. send message. One-way message communication
+                // once the message is sent. there is no confirmation that they were received
+                // Use when:
+                //  . immediately invoke action on other device, such as start an activity, start/stop music
+                //  . one-way communication
+                //  . don't want system to manage and cache messages
+                //Wearable.MessageApi.sendMessage(mGoogleApiClient, node.getId(), MessagePath.MESSAGE_PATH, null);
+
+                // method 3. send asset. When data is larger than 100KB
+                // Asset asset;
+
+                // method 4. ChanelApi.
+
+
+            }
+        }
     }
 
 }

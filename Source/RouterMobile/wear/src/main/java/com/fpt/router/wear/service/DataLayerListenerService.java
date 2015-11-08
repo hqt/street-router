@@ -6,13 +6,16 @@ import android.util.Log;
 
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.Journey;
+import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.message.LocationGPSMessage;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.wear.activity.MainActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
@@ -93,6 +96,7 @@ public class DataLayerListenerService extends WearableListenerService
                 String path = dataItem.getUri().getPath();
                 Intent intent = new Intent( this, MainActivity.class );
                 Bundle bundle = new Bundle();
+                Log.e("hqthao", "Sending path: " + path);
                 if (path.equals(AppConstants.PATH.MESSAGE_PATH_MOTOR)) {
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     Log.e("Nam", dataMap+ "");
@@ -119,16 +123,30 @@ public class DataLayerListenerService extends WearableListenerService
                     bus.post(locationGPSMessage);
                     Log.e("Nam", dataMap +"");
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_TWO_POINT)) {
+                    // get asset
+                    Asset asset = DataMapItem.fromDataItem(dataItem).getDataMap().getAsset("result_json");
+
+                    // convert asset to string
+                    String json = StringUtils.convertAssetToString(mGoogleApiClient, asset);
+
+                    // convert json to object
+                    Gson gson = JSONUtils.buildGson();
+                    Result result = gson.fromJson(json, Result.class);
+                    Log.e("hqthao", "result code: " + result.code);
 
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_FOUR_POINT)) {
-                    String json = DataMapItem.fromDataItem(dataItem).getDataMap().getString("journey_json");
+                    // get asset
+                    Asset asset = DataMapItem.fromDataItem(dataItem).getDataMap().getAsset("journey_json");
+
+                    // convert asset to string
+                    String json = StringUtils.convertAssetToString(mGoogleApiClient, asset);
+
+                    // convert json to object
                     Gson gson = JSONUtils.buildGson();
-                    Journey journey = gson.fromJson(json, new TypeToken<Journey>() {
-                    }.getType());
-                    Log.e("hqthao", journey.code);
+                    Journey journey = gson.fromJson(json, Journey.class);
+
+                    Log.e("hqthao", "journey code: " + journey.code);
                 }
-
-
             }
         }
     }

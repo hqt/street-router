@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.library.utils.MapUtils;
+import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
@@ -43,6 +45,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.Node;
@@ -432,7 +435,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
         }
     }
 
-    static int count = 0;
+    static int fuck = 0;
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -510,6 +513,8 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
         return listNotifies;
     }
 
+    static int count = 0;
+
     class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;
@@ -519,6 +524,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
             path = p;
             dataMap = data;
         }
+
 
         public void run() {
             NodeApi.GetConnectedNodesResult nodes = Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).await();
@@ -536,20 +542,22 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
 
                // a. convert journey to json again
                 Gson gson = JSONUtils.buildGson();
-
                 String json = gson.toJson(journey);
+
+                // b. convert string to asset
+                Asset asset = StringUtils.convertStringToAsset(json);
 
                 // b. put to data map.
 
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
-                putDataMapRequest.getDataMap().putString("journey_json", json);
-                putDataMapRequest.getDataMap().putLong("time", new Date().getTime());
+                putDataMapRequest.getDataMap().putAsset("journey_json", asset);
+                putDataMapRequest.getDataMap().putLong("time_stamp", new Date().getTime());
 
                 PutDataRequest request = putDataMapRequest.asPutDataRequest();
 
                 // DataItems share among devices and contain small amounts of data. A DataItem has 2 parts:
                 //  1. Path: Like Message API, unique string such as com/fpt/hqt
-                //  2. Payload: a byte array limited to 100KB
+                //  2. Payload: a byte array limited to 100KB. if not. must use asset object
                 PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi.putDataItem(mGoogleApiClient, request);
 
                 /*// asynchronous call
@@ -563,8 +571,9 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                 // synchronous call
                 DataApi.DataItemResult result = pendingResult.await();
                 if (result.getStatus().isSuccess()) {
+                    Log.e("hqthao", "Sending bus data successfully");
                 } else {
-                    // Log an error
+                    Log.e("hqthao", "Sending bus data failed");
                 }
 
                 // method 2. send message. One-way message communication
