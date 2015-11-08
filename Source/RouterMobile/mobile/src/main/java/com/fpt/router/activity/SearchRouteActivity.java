@@ -3,6 +3,7 @@ package com.fpt.router.activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -111,6 +113,11 @@ public class SearchRouteActivity extends AppCompatActivity {
         top_view = (LinearLayout) findViewById(R.id.top_view);
         below_view = (LinearLayout) findViewById(R.id.below_view);
         mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
+
+        /*int[] attrs = new int[]{R.attr.selectableItemBackground};
+        TypedArray typedArray = getApplication().obtainStyledAttributes(attrs);
+        int backgroundResource = typedArray.getResourceId(0, 0);
+        _btn_search.setBackgroundResource(backgroundResource);*/
 
         /**
          * default set hide waypoint_1 and waypoint_2

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusFourPointAdapter;
+import com.fpt.router.adapter.BusThreePointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
@@ -30,12 +31,10 @@ import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
-import com.fpt.router.widget.MyLinearLayoutManager;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,7 +82,14 @@ public class BusFourPointFragment extends Fragment {
     public String loadJSONFromAsset() {
         String json = null;
         try {
-            InputStream is = getActivity().getAssets().open("testFour.json");
+            InputStream is = null;
+            if(SearchRouteActivity.mapLocation.size() == 3){
+                is = getActivity().getAssets().open("testThree.json");
+            }
+            if(SearchRouteActivity.mapLocation.size() == 4){
+                is = getActivity().getAssets().open("testFour.json");
+            }
+
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -103,17 +109,20 @@ public class BusFourPointFragment extends Fragment {
         if (mapLocation.size() > 1) {
             View v = inflater.inflate(R.layout.fragment_bus_twopoint, container, false);
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
-            LinearLayoutManager myLinearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+            LinearLayoutManager myLinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerView.setLayoutManager(myLinearLayoutManager);
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_FOUR_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
             } else if (SearchRouteActivity.journeys.size() > 0) {
-                recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+                if(SearchRouteActivity.mapLocation.size() == 3){
+                    recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
+                }
+                if(SearchRouteActivity.mapLocation.size() == 4){
+                    recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+                }
             }
-
             return v;
-
         } else {
             TextView textView = new TextView(getActivity());
             return textView;
@@ -137,12 +146,12 @@ public class BusFourPointFragment extends Fragment {
         @Override
         protected List<Journey> doInBackground(String... args) {
             List<Journey> journeyList = new ArrayList<Journey>();
-
-            Gson gson1 = JSONUtils.buildGson();
-
+            // parse gson
+            Gson gson_parse = JSONUtils.buildGson();
+            //test with file json in asset
             if (!AppConstants.IS_REAL_BUS_SERVER) {
                 try {
-                    journeyList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
+                    journeyList = gson_parse.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
                     }.getType());
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -150,8 +159,6 @@ public class BusFourPointFragment extends Fragment {
             } else {
                 //test test with service real
                 String jsonFromServer = "";
-                JSONObject object;
-                JSONArray jsonArray;
                 List<BusLocation> busLocations = new ArrayList<BusLocation>();
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
@@ -178,27 +185,19 @@ public class BusFourPointFragment extends Fragment {
                     jsonFromServer = APIUtils.getJsonFromServer(busLocations);
 
                     try {
-                        journeyList = gson1.fromJson(jsonFromServer, new TypeToken<List<Journey>>() {
+                        journeyList = gson_parse.fromJson(jsonFromServer, new TypeToken<List<Journey>>() {
                         }.getType());
-
-
                     } catch (Exception e) {
-
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
 
                 }
-
             }
-
 
             /* *
             * GET LIST RESULT AND SET AGAIN FOR WALKING PATH
             */
-
             for (int i = 0; i < journeyList.size(); i++) {
                 Journey journey = journeyList.get(i);
                 List<Result> results = journey.results;
@@ -216,7 +215,7 @@ public class BusFourPointFragment extends Fragment {
                                 JSONObject jsonObject = new JSONObject(json);
                                 String status = jsonObject.getString("status");
                                 if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
-                                    return null;
+                                    iNodeList.set(j, path);
                                 } else {
                                     List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
                                     Leg leg = listLeg.get(0);
@@ -231,9 +230,6 @@ public class BusFourPointFragment extends Fragment {
                     }
                 }
             }
-
-
-
             return journeyList;
         }
 
@@ -253,7 +249,13 @@ public class BusFourPointFragment extends Fragment {
             activity.needToSearch = false;
 
             SearchRouteActivity.journeys = journeyList;
-            recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+            if(SearchRouteActivity.mapLocation.size() == 3){
+                recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
+            }
+            if(SearchRouteActivity.mapLocation.size() == 4){
+                recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+            }
+
         }
     }
 }

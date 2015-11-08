@@ -44,15 +44,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 BusTwoPointFragment busFragmentTwoPoint = new BusTwoPointFragment();
                 return busFragmentTwoPoint;
             }else if(mapLocation.size() == 3){
-                BusFourPointFragmentDemo busThreePointFragmentDemo = new BusFourPointFragmentDemo();
-                return busThreePointFragmentDemo;
-                /*BusFourPointFragment busFragmentThirdPoint = new BusFourPointFragment();
-                return busFragmentThirdPoint;*/
+                BusFourPointFragment busFragmentThirdPoint = new BusFourPointFragment();
+                return busFragmentThirdPoint;
+
             }else{
-                BusFourPointFragmentDemo busFourPointFragmentDemo = new BusFourPointFragmentDemo();
-                return busFourPointFragmentDemo;
-               /* BusFourPointFragment busFragmentFourPoint = new BusFourPointFragment();
-                return busFragmentFourPoint;*/
+                BusFourPointFragment busFragmentFourPoint = new BusFourPointFragment();
+                return busFragmentFourPoint;
             }
 
         }else if(position == 1){

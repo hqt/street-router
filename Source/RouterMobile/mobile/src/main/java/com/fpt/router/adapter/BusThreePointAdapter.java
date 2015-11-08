@@ -21,19 +21,20 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by ngoan on 11/5/2015.
+ * Created by ngoan on 11/7/2015.
  */
-public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapter.BusViewHoder> {
-
+public class BusThreePointAdapter extends RecyclerView.Adapter<BusThreePointAdapter.BusViewHoder> {
     List<Journey> journeys;
     Journey journey;
     List<Result> results;
-    public BusFourPointAdapter(List<Journey> journeys){
+
+    public BusThreePointAdapter(List<Journey> journeys){
         this.journeys = journeys;
     }
+
     @Override
     public BusViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_four_point,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_three_point,parent,false);
         BusViewHoder busViewHoder = new BusViewHoder(v);
         return busViewHoder;
     }
@@ -45,7 +46,6 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
         results = journey.results;
         List<String> numberBusFinal = new ArrayList<>();
         List<String> numberBusMiddle_1 = new ArrayList<>();
-        List<String> numberBusMiddle_2 = new ArrayList<>();
         List<String> numberBusEnd = new ArrayList<>();
         // Result 1
         Result result_1 = results.get(0);
@@ -61,22 +61,8 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
             Path path = (Path) iNodeList_1.get(0);
             holder.startLocation.setText("Từ "+path.stationFromName);
         }
-        //Result 2
-        Result result_2 = results.get(1);
-        List<INode> iNodeList_2 = result_2.nodeList;
-        for (int j=0;j<iNodeList_2.size();j++){
-            if(iNodeList_2.get(j) instanceof Segment){
-                Segment segment = (Segment) iNodeList_2.get(j);
-                numberBusMiddle_2.add(String.valueOf(segment.routeNo));
-                numberBusFinal.add(String.valueOf(segment.routeNo));
-            }
-        }
-        if(iNodeList_2.get(0) instanceof Path){
-            Path path = (Path) iNodeList_2.get(0);
-            holder.way_point_1.setText("Qua "+path.stationFromName);
-        }
         //Result 3
-        Result result_3 = results.get(2);
+        Result result_3 = results.get(1);
         List<INode> iNodeList_3 = result_3.nodeList;
         for (int j=0;j<iNodeList_3.size();j++){
             if(iNodeList_3.get(j) instanceof Segment){
@@ -87,7 +73,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
         }
         if(iNodeList_3.get(0) instanceof Path){
             Path path = (Path) iNodeList_3.get(0);
-            holder.way_point_2.setText("Qua "+path.stationFromName);
+            holder.way_point_1.setText("Qua "+path.stationFromName);
         }
         if(iNodeList_3.get(iNodeList_3.size() - 1) instanceof Path){
             Path path = (Path) iNodeList_3.get(iNodeList_3.size() - 1);
@@ -105,8 +91,6 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
         holder.txtTotalBusNumber.setText(Arrays.toString(nBusFinal));
         String[] busNumberWayPoint_1 = numberBusMiddle_1.toArray(new String[numberBusMiddle_1.size()]);
         holder.txtBusNumberWayPoint1.setText("Đi "+Arrays.toString(busNumberWayPoint_1));
-        String[] busNumberWayPoint_2 = numberBusMiddle_2.toArray(new String[numberBusMiddle_2.size()]);
-        holder.txtBusNumberWayPoint2.setText("Đi "+Arrays.toString(busNumberWayPoint_2));
         String[] busNumberEnd = numberBusEnd.toArray(new String[numberBusEnd.size()]);
         holder.txtBusNumberEnd.setText("Đi "+Arrays.toString(busNumberEnd));
 
@@ -117,20 +101,17 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
         return journeys.size();
     }
 
-    public class BusViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+    public class BusViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private final Context context;
         TextView txtDuration;
         TextView txtTotalBusNumber;
         TextView startLocation;
         TextView way_point_1;
         TextView txtBusNumberWayPoint1;
-        TextView way_point_2;
-        TextView txtBusNumberWayPoint2;
         TextView endLocation;
         TextView txtBusNumberEnd;
         TextView txtTitle;
-
         public BusViewHoder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -141,13 +122,10 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
             startLocation = (TextView) itemView.findViewById(R.id.startLocation);
             way_point_1 = (TextView) itemView.findViewById(R.id.way_point_1);
             txtBusNumberWayPoint1 = (TextView) itemView.findViewById(R.id.txtBusNumberWayPoint1);
-            way_point_2 = (TextView) itemView.findViewById(R.id.way_point_2);
-            txtBusNumberWayPoint2 = (TextView) itemView.findViewById(R.id.txtBusNumberWayPoint2);
             endLocation = (TextView) itemView.findViewById(R.id.endLocation);
             txtBusNumberEnd = (TextView) itemView.findViewById(R.id.txtBusNumberEnd);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
         }
-
 
         @Override
         public void onClick(View view) {

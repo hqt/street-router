@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
@@ -96,9 +97,9 @@ public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHo
         TextView startLocation;
         TextView endLocation;
         TextView way_point_1;
-        TextView middle_1;
+        ImageView middle_1;
         TextView way_point_2;
-        TextView middle_2;
+        ImageView middle_2;
         TextView title;
 
         public RouterViewHolder(View itemView) {
@@ -113,8 +114,8 @@ public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHo
             way_point_1 = (TextView) itemView.findViewById(R.id.way_point_1);
             way_point_2 = (TextView) itemView.findViewById(R.id.way_point_2);
             title = (TextView) itemView.findViewById(R.id.txtTitle);
-            middle_1 = (TextView) itemView.findViewById(R.id.middle_1);
-            middle_2 = (TextView) itemView.findViewById(R.id.middle_2);
+            middle_1 = (ImageView) itemView.findViewById(R.id.middle_1);
+            middle_2 = (ImageView) itemView.findViewById(R.id.middle_2);
         }
 
         @Override

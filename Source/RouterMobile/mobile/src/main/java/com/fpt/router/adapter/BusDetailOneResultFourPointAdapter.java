@@ -1,20 +1,15 @@
 package com.fpt.router.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.library.model.bus.BusDetail;
 import com.fpt.router.library.model.bus.BusImage;
 import com.fpt.router.library.model.bus.INode;
@@ -26,45 +21,43 @@ import com.fpt.router.library.utils.TimeUtils;
 import org.lucasr.twowayview.TwoWayView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by asus on 10/13/2015.
+ * Created by ngoan on 10/21/2015.
  */
-public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.BusViewHoder> {
+public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<BusDetailOneResultFourPointAdapter.BusItemViewHolder> {
 
     List<Result> results;
     Result result;
-
-    public BusTwoPointAdapter(List<Result> results){
+    public BusDetailOneResultFourPointAdapter(List<Result> results){
         this.results = results;
     }
 
     @Override
-    public BusViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_two_point,parent,false);
-        BusViewHoder busViewHoder = new BusViewHoder(v);
-        return busViewHoder;
+    public BusItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_detail_one_result_four_point,parent,false);
+        BusItemViewHolder viewHolder = new BusItemViewHolder(v);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final BusViewHoder holder, int position) {
+    public void onBindViewHolder(final BusItemViewHolder holder, int position) {
+
         List<BusImage> images = new ArrayList<BusImage>();
         List<BusDetail> details = new ArrayList<>();
         result = results.get(position);
-        List<String> numberBusFinal = new ArrayList<>();
         List<INode> nodeList = result.nodeList;
-        //set list image
+        //set list image and detail bus
         if(nodeList.get(0) instanceof Path){
             Path path = (Path) nodeList.get(0);
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
             images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
             String startWalking = "Từ "+path.stationFromName;
-            long time = TimeUtils.convertPeriodToMinute(path.time);
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,startWalking,String.valueOf(time)+"p"));
-            holder.startLocation.setText(startWalking);
+            long time = TimeUtils.convertToMinute(path.time);
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,startWalking, String.valueOf(time)+"p"));
         }
+
         for (int i= 0 ;i<nodeList.size() -1;i++){
             if(nodeList.get(i) instanceof Segment){
                 Segment segment = (Segment) nodeList.get(i);
@@ -78,59 +71,26 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
                 busNameDown += paths.get(paths.size()-1).stationToName;
                 details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp,busNameUp,String.valueOf(segment.routeNo)));
                 details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp,busNameDown,""));
-                numberBusFinal.add(String.valueOf(segment.routeNo));
             }
         }
         if(nodeList.get(nodeList.size() - 1) instanceof Path){
             Path path = (Path) nodeList.get(nodeList.size() - 1);
             String endWalking = "Đến "+path.stationToName;
-            long time = TimeUtils.convertPeriodToMinute(path.time);
+            long time = TimeUtils.convertToMinute(path.time);
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
             details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,endWalking,String.valueOf(time)+"p"));
-            holder.endLocation.setText(endWalking);
         }
 
-        if(position == 0){
-            holder.txtTitle.setText("Tuyến đường được đề nghị ");
-        }else if(position == 1){
-            holder.txtTitle.setText("Thêm kết quả cho đi xe bus ");
-        }else{
-            holder.txtTitle.setVisibility(View.GONE);
-        }
 
         BusImageAdapter showImage = new BusImageAdapter(holder.context,images);
         holder.tvList.setAdapter(showImage);
-
         BusDetailContentFourPointAdapter busDetail = new BusDetailContentFourPointAdapter(holder.context,details);
-        holder.listView.setAdapter(busDetail);
-        setListViewHeightBasedOnItems(holder.listView);
-
+        holder.lvItemsBusDetails.setAdapter(busDetail);
+        setListViewHeightBasedOnItems(holder.lvItemsBusDetails);
         holder.txtDuration.setText(result.minutes+" phút");
         double totalDistance = result.totalDistance/1000;
         totalDistance = Math.floor(totalDistance*100)/100;
         holder.txtDistance.setText(String.valueOf(totalDistance)+" km");
-        String[]  nBusFinal = numberBusFinal.toArray(new String[numberBusFinal.size()]);
-        holder.txtBusNumberEnd.setText("Đi "+Arrays.toString(nBusFinal));
-        holder.viewDetail.setVisibility(View.GONE);
-        holder.btnShow.setVisibility(View.VISIBLE);
-        holder.btnHide.setVisibility(View.GONE);
-        holder.btnShow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.viewDetail.setVisibility(View.VISIBLE);
-                holder.btnShow.setVisibility(View.GONE);
-                holder.btnHide.setVisibility(View.VISIBLE);
-            }
-        });
-        holder.btnHide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                holder.viewDetail.setVisibility(View.GONE);
-                holder.btnShow.setVisibility(View.VISIBLE);
-                holder.btnHide.setVisibility(View.GONE);
-            }
-        });
-
     }
 
     @Override
@@ -138,55 +98,23 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         return results.size();
     }
 
-
-    public class BusViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        private final  Context context;
+    public class BusItemViewHolder extends RecyclerView.ViewHolder {
+        private final Context context;
         TwoWayView tvList;
+        ListView lvItemsBusDetails;
         TextView txtDuration;
         TextView txtDistance;
-        TextView txtTitle;
-        LinearLayout viewDetail;
-        ListView listView;
-        ImageButton btnShow;
-        ImageButton btnHide;
-        TextView startLocation;
-        TextView endLocation;
-        TextView txtBusNumberEnd;
 
-        public BusViewHoder(View itemView) {
+
+        public BusItemViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             context = itemView.getContext();
-
             txtDistance = (TextView) itemView.findViewById(R.id.txtDistance);
             txtDuration = (TextView) itemView.findViewById(R.id.txtDurationTime);
             tvList = (TwoWayView) itemView.findViewById(R.id.lvItems);
-            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
-            viewDetail = (LinearLayout) itemView.findViewById(R.id.viewDetail);
-            btnShow = (ImageButton) itemView.findViewById(R.id.btnShowDetail);
-            btnHide = (ImageButton) itemView.findViewById(R.id.btnHide);
-            listView = (ListView) itemView.findViewById(R.id.lvBusDetails);
-            startLocation = (TextView) itemView.findViewById(R.id.startLocation);
-            endLocation = (TextView) itemView.findViewById(R.id.endLocation);
-            txtBusNumberEnd = (TextView) itemView.findViewById(R.id.txtBusNumberEnd);
-
+            lvItemsBusDetails = (ListView) itemView.findViewById(R.id.lvBusDetails);
         }
 
-        @Override
-        public void onClick(View view) {
-            Intent intent = new Intent(context, SearchDetailActivity.class);
-            Bundle bundle = new Bundle();
-            Result result = getResult(getPosition());
-            bundle.putSerializable("result", result);
-            intent.putExtras(bundle);
-            view.getContext().startActivity(intent);
-
-        }
-    }
-
-    public Result getResult(int position){
-        return results.get(position);
     }
 
     /**
@@ -227,4 +155,6 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         }
 
     }
+
+
 }

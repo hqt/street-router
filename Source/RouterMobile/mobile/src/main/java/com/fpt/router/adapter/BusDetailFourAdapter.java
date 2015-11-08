@@ -2,12 +2,10 @@ package com.fpt.router.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -15,9 +13,6 @@ import android.widget.TextView;
 import com.fpt.router.R;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Result;
-import com.fpt.router.widget.LockableListView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +45,13 @@ public class BusDetailFourAdapter extends ArrayAdapter<Result> {
 
         result = results.get(position);
         ListView listView = (ListView) convertView.findViewById(R.id.lvItems);
-        TextView duration = (TextView) convertView.findViewById(R.id.txtDurationTime);
+        /*TextView duration = (TextView) convertView.findViewById(R.id.txtDurationTime);
         TextView distance = (TextView) convertView.findViewById(R.id.txtDistance);
 
         duration.setText(result.minutes+ " phút");
         double totalDistance = result.totalDistance/1000;
         totalDistance = Math.floor(totalDistance*100)/100;
-        distance.setText(String.valueOf(totalDistance) + " km");
+        distance.setText(String.valueOf(totalDistance) + " km");*/
         iNodeList = result.nodeList;
         BusDetailAdapter adapterItem = new BusDetailAdapter(mContext, R.layout.adapter_show_detail_bus_steps,iNodeList);
         listView.setAdapter(adapterItem);

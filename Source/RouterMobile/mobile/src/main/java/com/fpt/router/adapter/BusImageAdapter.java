@@ -21,7 +21,7 @@ public class BusImageAdapter extends ArrayAdapter<BusImage> {
     private final List<BusImage> values;
 
     public BusImageAdapter(Context context, List<BusImage> values){
-        super(context, R.layout.bus_item_image, values);
+        super(context, R.layout.adapter_bus_image, values);
         this.context = context;
         this.values = values;
     }
@@ -30,7 +30,7 @@ public class BusImageAdapter extends ArrayAdapter<BusImage> {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.bus_item_image, parent, false);
+        View rowView = inflater.inflate(R.layout.adapter_bus_image, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         TextView textView = (TextView) rowView.findViewById(R.id.txtBusNumber);
         BusImage busImage = values.get(position);

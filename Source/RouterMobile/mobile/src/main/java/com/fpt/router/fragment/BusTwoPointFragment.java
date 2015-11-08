@@ -83,6 +83,10 @@ public class BusTwoPointFragment extends Fragment {
 
     }
 
+    /**
+     * load json from asset test not server
+     * @return
+     */
     public String loadJSONFromAsset() {
         String json = null;
         try {
@@ -109,15 +113,11 @@ public class BusTwoPointFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
 
-                if( Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     new JSONParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else {
                     new JSONParseTask().execute();
                 }
-
-                /*JSONParseTask jsonParseTask = new JSONParseTask();
-                jsonParseTask.execute();*/
-
             } else if (SearchRouteActivity.results.size() > 0) {
                 recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
                 recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
@@ -220,7 +220,7 @@ public class BusTwoPointFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(json);
                             String status = jsonObject.getString("status");
                             if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
-                                iNodeList.set(j,path);
+                                iNodeList.set(j, path);
                             } else {
                                 List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
                                 Leg leg = listLeg.get(0);
@@ -256,9 +256,6 @@ public class BusTwoPointFragment extends Fragment {
             SearchRouteActivity.results = resultList;
             recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
             recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
-
         }
     }
-
-
 }

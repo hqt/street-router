@@ -7,18 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
-import com.fpt.router.fragment.BusDetailTwoPointFragment;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.utils.TimeUtils;
-import com.fpt.router.utils.UIUtils;
 
 import java.util.List;
 
@@ -71,9 +66,9 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
             if(distance > 1000){
                 distance = path.distance/1000;
                 distance = Math.floor(distance*100)/100;
-                txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
+                txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertToMinute(path.time) +" phút)");
             }else{
-                txtDetail.setText("Đi bộ "+ (int)path.distance +" m ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
+                txtDetail.setText("Đi bộ "+ (int)path.distance +" m ( Khoảng "+ TimeUtils.convertToMinute(path.time) +" phút)");
             }
 
         }
