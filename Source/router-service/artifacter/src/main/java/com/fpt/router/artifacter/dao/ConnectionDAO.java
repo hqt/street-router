@@ -14,16 +14,12 @@ import java.util.List;
  * Created by asus on 9/27/2015.
  */
 public class ConnectionDAO extends JPADaoImpl<Connection, Integer> {
-    SessionFactory sessionFactory = null;
 
-    public List<Connection> getListConnectionWithTrip(Trip trip){
-        sessionFactory = HibernateConnection.getSessionFactory();
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Query query = session.createQuery("from Connection where trip= :trip");
-        query.setEntity("trip", trip);
-        List<Connection> connectionList  = query.list();
-        session.close();
-        return connectionList ;
+    public void deleteConnections(List<Connection> connections) {
+        System.out.println("Delete connection size " +connections.size());
+        for (Connection c : connections) {
+            delete(c);
+        }
+        System.out.println("Done Delete Connections");
     }
 }

@@ -17,7 +17,7 @@
 <div class="container">
   <div class="page-container">
 
-    <c:set var="staffs" value="${requestScope.staffs}" scope="request"/>
+    <c:set var="staffsVM" value="${requestScope.staffsVM}" scope="request"/>
 
     <c:import url="../../common/sidebar.jsp"/>
 

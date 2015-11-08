@@ -12,11 +12,11 @@
 <head>
     <c:import url="../../common/library.jsp"/>
     <style>
-        a {color: #333;}
-        a:hover {
+        .href {color: #333;}
+        .href:hover {
             color: #3175af;
         }
-        a:focus, a:hover, a:active {
+        .href:focus, a:hover, a:active {
             outline: 0;
         }
     </style>

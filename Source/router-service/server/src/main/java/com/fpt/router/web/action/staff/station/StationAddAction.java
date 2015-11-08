@@ -1,5 +1,6 @@
-package com.fpt.router.web.action.staff;
+package com.fpt.router.web.action.staff.station;
 
+import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.StationDAO;
 import com.fpt.router.artifacter.model.entity.Station;
 import com.fpt.router.web.action.common.IAction;
@@ -29,6 +30,6 @@ public class StationAddAction implements IAction {
 
         Station staiton = new Station();
 
-        return null;
+        return Config.WEB.PAGE + "/station/add.jsp";
     }
 }

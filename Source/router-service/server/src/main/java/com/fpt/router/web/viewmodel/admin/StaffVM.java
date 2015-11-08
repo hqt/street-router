@@ -6,24 +6,64 @@ package com.fpt.router.web.viewmodel.admin;
  */
 public class StaffVM {
 
-    private int code;
-    private String name;
+    private int id;
+    private String fullName;
+    private String accountName;
     private String email;
+    private String password;
+    private String phoneNumber;
 
-    public int getCode() {
-        return code;
+    public StaffVM() {
+
     }
 
-    public void setCode(int code) {
-        this.code = code;
+    public int getId() {
+        return id;
     }
 
-    public String getName() {
-        return name;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public StaffVM(int id, String fullName, String accountName, String email, String password, String phoneNumber) {
+        this.id = id;
+        this.fullName = fullName;
+        this.accountName = accountName;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {

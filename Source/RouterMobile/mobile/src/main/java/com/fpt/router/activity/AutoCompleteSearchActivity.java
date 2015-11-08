@@ -212,8 +212,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             //https://maps.googleapis.com/maps/api/place/autocomplete/json?input=Vict&types=geocode&language=fr&sensor=true&key=AddYourOwnKeyHere
             searchString = args[0];
             Pair<String, ArrayList<AutocompleteObject>> res = GoogleAPIUtils.getAutoCompleteObject(searchString);
+<<<<<<< HEAD
             status = res.first;
             return res.second;
+=======
+            if(res != null) {
+                String status = res.first;
+                return res.second;
+            } else {
+                return null;
+            }
+>>>>>>> 506778a5a8d566132fd9144d8e2af7e8fbdaf110
         }
 
         //then our post
@@ -235,10 +244,10 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             }*/
             if (results == null) {
                 results = new ArrayList<>();
-                if (status.equals("OVER_QUERY_LIMIT")) {
-                    Toast.makeText(AutoCompleteSearchActivity.this, "Hết quota cmnr", Toast.LENGTH_SHORT).show();
-                } else if (!NetworkUtils.isNetworkConnected()) {
+                if (!NetworkUtils.isNetworkConnected()) {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Phải kết nối Internet", Toast.LENGTH_SHORT).show();
+                } else if (status.equals("OVER_QUERY_LIMIT")) {
+                    Toast.makeText(AutoCompleteSearchActivity.this, "Hết quota cmnr", Toast.LENGTH_SHORT).show();
                 }
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, R.layout.list_item_autocomplete_search, results);
                 /*return;*/
