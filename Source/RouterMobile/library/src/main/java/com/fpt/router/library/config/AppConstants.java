@@ -32,7 +32,7 @@ public class AppConstants {
 
     public static final class FPT_SERVICE {
         private static final String FPT_SERVER = "http://118.69.135.22";
-        public static final String TEXT_TO_SPEECH = "/synthesis/file?voiceType=female&text=";
+        public static final String TEXT_TO_SPEECH = FPT_SERVER+"/synthesis/file?voiceType=female&text=";
     }
 
     public static final class PATH {

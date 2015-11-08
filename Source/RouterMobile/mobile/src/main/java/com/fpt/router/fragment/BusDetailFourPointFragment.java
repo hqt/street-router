@@ -1,7 +1,8 @@
 package com.fpt.router.fragment;
 
+import android.content.Context;
+import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,8 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
+import com.fpt.router.adapter.BusDetailAdapter;
 import com.fpt.router.adapter.BusDetailFourAdapter;
-import com.fpt.router.fragment.base.AbstractMapFragment;
+import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
+import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Journey;
@@ -22,12 +25,11 @@ import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.common.NotifyModel;
-import com.fpt.router.library.utils.BusMapUtils;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
-import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
+import com.fpt.router.utils.NutiteqMapUtil;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
@@ -53,6 +55,12 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.gson.Gson;
+import com.nutiteq.core.MapPos;
+import com.nutiteq.core.MapVec;
+import com.nutiteq.datasources.LocalVectorDataSource;
+import com.nutiteq.layers.VectorLayer;
+import com.nutiteq.utils.AssetUtils;
+import com.nutiteq.vectorelements.NMLModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,8 +69,8 @@ import java.util.List;
 /**
  * Created by ngoan on 10/23/2015.
  */
-public class BusDetailFourPointFragment extends AbstractMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        SlidingUpPanelLayout.PanelSlideListener, LocationListener {
+public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OrientationManager.OnChangedListener {
 
     private static final String ARG_LOCATION = "arg.location";
     // latitude and longitude
@@ -88,7 +96,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Toolbar toolbar;
-
+    private OrientationManager mOrientationManager;
 
     private BusDetailFourAdapter detailFourAdapter;
 
@@ -96,6 +104,10 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
     Journey journey;
     List<Result> results = new ArrayList<Result>();
     List<Path> pathFinal = new ArrayList<>();
+    private BusDetailAdapter adapterItem;
+    NMLModel modelCar;
+    LocalVectorDataSource vectorDataSource;
+    VectorLayer vectorLayer;
 
     public BusDetailFourPointFragment() {
     }
@@ -111,7 +123,7 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_bus_detail_twopoint, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
 
         toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
 
@@ -154,14 +166,49 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
         super.onActivityCreated(savedInstanceState);
 
         journey = (Journey) getArguments().getSerializable("journey");
-
-        mMapFragment = SupportMapFragment.newInstance();
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.mapContainer, mMapFragment, "map");
-        fragmentTransaction.commit();
-
-        /** start get list step and show  */
+/** start get list step and show  */
         results = journey.results;
+        List<Path> paths;
+        List<INode> iNodeList;
+        Result result;
+
+        for (int k = 0; k < results.size(); k++) {
+            List<LatLng> listFinal = new ArrayList<LatLng>();
+            result = results.get(k);
+            iNodeList = result.nodeList;
+
+            List<Segment> segments = new ArrayList<Segment>();
+            for (int i = 0; i < iNodeList.size(); i++) {
+                if (iNodeList.get(i) instanceof Segment) {
+                    Segment segment = (Segment) iNodeList.get(i);
+                    segments.add(segment);
+                }
+            }
+            for (int m = 0; m < segments.size(); m++) {
+                paths = segments.get(m).paths;
+                pathFinal.add(paths.get(0));
+            }
+
+            /**
+             * start location
+             */
+            if (iNodeList.get(0) instanceof Path) {
+                Path path = (Path) iNodeList.get(0);
+                pathFinal.add(path);
+            }
+
+
+            /**
+             * end location
+             */
+            if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
+                Path path = (Path) iNodeList.get(iNodeList.size() - 1);
+                pathFinal.add(path);
+            }
+        }
+
+
+        GPSServiceOld.setListNotify(getNotifyList());
         detailFourAdapter = new BusDetailFourAdapter(getContext(), R.layout.detail_four_point_view, results);
         mListView.addHeaderView(mTransparentHeaderView);
         mListView.setAdapter(detailFourAdapter);
@@ -179,83 +226,41 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        vectorDataSource = new LocalVectorDataSource(baseProjection);
+        // Initialize a vector layer with the previous data source
+        vectorLayer = new VectorLayer(vectorDataSource);
+        // Add the previous vector layer to the map
+        mapView.getLayers().add(vectorLayer);
+        drawMap();
 
-        setUpMapIfNeeded();
+      //  setUpMapIfNeeded();
     }
 
-    private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
-            // Try to obtain the map from the SupportMapFragment.
-            mMap = mMapFragment.getMap();
-            // Check if we were successful in obtaining the map.
-            if (mMap != null) {
 
-
-                mMap.getUiSettings().setCompassEnabled(false);
-                mMap.getUiSettings().setZoomControlsEnabled(false);
-                mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-                List<Path> paths;
-                List<INode> iNodeList;
-                Result result;
-
-                for (int k = 0; k < results.size(); k++) {
-                    List<LatLng> listFinal = new ArrayList<LatLng>();
-                    result = results.get(k);
-                    iNodeList = result.nodeList;
-
-                    List<Segment> segments = new ArrayList<Segment>();
-                    for (int i = 0; i < iNodeList.size(); i++) {
-                        if (iNodeList.get(i) instanceof Segment) {
-                            Segment segment = (Segment) iNodeList.get(i);
-                            segments.add(segment);
-                        }
-                    }
-                    for (int m = 0; m < segments.size(); m++) {
-                        paths = segments.get(m).paths;
-                        pathFinal.add(paths.get(0));
-                    }
-
-                    /**
-                     * start location
-                     */
-                    if (iNodeList.get(0) instanceof Path) {
-                        Path path = (Path) iNodeList.get(0);
-                        pathFinal.add(path);
-                    }
-
-
-                    /**
-                     * end location
-                     */
-                    if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
-                        Path path = (Path) iNodeList.get(iNodeList.size() - 1);
-                        pathFinal.add(path);
-                    }
-
-
-                    BusMapUtils.drawMapWithFourPoint(mMap, journey);
-
-                    for (int n = 1; n < pathFinal.size(); n++) {
-                        Path path = pathFinal.get(n);
-                        MapUtils.drawPointIcon(mMap,
-                                path.stationFromLocation.getLatitude(),
-                                path.stationFromLocation.getLongitude(),
-                                "", R.drawable.info);
-                    }
-                    GPSServiceOld.setListNotify(getNotifyList());
-                }
-
-            }
+    private void drawMap() {
+        NutiteqMapUtil.drawMapWithBusFourPoint(mapView, vectorDataSource, getResources(), baseProjection, journey);
+        /*for (int n = 1; n < pathFinal.size(); n++) {
+            Path path = pathFinal.get(n);
+            NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    path.stationFromLocation.getLatitude(),
+                    path.stationFromLocation.getLongitude(),
+                    R.drawable.orange_small);
         }
+*/
+        SensorManager sensorManager =
+                (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
+        mOrientationManager = new OrientationManager(sensorManager);
+
+        mOrientationManager.addOnChangedListener(this);
+        mOrientationManager.start();
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
         // In case Google Play services has since become available.
-        setUpMapIfNeeded();
+        drawMap();
     }
 
     @Override
@@ -409,10 +414,15 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
 
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
-        if (now != null) {
-            now.remove();
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        if (modelCar == null) {
+            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("bus32.nml"));
+            modelCar.setScale(5);
+            vectorDataSource.add(modelCar);
+        } else {
+            modelCar.setPos(markerPos);
+            mapView.setFocusPos(markerPos, 0f);
         }
-        now = MapUtils.drawPointColor(mMap, lat, lng, "", BitmapDescriptorFactory.HUE_RED);
     }
 
     @Override
@@ -456,6 +466,21 @@ public class BusDetailFourPointFragment extends AbstractMapFragment implements G
     }
 
     static int count = 0;
+
+    @Override
+    public void onOrientationChanged(OrientationManager orientationManager) {
+        float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
+        //System.out.println(azimut);
+        mapView.setMapRotation(360 - azimut, 0f);
+        if (modelCar != null) {
+            modelCar.setRotation(new MapVec(0, 0, 1), 360 - azimut);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(OrientationManager orientationManager) {
+
+    }
 
     class SendToDataLayerThread extends Thread {
         String path;

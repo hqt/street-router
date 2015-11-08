@@ -8,6 +8,7 @@ import android.view.ContextThemeWrapper;
 
 import com.fpt.router.R;
 import com.fpt.router.library.model.bus.INode;
+import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
@@ -265,5 +266,100 @@ public class NutiteqMapUtil {
         mapView.setFocusPos(markerPos, 1);
         mapView.setZoom(12, 1);
 
+    }
+
+    public static void drawMapWithBusFourPoint(MapView mapView, LocalVectorDataSource vectorDataSource, Resources res, Projection baseProjection, Journey journey) {
+        List<Result> results = journey.results;
+        List<Location> points;
+        List<Path> paths;
+        List<INode> iNodeList;
+        double latitude = 0.0;
+        double longitude = 0.0;
+        Result result;
+        for (int k = 0; k < results.size(); k++) {
+            List<LatLng> listFinal = new ArrayList<LatLng>();
+            result = results.get(k);
+            iNodeList = result.nodeList;
+
+            List<Segment> segments = new ArrayList<Segment>();
+            for (int i = 0; i < iNodeList.size(); i++) {
+                if (iNodeList.get(i) instanceof Segment) {
+                    Segment segment = (Segment) iNodeList.get(i);
+                    segments.add(segment);
+                }
+            }
+            for (int m = 0; m < segments.size(); m++) {
+                paths = segments.get(m).paths;
+                for (int j = 0; j < paths.size(); j++) {
+                    points = paths.get(j).points;
+                    for (int n = 0; n < points.size(); n++) {
+                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                        listFinal.add(latLng);
+                    }
+                }
+            }
+
+            /**
+             * start location
+             */
+            if (iNodeList.get(0) instanceof Path) {
+                Path path = (Path) iNodeList.get(0);
+                Location startLocation = path.stationFromLocation;
+                latitude = startLocation.getLatitude();
+                longitude = startLocation.getLongitude();
+                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.yellow);
+                LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
+                //moveToLocation(startLatLng, true);
+                LatLng endLatLng = new LatLng(listFinal.get(0).latitude, listFinal.get(0).longitude);
+                List<LatLng> startList = new ArrayList<>();
+                startList.add(startLatLng);
+                startList.add(endLatLng);
+                points = path.points;
+                if (points == null) {
+                    drawLineNutite(vectorDataSource, Color.parseColor("#FF5722"), startList, baseProjection, 4);
+                } else {
+                    List<LatLng> list = new ArrayList<>();
+                    for (int n = 0; n < points.size(); n++) {
+                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                        list.add(latLng);
+                    }
+                    drawLineNutite(vectorDataSource, Color.parseColor("#FF5722"), list, baseProjection, 4);
+                }
+            }
+
+
+            /**
+             * end location
+             */
+            if (iNodeList.get(iNodeList.size() - 1) instanceof Path) {
+                Path path = (Path) iNodeList.get(iNodeList.size() - 1);
+                Location endLocation = path.stationToLocation;
+                latitude = endLocation.getLatitude();
+                longitude = endLocation.getLongitude();
+                drawMarkerNutiteq(mapView, vectorDataSource, res, latitude, longitude, R.drawable.green_1);
+                LatLng startLatLng = new LatLng(listFinal.get(listFinal.size() - 1).latitude, listFinal.get(listFinal.size() - 1).longitude);
+                LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
+                List<LatLng> endList = new ArrayList<>();
+                endList.add(startLatLng);
+                endList.add(endLatLng);
+                points = path.points;
+                if (points == null) {
+                    drawLineNutite(vectorDataSource, Color.parseColor("#FF5722"), endList, baseProjection, 4);
+                } else {
+                    List<LatLng> list = new ArrayList<>();
+                    for (int n = 0; n < points.size(); n++) {
+                        LatLng latLng = new LatLng(points.get(n).getLatitude(), points.get(n).getLongitude());
+                        list.add(latLng);
+                    }
+                    drawLineNutite(vectorDataSource, Color.parseColor("#FF5722"), list, baseProjection, 4);
+                }
+            }
+            //add polyline
+            drawLineNutite(vectorDataSource, Color.parseColor("#2196F3"), listFinal, baseProjection, 4);
+
+            MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(listFinal.get(0).longitude, listFinal.get(0).latitude));
+            mapView.setFocusPos(markerPos, 1);
+            mapView.setZoom(12, 1);
+        }
     }
 }

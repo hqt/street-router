@@ -3,7 +3,6 @@ package com.fpt.router.fragment;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,9 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fpt.router.R;
-import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusDetailAdapter;
-import com.fpt.router.fragment.base.AbstractMapFragment;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.config.AppConstants;
@@ -26,10 +23,8 @@ import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.model.common.NotifyModel;
-import com.fpt.router.library.utils.BusMapUtils;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
-import com.fpt.router.library.utils.MapUtils;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
@@ -64,6 +59,7 @@ import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
 import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.NMLModel;
+import com.fpt.router.framework.OrientationManager.OnChangedListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,7 +69,7 @@ import java.util.List;
  * Created by asus on 10/13/2015.
  */
 public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OrientationManager.OnChangedListener {
+        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OnChangedListener {
 
     private static final String ARG_LOCATION = "arg.location";
     // latitude and longitude
@@ -234,13 +230,13 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
 
     private void drawMap() {
         NutiteqMapUtil.drawMapWithBusTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, result);
-        for (int n = 1; n < pathFinal.size(); n++) {
+        /*for (int n = 1; n < pathFinal.size(); n++) {
             Path path = pathFinal.get(n);
             NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
                     path.stationFromLocation.getLatitude(),
                     path.stationFromLocation.getLongitude(),
                     R.drawable.orange_small);
-        }
+        }*/
 
         SensorManager sensorManager =
                 (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
@@ -435,8 +431,8 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
     public void drawCurrentLocation(Double lat, Double lng) {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
         if (modelCar == null) {
-            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
-            modelCar.setScale(400);
+            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("bus32.nml"));
+            modelCar.setScale(5);
             vectorDataSource.add(modelCar);
         } else {
             modelCar.setPos(markerPos);
