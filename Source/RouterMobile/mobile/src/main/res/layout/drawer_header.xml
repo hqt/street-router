@@ -20,27 +20,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="189dp"
-android:background="?attr/colorPrimaryDark">
+android:background="@drawable/wallpaper">
 
-<com.fpt.router.library.model.common.RoundedImageView
-    android:layout_width="70dp"
-    android:layout_height="70dp"
+<!--<com.fpt.router.library.model.common.RoundedImageView
+    android:layout_width="50dp"
+    android:layout_height="50dp"
     android:gravity="center"
     android:id="@+id/imageView"
     android:src="@drawable/ic_no_user"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="51dp" />
+    android:layout_marginTop="51dp" />-->
 
 <TextView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:text="Ngoan Tran"
+    android:textSize="18sp"
+    android:textStyle="normal"
+    android:padding="5dp"
     android:id="@+id/textview"
     android:gravity="center"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:textColor="@color/common_signin_btn_dark_text_default"
     android:layout_gravity="center_vertical"
-    android:layout_below="@+id/imageView"
-    android:layout_centerHorizontal="true"/>
+    android:layout_alignParentBottom="true" />
 </RelativeLayout>

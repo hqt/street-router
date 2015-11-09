@@ -131,6 +131,16 @@
                         android:padding="5dp"
                         android:textColor="@color/text_motorbike_content"
                         android:textSize="14sp" />
+                    <!--<com.fpt.router.widget.roboto.RobotoMTextView
+                        android:id="@+id/startLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="left"
+                        android:padding="5dp"
+                        android:textColor="@android:color/holo_red_light"
+                        android:textSize="14sp"
+                        />-->
                 </LinearLayout>
 
                 <LinearLayout

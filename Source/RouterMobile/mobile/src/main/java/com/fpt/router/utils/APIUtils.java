@@ -2,7 +2,6 @@ package com.fpt.router.utils;
 
 import android.util.Log;
 
-import com.fpt.router.activity.SearchOptionActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
@@ -25,15 +24,12 @@ public class APIUtils {
         String addressEnd = null;
         String addressMiddleFirst = null;
         String addressMiddleSecond = null;
-        int hour = 0;
-        int minute = 0;
+        int hour = SearchRouteActivity.pHour;
+        int minute =SearchRouteActivity.pMinute;
         Calendar now = Calendar.getInstance();
-        if((SearchRouteActivity.pHour < 0) || (SearchRouteActivity.pMinute < 0)){
+        if((hour < 0) || (minute < 0)){
             hour = now.get(Calendar.HOUR_OF_DAY);
             minute = now.get(Calendar.MINUTE);
-        }else {
-            hour = SearchRouteActivity.pHour;
-            minute = SearchRouteActivity.pMinute;
         }
         if(busLocations.size() == 2){
            startPoint =  busLocations.get(0);
