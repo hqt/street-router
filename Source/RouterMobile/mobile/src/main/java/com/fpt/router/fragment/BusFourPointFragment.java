@@ -208,6 +208,7 @@ public class BusFourPointFragment extends Fragment {
                     for (int j = 0; j < iNodeList.size(); j++) {
                         if (iNodeList.get(j) instanceof Path) {
                             Path path = (Path) iNodeList.get(j);
+                            Path origin_path = (Path) iNodeList.get(j);
                             LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
                             LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
                             String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
@@ -221,6 +222,8 @@ public class BusFourPointFragment extends Fragment {
                                     List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
                                     Leg leg = listLeg.get(0);
                                     path = DecodeUtils.covertLegToPath(leg);
+                                    path.stationFromName = origin_path.stationFromName;
+                                    path.stationToName = origin_path.stationToName;
                                     iNodeList.set(j, path);
                                 }
 

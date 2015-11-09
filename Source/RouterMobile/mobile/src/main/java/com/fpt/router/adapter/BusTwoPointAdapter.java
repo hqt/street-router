@@ -2,7 +2,9 @@ package com.fpt.router.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,12 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
     @Override
     public void onBindViewHolder(final BusViewHoder holder, int position) {
+
+        if(position%2 !=0){
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
+        }
+
+
         List<BusImage> images = new ArrayList<BusImage>();
         List<BusDetail> details = new ArrayList<>();
         result = results.get(position);
@@ -61,8 +69,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
             images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
             String startWalking = "Từ địa chỉ " + path.stationFromName;
-            long time = TimeUtils.convertPeriodToMinute(path.time);
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf(time) + "p"));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf((int)path.distance) + " m"));
             holder.startLocation.setText(startWalking);
         }
         for (int i = 0; i < nodeList.size() - 1; i++) {
@@ -77,16 +84,15 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
                 busNameUp += paths.get(0).stationFromName;
                 busNameDown += paths.get(paths.size() - 1).stationToName;
                 details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameUp, String.valueOf(segment.routeNo)));
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, ""));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, String.valueOf(segment.routeNo)));
                 numberBusFinal.add(String.valueOf(segment.routeNo));
             }
         }
         if (nodeList.get(nodeList.size() - 1) instanceof Path) {
             Path path = (Path) nodeList.get(nodeList.size() - 1);
             String endWalking = "Đến địa chỉ " + path.stationToName;
-            long time = TimeUtils.convertPeriodToMinute(path.time);
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf(time) + "p"));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf((int)path.distance) + " m"));
             holder.endLocation.setText(endWalking);
         }
 
@@ -153,6 +159,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         TextView startLocation;
         TextView endLocation;
         TextView txtBusNumberEnd;
+        CardView cardView;
 
         public BusViewHoder(View itemView) {
             super(itemView);
@@ -170,6 +177,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             startLocation = (TextView) itemView.findViewById(R.id.startLocation);
             endLocation = (TextView) itemView.findViewById(R.id.endLocation);
             txtBusNumberEnd = (TextView) itemView.findViewById(R.id.txtBusNumberEnd);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
 
         }
 

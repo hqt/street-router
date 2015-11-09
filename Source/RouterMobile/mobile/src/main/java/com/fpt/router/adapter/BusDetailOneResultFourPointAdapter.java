@@ -55,8 +55,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
             images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
             String startWalking = "Từ địa chỉ " + path.stationFromName;
-            long time = TimeUtils.convertToMinute(path.time);
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf(time) + "p"));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf((int)path.distance) + " m"));
         }
 
         for (int i = 0; i < nodeList.size() - 1; i++) {
@@ -71,7 +70,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
                 busNameUp += paths.get(0).stationFromName;
                 busNameDown += paths.get(paths.size() - 1).stationToName;
                 details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameUp, String.valueOf(segment.routeNo)));
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, ""));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, String.valueOf(segment.routeNo)));
             }
         }
         if (nodeList.get(nodeList.size() - 1) instanceof Path) {
@@ -79,7 +78,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
             String endWalking = "Đến địa chỉ " + path.stationToName;
             long time = TimeUtils.convertToMinute(path.time);
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf(time) + "p"));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf((int)path.distance) + " m"));
         }
 
 
