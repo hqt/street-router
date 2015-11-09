@@ -69,11 +69,17 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static boolean isFakeGPS = false;
     public static boolean isPlaySound = false;
     private static List<NotifyModel> listNotify;
+    private static int distance;
+
 
     public static void setListNotify(List<NotifyModel> listNotify) {
         GPSServiceOld.listNotify = listNotify;
         initializeState();
      }
+
+    public static void setDistance(int input) {
+        distance = input;
+    }
 
     public static void turnOnFakeGPS(List<LatLng> latLngs) {
         fakeGPSList = latLngs;
@@ -266,7 +272,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
         LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                 listNotify.get(stepIndex).location.getLongitude());
-        if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < AppConstants.NEAR_CIRCULAR_RANGE) {
+        if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
             notifyIndex = stepIndex;
             stepIndex = (stepIndex + 1) % listNotify.size();
             return true;

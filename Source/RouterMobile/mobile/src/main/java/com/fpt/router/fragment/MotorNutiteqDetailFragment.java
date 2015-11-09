@@ -29,6 +29,7 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.service.GPSServiceOld;
+import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
@@ -55,9 +56,13 @@ import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.Marker;
 import com.nutiteq.vectorelements.NMLModel;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.fpt.router.library.utils.DecodeUtils.*;
 
 /**
  * Created by asus on 10/12/2015.
@@ -386,7 +391,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     @Override
     public List<LatLng> getFakeGPSList() {
-        List<LatLng> listFakeGPS = DecodeUtils.getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
+        List<LatLng> listFakeGPS = getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
         return listFakeGPS;
     }
 
@@ -396,9 +401,9 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         for(int i = 0; i < listStep.size(); i++) {
             com.fpt.router.library.model.common.Location location = listStep.get(i).
                     getDetailLocation().getStartLocation();
-            String smallTittle = listStep.get(i).getManeuver();
+            String smallTittle = JSONParseUtils.replayManeuver((listStep.get(i).getManeuver()));
             String longTittle = "Thông tin chi tiết";
-            Pair<String, String> detailInstruction = DecodeUtils.getDetailInstruction(
+            Pair<String, String> detailInstruction = getDetailInstruction(
                     listStep.get(i).getInstruction());
             String smallMessage = detailInstruction.first;
             String longMessage = detailInstruction.second;
@@ -409,41 +414,35 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         return listNotifies;
     }
 
+
     private List<NotifyModel> modifyNotifyList(List<NotifyModel> notifyModelList) {
         List<LatLng> listFakeGPS = getFakeGPSList();
-        int indexOfListFakeGPS = 1;
-        boolean isCatch = false;
-        for(int x = 0; x < listStep.size(); x++) {
-            if(listStep.get(x).getDetailLocation().getDistance() > 2000) {
-                int count = listStep.get(x).getDetailLocation().getDistance() / 1000;
-                int index = 1;
-                for (int y = 0; y < listFakeGPS.size(); y++) {
-                    if(DecodeUtils.calculateDistance(listFakeGPS.get(y),
-                            new LatLng(notifyModelList.get(x).location.getLatitude(),
-                                    notifyModelList.get(x).location.getLongitude())) <= 50) {
-                        isCatch = true;
-                    }
-                    if(isCatch &&(DecodeUtils.calculateDistance(listFakeGPS.get(y),
-                            new LatLng(notifyModelList.get(x).location.getLatitude(),
-                                    notifyModelList.get(x).location.getLongitude())) >= 1000*index)
-                            && (index < count)) {
-                        com.fpt.router.library.model.common.Location location =
-                                new com.fpt.router.library.model.common.Location(
-                                        listFakeGPS.get(y).latitude,
-                                        listFakeGPS.get(y).longitude);
-                        String smallTittle = "Tiếp tục đi thẳng";
-                        String longTittle = "Thông tin chi tiết";
-                        String smallMessage = "Xin tiếp tục đi thẳng trên con đường hiện tại";
-                        String longMessage = "";
-                        NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
-                        notifyModelList.add(x+indexOfListFakeGPS, notifyModel);
-                        index++;
-                        indexOfListFakeGPS++;
-                    }
+        int notifyIndex = 0;
+        for(int n = 0; n < listFakeGPS.size(); n++) {
+            if (notifyIndex < notifyModelList.size() - 1) {
+                LatLng startLatLng = new LatLng(notifyModelList.get(notifyIndex).location.getLatitude(),
+                        notifyModelList.get(notifyIndex).location.getLongitude());
+                LatLng endLatLng = new LatLng(notifyModelList.get(notifyIndex + 1).location.getLatitude(),
+                        notifyModelList.get(notifyIndex + 1).location.getLongitude());
+                if (calculateDistance(listFakeGPS.get(n), endLatLng) < 50) {
+                    notifyIndex++;
+                } else if ((calculateDistance(listFakeGPS.get(n), startLatLng) >= 1000) &&
+                        (calculateDistance(listFakeGPS.get(n), endLatLng) >= 1000)) {
+                    com.fpt.router.library.model.common.Location location =
+                            new com.fpt.router.library.model.common.Location(
+                                    listFakeGPS.get(n).latitude,
+                                    listFakeGPS.get(n).longitude);
+                    String smallTittle = "Tiếp tục đi thẳng";
+                    String longTittle = "Thông tin chi tiết";
+                    String smallMessage = "Xin tiếp tục đi thẳng trên con đường hiện tại";
+                    String longMessage = "";
+                    NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
+                    notifyModelList.add(notifyIndex +1, notifyModel);
+                    notifyIndex++;
                 }
             }
         }
-        return notifyModelList;
+                 return notifyModelList;
     }
 
     @Override

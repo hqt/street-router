@@ -1,5 +1,6 @@
 package com.fpt.router.utils;
 
+import com.fpt.router.R;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.motorbike.DetailLocation;
 import com.fpt.router.library.model.motorbike.DetailLocationTwoPoint;
@@ -193,35 +194,69 @@ public class JSONParseUtils {
 
     public static String replayManeuver(String maneuver) {
         String text = maneuver;
-        if (text.equals("Keep going")) {
-            text = text.replace("Keep going", "Đi thẳng");
-        } else if (text.equals("turn-left")) {
-            text = text.replace("turn-left", "Rẽ trái");
-        } else if (text.equals("turn-right")) {
-            text = text.replace("turn-right", "Rẽ phải");
-        } else if (text.equals("turn-slight-left")) {
-            text = text.replace("turn-slight-left", "Chếch sang trái");
-        } else if (text.equals("turn-slight-right")) {
-            text = text.replace("turn-slight-right", "Rẽ phải một tí");
-        } else if (text.equals("roundabout-right")) {
-            text = text.replace("roundabout-right", "Vòng xoay bên phải");
-        } else if (text.equals("roundabout-left")) {
-            text = text.replace("roundabout-right", "Vòng xoay bên trái");
-        } else if (text.equals("merge")) {
-            text = text.replace("merge", "Giao nhau");
-        } else if (text.equals("keep-right")) {
-            text = text.replace("keep-right", "Đi bên phải");
+        if(text.equals("turn-sharp-left")){
+            text = "Ngoặt trái";
         }
-        if (text.equals("keep-left")) {
-            text = text.replace("keep-left", "Đi bên trái");
-        } else if (text.equals("ramp-right")) {
-            text = text.replace("ramp-right", "Đi theo lối ra");
-        } else if (text.equals("straight")) {
-            text = text.replace("straight", "Đi thẳng");
-        } else {
-            text = "Quay về";
+        if(text.equals("uturn-right")){
+            text = "Quay đầu về bên phải";
         }
-
+        if(text.equals("turn-slight-right")){
+            text = "Chếch sang phải";
+        }
+        if(text.equals("merge")) {
+            text = "Nhập vào";
+        }
+        if(text.equals("roundabout-left")){
+            text = "Tại vòng xuyến";
+        }
+        if(text.equals("roundabout-right")) {
+            text = "Tại vòng xuyến";
+        }
+        if(text.equals("uturn-left")) {
+            text = "Quay đầu về bên trái";
+        }
+        if(text.equals("turn-slight-left")){
+            text = "Chếch bên trái";
+        }
+        if(text.equals("turn-left")){
+            text = "Rẻ trái";
+        }
+        if(text.equals("ramp-right")){
+            text = "Đi theo lối ra bên phải";
+        }
+        if(text.equals("turn-right")){
+            text = "Rẻ phải";
+        }
+        if(text.equals("fork-right")){
+            text = "Ngã ba bên phải";
+        }
+        if(text.equals("straight")) {
+            text = "Đi thẳng";
+        }
+        if(text.equals("fork-left")){
+            text = "Ngã ba bên trái";
+        }
+        if(text.equals("ferry-train")) {
+            text = "Qua sông";
+        }
+        if(text.equals("turn-sharp-right")) {
+            text = "Ngoặt phải";
+        }
+        if(text.equals("ramp-left")){
+            text = "Đi theo lối ra bên trái";
+        }
+        if(text.equals("ferry")){
+            text = "Đi phà";
+        }
+        if(text.equals("keep-left")) {
+            text = "Đi về bên trái";
+        }
+        if(text.equals("keep-right")) {
+            text = "Đi về bên Phải";
+        }
+        if(text.equals("Keep going")){
+            text = "Đi thẳng";
+        }
         return text;
     }
 
