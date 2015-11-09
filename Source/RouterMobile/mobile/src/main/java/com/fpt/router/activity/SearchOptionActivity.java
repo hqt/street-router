@@ -65,6 +65,7 @@ public class SearchOptionActivity extends Activity {
         optimizeCheckbox.setChecked(optimize);
         transferNumberSpinner.setSelection(transferNumber - 1);
         walkingDistanceEditText.setText(walkingDistance + "");
+        walkingDistanceEditText.setSelection(walkingDistanceEditText.getText().length());
 /**
  * check position disable when motorbike
  */

@@ -49,6 +49,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:hint="192.168.1.1"
+                android:textCursorDrawable="@null"
                 android:paddingLeft="10dp"
                 android:textColor="#000" />
         </LinearLayout>
@@ -76,6 +77,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:hint="8080"
+                android:textCursorDrawable="@null"
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColor="#000" />
@@ -104,6 +106,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:hint="120"
+                android:textCursorDrawable="@null"
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColor="#000" />
@@ -133,6 +136,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:hint="120"
+                android:textCursorDrawable="@null"
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColor="#000" />
@@ -161,6 +165,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:hint="120"
+                android:textCursorDrawable="@null"
                 android:inputType="number"
                 android:paddingLeft="10dp"
                 android:textColor="#000" />
@@ -212,7 +217,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:orientation="horizontal"
             android:paddingRight="30dp">
@@ -223,7 +228,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="#2196F3"
-                android:text="OK"
+                android:text="Đồng ý"
                 android:textColor="#fff" />
 
             <Button
@@ -232,7 +237,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="#2196F3"
-                android:text="Cancel"
+                android:text="Huỷ bỏ"
                 android:textColor="#fff" />
         </LinearLayout>
 
