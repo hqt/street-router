@@ -68,6 +68,7 @@ dependencies {
     compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'jp.wasabeef:recyclerview-animators:2.0.0'
     compile 'com.nutiteq:nutiteq-sdk:3.2.1'
+    compile 'com.code-troopers.betterpickers:library:2.2.1'
     compile project(':library')
 }
 

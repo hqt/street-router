@@ -1,28 +1,26 @@
 package com.fpt.router.activity;
 
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
 import com.fpt.router.library.config.AppConstants.SearchField;
@@ -32,13 +30,18 @@ import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.utils.NetworkUtils;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class SearchRouteActivity extends AppCompatActivity {
+public class SearchRouteActivity extends AppCompatActivity implements RadialTimePickerDialogFragment.OnTimeSetListener{
+
+
+
 
     public enum SearchType {
         BUS_TWO_POINT,
@@ -51,9 +54,8 @@ public class SearchRouteActivity extends AppCompatActivity {
     private ImageButton _depart_time;
     private ImageButton _btn_search;
     private ImageButton mbVoiceSearch;
-    public static int pHour;
-    public static int pMinute;
-    static final int TIME_DIALOG_ID = 0;
+    public static int pHour = -1;
+    public static int pMinute = -1;
     private TextView edit_1;
     private TextView edit_2;
     private TextView edit_3;
@@ -65,7 +67,6 @@ public class SearchRouteActivity extends AppCompatActivity {
     public static List<Result> results = new ArrayList<Result>();
     public static List<Journey> journeys = new ArrayList<Journey>();
     public static List<Leg> listLeg = new ArrayList<>();
-    // public static List<AutocompleteObject> listLocation = new ArrayList<>();
     public static Map<Integer, AutocompleteObject> mapLocation = new HashMap<>();
     public static Boolean optimize = true;
     public static int walkingDistance = 300;
@@ -84,11 +85,13 @@ public class SearchRouteActivity extends AppCompatActivity {
     public boolean needToSearch = false;
     public SearchType searchType;
 
+    private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_route);
+
         /**set Toolbar*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -113,6 +116,7 @@ public class SearchRouteActivity extends AppCompatActivity {
         top_view = (LinearLayout) findViewById(R.id.top_view);
         below_view = (LinearLayout) findViewById(R.id.below_view);
         mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
+
 
         /*int[] attrs = new int[]{R.attr.selectableItemBackground};
         TypedArray typedArray = getApplication().obtainStyledAttributes(attrs);
@@ -296,12 +300,16 @@ public class SearchRouteActivity extends AppCompatActivity {
         });
 
         //get time
-
-
         _depart_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDialog(TIME_DIALOG_ID);
+                FragmentManager fm = getSupportFragmentManager();
+                DateTime now = DateTime.now();
+                RadialTimePickerDialogFragment timePickerDialog = RadialTimePickerDialogFragment
+                        .newInstance(SearchRouteActivity.this, now.getHourOfDay(), now.getMinuteOfHour(),
+                                DateFormat.is24HourFormat(SearchRouteActivity.this));
+                timePickerDialog.setThemeDark(false);
+                timePickerDialog.show(fm, FRAG_TAG_TIME_PICKER);
             }
         });
 
@@ -398,32 +406,6 @@ public class SearchRouteActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-            case TIME_DIALOG_ID:
-                return new TimePickerDialog(this,
-                        mTimeSetListener, pHour, pMinute, false);
-        }
-        return null;
-    }
-
-    private TimePickerDialog.OnTimeSetListener mTimeSetListener =
-            new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    pHour = hourOfDay;
-                    pMinute = minute;
-                    displayToast();
-                }
-            };
-
-    /**
-     *
-     */
-    private void displayToast() {
-        Toast.makeText(this, "Time choosen is " + pad(pHour) + ":" + pad(pMinute), Toast.LENGTH_SHORT).show();
-    }
-
     /**
      * Add padding to numbers less than ten
      */
@@ -469,6 +451,24 @@ public class SearchRouteActivity extends AppCompatActivity {
             edit_4.setText(mapLocation.get(SearchField.WAY_POINT_2).getName());
         } else {
             edit_4.setText("");
+        }
+    }
+
+
+    @Override
+    public void onTimeSet(RadialTimePickerDialogFragment radialTimePickerDialogFragment, int hourOfDay, int minute) {
+        pHour = hourOfDay;
+        pMinute = minute;
+    }
+
+    @Override
+    public void onResume() {
+        // Example of reattaching to the fragment
+        super.onResume();
+        RadialTimePickerDialogFragment rtpd = (RadialTimePickerDialogFragment) getSupportFragmentManager().findFragmentByTag(
+                FRAG_TAG_TIME_PICKER);
+        if (rtpd != null) {
+            rtpd.setOnTimeSetListener(this);
         }
     }
 
