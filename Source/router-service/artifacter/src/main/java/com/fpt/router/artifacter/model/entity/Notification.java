@@ -8,8 +8,8 @@ import java.util.List;
  * Purpose:
  * Created by Huynh Quang Thao on 11/8/15.
  */
-@Entity
-@Table(name = "Notification")
+/*@Entity
+@Table(name = "Notification")*/
 public class Notification implements IEntity {
     //region Hibernate field
     @Id

@@ -49,8 +49,10 @@ public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHo
 
         if(position == 0){
             holder.title.setText("Tuyến đường được đề nghị ");
-        }else{
+        }else if(position == 1){
             holder.title.setText("Thêm kết quả cho đi motorbike ");
+        }else{
+            holder.title.setVisibility(View.GONE);
         }
         int duration = 0;
         int distance = 0;

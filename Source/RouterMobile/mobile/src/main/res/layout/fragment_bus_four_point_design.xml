@@ -1,130 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearClickEvent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView">
+    android:background="#EEEEEE"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EEEEEE"
-        android:id="@+id/linearClickEvent"
-        android:orientation="vertical">
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="2"
-            android:gravity="left|center"
-            android:padding="5dip"
-            android:textColor="#616161"
-            android:textSize="16sp" />
+            android:id="@+id/txtBusNumberInToolbar"
+            android:layout_width="200dp"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_gravity="right"
+            android:gravity="center|left"
+            android:padding="10dp"
+            android:text="abc"
+            android:textColor="@android:color/white"
+            android:textStyle="normal" />
+    </android.support.v7.widget.Toolbar>
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/card_view"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/main_drop_shadow" />
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/card_margin_horizontal"
-            android:layout_marginRight="@dimen/card_margin_horizontal"
-            android:layout_weight="1"
-            card_view:cardBackgroundColor="#EEEEEE"
-            card_view:cardCornerRadius="0dp"
-            card_view:cardElevation="0dp">
+            android:background="#EEEEEE"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="left|center"
+                android:padding="5dip"
+                android:textColor="#616161"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/card_margin_horizontal"
+                android:layout_marginRight="@dimen/card_margin_horizontal"
+                android:layout_weight="1"
+                card_view:cardBackgroundColor="#EEEEEE"
+                card_view:cardCornerRadius="0dp"
+                card_view:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
                     android:orientation="vertical">
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center|right"
-                            android:padding="5dip"
-                            android:text="Tổng thời gian:"
-                            android:textColor="#000"
-                            android:textStyle="bold" />
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/txtDurationTime"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:padding="5dip"
-                            android:textColor="#000"
-                            android:textSize="14sp"
-                            android:textStyle="normal" />
-                        <Button
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:layout_weight="1"
-                            android:layout_margin="5dp"
-                            android:text="Xem Maps"
-                            android:background="@android:color/transparent"
-                            android:textColor="#000"
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center|right"
+                                    android:padding="5dip"
+                                    android:text="Tổng thời gian:"
+                                    android:textColor="#000"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtDurationTime"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center|right"
+                                    android:padding="5dip"
+                                    android:textColor="#000"
+                                    android:textSize="14sp"
+                                    android:textStyle="normal" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center|right"
+                                    android:padding="5dip"
+                                    android:text="Tổng K/cách:"
+                                    android:textColor="#000"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/txtDistance"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:gravity="center|right"
+                                    android:padding="5dip"
+                                    android:textColor="#000"
+                                    android:textSize="15sp"
+                                    android:textStyle="normal" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <ImageView
                             android:id="@+id/btn_view_maps"
-                            android:textStyle="normal"
-                            android:textSize="13sp"/>
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight="4"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/map_detail" />
+
                     </LinearLayout>
 
-                    <LinearLayout
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:layout_height="2dp"
+                        android:background="@drawable/main_drop_shadow"></View>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="2"
-                            android:gravity="center|right"
-                            android:padding="5dip"
-                            android:text="Tổng K/cách:"
-                            android:textColor="#000"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtDistance"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:gravity="center|left"
-                            android:padding="5dip"
-                            android:textColor="#000"
-                            android:textSize="15sp"
-                            android:textStyle="normal" />
-
-                    </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@drawable/main_drop_shadow"></View>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
 
-</ScrollView>

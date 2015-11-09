@@ -136,10 +136,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             public boolean onKey(View view, int keyCode, KeyEvent event) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (keyCode) {
-                        case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
-                        case KeyEvent.FLAG_EDITOR_ACTION:
-                        case 12:
                            return returnPreviousActivity();
                         default:
                             break;

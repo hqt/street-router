@@ -82,9 +82,18 @@ public class SettingActivity extends AppCompatActivity {
         okButton = (Button) findViewById(R.id.btn_ok);
         cancelButton = (Button) findViewById(R.id.btn_cancel);
 
+        // set default value
         ipEditText.setText(PrefStore.getServerIp());
         portEditText.setText(PrefStore.getServerPort() + "");
         stimulateSpeedText.setText(PrefStore.getSimulationSpeed() + "");
+        busNotifyDistanceText.setText(PrefStore.getBusNotifyDistance() + "");
+        motorNotifyDistanceText.setText(PrefStore.getMotorNotifyDistance() + "");
+
+        // set cursor at end of line
+        ipEditText.setSelection(ipEditText.getText().length());
+        portEditText.setSelection(portEditText.getText().length());
+        stimulateSpeedText.setSelection(stimulateSpeedText.getText().length());
+        busNotifyDistanceText.setSelection(busNotifyDistanceText.getText().length());
 
         // set status for download map function
         progressBar.setVisibility(View.INVISIBLE);
@@ -98,7 +107,7 @@ public class SettingActivity extends AppCompatActivity {
                 // start download
                 if (isChecked) {
                     Log.e("hqthao", "start downloading package");
-                    packageManager.startPackageListDownload();
+                    // packageManager.startPackageListDownload();
 
                     // waiting this line until list download
                     // packageManager.startPackageDownload(NUTITEQ.NOTITEQ_VN_CODE);
@@ -108,7 +117,8 @@ public class SettingActivity extends AppCompatActivity {
                 else {
                     PrefStore.setIsMapDownloaded(false);
                     Log.e("hqthao", "remove package");
-                    packageManager.startPackageRemove(NUTITEQ.NOTITEQ_VN_CODE);
+                    // should not remove :)
+                    // packageManager.startPackageRemove(NUTITEQ.NOTITEQ_VN_CODE);
                     progressBar.setVisibility(View.INVISIBLE);
                 }
             }

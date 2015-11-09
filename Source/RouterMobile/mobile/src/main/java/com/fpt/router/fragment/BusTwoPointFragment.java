@@ -20,6 +20,7 @@ import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchBus;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
@@ -153,7 +154,7 @@ public class BusTwoPointFragment extends Fragment {
             //test with file in assets
             Gson gson1 = JSONUtils.buildGson();
 
-            if (!AppConstants.IS_REAL_BUS_SERVER) {
+            if (!SearchBus.IS_REAL_BUS_SERVER) {
                 try {
                     resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                     }.getType());
@@ -212,6 +213,7 @@ public class BusTwoPointFragment extends Fragment {
                 for (int j = 0; j < iNodeList.size(); j++) {
                     if (iNodeList.get(j) instanceof Path) {
                         Path path = (Path) iNodeList.get(j);
+                        Path origin_path = (Path) iNodeList.get(j);
                         LatLng startLatLng = new LatLng(path.stationFromLocation.getLatitude(), path.stationFromLocation.getLongitude());
                         LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
                         String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
@@ -225,6 +227,8 @@ public class BusTwoPointFragment extends Fragment {
                                 List<Leg> listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
                                 Leg leg = listLeg.get(0);
                                 path = DecodeUtils.covertLegToPath(leg);
+                                path.stationFromName = origin_path.stationFromName;
+                                path.stationToName = origin_path.stationToName;
                                 iNodeList.set(j, path);
                             }
 

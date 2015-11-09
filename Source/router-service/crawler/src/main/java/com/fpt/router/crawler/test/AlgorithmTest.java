@@ -38,13 +38,6 @@ public class AlgorithmTest {
 
     public static void main(String[] args) {
 
-        String str = "thao";
-        Matcher m = LEGAL_KEY_PATTERN.matcher(str);
-        boolean res = m.matches();
-
-
-        String a = "toi muon di den cong vien phan mem quang trung";
-
         JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();
         JPADaoImpl.disableStaticEntityManager();
@@ -110,26 +103,40 @@ public class AlgorithmTest {
         duc_ba.longitude = 106.698994;
         String addressDucBa = "Đức Bà";
 
+        // au co
+        Location au_co = new Location();
+        au_co.latitude = 10.797649;
+        au_co.longitude = 106.637749;
+
+        // tran chanh chieu
+        Location tran_chanh_chieu = new Location();
+        tran_chanh_chieu.latitude = 10.751997;
+        tran_chanh_chieu.longitude = 106.653127;
+
+        Location ha_lo = new Location();
+        ha_lo.latitude = 10.869391;
+        ha_lo.longitude = 106.805186;
+
         MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
 
         List<Location> middleLocations = new ArrayList<Location>();
-        middleLocations.add(duc_ba);
-        middleLocations.add(cho_ba_chieu);
-        middleLocations.add(ben_xe_nong_lam);
+        middleLocations.add(au_co);
+        middleLocations.add(tran_chanh_chieu);
+        middleLocations.add(ha_lo);
 
         List<String> middleAddress = new ArrayList<String>();
-        middleAddress.add(addressDucBa);
-        middleAddress.add(addressChoBaChieu);
-        middleAddress.add("đại học nông lâm ");
+        middleAddress.add("au co");
+        middleAddress.add("tran chanh chieu");
+        middleAddress.add("ha lo");
 
-       /* List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
+        List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
                 middleLocations, middleAddress, time, 500, 2, true);
         Gson gson = JSONUtils.buildGson();
 
         String json = gson.toJson(journeys);
 
         System.out.println(json);
-        int abcd = 3;*/
+        int abcd = 3;
 
 /*
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();

@@ -105,6 +105,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHidenSound.setVisibility(View.GONE);
                         soundButton.setVisibility(View.VISIBLE);
+                        GPSServiceOld.isPlaySound = false;
                     }
                 });
 
@@ -118,8 +119,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
                             downloadAsyncTask.execute();
                         }
-                        GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
-
+                        GPSServiceOld.isPlaySound = true;
                     }
                 });
 
@@ -195,10 +195,13 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHideFakeGPS.setVisibility(View.VISIBLE);
                         fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = true;
+                        isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
                             turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
                             setDistance(PrefStore.getMotorNotifyDistance());
+                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
+                        } else {
+                            GPSServiceOld.turnOffFakeGPS();
                         }
                     }
                 });
@@ -217,8 +220,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHidenSound.setVisibility(View.GONE);
                         soundButton.setVisibility(View.VISIBLE);
+                        GPSServiceOld.isPlaySound = false;
                     }
                 });
+
                 soundButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -229,7 +234,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
                             downloadAsyncTask.execute();
                         }
-                        GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
+                        GPSServiceOld.isPlaySound = true;
                     }
                 });
 
@@ -250,6 +255,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         if (isFakeGPS) {
                             turnOnFakeGPS(fragment.getFakeGPSList());
                             setDistance(PrefStore.getBusNotifyDistance());
+                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
                         } else {
                             turnOffFakeGPS();
                         }

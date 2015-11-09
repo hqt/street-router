@@ -51,10 +51,18 @@ import de.greenrobot.event.EventBus;
 public class MainActivity extends Activity implements OnMapReadyCallback,
         GoogleMap.OnMapLongClickListener {
 
+    public static enum MapType {
+        MOTOR_FOUR_POINT,
+        BUS_TWO_POINT,
+        BUS_FOUR_POINT
+    }
+
+
     private static final LatLng SYDNEY = new LatLng(-33.85704, 151.21522);
     public static ArrayList<Leg> listLeg = new ArrayList<>();
     public static long DATA_NEW_TIME_GET = -1;
     public static long DATA_OLD_TIME_GET = -1;
+    public static MapType mapType;
     public static Result result;
     public static Journey journey;
 
@@ -161,19 +169,21 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
     protected void onResume() {
         super.onResume();
 
-        if((listLeg != null) && (DATA_NEW_TIME_GET != DATA_OLD_TIME_GET)) {
-            mMap.clear();
-            if (listLeg.size() == 1) {
-                MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
-            } else {
-                MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
+        if (mapType == MapType.MOTOR_FOUR_POINT) {
+            if ((listLeg != null) && (DATA_NEW_TIME_GET != DATA_OLD_TIME_GET)) {
+                mMap.clear();
+                if (listLeg.size() == 1) {
+                    MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
+                } else {
+                    MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
+                }
             }
-        }else if(result != null){
+        } else if (mapType == MapType.BUS_TWO_POINT) {
             mMap.clear();
-            BusMapUtils.drawMapWithTwoPoint(mMap,result);
-        }else if(journey != null){
+            BusMapUtils.drawMapWithTwoPoint(mMap, result);
+        } else if (mapType == MapType.BUS_FOUR_POINT) {
             mMap.clear();
-            BusMapUtils.drawMapWithFourPoint(mMap,journey);
+            BusMapUtils.drawMapWithFourPoint(mMap, journey);
         }
         Log.e("hqthao", "register bus");
         bus.register(this);
@@ -194,16 +204,19 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         // Set the long click listener as a way to exit the map.
         mMap.setOnMapLongClickListener(this);
 
-        if(listLeg.size() == 1){
-            MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
-        } else if(listLeg.size() > 1){
-            MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
-        }else if(result != null){
-            BusMapUtils.drawMapWithTwoPoint(mMap,result);
-        }else if(journey != null){
-            BusMapUtils.drawMapWithFourPoint(mMap,journey);
+        if (mapType == MapType.MOTOR_FOUR_POINT) {
+            if (listLeg.size() == 1) {
+                MotorMapUtils.drawMapWithTwoPoint(mMap, listLeg);
+            } else if (listLeg.size() > 1) {
+                MotorMapUtils.drawMapWithFourPoint(mMap, listLeg);
+            }
+        }  else if (mapType == MapType.BUS_TWO_POINT) {
+            mMap.clear();
+            BusMapUtils.drawMapWithTwoPoint(mMap, result);
+        } else if (mapType == MapType.BUS_FOUR_POINT) {
+            mMap.clear();
+            BusMapUtils.drawMapWithFourPoint(mMap, journey);
         }
-
 
     }
 
@@ -213,18 +226,18 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         mDismissOverlay.show();
     }
 
-    public void onEventMainThread(LocationGPSMessage event){
+    public void onEventMainThread(LocationGPSMessage event) {
         Log.e("hqthao", event.location.getLatitude() + "");
         updateGPS(event.location);
     }
 
     public void updateGPS(Location location) {
-        if(now != null){
+        if (now != null) {
             now.remove();
         }
         Double latitude = location.getLatitude();
         Double longitude = location.getLongitude();
-        Log.e("Nam:" , latitude + "" + longitude);
+        Log.e("Nam:", latitude + "" + longitude);
         now = MapUtils.drawPointColor(mMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
         if (isTracking) {
             MapUtils.moveCamera(mMap, latitude, longitude, 15);
