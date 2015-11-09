@@ -1,27 +1,29 @@
-package com.fpt.router.widget;
+package com.fpt.router.widget.roboto;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.text.InputFilter;
 import android.util.AttributeSet;
-import android.widget.EditText;
+import android.widget.Button;
+
+import com.fpt.router.R;
 
 /**
- * Created by ThaoHQ on 9/12/2014.
+ * Created by TuanBM on 8/21/14.
  */
-public class RobotoEditText extends EditText {
+public class RobotoButtonView extends Button {
 
-    public RobotoEditText(Context context) {
+
+    public RobotoButtonView(Context context) {
         super(context);
         init();
     }
 
-    public RobotoEditText(Context context, AttributeSet attrs) {
+    public RobotoButtonView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public RobotoEditText(Context context, AttributeSet attrs, int defStyle) {
+    public RobotoButtonView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -31,9 +33,8 @@ public class RobotoEditText extends EditText {
             Typeface tf = Typeface.createFromAsset(getContext().getAssets(),
                     "Roboto-Light.ttf");
             setTypeface(tf);
+           // setBackground(getResources().getDrawable(R.drawable.button_bg));
         }
-        InputFilter[] filterArray = new InputFilter[1];
-        filterArray[0] = new InputFilter.LengthFilter(32);
-        this.setFilters(filterArray);
     }
+
 }

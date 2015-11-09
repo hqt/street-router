@@ -1,11 +1,7 @@
-package com.fpt.router.widget;
+package com.fpt.router.widget.roboto;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.widget.TextView;
-
-import com.fpt.router.widget.RobotoView;
 
 /**
  * Created by TuanBM on 8/21/14.
