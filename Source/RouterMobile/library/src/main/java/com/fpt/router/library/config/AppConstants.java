@@ -32,7 +32,7 @@ public class AppConstants {
 
     public static final class FPT_SERVICE {
         private static final String FPT_SERVER = "http://118.69.135.22";
-        public static final String TEXT_TO_SPEECH = FPT_SERVER+"/synthesis/file?voiceType=female&text=";
+        public static final String TEXT_TO_SPEECH = FPT_SERVER + "/synthesis/file?voiceType=female&text=";
     }
 
     public static final class PATH {
@@ -74,9 +74,12 @@ public class AppConstants {
         public static final String NO_NETWORK = "NO_NETWORK_CONNECTION";
     }
 
-    public static final int NEAR_CIRCULAR_RANGE = 50;
-    public static boolean IS_REAL_BUS_SERVER = false;
+    public static class SearchBus {
+        public static boolean IS_REAL_BUS_SERVER = true;
+        public static boolean IS_USED_REAL_WALKING = false;
+    }
 
+    public static final int NEAR_CIRCULAR_RANGE = 50;
 
     public static void buildAPILink() {
         API.SEARCH_BUS_ROUTE = SERVER_ADDRESS + "/api/twopoint";

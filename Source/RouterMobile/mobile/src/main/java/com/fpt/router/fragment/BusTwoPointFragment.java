@@ -20,6 +20,7 @@ import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchBus;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
@@ -153,7 +154,7 @@ public class BusTwoPointFragment extends Fragment {
             //test with file in assets
             Gson gson1 = JSONUtils.buildGson();
 
-            if (!AppConstants.IS_REAL_BUS_SERVER) {
+            if (!SearchBus.IS_REAL_BUS_SERVER) {
                 try {
                     resultList = gson1.fromJson(loadJSONFromAsset(), new TypeToken<List<Result>>() {
                     }.getType());

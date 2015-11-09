@@ -13,6 +13,7 @@ import com.fpt.router.library.model.common.Location;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.wear.activity.MainActivity;
+import com.fpt.router.wear.activity.MainActivity.MapType;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Asset;
@@ -98,6 +99,7 @@ public class DataLayerListenerService extends WearableListenerService
                 Bundle bundle = new Bundle();
                 Log.e("hqthao", "Sending path: " + path);
                 if (path.equals(AppConstants.PATH.MESSAGE_PATH_MOTOR)) {
+
                     DataMap dataMap = DataMapItem.fromDataItem(dataItem).getDataMap();
                     Log.e("Nam", dataMap+ "");
                     long time = dataMap.getLong("time");
@@ -106,6 +108,7 @@ public class DataLayerListenerService extends WearableListenerService
 
                     // set global variable for activity :)
                     MainActivity.listLeg = listLeg;
+                    MainActivity.mapType = MapType.MOTOR_FOUR_POINT;
                     MainActivity.DATA_OLD_TIME_GET = MainActivity.DATA_NEW_TIME_GET;
                     MainActivity.DATA_NEW_TIME_GET = time;
 
@@ -123,6 +126,7 @@ public class DataLayerListenerService extends WearableListenerService
                     bus.post(locationGPSMessage);
                     Log.e("Nam", dataMap +"");
                 } else if (path.equals(AppConstants.PATH.MESSAGE_PATH_BUS_TWO_POINT)) {
+
                     Log.e("Ngoan","Bus Two Point in wear");
                     // get asset
                     Asset asset = DataMapItem.fromDataItem(dataItem).getDataMap().getAsset("result_json");
@@ -137,6 +141,7 @@ public class DataLayerListenerService extends WearableListenerService
 
                     // set global variable for activity
                     MainActivity.result = result;
+                    MainActivity.mapType = MapType.BUS_TWO_POINT;
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -156,6 +161,7 @@ public class DataLayerListenerService extends WearableListenerService
 
                     // set global variable for activity
                     MainActivity.journey = journey;
+                    MainActivity.mapType = MapType.BUS_FOUR_POINT;
 
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

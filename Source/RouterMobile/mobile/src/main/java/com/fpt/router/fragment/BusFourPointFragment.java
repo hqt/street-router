@@ -18,6 +18,7 @@ import com.fpt.router.adapter.BusFourPointAdapter;
 import com.fpt.router.adapter.BusThreePointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.config.AppConstants.SearchBus;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Journey;
@@ -149,7 +150,7 @@ public class BusFourPointFragment extends Fragment {
             // parse gson
             Gson gson_parse = JSONUtils.buildGson();
             //test with file json in asset
-            if (!AppConstants.IS_REAL_BUS_SERVER) {
+            if (!SearchBus.IS_REAL_BUS_SERVER) {
                 try {
                     journeyList = gson_parse.fromJson(loadJSONFromAsset(), new TypeToken<List<Journey>>() {
                     }.getType());

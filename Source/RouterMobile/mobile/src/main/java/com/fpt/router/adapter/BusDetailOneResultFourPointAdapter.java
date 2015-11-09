@@ -30,13 +30,14 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
 
     List<Result> results;
     Result result;
-    public BusDetailOneResultFourPointAdapter(List<Result> results){
+
+    public BusDetailOneResultFourPointAdapter(List<Result> results) {
         this.results = results;
     }
 
     @Override
     public BusItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_detail_one_result_four_point,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_detail_one_result_four_point, parent, false);
         BusItemViewHolder viewHolder = new BusItemViewHolder(v);
         return viewHolder;
     }
@@ -49,48 +50,48 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
         result = results.get(position);
         List<INode> nodeList = result.nodeList;
         //set list image and detail bus
-        if(nodeList.get(0) instanceof Path){
+        if (nodeList.get(0) instanceof Path) {
             Path path = (Path) nodeList.get(0);
-            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
-            images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
-            String startWalking = "Từ "+path.stationFromName;
+            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
+            images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
+            String startWalking = "Từ địa chỉ " + path.stationFromName;
             long time = TimeUtils.convertToMinute(path.time);
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,startWalking, String.valueOf(time)+"p"));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf(time) + "p"));
         }
 
-        for (int i= 0 ;i<nodeList.size() -1;i++){
-            if(nodeList.get(i) instanceof Segment){
+        for (int i = 0; i < nodeList.size() - 1; i++) {
+            if (nodeList.get(i) instanceof Segment) {
                 Segment segment = (Segment) nodeList.get(i);
-                images.add(new BusImage(R.drawable.ic_directions_bus_black_24dp,String.valueOf(segment.routeNo)));
-                images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
+                images.add(new BusImage(R.drawable.ic_directions_bus_black_24dp, String.valueOf(segment.routeNo)));
+                images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
                 String busNameUp = "Lên trạm tại ";
                 String busNameDown = "Xuống trạm tại ";
                 List<Path> paths = new ArrayList<Path>();
                 paths = segment.paths;
                 busNameUp += paths.get(0).stationFromName;
-                busNameDown += paths.get(paths.size()-1).stationToName;
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp,busNameUp,String.valueOf(segment.routeNo)));
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp,busNameDown,""));
+                busNameDown += paths.get(paths.size() - 1).stationToName;
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameUp, String.valueOf(segment.routeNo)));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, ""));
             }
         }
-        if(nodeList.get(nodeList.size() - 1) instanceof Path){
+        if (nodeList.get(nodeList.size() - 1) instanceof Path) {
             Path path = (Path) nodeList.get(nodeList.size() - 1);
-            String endWalking = "Đến "+path.stationToName;
+            String endWalking = "Đến địa chỉ " + path.stationToName;
             long time = TimeUtils.convertToMinute(path.time);
-            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,endWalking,String.valueOf(time)+"p"));
+            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf(time) + "p"));
         }
 
 
-        BusImageAdapter showImage = new BusImageAdapter(holder.context,images);
+        BusImageAdapter showImage = new BusImageAdapter(holder.context, images);
         holder.tvList.setAdapter(showImage);
-        BusDetailContentFourPointAdapter busDetail = new BusDetailContentFourPointAdapter(holder.context,details);
+        BusDetailContentFourPointAdapter busDetail = new BusDetailContentFourPointAdapter(holder.context, details);
         holder.lvItemsBusDetails.setAdapter(busDetail);
         setListViewHeightBasedOnItems(holder.lvItemsBusDetails);
-        holder.txtDuration.setText(result.minutes+" phút");
-        double totalDistance = result.totalDistance/1000;
-        totalDistance = Math.floor(totalDistance*100)/100;
-        holder.txtDistance.setText(String.valueOf(totalDistance)+" km");
+        holder.txtDuration.setText(result.minutes + " phút");
+        double totalDistance = result.totalDistance / 1000;
+        totalDistance = Math.floor(totalDistance * 100) / 100;
+        holder.txtDistance.setText(String.valueOf(totalDistance) + " km");
     }
 
     @Override
@@ -132,7 +133,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
 
             // Get total height of all items.
             int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems;itemPos++) {
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
                 View item = listAdapter.getView(itemPos, null, listView);
                 item.measure(0, 0);
                 totalItemsHeight += item.getMeasuredHeight();

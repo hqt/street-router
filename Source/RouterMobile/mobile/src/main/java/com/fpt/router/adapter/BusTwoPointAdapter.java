@@ -37,13 +37,13 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
     List<Result> results;
     Result result;
 
-    public BusTwoPointAdapter(List<Result> results){
+    public BusTwoPointAdapter(List<Result> results) {
         this.results = results;
     }
 
     @Override
     public BusViewHoder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_two_point,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_bus_two_point, parent, false);
         BusViewHoder busViewHoder = new BusViewHoder(v);
         return busViewHoder;
     }
@@ -56,61 +56,61 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         List<String> numberBusFinal = new ArrayList<>();
         List<INode> nodeList = result.nodeList;
         //set list image
-        if(nodeList.get(0) instanceof Path){
+        if (nodeList.get(0) instanceof Path) {
             Path path = (Path) nodeList.get(0);
-            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
-            images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
-            String startWalking = "Từ "+path.stationFromName;
+            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
+            images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
+            String startWalking = "Từ địa chỉ " + path.stationFromName;
             long time = TimeUtils.convertPeriodToMinute(path.time);
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,startWalking,String.valueOf(time)+"p"));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf(time) + "p"));
             holder.startLocation.setText(startWalking);
         }
-        for (int i= 0 ;i<nodeList.size() -1;i++){
-            if(nodeList.get(i) instanceof Segment){
+        for (int i = 0; i < nodeList.size() - 1; i++) {
+            if (nodeList.get(i) instanceof Segment) {
                 Segment segment = (Segment) nodeList.get(i);
-                images.add(new BusImage(R.drawable.ic_directions_bus_black_24dp,String.valueOf(segment.routeNo)));
-                images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp,""));
+                images.add(new BusImage(R.drawable.ic_directions_bus_black_24dp, String.valueOf(segment.routeNo)));
+                images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
                 String busNameUp = "Lên trạm tại ";
                 String busNameDown = "Xuống trạm tại ";
                 List<Path> paths = new ArrayList<Path>();
                 paths = segment.paths;
                 busNameUp += paths.get(0).stationFromName;
-                busNameDown += paths.get(paths.size()-1).stationToName;
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp,busNameUp,String.valueOf(segment.routeNo)));
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp,busNameDown,""));
+                busNameDown += paths.get(paths.size() - 1).stationToName;
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameUp, String.valueOf(segment.routeNo)));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, ""));
                 numberBusFinal.add(String.valueOf(segment.routeNo));
             }
         }
-        if(nodeList.get(nodeList.size() - 1) instanceof Path){
+        if (nodeList.get(nodeList.size() - 1) instanceof Path) {
             Path path = (Path) nodeList.get(nodeList.size() - 1);
-            String endWalking = "Đến "+path.stationToName;
+            String endWalking = "Đến địa chỉ " + path.stationToName;
             long time = TimeUtils.convertPeriodToMinute(path.time);
-            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp,""));
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp,endWalking,String.valueOf(time)+"p"));
+            images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf(time) + "p"));
             holder.endLocation.setText(endWalking);
         }
 
-        if(position == 0){
+        if (position == 0) {
             holder.txtTitle.setText("Tuyến đường được đề nghị ");
-        }else if(position == 1){
+        } else if (position == 1) {
             holder.txtTitle.setText("Thêm kết quả cho đi xe bus ");
-        }else{
+        } else {
             holder.txtTitle.setVisibility(View.GONE);
         }
 
-        BusImageAdapter showImage = new BusImageAdapter(holder.context,images);
+        BusImageAdapter showImage = new BusImageAdapter(holder.context, images);
         holder.tvList.setAdapter(showImage);
 
-        BusDetailContentFourPointAdapter busDetail = new BusDetailContentFourPointAdapter(holder.context,details);
+        BusDetailContentFourPointAdapter busDetail = new BusDetailContentFourPointAdapter(holder.context, details);
         holder.listView.setAdapter(busDetail);
         setListViewHeightBasedOnItems(holder.listView);
 
-        holder.txtDuration.setText(result.minutes+" phút");
-        double totalDistance = result.totalDistance/1000;
-        totalDistance = Math.floor(totalDistance*100)/100;
-        holder.txtDistance.setText(String.valueOf(totalDistance)+" km");
-        String[]  nBusFinal = numberBusFinal.toArray(new String[numberBusFinal.size()]);
-        holder.txtBusNumberEnd.setText("Đi "+Arrays.toString(nBusFinal));
+        holder.txtDuration.setText(result.minutes + " phút");
+        double totalDistance = result.totalDistance / 1000;
+        totalDistance = Math.floor(totalDistance * 100) / 100;
+        holder.txtDistance.setText(String.valueOf(totalDistance) + " km");
+        String[] nBusFinal = numberBusFinal.toArray(new String[numberBusFinal.size()]);
+        holder.txtBusNumberEnd.setText("Đi " + Arrays.toString(nBusFinal));
         holder.viewDetail.setVisibility(View.GONE);
         holder.btnShow.setVisibility(View.VISIBLE);
         holder.btnHide.setVisibility(View.GONE);
@@ -139,9 +139,9 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
     }
 
 
-    public class BusViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class BusViewHoder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final  Context context;
+        private final Context context;
         TwoWayView tvList;
         TextView txtDuration;
         TextView txtDistance;
@@ -185,7 +185,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
         }
     }
 
-    public Result getResult(int position){
+    public Result getResult(int position) {
         return results.get(position);
     }
 
@@ -204,7 +204,7 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
 
             // Get total height of all items.
             int totalItemsHeight = 0;
-            for (int itemPos = 0; itemPos < numberOfItems;itemPos++) {
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
                 View item = listAdapter.getView(itemPos, null, listView);
                 item.measure(0, 0);
                 totalItemsHeight += item.getMeasuredHeight();

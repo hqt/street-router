@@ -28,6 +28,11 @@ import java.util.List;
  */
 public class BusFourPointDesignFragment extends Fragment {
     Journey journey;
+
+    public BusFourPointDesignFragment() {
+
+    }
+
     public BusFourPointDesignFragment(Journey journey) {
         this.journey = journey;
     }
