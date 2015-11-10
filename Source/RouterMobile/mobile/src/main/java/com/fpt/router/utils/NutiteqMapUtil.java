@@ -66,7 +66,7 @@ public class NutiteqMapUtil {
         MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
         markerStyleBuilder.setBitmap(markerBitmap);
         markerStyleBuilder.setOrientationMode(BillboardOrientation.BILLBOARD_ORIENTATION_GROUND);
-        markerStyleBuilder.setAnchorPoint(0, (float)0.);
+        markerStyleBuilder.setAnchorPoint(0, (float) 0.);
         //markerStyleBuilder.setHideIfOverlapped(false);
         markerStyleBuilder.setSize(30);
         MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
@@ -361,5 +361,9 @@ public class NutiteqMapUtil {
             mapView.setFocusPos(markerPos, 1);
             mapView.setZoom(12, 1);
         }
+    }
+
+    public static void checkWrongWay (List<LatLng> OverPokyLine, LatLng point) {
+        
     }
 }

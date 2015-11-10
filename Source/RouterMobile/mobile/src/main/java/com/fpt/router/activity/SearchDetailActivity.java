@@ -99,8 +99,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 fragmentNutiteq = BusDetailTwoPointFragment.newInstance(result);
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
-
-                buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+                test(fragmentNutiteq, PrefStore.getBusNotifyDistance());
+                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         buttonHidenSound.setVisibility(View.GONE);
@@ -143,8 +143,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             turnOffFakeGPS();
                         }
                     }
-                });
-
+                });*/
             }
         }
 
@@ -154,8 +153,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 fragmentNutiteq = MotorNutiteqDetailFragment.newInstance(position);
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
+                test(fragmentNutiteq, PrefStore.getMotorNotifyDistance());
 
-                buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         buttonHidenSound.setVisibility(View.GONE);
@@ -204,7 +204,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             GPSServiceOld.turnOffFakeGPS();
                         }
                     }
-                });
+                });*/
             }
         }
 
@@ -214,8 +214,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 fragmentNutiteq = BusDetailFourPointFragment.newInstance(journey);
                 trans.add(R.id.fragment, fragment);
                 trans.commit();
+                test(fragmentNutiteq, PrefStore.getBusNotifyDistance());
 
-                buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         buttonHidenSound.setVisibility(View.GONE);
@@ -260,7 +261,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                             turnOffFakeGPS();
                         }
                     }
-                });
+                });*/
             }
         }
 
