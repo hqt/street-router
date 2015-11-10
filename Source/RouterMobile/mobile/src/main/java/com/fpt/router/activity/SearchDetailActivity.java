@@ -20,6 +20,7 @@ import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
 import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.fragment.MotorNutiteqDetailFragment;
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.FPT_SERVICE;
 import com.fpt.router.library.config.AppConstants.FileCache;
@@ -41,6 +42,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import de.greenrobot.event.EventBus;
+
+import static com.fpt.router.service.GPSServiceOld.*;
 
 public class SearchDetailActivity extends AppCompatActivity implements LocationListener,
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
@@ -134,9 +137,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         fakeGPSButton.setVisibility(View.GONE);
                         isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
-                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
+                            turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
+                            setDistance(PrefStore.getBusNotifyDistance());
                         } else {
-                            GPSServiceOld.turnOffFakeGPS();
+                            turnOffFakeGPS();
                         }
                     }
                 });
@@ -179,6 +183,10 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                     public void onClick(View v) {
                         buttonHideFakeGPS.setVisibility(View.GONE);
                         fakeGPSButton.setVisibility(View.VISIBLE);
+                        isFakeGPS = false;
+                        if(!isFakeGPS) {
+                            turnOffFakeGPS();
+                        }
                     }
                 });
 
@@ -189,6 +197,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         fakeGPSButton.setVisibility(View.GONE);
                         isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
+                            turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
+                            setDistance(PrefStore.getMotorNotifyDistance());
                             GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
                         } else {
                             GPSServiceOld.turnOffFakeGPS();
@@ -201,8 +211,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         if (journey != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                fragmentNutiteq = BusDetailFourPointFragment.newInstance(journey);
-                trans.add(R.id.fragment, fragmentNutiteq);
+                fragment = BusDetailFourPointFragment.newInstance(journey);
+                trans.add(R.id.fragment, fragment);
                 trans.commit();
 
                 buttonHidenSound.setOnClickListener(new View.OnClickListener() {
@@ -243,9 +253,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                         fakeGPSButton.setVisibility(View.GONE);
                         isFakeGPS = !isFakeGPS;
                         if (isFakeGPS) {
+                            turnOnFakeGPS(fragment.getFakeGPSList());
+                            setDistance(PrefStore.getBusNotifyDistance());
                             GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
                         } else {
-                            GPSServiceOld.turnOffFakeGPS();
+                            turnOffFakeGPS();
                         }
                     }
                 });
@@ -253,6 +265,52 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         }
 
 
+    }
+
+    public void test (final AbstractNutiteqMapFragment frag, final int distance){
+        buttonHidenSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonHidenSound.setVisibility(View.GONE);
+                soundButton.setVisibility(View.VISIBLE);
+            }
+        });
+        soundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soundButton.setVisibility(View.GONE);
+                buttonHidenSound.setVisibility(View.VISIBLE);
+                isPlaySound = !isPlaySound;
+                if (isPlaySound) {
+                    DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
+                    downloadAsyncTask.execute();
+                }
+                GPSServiceOld.isPlaySound = !GPSServiceOld.isPlaySound;
+            }
+        });
+
+        buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonHideFakeGPS.setVisibility(View.GONE);
+                fakeGPSButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        fakeGPSButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buttonHideFakeGPS.setVisibility(View.VISIBLE);
+                fakeGPSButton.setVisibility(View.GONE);
+                isFakeGPS = !isFakeGPS;
+                if (isFakeGPS) {
+                    turnOnFakeGPS(frag.getFakeGPSList());
+                    setDistance(distance);
+                } else {
+                    turnOffFakeGPS();
+                }
+            }
+        });
     }
 
     @Override
@@ -335,7 +393,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            int percent = (int) (1.0 * values[0] / GPSServiceOld.getNotifyModel().size() * 100);
+            int percent = (int) (1.0 * values[0] / getNotifyModel().size() * 100);
             pDialog.setProgress(percent);
             pDialog.setMessage("Download " + percent + "% complete");
         }
@@ -347,8 +405,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             boolean isServiceAvailable = true;
             DiskLruSoundCache soundCache = new DiskLruSoundCache(getApplicationContext(), FileCache.FOLDER_NAME, FileCache.SYSTEM_SIZE);
 
-            for (int i = 0; i < GPSServiceOld.getNotifyModel().size(); i++) {
-                NotifyModel model = GPSServiceOld.getNotifyModel().get(i);
+            for (int i = 0; i < getNotifyModel().size(); i++) {
+                NotifyModel model = getNotifyModel().get(i);
 
                 // check cache
                 String key = StringUtils.normalizeFileCache(model.smallMessage);

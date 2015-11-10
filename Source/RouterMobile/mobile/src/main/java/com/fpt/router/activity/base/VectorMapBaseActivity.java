@@ -28,7 +28,7 @@ public class VectorMapBaseActivity extends NutiteqMapBaseActivity {
     protected boolean persistentTileCache = false;
 
     // Style parameters
-    protected String vectorStyleName = "nutibright"; // default style name, each style has corresponding .zip asset
+    protected String vectorStyleName = "nutibright3d"; // default style name, each style has corresponding .zip asset
     protected String vectorStyleLang = "vi"; // default map language
 
     @Override
