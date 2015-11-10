@@ -18,11 +18,14 @@ public class SearchLocationDAL {
     public static SearchLocation insertSearchLocation(String id, String name) {
         Realm realm = Realm.getDefaultInstance();
 
-        realm.beginTransaction();
-        SearchLocation searchLocation = realm.createObject(SearchLocation.class);
+
+        SearchLocation searchLocation = new SearchLocation();
         searchLocation.setPlaceId(id);
         searchLocation.setPlaceName(name);
         searchLocation.setLatestUsage(new Date());
+
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(searchLocation);
         realm.commitTransaction();
 
         return searchLocation;

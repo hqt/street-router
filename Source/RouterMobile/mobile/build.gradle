@@ -18,6 +18,10 @@ android {
         multiDexEnabled false
     }
 
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
+
     // add more memory when compiling mobile due to multidex compile
     /*dexOptions {
         incremental true

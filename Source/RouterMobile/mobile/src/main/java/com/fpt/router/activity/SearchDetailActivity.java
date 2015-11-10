@@ -211,7 +211,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         if (journey != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-                fragment = BusDetailFourPointFragment.newInstance(journey);
+                fragmentNutiteq = BusDetailFourPointFragment.newInstance(journey);
                 trans.add(R.id.fragment, fragment);
                 trans.commit();
 

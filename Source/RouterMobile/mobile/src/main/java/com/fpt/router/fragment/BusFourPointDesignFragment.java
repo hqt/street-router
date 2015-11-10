@@ -87,7 +87,7 @@ public class BusFourPointDesignFragment extends Fragment {
         btn_view_map = (ImageView) itemView.findViewById(R.id.btn_view_maps);
         txtBusNumber = (TextView) itemView.findViewById(R.id.txtBusNumberInToolbar);
         String[]  nBusFinal = numberBusFinal.toArray(new String[numberBusFinal.size()]);
-        txtBusNumber.setText(Arrays.toString(nBusFinal));
+        txtBusNumber.setText("Tuyến xe số "+Arrays.toString(nBusFinal));
         if (BusFourPointViewPagerAdapter.tab_position == 0) {
             txtTitle.setText("Tuyến đường được đề nghị ");
         } else {
