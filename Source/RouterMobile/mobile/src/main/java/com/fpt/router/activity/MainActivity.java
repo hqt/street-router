@@ -23,9 +23,11 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
+import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.model.SearchLocation;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
@@ -38,6 +40,8 @@ import com.nutiteq.core.MapRange;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
 import com.nutiteq.vectorelements.Marker;
+
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -176,6 +180,10 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
 
+        SearchLocationDAL.insertSearchLocation("10", "10");
+        SearchLocationDAL.insertSearchLocation("10", "10");
+        List<SearchLocation> res = SearchLocationDAL.getListSearchLocation();
+        Log.e("hqthao", "size of database: " + res.size());
     }
 
 
