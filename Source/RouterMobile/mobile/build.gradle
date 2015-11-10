@@ -18,6 +18,13 @@ android {
         multiDexEnabled false
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['jniLibs']
+            jni.srcDirs = [] //disable automatic ndk-build
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
