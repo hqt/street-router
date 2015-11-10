@@ -20,6 +20,8 @@ import com.nutiteq.ui.MapView;
 import java.io.File;
 
 import de.greenrobot.event.EventBus;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 
 /**
@@ -54,6 +56,10 @@ public class RouterApplication extends Application {
         mContext = getApplicationContext();
 
         bus = EventBus.getDefault();
+
+        // build realm default configuration
+        RealmConfiguration config = new RealmConfiguration.Builder(mContext).build();
+        Realm.setDefaultConfiguration(config);
 
         // set some system variable
         AppConstants.SERVER_ADDRESS = "http://" + PrefStore.getServerIp() + ":" + PrefStore.getServerPort();

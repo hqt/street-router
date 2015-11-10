@@ -258,7 +258,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:drawSelectorOnTop="false"
-                        android:paddingLeft="5dp" />
+                        android:paddingLeft="15dp" />
                 </LinearLayout>
 
 
