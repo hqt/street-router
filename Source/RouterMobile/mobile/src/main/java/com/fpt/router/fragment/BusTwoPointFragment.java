@@ -113,7 +113,6 @@ public class BusTwoPointFragment extends Fragment {
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     new JSONParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                 } else {

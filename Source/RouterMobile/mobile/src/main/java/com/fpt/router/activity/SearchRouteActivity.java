@@ -143,7 +143,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
 
-        // _view_pager.setCurrentItem(1);
+        //_view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
         /*_depart_time.setClickable(false);
         _depart_time.setFocusableInTouchMode(false);
