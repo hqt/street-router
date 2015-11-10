@@ -2,9 +2,6 @@ package com.fpt.router.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,10 +11,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.OrientationEventListener;
 import android.view.View;
 import android.widget.Toast;
 
@@ -25,8 +20,6 @@ import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.utils.DecodeUtils;
-import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -34,14 +27,13 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
-import com.nutiteq.core.MapRange;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
 import com.nutiteq.vectorelements.Marker;
 
 import de.greenrobot.event.EventBus;
 
-import static com.fpt.router.framework.OrientationManager.*;
+import static com.fpt.router.framework.OrientationManager.OnChangedListener;
 
 /**
  * Created by asus on 10/6/2015.
@@ -52,6 +44,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
+    private FloatingActionButton fab_compass;
     private Marker now;
     private GoogleApiClient mGoogleApiClient;
     LocalVectorDataSource vectorDataSource;
@@ -152,8 +145,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             }
         });
 
-
-
+        fab_compass = (FloatingActionButton) findViewById(R.id.fab_compass);
+        fab_compass.setVisibility(View.GONE);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -161,9 +154,21 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     // initializeMap();
                     mapView.setFocusPos(markerPos, 0);
+                    fab.setVisibility(View.GONE);
+                    fab_compass.setVisibility(View.VISIBLE);
                     return true;
                 }
                 return true; // consume the event
+            }
+        });
+
+
+        fab_compass.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                fab_compass.setVisibility(View.GONE);
+                fab.setVisibility(View.VISIBLE);
+                return false;
             }
         });
 

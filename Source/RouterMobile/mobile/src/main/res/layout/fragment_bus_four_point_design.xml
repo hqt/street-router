@@ -17,10 +17,10 @@
 
         <TextView
             android:id="@+id/txtBusNumberInToolbar"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="right"
-            android:gravity="center|left"
+            android:gravity="center_vertical"
             android:padding="10dp"
             android:text="abc"
             android:textColor="@android:color/white"

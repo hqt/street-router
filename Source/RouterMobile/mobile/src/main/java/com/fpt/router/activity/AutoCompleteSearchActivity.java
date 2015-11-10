@@ -2,10 +2,10 @@ package com.fpt.router.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,12 +22,10 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
 import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.utils.GoogleAPIUtils;
-import com.fpt.router.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +34,8 @@ import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
     public AutocompleteAdapter adapter;
-    /* public AutoCompleteTextView autoComp;*/
-    private EditText autoComp;
+     /*public AutoCompleteTextView autoComp;*/
+   private EditText autoComp;
     private ListView listView;
     private ProgressBar progressBar;
     private List<AutocompleteObject> listLocation = new ArrayList<>();
@@ -58,9 +56,10 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         mbVoiceSearch = (ImageButton) findViewById(R.id.btn_voice);
         // default. hide progress bar
         progressBar.setVisibility(View.INVISIBLE);
-
-        adapter = new AutocompleteAdapter(this, R.layout.list_item_autocomplete_search, new ArrayList<AutocompleteObject>());
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
+        adapter = new AutocompleteAdapter(this, new ArrayList<AutocompleteObject>());
+       // adapter = new AutocompleteAdapter(this, android.R.layout.simple_spinner_dropdown_item, new ArrayList<AutocompleteObject>());
+
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
         int number = getIntent().getIntExtra("number", 1);
         String message = getIntent().getStringExtra("message");
@@ -69,7 +68,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         }
         switch (number) {
             case SearchField.FROM_LOCATION:
-                autoComp.setHint("Chọn điểm đi");
+                autoComp.setHint("Chọn điểm khởi hành");
                 break;
             case SearchField.TO_LOCATION:
                 autoComp.setHint("Chọn điểm đến");
@@ -86,6 +85,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         /*autoComp.setAdapter(adapter);*/
         if (adapter != null) {
             listView.setAdapter(adapter);
+           // autoComp.setAdapter(adapter);
         }
 
         setSupportActionBar(toolbar);
@@ -239,16 +239,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 } else if (status.equals(GoogleApiCode.OVER_QUERY_LIMIT)) {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Hết quota cmnr", Toast.LENGTH_SHORT).show();
                 }
-                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, R.layout.list_item_autocomplete_search, results);
+                adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, results);
+               // adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_spinner_dropdown_item, results);
                 /*return;*/
             }
 
             listLocation = results;
-            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, R.layout.list_item_autocomplete_search, results);
-
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, results);
+           // adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_spinner_dropdown_item, results);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            /*autoComp.setAdapter(adapter);*/
+           // autoComp.setAdapter(adapter);
             Log.d("YourApp", "onPostExecute : autoCompleteAdapter" + adapter.getCount());
         }
     }
