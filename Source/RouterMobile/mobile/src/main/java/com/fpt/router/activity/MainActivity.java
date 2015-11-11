@@ -24,13 +24,6 @@ import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.model.message.LocationMessage;
-<<<<<<< HEAD
-import com.fpt.router.library.utils.DecodeUtils;
-import com.fpt.router.model.SearchLocation;
-import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.MathUtils;
-=======
->>>>>>> dbc0bd9ea753bbcf39c25bc7977c0df902bc5d00
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -209,8 +202,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
 
-        handlerThread.removeCallbacks(whatMyName);
-        handlerThread.post(whatMyName);
+        /*handlerThread.removeCallbacks(whatMyName);
+        handlerThread.post(whatMyName);*/
     }
 
     Handler handlerThread = new Handler();

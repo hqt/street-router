@@ -154,7 +154,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                 @Override
                 public void run() {
                     if (isFakeGPS) {
-                        Log.e("hqthao", "shit :))");
                         onLocationChanged(new Location("a"));
                     }
                 }
@@ -164,8 +163,10 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             int speed = PrefStore.getSimulationSpeed();
             speed = (20*1000)/(speed*1000/3600);
 
-            // continue to run on next time
-            handlerThread.postDelayed(this, speed);
+            // continue to run on next time. if this variable still true.
+            if (isFakeGPS) {
+                handlerThread.postDelayed(this, speed);
+            }
         }
     };
 
@@ -320,6 +321,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
         }
     }
+
+
 
     @Override
     public void onProviderDisabled(String provider) {
