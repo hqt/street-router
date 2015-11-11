@@ -219,10 +219,10 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             List<LatLng> step = new ArrayList<>();
         }
         for(int n = 0; n < listStep.size(); n++) {
-            NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
+            NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, getResources(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
-                    R.drawable.orange_small);
+                    R.drawable.orange_small, 20);
         }
 
         SensorManager sensorManager =
@@ -403,10 +403,16 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                     getDetailLocation().getStartLocation();
             String smallTittle = JSONParseUtils.replayManeuver((listStep.get(i).getManeuver()));
             String longTittle = "Thông tin chi tiết";
-            Pair<String, String> detailInstruction = getDetailInstruction(
+            String[] detailInstruction = getDetailInstruction(
                     listStep.get(i).getInstruction());
-            String smallMessage = detailInstruction.first;
-            String longMessage = detailInstruction.second;
+            String smallMessage = detailInstruction[0];
+            String longMessage = "";
+            if(detailInstruction.length >1) {
+                longMessage = detailInstruction[1];
+            }
+            if(detailInstruction.length >2) {
+                smallMessage = smallMessage + ", "+ detailInstruction[2];
+            }
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
         }

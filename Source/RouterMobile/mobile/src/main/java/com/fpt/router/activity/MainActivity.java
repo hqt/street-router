@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,11 +24,19 @@ import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.model.message.LocationMessage;
+<<<<<<< HEAD
+import com.fpt.router.library.utils.DecodeUtils;
+import com.fpt.router.model.SearchLocation;
+import com.fpt.router.utils.JSONParseUtils;
+import com.fpt.router.utils.MathUtils;
+=======
+>>>>>>> dbc0bd9ea753bbcf39c25bc7977c0df902bc5d00
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.datasources.LocalVectorDataSource;

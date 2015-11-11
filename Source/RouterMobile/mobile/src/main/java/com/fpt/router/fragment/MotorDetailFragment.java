@@ -421,10 +421,10 @@ public class MotorDetailFragment extends AbstractMapFragment implements GoogleAp
                     getDetailLocation().getStartLocation();
             String smallTittle = listStep.get(i).getManeuver();
             String longTittle = "Thông tin chi tiết";
-            Pair<String, String> detailInstruction = DecodeUtils.getDetailInstruction(
+            String[] detailInstruction = DecodeUtils.getDetailInstruction(
                     listStep.get(i).getInstruction());
-            String smallMessage = detailInstruction.first;
-            String longMessage = detailInstruction.second;
+            String smallMessage = detailInstruction[0];
+            String longMessage = detailInstruction[1];
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
         }

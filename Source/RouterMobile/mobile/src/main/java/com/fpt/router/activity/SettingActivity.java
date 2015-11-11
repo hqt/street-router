@@ -107,7 +107,7 @@ public class SettingActivity extends AppCompatActivity {
                 // start download
                 if (isChecked) {
                     Log.e("hqthao", "start downloading package");
-                    // packageManager.startPackageListDownload();
+                     packageManager.startPackageListDownload();
 
                     // waiting this line until list download
                     // packageManager.startPackageDownload(NUTITEQ.NOTITEQ_VN_CODE);

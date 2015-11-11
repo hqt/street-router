@@ -54,7 +54,22 @@ public class NutiteqMapUtil {
 
         // 3. Add marker
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-        int i = 1;
+        Marker marker = new Marker(markerPos,sharedMarkerStyle);
+        vectorDataSource.add(marker);
+        return marker;
+    }
+
+    public static Marker drawMarkerNutiteqAllOption(MapView mapView, LocalVectorDataSource vectorDataSource, Resources res, Double lat, Double lng, int icon, int size) {
+        Bitmap androidMarkerBitmap = BitmapFactory.decodeResource(res, icon);
+        com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
+        MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
+        markerStyleBuilder.setBitmap(markerBitmap);
+        //markerStyleBuilder.setHideIfOverlapped(false);
+        markerStyleBuilder.setSize(size);
+        MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
+
+        // 3. Add marker
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
         Marker marker = new Marker(markerPos,sharedMarkerStyle);
         vectorDataSource.add(marker);
         return marker;
@@ -364,6 +379,6 @@ public class NutiteqMapUtil {
     }
 
     public static void checkWrongWay (List<LatLng> OverPokyLine, LatLng point) {
-        
+        android.location.Location test;
     }
 }

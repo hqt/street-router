@@ -2,6 +2,8 @@ package com.fpt.router.dal;
 
 import com.fpt.router.model.SearchLocation;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -34,8 +36,10 @@ public class SearchLocationDAL {
     public static List<SearchLocation> getListSearchLocation() {
         Realm realm = Realm.getDefaultInstance();
         RealmQuery<SearchLocation> query = realm.where(SearchLocation.class);
-        RealmResults<SearchLocation> searchLocations = query.findAll();
-        return searchLocations.subList(0, searchLocations.size());
+        RealmResults<SearchLocation> searchLocations = query.findAllSorted("latestUsage", RealmResults.SORT_ORDER_DESCENDING);
+        List<SearchLocation> res =  searchLocations.subList(0, searchLocations.size());
+
+        return res;
     }
 
     public boolean deleteSearchLocation() {
