@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
 import com.fpt.router.framework.OrientationManager;
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
@@ -197,7 +199,27 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
+
+        handlerThread.removeCallbacks(whatMyName);
+        handlerThread.post(whatMyName);
     }
+
+    Handler handlerThread = new Handler();
+
+    private Runnable whatMyName = new Runnable() {
+        @Override
+        public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("hqthao", "fuck fuck fuck");
+                }
+            }).start();
+
+            // continue to run on next time
+            handlerThread.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onStart() {

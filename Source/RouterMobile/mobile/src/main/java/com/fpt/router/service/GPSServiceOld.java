@@ -154,6 +154,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                 @Override
                 public void run() {
                     if (isFakeGPS) {
+                        Log.e("hqthao", "shit :))");
                         onLocationChanged(new Location("a"));
                     }
                 }
