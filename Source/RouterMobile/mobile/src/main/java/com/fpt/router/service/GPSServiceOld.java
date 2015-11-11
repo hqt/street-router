@@ -163,10 +163,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             int speed = PrefStore.getSimulationSpeed();
             speed = (20*1000)/(speed*1000/3600);
 
-            // continue to run on next time. if this variable still true.
-            if (isFakeGPS) {
-                handlerThread.postDelayed(this, speed);
-            }
+            handlerThread.postDelayed(this, speed);
         }
     };
 
