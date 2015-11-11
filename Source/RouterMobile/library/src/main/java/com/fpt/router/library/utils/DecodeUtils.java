@@ -120,17 +120,11 @@ public class DecodeUtils {
         return latLng;
     }
 
-    public static Pair<String, String> getDetailInstruction(String instructions) {
-        Pair<String, String> detailInstruction;
+    public static String[] getDetailInstruction(String instructions) {
+        String[] detailInstruction;
         String delimiter = "<div style=\"font-size:0.9em\">";
-        String[] temp;
         String str = instructions;
-        temp = str.split(delimiter);
-        String subTitle = "";
-        for (int i= 1; i<temp.length;i++){
-            subTitle += temp[i]+"\n";
-        }
-        detailInstruction = new Pair<>(temp[0], subTitle);
+        detailInstruction = str.split(delimiter);
         return detailInstruction;
     }
 

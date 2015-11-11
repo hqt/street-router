@@ -40,7 +40,20 @@
                     android:padding="5dip"
                     android:gravity="center"
                     android:id="@+id/btn_fake_gps"
+                    android:visibility="invisible"
                     android:src="@drawable/ic_gps_fixed_white_24dp"
+                    />
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="#fff"
+                    android:padding="5dip"
+                    android:gravity="center"
+                    android:id="@+id/btn_compass"
+                    android:visibility="invisible"
+                    android:src="@drawable/compass_24dp"
                     />
             </RelativeLayout>
             <RelativeLayout
@@ -65,6 +78,7 @@
                     android:src="@drawable/ic_volume_up_white_24dp"
                     android:padding="5dip"
                     android:gravity="center"
+                    android:visibility="invisible"
                     android:id="@+id/btn_get_sound" />
             </RelativeLayout>
 
