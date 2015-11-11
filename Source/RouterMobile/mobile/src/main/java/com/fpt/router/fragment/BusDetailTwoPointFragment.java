@@ -3,14 +3,17 @@ package com.fpt.router.fragment;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.BusDetailAdapter;
@@ -104,6 +107,7 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
     NMLModel modelCar;
     LocalVectorDataSource vectorDataSource;
     VectorLayer vectorLayer;
+    private FloatingActionButton fab_compass;
 
     public BusDetailTwoPointFragment() {
     }
@@ -126,6 +130,7 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
 
         mListView = (LockableListView) rootView.findViewById(android.R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+        fab_compass = (FloatingActionButton) rootView.findViewById(R.id.fab_compass);
 
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.slidingLayout);
         mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
@@ -152,6 +157,15 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
             public void onGlobalLayout() {
                 mSlidingUpPanelLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 mSlidingUpPanelLayout.onPanelDragged(0);
+            }
+        });
+
+
+        fab_compass.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Toast.makeText(getContext(),"Ngoan -->",Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 
