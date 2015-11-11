@@ -2,6 +2,8 @@ package com.fpt.router.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +45,12 @@ public class BusThreePointAdapter extends RecyclerView.Adapter<BusThreePointAdap
     @Override
     public void onBindViewHolder(BusViewHoder holder, int position) {
 
+        if (position % 2 != 0) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#ECEFF1"));
+        } else {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
         journey = journeys.get(position);
         results = journey.results;
         List<String> numberBusFinal = new ArrayList<>();
@@ -59,7 +68,7 @@ public class BusThreePointAdapter extends RecyclerView.Adapter<BusThreePointAdap
         }
         if(iNodeList_1.get(0) instanceof Path){
             Path path = (Path) iNodeList_1.get(0);
-            holder.startLocation.setText("Từ "+path.stationFromName);
+            holder.startLocation.setText("Đi từ "+ StringUtils.removeCharacter(path.stationFromName));
         }
         //Result 3
         Result result_3 = results.get(1);
@@ -73,11 +82,11 @@ public class BusThreePointAdapter extends RecyclerView.Adapter<BusThreePointAdap
         }
         if(iNodeList_3.get(0) instanceof Path){
             Path path = (Path) iNodeList_3.get(0);
-            holder.way_point_1.setText("Qua "+path.stationFromName);
+            holder.way_point_1.setText("Qua "+StringUtils.removeCharacter(path.stationFromName));
         }
         if(iNodeList_3.get(iNodeList_3.size() - 1) instanceof Path){
             Path path = (Path) iNodeList_3.get(iNodeList_3.size() - 1);
-            holder.endLocation.setText("Đến "+path.stationToName);
+            holder.endLocation.setText("Đến "+StringUtils.removeCharacter(path.stationToName));
         }
 
         if(position == 0){
@@ -112,6 +121,7 @@ public class BusThreePointAdapter extends RecyclerView.Adapter<BusThreePointAdap
         TextView endLocation;
         TextView txtBusNumberEnd;
         TextView txtTitle;
+        CardView cardView;
         public BusViewHoder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -125,6 +135,7 @@ public class BusThreePointAdapter extends RecyclerView.Adapter<BusThreePointAdap
             endLocation = (TextView) itemView.findViewById(R.id.endLocation);
             txtBusNumberEnd = (TextView) itemView.findViewById(R.id.txtBusNumberEnd);
             txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+            cardView = (CardView) itemView.findViewById(R.id.card_view);
         }
 
         @Override

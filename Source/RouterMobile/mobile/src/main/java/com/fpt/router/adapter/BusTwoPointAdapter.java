@@ -23,6 +23,7 @@ import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.library.utils.TimeUtils;
 
 import org.lucasr.twowayview.TwoWayView;
@@ -53,10 +54,11 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
     @Override
     public void onBindViewHolder(final BusViewHoder holder, int position) {
 
-        if(position%2 !=0){
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#E3F2FD"));
+        if (position % 2 != 0) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#ECEFF1"));
+        } else {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
         }
-
 
         List<BusImage> images = new ArrayList<BusImage>();
         List<BusDetail> details = new ArrayList<>();
@@ -69,8 +71,12 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
             images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
             String startWalking = "Từ địa chỉ " + path.stationFromName;
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf((int)path.distance) + " m"));
-            holder.startLocation.setText(startWalking);
+            int distance = (int) path.distance;
+            if(distance < 1){
+                distance = distance +1;
+            }
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(startWalking), String.valueOf(distance) + " m"));
+            holder.startLocation.setText(StringUtils.removeCharacter(startWalking));
         }
         for (int i = 0; i < nodeList.size() - 1; i++) {
             if (nodeList.get(i) instanceof Segment) {
@@ -83,8 +89,8 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
                 paths = segment.paths;
                 busNameUp += paths.get(0).stationFromName;
                 busNameDown += paths.get(paths.size() - 1).stationToName;
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameUp, String.valueOf(segment.routeNo)));
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, String.valueOf(segment.routeNo)));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, StringUtils.removeCharacter(busNameUp), String.valueOf(segment.routeNo)));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, StringUtils.removeCharacter(busNameDown), String.valueOf(segment.routeNo)));
                 numberBusFinal.add(String.valueOf(segment.routeNo));
             }
         }
@@ -92,16 +98,18 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             Path path = (Path) nodeList.get(nodeList.size() - 1);
             String endWalking = "Đến địa chỉ " + path.stationToName;
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf((int)path.distance) + " m"));
-            holder.endLocation.setText(endWalking);
+            int distance = (int) path.distance;
+            if(distance < 1){
+                distance = distance+1;
+            }
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(endWalking), String.valueOf(distance) + " m"));
+            holder.endLocation.setText(StringUtils.removeCharacter(endWalking));
         }
 
         if (position == 0) {
             holder.txtTitle.setText("Tuyến đường được đề nghị ");
-        } else if (position == 1) {
-            holder.txtTitle.setText("Thêm kết quả cho đi xe bus ");
         } else {
-            holder.txtTitle.setVisibility(View.GONE);
+            holder.txtTitle.setText("Thêm kết quả cho đi xe bus ");
         }
 
         BusImageAdapter showImage = new BusImageAdapter(holder.context, images);
