@@ -10,21 +10,22 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "TripNotification")
+@PrimaryKeyJoinColumn(name="NotificationID")
 public class TripNotification extends Notification {
 
-    @Id
+   /* @Id
     @Column(name = "NotificationID", unique = true, nullable = false)
-    private int notificationID;
+    private int notificationID;*/
 
     @Column(name = "ChangeStartTime", nullable = true)
     private LocalTime changeStartTime;
 
     @Column(name = "ChangeEndTime", nullable = true)
     private LocalTime changeEndTime;
-
+/*
     @OneToOne
     @JoinColumn(name = "NotificationID")
-    private Notification notification;
+    private Notification notification;*/
 
     @ManyToOne
     @JoinColumn(name = "TripID", nullable = false)
@@ -34,13 +35,13 @@ public class TripNotification extends Notification {
 
     }
 
-    public int getNotificationID() {
+   /* public int getNotificationID() {
         return notificationID;
     }
 
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
-    }
+    }*/
 
     public LocalTime getChangeStartTime() {
         return changeStartTime;
@@ -58,13 +59,13 @@ public class TripNotification extends Notification {
         this.changeEndTime = changeEndTime;
     }
 
-    public Notification getNotification() {
+   /* public Notification getNotification() {
         return notification;
     }
 
     public void setNotification(Notification notification) {
         this.notification = notification;
-    }
+    }*/
 
     public Trip getTrip() {
         return trip;
