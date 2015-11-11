@@ -22,9 +22,11 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.adapter.AutocompleteAdapter;
+import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.library.config.AppConstants.GoogleApiCode;
 import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.common.AutocompleteObject;
+import com.fpt.router.model.SearchLocation;
 import com.fpt.router.utils.GoogleAPIUtils;
 
 import java.util.ArrayList;
@@ -34,9 +36,9 @@ import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
 
 public class AutoCompleteSearchActivity extends AppCompatActivity {
     public AutocompleteAdapter adapter;
-     /*public AutoCompleteTextView autoComp;*/
-   private EditText autoComp;
-    private ListView listView;
+    /*public AutoCompleteTextView autoComp;*/
+    private EditText autoComp;
+    public ListView listView;
     private ProgressBar progressBar;
     private List<AutocompleteObject> listLocation = new ArrayList<>();
     private AutocompleteObject location;
@@ -44,6 +46,8 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     String phraseShouldToSearch;
     String status;
     private ImageButton mbVoiceSearch;
+    List<SearchLocation> searchLocations = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +61,19 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         // default. hide progress bar
         progressBar.setVisibility(View.INVISIBLE);
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
-        adapter = new AutocompleteAdapter(this, new ArrayList<AutocompleteObject>());
-       // adapter = new AutocompleteAdapter(this, android.R.layout.simple_spinner_dropdown_item, new ArrayList<AutocompleteObject>());
 
+        searchLocations = SearchLocationDAL.getListSearchLocation();
+        if((searchLocations.size() > 0) || (searchLocations == null)){
+            AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
+            listLocation.clear();
+            for (SearchLocation searchLocation: searchLocations){
+                location = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
+                listLocation.add(location);
+            }
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,listLocation);
+        }else{
+            adapter = new AutocompleteAdapter(this, new ArrayList<AutocompleteObject>());
+        }
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
         int number = getIntent().getIntExtra("number", 1);
         String message = getIntent().getStringExtra("message");
@@ -87,7 +101,6 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             listView.setAdapter(adapter);
            // autoComp.setAdapter(adapter);
         }
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -107,7 +120,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         mbVoiceSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AutoCompleteSearchActivity.this,VoiceRecordActivity.class);
+                Intent intent = new Intent(AutoCompleteSearchActivity.this, VoiceRecordActivity.class);
                 startActivity(intent);
             }
         });
@@ -118,7 +131,19 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 phraseShouldToSearch = autoComp.getText().toString().trim();
 
                 if ((phraseShouldToSearch.length() > 0) && (!state)) {
+                    AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.SEARCH_TYPE;
                     startThreadSearch();
+                } else {
+                    AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
+                    adapter.clear();
+                    listLocation.clear();
+                    Log.e("NgoanTT --->",searchLocations.size()+"");
+                    for (SearchLocation searchLocation: searchLocations){
+                        location = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
+                        listLocation.add(location);
+                    }
+                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,listLocation);
+                    listView.setAdapter(adapter);
                 }
             }
 
@@ -137,7 +162,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 if (event.getAction() == KeyEvent.ACTION_DOWN) {
                     switch (keyCode) {
                         case KeyEvent.KEYCODE_ENTER:
-                           return returnPreviousActivity();
+                            return returnPreviousActivity();
                         default:
                             break;
                     }
@@ -154,13 +179,15 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         GetPlacesTask task = new GetPlacesTask();
         //now pass the argument in the textview to the task
         task.execute(phraseShouldToSearch);
+
+
     }
 
     private boolean returnPreviousActivity() {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
-        if ((location != null) ) {
-            if(autoComp.getText().toString().equals(location.getName())) {
+        if ((location != null)) {
+            if (autoComp.getText().toString().equals(location.getName())) {
                 mapLocation.put(number, location);
             } else {
                 AutocompleteObject obj = new AutocompleteObject(autoComp.getText().toString(), "");
@@ -240,16 +267,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                     Toast.makeText(AutoCompleteSearchActivity.this, "Hết quota cmnr", Toast.LENGTH_SHORT).show();
                 }
                 adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, results);
-               // adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_spinner_dropdown_item, results);
+
+                // adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_spinner_dropdown_item, results);
                 /*return;*/
             }
 
             listLocation = results;
             adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, results);
-           // adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_spinner_dropdown_item, results);
+            // adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, android.R.layout.simple_spinner_dropdown_item, results);
             listView.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-           // autoComp.setAdapter(adapter);
+            // autoComp.setAdapter(adapter);
             Log.d("YourApp", "onPostExecute : autoCompleteAdapter" + adapter.getCount());
         }
     }

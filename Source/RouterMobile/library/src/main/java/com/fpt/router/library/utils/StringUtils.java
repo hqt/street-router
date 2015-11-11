@@ -195,4 +195,23 @@ public class StringUtils {
         return tokens;
     }
 
+    public static String removeCharacter(String s){
+        if((s.equals(""))||(s.length()==0)){
+            return s;
+        }
+        if(s.endsWith(", Việt Nam")){
+            s = s.substring(0,s.length() -10);
+            if(s.endsWith("Hồ Chí Minh")){
+                s = s.replace("Hồ Chí Minh","Tp.HCM;");
+            }
+
+        }
+        if(s.endsWith(", Việt Nam;")){
+            s = s.substring(0,s.length()-11);
+            if(s.endsWith("Hồ Chí Minh")){
+                s = s.replace("Hồ Chí Minh","Tp.HCM;");
+            }
+        }
+        return s;
+    }
 }

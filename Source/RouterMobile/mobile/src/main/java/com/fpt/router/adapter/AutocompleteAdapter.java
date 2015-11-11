@@ -20,8 +20,13 @@ import java.util.List;
  * Created by Nguyen Trung Nam on 10/3/2015.
  */
 public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
-    private List<AutocompleteObject> resultList;
+    public static enum  AutoCompleteType{
+        HISTORY_TYPE,
+        SEARCH_TYPE
+    }
 
+    public static AutoCompleteType autoCompleteType;
+    private List<AutocompleteObject> resultList;
 
     public AutocompleteAdapter(Context context, List<AutocompleteObject> arrayList) {
         super(context, R.layout.list_item_autocomplete_search);
@@ -41,8 +46,11 @@ public class AutocompleteAdapter extends ArrayAdapter implements Filterable {
         View rowView = inflater.inflate(R.layout.list_item_autocomplete_search, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imgIcon);
         TextView textView = (TextView) rowView.findViewById(R.id.text1);
-
-        imageView.setImageResource(R.drawable.ic_place_black_24dp);
+        if(autoCompleteType == AutoCompleteType.HISTORY_TYPE){
+            imageView.setImageResource(R.drawable.ic_history_black_24dp);
+        }else{
+            imageView.setImageResource(R.drawable.ic_place_black_24dp);
+        }
         textView.setText(resultList.get(position).getName());
         return rowView;
     }
