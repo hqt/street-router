@@ -30,6 +30,7 @@ import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.cache.DiskLruSoundCache;
 import com.fpt.router.library.utils.StringUtils;
+import com.fpt.router.service.GPSService;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NetworkUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -64,7 +65,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     ImageButton buttonHidenSound;
     ImageButton fakeGPSButton ;
     ImageButton buttonHideFakeGPS ;
-    ImageButton compassButton;
 
     private static final int BUFFER_SIZE = 4096;
 
@@ -89,13 +89,13 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         buttonHidenSound = (ImageButton) findViewById(R.id.btn_hide_get_sound);
         fakeGPSButton = (ImageButton) findViewById(R.id.btn_fake_gps);
         buttonHideFakeGPS = (ImageButton) findViewById(R.id.btn_hide_fake_gps);
-        compassButton = (ImageButton) findViewById(R.id.btn_compass);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         Result result = (Result) getIntent().getSerializableExtra("result");
         Journey journey = (Journey) getIntent().getSerializableExtra("journey");
         position = getIntent().getIntExtra("position", -1);
+
         if (result != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -103,50 +103,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getBusNotifyDistance());
-                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHidenSound.setVisibility(View.GONE);
-                        soundButton.setVisibility(View.VISIBLE);
-                        GPSServiceOld.isPlaySound = false;
-                    }
-                });
-
-                soundButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        soundButton.setVisibility(View.GONE);
-                        buttonHidenSound.setVisibility(View.VISIBLE);
-                        isPlaySound = !isPlaySound;
-                        if (isPlaySound) {
-                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                            downloadAsyncTask.execute();
-                        }
-                        GPSServiceOld.isPlaySound = true;
-                    }
-                });
-
-                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.GONE);
-                        fakeGPSButton.setVisibility(View.VISIBLE);
-                    }
-                });
-                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                        fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
-                        if (isFakeGPS) {
-                            turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                            setDistance(PrefStore.getBusNotifyDistance());
-                        } else {
-                            turnOffFakeGPS();
-                        }
-                    }
-                });*/
             }
         }
 
@@ -157,57 +113,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getMotorNotifyDistance());
-
-                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHidenSound.setVisibility(View.GONE);
-                        soundButton.setVisibility(View.VISIBLE);
-                        GPSServiceOld.isPlaySound = false;
-                    }
-                });
-
-                soundButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        soundButton.setVisibility(View.GONE);
-                        buttonHidenSound.setVisibility(View.VISIBLE);
-                        isPlaySound = !isPlaySound;
-                        if (isPlaySound) {
-                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                            downloadAsyncTask.execute();
-                        }
-                        GPSServiceOld.isPlaySound = true;
-                    }
-                });
-
-                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.GONE);
-                        fakeGPSButton.setVisibility(View.VISIBLE);
-                        isFakeGPS = false;
-                        if(!isFakeGPS) {
-                            turnOffFakeGPS();
-                        }
-                    }
-                });
-
-                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                        fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
-                        if (isFakeGPS) {
-                            turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                            setDistance(PrefStore.getMotorNotifyDistance());
-                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                        } else {
-                            GPSServiceOld.turnOffFakeGPS();
-                        }
-                    }
-                });*/
             }
         }
 
@@ -218,57 +123,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getBusNotifyDistance());
-
-                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHidenSound.setVisibility(View.GONE);
-                        soundButton.setVisibility(View.VISIBLE);
-                        GPSServiceOld.isPlaySound = false;
-                    }
-                });
-
-                soundButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        soundButton.setVisibility(View.GONE);
-                        buttonHidenSound.setVisibility(View.VISIBLE);
-                        isPlaySound = !isPlaySound;
-                        if (isPlaySound) {
-                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                            downloadAsyncTask.execute();
-                        }
-                        GPSServiceOld.isPlaySound = true;
-                    }
-                });
-
-                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.GONE);
-                        fakeGPSButton.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                        fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
-                        if (isFakeGPS) {
-                            turnOnFakeGPS(fragment.getFakeGPSList());
-                            setDistance(PrefStore.getBusNotifyDistance());
-                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                        } else {
-                            turnOffFakeGPS();
-                        }
-                    }
-                });*/
             }
         }
-
-
     }
 
     public void test (final AbstractNutiteqMapFragment frag, final int distance){
@@ -298,7 +154,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             public void onClick(View v) {
                 buttonHideFakeGPS.setVisibility(View.GONE);
                 fakeGPSButton.setVisibility(View.VISIBLE);
-                isFakeGPS = true;
                 turnOnFakeGPS(frag.getFakeGPSList());
                 setDistance(distance);
             }
@@ -307,21 +162,12 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         fakeGPSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compassButton.setVisibility(View.VISIBLE);
-                fakeGPSButton.setVisibility(View.GONE);
-                isFakeGPS = false;
-            }
-        });
-
-        compassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                compassButton.setVisibility(View.GONE);
-                isFakeGPS = false;
+                fakeGPSButton.setVisibility(View.GONE);
                 turnOffFakeGPS();
             }
         });
+
     }
 
     @Override

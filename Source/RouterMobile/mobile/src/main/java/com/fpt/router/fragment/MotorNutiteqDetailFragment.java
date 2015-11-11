@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.Pair;
@@ -69,7 +70,7 @@ import static com.fpt.router.library.utils.DecodeUtils.*;
  */
 public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OnChangedListener {
+        SlidingUpPanelLayout.PanelSlideListener, LocationListener {
 
     private static final String ARG_LOCATION = "arg.location";
     // latitude and longitude
@@ -79,7 +80,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     private LockableListView mListView;
     private SlidingUpPanelLayout mSlidingUpPanelLayout;
 
-    private OrientationManager mOrientationManager;
 
     private View mTransparentHeaderView;
     private View mTransparentView;
@@ -224,13 +224,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
                     R.drawable.orange_small, 20);
         }
-
-        SensorManager sensorManager =
-                (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        mOrientationManager = new OrientationManager(sensorManager);
-
-        mOrientationManager.addOnChangedListener(this);
-        mOrientationManager.start();
     }
 
     @Override
@@ -378,12 +371,14 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-        if(modelCar == null){
-            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
-            modelCar.setScale(400);
-            vectorDataSource.add(modelCar);
+        if(model == null){
+            model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
+            model.setScale(400);
+            vectorDataSource.add(model);
         } else {
-            modelCar.setPos(markerPos);
+            model.setPos(markerPos);
+        }
+        if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
         }
 
@@ -450,22 +445,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         }
                  return notifyModelList;
     }
-
-    @Override
-    public void onOrientationChanged(OrientationManager orientationManager) {
-        float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
-        //System.out.println(azimut);
-        mapView.setMapRotation(360 - azimut, 0f);
-        if(modelCar != null) {
-            modelCar.setRotation(new MapVec(0, 0, 1), 360-azimut);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(OrientationManager orientationManager) {
-
-    }
-
 
     class SendToDataLayerThread extends Thread {
         String path;

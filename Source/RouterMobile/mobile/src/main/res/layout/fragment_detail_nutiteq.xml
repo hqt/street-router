@@ -28,7 +28,7 @@
                 android:layout_height="fill_parent"
                 />
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab"
+                    android:id="@+id/fab_gps_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
@@ -37,29 +37,31 @@
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="5dip"
                     app:backgroundTint="#F1F1F1"
-                    android:src="@drawable/current_place"/>
+                    android:src="@drawable/current_place" />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/fab_gps_on"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fabSize="normal"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dip"
+                    android:layout_marginTop="5dip"
+                    app:backgroundTint="#F1F1F1"
+                    android:visibility="invisible"
+                    android:src="@drawable/ic_gps_fixed_black_24dp"/>
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_compass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
+                    android:visibility="invisible"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="5dp"
                     app:backgroundTint="#F1F1F1"
                     android:src="@drawable/ic_explore_black_24dp"/>
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/fab_gps"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:fabSize="normal"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dip"
-                    android:layout_marginTop="5dip"
-                    app:backgroundTint="#F1F1F1"
-                    android:src="@drawable/ic_gps_fixed_black_24dp"/>
             </RelativeLayout>
 
 

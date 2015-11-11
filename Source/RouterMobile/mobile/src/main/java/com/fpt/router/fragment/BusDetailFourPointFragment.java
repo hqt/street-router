@@ -105,7 +105,6 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
     List<Result> results = new ArrayList<Result>();
     List<Path> pathFinal = new ArrayList<>();
     private BusDetailAdapter adapterItem;
-    NMLModel modelCar;
     LocalVectorDataSource vectorDataSource;
     VectorLayer vectorLayer;
 
@@ -247,12 +246,6 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
                     R.drawable.orange_small);
         }
 */
-        SensorManager sensorManager =
-                (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        mOrientationManager = new OrientationManager(sensorManager);
-
-        mOrientationManager.addOnChangedListener(this);
-        mOrientationManager.start();
     }
 
 
@@ -415,12 +408,14 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-        if (modelCar == null) {
-            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("bus32.nml"));
-            modelCar.setScale(5);
-            vectorDataSource.add(modelCar);
+        if (model == null) {
+            model = new NMLModel(markerPos, AssetUtils.loadBytes("bus32.nml"));
+            model.setScale(5);
+            vectorDataSource.add(model);
         } else {
-            modelCar.setPos(markerPos);
+            model.setPos(markerPos);
+        }
+        if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
         }
     }
@@ -463,23 +458,6 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
         NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
         listNotifies.add(notifyModel);
         return listNotifies;
-    }
-
-    static int count = 0;
-
-    @Override
-    public void onOrientationChanged(OrientationManager orientationManager) {
-        float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
-        //System.out.println(azimut);
-        mapView.setMapRotation(360 - azimut, 0f);
-        if (modelCar != null) {
-            modelCar.setRotation(new MapVec(0, 0, 1), 360 - azimut);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(OrientationManager orientationManager) {
-
     }
 
     class SendToDataLayerThread extends Thread {

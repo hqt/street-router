@@ -104,10 +104,8 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
 
     List<Path> pathFinal = new ArrayList<>();
     private BusDetailAdapter adapterItem;
-    NMLModel modelCar;
     LocalVectorDataSource vectorDataSource;
     VectorLayer vectorLayer;
-    private FloatingActionButton fab_compass;
 
     public BusDetailTwoPointFragment() {
     }
@@ -130,8 +128,6 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
 
         mListView = (LockableListView) rootView.findViewById(android.R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-        fab_compass = (FloatingActionButton) rootView.findViewById(R.id.fab_compass);
-
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.slidingLayout);
         mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
@@ -157,15 +153,6 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
             public void onGlobalLayout() {
                 mSlidingUpPanelLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 mSlidingUpPanelLayout.onPanelDragged(0);
-            }
-        });
-
-
-        fab_compass.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(getContext(),"Ngoan -->",Toast.LENGTH_SHORT).show();
-                return true;
             }
         });
 
@@ -252,12 +239,6 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
                     R.drawable.orange_small);
         }*/
 
-        SensorManager sensorManager =
-                (SensorManager) getContext().getSystemService(Context.SENSOR_SERVICE);
-        mOrientationManager = new OrientationManager(sensorManager);
-
-        mOrientationManager.addOnChangedListener(this);
-        mOrientationManager.start();
     }
 
 
@@ -444,12 +425,14 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-        if (modelCar == null) {
-            modelCar = new NMLModel(markerPos, AssetUtils.loadBytes("bus32.nml"));
-            modelCar.setScale(5);
-            vectorDataSource.add(modelCar);
+        if (model == null) {
+            model = new NMLModel(markerPos, AssetUtils.loadBytes("bus32.nml"));
+            model.setScale(5);
+            vectorDataSource.add(model);
         } else {
-            modelCar.setPos(markerPos);
+            model.setPos(markerPos);
+        }
+        if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
         }
 
@@ -484,21 +467,6 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
         NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
         listNotifies.add(notifyModel);
         return listNotifies;
-    }
-
-    @Override
-    public void onOrientationChanged(OrientationManager orientationManager) {
-        float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
-        //System.out.println(azimut);
-        mapView.setMapRotation(360 - azimut, 0f);
-        if (modelCar != null) {
-            modelCar.setRotation(new MapVec(0, 0, 1), 360 - azimut);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(OrientationManager orientationManager) {
-
     }
 
     class SendToDataLayerThread extends Thread {
