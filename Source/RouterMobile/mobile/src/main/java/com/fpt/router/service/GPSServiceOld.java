@@ -158,8 +158,12 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                     }
                 }
             }).start();
+
+            // counting speed
             int speed = PrefStore.getSimulationSpeed();
             speed = (20*1000)/(speed*1000/3600);
+
+            // continue to run on next time
             handlerThread.postDelayed(this, speed);
         }
     };
