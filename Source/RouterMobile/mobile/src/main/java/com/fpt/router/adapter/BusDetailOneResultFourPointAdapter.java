@@ -95,7 +95,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return results.size();   
     }
 
     public class BusItemViewHolder extends RecyclerView.ViewHolder {
