@@ -20,13 +20,15 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
-import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.model.message.LocationMessage;
+<<<<<<< HEAD
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.model.SearchLocation;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.MathUtils;
+=======
+>>>>>>> dbc0bd9ea753bbcf39c25bc7977c0df902bc5d00
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -55,6 +57,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
     private FloatingActionButton fab_compass;
+    private FloatingActionButton fab_gps;
     private Marker now;
     private GoogleApiClient mGoogleApiClient;
     LocalVectorDataSource vectorDataSource;
@@ -155,8 +158,10 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             }
         });
 
+        fab_gps = (FloatingActionButton) findViewById(R.id.fab_gps);
         fab_compass = (FloatingActionButton) findViewById(R.id.fab_compass);
         fab_compass.setVisibility(View.GONE);
+        fab_gps.setVisibility(View.GONE);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -165,20 +170,31 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                     // initializeMap();
                     mapView.setFocusPos(markerPos, 0);
                     fab.setVisibility(View.GONE);
-                    fab_compass.setVisibility(View.VISIBLE);
+                    fab_compass.setVisibility(View.GONE);
+                    fab_gps.setVisibility(View.VISIBLE);
                     return true;
                 }
                 return true; // consume the event
             }
         });
 
+        fab_gps.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                fab.setVisibility(View.GONE);
+                fab_gps.setVisibility(View.GONE);
+                fab_compass.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
 
         fab_compass.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 fab_compass.setVisibility(View.GONE);
+                fab_gps.setVisibility(View.GONE);
                 fab.setVisibility(View.VISIBLE);
-                return false;
+                return true;
             }
         });
 

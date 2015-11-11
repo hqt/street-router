@@ -68,7 +68,12 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
                 distance = Math.floor(distance*100)/100;
                 txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertToMinute(path.time) +" phút)");
             }else{
-                txtDetail.setText("Đi bộ "+ (int)path.distance +" m ( Khoảng "+ TimeUtils.convertToMinute(path.time) +" phút)");
+                int time = TimeUtils.convertToMinute(path.time);
+                if(distance < 1){
+                    distance = distance + 1;
+                    time = time +1;
+                }
+                txtDetail.setText("Đi bộ "+ (int)distance +" m ( Khoảng "+ time +" phút)");
             }
 
         }

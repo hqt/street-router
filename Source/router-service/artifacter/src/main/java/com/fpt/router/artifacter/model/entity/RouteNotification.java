@@ -8,17 +8,18 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "RouteNotification")
+@PrimaryKeyJoinColumn(name="NotificationID")
 public class RouteNotification extends Notification {
-    @Id
+   /* @Id
     @Column(name = "NotificationID", unique = true, nullable = false)
-    private int notificationId;
+    private int notificationId;*/
 
     @Column(name = "ChangeRouteName", nullable = true)
     private String changeRouteName;
 
-    @OneToOne
+   /* @OneToOne
     @JoinColumn(name = "NotificationID")
-    private Notification notification;
+    private Notification notification;*/
 
     @ManyToOne
     @JoinColumn(name = "RouteID", nullable = false)
@@ -28,19 +29,13 @@ public class RouteNotification extends Notification {
 
     }
 
-    public RouteNotification(int notificationId, String changeRouteName, Notification notification) {
-        this.notificationId = notificationId;
-        this.changeRouteName = changeRouteName;
-        this.notification = notification;
-    }
-
-    public int getNotificationId() {
+    /*public int getNotificationId() {
         return notificationId;
     }
 
     public void setNotificationId(int notificationId) {
         this.notificationId = notificationId;
-    }
+    }*/
 
     public String getChangeRouteName() {
         return changeRouteName;
@@ -50,13 +45,13 @@ public class RouteNotification extends Notification {
         this.changeRouteName = changeRouteName;
     }
 
-    public Notification getNotification() {
+   /* public Notification getNotification() {
         return notification;
     }
 
     public void setNotification(Notification notification) {
         this.notification = notification;
-    }
+    }*/
 
     public Route getRoute() {
         return route;

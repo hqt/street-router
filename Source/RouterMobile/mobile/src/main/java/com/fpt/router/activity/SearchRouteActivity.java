@@ -23,11 +23,13 @@ import android.widget.Toast;
 import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFragment;
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
+import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.model.SearchLocation;
 import com.fpt.router.utils.NetworkUtils;
 
 import org.joda.time.DateTime;
@@ -351,6 +353,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
                     for (Map.Entry<Integer, AutocompleteObject> entry : mapLocation.entrySet()) {
                         Log.i("hqthao", entry.getKey() + "--> " + entry.getValue().getName());
+                        SearchLocationDAL.insertSearchLocation(entry.getValue().getPlace_id(),entry.getValue().getName());
                     }
 
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);

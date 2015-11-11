@@ -5,17 +5,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.library.model.bus.BusDetail;
 import com.fpt.router.library.model.bus.BusImage;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
+import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.library.utils.TimeUtils;
 
 import org.lucasr.twowayview.TwoWayView;
@@ -45,6 +48,19 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
     @Override
     public void onBindViewHolder(final BusItemViewHolder holder, int position) {
 
+        if(position == 0){
+            holder.imgIcon.setImageResource(R.drawable.letter_s);
+        }
+        if(position == 1){
+            if(SearchRouteActivity.mapLocation.size() == 3){
+                holder.imgIcon.setImageResource(R.drawable.letter_e);
+            }else{
+                holder.imgIcon.setImageResource(R.drawable.letter_m);
+            }
+        }
+        if(position == 2){
+            holder.imgIcon.setImageResource(R.drawable.letter_e);
+        }
         List<BusImage> images = new ArrayList<BusImage>();
         List<BusDetail> details = new ArrayList<>();
         result = results.get(position);
@@ -55,7 +71,11 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
             images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
             String startWalking = "Từ địa chỉ " + path.stationFromName;
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, startWalking, String.valueOf((int)path.distance) + " m"));
+            int distance = (int) path.distance;
+            if(distance < 1){
+                distance = distance+1;
+            }
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(startWalking), String.valueOf(distance) + " m"));
         }
 
         for (int i = 0; i < nodeList.size() - 1; i++) {
@@ -69,8 +89,8 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
                 paths = segment.paths;
                 busNameUp += paths.get(0).stationFromName;
                 busNameDown += paths.get(paths.size() - 1).stationToName;
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameUp, String.valueOf(segment.routeNo)));
-                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, busNameDown, String.valueOf(segment.routeNo)));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, StringUtils.removeCharacter(busNameUp), String.valueOf(segment.routeNo)));
+                details.add(new BusDetail(R.drawable.ic_directions_bus_black_24dp, StringUtils.removeCharacter(busNameDown), String.valueOf(segment.routeNo)));
             }
         }
         if (nodeList.get(nodeList.size() - 1) instanceof Path) {
@@ -78,7 +98,11 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
             String endWalking = "Đến địa chỉ " + path.stationToName;
             long time = TimeUtils.convertToMinute(path.time);
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, endWalking, String.valueOf((int)path.distance) + " m"));
+            int distance = (int) path.distance;
+            if(distance <1){
+                distance = distance +1;
+            }
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(endWalking), String.valueOf(distance) + " m"));
         }
 
 
@@ -104,6 +128,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
         ListView lvItemsBusDetails;
         TextView txtDuration;
         TextView txtDistance;
+        ImageView imgIcon;
 
 
         public BusItemViewHolder(View itemView) {
@@ -113,6 +138,7 @@ public class BusDetailOneResultFourPointAdapter extends RecyclerView.Adapter<Bus
             txtDuration = (TextView) itemView.findViewById(R.id.txtDurationTime);
             tvList = (TwoWayView) itemView.findViewById(R.id.lvItems);
             lvItemsBusDetails = (ListView) itemView.findViewById(R.id.lvBusDetails);
+            imgIcon = (ImageView) itemView.findViewById(R.id.imgIcon);
         }
 
     }

@@ -34,11 +34,10 @@ public class Work {
         System.out.println("Size Route on Map: " + map.getRoutes().size());
 
         int a = 3;
-//        MapDAL.insertDatabase(map);
+        MapDAL.insertDatabase(map);
 
         JPADaoImpl.closeFactory();
         return map;
-
 
     }
 

@@ -9,11 +9,12 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "StationNotification")
+@PrimaryKeyJoinColumn(name="NotificationID")
 public class StationNotification extends Notification {
 
-    @Id
+   /* @Id
     @Column(name = "NotificationID", unique = true, nullable = false)
-    private int notificationID;
+    private int notificationID;*/
 
     @Column(name = "ChangeName", nullable = true)
     private String changeName;
@@ -27,9 +28,9 @@ public class StationNotification extends Notification {
     @Column(name = "ChangeLongitude", nullable = true)
     private double changeLongitude;
 
-    @OneToOne
+   /* @OneToOne
     @JoinColumn(name = "NotificationID")
-    private Notification notification;
+    private Notification notification;*/
 
     @ManyToOne
     @JoinColumn(name = "StationID", nullable = false)
@@ -39,13 +40,13 @@ public class StationNotification extends Notification {
 
     }
 
-    public int getNotificationID() {
+    /*public int getNotificationID() {
         return notificationID;
     }
 
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
-    }
+    }*/
 
     public String getChangeName() {
         return changeName;
@@ -79,13 +80,13 @@ public class StationNotification extends Notification {
         this.changeLongitude = changeLongitude;
     }
 
-    public Notification getNotification() {
-        return notification;
-    }
+       /* public Notification getNotification() {
+            return notification;
+        }
 
-    public void setNotification(Notification notification) {
-        this.notification = notification;
-    }
+        public void setNotification(Notification notification) {
+            this.notification = notification;
+        }*/
 
     public Station getStation() {
         return station;
