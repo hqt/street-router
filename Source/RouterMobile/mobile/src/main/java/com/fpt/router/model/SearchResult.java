@@ -15,4 +15,28 @@ public class SearchResult extends RealmObject {
     private String placeId;
     private String placeName;
     private Date latestUsage;
+
+    public Date getLatestUsage() {
+        return latestUsage;
+    }
+
+    public void setLatestUsage(Date latestUsage) {
+        this.latestUsage = latestUsage;
+    }
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
+    }
 }
