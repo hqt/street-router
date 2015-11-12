@@ -353,7 +353,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
                     for (Map.Entry<Integer, AutocompleteObject> entry : mapLocation.entrySet()) {
                         Log.i("hqthao", entry.getKey() + "--> " + entry.getValue().getName());
-                        SearchLocationDAL.insertSearchLocation(entry.getValue().getPlace_id(),entry.getValue().getName());
+                        AutocompleteObject location = entry.getValue();
+                        if ((location.getPlace_id() != null) && (location.getPlace_id().trim().length() > 0)) {
+                            SearchLocationDAL.insertSearchLocation(location.getPlace_id(), location.getName());
+                        }
                     }
 
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);

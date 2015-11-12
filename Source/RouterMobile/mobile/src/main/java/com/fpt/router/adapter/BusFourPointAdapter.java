@@ -45,7 +45,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
     public void onBindViewHolder(BusViewHoder holder, int position) {
 
         if (position % 2 != 0) {
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#ECEFF1"));
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#DFEEF7"));
         } else {
             holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
         }

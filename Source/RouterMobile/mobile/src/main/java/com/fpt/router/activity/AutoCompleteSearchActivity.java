@@ -63,14 +63,18 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
 
         searchLocations = SearchLocationDAL.getListSearchLocation();
-        if((searchLocations.size() > 0) || (searchLocations == null)){
+        if((searchLocations == null) || (searchLocations.size() > 0)){
             AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
-            listLocation.clear();
+            List<AutocompleteObject> autoList = new ArrayList<>();
+            AutocompleteObject autoObject;
+
             for (SearchLocation searchLocation: searchLocations){
-                location = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
-                listLocation.add(location);
+                autoObject = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
+                autoList.add(autoObject);
             }
-            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,listLocation);
+            listLocation = autoList;
+
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,autoList);
         }else{
             adapter = new AutocompleteAdapter(this, new ArrayList<AutocompleteObject>());
         }
@@ -136,13 +140,17 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 } else {
                     AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
                     adapter.clear();
-                    listLocation.clear();
+                    List<AutocompleteObject> autoList = new ArrayList<AutocompleteObject>();
+                    AutocompleteObject autoObject;
+
                     Log.e("NgoanTT --->",searchLocations.size()+"");
                     for (SearchLocation searchLocation: searchLocations){
-                        location = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
-                        listLocation.add(location);
+                        autoObject = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
+                        autoList.add(autoObject);
                     }
-                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,listLocation);
+                    listLocation = autoList;
+
+                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,autoList);
                     listView.setAdapter(adapter);
                 }
             }

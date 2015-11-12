@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
+import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.model.message.LocationMessage;
