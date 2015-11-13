@@ -42,7 +42,7 @@ android:background="@drawable/wallpaper">
     android:id="@+id/textview"
     android:gravity="center"
     android:layout_margin="5dp"
-    android:textColor="@color/common_signin_btn_dark_text_default"
+    android:textColor="@color/common_google_signin_btn_text_dark"
     android:layout_gravity="center_vertical"
     android:layout_alignParentBottom="true" />
 </RelativeLayout>
