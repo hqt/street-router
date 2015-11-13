@@ -58,11 +58,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     private Context mContext;
 
     // flag for GPS status
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
 
     // flag for network status
-    boolean isNetworkEnabled = false;
+    private boolean isNetworkEnabled = false;
 
     // flag for GPS status
     public static boolean isFakeGPS = false;
@@ -153,11 +153,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             // counting speed
             int speed = PrefStore.getSimulationSpeed();
             speed = (20*1000)/(speed*1000/3600);
-
-            // should this if contains ? checking
-            /*if (isFakeGPS) {
-                fakeGPSHandler.postDelayed(this, speed);
-            }*/
 
             if (isFakeGPS) {
                 fakeGPSHandler.postDelayed(this, speed);
@@ -304,6 +299,21 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             local.setLongitude(location.getLongitude());
             new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
         }
+    }
+
+    public boolean checkGPSStatus() {
+        return isGPSEnabled;
+    }
+
+    public boolean checkNewWorkStatus() {
+        return isNetworkEnabled;
+    }
+    /**
+     * Function to check GPS/wifi enabled
+     * @return boolean
+     * */
+    public boolean canGetLocation() {
+        return this.canGetLocation;
     }
 
     @Override

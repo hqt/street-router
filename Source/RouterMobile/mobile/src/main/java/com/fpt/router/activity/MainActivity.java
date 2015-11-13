@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +29,7 @@ import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -73,6 +75,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     public static BusLocation ng_bus_location;
     Marker marker;
     ImageButton ng_btn_close;
+    public static boolean flat_gps = false;
     //Test sensor
 
     private OrientationManager mOrientationManager;
@@ -188,7 +191,14 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                     Intent intent = new Intent(MainActivity.this, SearchRouteActivity.class);
                     if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
                         AutocompleteObject search_location = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
-                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, search_location);
+                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.TO_LOCATION, search_location);
+                    }
+
+                    LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+                    boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    if(statusOfGPS == true){
+                        flat_gps = true;
+                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION,null);
                     }
                     startActivity(intent);
                     return true;

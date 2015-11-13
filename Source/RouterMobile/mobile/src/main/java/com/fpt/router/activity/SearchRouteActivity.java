@@ -135,6 +135,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+        }else{
+            edit_1.setText("Vị trí của bạn");
         }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
@@ -165,6 +167,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(adapter.getTabView(i));
         }
+
 
         //edit text 1
         edit_1.setOnClickListener(new View.OnClickListener() {
@@ -365,9 +368,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                     }
 
                     for (Map.Entry<Integer, AutocompleteObject> entry : mapLocation.entrySet()) {
-                        Log.i("hqthao", entry.getKey() + "--> " + entry.getValue().getName());
                         AutocompleteObject location = entry.getValue();
-                        if ((location.getPlace_id() != null) && (location.getPlace_id().trim().length() > 0)) {
+                        if ((location != null) && (location.getPlace_id() != null) && (location.getPlace_id().trim().length() > 0)) {
                             SearchLocationDAL.insertSearchLocation(location.getPlace_id(), location.getName());
                         }
                     }
@@ -452,7 +454,12 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         } else {
-            edit_1.setText("");
+            if(MainActivity.flat_gps){
+                edit_1.setText("Vị trí của bạn");
+            }else{
+                edit_1.setText("");
+            }
+
         }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {

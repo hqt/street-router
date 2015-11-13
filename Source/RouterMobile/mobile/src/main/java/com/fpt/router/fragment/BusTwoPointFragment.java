@@ -32,9 +32,11 @@ import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.utils.APIUtils;
+import com.fpt.router.utils.CheckDuplicateUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.utils.SortUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -88,6 +90,7 @@ public class BusTwoPointFragment extends Fragment {
 
     /**
      * load json from asset test not server
+     *
      * @return
      */
     public String loadJSONFromAsset() {
@@ -257,33 +260,8 @@ public class BusTwoPointFragment extends Fragment {
 
             activity.searchType = null;
             activity.needToSearch = false;
-
-            //check duplicate
-            for(int i = 0; i<resultList.size();i++){
-                Result result = resultList.get(i);
-                List<String> compare = new ArrayList<>();
-                List<INode> iNodeList = result.nodeList;
-                for (int j=0;j<iNodeList.size();j++){
-                   if(iNodeList.get(j) instanceof Segment){
-                       Segment segment = (Segment) iNodeList.get(j);
-                       compare.add(String.valueOf(segment.routeNo));
-                   }
-                }
-                result.compare = compare;
-            }
-
-            for (int k = 0; k <resultList.size();k++){
-
-                for(int m = k; m<resultList.size();m++){
-                    List<String> one = resultList.get(k).compare;
-                    List<String> two = resultList.get(m).compare;
-                    boolean compare_equal = StringUtils.equalLists(one,two);
-                    if(compare_equal){
-                      resultList.remove(m);
-                    }
-                }
-            }
-
+            SortUtils.sortResult(resultList);
+            resultList =  CheckDuplicateUtils.checkDuplicateResult(resultList);
             SearchRouteActivity.results = resultList;
             recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
             recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));

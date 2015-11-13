@@ -29,9 +29,11 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
 import com.fpt.router.utils.APIUtils;
+import com.fpt.router.utils.CheckDuplicateUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.utils.SortUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -251,6 +253,9 @@ public class BusFourPointFragment extends Fragment {
 
             activity.searchType = null;
             activity.needToSearch = false;
+
+            SortUtils.sortJourney(journeyList);
+            journeyList = CheckDuplicateUtils.checkDuplicateJourney(journeyList);
 
             SearchRouteActivity.journeys = journeyList;
             if(SearchRouteActivity.mapLocation.size() == 3){
