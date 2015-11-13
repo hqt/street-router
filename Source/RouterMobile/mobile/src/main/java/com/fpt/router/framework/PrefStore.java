@@ -44,6 +44,12 @@ public class PrefStore {
     /** Preference key for motorbike notify distance  */
     public static final String PREF_MOTOR_NOTIFY_DISTANCE = "motor_notify_distance";
 
+    /** Preference key for bus sort type */
+    public static final String PREF_BUS_SORT_TYPE = "bus_sort_type";
+
+    /** Preference key for motorbike sort type  */
+    public static final String PREF_MOTOR_SORT_TYPE = "motor_sort_type";
+
     ///////////////////////////////////////////////////////////////
     /////////////////   DEFAULT VALUE   ///////////////////////////
     /** Default value for {@link PrefStore#PREF_IS_FIRST_RUN} */
@@ -75,6 +81,12 @@ public class PrefStore {
 
     /** Default value for {@link PrefStore#PREF_MOTOR_NOTIFY_DISTANCE} */
     public static final int DEFAULT_MOTOR_NOTIFY_DISTANCE = 150;
+
+    /** Default value for {@link PrefStore#PREF_BUS_SORT_TYPE} */
+    public static final int DEFAULT_BUS_SORT_TYPE = 0;
+
+    /** Default value for {@link PrefStore#PREF_MOTOR_SORT_TYPE} */
+    public static final int DEFAULT_MOTOR_SORT_TYPE = 0;
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
@@ -120,6 +132,15 @@ public class PrefStore {
 
     public static int getMotorNotifyDistance() {
         return getSharedPreferences().getInt(PREF_MOTOR_NOTIFY_DISTANCE, DEFAULT_MOTOR_NOTIFY_DISTANCE);
+    }
+
+
+    public static int getBusSortType() {
+        return getSharedPreferences().getInt(PREF_BUS_SORT_TYPE, DEFAULT_BUS_SORT_TYPE);
+    }
+
+    public static int getMotorSortType() {
+        return getSharedPreferences().getInt(PREF_MOTOR_SORT_TYPE, DEFAULT_MOTOR_SORT_TYPE);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -176,6 +197,18 @@ public class PrefStore {
     public static void setMotorNotifyDistance(int distance) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putInt(PREF_MOTOR_NOTIFY_DISTANCE, distance);
+        editor.commit();
+    }
+
+    public static void setBusSortType(int type) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_BUS_SORT_TYPE, type);
+        editor.commit();
+    }
+
+    public static void setMotorSortType(int type) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_MOTOR_SORT_TYPE, type);
         editor.commit();
     }
 
