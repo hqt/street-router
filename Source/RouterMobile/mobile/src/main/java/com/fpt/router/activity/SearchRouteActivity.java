@@ -39,12 +39,13 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SearchRouteActivity extends AppCompatActivity implements RadialTimePickerDialogFragment.OnTimeSetListener{
+public class SearchRouteActivity extends AppCompatActivity implements RadialTimePickerDialogFragment.OnTimeSetListener {
 
-    public static enum TabPosition{
+    public static enum TabPosition {
         TAB_BUS,
         TAB_MOTORBIKE
     }
+
     public enum SearchType {
         BUS_TWO_POINT,
         BUS_FOUR_POINT,
@@ -135,7 +136,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
-        }else{
+        }
+        if (MainActivity.flat_gps) {
             edit_1.setText("Vị trí của bạn");
         }
 
@@ -148,10 +150,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
 
-        if(ng_tab_position == TabPosition.TAB_BUS){
-           _view_pager.setCurrentItem(0);
+        if (ng_tab_position == TabPosition.TAB_BUS) {
+            _view_pager.setCurrentItem(0);
         }
-        if(ng_tab_position == TabPosition.TAB_MOTORBIKE){
+        if (ng_tab_position == TabPosition.TAB_MOTORBIKE) {
             _view_pager.setCurrentItem(1);
         }
         //_view_pager.setCurrentItem(1);
@@ -454,9 +456,9 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         } else {
-            if(MainActivity.flat_gps){
+            if (MainActivity.flat_gps) {
                 edit_1.setText("Vị trí của bạn");
-            }else{
+            } else {
                 edit_1.setText("");
             }
 

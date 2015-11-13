@@ -178,6 +178,27 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         super.onDestroy();
     }
 
+    public double getLatitude(){
+        if(location != null){
+            latitude = location.getLatitude();
+        }
+
+        // return latitude
+        return latitude;
+    }
+
+    /**
+     * Function to get longitude
+     * */
+    public double getLongitude(){
+        if(location != null){
+            longitude = location.getLongitude();
+        }
+
+        // return longitude
+        return longitude;
+    }
+
     public Location getLocation() {
         try {
 

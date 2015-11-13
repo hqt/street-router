@@ -33,6 +33,8 @@ import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.service.GPSService;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
