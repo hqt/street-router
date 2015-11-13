@@ -18,6 +18,7 @@ import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
@@ -26,11 +27,13 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.NotificationUtils;
 import com.fpt.router.library.utils.SoundUtils;
+import com.fpt.router.utils.PolyLineUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.Node;
@@ -154,6 +157,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                 @Override
                 public void run() {
                     if (isFakeGPS) {
+                        Log.e("NAM: ", "Namdeptrai");
                         onLocationChanged(new Location("a"));
                     }
                 }
@@ -267,6 +271,10 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         return longitude;
     }
 
+    public void checkStepIndex(Location location) {
+
+    }
+
     public boolean isNearLocation(Location location) {
         if (listNotify == null) {
             return false;
@@ -275,6 +283,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
         LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                 listNotify.get(stepIndex).location.getLongitude());
+        if(PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, DecodeUtils.decodePoly(SearchRouteActivity.listLeg.get(0).getSteps().get(0).getPolyline()), true, true, 100)) {
+            Log.e("Nam:", "Nằm trong đường");
+        }
         if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
             notifyIndex = stepIndex;
             stepIndex = (stepIndex + 1) % listNotify.size();

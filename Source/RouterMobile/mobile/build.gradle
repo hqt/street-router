@@ -70,9 +70,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     wearApp project(':wear')
-
     compile 'com.nutiteq:nutiteq-sdk:3.2.1'
-
     compile 'io.realm:realm-android:0.84.1'
 
     compile 'com.android.support:appcompat-v7:23.1.0'

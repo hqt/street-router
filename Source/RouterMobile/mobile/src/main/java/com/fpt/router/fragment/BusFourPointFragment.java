@@ -28,6 +28,7 @@ import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
@@ -165,6 +166,10 @@ public class BusFourPointFragment extends Fragment {
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                } else {
+                    GPSServiceOld gpsServiceOld = new GPSServiceOld();
+                    busLocations.add(new BusLocation(gpsServiceOld.getLatitude(),
+                            gpsServiceOld.getLongitude(), "Vị trí hiện tại."));
                 }
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));

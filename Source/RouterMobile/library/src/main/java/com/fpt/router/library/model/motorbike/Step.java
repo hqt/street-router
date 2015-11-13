@@ -14,18 +14,20 @@ import java.util.List;
  */
 public class Step implements IWearableModel<Step> {
     private String instruction;
-        private String maneuver;
+    private String maneuver;
     private DetailLocation detailLocation;
+    private String polyline;
 
     public Step() {
 
     }
 
-    public Step(String Instruction, String Maneuver, DetailLocation DetailLocation) {
+    public Step(String Instruction, String Maneuver, DetailLocation DetailLocation, String polyline) {
 
         this.instruction = Instruction;
         this.maneuver = Maneuver;
         this.detailLocation = DetailLocation;
+        this.polyline = polyline;
     }
 
     public String getInstruction() {
@@ -52,12 +54,17 @@ public class Step implements IWearableModel<Step> {
         this.detailLocation = detailLocation;
     }
 
+    public void setPolyline(String polyline) {this.polyline = polyline; }
+
+    public String getPolyline() {return polyline;}
+
     @Override
     public void dataMapToModel(DataMap dataMap) {
         this.instruction = dataMap.getString("instruction");
         this.maneuver = dataMap.getString("maneuver");
         this.detailLocation = new DetailLocation();
         this.detailLocation.dataMapToModel(dataMap.getDataMap("detail_location"));
+        this.polyline = dataMap.getString("polyline");
     }
 
     @Override
@@ -66,6 +73,7 @@ public class Step implements IWearableModel<Step> {
         dataMap.putString("instruction", instruction);
         dataMap.putString("maneuver", maneuver);
         dataMap.putDataMap("detail_location", detailLocation.putToDataMap());
+        dataMap.putString("polyline", polyline);
         return  dataMap;
     }
 
@@ -103,12 +111,14 @@ public class Step implements IWearableModel<Step> {
         dest.writeString(this.instruction);
         dest.writeString(this.maneuver);
         dest.writeParcelable(this.detailLocation, 0);
+        dest.writeString(this.polyline);
     }
 
     protected Step(Parcel in) {
         this.instruction = in.readString();
         this.maneuver = in.readString();
         this.detailLocation = in.readParcelable(com.fpt.router.library.model.motorbike.DetailLocation.class.getClassLoader());
+        this.polyline = in.readString();
     }
 
     public static final Parcelable.Creator<Step> CREATOR = new Parcelable.Creator<Step>() {
