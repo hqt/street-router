@@ -319,6 +319,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         _btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Clear data
+                listLeg.clear();
+                results.clear();
+                journeys.clear();
                 // validation
                 if ("".equals(edit_1.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
