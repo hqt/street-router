@@ -47,6 +47,17 @@
     <string name="title_activity_fuck">FuckActivity</string>
     <string name="title_activity_search_detail">SearchDetailActivity</string>
 
+    <string-array name="bus_sort_type">
+        <item>Lượt xe buýt</item>
+        <item>Thời gian</item>
+        <item>Khoảng cách</item>
+    </string-array>
+
+    <string-array name="motor_sort_type">
+        <item>Thời gian</item>
+        <item>Khoảng cách</item>
+    </string-array>
+
     <string-array name="transfer_turn_arrays">
         <item>1 lượt</item>
         <item>2 lượt</item>
