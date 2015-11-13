@@ -36,6 +36,7 @@ public class JSONParseUtils {
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
+        String polyline;
         JSONObject jo;
         JSONObject jsonO;
         JSONArray jsonA;
@@ -71,7 +72,9 @@ public class JSONParseUtils {
                         Maneuver = "Keep going";
                     }
                     stepDetailL = getDetailLocation(jo);
-                    listStep.add(new Step(Instruction, Maneuver, stepDetailL));
+                    JSONObject polylineJSON = jo.getJSONObject("polyline");
+                    polyline = polylineJSON.getString("points");
+                    listStep.add(new Step(Instruction, Maneuver, stepDetailL, polyline));
                 }
                 leg = new Leg(EndAddress, StartAddress, legDetailL, listStep, Overview_polyline);
                 listLeg.add(leg);
@@ -271,6 +274,7 @@ public class JSONParseUtils {
         String Instruction;
         String Maneuver;
         DetailLocation stepDetailL;
+        String polyline;
         JSONObject jo;
         JSONObject jsonO;
         JSONArray jsonA;
@@ -305,7 +309,8 @@ public class JSONParseUtils {
                         Maneuver = "Keep going";
                     }
                     stepDetailL = getDetailLocation(jo);
-                    listStep.add(new Step(Instruction, Maneuver, stepDetailL));
+                    polyline = jo.getString("points");
+                    listStep.add(new Step(Instruction, Maneuver, stepDetailL, polyline));
                 }
                 leg = new Leg(EndAddress, StartAddress, legDetailL, listStep, Overview_polyline);
                 listLeg.add(leg);

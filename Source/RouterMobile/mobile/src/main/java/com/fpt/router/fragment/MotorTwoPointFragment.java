@@ -17,11 +17,14 @@ import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.MotorAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.SearchField;
+import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.RouterDetailTwoPoint;
 import com.fpt.router.library.model.motorbike.Step;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
@@ -117,7 +120,18 @@ public class MotorTwoPointFragment extends Fragment {
             List<Leg> listLeg = new ArrayList<>();
             String json;
             String url;
-            url = GoogleAPIUtils.getTwoPointDirection(mapLocation.get(SearchField.FROM_LOCATION), mapLocation.get(SearchField.TO_LOCATION));
+            List<AutocompleteObject> locationAutoCompletes = new ArrayList<>();
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
+                locationAutoCompletes.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+            } else {
+                GPSServiceOld gpsServiceOld = new GPSServiceOld();
+                String latlng = gpsServiceOld.getLatitude() + "," + gpsServiceOld.getLongitude();
+                locationAutoCompletes.add(new AutocompleteObject(latlng, ""));
+            }
+            if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                locationAutoCompletes.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
+            }
+            url = GoogleAPIUtils.getTwoPointDirection(locationAutoCompletes.get(0), locationAutoCompletes.get(1));
             json = NetworkUtils.download(url);
             try {
                 jsonObject = new JSONObject(json);
