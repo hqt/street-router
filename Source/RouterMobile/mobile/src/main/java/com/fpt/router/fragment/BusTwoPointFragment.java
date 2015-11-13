@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,6 +140,8 @@ public class BusTwoPointFragment extends Fragment {
 
     private class JSONParseTask extends AsyncTask<String, String, List<Result>> {
         private ProgressDialog pDialog;
+        int totalProgress;
+        int currentProgress;
 
         @Override
         protected void onPreExecute() {
@@ -212,6 +215,13 @@ public class BusTwoPointFragment extends Fragment {
                 }
             }
 
+            if (!SearchBus.IS_USED_REAL_WALKING) {
+                return resultList;
+            }
+
+            // find how many request should be sent
+            // each results
+
             /**
              * GET LIST RESULT AND SET AGAIN WALKING PATH
              */
@@ -226,6 +236,7 @@ public class BusTwoPointFragment extends Fragment {
                         LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
                         String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
                         String json = NetworkUtils.download(url);
+                        Log.e("hqthao", "URL Download: " + url);
                         try {
                             JSONObject jsonObject = new JSONObject(json);
                             String status = jsonObject.getString("status");

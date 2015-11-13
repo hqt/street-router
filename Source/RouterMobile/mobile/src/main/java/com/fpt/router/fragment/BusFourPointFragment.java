@@ -135,6 +135,7 @@ public class BusFourPointFragment extends Fragment {
 
     private class JSONParseTask extends AsyncTask<String, String, List<Journey>> {
         private ProgressDialog pDialog;
+        int totalProgress;
 
         @Override
         protected void onPreExecute() {
@@ -201,6 +202,12 @@ public class BusFourPointFragment extends Fragment {
 
                 }
             }
+
+            if (!SearchBus.IS_USED_REAL_WALKING) {
+                return journeyList;
+            }
+
+            // Find how many request should be sent
 
             /* *
             * GET LIST RESULT AND SET AGAIN FOR WALKING PATH
