@@ -1,247 +1,360 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark" />
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_below="@+id/toolbar"
-        android:background="@drawable/main_drop_shadow"></View>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical"
-        android:padding="5dp">
-
-        <LinearLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="horizontal">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="left|center"
-                android:padding="5dp"
-                android:text="Bus Server IP : "
-                android:textColor="#42535E"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_ip"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:hint="192.168.1.1"
-                android:textCursorDrawable="@null"
-                android:paddingLeft="10dp"
-                android:textColor="#000" />
-        </LinearLayout>
-
-        <LinearLayout
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
+            android:layout_height="4dp"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/main_drop_shadow"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="left|center"
-                android:padding="5dp"
-                android:text="Bus Server Port : "
-                android:textColor="#42535E"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_port"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:hint="8080"
-                android:textCursorDrawable="@null"
-                android:inputType="number"
-                android:paddingLeft="10dp"
-                android:textColor="#000" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="left|center"
-                android:padding="5dp"
-                android:text="Simulate speed (km/h) : "
-                android:textColor="#42535E"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_stimulate_speed"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:hint="120"
-                android:textCursorDrawable="@null"
-                android:inputType="number"
-                android:paddingLeft="10dp"
-                android:textColor="#000" />
-        </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="left|center"
-                android:padding="5dp"
-                android:text="Khoảng cách thông báo trạm(m):"
-                android:textColor="#42535E"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_bus_distance"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:hint="120"
-                android:textCursorDrawable="@null"
-                android:inputType="number"
-                android:paddingLeft="10dp"
-                android:textColor="#000" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:gravity="left|center"
-                android:padding="5dp"
-                android:text="Khoảng cách thông báo xe máy(m):"
-                android:textColor="#42535E"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/edit_motor_distance"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left|center"
-                android:hint="120"
-                android:textCursorDrawable="@null"
-                android:inputType="number"
-                android:paddingLeft="10dp"
-                android:textColor="#000" />
-        </LinearLayout>
-
-
-
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center_vertical"
-            android:layout_marginBottom="15dip"
-            android:layout_marginTop="5dip"
-            android:checked="true"
-            android:text="Tải Map Offline (65MB)"
-            android:textColor="#42535E"
-            android:textSize="16sp"
-            android:textStyle="normal" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/toolbar"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-       <!-- <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:textColor="#1E88E5"
+                android:textStyle="bold"
+                android:text="Cấu hình hệ thống"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/drop_shadow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Bus Server IP : "
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:hint="192.168.1.1"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Bus Server Port : "
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:hint="8080"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Simulate speed (km/h) : "
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_stimulate_speed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:hint="120"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:textColor="#1E88E5"
+                android:textStyle="bold"
+                android:text="Khoảng cách thông báo (m)"/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/drop_shadow" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Trạm xe buýt:"
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_bus_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:hint="120"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Xe máy:"
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edit_motor_distance"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:hint="120"
+                    android:inputType="number"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:textColor="#1E88E5"
+                android:textStyle="bold"
+                android:text="Ưu tiên kết quả tìm "/>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/drop_shadow" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Xe buýt:"
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/bus_sort_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:entries="@array/bus_sort_type"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="left|center"
+                    android:padding="5dp"
+                    android:text="Xe máy:"
+                    android:textColor="#1E88E5"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.AppCompatSpinner
+                    android:id="@+id/motor_sort_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:entries="@array/motor_sort_type"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="2dip"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/drop_shadow" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_marginBottom="15dip"
+                android:layout_marginTop="5dip"
+                android:checked="true"
+                android:text="Tải Map Offline (65MB)"
+                android:textColor="#2962FF"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+            <!-- <RelativeLayout
+                 android:layout_width="fill_parent"
+                 android:layout_height="wrap_content">
+
+                 <ProgressBar
+                     android:id="@+id/progress_bar"
+                     android:layout_width="fill_parent"
+                     android:layout_height="32dp"/>
+
+                 <TextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:text="thao"
+                     android:layout_alignBottom="@id/progress_bar"
+                     android:layout_alignLeft="@id/progress_bar"
+                     android:layout_alignRight="@id/progress_bar"
+                     android:layout_alignTop="@id/progress_bar"
+                     android:background="#00000000"/>
+
+             </RelativeLayout>-->
 
             <ProgressBar
                 android:id="@+id/progress_bar"
+                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="32dp"/>
-
-            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="thao"
-                android:layout_alignBottom="@id/progress_bar"
-                android:layout_alignLeft="@id/progress_bar"
-                android:layout_alignRight="@id/progress_bar"
-                android:layout_alignTop="@id/progress_bar"
-                android:background="#00000000"/>
-
-        </RelativeLayout>-->
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="32dp" />
+                android:layout_height="32dp" />
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal"
-            android:paddingRight="30dp">
-
-            <Button
-                android:id="@+id/btn_ok"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="#42535E"
-                android:text="Đồng ý"
-                android:textColor="#fff" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:paddingRight="30dp">
 
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:background="#42535E"
-                android:text="Huỷ bỏ"
-                android:textColor="#fff" />
+                <Button
+                    android:id="@+id/btn_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="#2196F3"
+                    android:text="Đồng ý"
+                    android:textColor="#fff" />
+
+                <Button
+                    android:id="@+id/btn_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="#2196F3"
+                    android:text="Huỷ bỏ"
+                    android:textColor="#fff" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
-
-    </LinearLayout>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

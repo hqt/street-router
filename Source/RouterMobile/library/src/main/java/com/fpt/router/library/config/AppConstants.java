@@ -6,6 +6,7 @@ package com.fpt.router.library.config;
 public class AppConstants {
 
     public static String SERVER_ADDRESS = "http://192.168.1.1:8080";
+    public static double EPS = 0.0001;
 
     private static final String GOOGLE_KEY_1 = "AIzaSyBkY1ok25IxoD6nRl_hunFAtTbh1EOss5A";
     private static final String GOOGLE_KEY_2 = "AIzaSyDfRreMPCuDwSRaZdrnk64Ou_4YV-pTheQ";

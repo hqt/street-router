@@ -33,6 +33,7 @@ import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.utils.SortUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -256,6 +257,8 @@ public class BusFourPointFragment extends Fragment {
 
             activity.searchType = null;
             activity.needToSearch = false;
+
+            SortUtils.sortJourney(journeyList);
 
             SearchRouteActivity.journeys = journeyList;
             if(SearchRouteActivity.mapLocation.size() == 3){

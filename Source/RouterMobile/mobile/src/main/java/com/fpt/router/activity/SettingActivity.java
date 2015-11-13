@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.fpt.router.R;
@@ -50,6 +52,9 @@ public class SettingActivity extends AppCompatActivity {
     EditText busNotifyDistanceText;
     EditText motorNotifyDistanceText;
 
+    Spinner busSortTypeSpinner;
+    Spinner motorSortTypeSpinner;
+
     Button okButton;
     Button cancelButton;
 
@@ -79,6 +84,9 @@ public class SettingActivity extends AppCompatActivity {
         busNotifyDistanceText = (EditText) findViewById(R.id.edit_bus_distance);
         motorNotifyDistanceText = (EditText) findViewById(R.id.edit_motor_distance);
 
+        busSortTypeSpinner = (Spinner) findViewById(R.id.bus_sort_spinner);
+        motorSortTypeSpinner = (Spinner) findViewById(R.id.motor_sort_spinner);
+
         okButton = (Button) findViewById(R.id.btn_ok);
         cancelButton = (Button) findViewById(R.id.btn_cancel);
 
@@ -88,6 +96,10 @@ public class SettingActivity extends AppCompatActivity {
         stimulateSpeedText.setText(PrefStore.getSimulationSpeed() + "");
         busNotifyDistanceText.setText(PrefStore.getBusNotifyDistance() + "");
         motorNotifyDistanceText.setText(PrefStore.getMotorNotifyDistance() + "");
+
+        // set spinner
+        busSortTypeSpinner.setSelection(PrefStore.getBusSortType());
+        motorSortTypeSpinner.setSelection(PrefStore.getMotorSortType());
 
         // set cursor at end of line
         ipEditText.setSelection(ipEditText.getText().length());
@@ -150,6 +162,8 @@ public class SettingActivity extends AppCompatActivity {
                 PrefStore.setPrefSimulationSpeed(simulateSpeed);
                 PrefStore.setBusNotifyDistance(busNotifyDistance);
                 PrefStore.setMotorNotifyDistance(motorNotifyDistance);
+                PrefStore.setBusSortType(busSortTypeSpinner.getSelectedItemPosition());
+                PrefStore.setMotorSortType(motorSortTypeSpinner.getSelectedItemPosition());
 
                 // set again variable
                 AppConstants.SERVER_ADDRESS = "http://" + PrefStore.getServerIp() + ":" + PrefStore.getServerPort();
@@ -164,6 +178,8 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        AppCompatSpinner a;
 
     }
 
