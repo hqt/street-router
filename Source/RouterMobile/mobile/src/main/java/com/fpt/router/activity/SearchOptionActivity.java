@@ -27,6 +27,7 @@ import static com.fpt.router.activity.SearchRouteActivity.*;
  */
 public class SearchOptionActivity extends Activity {
 
+
     private Button acceptButton, cancelButton;
     private ImageButton swapLocationButton;
     private TextView fromTextView;

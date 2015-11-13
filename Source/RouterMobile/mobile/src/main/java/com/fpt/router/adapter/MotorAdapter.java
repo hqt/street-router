@@ -2,6 +2,7 @@ package com.fpt.router.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -33,12 +34,12 @@ public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHo
 
     @Override
     public RouterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (mapLocation.size() == 2 ){
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_twopoint,parent,false);
-        }else if (mapLocation.size() == 3) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_threepoint,parent,false);
+        if (mapLocation.size() == 2) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_twopoint, parent, false);
+        } else if (mapLocation.size() == 3) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_threepoint, parent, false);
         } else if (mapLocation.size() == 4) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_fourpoint,parent,false);
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_list_motor_fourpoint, parent, false);
         }
         routerViewHolder = new RouterViewHolder(v);
         return routerViewHolder;
@@ -47,12 +48,16 @@ public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHo
     @Override
     public void onBindViewHolder(RouterViewHolder holder, int position) {
 
-        if(position == 0){
+        if (position % 2 != 0) {
+            holder.cv.setCardBackgroundColor(Color.parseColor("#DFEEF7"));
+        } else {
+            holder.cv.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+        }
+
+        if (position == 0) {
             holder.title.setText("Tuyến đường được đề nghị ");
-        }else if(position == 1){
+        } else {
             holder.title.setText("Thêm kết quả cho đi motorbike ");
-        }else{
-            holder.title.setVisibility(View.GONE);
         }
         int duration = 0;
         int distance = 0;
@@ -62,31 +67,31 @@ public class MotorAdapter extends RecyclerView.Adapter<MotorAdapter.RouterViewHo
             distance = distance + listLeg.get(n).getDetailLocation().getDistance();
         }
 
-        duration = duration/6;
-        int totalDuration = (int) duration/10;
+        duration = duration / 6;
+        int totalDuration = (int) duration / 10;
         Double totalDistance = (double) distance;
-        totalDistance = totalDistance/1000;
-        totalDistance = Math.floor(totalDistance*100)/100;
+        totalDistance = totalDistance / 1000;
+        totalDistance = Math.floor(totalDistance * 100) / 100;
         holder.duration.setText(totalDuration + " phút");
-        holder.distance.setText(totalDistance+" Km");
-        holder.startLocation.setText(listLeg.get(position*countPoint).getStartAddress());
+        holder.distance.setText(totalDistance + " Km");
+        holder.startLocation.setText(listLeg.get(position * countPoint).getStartAddress());
         if (mapLocation.size() > 2) {
             holder.way_point_1.setText(listLeg.get(position * countPoint).getEndAddress());
         }
         if (mapLocation.size() > 3) {
             holder.way_point_2.setText(listLeg.get(position * countPoint + (countPoint - 1)).getStartAddress());
         }
-        holder.endLocation.setText(listLeg.get(position*countPoint+(countPoint-1)).getEndAddress());
+        holder.endLocation.setText(listLeg.get(position * countPoint + (countPoint - 1)).getEndAddress());
     }
 
     @Override
     public int getItemCount() {
-        if(mapLocation.size() == 2){
+        if (mapLocation.size() == 2) {
             return listLeg.size();
-        } else if(mapLocation.size() == 3){
-            return listLeg.size()/2;
+        } else if (mapLocation.size() == 3) {
+            return listLeg.size() / 2;
         } else {
-            return listLeg.size()/3;
+            return listLeg.size() / 3;
         }
     }
 

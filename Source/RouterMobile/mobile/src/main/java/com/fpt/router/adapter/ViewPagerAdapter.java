@@ -27,10 +27,9 @@ import java.util.Map;
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context context;
-    private String tabTitles[] = {"Xe bus","Xe máy","Bản đồ"};
+    private String tabTitles[] = {"Xe bus","Xe máy"};
     private int[] imageResId = {R.drawable.bus,
-            R.drawable.motorbike,
-            R.drawable.map};
+            R.drawable.motorbike};
     private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     public ViewPagerAdapter(FragmentManager fm, Context context){
         super(fm);
