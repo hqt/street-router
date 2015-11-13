@@ -169,9 +169,8 @@ public class BusFourPointFragment extends Fragment {
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
                 } else {
-                    GPSServiceOld gpsServiceOld = new GPSServiceOld();
-                    busLocations.add(new BusLocation(gpsServiceOld.getLatitude(),
-                            gpsServiceOld.getLongitude(), "Vị trí hiện tại."));
+                    busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
+                            GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
                 }
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));

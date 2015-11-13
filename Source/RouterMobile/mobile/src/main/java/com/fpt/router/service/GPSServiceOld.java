@@ -58,11 +58,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     private Context mContext;
 
     // flag for GPS status
-    private boolean isGPSEnabled = false;
+    private static boolean isGPSEnabled = false;
 
 
     // flag for network status
-    private boolean isNetworkEnabled = false;
+    private static boolean isNetworkEnabled = false;
 
     // flag for GPS status
     public static boolean isFakeGPS = false;
@@ -97,9 +97,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private final Handler fakeGPSHandler = new Handler();
 
-    Location location; // mCurrentLocation
-    double latitude; // latitude
-    double longitude; // longitude
+    private static Location location; // mCurrentLocation
+    static double latitude; // latitude
+    static double longitude; // longitude
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // 10 meters
@@ -178,7 +178,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         super.onDestroy();
     }
 
-    public double getLatitude(){
+    public static double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
         }
@@ -190,7 +190,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     /**
      * Function to get longitude
      * */
-    public double getLongitude(){
+    public static double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
         }
@@ -322,11 +322,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         }
     }
 
-    public boolean checkGPSStatus() {
+    public static boolean checkGPSStatus() {
         return isGPSEnabled;
     }
 
-    public boolean checkNewWorkStatus() {
+    public static boolean checkNewWorkStatus() {
         return isNetworkEnabled;
     }
     /**
