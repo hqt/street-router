@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:layout_marginTop="15dp"
-                android:textColor="#1E88E5"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:text="Cấu hình hệ thống"/>
 
@@ -62,7 +62,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Bus Server IP : "
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <EditText
@@ -90,7 +90,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Bus Server Port : "
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <EditText
@@ -119,7 +119,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Simulate speed (km/h) : "
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <EditText
@@ -140,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:layout_marginTop="15dp"
-                android:textColor="#1E88E5"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:text="Khoảng cách thông báo (m)"/>
 
@@ -165,7 +165,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Trạm xe buýt:"
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <EditText
@@ -194,7 +194,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Xe máy:"
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <EditText
@@ -215,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:layout_marginTop="15dp"
-                android:textColor="#1E88E5"
+                android:textColor="@color/primary"
                 android:textStyle="bold"
                 android:text="Ưu tiên kết quả tìm "/>
 
@@ -239,7 +239,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Xe buýt:"
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.AppCompatSpinner
@@ -266,7 +266,7 @@
                     android:gravity="left|center"
                     android:padding="5dp"
                     android:text="Xe máy:"
-                    android:textColor="#1E88E5"
+                    android:textColor="@color/primary"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.AppCompatSpinner
@@ -294,7 +294,7 @@
                 android:layout_marginTop="5dip"
                 android:checked="true"
                 android:text="Tải Map Offline (65MB)"
-                android:textColor="#2962FF"
+                android:textColor="@color/primary"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -339,7 +339,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:background="#2196F3"
+                    android:background="@color/primary"
                     android:text="Đồng ý"
                     android:textColor="#fff" />
 
@@ -348,7 +348,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
-                    android:background="#2196F3"
+                    android:background="@color/primary"
                     android:text="Huỷ bỏ"
                     android:textColor="#fff" />
             </LinearLayout>
