@@ -25,6 +25,8 @@ import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.service.GPSService;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -87,6 +89,10 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        //Test GPS
+        GPSServiceOld gpsServiceOld = new GPSServiceOld();
+        Location location = gpsServiceOld.getLocation();
+        Log.e("NAM:", "" + location.getLatitude() + "!!" + location.getLongitude());
         //Make DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
