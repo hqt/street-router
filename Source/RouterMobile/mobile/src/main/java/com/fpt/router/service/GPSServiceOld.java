@@ -29,7 +29,6 @@ import com.fpt.router.library.utils.SoundUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
@@ -39,7 +38,6 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -52,6 +50,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private static int fakeGPSIndex = 0;
     private static int stepIndex = 0;
+
     private static int notifyIndex = 0;
 
     private EventBus bus;
@@ -81,15 +80,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         distance = input;
     }
 
-    public static void turnOnFakeGPS(List<LatLng> latLngs) {
-        fakeGPSList = latLngs;
-        isFakeGPS = true;
-    }
-
-    public static void turnOffFakeGPS() {
-        isFakeGPS = false;
-    }
-
     public static List<NotifyModel> getNotifyModel() {
         return listNotify;
     }
@@ -101,13 +91,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         GPSServiceOld.notifyIndex = 0;
         GPSServiceOld.isFakeGPS = false;
         GPSServiceOld.isPlaySound = false;
-
-
     }
 
     boolean canGetLocation = false;
 
-    private final Handler handlerThread = new Handler();
+    private final Handler fakeGPSHandler = new Handler();
 
     Location location; // mCurrentLocation
     double latitude; // latitude
@@ -125,8 +113,12 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     GoogleApiClient mGoogleApiClient;
     boolean mConnected = false;
 
+    // keep gps service instance
+    private static GPSServiceOld gpsServiceInstance;
+
     public GPSServiceOld() {
-        Log.e("hqthao", "empty constructor has been called");
+        Log.e("hqthao", "empty constructor's GPS Service has been called");
+        gpsServiceInstance = this;
     }
 
     @Override
@@ -143,19 +135,18 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         mGoogleApiClient.connect();
         getLocation();
 
-        handlerThread.removeCallbacks(whatMyName);
-        handlerThread.post(whatMyName);
+        fakeGPSHandler.removeCallbacks(fakeGPSCallback);
+        fakeGPSHandler.post(fakeGPSCallback);
     }
 
-    private Runnable whatMyName = new Runnable() {
+    private Runnable fakeGPSCallback = new Runnable() {
         @Override
         public void run() {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (isFakeGPS) {
-                        onLocationChanged(new Location("a"));
-                    }
+                    // Log.e("hqthao", "fuck fuck aaaa");
+                    onLocationChanged(new Location("a"));
                 }
             }).start();
 
@@ -163,20 +154,33 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             int speed = PrefStore.getSimulationSpeed();
             speed = (20*1000)/(speed*1000/3600);
 
-            handlerThread.postDelayed(this, speed);
+            // should this if contains ? checking
+            /*if (isFakeGPS) {
+                fakeGPSHandler.postDelayed(this, speed);
+            }*/
+
+            if (isFakeGPS) {
+                fakeGPSHandler.postDelayed(this, speed);
+            }
         }
     };
 
-    public GPSServiceOld(Context context) {
-        this.mContext = context;
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(Wearable.API)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        mGoogleApiClient.connect();
-        getLocation();
+    public static void turnOnFakeGPS(List<LatLng> latLngs) {
+        fakeGPSList = latLngs;
+        isFakeGPS = true;
+        gpsServiceInstance.fakeGPSHandler.removeCallbacks(gpsServiceInstance.fakeGPSCallback);
+        gpsServiceInstance.fakeGPSHandler.post(gpsServiceInstance.fakeGPSCallback);
+    }
+
+    public static void turnOffFakeGPS() {
+        isFakeGPS = false;
+        gpsServiceInstance.fakeGPSHandler.removeCallbacks(gpsServiceInstance.fakeGPSCallback);
+    }
+
+    @Override
+    public void onDestroy() {
+        fakeGPSHandler.removeCallbacks(fakeGPSCallback);
+        super.onDestroy();
     }
 
     public Location getLocation() {
@@ -246,27 +250,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         return location;
     }
 
-    public double getLatitude(){
-        if(location != null){
-            latitude = location.getLatitude();
-        }
-
-        // return latitude
-        return latitude;
-    }
-
-    /**
-     * Function to get longitude
-     * */
-    public double getLongitude(){
-        if(location != null){
-            longitude = location.getLongitude();
-        }
-
-        // return longitude
-        return longitude;
-    }
-
     public boolean isNearLocation(Location location) {
         if (listNotify == null) {
             return false;
@@ -288,19 +271,21 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         // this is real gps from system
         location = locationChanged;
 
+        // get gps. when come to end list. back to top list and re-run again :)
         if (isFakeGPS) {
             location.setLatitude(fakeGPSList.get(fakeGPSIndex).latitude);
             location.setLongitude(fakeGPSList.get(fakeGPSIndex).longitude);
             fakeGPSIndex = (fakeGPSIndex + 1) % fakeGPSList.size();
         }
 
+        // notify when near some location
         if (isNearLocation(location)) {
             // Play sound
             if (isPlaySound) {
                 SoundUtils.playSound(mContext, listNotify.get(notifyIndex).smallMessage);
             }
 
-            // Create nofitication
+            // Create notification
             NotifyModel notifyModel = listNotify.get(notifyIndex);
             NotificationUtils.run(mContext, notifyModel.smallTittle, notifyModel.smallMessage, notifyModel.longTittle, notifyModel.longMessage);
 
@@ -308,9 +293,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             bus.post(notifyModel);
         }
 
+        // send gps message changed to any client has subcribed
         LocationMessage message = new LocationMessage(location);
         bus.post(message);
 
+        // send gps change to wear
         if (mConnected) {
             com.fpt.router.library.model.common.Location local = new com.fpt.router.library.model.common.Location();
             local.setLatitude(location.getLatitude());
@@ -318,8 +305,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
         }
     }
-
-
 
     @Override
     public void onProviderDisabled(String provider) {
@@ -389,6 +374,4 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             }
         }
     }
-
-
 }
