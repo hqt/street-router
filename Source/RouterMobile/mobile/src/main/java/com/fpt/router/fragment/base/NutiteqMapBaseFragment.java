@@ -5,14 +5,23 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ListView;
 
 import com.fpt.router.R;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.framework.OrientationManager.OnChangedListener;
+import com.fpt.router.widget.LockableListView;
+import com.fpt.router.widget.SlidingUpPanelLayout;
+import com.fpt.router.widget.SlidingUpPanelLayout.PanelSlideListener;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.core.MapRange;
 import com.nutiteq.core.MapVec;
@@ -34,7 +43,8 @@ import com.nutiteq.wrappedcommons.UnsignedCharVector;
 /**
  * Created by Nguyen Trung Nam on 11/3/2015.
  */
-public class NutiteqMapBaseFragment extends Fragment implements OnChangedListener {
+public class NutiteqMapBaseFragment extends Fragment implements OnChangedListener,
+        PanelSlideListener{
     protected MapView mapView;
     protected Projection baseProjection;
     protected TileLayer baseLayer;
@@ -51,6 +61,16 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
     protected boolean COMPASS_FLAG = false;
     private OrientationManager mOrientationManager;
     protected NMLModel model;
+
+    protected LockableListView mListView;
+    protected SlidingUpPanelLayout mSlidingUpPanelLayout;
+
+
+    protected View mTransparentHeaderView;
+    private View mTransparentView;
+    private View mSpaceView;
+    private Toolbar toolbar;
+
     public NutiteqMapBaseFragment() {
     }
 
@@ -122,7 +142,39 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
         mapView.setZoom(2, 0);
         mapView.setMapRotation(0, 0);
         mapView.setTilt(90, 0);
-        //updateBaseLayer();
+
+        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+
+        mListView = (LockableListView) rootView.findViewById(android.R.id.list);
+        mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+
+        mSlidingUpPanelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.slidingLayout);
+        mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
+
+        int mapHeight = getResources().getDimensionPixelSize(R.dimen.map_height);
+        int panelHeight = getResources().getDimensionPixelSize(R.dimen.panel_height);
+        /*int panelHeight = 50;*/
+        mSlidingUpPanelLayout.setPanelHeight(panelHeight); // you can use different height here
+        mSlidingUpPanelLayout.setScrollableView(mListView, mapHeight);
+
+        mSlidingUpPanelLayout.setPanelSlideListener(this);
+
+        // transparent view at the top of ListView
+        mTransparentView = rootView.findViewById(R.id.transparentView);
+
+        // init header view for ListView
+        mTransparentHeaderView = inflater.inflate(R.layout.transparent_header_view, mListView, false);
+        mSpaceView = mTransparentHeaderView.findViewById(R.id.space);
+
+        collapseMap();
+
+        mSlidingUpPanelLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mSlidingUpPanelLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                mSlidingUpPanelLayout.onPanelDragged(0);
+            }
+        });
         return rootView;
     }
 
@@ -143,5 +195,38 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
     @Override
     public void onAccuracyChanged(OrientationManager orientationManager) {
 
+    }
+
+    @Override
+    public void onPanelSlide(View view, float v) {
+    }
+
+    @Override
+    public void onPanelCollapsed(View view) {
+        expandMap();
+    }
+
+    @Override
+    public void onPanelExpanded(View view) {
+        collapseMap();
+    }
+
+    @Override
+    public void onPanelAnchored(View view) {
+
+    }
+
+    private void collapseMap() {
+        mSpaceView.setVisibility(View.VISIBLE);
+        mTransparentView.setVisibility(View.GONE);
+
+        mListView.setScrollingEnabled(true);
+    }
+
+    private void expandMap() {
+        mSpaceView.setVisibility(View.GONE);
+        mTransparentView.setVisibility(View.INVISIBLE);
+
+        mListView.setScrollingEnabled(false);
     }
 }

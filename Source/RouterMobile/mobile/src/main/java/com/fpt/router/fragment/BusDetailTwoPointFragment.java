@@ -71,34 +71,12 @@ import java.util.List;
 /**
  * Created by asus on 10/13/2015.
  */
-public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        SlidingUpPanelLayout.PanelSlideListener, LocationListener, OnChangedListener {
+public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implements
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
+        OnChangedListener {
 
-    private static final String ARG_LOCATION = "arg.location";
-    // latitude and longitude
-    double latitude = 10.853207;
-    double longitude = 106.629097;
-
-    private LockableListView mListView;
-    private SlidingUpPanelLayout mSlidingUpPanelLayout;
-
-    private View mTransparentHeaderView;
-    private View mTransparentView;
-    private View mSpaceView;
-
-    private LatLng mLocation;
-    private Marker mLocationMarker;
     private Marker now;
-
-    private SupportMapFragment mMapFragment;
-
-    private GoogleMap mMap;
-    private boolean mIsNeedLocationUpdate = true;
-
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private Toolbar toolbar;
-    private OrientationManager mOrientationManager;
     Result result;
     private List<INode> iNodeList;
 
@@ -121,41 +99,7 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         super.onCreateView(inflater, container, savedInstanceState);
-
-        toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-
-        mListView = (LockableListView) rootView.findViewById(android.R.id.list);
-        mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-        mSlidingUpPanelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.slidingLayout);
-        mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
-
-        int mapHeight = getResources().getDimensionPixelSize(R.dimen.map_height);
-        int panelHeight = getResources().getDimensionPixelSize(R.dimen.panel_height);
-        /*int panelHeight = 50;*/
-        mSlidingUpPanelLayout.setPanelHeight(panelHeight); // you can use different height here
-        mSlidingUpPanelLayout.setScrollableView(mListView, mapHeight);
-
-        mSlidingUpPanelLayout.setPanelSlideListener(this);
-
-        // transparent view at the top of ListView
-        mTransparentView = rootView.findViewById(R.id.transparentView);
-
-        // init header view for ListView
-        mTransparentHeaderView = inflater.inflate(R.layout.transparent_header_view, mListView, false);
-        mSpaceView = mTransparentHeaderView.findViewById(R.id.space);
-
-        collapseMap();
-
-        mSlidingUpPanelLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                mSlidingUpPanelLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                mSlidingUpPanelLayout.onPanelDragged(0);
-            }
-        });
-
         return rootView;
     }
 
@@ -263,151 +207,11 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
         super.onStop();
     }
 
-    private LatLng getLastKnownLocation() {
-        return getLastKnownLocation(true);
-    }
-
-    private LatLng getLastKnownLocation(boolean isMoveMarker) {
-        LatLng latLng = new LatLng(latitude, longitude);
-        /*boolean isGPSEnabled = false;
-        boolean isNetworkEnabled = false;
-        LocationManager lm = (LocationManager) TheApp.getAppContext().getSystemService(Context.LOCATION_SERVICE);
-
-        // getting GPS status
-       isGPSEnabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        // getting network status
-        isNetworkEnabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
-        String provider = lm.getBestProvider(criteria, true);
-        if (provider == null) {
-            return null;
-        }
-        Location loc = lm.getLastKnownLocation(provider);
-        if (loc != null) {
-            LatLng latLng = new LatLng(loc.getLatitude(), loc.getLongitude());
-            if (isMoveMarker) {
-                moveMarker(latLng);
-            }
-            return latLng;
-        }
-        return null;*/
-        if (isMoveMarker) {
-            moveMarker(latLng);
-        }
-        return latLng;
-    }
-
-    private LatLng getLastKnownLocation(boolean isMoveMarker, LatLng latLng) {
-
-        if (isMoveMarker) {
-            moveMarker(latLng);
-        }
-        return latLng;
-    }
-
-    private void moveMarker(LatLng latLng) {
-        if (mLocationMarker != null) {
-            mLocationMarker.remove();
-        }
-        mLocationMarker = mMap.addMarker(new MarkerOptions()
-                .icon(BitmapDescriptorFactory.defaultMarker())
-                .position(latLng).anchor(0.5f, 0.5f));
-    }
-
-    private void moveToLocation(android.location.Location location) {
-        if (location == null) {
-            return;
-        }
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        moveToLocation(latLng);
-    }
-
-    private void moveToLocation(LatLng latLng) {
-        moveToLocation(latLng, true);
-    }
-
-    private void moveToLocation(LatLng latLng, final boolean moveCamera) {
-        if (latLng == null) {
-            return;
-        }
-
-        if (!moveCamera) {
-            moveMarker(latLng);
-        }
-
-        mLocation = latLng;
-        mListView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (mMap != null && moveCamera) {
-                    mMap.moveCamera(CameraUpdateFactory.newCameraPosition(CameraPosition.fromLatLngZoom(mLocation, 11.0f)));
-                }
-            }
-        });
-    }
-
-    private void collapseMap() {
-        mSpaceView.setVisibility(View.VISIBLE);
-        mTransparentView.setVisibility(View.GONE);
-        if (mMap != null && mLocation != null) {
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mLocation, 11f), 1000, null);
-        }
-        mListView.setScrollingEnabled(true);
-    }
-
-    private void expandMap() {
-        mSpaceView.setVisibility(View.GONE);
-        mTransparentView.setVisibility(View.INVISIBLE);
-        if (mMap != null) {
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(14f), 1000, null);
-        }
-        mListView.setScrollingEnabled(false);
-    }
-
-    @Override
-    public void onPanelSlide(View view, float v) {
-    }
-
-    @Override
-    public void onPanelCollapsed(View view) {
-        expandMap();
-    }
-
-    @Override
-    public void onPanelExpanded(View view) {
-        collapseMap();
-    }
-
-    @Override
-    public void onPanelAnchored(View view) {
-
-    }
-
-    @Override
-    public void onLocationChanged(android.location.Location location) {
-        if (mIsNeedLocationUpdate) {
-            moveToLocation(location);
-        }
-    }
-
-    static int count = 0;
-
     @Override
     public void onConnected(Bundle bundle) {
-        // send location request
-        mLocationRequest = LocationRequest.create();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        mLocationRequest.setNumUpdates(1);
 
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
-        // send data to wear
         // Create a DataMap object and send it to the data layer
         DataMap dataMap = new DataMap();
-        //Requires a new thread to avoid blocking the UI
-
         //Requires a new thread to avoid blocking the UI
         new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_BUS_TWO_POINT, dataMap).start();
     }
