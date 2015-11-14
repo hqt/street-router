@@ -127,7 +127,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(ng_bus_location.getLongitude(), ng_bus_location.getLatitude()));
             if (ng_marker == null) {
-                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                ng_marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
                         ng_bus_location.getLatitude(), ng_bus_location.getLongitude(), R.drawable.ng_marker);
 
             } else {
