@@ -1,5 +1,6 @@
 package com.fpt.router.utils;
 
+import com.fpt.router.library.utils.DecodeUtils;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -76,6 +77,33 @@ public class PolyLineUtils {
             }
         }
         return false;
+    }
+
+    public static double distanceToLine(final LatLng p, final LatLng start, final LatLng end) {
+        if (start.equals(end)) {
+            DecodeUtils.calculateDistance(end, p);
+        }
+
+        final double s0lat = toRadians(p.latitude);
+        final double s0lng = toRadians(p.longitude);
+        final double s1lat = toRadians(start.latitude);
+        final double s1lng = toRadians(start.longitude);
+        final double s2lat = toRadians(end.latitude);
+        final double s2lng = toRadians(end.longitude);
+
+        double s2s1lat = s2lat - s1lat;
+        double s2s1lng = s2lng - s1lng;
+        final double u = ((s0lat - s1lat) * s2s1lat + (s0lng - s1lng) * s2s1lng)
+                / (s2s1lat * s2s1lat + s2s1lng * s2s1lng);
+        if (u <= 0) {
+            return DecodeUtils.calculateDistance(p, start);
+        }
+        if (u >= 1) {
+            return DecodeUtils.calculateDistance(p, end);
+        }
+        LatLng sa = new LatLng(p.latitude - start.latitude, p.longitude - start.longitude);
+        LatLng sb = new LatLng(u * (end.latitude - start.latitude), u * (end.longitude - start.longitude));
+        return DecodeUtils.calculateDistance(sa, sb);
     }
 
     private static boolean isOnSegmentGC(double lat1, double lng1, double lat2, double lng2,

@@ -150,6 +150,11 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     }
 
     private void drawMap() {
+        //Test
+        List<LatLng> listTest = new ArrayList<>();
+        listTest.add(new LatLng(10.855090, 106.628394));
+        listTest.add(new LatLng(10.773599, 106.694417));
+        NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listTest, baseProjection, 5);
         if(SearchRouteActivity.mapLocation.size() == 2) {
             NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
 
