@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
@@ -26,6 +27,7 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.NotificationUtils;
 import com.fpt.router.library.utils.SoundUtils;
+import com.fpt.router.utils.PolyLineUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -38,6 +40,7 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -270,8 +273,15 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         if (listNotify == null) {
             return false;
         }
-
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
+        List<LatLng> listTest = new ArrayList<>();
+        listTest.add(new LatLng(10.855090, 106.628394));
+        listTest.add(new LatLng(10.773599, 106.694417));
+        if(PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listTest, true, true, 50)){
+            Log.e("NAM:", "True");
+        } else {
+            Log.e("NAM:", "Fasle");
+        }
         LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                 listNotify.get(stepIndex).location.getLongitude());
         if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
