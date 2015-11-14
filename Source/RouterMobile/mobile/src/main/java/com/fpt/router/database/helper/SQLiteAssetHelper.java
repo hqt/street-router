@@ -456,7 +456,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
          * two version numbers.
          *
          * @param file0 an upgrade script file name
-         * @param file1 a second upgrade script file name to compare with file0
+         * @param file1 a second upgrade script file name to busNoStrList with file0
          * @return an integer < 0 if file0 should be applied before file1, 0 if
          * they are equal (though that shouldn't happen), and > 0 if
          * file0 should be applied after file1.

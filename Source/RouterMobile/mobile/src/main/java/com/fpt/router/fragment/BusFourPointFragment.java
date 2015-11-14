@@ -203,6 +203,12 @@ public class BusFourPointFragment extends Fragment {
                 }
             }
 
+            // must be sort before remove duplicate
+            SortUtils.sortJourney(journeyList);
+
+            // remove duplicate result
+            journeyList = CheckDuplicateUtils.checkDuplicateJourney(journeyList);
+
             if (!SearchBus.IS_USED_REAL_WALKING) {
                 return journeyList;
             }
@@ -264,9 +270,6 @@ public class BusFourPointFragment extends Fragment {
 
             activity.searchType = null;
             activity.needToSearch = false;
-
-            SortUtils.sortJourney(journeyList);
-            journeyList = CheckDuplicateUtils.checkDuplicateJourney(journeyList);
 
             SearchRouteActivity.journeys = journeyList;
             if(SearchRouteActivity.mapLocation.size() == 3){

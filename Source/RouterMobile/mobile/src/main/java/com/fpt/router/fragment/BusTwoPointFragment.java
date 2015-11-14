@@ -215,6 +215,12 @@ public class BusTwoPointFragment extends Fragment {
                 }
             }
 
+            // must be sort before remove duplicate
+            SortUtils.sortResult(resultList);
+
+            // remove duplicate result.
+            resultList =  CheckDuplicateUtils.checkDuplicateResult(resultList);
+
             if (!SearchBus.IS_USED_REAL_WALKING) {
                 return resultList;
             }
@@ -275,8 +281,6 @@ public class BusTwoPointFragment extends Fragment {
 
             activity.searchType = null;
             activity.needToSearch = false;
-            SortUtils.sortResult(resultList);
-            resultList =  CheckDuplicateUtils.checkDuplicateResult(resultList);
             SearchRouteActivity.results = resultList;
             recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
             recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
