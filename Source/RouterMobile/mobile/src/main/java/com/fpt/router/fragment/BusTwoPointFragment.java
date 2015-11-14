@@ -175,7 +175,13 @@ public class BusTwoPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    AutocompleteObject autoObject = mapLocation.get(AppConstants.SearchField.FROM_LOCATION);
+                    if(autoObject.getPlace_id().equals("")){
+                        busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
+                                GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
+                    }else{
+                        autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    }
                 } else {
                     busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
                             GPSServiceOld.getLongitude(), "Vị trí hiện tại."));

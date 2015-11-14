@@ -24,8 +24,8 @@ public class CheckDuplicateUtils {
                 Result result = results.get(j);
                 List<INode> iNodeList = result.nodeList;
                 for (int k = 0; k < iNodeList.size(); k++) {
-                    if (iNodeList.get(j) instanceof Segment) {
-                        Segment segment = (Segment) iNodeList.get(j);
+                    if (iNodeList.get(k) instanceof Segment) {
+                        Segment segment = (Segment) iNodeList.get(k);
                         compareJourney.add(String.valueOf(segment.routeNo));
                     }
                 }

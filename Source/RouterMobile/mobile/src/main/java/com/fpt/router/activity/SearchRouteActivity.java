@@ -24,6 +24,7 @@ import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFra
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
 import com.fpt.router.dal.SearchLocationDAL;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
@@ -88,6 +89,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     public boolean needToSearch = false;
     public SearchType searchType;
     public static TabPosition ng_tab_position;
+    public static boolean flat_check_edittext_1 = false;
 
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
@@ -137,8 +139,9 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         }
-        if (MainActivity.flat_gps) {
+        if ((MainActivity.flat_gps) && (!flat_check_edittext_1)) {
             edit_1.setText("Vị trí của bạn");
+            SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
         }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
@@ -454,10 +457,19 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
     private void setTextToField() {
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
-            edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+            if(!mapLocation.get(SearchField.FROM_LOCATION).getPlace_id().equals("")){
+                flat_check_edittext_1 = true;
+                edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+            }else{
+                edit_1.setText("Vị trí của bạn");
+                flat_check_edittext_1 = false;
+                SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+            }
         } else {
             if (MainActivity.flat_gps) {
                 edit_1.setText("Vị trí của bạn");
+                flat_check_edittext_1 = false;
+                SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
             } else {
                 edit_1.setText("");
             }

@@ -198,7 +198,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
                     LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
                     boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                    if(statusOfGPS == true){
+                    if((statusOfGPS == true)&&(!SearchRouteActivity.flat_check_edittext_1)){
                         flat_gps = true;
                         SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION,null);
                     }
