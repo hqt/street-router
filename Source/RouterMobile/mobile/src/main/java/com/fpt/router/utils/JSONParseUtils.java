@@ -309,7 +309,8 @@ public class JSONParseUtils {
                         Maneuver = "Keep going";
                     }
                     stepDetailL = getDetailLocation(jo);
-                    polyline = jo.getString("points");
+                    JSONObject polylineJSON = jo.getJSONObject("polyline");
+                    polyline = polylineJSON.getString("points");
                     listStep.add(new Step(Instruction, Maneuver, stepDetailL, polyline));
                 }
                 leg = new Leg(EndAddress, StartAddress, legDetailL, listStep, Overview_polyline);
