@@ -63,19 +63,19 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
 
         searchLocations = SearchLocationDAL.getListSearchLocation();
-        if((searchLocations == null) || (searchLocations.size() > 0)){
+        if ((searchLocations == null) || (searchLocations.size() > 0)) {
             AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
             List<AutocompleteObject> autoList = new ArrayList<>();
             AutocompleteObject autoObject;
 
-            for (SearchLocation searchLocation: searchLocations){
-                autoObject = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
+            for (SearchLocation searchLocation : searchLocations) {
+                autoObject = new AutocompleteObject(searchLocation.getPlaceName(), searchLocation.getPlaceId());
                 autoList.add(autoObject);
             }
             listLocation = autoList;
 
-            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,autoList);
-        }else{
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, autoList);
+        } else {
             adapter = new AutocompleteAdapter(this, new ArrayList<AutocompleteObject>());
         }
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
@@ -97,13 +97,16 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             case SearchField.WAY_POINT_2:
                 autoComp.setHint("Điểm trung gian 2");
                 break;
+            case SearchField.SEARCH_LOCATION:
+                autoComp.setHint("Search Vị trí");
+                break;
         }
 
         adapter.setNotifyOnChange(true);
         /*autoComp.setAdapter(adapter);*/
         if (adapter != null) {
             listView.setAdapter(adapter);
-           // autoComp.setAdapter(adapter);
+            // autoComp.setAdapter(adapter);
         }
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -143,14 +146,14 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                     List<AutocompleteObject> autoList = new ArrayList<AutocompleteObject>();
                     AutocompleteObject autoObject;
 
-                    Log.e("NgoanTT --->",searchLocations.size()+"");
-                    for (SearchLocation searchLocation: searchLocations){
-                        autoObject = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
+                    Log.e("NgoanTT --->", searchLocations.size() + "");
+                    for (SearchLocation searchLocation : searchLocations) {
+                        autoObject = new AutocompleteObject(searchLocation.getPlaceName(), searchLocation.getPlaceId());
                         autoList.add(autoObject);
                     }
                     listLocation = autoList;
 
-                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,autoList);
+                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, autoList);
                     listView.setAdapter(adapter);
                 }
             }
@@ -195,10 +198,11 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private boolean returnPreviousActivity() {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
-        if(mapLocation.get(number) != null) {
+        if (mapLocation.get(number) != null) {
             if (!autoComp.getText().toString().equals(mapLocation.get(number).getName())) {
-            if (!mapLocation.get(number).getName().equals(autoComp.getText().toString())) {
-                SearchRouteActivity.isDataChange = true;
+                if (!mapLocation.get(number).getName().equals(autoComp.getText().toString())) {
+                    SearchRouteActivity.isDataChange = true;
+                }
             }
         }
         if ((location != null)) {

@@ -35,6 +35,7 @@ import com.nutiteq.projections.EPSG3857;
 import com.nutiteq.projections.Projection;
 import com.nutiteq.ui.MapView;
 import com.nutiteq.utils.AssetUtils;
+import com.nutiteq.vectorelements.Marker;
 import com.nutiteq.vectorelements.NMLModel;
 import com.nutiteq.vectortiles.MBVectorTileDecoder;
 import com.nutiteq.vectortiles.MBVectorTileStyleSet;
@@ -61,6 +62,7 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
     protected boolean COMPASS_FLAG = false;
     private OrientationManager mOrientationManager;
     protected NMLModel model;
+    protected Marker marker;
 
     protected LockableListView mListView;
     protected SlidingUpPanelLayout mSlidingUpPanelLayout;
@@ -186,10 +188,15 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
             mapView.setTilt(30f, 0.5f);
             mapView.setZoom(24f, 05f);
             mapView.setMapRotation(360 - azimut, 0f);
+            if(model != null) {
+                model.setRotation(new MapVec(0, 0, 1), 360-azimut);
+            }
+        } else {
+            if (marker != null) {
+                marker.setRotation(360 - azimut);
+            }
         }
-        if(model != null) {
-            model.setRotation(new MapVec(0, 0, 1), 360-azimut);
-        }
+
     }
 
     @Override

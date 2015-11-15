@@ -274,14 +274,14 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             return false;
         }
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
-        List<LatLng> listTest = new ArrayList<>();
+        /*List<LatLng> listTest = new ArrayList<>();
         listTest.add(new LatLng(10.855090, 106.628394));
         listTest.add(new LatLng(10.773599, 106.694417));
         if(PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listTest, true, true, 50)){
             Log.e("NAM:", "True");
         } else {
             Log.e("NAM:", "Fasle");
-        }
+        }*/
         LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                 listNotify.get(stepIndex).location.getLongitude());
         if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
