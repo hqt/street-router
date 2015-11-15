@@ -219,17 +219,36 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-        if(model == null){
+        //Create model
+        /*if(model == null){
             model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
             model.setScale(400);
             vectorDataSource.add(model);
         } else {
             model.setPos(markerPos);
+        }*/
+        //Create marker
+        if (marker == null) {
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    lat, lng, R.drawable.marker_cua_nam_burned);
+
+        } else {
+            marker.setPos(markerPos);
         }
+
         if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
         }
-
+        if(!COMPASS_FLAG) {
+            model.setVisible(false);
+            if(model == null){
+                model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
+                model.setScale(400);
+                vectorDataSource.add(model);
+            } else {
+                model.setPos(markerPos);
+            }
+        }
     }
 
     @Override

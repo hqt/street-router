@@ -84,6 +84,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
             holder.way_point_1.setText("Qua "+StringUtils.removeCharacter(path.stationFromName));
         }
         //Result 3
+
         Result result_3 = results.get(2);
         List<INode> iNodeList_3 = result_3.nodeList;
         for (int j=0;j<iNodeList_3.size();j++){

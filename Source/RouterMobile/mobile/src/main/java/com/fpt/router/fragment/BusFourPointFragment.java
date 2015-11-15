@@ -119,10 +119,12 @@ public class BusFourPointFragment extends Fragment {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
             } else if (SearchRouteActivity.journeys.size() > 0) {
-                if(SearchRouteActivity.mapLocation.size() == 3){
+                if((SearchRouteActivity.mapLocation.size() == 3)
+                        && (SearchRouteActivity.journeys.get(0).results.size() == 2)){
                     recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
                 }
-                if(SearchRouteActivity.mapLocation.size() == 4){
+                if(SearchRouteActivity.mapLocation.size() == 4
+                        &&(SearchRouteActivity.journeys.get(0).results.size() == 3)){
                     recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
                 }
             }

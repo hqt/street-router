@@ -68,8 +68,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     private LinearLayout linear_middle_2;
     private ImageButton img_expand_1;
     public static ViewPagerAdapter adapter;
-    public static List<Result> results = new ArrayList<Result>();
-    public static List<Journey> journeys = new ArrayList<Journey>();
+    public static List<Result> results = new ArrayList<>();
+    public static List<Journey> journeys = new ArrayList<>();
     public static List<Leg> listLeg = new ArrayList<>();
     public static Map<Integer, AutocompleteObject> mapLocation = new HashMap<>();
     public static Boolean optimize = true;
