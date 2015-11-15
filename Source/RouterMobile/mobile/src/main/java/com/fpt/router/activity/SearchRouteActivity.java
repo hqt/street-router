@@ -91,6 +91,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     public static TabPosition ng_tab_position;
     public static boolean flat_check_edittext_1 = false;
     public static boolean isDataChange = false;
+    public static int tab_position = 0;
 
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
@@ -336,12 +337,11 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             @Override
             public void onClick(View view) {
                 // Clear data
-                if(isDataChange) {
+
                     listLeg.clear();
                     results.clear();
                     journeys.clear();
-                    isDataChange = false;
-                }
+                
                 // validation
                 if ((!MainActivity.flat_gps) && ("".equals(edit_1.getText()))) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
@@ -358,6 +358,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
                     if (tabPosition == 0) {
                         ng_tab_position = TabPosition.TAB_BUS;
+                        tab_position = 0;
                         if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search bus two point");
                             searchType = SearchType.BUS_TWO_POINT;
@@ -366,6 +367,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                             searchType = SearchType.BUS_FOUR_POINT;
                         }
                     } else if (tabPosition == 1) {
+                        tab_position = 1;
                         ng_tab_position = TabPosition.TAB_MOTORBIKE;
                         if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search motor two point");

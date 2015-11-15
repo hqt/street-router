@@ -77,8 +77,8 @@ public class AppConstants {
     }
 
     public static class SearchBus {
-        public static boolean IS_REAL_BUS_SERVER = true;
-        public static boolean IS_USED_REAL_WALKING = true;
+        public static boolean IS_REAL_BUS_SERVER = false;
+        public static boolean IS_USED_REAL_WALKING = false;
     }
 
     public static final int NEAR_CIRCULAR_RANGE = 50;
