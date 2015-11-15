@@ -223,7 +223,17 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
         }
-        if(COMPASS_FLAG) {
+        if (marker == null) {
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    lat, lng, R.drawable.marker_cua_nam_burned);
+        } else {
+            marker.setPos(markerPos);
+            if(model != null) {
+                model.setVisible(false);
+            }
+            marker.setVisible(true);
+        }
+        /*if(COMPASS_FLAG) {
             if(model == null){
                 model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
                 model.setScale(400);
@@ -246,7 +256,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 }
                 marker.setVisible(true);
             }
-        }
+        }*/
     }
 
     @Override

@@ -17,7 +17,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
@@ -27,7 +26,6 @@ import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.NotificationUtils;
 import com.fpt.router.library.utils.SoundUtils;
-import com.fpt.router.utils.PolyLineUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -40,7 +38,6 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -61,11 +58,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     private Context mContext;
 
     // flag for GPS status
-    private static boolean isGPSEnabled = false;
+    boolean isGPSEnabled = false;
 
 
     // flag for network status
-    private static boolean isNetworkEnabled = false;
+    boolean isNetworkEnabled = false;
 
     // flag for GPS status
     public static boolean isFakeGPS = false;
@@ -77,7 +74,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static void setListNotify(List<NotifyModel> listNotify) {
         GPSServiceOld.listNotify = listNotify;
         initializeState();
-     }
+    }
 
     public static void setDistance(int input) {
         distance = input;
@@ -100,7 +97,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private final Handler fakeGPSHandler = new Handler();
 
-    private static Location location; // mCurrentLocation
+    static Location location; // mCurrentLocation
     static double latitude; // latitude
     static double longitude; // longitude
 
@@ -157,29 +154,16 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             int speed = PrefStore.getSimulationSpeed();
             speed = (20*1000)/(speed*1000/3600);
 
+            // should this if contains ? checking
+            /*if (isFakeGPS) {
+                fakeGPSHandler.postDelayed(this, speed);
+            }*/
+
             if (isFakeGPS) {
                 fakeGPSHandler.postDelayed(this, speed);
             }
         }
     };
-
-    public static void turnOnFakeGPS(List<LatLng> latLngs) {
-        fakeGPSList = latLngs;
-        isFakeGPS = true;
-        gpsServiceInstance.fakeGPSHandler.removeCallbacks(gpsServiceInstance.fakeGPSCallback);
-        gpsServiceInstance.fakeGPSHandler.post(gpsServiceInstance.fakeGPSCallback);
-    }
-
-    public static void turnOffFakeGPS() {
-        isFakeGPS = false;
-        gpsServiceInstance.fakeGPSHandler.removeCallbacks(gpsServiceInstance.fakeGPSCallback);
-    }
-
-    @Override
-    public void onDestroy() {
-        fakeGPSHandler.removeCallbacks(fakeGPSCallback);
-        super.onDestroy();
-    }
 
     public static double getLatitude(){
         if(location != null){
@@ -200,6 +184,24 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
         // return longitude
         return longitude;
+    }
+
+    public static void turnOnFakeGPS(List<LatLng> latLngs) {
+        fakeGPSList = latLngs;
+        isFakeGPS = true;
+        gpsServiceInstance.fakeGPSHandler.removeCallbacks(gpsServiceInstance.fakeGPSCallback);
+        gpsServiceInstance.fakeGPSHandler.post(gpsServiceInstance.fakeGPSCallback);
+    }
+
+    public static void turnOffFakeGPS() {
+        isFakeGPS = false;
+        gpsServiceInstance.fakeGPSHandler.removeCallbacks(gpsServiceInstance.fakeGPSCallback);
+    }
+
+    @Override
+    public void onDestroy() {
+        fakeGPSHandler.removeCallbacks(fakeGPSCallback);
+        super.onDestroy();
     }
 
     public Location getLocation() {
@@ -273,15 +275,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         if (listNotify == null) {
             return false;
         }
+
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
-        /*List<LatLng> listTest = new ArrayList<>();
-        listTest.add(new LatLng(10.855090, 106.628394));
-        listTest.add(new LatLng(10.773599, 106.694417));
-        if(PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listTest, true, true, 50)){
-            Log.e("NAM:", "True");
-        } else {
-            Log.e("NAM:", "Fasle");
-        }*/
         LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                 listNotify.get(stepIndex).location.getLongitude());
         if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
@@ -330,21 +325,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             local.setLongitude(location.getLongitude());
             new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
         }
-    }
-
-    public static boolean checkGPSStatus() {
-        return isGPSEnabled;
-    }
-
-    public static boolean checkNewWorkStatus() {
-        return isNetworkEnabled;
-    }
-    /**
-     * Function to check GPS/wifi enabled
-     * @return boolean
-     * */
-    public boolean canGetLocation() {
-        return this.canGetLocation;
     }
 
     @Override
