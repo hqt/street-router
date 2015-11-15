@@ -175,6 +175,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                             break;
                     }
                 }
+                //Test
                 return false;
             }
         });
