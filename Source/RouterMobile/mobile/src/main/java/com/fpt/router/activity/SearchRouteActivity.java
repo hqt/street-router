@@ -342,6 +342,9 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                     journeys.clear();
                     isDataChange = false;
                 }
+                /*listLeg.clear();
+                results.clear();
+                journeys.clear();*/
                 // validation
                 if ("".equals(edit_1.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
