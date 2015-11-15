@@ -444,4 +444,15 @@ public class JSONParseUtils {
         BusLocation busLocation = new BusLocation(lat, lng, address);
         return busLocation;
     }
+    public static BusLocation getBusLocationWithNoPlaceId(String json, String address) throws JSONException {
+        JSONObject jsonO = new JSONObject(json);
+        JSONArray jsonA = jsonO.getJSONArray("routes");
+        jsonO = jsonA.getJSONObject(0);
+        jsonO = jsonO.getJSONObject("bounds");
+        jsonO = jsonO.getJSONObject("northeast");
+        Double lat = jsonO.getDouble("lat");
+        Double lng = jsonO.getDouble("lng");
+        BusLocation busLocation = new BusLocation(lat,lng,address);
+        return busLocation;
+    }
 }

@@ -141,7 +141,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         }
         if ((MainActivity.flat_gps) && (!flat_check_edittext_1)) {
-            edit_1.setText("Vị trí của bạn");
+            edit_1.setHint("Vị trí của bạn");
             SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
         }
 
@@ -343,7 +343,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                     isDataChange = false;
                 }
                 // validation
-                if ("".equals(edit_1.getText())) {
+                if ((!MainActivity.flat_gps) && ("".equals(edit_1.getText()))) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
                 } else if ("".equals(edit_2.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
@@ -460,7 +460,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     }
 
     private void setTextToField() {
-        if(MainActivity.flat_gps) {
+        /*if(MainActivity.flat_gps) {
             if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
                 if(mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
                     edit_1.setHint("Vị trí của bạn");
@@ -480,10 +480,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                     edit_1.setText("");
                 }
             }
-        }
-        /*if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+        }*/
+        if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             if(mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
-                edit_1.setText("Vị trí của bạn");
+                edit_1.setHint("Vị trí của bạn");
                 flat_check_edittext_1 = false;
                 SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
             } else {
@@ -492,14 +492,13 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             }
         } else {
             if (MainActivity.flat_gps) {
-                edit_1.setText("Vị trí của bạn");
+                edit_1.setHint("Vị trí của bạn");
                 flat_check_edittext_1 = false;
                 SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
-            } else {
                 edit_1.setText("");
             }
 
-        }*/
+        }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
             edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
