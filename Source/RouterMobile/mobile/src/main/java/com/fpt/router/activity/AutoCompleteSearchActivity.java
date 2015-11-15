@@ -196,6 +196,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         // user has chosen one result in auto complete list
         if(mapLocation.get(number) != null) {
             if (!autoComp.getText().toString().equals(mapLocation.get(number).getName())) {
+            if (!mapLocation.get(number).getName().equals(autoComp.getText().toString())) {
                 SearchRouteActivity.isDataChange = true;
             }
         }

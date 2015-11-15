@@ -338,10 +338,13 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             public void onClick(View view) {
                 // Clear data
 
-                    listLeg.clear();
-                    results.clear();
-                    journeys.clear();
-                
+                listLeg.clear();
+                results.clear();
+                journeys.clear();
+                isDataChange = false;
+                /*listLeg.clear();
+                results.clear();
+                journeys.clear();*/
                 // validation
                 if ((!MainActivity.flat_gps) && ("".equals(edit_1.getText()))) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
@@ -484,7 +487,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             }
         }*/
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
-            if(mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
+            if (mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
                 edit_1.setHint("Vị trí của bạn");
                 flat_check_edittext_1 = false;
                 SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
