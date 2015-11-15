@@ -337,11 +337,13 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             @Override
             public void onClick(View view) {
                 // Clear data
+                if(isDataChange){
+                    listLeg.clear();
+                    results.clear();
+                    journeys.clear();
+                    isDataChange = false;
+                }
 
-                listLeg.clear();
-                results.clear();
-                journeys.clear();
-                isDataChange = false;
                 /*listLeg.clear();
                 results.clear();
                 journeys.clear();*/

@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.MainActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
@@ -181,8 +182,7 @@ public class BusTwoPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    AutocompleteObject autoObject = mapLocation.get(AppConstants.SearchField.FROM_LOCATION);
-                    if (autoObject.getPlace_id().equals("")) {
+                    if (MainActivity.flat_gps) {
                         busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
                                 GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
                     } else {
@@ -203,10 +203,26 @@ public class BusTwoPointFragment extends Fragment {
                 }
                 try {
                     for (int i = 0; i < autocompleteObjects.size(); i++) {
-                        String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
-                        String json = NetworkUtils.download(url);
-                        BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
-                        busLocations.add(busLocation);
+                        AutocompleteObject autoObject = autocompleteObjects.get(i);
+                        if(!autoObject.getPlace_id().equals("")){
+                            String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
+                            String json = NetworkUtils.download(url);
+                            BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
+                            busLocations.add(busLocation);
+                        }else{
+                            String url = GoogleAPIUtils.getTwoPointDirection(autoObject, autoObject);
+                            String json = NetworkUtils.download(url);
+                            JSONObject jsonO = new JSONObject(json);
+                            String status = jsonO.getString("status");
+                            if(!status.equals("OK")){
+                                code = "Đia điểm bạn tìm kiếm không được tìm thấy, vui lòng nhập lại.";
+                                return resultList;
+                            }else{
+                                BusLocation busLocation = JSONParseUtils.getBusLocationWithNoPlaceId(json,autoObject.getName());
+                                busLocations.add(busLocation);
+                            }
+                        }
+
                     }
                     jsonFromServer = APIUtils.getJsonFromServer(busLocations);
 
@@ -282,6 +298,12 @@ public class BusTwoPointFragment extends Fragment {
                 pDialog.dismiss();
             }
 
+            if((resultList == null)||(resultList.size() == 0)){
+                listError = new ArrayList<String>();
+                listError.add(code);
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                return;
+            }
 
             if (!resultList.get(0).code.equals("success")) {
                 //check

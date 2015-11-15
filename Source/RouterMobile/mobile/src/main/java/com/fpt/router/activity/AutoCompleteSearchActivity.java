@@ -138,9 +138,11 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 phraseShouldToSearch = autoComp.getText().toString().trim();
 
                 if ((phraseShouldToSearch.length() > 0) && (!state)) {
+                    SearchRouteActivity.isDataChange = true;
                     AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.SEARCH_TYPE;
                     startThreadSearch();
                 } else {
+                    SearchRouteActivity.isDataChange = false;
                     AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
                     adapter.clear();
                     List<AutocompleteObject> autoList = new ArrayList<AutocompleteObject>();
@@ -198,13 +200,13 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private boolean returnPreviousActivity() {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
-        if (mapLocation.get(number) != null) {
+        /*if (mapLocation.get(number) != null) {
             if (!autoComp.getText().toString().equals(mapLocation.get(number).getName())) {
                 if (!mapLocation.get(number).getName().equals(autoComp.getText().toString())) {
                     SearchRouteActivity.isDataChange = true;
                 }
             }
-        }
+        }*/
         if ((location != null)) {
             if (autoComp.getText().toString().equals(location.getName())) {
                 mapLocation.put(number, location);
@@ -216,6 +218,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             if (mapLocation.get(number) != null) {
                 // user delete field
                 if (autoComp.getText().toString().length() == 0) {
+                    SearchRouteActivity.isDataChange = true;
                     mapLocation.remove(number);
                 }
                 // user types random text.
