@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
+import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
@@ -270,6 +271,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
+
+        SearchLocationDAL.deleteSearchLocation();
 
         /*handlerThread.removeCallbacks(whatMyName);
         handlerThread.post(whatMyName);*/
