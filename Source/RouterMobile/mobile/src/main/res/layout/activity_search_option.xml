@@ -40,13 +40,17 @@
         android:paddingLeft="10dip">
 
         <LinearLayout
-            android:layout_width="280dip"
+            android:layout_width="270dip"
             android:layout_height="100dip"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dp"
+                android:background="@color/primary"
                 android:orientation="horizontal">
 
                 <!--<ImageView
@@ -57,11 +61,8 @@
 
                 <TextView
                     android:id="@+id/fromId"
-                    android:layout_width="230dip"
+                    android:layout_width="220dip"
                     android:layout_height="30dip"
-                    android:layout_marginBottom="5dip"
-                    android:layout_marginTop="10dip"
-                    android:layout_marginLeft="20dp"
                     android:background="@color/primary"
                     android:ellipsize="end"
                     android:hint="Điểm trung gian 1"
@@ -73,16 +74,21 @@
                 <ImageButton
                     android:id="@+id/btn_delete_waypoint_1"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="30dp"
+                    android:padding="3dip"
                     android:layout_gravity="center_horizontal"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_cancel_black_24dp" />
+                    android:background="@color/primary"
+                    android:src="@drawable/ic_close_black_24dp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="20dp"
+                android:background="@color/primary"
                 android:orientation="horizontal">
 
                 <!--<ImageView
@@ -93,10 +99,8 @@
 
                 <TextView
                     android:id="@+id/toId"
-                    android:layout_width="230dip"
+                    android:layout_width="220dip"
                     android:layout_height="30dip"
-                    android:layout_marginTop="5dip"
-                    android:layout_marginLeft="20dp"
                     android:background="@color/primary"
                     android:ellipsize="end"
                     android:hint="Điểm trung gian 2"
@@ -108,10 +112,11 @@
                 <ImageButton
                     android:id="@+id/btn_delete_waypoint_2"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="30dp"
+                    android:padding="3dip"
                     android:layout_gravity="center_horizontal"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_cancel_black_24dp" />
+                    android:background="@color/primary"
+                    android:src="@drawable/ic_close_black_24dp" />
 
             </LinearLayout>
         </LinearLayout>
@@ -120,6 +125,7 @@
             android:id="@+id/swap_location_btn"
             android:layout_width="30dip"
             android:layout_height="30dip"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="30dip"
             android:background="@drawable/ic_swap_vert_black_24dp" />
     </LinearLayout>
