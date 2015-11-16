@@ -42,7 +42,7 @@ import java.util.Map;
 
 public class SearchRouteActivity extends AppCompatActivity implements RadialTimePickerDialogFragment.OnTimeSetListener {
 
-    public static enum TabPosition {
+    public enum TabPosition {
         TAB_BUS,
         TAB_MOTORBIKE
     }
