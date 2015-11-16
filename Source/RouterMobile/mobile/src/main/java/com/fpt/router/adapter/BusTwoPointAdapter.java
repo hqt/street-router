@@ -72,10 +72,15 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             images.add(new BusImage(R.drawable.ic_chevron_right_black_24dp, ""));
             String startWalking = "Từ địa chỉ " + path.stationFromName;
             int distance = (int) path.distance;
+            String str_distance = " m";
             if(distance < 1){
                 distance = distance +1;
             }
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(startWalking), String.valueOf(distance) + " m"));
+            if(distance >1000){
+                distance = distance /1000;
+                str_distance = " km";
+            }
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(startWalking), String.valueOf(distance) + str_distance));
             holder.startLocation.setText(StringUtils.removeCharacter(startWalking));
         }
         for (int i = 0; i < nodeList.size() - 1; i++) {
@@ -99,10 +104,15 @@ public class BusTwoPointAdapter extends RecyclerView.Adapter<BusTwoPointAdapter.
             String endWalking = "Đến địa chỉ " + path.stationToName;
             images.add(new BusImage(R.drawable.ic_directions_walk_black_24dp, ""));
             int distance = (int) path.distance;
+            String str_distance = " m";
             if(distance < 1){
                 distance = distance+1;
             }
-            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(endWalking), String.valueOf(distance) + " m"));
+            if(distance >1000){
+                distance = distance /1000;
+                str_distance = " km";
+            }
+            details.add(new BusDetail(R.drawable.ic_directions_walk_black_24dp, StringUtils.removeCharacter(endWalking), String.valueOf(distance) + str_distance));
             holder.endLocation.setText(StringUtils.removeCharacter(endWalking));
         }
 
