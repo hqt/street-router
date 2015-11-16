@@ -12,12 +12,7 @@ import com.fpt.router.web.config.ApplicationContext;
  * Created by Huynh Quang Thao on 10/11/15.
  */
 public class StaffAction extends AuthAction {
-    @Override
     public String execute(ApplicationContext context) {
-        String command = super.execute(context);
-        if (command != null) return command;
-
-        // check role here
-        return null;
+        return super.execute(context);
     }
 }

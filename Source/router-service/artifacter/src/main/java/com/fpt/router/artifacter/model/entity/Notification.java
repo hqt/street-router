@@ -22,8 +22,19 @@ public class Notification implements IEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdTime;
 
+    @Column(name = "State", nullable = false)
+    private int state;
+
     public Notification() {
 
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public Notification(Date createdTime) {

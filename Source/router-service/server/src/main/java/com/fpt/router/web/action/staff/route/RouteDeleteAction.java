@@ -1,20 +1,26 @@
 package com.fpt.router.web.action.staff.route;
 
-import com.fpt.router.artifacter.dao.ConnectionDAO;
+import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.Route;
-import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.config.ApplicationContext;
 
 /**
  * Created by datnt on 11/2/2015.
  */
-public class RouteDeleteAction implements IAction {
+public class RouteDeleteAction extends StaffAction {
 
     @Override
     public String execute(ApplicationContext context) {
+        String authenticated = super.execute(context);
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
+            return PAGE.COMMON.LOGIN;
+        }
 
         System.out.println("Deleting...");
 
@@ -53,6 +59,6 @@ public class RouteDeleteAction implements IAction {
             }
         }
 
-        return null;
+        return Config.AJAX_FORMAT;
     }
 }

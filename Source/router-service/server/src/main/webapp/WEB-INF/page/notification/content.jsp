@@ -33,7 +33,7 @@
     <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
     <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">
-      Notification Management <small>manage notification</small>
+      Station Notification Management <small>manage station notification</small>
     </h3>
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
@@ -42,7 +42,7 @@
         <div class="portlet box green">
           <div class="portlet-title">
             <div class="caption">
-              <i class="fa fa-gift"></i>Notification Table
+              <i class="fa fa-gift"></i>Station Notification Table
             </div>
             <div class="tools">
               <a href="javascript:;" class="collapse"></a>
@@ -52,7 +52,7 @@
             <ul class="nav nav-tabs">
               <li class="active">
                 <a href="#tab1" data-toggle="tab">
-                  Notification
+                  Active Notification
                 </a>
               </li>
               <li>
@@ -67,8 +67,11 @@
                   <thead>
                   <tr>
                     <th>#</th>
-                    <th>Route No</th>
-                    <th>Content</th>
+                    <th>Code</th>
+                    <th>Chang Name</th>
+                    <th>Change Street</th>
+                    <th>Change Latitude</th>
+                    <th>Change Longitude</th>
                     <th>Approve</th>
                     <th>Block</th>
                     <th>Delete</th>
@@ -77,25 +80,7 @@
                   <tbody>
                   <c:forEach var="nofActive" items="${nofListVM.listNofActive}" varStatus="count">
                     <tr>
-                      <input type="hidden" value="${nofActive.id}">
-                      <td>${count.count}</td>
-                      <td>18(Hard Code)</td>
-                      <td>${nofActive.content}</td>
-                      <td>
-                        <a class="approve" href="javascript:;">
-                          Approve
-                        </a>
-                      </td>
-                      <td>
-                        <a class="block" href="javascript:;">
-                          Block
-                        </a>
-                      </td>
-                      <td>
-                        <a class="delete" href="javascript:;">
-                          Delete
-                        </a>
-                      </td>
+
                     </tr>
                   </c:forEach>
                   </tbody>

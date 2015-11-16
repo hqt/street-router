@@ -11,6 +11,7 @@ import java.util.List;
 @Table(name = "Staff")
 public class Staff implements IEntity {
 
+    @GeneratedValue
     @Id
     @Column(name = "StaffID", unique = true, nullable = false)
     private int staffId;

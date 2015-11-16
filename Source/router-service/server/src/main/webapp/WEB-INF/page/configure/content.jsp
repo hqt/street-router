@@ -80,7 +80,7 @@
                   <div class="row">
                     <div class="col-md-offset-3 col-md-9">
                       <button type="submit" class="btn btn-circle blue" name="action" value="configure">Configure</button>
-                      <button type="button" class="btn btn-circle default">Cancel</button>
+                      <button type="reset" class="btn btn-circle default">Cancel</button>
                     </div>
                   </div>
                 </div>
