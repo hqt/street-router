@@ -1,46 +1,26 @@
 package com.fpt.router.fragment;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.ListView;
-
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
-import com.fpt.router.framework.OrientationManager;
-import com.fpt.router.framework.OrientationManager.OnChangedListener;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
-import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
-import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
@@ -50,14 +30,9 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
-import com.nutiteq.core.MapVec;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
-import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.Marker;
-import com.nutiteq.vectorelements.NMLModel;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -150,12 +125,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     }
 
     private void drawMap() {
-        //Test
-        /*List<LatLng> listTest = new ArrayList<>();
-        listTest.add(new LatLng(10.855090, 106.628394));
-        listTest.add(new LatLng(10.773599, 106.694417));
-        NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listTest, baseProjection, 5);*/
-
         if(SearchRouteActivity.mapLocation.size() == 2) {
             NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
 
@@ -219,44 +188,16 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-
+        if(marker == null){
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource,
+                    getResources(), lat, lng, R.drawable.marker_cua_nam_burned);
+        } else {
+            marker.setPos(markerPos);
+        }
         if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
         }
-        if (marker == null) {
-            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                    lat, lng, R.drawable.marker_cua_nam_burned);
-        } else {
-            marker.setPos(markerPos);
-            if(model != null) {
-                model.setVisible(false);
-            }
-            marker.setVisible(true);
-        }
-        /*if(COMPASS_FLAG) {
-            if(model == null){
-                model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
-                model.setScale(400);
-                vectorDataSource.add(model);
-            } else {
-                model.setPos(markerPos);
-                model.setVisible(true);
-                if(marker != null) {
-                    marker.setVisible(false);
-                }
-            }
-        } else {
-            if (marker == null) {
-                marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                        lat, lng, R.drawable.marker_cua_nam_burned);
-            } else {
-                marker.setPos(markerPos);
-                if(model != null) {
-                    model.setVisible(false);
-                }
-                marker.setVisible(true);
-            }
-        }*/
+
     }
 
     @Override
@@ -318,7 +259,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 }
             }
         }
-                 return notifyModelList;
+        return notifyModelList;
     }
 
     class SendToDataLayerThread extends Thread {
@@ -363,7 +304,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
                     public void onResult(DataApi.DataItemResult dataItemResult) {
-
                     }
                 });*/
 
