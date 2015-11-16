@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.framework.RouterApplication;
 import com.nutiteq.core.MapRange;
 import com.nutiteq.datasources.CompressedCacheTileDataSource;
@@ -83,7 +84,7 @@ public class VectorMapBaseActivity extends NutiteqMapBaseActivity {
 
     // loading map offline
     protected TileDataSource createTileDataSource() {
-        if (RouterApplication.dataSource != null) {
+        if ((RouterApplication.dataSource != null) && (PrefStore.getIsMapDownloaded())) {
             return loadOfflineMap();
         } else {
             return loadOnlineMap();

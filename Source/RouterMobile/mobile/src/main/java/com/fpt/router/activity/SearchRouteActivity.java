@@ -24,12 +24,12 @@ import com.codetroopers.betterpickers.radialtimepicker.RadialTimePickerDialogFra
 import com.fpt.router.R;
 import com.fpt.router.adapter.ViewPagerAdapter;
 import com.fpt.router.dal.SearchLocationDAL;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.SearchField;
 import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
-import com.fpt.router.model.SearchLocation;
 import com.fpt.router.utils.NetworkUtils;
 
 import org.joda.time.DateTime;
@@ -40,10 +40,12 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SearchRouteActivity extends AppCompatActivity implements RadialTimePickerDialogFragment.OnTimeSetListener{
+public class SearchRouteActivity extends AppCompatActivity implements RadialTimePickerDialogFragment.OnTimeSetListener {
 
-
-
+    public enum TabPosition {
+        TAB_BUS,
+        TAB_MOTORBIKE
+    }
 
     public enum SearchType {
         BUS_TWO_POINT,
@@ -66,8 +68,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     private LinearLayout linear_middle_2;
     private ImageButton img_expand_1;
     public static ViewPagerAdapter adapter;
-    public static List<Result> results = new ArrayList<Result>();
-    public static List<Journey> journeys = new ArrayList<Journey>();
+    public static List<Result> results = new ArrayList<>();
+    public static List<Journey> journeys = new ArrayList<>();
     public static List<Leg> listLeg = new ArrayList<>();
     public static Map<Integer, AutocompleteObject> mapLocation = new HashMap<>();
     public static Boolean optimize = true;
@@ -86,6 +88,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     // variable for controlling which fragment should be to refreshed
     public boolean needToSearch = false;
     public SearchType searchType;
+    public static TabPosition ng_tab_position;
+    public static boolean flat_check_edittext_1 = false;
+    public static boolean isDataChange = false;
+    public static int tab_position = 0;
 
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
 
@@ -135,6 +141,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         }
+        if ((MainActivity.flat_gps) && (!flat_check_edittext_1)) {
+            edit_1.setHint("Vị trí của bạn");
+            SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+        }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
             edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
@@ -145,6 +155,12 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         _view_pager.setAdapter(adapter);
 
+        if (ng_tab_position == TabPosition.TAB_BUS) {
+            _view_pager.setCurrentItem(0);
+        }
+        if (ng_tab_position == TabPosition.TAB_MOTORBIKE) {
+            _view_pager.setCurrentItem(1);
+        }
         //_view_pager.setCurrentItem(1);
         option.setVisibility(View.VISIBLE);
         /*_depart_time.setClickable(false);
@@ -158,6 +174,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             tab.setCustomView(adapter.getTabView(i));
         }
+
 
         //edit text 1
         edit_1.setOnClickListener(new View.OnClickListener() {
@@ -319,8 +336,19 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         _btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Clear data
+                if(isDataChange){
+                    listLeg.clear();
+                    results.clear();
+                    journeys.clear();
+                    isDataChange = false;
+                }
+
+                /*listLeg.clear();
+                results.clear();
+                journeys.clear();*/
                 // validation
-                if ("".equals(edit_1.getText())) {
+                if ((!MainActivity.flat_gps) && ("".equals(edit_1.getText()))) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
                 } else if ("".equals(edit_2.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
@@ -334,6 +362,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                     int tabPosition = _view_pager.getCurrentItem();
 
                     if (tabPosition == 0) {
+                        ng_tab_position = TabPosition.TAB_BUS;
+                        tab_position = 0;
                         if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search bus two point");
                             searchType = SearchType.BUS_TWO_POINT;
@@ -342,6 +372,8 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                             searchType = SearchType.BUS_FOUR_POINT;
                         }
                     } else if (tabPosition == 1) {
+                        tab_position = 1;
+                        ng_tab_position = TabPosition.TAB_MOTORBIKE;
                         if (mapLocation.size() == 2) {
                             Log.e("hqthao", "Search motor two point");
                             searchType = SearchType.MOTOR_TWO_POINT;
@@ -352,8 +384,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                     }
 
                     for (Map.Entry<Integer, AutocompleteObject> entry : mapLocation.entrySet()) {
-                        Log.i("hqthao", entry.getKey() + "--> " + entry.getValue().getName());
-                        SearchLocationDAL.insertSearchLocation(entry.getValue().getPlace_id(),entry.getValue().getName());
+                        AutocompleteObject location = entry.getValue();
+                        if ((location != null) && (location.getPlace_id() != null) && (location.getPlace_id().trim().length() > 0)) {
+                            SearchLocationDAL.insertSearchLocation(location.getPlace_id(), location.getName());
+                        }
                     }
 
                     adapter = new ViewPagerAdapter(getSupportFragmentManager(), SearchRouteActivity.this);
@@ -433,10 +467,44 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     }
 
     private void setTextToField() {
-        if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
-            edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+        /*if(MainActivity.flat_gps) {
+            if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+                if(mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
+                    edit_1.setHint("Vị trí của bạn");
+                    flat_check_edittext_1 = false;
+                    SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+                } else {
+                    edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+                    flat_check_edittext_1 = true;
+                }
+            }
         } else {
-            edit_1.setText("");
+            if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+                if(!mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
+                    edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+                    flat_check_edittext_1 = true;
+                } else {
+                    edit_1.setText("");
+                }
+            }
+        }*/
+        if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+            if (mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
+                edit_1.setHint("Vị trí của bạn");
+                flat_check_edittext_1 = false;
+                SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+            } else {
+                edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+                flat_check_edittext_1 = true;
+            }
+        } else {
+            if (MainActivity.flat_gps) {
+                edit_1.setHint("Vị trí của bạn");
+                flat_check_edittext_1 = false;
+                SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+                edit_1.setText("");
+            }
+
         }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {

@@ -45,7 +45,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
     public void onBindViewHolder(BusViewHoder holder, int position) {
 
         if (position % 2 != 0) {
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#ECEFF1"));
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#DFEEF7"));
         } else {
             holder.cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
         }
@@ -84,6 +84,7 @@ public class BusFourPointAdapter extends RecyclerView.Adapter<BusFourPointAdapte
             holder.way_point_1.setText("Qua "+StringUtils.removeCharacter(path.stationFromName));
         }
         //Result 3
+
         Result result_3 = results.get(2);
         List<INode> iNodeList_3 = result_3.nodeList;
         for (int j=0;j<iNodeList_3.size();j++){

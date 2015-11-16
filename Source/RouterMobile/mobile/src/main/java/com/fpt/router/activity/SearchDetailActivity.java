@@ -30,6 +30,7 @@ import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.utils.cache.DiskLruSoundCache;
 import com.fpt.router.library.utils.StringUtils;
+import com.fpt.router.service.GPSService;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NetworkUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -44,7 +45,6 @@ import java.net.URLEncoder;
 
 import de.greenrobot.event.EventBus;
 
-import static com.fpt.router.service.GPSServiceOld.*;
 
 public class SearchDetailActivity extends AppCompatActivity implements LocationListener,
         GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks{
@@ -64,7 +64,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     ImageButton buttonHidenSound;
     ImageButton fakeGPSButton ;
     ImageButton buttonHideFakeGPS ;
-    ImageButton compassButton;
 
     private static final int BUFFER_SIZE = 4096;
 
@@ -89,13 +88,16 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         buttonHidenSound = (ImageButton) findViewById(R.id.btn_hide_get_sound);
         fakeGPSButton = (ImageButton) findViewById(R.id.btn_fake_gps);
         buttonHideFakeGPS = (ImageButton) findViewById(R.id.btn_hide_fake_gps);
-        compassButton = (ImageButton) findViewById(R.id.btn_compass);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
         Result result = (Result) getIntent().getSerializableExtra("result");
         Journey journey = (Journey) getIntent().getSerializableExtra("journey");
         position = getIntent().getIntExtra("position", -1);
+
+        // turn off fake gps
+        GPSServiceOld.isFakeGPS = false;
+
         if (result != null) {
             if (savedInstanceState == null) {
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
@@ -103,50 +105,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getBusNotifyDistance());
-                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHidenSound.setVisibility(View.GONE);
-                        soundButton.setVisibility(View.VISIBLE);
-                        GPSServiceOld.isPlaySound = false;
-                    }
-                });
-
-                soundButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        soundButton.setVisibility(View.GONE);
-                        buttonHidenSound.setVisibility(View.VISIBLE);
-                        isPlaySound = !isPlaySound;
-                        if (isPlaySound) {
-                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                            downloadAsyncTask.execute();
-                        }
-                        GPSServiceOld.isPlaySound = true;
-                    }
-                });
-
-                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.GONE);
-                        fakeGPSButton.setVisibility(View.VISIBLE);
-                    }
-                });
-                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                        fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
-                        if (isFakeGPS) {
-                            turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                            setDistance(PrefStore.getBusNotifyDistance());
-                        } else {
-                            turnOffFakeGPS();
-                        }
-                    }
-                });*/
             }
         }
 
@@ -157,57 +115,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getMotorNotifyDistance());
-
-                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHidenSound.setVisibility(View.GONE);
-                        soundButton.setVisibility(View.VISIBLE);
-                        GPSServiceOld.isPlaySound = false;
-                    }
-                });
-
-                soundButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        soundButton.setVisibility(View.GONE);
-                        buttonHidenSound.setVisibility(View.VISIBLE);
-                        isPlaySound = !isPlaySound;
-                        if (isPlaySound) {
-                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                            downloadAsyncTask.execute();
-                        }
-                        GPSServiceOld.isPlaySound = true;
-                    }
-                });
-
-                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.GONE);
-                        fakeGPSButton.setVisibility(View.VISIBLE);
-                        isFakeGPS = false;
-                        if(!isFakeGPS) {
-                            turnOffFakeGPS();
-                        }
-                    }
-                });
-
-                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                        fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
-                        if (isFakeGPS) {
-                            turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                            setDistance(PrefStore.getMotorNotifyDistance());
-                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                        } else {
-                            GPSServiceOld.turnOffFakeGPS();
-                        }
-                    }
-                });*/
             }
         }
 
@@ -218,57 +125,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 trans.add(R.id.fragment, fragmentNutiteq);
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getBusNotifyDistance());
-
-                /*buttonHidenSound.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHidenSound.setVisibility(View.GONE);
-                        soundButton.setVisibility(View.VISIBLE);
-                        GPSServiceOld.isPlaySound = false;
-                    }
-                });
-
-                soundButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        soundButton.setVisibility(View.GONE);
-                        buttonHidenSound.setVisibility(View.VISIBLE);
-                        isPlaySound = !isPlaySound;
-                        if (isPlaySound) {
-                            DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
-                            downloadAsyncTask.execute();
-                        }
-                        GPSServiceOld.isPlaySound = true;
-                    }
-                });
-
-                buttonHideFakeGPS.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.GONE);
-                        fakeGPSButton.setVisibility(View.VISIBLE);
-                    }
-                });
-
-                fakeGPSButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                        fakeGPSButton.setVisibility(View.GONE);
-                        isFakeGPS = !isFakeGPS;
-                        if (isFakeGPS) {
-                            turnOnFakeGPS(fragment.getFakeGPSList());
-                            setDistance(PrefStore.getBusNotifyDistance());
-                            GPSServiceOld.turnOnFakeGPS(fragmentNutiteq.getFakeGPSList());
-                        } else {
-                            turnOffFakeGPS();
-                        }
-                    }
-                });*/
             }
         }
-
-
     }
 
     public void test (final AbstractNutiteqMapFragment frag, final int distance){
@@ -298,30 +156,20 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             public void onClick(View v) {
                 buttonHideFakeGPS.setVisibility(View.GONE);
                 fakeGPSButton.setVisibility(View.VISIBLE);
-                isFakeGPS = true;
-                turnOnFakeGPS(frag.getFakeGPSList());
-                setDistance(distance);
+                GPSServiceOld.setDistance(distance);
+                GPSServiceOld.turnOnFakeGPS(frag.getFakeGPSList());
             }
         });
 
         fakeGPSButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compassButton.setVisibility(View.VISIBLE);
+                buttonHideFakeGPS.setVisibility(View.VISIBLE);
                 fakeGPSButton.setVisibility(View.GONE);
-                isFakeGPS = false;
+                GPSServiceOld.turnOffFakeGPS();
             }
         });
 
-        compassButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                buttonHideFakeGPS.setVisibility(View.VISIBLE);
-                compassButton.setVisibility(View.GONE);
-                isFakeGPS = false;
-                turnOffFakeGPS();
-            }
-        });
     }
 
     @Override
@@ -404,7 +252,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            int percent = (int) (1.0 * values[0] / getNotifyModel().size() * 100);
+            int percent = (int) (1.0 * values[0] /GPSServiceOld.getNotifyModel().size() * 100);
             pDialog.setProgress(percent);
             pDialog.setMessage("Download " + percent + "% complete");
         }
@@ -416,8 +264,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             boolean isServiceAvailable = true;
             DiskLruSoundCache soundCache = new DiskLruSoundCache(getApplicationContext(), FileCache.FOLDER_NAME, FileCache.SYSTEM_SIZE);
 
-            for (int i = 0; i < getNotifyModel().size(); i++) {
-                NotifyModel model = getNotifyModel().get(i);
+            for (int i = 0; i < GPSServiceOld.getNotifyModel().size(); i++) {
+                NotifyModel model = GPSServiceOld.getNotifyModel().get(i);
 
                 // check cache
                 String key = StringUtils.normalizeFileCache(model.smallMessage);

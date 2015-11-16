@@ -20,7 +20,6 @@ public class SearchLocationDAL {
     public static SearchLocation insertSearchLocation(String id, String name) {
         Realm realm = Realm.getDefaultInstance();
 
-
         SearchLocation searchLocation = new SearchLocation();
         searchLocation.setPlaceId(id);
         searchLocation.setPlaceName(name);
@@ -42,9 +41,13 @@ public class SearchLocationDAL {
         return res;
     }
 
-    public boolean deleteSearchLocation() {
-        return false;
+    public static boolean deleteSearchLocation() {
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(SearchLocation.class).findAll().clear();
+        realm.commitTransaction();
+
+        return true;
     }
-
-
 }

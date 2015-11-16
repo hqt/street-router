@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.MainActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusFourPointAdapter;
 import com.fpt.router.adapter.BusThreePointAdapter;
@@ -28,10 +29,13 @@ import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
+import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.APIUtils;
+import com.fpt.router.utils.CheckDuplicateUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.utils.SortUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -57,6 +61,7 @@ public class BusFourPointFragment extends Fragment {
     private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
+    String code = "";
 
     public BusFourPointFragment() {
 
@@ -115,7 +120,7 @@ public class BusFourPointFragment extends Fragment {
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_FOUR_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
-            } else if (SearchRouteActivity.journeys.size() > 0) {
+            } else if (SearchRouteActivity.journeys != null ) {
                 if(SearchRouteActivity.mapLocation.size() == 3){
                     recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
                 }
@@ -132,6 +137,7 @@ public class BusFourPointFragment extends Fragment {
 
     private class JSONParseTask extends AsyncTask<String, String, List<Journey>> {
         private ProgressDialog pDialog;
+        int totalProgress;
 
         @Override
         protected void onPreExecute() {
@@ -164,7 +170,15 @@ public class BusFourPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    if (MainActivity.flat_gps) {
+                        busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
+                                GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
+                    } else {
+                        autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    }
+                } else {
+                    busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
+                            GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
                 }
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
@@ -178,10 +192,27 @@ public class BusFourPointFragment extends Fragment {
 
                 try {
                     for (int i = 0; i < autocompleteObjects.size(); i++) {
-                        String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
-                        String json = NetworkUtils.download(url);
-                        BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
-                        busLocations.add(busLocation);
+                        AutocompleteObject autoObject = autocompleteObjects.get(i);
+                        if(!autoObject.getPlace_id().equals("")){
+                            String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
+                            String json = NetworkUtils.download(url);
+                            BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
+                            busLocations.add(busLocation);
+                        }else{
+                            String url = GoogleAPIUtils.getTwoPointDirection(autoObject, autoObject);
+                            String json = NetworkUtils.download(url);
+                            JSONObject jsonO = new JSONObject(json);
+                            String status = jsonO.getString("status");
+                            if(!status.equals("OK")){
+                                code = "Đia điểm bạn tìm kiếm không được tìm thấy, vui lòng nhập lại.";
+                                return journeyList;
+                            }else{
+                                BusLocation busLocation = JSONParseUtils.getBusLocationWithNoPlaceId(json,autoObject.getName());
+                                busLocations.add(busLocation);
+                            }
+                        }
+
+
                     }
                     jsonFromServer = APIUtils.getJsonFromServer(busLocations);
 
@@ -195,6 +226,18 @@ public class BusFourPointFragment extends Fragment {
 
                 }
             }
+
+            // must be sort before remove duplicate
+            SortUtils.sortJourney(journeyList);
+
+            // remove duplicate result
+            journeyList = CheckDuplicateUtils.checkDuplicateJourney(journeyList);
+
+            if (!SearchBus.IS_USED_REAL_WALKING) {
+                return journeyList;
+            }
+
+            // Find how many request should be sent
 
             /* *
             * GET LIST RESULT AND SET AGAIN FOR WALKING PATH
@@ -241,6 +284,12 @@ public class BusFourPointFragment extends Fragment {
         protected void onPostExecute(List<Journey> journeyList) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
+            }
+            if((journeyList == null)|| (journeyList.size() == 0)){
+                listError = new ArrayList<String>();
+                listError.add(code);
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                return;
             }
             if (!journeyList.get(0).code.equals("success")) {
                 listError = new ArrayList<String>();

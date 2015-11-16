@@ -32,18 +32,31 @@ android:fitsSystemWindows="true">
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
+                android:id="@+id/txtSearchLocation"
                 android:layout_width="match_parent"
-                android:text="Tìm kiếm trên Google Maps"
-                android:textColor="#BDBDBD"
+                android:hint="Tìm kiếm vị trí"
+                android:textColorHint="#9E9E9E"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="5dp"
                 android:gravity="center|left"
-                android:textSize="18sp"
+                android:textSize="16sp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
                 />
+            <ImageButton
+                android:id="@+id/btn_close"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_close_black_24dp"/>
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
+                android:paddingRight="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_mic_black_24dp"/>
         </LinearLayout>
@@ -88,7 +101,7 @@ android:fitsSystemWindows="true">
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        app:backgroundTint="#4d90fe"
+        app:backgroundTint="@color/primary"
         android:layout_marginRight="16dip"
         android:layout_marginBottom="16dip"
         android:src="@drawable/find_place"/>

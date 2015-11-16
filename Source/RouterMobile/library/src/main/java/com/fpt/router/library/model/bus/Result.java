@@ -16,6 +16,7 @@ public class Result implements Serializable {
     public Period totalTime;
     public int minutes;
     public int totalTransfer;
+    public List<String> busNoStrList;
 
     public List<INode> nodeList;
 

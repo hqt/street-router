@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,39 +15,40 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
+import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
+import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.bus.BusLocation;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.message.LocationMessage;
-<<<<<<< HEAD
-import com.fpt.router.library.utils.DecodeUtils;
-import com.fpt.router.model.SearchLocation;
+import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
-import com.fpt.router.utils.MathUtils;
-=======
->>>>>>> dbc0bd9ea753bbcf39c25bc7977c0df902bc5d00
+import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
 import com.nutiteq.vectorelements.Marker;
 
-import java.util.List;
+import org.json.JSONException;
 
 import de.greenrobot.event.EventBus;
 
+import static com.fpt.router.activity.SearchRouteActivity.mapLocation;
 import static com.fpt.router.framework.OrientationManager.OnChangedListener;
 
 /**
@@ -52,7 +56,7 @@ import static com.fpt.router.framework.OrientationManager.OnChangedListener;
  */
 public class MainActivity extends VectorMapBaseActivity implements LocationListener,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleApiClient.ConnectionCallbacks, OnChangedListener{
+        GoogleApiClient.ConnectionCallbacks, OnChangedListener {
     DrawerLayout mDrawerLayout;
     private FloatingActionButton fabMap;
     private FloatingActionButton fab;
@@ -64,10 +68,14 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     boolean isTracking = false;
     VectorLayer vectorLayer;
     MapPos markerPos;
-
+    private TextView txtSearchLocation;
+    Marker ng_marker;
+    MapPos ng_markerPos;
     private EventBus bus = EventBus.getDefault();
-
+    public static BusLocation ng_bus_location;
     Marker marker;
+    ImageButton ng_btn_close;
+    public static boolean flat_gps = false;
     //Test sensor
 
     private OrientationManager mOrientationManager;
@@ -91,6 +99,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        txtSearchLocation = (TextView) findViewById(R.id.txtSearchLocation);
+        ng_btn_close = (ImageButton) findViewById(R.id.btn_close);
         //Make DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -107,6 +117,24 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         mapView.setFocusPos(markerPos, 1);
         mapView.setZoom(10, 1);
 
+        ng_btn_close.setVisibility(View.GONE);
+        //call back
+        if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
+            txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION).getName());
+            ng_btn_close.setVisibility(View.VISIBLE);
+            ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
+                    new MapPos(ng_bus_location.getLongitude(), ng_bus_location.getLatitude()));
+            if (ng_marker == null) {
+                ng_marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                        ng_bus_location.getLatitude(), ng_bus_location.getLongitude(), R.drawable.ng_marker);
+
+            } else {
+                ng_marker.setPos(ng_markerPos);
+            }
+            mapView.setFocusPos(ng_markerPos, 0f);
+            mapView.setZoom(24, 1);
+        }
+
         //marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
         //        10.852954, 106.629268, R.drawable.pink);
 
@@ -120,7 +148,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 Intent intent;
-                switch (menuItem.getItemId()){
+                switch (menuItem.getItemId()) {
                     case R.id.navigation_item_help:
                         Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;
@@ -128,7 +156,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                         Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
                         return true;
                     case R.id.navigation_item_setting:
-                        intent = new Intent(MainActivity.this,SettingActivity.class);
+                        intent = new Intent(MainActivity.this, SettingActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.navigation_item_history:
@@ -144,6 +172,16 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             }
         });
 
+        //search location
+        txtSearchLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AutoCompleteSearchActivity.class);
+                intent.putExtra("number", AppConstants.SearchField.SEARCH_LOCATION);
+                intent.putExtra("message", txtSearchLocation.getText());
+                startActivityForResult(intent, 5);// Activity is started with requestCode 3
+            }
+        });
         //float button
         fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
         fabMap.setOnTouchListener(new View.OnTouchListener() {
@@ -151,6 +189,17 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     Intent intent = new Intent(MainActivity.this, SearchRouteActivity.class);
+                    if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
+                        AutocompleteObject search_location = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
+                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.TO_LOCATION, search_location);
+                    }
+
+                    LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+                    boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    if((statusOfGPS == true)&&(!SearchRouteActivity.flat_check_edittext_1)){
+                        flat_gps = true;
+                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION,null);
+                    }
                     startActivity(intent);
                     return true;
                 }
@@ -198,6 +247,19 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             }
         });
 
+        ng_btn_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
+                    mapLocation.remove(AppConstants.SearchField.SEARCH_LOCATION);
+                    txtSearchLocation.setText(null);
+                    ng_btn_close.setVisibility(View.GONE);
+                    MapPos ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(106.628394, 10.855090));
+                    mapView.setFocusPos(ng_markerPos, 1);
+                    mapView.setZoom(10, 1);
+                }
+            }
+        });
 
 
         SensorManager sensorManager =
@@ -206,7 +268,29 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
+
+        SearchLocationDAL.deleteSearchLocation();
+
+        /*handlerThread.removeCallbacks(whatMyName);
+        handlerThread.post(whatMyName);*/
     }
+
+    Handler handlerThread = new Handler();
+
+    private Runnable whatMyName = new Runnable() {
+        @Override
+        public void run() {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("hqthao", "fuck fuck fuck");
+                }
+            }).start();
+
+            // continue to run on next time
+            handlerThread.postDelayed(this, 500);
+        }
+    };
 
     @Override
     protected void onStart() {
@@ -260,9 +344,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         com.fpt.router.library.model.common.Location local = new com.fpt.router.library.model.common.Location();
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
-        if(marker == null){
-           marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                   latitude, longitude, R.drawable.marker_cua_nam_burned);
+        if (marker == null) {
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                    latitude, longitude, R.drawable.marker_cua_nam_burned);
 
         } else {
             markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
@@ -291,7 +375,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     public void onOrientationChanged(OrientationManager orientationManager) {
         float azimut = orientationManager.getHeading(); // orientation contains: azimut, pitch and roll
         //System.out.println(azimut);
-        if(marker != null) {
+        if (marker != null) {
             marker.setRotation(360 - azimut);
         }
     }
@@ -301,6 +385,73 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("NgoanTT-->", "MainActivity");
+        AutocompleteObject autocompleteObject = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
+        if (autocompleteObject != null) {
+            if((autocompleteObject.getName() != null) && (!autocompleteObject.getName().equals(""))){
+                ng_btn_close.setVisibility(View.VISIBLE);
+                txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION).getName());
+                SearchLocationTask searchLocationTask = new SearchLocationTask();
+                searchLocationTask.execute();
+            }else {
+                txtSearchLocation.setText(null);
+            }
+        } else {
+            txtSearchLocation.setText(null);
+        }
+
+    }
+
+
+    private class SearchLocationTask extends AsyncTask<Void, Void, BusLocation> {
+
+
+        @Override
+        protected BusLocation doInBackground(Void... params) {
+            AutocompleteObject autocompleteObject = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
+            String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObject.getPlace_id());
+            String json = NetworkUtils.download(url);
+            BusLocation busLocation;
+            try {
+                busLocation = JSONParseUtils.getBusLocation(json, autocompleteObject.getName());
+                if (busLocation != null) {
+                    return busLocation;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(BusLocation location) {
+            super.onPostExecute(location);
+            if (location == null) {
+                Toast.makeText(getBaseContext(), "No Location found", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            ng_bus_location = location;
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            com.fpt.router.library.model.common.Location local = new com.fpt.router.library.model.common.Location();
+            local.setLatitude(location.getLatitude());
+            local.setLongitude(location.getLongitude());
+            ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
+                    new MapPos(location.getLongitude(), location.getLatitude()));
+            if (ng_marker == null) {
+                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                        latitude, longitude, R.drawable.ng_marker);
+
+            } else {
+                ng_marker.setPos(ng_markerPos);
+            }
+            mapView.setFocusPos(ng_markerPos, 0f);
+            mapView.setZoom(24, 1);
+        }
+    }
     /*class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;

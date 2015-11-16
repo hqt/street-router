@@ -63,15 +63,19 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
         /*autoComp = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);*/
 
         searchLocations = SearchLocationDAL.getListSearchLocation();
-        if((searchLocations.size() > 0) || (searchLocations == null)){
+        if ((searchLocations == null) || (searchLocations.size() > 0)) {
             AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
-            listLocation.clear();
-            for (SearchLocation searchLocation: searchLocations){
-                location = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
-                listLocation.add(location);
+            List<AutocompleteObject> autoList = new ArrayList<>();
+            AutocompleteObject autoObject;
+
+            for (SearchLocation searchLocation : searchLocations) {
+                autoObject = new AutocompleteObject(searchLocation.getPlaceName(), searchLocation.getPlaceId());
+                autoList.add(autoObject);
             }
-            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,listLocation);
-        }else{
+            listLocation = autoList;
+
+            adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, autoList);
+        } else {
             adapter = new AutocompleteAdapter(this, new ArrayList<AutocompleteObject>());
         }
         autoComp = (EditText) findViewById(R.id.autoCompleteTextView);
@@ -93,13 +97,16 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             case SearchField.WAY_POINT_2:
                 autoComp.setHint("Điểm trung gian 2");
                 break;
+            case SearchField.SEARCH_LOCATION:
+                autoComp.setHint("Search Vị trí");
+                break;
         }
 
         adapter.setNotifyOnChange(true);
         /*autoComp.setAdapter(adapter);*/
         if (adapter != null) {
             listView.setAdapter(adapter);
-           // autoComp.setAdapter(adapter);
+            // autoComp.setAdapter(adapter);
         }
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -131,18 +138,24 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                 phraseShouldToSearch = autoComp.getText().toString().trim();
 
                 if ((phraseShouldToSearch.length() > 0) && (!state)) {
+                    SearchRouteActivity.isDataChange = true;
                     AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.SEARCH_TYPE;
                     startThreadSearch();
                 } else {
+                    SearchRouteActivity.isDataChange = false;
                     AutocompleteAdapter.autoCompleteType = AutocompleteAdapter.AutoCompleteType.HISTORY_TYPE;
                     adapter.clear();
-                    listLocation.clear();
-                    Log.e("NgoanTT --->",searchLocations.size()+"");
-                    for (SearchLocation searchLocation: searchLocations){
-                        location = new AutocompleteObject(searchLocation.getPlaceName(),searchLocation.getPlaceId());
-                        listLocation.add(location);
+                    List<AutocompleteObject> autoList = new ArrayList<AutocompleteObject>();
+                    AutocompleteObject autoObject;
+
+                    Log.e("NgoanTT --->", searchLocations.size() + "");
+                    for (SearchLocation searchLocation : searchLocations) {
+                        autoObject = new AutocompleteObject(searchLocation.getPlaceName(), searchLocation.getPlaceId());
+                        autoList.add(autoObject);
                     }
-                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this,listLocation);
+                    listLocation = autoList;
+
+                    adapter = new AutocompleteAdapter(AutoCompleteSearchActivity.this, autoList);
                     listView.setAdapter(adapter);
                 }
             }
@@ -167,6 +180,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
                             break;
                     }
                 }
+                //Test
                 return false;
             }
         });
@@ -186,6 +200,13 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
     private boolean returnPreviousActivity() {
         int number = getIntent().getIntExtra("number", 1);
         // user has chosen one result in auto complete list
+        /*if (mapLocation.get(number) != null) {
+            if (!autoComp.getText().toString().equals(mapLocation.get(number).getName())) {
+                if (!mapLocation.get(number).getName().equals(autoComp.getText().toString())) {
+                    SearchRouteActivity.isDataChange = true;
+                }
+            }
+        }*/
         if ((location != null)) {
             if (autoComp.getText().toString().equals(location.getName())) {
                 mapLocation.put(number, location);
@@ -197,6 +218,7 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             if (mapLocation.get(number) != null) {
                 // user delete field
                 if (autoComp.getText().toString().length() == 0) {
+                    SearchRouteActivity.isDataChange = true;
                     mapLocation.remove(number);
                 }
                 // user types random text.

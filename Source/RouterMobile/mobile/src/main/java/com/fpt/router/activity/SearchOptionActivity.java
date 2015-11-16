@@ -27,6 +27,7 @@ import static com.fpt.router.activity.SearchRouteActivity.*;
  */
 public class SearchOptionActivity extends Activity {
 
+
     private Button acceptButton, cancelButton;
     private ImageButton swapLocationButton;
     private TextView fromTextView;
@@ -103,6 +104,7 @@ public class SearchOptionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(mapLocation.get(3) != null){
+                    SearchRouteActivity.isDataChange = true;
                     mapLocation.remove(3);
                     fromTextView.setText("");
                 }
@@ -113,6 +115,7 @@ public class SearchOptionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(mapLocation.get(4) != null){
+                    SearchRouteActivity.isDataChange = true;
                     mapLocation.remove(4);
                     toTextView.setText("");
                 }

@@ -19,7 +19,7 @@
         android:gravity="center"
         android:padding="7dp"
         android:text="Tùy chọn"
-        android:textColor="#2196F3"
+        android:textColor="@color/primary"
         android:textSize="22sp"
         android:textStyle="bold" />
 
@@ -61,7 +61,7 @@
                     android:layout_height="30dip"
                     android:layout_marginBottom="5dip"
                     android:layout_marginTop="10dip"
-                    android:background="#1565C0"
+                    android:background="@color/primary"
                     android:ellipsize="end"
                     android:hint="Điểm trung gian 1"
                     android:padding="3dip"
@@ -95,7 +95,7 @@
                     android:layout_width="230dip"
                     android:layout_height="30dip"
                     android:layout_marginTop="5dip"
-                    android:background="#1565C0"
+                    android:background="@color/primary"
                     android:ellipsize="end"
                     android:hint="Điểm trung gian 2"
                     android:padding="3dip"
@@ -132,7 +132,7 @@
         android:layout_marginTop="5dip"
         android:checked="true"
         android:text="Tối ưu"
-        android:textColor="#2962FF"
+        android:textColor="@color/primary"
         android:textSize="16sp"
         android:textStyle="normal" />
 
@@ -167,7 +167,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:text="Đi bộ tối đa giữa hai trạm(mét):"
-                android:textColor="#2962FF"
+                android:textColor="@color/primary"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -181,7 +181,7 @@
                 android:gravity="center"
                 android:hint="300"
                 android:inputType="number"
-                android:textColor="#3F51B5"
+                android:textColor="@color/primary"
                 android:textSize="13sp"
                 android:textStyle="normal" />
         </LinearLayout>
@@ -199,7 +199,7 @@
                 android:layout_weight="1"
                 android:gravity="left|center"
                 android:text="Số lần chuyển tuyến tối đa:"
-                android:textColor="#2962FF"
+                android:textColor="@color/primary"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 

@@ -121,8 +121,8 @@ public class AlgorithmTest {
 
         List<Location> middleLocations = new ArrayList<Location>();
         middleLocations.add(au_co);
-        middleLocations.add(tran_chanh_chieu);
-        middleLocations.add(ha_lo);
+        middleLocations.add(cvpm);
+        middleLocations.add(au_co);
 
         List<String> middleAddress = new ArrayList<String>();
         middleAddress.add("au co");
