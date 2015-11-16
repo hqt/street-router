@@ -66,7 +66,6 @@ public class AppConstants {
         public static final int TO_LOCATION = 2;
         public static final int WAY_POINT_1 = 3;
         public static final int WAY_POINT_2 = 4;
-        public static final int SEARCH_LOCATION = 5;
     }
 
     public static final class GoogleApiCode {

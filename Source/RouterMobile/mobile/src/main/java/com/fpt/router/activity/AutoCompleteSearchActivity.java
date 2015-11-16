@@ -97,9 +97,6 @@ public class AutoCompleteSearchActivity extends AppCompatActivity {
             case SearchField.WAY_POINT_2:
                 autoComp.setHint("Điểm trung gian 2");
                 break;
-            case SearchField.SEARCH_LOCATION:
-                autoComp.setHint("Search Vị trí");
-                break;
         }
 
         adapter.setNotifyOnChange(true);
