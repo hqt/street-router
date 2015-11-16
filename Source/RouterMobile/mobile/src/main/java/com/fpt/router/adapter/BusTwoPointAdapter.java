@@ -24,7 +24,6 @@ import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.utils.StringUtils;
-import com.fpt.router.library.utils.TimeUtils;
 
 import org.lucasr.twowayview.TwoWayView;
 
