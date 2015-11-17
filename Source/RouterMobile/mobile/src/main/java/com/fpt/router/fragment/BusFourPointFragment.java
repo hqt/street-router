@@ -151,6 +151,7 @@ public class BusFourPointFragment extends Fragment {
             pDialog.setMessage("Getting Data ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(false);
             pDialog.show();
 
         }
@@ -175,7 +176,7 @@ public class BusFourPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    if (MainActivity.flat_gps) {
+                    if (MainActivity.flatGPS) {
                         busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
                                 GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
                     } else {

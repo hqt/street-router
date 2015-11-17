@@ -104,6 +104,7 @@ public class MotorFourPointFragment extends Fragment{
             pDialog.setMessage("Getting Data ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(false);
             pDialog.show();
 
         }

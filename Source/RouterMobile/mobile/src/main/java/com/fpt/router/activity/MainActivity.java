@@ -75,7 +75,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     public static BusLocation ng_bus_location;
     Marker marker;
     ImageButton ng_btn_close;
-    public static boolean flat_gps = false;
+    public static boolean flatGPS = false;
+    public static boolean isTrackingSearchLocation = false; // field location is not search
     //Test sensor
 
     private OrientationManager mOrientationManager;
@@ -119,20 +120,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         ng_btn_close.setVisibility(View.GONE);
         //call back
-        if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+        if ((SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) && (isTrackingSearchLocation)) {
             txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION).getName());
             ng_btn_close.setVisibility(View.VISIBLE);
-            ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
-                    new MapPos(ng_bus_location.getLongitude(), ng_bus_location.getLatitude()));
-            if (ng_marker == null) {
-                ng_marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                        ng_bus_location.getLatitude(), ng_bus_location.getLongitude(), R.drawable.ng_marker);
-
-            } else {
-                ng_marker.setPos(ng_markerPos);
-            }
-            mapView.setFocusPos(ng_markerPos, 0f);
-            mapView.setZoom(24, 1);
+            SearchLocationTask locationTask = new SearchLocationTask();
+            locationTask.execute();
         }
 
         //marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
@@ -176,6 +168,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         txtSearchLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isTrackingSearchLocation = true;
                 Intent intent = new Intent(MainActivity.this, AutoCompleteSearchActivity.class);
                 intent.putExtra("number", AppConstants.SearchField.TO_LOCATION);
                 intent.putExtra("message", txtSearchLocation.getText());
@@ -193,7 +186,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                     LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
                     boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                     if((statusOfGPS == true)&&(!SearchRouteActivity.flat_check_edittext_1)){
-                        flat_gps = true;
+                        flatGPS = true;
                         SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION,null);
                     }
                     startActivity(intent);
@@ -247,6 +240,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             @Override
             public void onClick(View v) {
                 if (mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                    isTrackingSearchLocation = false;
                     mapLocation.remove(AppConstants.SearchField.TO_LOCATION);
                     txtSearchLocation.setText(null);
                     ng_btn_close.setVisibility(View.GONE);
