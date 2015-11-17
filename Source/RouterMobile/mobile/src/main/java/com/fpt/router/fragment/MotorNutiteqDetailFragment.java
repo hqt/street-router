@@ -1,5 +1,6 @@
 package com.fpt.router.fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,9 @@ import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
+import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.Marker;
+import com.nutiteq.vectorelements.NMLModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,7 +59,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     private RouteItemAdapter adapterItem;
     LocalVectorDataSource vectorDataSource;
     VectorLayer vectorLayer;
-
+    Resources rs;
     public MotorNutiteqDetailFragment() {
     }
 
@@ -78,7 +81,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         super.onActivityCreated(savedInstanceState);
 
         position = (int) getArguments().getSerializable("position");
-
+        rs = getResources();
 
         /** start get list step and show  */
         if(SearchRouteActivity.mapLocation.size() == 2) {
@@ -96,6 +99,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
         }
+        GPSServiceOld.setListStep(listStep);
         GPSServiceOld.setListNotify(getNotifyList());
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
@@ -126,14 +130,14 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     private void drawMap() {
         if(SearchRouteActivity.mapLocation.size() == 2) {
-            NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
+            NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
 
         } else {
-            NutiteqMapUtil.drawMapWithFourPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
+            NutiteqMapUtil.drawMapWithFourPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
             List<LatLng> step = new ArrayList<>();
         }
         for(int n = 0; n < listStep.size(); n++) {
-            NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, getResources(),
+            NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, rs,
                     listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
                     R.drawable.orange_small, 20);
@@ -185,19 +189,30 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     }
 
+    int icon = R.drawable.marker_cua_nam_burned;
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
-        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        /*MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
         if(marker == null){
-            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource,
-                    getResources(), lat, lng, R.drawable.marker_cua_nam_burned);
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, rs, lat, lng, icon);
+            vectorDataSource.add(marker);
         } else {
             marker.setPos(markerPos);
         }
         if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
+        }*/
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        if (model == null) {
+            model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
+            model.setScale(5);
+            vectorDataSource.add(model);
+        } else {
+            model.setPos(markerPos);
         }
-
+        if(GPS_ON_FLAG) {
+            mapView.setFocusPos(markerPos, 0f);
+        }
     }
 
     @Override

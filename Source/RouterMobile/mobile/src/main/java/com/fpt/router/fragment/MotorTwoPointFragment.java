@@ -124,7 +124,8 @@ public class MotorTwoPointFragment extends Fragment {
             if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
                 locationAutoCompletes.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
             } else {
-                String latlng = GPSServiceOld.getLatitude() + "," + GPSServiceOld.getLongitude();
+                String latlng = GPSServiceOld.gpsServiceInstance.getLatitude() + "," +
+                        GPSServiceOld.gpsServiceInstance.getLongitude();
                 locationAutoCompletes.add(new AutocompleteObject(latlng, ""));
             }
             if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {

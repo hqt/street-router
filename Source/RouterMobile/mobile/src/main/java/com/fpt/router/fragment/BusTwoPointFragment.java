@@ -183,14 +183,14 @@ public class BusTwoPointFragment extends Fragment {
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
                     if (MainActivity.flat_gps) {
-                        busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
-                                GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
+                        busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
+                                GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
                     } else {
                         autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
                     }
                 } else {
-                    busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
-                            GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
+                    busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
+                            GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
                 }
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));

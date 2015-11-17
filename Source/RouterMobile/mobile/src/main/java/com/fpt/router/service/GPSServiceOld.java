@@ -18,14 +18,17 @@ import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
 import com.fpt.router.library.model.motorbike.Leg;
+import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.NotificationUtils;
 import com.fpt.router.library.utils.SoundUtils;
+import com.fpt.router.utils.PolyLineUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -68,6 +71,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static boolean isFakeGPS = false;
     public static boolean isPlaySound = false;
     private static List<NotifyModel> listNotify;
+    private static List<Step> listStepForCheck;
     private static int distance;
 
 
@@ -79,6 +83,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static void setDistance(int input) {
         distance = input;
     }
+    public static void setListStep(List<Step> input) {
+        GPSServiceOld.listStepForCheck = input;
+    }
 
     public static List<NotifyModel> getNotifyModel() {
         return listNotify;
@@ -86,6 +93,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private static void initializeState() {
         // reset all state variables
+        GPSServiceOld.listStepForCheck = null;
         GPSServiceOld.fakeGPSIndex = 0;
         GPSServiceOld.stepIndex = 0;
         GPSServiceOld.notifyIndex = 0;
@@ -97,9 +105,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private final Handler fakeGPSHandler = new Handler();
 
-    static Location location; // mCurrentLocation
-    static double latitude; // latitude
-    static double longitude; // longitude
+    Location location; // mCurrentLocation
+    double latitude; // latitude
+    double longitude; // longitude
 
     // The minimum distance to change Updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 5; // 10 meters
@@ -114,7 +122,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     boolean mConnected = false;
 
     // keep gps service instance
-    private static GPSServiceOld gpsServiceInstance;
+    public static GPSServiceOld gpsServiceInstance;
 
     public GPSServiceOld() {
         Log.e("hqthao", "empty constructor's GPS Service has been called");
@@ -164,8 +172,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             }
         }
     };
-
-    public static double getLatitude(){
+    public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
         }
@@ -177,7 +184,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     /**
      * Function to get longitude
      * */
-    public static double getLongitude(){
+    public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
         }
@@ -271,18 +278,37 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         return location;
     }
 
+
+
     public boolean isNearLocation(Location location) {
         if (listNotify == null) {
             return false;
         }
-
+        boolean isTrueWay = true;
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
+        if(listStepForCheck != null) {
+            List<LatLng> listLatLngForCheck = DecodeUtils.decodePoly(listStepForCheck.get(stepIndex).getPolyline());
+            isTrueWay = PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listLatLngForCheck,
+                    true, true, 10);
+        }
         LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                 listNotify.get(stepIndex).location.getLongitude());
-        if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
-            notifyIndex = stepIndex;
-            stepIndex = (stepIndex + 1) % listNotify.size();
-            return true;
+        if(isTrueWay) {
+            if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
+                notifyIndex = stepIndex;
+                stepIndex = (stepIndex + 1) % listNotify.size();
+                return true;
+            }
+        } else {
+            for(int n = 0; n < listNotify.size(); n++) {
+                LatLng latlng = new LatLng(listNotify.get(n).location.getLatitude(),
+                        listNotify.get(n).location.getLongitude());
+                if(DecodeUtils.calculateDistance(checkPoint, latlng) < distance) {
+                    stepIndex = n;
+                    notifyIndex = stepIndex;
+                    return true;
+                }
+            }
         }
         return false;
     }

@@ -120,8 +120,9 @@ public class MotorFourPointFragment extends Fragment{
             if (SearchRouteActivity.mapLocation.get(SearchField.FROM_LOCATION) != null) {
                 locationAutoCompletes.add(mapLocation.get(SearchField.FROM_LOCATION));
             }else {
-                String latlng = GPSServiceOld.getLatitude() + "," + GPSServiceOld.getLongitude();
-                locationAutoCompletes.add(new AutocompleteObject(latlng, ""));
+                String latlng = GPSServiceOld.gpsServiceInstance.getLatitude() + "," +
+                        GPSServiceOld.gpsServiceInstance.getLongitude();
+                        locationAutoCompletes.add(new AutocompleteObject(latlng, ""));
             }
             if (SearchRouteActivity.mapLocation.get(SearchField.TO_LOCATION) != null) {
                 locationAutoCompletes.add(mapLocation.get(SearchField.TO_LOCATION));

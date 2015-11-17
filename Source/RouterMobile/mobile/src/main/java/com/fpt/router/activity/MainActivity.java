@@ -345,9 +345,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
         if (marker == null) {
-            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, getResources(),
                     latitude, longitude, R.drawable.marker_cua_nam_burned);
-
+            vectorDataSource.add(marker);
         } else {
             markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
@@ -442,9 +442,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
             if (ng_marker == null) {
-                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, getResources(),
                         latitude, longitude, R.drawable.ng_marker);
-
+                vectorDataSource.add(ng_marker);
             } else {
                 ng_marker.setPos(ng_markerPos);
             }
