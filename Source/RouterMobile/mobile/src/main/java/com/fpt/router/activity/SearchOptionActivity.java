@@ -67,9 +67,12 @@ public class SearchOptionActivity extends Activity {
         transferNumberSpinner.setSelection(transferNumber - 1);
         walkingDistanceEditText.setText(walkingDistance + "");
         walkingDistanceEditText.setSelection(walkingDistanceEditText.getText().length());
-/**
- * check position disable when motorbike
- */
+        //disable delete button
+        imgDeleteWaypoint_1.setVisibility(View.GONE);
+        imgDeleteWaypoint_2.setVisibility(View.GONE);
+        /**
+         * check position disable when motorbike
+         */
         intent = getIntent();
         int tabPositon = intent.getIntExtra("postionTab", 0);
         if (tabPositon == 1) {
@@ -104,6 +107,7 @@ public class SearchOptionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(mapLocation.get(3) != null){
+                    imgDeleteWaypoint_1.setVisibility(View.GONE);
                     SearchRouteActivity.isDataChange = true;
                     mapLocation.remove(3);
                     fromTextView.setText("");
@@ -115,6 +119,7 @@ public class SearchOptionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(mapLocation.get(4) != null){
+                    imgDeleteWaypoint_2.setVisibility(View.GONE);
                     SearchRouteActivity.isDataChange = true;
                     mapLocation.remove(4);
                     toTextView.setText("");
@@ -160,12 +165,14 @@ public class SearchOptionActivity extends Activity {
 
     private void setTextToField() {
         if (mapLocation.get(SearchField.WAY_POINT_1) != null) {
+            imgDeleteWaypoint_1.setVisibility(View.VISIBLE);
             fromTextView.setText(mapLocation.get(SearchField.WAY_POINT_1).getName());
         }else {
             fromTextView.setText("");
         }
 
         if (mapLocation.get(SearchField.WAY_POINT_2) != null) {
+            imgDeleteWaypoint_2.setVisibility(View.VISIBLE);
             toTextView.setText(mapLocation.get(SearchField.WAY_POINT_2).getName());
         }else {
             toTextView.setText("");

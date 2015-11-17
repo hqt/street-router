@@ -22,7 +22,7 @@ public class RouteNotification extends Notification {
     private Notification notification;*/
 
     @ManyToOne
-    @JoinColumn(name = "RouteID", nullable = false)
+    @JoinColumn(name = "RouteID", nullable = true)
     private Route route;
 
     public RouteNotification() {

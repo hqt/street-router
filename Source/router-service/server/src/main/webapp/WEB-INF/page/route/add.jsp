@@ -19,49 +19,61 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="#" class="form-horizontal">
+                <form action="" class="form-horizontal" enctype="multipart/form-data" method="post">
                     <div class="form-body">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">Full Name</label>
-
-                            <div class="col-md-4">
-                                <input type="text" class="form-control input-circle" placeholder="Enter your name">
-															<span class="help-block">
-															Example: Ngô Tiến Đạt . </span>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Route No</label>
 
                             <div class="col-md-4">
-                                <input type="text" class="form-control input-circle" placeholder="Route No">
+                                <input type="text" class="form-control input-circle" placeholder="Route No" name="routeNo">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Route Name</label>
 
                             <div class="col-md-4">
-                                <input type="text" class="form-control input-circle" placeholder="Route Name">
+                                <input type="text" class="form-control input-circle" placeholder="Route Name" name="routeName">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Route Type</label>
 
                             <div class="col-md-4">
-                                <select class="form-control">
-                                    <option value="">DEPART</option>
-                                    <option value="">RETURN</option>
+                                <select class="form-control" name="routeType">
+                                    <option value="DEPART">DEPART</option>
+                                    <option value="RETURN">RETURN</option>
                                 </select>
                             <span class="help-block">
                             Select route type </span>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Choose json source</label>
+                            <div class="col-md-4">
+                                <span class="btn btn-default btn-file">
+                                    <input type="file" accept=".json" name="jsonFile"/>
+                                </span>
+                                <span class="help-block">
+                                Extension file must be: '.json' </span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Choose excel source</label>
+                            <div class="col-md-4">
+                                <span class="btn btn-default btn-file">
+                                    <input type="file" accept=".xls" name="excelFile"/>
+                                </span>
+                                <span class="help-block">
+                                Extension file must be: '.xls' </span>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-circle blue">Submit</button>
-                                <button type="button" class="btn btn-circle default">Cancel</button>
+                                <button type="submit" class="btn btn-circle blue" name="action" value="addRoute">Add</button>
+                                <button type="reset" class="btn btn-circle default">Cancel</button>
                             </div>
                         </div>
                     </div>

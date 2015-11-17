@@ -1,16 +1,15 @@
 package com.fpt.router.web.action.common;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.web.action.admin.AddStaffAction;
-import com.fpt.router.web.action.admin.StaffDeleteAction;
-import com.fpt.router.web.action.admin.StaffListAction;
-import com.fpt.router.web.action.admin.StaffUpdateAction;
+import com.fpt.router.web.action.admin.*;
 import com.fpt.router.web.action.api.MultiPointAction;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.notification.*;
-import com.fpt.router.web.action.staff.CompareMapAction;
-import com.fpt.router.web.action.staff.DetailRouteAction;
+import com.fpt.router.web.action.notification.StationNof.StationNofListAction;
+import com.fpt.router.web.action.staff.*;
 import com.fpt.router.web.action.staff.configuration.ConfigTimeAction;
+import com.fpt.router.web.action.staff.parser.ParseFileAction;
+import com.fpt.router.web.action.staff.parser.ParseSourceLocalAction;
 import com.fpt.router.web.action.staff.route.*;
 import com.fpt.router.web.action.staff.station.StationAddAction;
 import com.fpt.router.web.action.staff.station.StationListAction;
@@ -36,84 +35,98 @@ public class ActionFactory implements IActionFactory {
         String url = context.getServletPath();
 
         switch (url) {
-            case "/login":
+            case URL.COMMON.LOGIN:
                 context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/login.jsp");
                 action = new DirectPageAction();
                 break;
-            case "/api/twopoint":
+            case URL.API.TWO_POINT:
                 action = new TwoPointRouteAction();
                 break;
-            case "/search/multi":
+            case URL.API.MUlTI_POINT:
                 action = new MultiPointAction();
                 break;
-            case "/staff/add":
+            case URL.ADMIN.STAFF_ADD:
                 action = new AddStaffAction();
                 break;
-            case "/staff/list":
+            case URL.ADMIN.STAFF_LIST:
                 action = new StaffListAction();
                 break;
-            case "/staff/update":
+            case URL.ADMIN.STAFF_UPDATE:
                 action = new StaffUpdateAction();
                 break;
-            case "/staff/delete":
+            case URL.ADMIN.STAFF_DELETE:
                 action = new StaffDeleteAction();
                 break;
-            case "/route/list":
+            case URL.COMMON.ROUTE_LIST:
                 action = new RouteListAction();
                 break;
-            case "/route/detail":
+            case URL.COMMON.ROUTE_DETAIL:
                 action = new DetailRouteAction();
                 break;
-            case "/route/add":
-                action = new RouteAddAction();
-                break;
-            case "/route/update":
-                action = new RouteUpdateAction();
-                break;
-            case "/route/delete":
-                action = new RouteDeleteAction();
-                break;
-            case "/station/list":
-                action = new StationListAction();
-                break;
-            case "/station/add":
-                action = new StationAddAction();
-                break;
-            case "/station/update":
-                action = new StationUpdateAction();
-                break;
-            case "/trip/add":
-                action = new TripAddAction();
-                break;
-            case "/trip/update":
-                action = new TripUpdateAction();
-                break;
-            case "/trip/delete":
-                action = new TripDeleteAction();
-                break;
-            case "/compare":
-                action = new CompareMapAction();
-                break;
-            case "/notification/list":
-                action = new NofListAction();
-                break;
-            case "/notification/block":
-                action = new NofBlockAction();
-                break;
-            case "/notification/unblock":
-                action = new NofUnblockAction();
-                break;
-            case "/notification/delete":
-                action = new NofDeleteAction();
-                break;
-            case "/notification/approve":
-                action = new NofApproveAction();
-                break;
-            case "/configuration":
-                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
+            case URL.STAFF.ROUTE_ADD:
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/indexAdd.jsp");
                 action = new DirectPageAction();
                 break;
+            case URL.STAFF.ROUTE_UPDATE:
+                action = new RouteUpdateAction();
+                break;
+            case URL.STAFF.ROUTE_DELETE:
+                action = new RouteDeleteAction();
+                break;
+            case URL.STAFF.STATION_LIST:
+                action = new StationListAction();
+                break;
+            case URL.STAFF.STATION_ADD:
+                action = new StationAddAction();
+                break;
+            case URL.STAFF.STATION_UPDATE:
+                action = new StationUpdateAction();
+                break;
+            case URL.STAFF.TRIP_ADD:
+                action = new TripAddAction();
+                break;
+            case URL.STAFF.TRIP_UPDATE:
+                action = new TripUpdateAction();
+                break;
+            case URL.STAFF.TRIP_DELETE:
+                action = new TripDeleteAction();
+                break;
+            case URL.STAFF.COMPARE:
+                action = new CompareMapAction();
+                break;
+            case URL.STAFF.NOF_STATION_LIST:
+                action = new StationNofListAction();
+                break;
+            case URL.STAFF.NOF_BLOCK:
+                action = new NofBlockAction();
+                break;
+            case URL.STAFF.NOF_UNBLOCK:
+                action = new NofUnblockAction();
+                break;
+            case URL.STAFF.NOF_DELETE:
+                action = new NofDeleteAction();
+                break;
+            case URL.STAFF.NOF_APPROVE:
+                action = new NofApproveAction();
+                break;
+            case URL.STAFF.CONFIGURE:
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
+                action = new DirectStaffPageAction();
+                break;
+            case URL.STAFF.CONFIGURE_SOURCE:
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/indexSource.jsp");
+                action = new DirectStaffPageAction();
+                break;
+            case URL.STAFF.ROUTE_PARSE:
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/parse.jsp");
+                action = new DirectStaffPageAction();
+                break;
+            case URL.STAFF.PARSE_SOURCE:
+                action = new ParseSourceLocalAction();
+                break;
         }
+
+
         // handle "action" parameter that end with jsp. will go directly to jsp page
         /**
          * if (parameter.length() >= 4) { String lastStr =
@@ -143,6 +156,16 @@ public class ActionFactory implements IActionFactory {
                     break;
                 case "configure":
                     action = new ConfigTimeAction();
+                    break;
+                case "Upload":
+                    action = new ParseFileAction();
+                    break;
+                case "addRoute":
+                    action = new RouteAddAction();
+                    break;
+                case "parse":
+                    action = new ParseSourceLocalAction();
+                    break;
             }
         }
 

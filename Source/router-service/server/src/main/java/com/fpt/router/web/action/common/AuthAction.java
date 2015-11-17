@@ -1,10 +1,8 @@
 package com.fpt.router.web.action.common;
 
-import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.artifacter.model.entity.Staff;
 import com.fpt.router.web.config.ApplicationContext;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Purpose: All actions need authentication need extends this Action
@@ -16,39 +14,26 @@ public class AuthAction implements IAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        LoginAction.User user = (LoginAction.User) context.getSessionAttribute("user");
+        Staff staff = (Staff) context.getSessionAttribute("user");
 
-        if (user == null) {
-            return Config.WEB.PAGE + "/login.jsp";
+        if (staff == null) {
+            return null;
         }
 
-        if (user.getRole().equals("admin")) {
-            return "admin";
-        } else if (user.getRole().equals("staff")) {
-            return "staff";
-        } else if (user.getRole().equals("guest")) {
-            return "guest";
+        Role role = null;
+        int roleNumber = staff.getRole();
+        switch (roleNumber) {
+            case 0:
+                role = Role.ADMIN;
+                break;
+            case 1:
+                role = Role.STAFF;
+                break;
+            case 2:
+                role = Role.GUEST;
+                break;
         }
 
-        return null;
-    }
-
-    private String permissionDenied(ApplicationContext context) {
-        try {
-            String redirect = getCurrentUrl(context);
-            String url = "/login&redirect=" + URLEncoder.encode(redirect, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
-
-    }
-
-    private String getCurrentUrl(ApplicationContext context) {
-        if (context.getQueryString() != null) {
-            return context.getRequestURI() + "?" + context.getQueryString();
-        } else {
-            return context.getRequestURI();
-        }
+        return role != null ? role.name() : null;
     }
 }

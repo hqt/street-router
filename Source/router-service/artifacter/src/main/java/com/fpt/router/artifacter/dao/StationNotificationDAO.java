@@ -9,4 +9,7 @@ import com.fpt.router.artifacter.model.entity.Trip;
  * Created by Huynh Quang Thao on 11/8/15.
  */
 public class StationNotificationDAO extends JPADaoImpl<StationNotification, Integer> {
+
+
+
 }

@@ -107,7 +107,7 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
         super.onActivityCreated(savedInstanceState);
 
         journey = (Journey) getArguments().getSerializable("journey");
-/** start get list step and show  */
+        /** start get list step and show  */
         results = journey.results;
         List<Path> paths;
         List<INode> iNodeList;
@@ -129,7 +129,6 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
                 paths = segments.get(m).paths;
                 pathFinal.add(paths.get(0));
             }
-
             /**
              * start location
              */
@@ -137,8 +136,6 @@ public class BusDetailFourPointFragment extends AbstractNutiteqMapFragment imple
                 Path path = (Path) iNodeList.get(0);
                 pathFinal.add(path);
             }
-
-
             /**
              * end location
              */
