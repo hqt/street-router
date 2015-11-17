@@ -8,6 +8,8 @@ import com.fpt.router.artifacter.model.entity.PathInfo;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.artifacter.model.entity.Station;
 import com.fpt.router.artifacter.model.entity.Trip;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.staff.*;
 
@@ -20,6 +22,10 @@ import java.util.List;
 public class DetailRouteAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
+        String authenticated = super.execute(context);
+        if (authenticated == null) {
+            return PAGE.COMMON.LOGIN;
+        }
 
         System.out.println("In Detail Route Action");
 
@@ -37,8 +43,8 @@ public class DetailRouteAction extends StaffAction {
                 ex.printStackTrace();
             }
 
-            List<Trip> trips = new ArrayList<>();
-            List<PathInfo> pathInfos = new ArrayList<>();
+            List<Trip> trips;
+            List<PathInfo> pathInfos;
             Route route = null;
             if (routeId != -1) {
                 // get list station that route passed
@@ -59,13 +65,13 @@ public class DetailRouteAction extends StaffAction {
                 TripListVM tripListVM = new TripListVM(trips);
                 context.setAttribute("tripsVM", tripListVM);
 
-                PathInfoDAO pathInfoDao = new PathInfoDAO();
-                pathInfos = pathInfoDao.getPathInfosByRoute(route);
+                PathInfoDAO pathInfoDato = new PathInfoDAO();
+                pathInfos = pathInfoDato.getPathInfosByRoute(route);
                 PathinfoListVM pathinfoListVM = new PathinfoListVM(pathInfos);
                 context.setAttribute("pathInfosVM", pathinfoListVM);
             }
         }
 
-        return Config.WEB.PAGE + "/route/indexDetail.jsp";
+        return PAGE.ROUTE.DETAIL;
     }
 }

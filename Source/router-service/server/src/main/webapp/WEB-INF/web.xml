@@ -34,6 +34,8 @@
         <url-pattern>/route/add</url-pattern>
         <url-pattern>/route/update</url-pattern>
         <url-pattern>/route/delete</url-pattern>
+        <url-pattern>/route/parse</url-pattern>
+        <url-pattern>/parseSource</url-pattern>
 
         <url-pattern>/station/update</url-pattern>
         <url-pattern>/station/list</url-pattern>
@@ -42,13 +44,14 @@
         <url-pattern>/trip/update</url-pattern>
         <url-pattern>/trip/delete</url-pattern>
 
-        <url-pattern>/notification/list</url-pattern>
+        <url-pattern>/notification/station/list</url-pattern>
         <url-pattern>/notification/block</url-pattern>
         <url-pattern>/notification/unblock</url-pattern>
         <url-pattern>/notification/delete</url-pattern>
         <url-pattern>/notification/approve</url-pattern>
 
         <url-pattern>/configuration</url-pattern>
+        <url-pattern>/configuration/source</url-pattern>
 
         <url-pattern>/compare</url-pattern>
     </servlet-mapping>

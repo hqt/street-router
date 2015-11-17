@@ -5,6 +5,9 @@ import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.artifacter.model.entity.Trip;
 import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.config.ApplicationContext;
 import org.joda.time.LocalTime;
 
@@ -15,12 +18,16 @@ import java.util.Date;
 /**
  * Created by datnt on 11/1/2015.
  */
-public class TripAddAction implements IAction {
+public class TripAddAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        System.out.println("Adding Trip");
+        String authenticated = super.execute(context);
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
+            return PAGE.COMMON.LOGIN;
+        }
 
+        System.out.println("Adding Trip");
         // get parameter
         String newStartTimeParam = context.getParameter("newStartTime");
         String newEndTimeParam = context.getParameter("newEndTime");

@@ -5,7 +5,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,6 +51,27 @@ public class ApplicationContext {
 
     public int getIntParameter(String parameter) {
         return Integer.parseInt(request.getParameter(parameter));
+    }
+
+    public InputStream getInputStream(String parameter) {
+        InputStream in = null;
+        try {
+            in = request.getInputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return in;
+    }
+
+    public Part getPart(String parameter) {
+        System.out.println(request.getContentType());
+        Part filePart = null;
+        try {
+            filePart = request.getPart(parameter);
+        } catch (IOException | ServletException e) {
+            e.printStackTrace();
+        }
+        return filePart;
     }
 
     public void setAttribute(String attributeName, Object attributeValue) {
