@@ -1,6 +1,7 @@
 package com.fpt.router.library.utils;
 
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.util.Log;
 
@@ -45,14 +46,10 @@ public class SoundUtils {
             // play this temporary file
             FileInputStream fis = new FileInputStream(tempMp3);
             fileDescriptor = fis.getFD();
-
             mp.reset();
-
             mp.setDataSource(fileDescriptor);
             mp.prepare();
-
             mp.start();
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -60,5 +57,18 @@ public class SoundUtils {
         }
     }
 
+    public static void playSoundFromAsset(Context context, String filename) {
+        try{
+            AssetFileDescriptor descriptor = context.getAssets().openFd(filename);
+            mp.reset();
+            mp.setDataSource(descriptor.getFileDescriptor(), descriptor.getStartOffset(), descriptor.getLength() );
+            descriptor.close();
+            mp.prepare();
+            mp.start();
+        } catch(Exception e){
+            // handle error here..
+        }
+
+    }
 
 }

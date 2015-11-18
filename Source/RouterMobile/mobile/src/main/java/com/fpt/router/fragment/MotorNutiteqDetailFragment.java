@@ -1,29 +1,15 @@
 package com.fpt.router.fragment;
 
-import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.location.Location;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
-import android.widget.ListView;
-
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
-import com.fpt.router.framework.OrientationManager;
-import com.fpt.router.framework.OrientationManager.OnChangedListener;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
@@ -32,15 +18,11 @@ import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
-import com.fpt.router.widget.LockableListView;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataMap;
@@ -50,14 +32,11 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
-import com.nutiteq.core.MapVec;
 import com.nutiteq.datasources.LocalVectorDataSource;
 import com.nutiteq.layers.VectorLayer;
 import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.Marker;
 import com.nutiteq.vectorelements.NMLModel;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,7 +60,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     private RouteItemAdapter adapterItem;
     LocalVectorDataSource vectorDataSource;
     VectorLayer vectorLayer;
-
+    Resources rs;
     public MotorNutiteqDetailFragment() {
     }
 
@@ -103,7 +82,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         super.onActivityCreated(savedInstanceState);
 
         position = (int) getArguments().getSerializable("position");
-
+        rs = getResources();
 
         /** start get list step and show  */
         if(SearchRouteActivity.mapLocation.size() == 2) {
@@ -117,10 +96,26 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 listFinalLeg.add(listLeg.get(n));
             }
         }
-
+        //Get list legs fake to fake line
+        List<Leg> listLegFake = new ArrayList<>();
+        if(SearchRouteActivity.mapLocation.size() == 2) {
+            listLegFake.add(listLeg.get(position+1));
+        } else if (SearchRouteActivity.mapLocation.size() == 3) {
+            for(int n = (position+1)*2; n < (position+1)*2+2; n++) {
+                listLegFake.add(listLeg.get(n));
+            }
+        } else {
+            for(int n = (position+1)*3; n < (position+1)*3+3; n++) {
+                listLegFake.add(listLeg.get(n));
+            }
+        }
+        List<LatLng> listLatLngToCheck = new ArrayList<>();
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
+            listLatLngToCheck.addAll(DecodeUtils.decodePoly(listFinalLeg.get(n).getOverview_polyline()));
         }
+        GPSServiceOld.setListLatLngToCheck(listLatLngToCheck);
+        GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
         GPSServiceOld.setListNotify(getNotifyList());
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
@@ -146,28 +141,30 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         vectorLayer = new VectorLayer(vectorDataSource);
         // Add the previous vector layer to the map
         mapView.getLayers().add(vectorLayer);
+        drawFakeLine(listLegFake);
         drawMap();
     }
 
     private void drawMap() {
-        //Test
-        /*List<LatLng> listTest = new ArrayList<>();
-        listTest.add(new LatLng(10.855090, 106.628394));
-        listTest.add(new LatLng(10.773599, 106.694417));
-        NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listTest, baseProjection, 5);*/
-
         if(SearchRouteActivity.mapLocation.size() == 2) {
-            NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
+            NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
 
         } else {
-            NutiteqMapUtil.drawMapWithFourPoint(mapView, vectorDataSource, getResources(), baseProjection, listFinalLeg);
-            List<LatLng> step = new ArrayList<>();
+            NutiteqMapUtil.drawMapWithFourPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
         }
         for(int n = 0; n < listStep.size(); n++) {
-            NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, getResources(),
+            NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, rs,
                     listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
                     R.drawable.orange_small, 20);
+        }
+    }
+
+    private void drawFakeLine(List<Leg> input) {
+        for(int n = 0; n < input.size(); n++) {
+            List<LatLng> listLL = DecodeUtils.decodePoly(input.get(n).getOverview_polyline());
+            NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listLL, baseProjection, 6);
+
         }
     }
 
@@ -216,36 +213,29 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     }
 
+    int icon = R.drawable.marker_cua_nam_burned;
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
-        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
-
+        /*MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        if(marker == null){
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, rs, lat, lng, icon);
+            vectorDataSource.add(marker);
+        } else {
+            marker.setPos(markerPos);
+        }
         if(GPS_ON_FLAG) {
             mapView.setFocusPos(markerPos, 0f);
-        }
-        if(COMPASS_FLAG) {
-            if(model == null){
-                model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
-                model.setScale(400);
-                vectorDataSource.add(model);
-            } else {
-                model.setPos(markerPos);
-                model.setVisible(true);
-                if(marker != null) {
-                    marker.setVisible(false);
-                }
-            }
+        }*/
+        MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
+        if (model == null) {
+            model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
+            model.setScale(400);
+            vectorDataSource.add(model);
         } else {
-            if (marker == null) {
-                marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                        lat, lng, R.drawable.marker_cua_nam_burned);
-            } else {
-                marker.setPos(markerPos);
-                if(model != null) {
-                    model.setVisible(false);
-                }
-                marker.setVisible(true);
-            }
+            model.setPos(markerPos);
+        }
+        if(GPS_ON_FLAG) {
+            mapView.setFocusPos(markerPos, 0f);
         }
     }
 
@@ -270,8 +260,8 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             if(detailInstruction.length >1) {
                 longMessage = detailInstruction[1];
             }
-            if(detailInstruction.length >2) {
-                smallMessage = smallMessage + ", "+ detailInstruction[2];
+            if(detailInstruction[detailInstruction.length - 1].startsWith("Điểm đến")) {
+                smallMessage = smallMessage + ", "+ detailInstruction[detailInstruction.length - 1];
             }
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
@@ -308,7 +298,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 }
             }
         }
-                 return notifyModelList;
+        return notifyModelList;
     }
 
     class SendToDataLayerThread extends Thread {
@@ -353,7 +343,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 pendingResult.setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
                     public void onResult(DataApi.DataItemResult dataItemResult) {
-
                     }
                 });*/
 

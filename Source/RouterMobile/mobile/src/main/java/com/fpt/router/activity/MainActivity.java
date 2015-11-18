@@ -30,12 +30,9 @@ import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NetworkUtils;
-import com.fpt.router.service.GPSService;
-import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -78,7 +75,8 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     public static BusLocation ng_bus_location;
     Marker marker;
     ImageButton ng_btn_close;
-    public static boolean flat_gps = false;
+    public static boolean flatGPS = false;
+    public static boolean isTrackingSearchLocation = false; // field location is not search
     //Test sensor
 
     private OrientationManager mOrientationManager;
@@ -87,7 +85,6 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addApi(Wearable.API)
@@ -122,20 +119,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         ng_btn_close.setVisibility(View.GONE);
         //call back
-        if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
-            txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION).getName());
+        if ((SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) && (isTrackingSearchLocation)) {
+            txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION).getName());
             ng_btn_close.setVisibility(View.VISIBLE);
-            ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
-                    new MapPos(ng_bus_location.getLongitude(), ng_bus_location.getLatitude()));
-            if (ng_marker == null) {
-                ng_marker = NutiteqMapUtil.drawMarkerNutiteq(mapView, vectorDataSource, getResources(),
-                        ng_bus_location.getLatitude(), ng_bus_location.getLongitude(), R.drawable.ng_marker);
-
-            } else {
-                ng_marker.setPos(ng_markerPos);
-            }
-            mapView.setFocusPos(ng_markerPos, 0f);
-            mapView.setZoom(24, 1);
+            SearchLocationTask locationTask = new SearchLocationTask();
+            locationTask.execute();
         }
 
         //marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
@@ -179,10 +167,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         txtSearchLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isTrackingSearchLocation = true;
                 Intent intent = new Intent(MainActivity.this, AutoCompleteSearchActivity.class);
-                intent.putExtra("number", AppConstants.SearchField.SEARCH_LOCATION);
+                intent.putExtra("number", AppConstants.SearchField.TO_LOCATION);
                 intent.putExtra("message", txtSearchLocation.getText());
-                startActivityForResult(intent, 5);// Activity is started with requestCode 3
+                startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
         //float button
@@ -192,15 +181,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     Intent intent = new Intent(MainActivity.this, SearchRouteActivity.class);
-                    if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
-                        AutocompleteObject search_location = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
-                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.TO_LOCATION, search_location);
-                    }
 
                     LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
                     boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                     if((statusOfGPS == true)&&(!SearchRouteActivity.flat_check_edittext_1)){
-                        flat_gps = true;
+                        flatGPS = true;
                         SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION,null);
                     }
                     startActivity(intent);
@@ -253,8 +238,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         ng_btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION) != null) {
-                    mapLocation.remove(AppConstants.SearchField.SEARCH_LOCATION);
+                if (mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
+                    isTrackingSearchLocation = false;
+                    mapLocation.remove(AppConstants.SearchField.TO_LOCATION);
                     txtSearchLocation.setText(null);
                     ng_btn_close.setVisibility(View.GONE);
                     MapPos ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(106.628394, 10.855090));
@@ -348,9 +334,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
         if (marker == null) {
-            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, getResources(),
                     latitude, longitude, R.drawable.marker_cua_nam_burned);
-
+            vectorDataSource.add(marker);
         } else {
             markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
@@ -392,11 +378,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.i("NgoanTT-->", "MainActivity");
-        AutocompleteObject autocompleteObject = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
+        AutocompleteObject autocompleteObject = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION);
         if (autocompleteObject != null) {
             if((autocompleteObject.getName() != null) && (!autocompleteObject.getName().equals(""))){
                 ng_btn_close.setVisibility(View.VISIBLE);
-                txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION).getName());
+                txtSearchLocation.setText(SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION).getName());
                 SearchLocationTask searchLocationTask = new SearchLocationTask();
                 searchLocationTask.execute();
             }else {
@@ -414,7 +400,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         @Override
         protected BusLocation doInBackground(Void... params) {
-            AutocompleteObject autocompleteObject = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.SEARCH_LOCATION);
+            AutocompleteObject autocompleteObject = SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION);
             String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObject.getPlace_id());
             String json = NetworkUtils.download(url);
             BusLocation busLocation;
@@ -445,9 +431,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
             if (ng_marker == null) {
-                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, getResources(),
                         latitude, longitude, R.drawable.ng_marker);
-
+                vectorDataSource.add(ng_marker);
             } else {
                 ng_marker.setPos(ng_markerPos);
             }

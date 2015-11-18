@@ -1,8 +1,8 @@
 package com.fpt.router.web.action.admin;
 
 
-import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.admin.StaffListVM;
 import com.fpt.router.web.viewmodel.admin.StaffVM;
@@ -13,9 +13,13 @@ import java.util.List;
 /**
  * Created by datnt on 10/20/2015.
  */
-public class StaffListAction implements IAction {
+public class StaffListAction extends AdminAction {
 
     public String execute(ApplicationContext context) {
+        String authenticated = super.execute(context);
+        if (authenticated == null || !authenticated.equals(Role.ADMIN.name())) {
+            return PAGE.COMMON.LOGIN;
+        }
 
         StaffVM s1 = new StaffVM(1, "Ngô Tiến Đạt", "datntse60980", "datntse60980@gmail.com", "khongcopass", "01265663317");
         StaffVM s2 = new StaffVM(2, "Lê Trần Nhật Vỹ", "vyltnse67823", "vyltnse67823@gmail.com", "khongcopass", "34985794375");
@@ -36,7 +40,7 @@ public class StaffListAction implements IAction {
 
         context.setAttribute("staffsVM", staffListVM);
 
-        return Config.WEB.PAGE + "/staff/index.jsp";
+        return PAGE.STAFF.LIST;
     }
 
 }

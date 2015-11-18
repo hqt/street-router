@@ -1,20 +1,23 @@
 package com.fpt.router.web.action.notification;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.staff.Notification.NofListVM;
-import com.fpt.router.web.viewmodel.staff.Notification.NotificationVM;
-
-import java.util.List;
 
 /**
  * Created by datnt on 11/6/2015.
  */
-public class NofBlockAction implements IAction {
+public class NofBlockAction extends StaffAction {
 
     @Override
     public String execute(ApplicationContext context) {
+        String authenticated = super.execute(context);
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
+            return PAGE.COMMON.LOGIN;
+        }
+
         System.out.println("Blocking Notification");
 
         String nofIdParam = context.getParameter("nofId");
@@ -29,7 +32,7 @@ public class NofBlockAction implements IAction {
             }
 
             if (nofId != -1) {
-                NofListVM nofListVM = (NofListVM) context.getSessionAttribute("nofListVM");
+                /*NofListVM nofListVM = (NofListVM) context.getSessionAttribute("nofListVM");
 
                 NotificationVM nofInActive = new NotificationVM();
                 for (int i = 0; i < nofListVM.getListNofActive().size(); i++) {
@@ -40,7 +43,7 @@ public class NofBlockAction implements IAction {
                     }
                 }
 
-                nofListVM.getListNofInActive().add(nofInActive);
+                nofListVM.getListNofInActive().add(nofInActive);*/
 
             }
         }

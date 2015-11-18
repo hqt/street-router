@@ -78,7 +78,7 @@ public class DecodeUtils {
     public static List<LatLng> getPointsFromListLocation (List<LatLng> listLatLng) {
         for(int i = 0; i < listLatLng.size() - 1; i ++) {
             int checkDistance = (int) calculateDistance(listLatLng.get(i), listLatLng.get(i+1));
-            if(checkDistance > 40) {
+            if(checkDistance > 20) {
                 listLatLng.add(i+1, middlePoint(listLatLng.get(i).latitude, listLatLng.get(i).longitude, listLatLng.get(i+1).latitude, listLatLng.get(i+1).longitude));
                 i--;
             }

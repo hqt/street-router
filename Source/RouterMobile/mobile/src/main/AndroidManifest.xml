@@ -64,6 +64,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
         </activity>
+        <activity
+            android:name=".activity.ReSearchActivity"
+            android:theme="@android:style/Theme.Holo.Light.Dialog">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SearchRouteActivity" />
+        </activity>
 
         <!-- The service listening for incoming messages from the wear device -->
         <service android:name=".service.FeedbackListenerService">

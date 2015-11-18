@@ -91,4 +91,20 @@ public class Route implements IEntity {
     public void setPathInfos(List<PathInfo> pathInfos) {
         this.pathInfos = pathInfos;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Route) {
+            Route other = (Route) obj;
+            return other.getRouteNo() == this.routeNo && other.getRouteType().equals(this.getRouteType());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode;
+        hashCode = this.routeNo * this.routeType.hashCode();
+        return hashCode;
+    }
 }

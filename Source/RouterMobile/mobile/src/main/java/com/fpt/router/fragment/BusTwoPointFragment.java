@@ -1,6 +1,6 @@
 package com.fpt.router.fragment;
 
-import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.MainActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusTwoPointAdapter;
 import com.fpt.router.adapter.ErrorMessageAdapter;
@@ -26,12 +28,10 @@ import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Result;
-import com.fpt.router.library.model.bus.Segment;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.JSONUtils;
-import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.APIUtils;
 import com.fpt.router.utils.CheckDuplicateUtils;
@@ -67,6 +67,9 @@ public class BusTwoPointFragment extends Fragment {
     private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
+    public boolean flat_call_server_again = false;
+    public boolean flat_check_search_second = false;
+    String code = "";
 
     public BusTwoPointFragment() {
 
@@ -150,7 +153,9 @@ public class BusTwoPointFragment extends Fragment {
             pDialog.setMessage("Getting Data ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(false);
             pDialog.show();
+
 
         }
 
@@ -178,16 +183,15 @@ public class BusTwoPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    AutocompleteObject autoObject = mapLocation.get(AppConstants.SearchField.FROM_LOCATION);
-                    if(autoObject.getPlace_id().equals("")){
-                        busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
-                                GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
-                    }else{
+                    if (MainActivity.flatGPS) {
+                        busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
+                                GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
+                    } else {
                         autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
                     }
                 } else {
-                    busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
-                            GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
+                    busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
+                            GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
                 }
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
@@ -200,10 +204,26 @@ public class BusTwoPointFragment extends Fragment {
                 }
                 try {
                     for (int i = 0; i < autocompleteObjects.size(); i++) {
-                        String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
-                        String json = NetworkUtils.download(url);
-                        BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
-                        busLocations.add(busLocation);
+                        AutocompleteObject autoObject = autocompleteObjects.get(i);
+                        if(!autoObject.getPlace_id().equals("")){
+                            String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
+                            String json = NetworkUtils.download(url);
+                            BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
+                            busLocations.add(busLocation);
+                        }else{
+                            String url = GoogleAPIUtils.getTwoPointDirection(autoObject, autoObject);
+                            String json = NetworkUtils.download(url);
+                            JSONObject jsonO = new JSONObject(json);
+                            String status = jsonO.getString("status");
+                            if(!status.equals("OK")){
+                                code = "Đia điểm bạn tìm kiếm không được tìm thấy, vui lòng nhập lại.";
+                                return resultList;
+                            }else{
+                                BusLocation busLocation = JSONParseUtils.getBusLocationWithNoPlaceId(json,autoObject.getName());
+                                busLocations.add(busLocation);
+                            }
+                        }
+
                     }
                     jsonFromServer = APIUtils.getJsonFromServer(busLocations);
 
@@ -225,7 +245,7 @@ public class BusTwoPointFragment extends Fragment {
             SortUtils.sortResult(resultList);
 
             // remove duplicate result.
-            resultList =  CheckDuplicateUtils.checkDuplicateResult(resultList);
+            resultList = CheckDuplicateUtils.checkDuplicateResult(resultList);
 
             if (!SearchBus.IS_USED_REAL_WALKING) {
                 return resultList;
@@ -274,22 +294,88 @@ public class BusTwoPointFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Result> resultList) {
+        protected void onPostExecute(final List<Result> resultList) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            if (!resultList.get(0).code.equals("success")) {
+
+            if((resultList == null)||(resultList.size() == 0)){
                 listError = new ArrayList<String>();
-                listError.add(resultList.get(0).code);
+                listError.add(code);
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
 
-            activity.searchType = null;
-            activity.needToSearch = false;
-            SearchRouteActivity.results = resultList;
-            recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
-            recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
+            if (!resultList.get(0).code.equals("success")) {
+                //check
+                code = resultList.get(0).code;
+                Log.i("BusTwoPointFragment -->", code);
+                String re_code = code.trim().substring(0, 29);
+                if (re_code.equals("không có trạm xe buýt nào gần")) {
+                    if (!flat_call_server_again) {
+                        flat_call_server_again = true;
+                        flat_check_search_second = true;
+                        Log.i("Ngoan Dep Trai Qua", "");
+                        SearchRouteActivity.walkingDistance = 1000;
+                        JSONParseTask jsonParseTask = new JSONParseTask();
+                        jsonParseTask.execute();
+                    } else {
+                        listError = new ArrayList<String>();
+                        listError.add(resultList.get(0).code);
+                        recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                        return;
+                    }
+                } else {
+                    Log.i("Chan bo me", "");
+                    listError = new ArrayList<String>();
+                    listError.add(resultList.get(0).code);
+                    recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                    return;
+                }
+            } else {
+                if (!flat_check_search_second) {
+                    activity.searchType = null;
+                    activity.needToSearch = false;
+                    SearchRouteActivity.results = resultList;
+                    recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
+                    recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
+                } else {
+                    final Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.activity_research_bus);
+                    dialog.setTitle("Thông Báo....");
+                    Button acceptButton, cancelButton;
+                    acceptButton = (Button) dialog.findViewById(R.id.btn_yes);
+                    cancelButton = (Button) dialog.findViewById(R.id.btn_no);
+                    acceptButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            SearchRouteActivity.walkingDistance = 300;
+                            activity.searchType = null;
+                            activity.needToSearch = false;
+                            SearchRouteActivity.results = resultList;
+                            recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
+                            recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
+                        }
+                    });
+
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                            SearchRouteActivity.walkingDistance = 300;
+                            listError = new ArrayList<String>();
+                            listError.add(code);
+                            recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                            return;
+                        }
+                    });
+                    dialog.show();
+                }
+
+            }
+
+
         }
     }
 }

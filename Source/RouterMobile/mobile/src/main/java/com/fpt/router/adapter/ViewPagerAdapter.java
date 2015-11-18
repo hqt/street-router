@@ -46,7 +46,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 BusFourPointFragment busFragmentThirdPoint = new BusFourPointFragment();
                 return busFragmentThirdPoint;
 
-            }else{
+            }else {
                 BusFourPointFragment busFragmentFourPoint = new BusFourPointFragment();
                 return busFragmentFourPoint;
             }

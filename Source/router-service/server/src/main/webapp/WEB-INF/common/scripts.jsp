@@ -36,6 +36,8 @@
 <script src="../../assets/admin/pages/scripts/table-managed.js"></script>
 <script src="../../assets/admin/pages/scripts/form-samples.js"></script>
 <script src="../../assets/admin/pages/scripts/components-pickers.js"></script>
+<script src="../../static/js/index.js"></script>
+<script src="../../static/js/tableNofStation.js"></script>
 <script>
   jQuery(document).ready(function() {
     Metronic.init(); // init metronic core components
@@ -44,6 +46,7 @@
     FormSamples.init();
     ComponentsPickers.init();
     TableManaged.init();
+    TableStationNofManaged.init();
   });
 </script>
 <!-- END PAGE LEVEL SCRIPTS -->

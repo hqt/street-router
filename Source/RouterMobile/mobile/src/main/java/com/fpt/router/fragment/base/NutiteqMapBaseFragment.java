@@ -188,14 +188,15 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
             mapView.setTilt(30f, 0.5f);
             mapView.setZoom(24f, 05f);
             mapView.setMapRotation(360 - azimut, 0f);
-            if(model != null) {
-                model.setRotation(new MapVec(0, 0, 1), 360-azimut);
-            }
-        } else {
-            if (marker != null) {
-                marker.setRotation(360 - azimut);
-            }
+
         }
+        /*if (marker != null) {
+            marker.setRotation(360 - azimut);
+        }*/
+        if(model != null) {
+            model.setRotation(new MapVec(0, 0, 1), 360-azimut);
+        }
+
 
     }
 

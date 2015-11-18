@@ -3,16 +3,22 @@ package com.fpt.router.web.action.staff.station;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.StationDAO;
 import com.fpt.router.artifacter.model.entity.Station;
-import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.viewmodel.staff.StationListVM;
 
 /**
  * Created by datnt on 10/28/2015.
  */
-public class StationAddAction implements IAction {
+public class StationAddAction extends StaffAction {
+
     @Override
     public String execute(ApplicationContext context) {
+        String authenticated = super.execute(context);
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
+            return PAGE.COMMON.LOGIN;
+        }
 
         // get parameter
         String sCodeID = context.getParameter("stationID");
@@ -30,6 +36,6 @@ public class StationAddAction implements IAction {
 
         Station staiton = new Station();
 
-        return Config.WEB.PAGE + "/station/add.jsp";
+        return PAGE.STATION.ADD;
     }
 }

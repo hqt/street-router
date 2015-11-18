@@ -22,11 +22,28 @@
     <ul class="page-sidebar-menu page-sidebar-menu-hover-submenu " data-keep-expanded="false"
         data-auto-scroll="true" data-slide-speed="200">
       <li>
-        <a href="${pageContext.request.contextPath}/route/list">
+        <a href="">
           <i class="icon-map"></i>
           <span class="title">Route</span>
           <span class="arrow "></span>
         </a>
+        <ul class="sub-menu">
+          <li>
+            <a href="${pageContext.request.contextPath}/route/list"> <!-- here, not yet to change link to station -->
+              <i class="fa fa-plus"></i>
+              Add Route</a>
+          </li>
+          <li>
+            <a href="${pageContext.request.contextPath}/route/add"> <!-- here, not yet to change link to station -->
+              <i class="fa fa-plus"></i>
+              Add Route</a>
+          </li>
+          <li>
+            <a href="${pageContext.request.contextPath}/route/parse"> <!-- here, not yet to change link to station -->
+              <i class="fa fa-plus"></i>
+              Parse from source</a>
+          </li>
+        </ul>
       </li>
       <li>
         <a href="${pageContext.request.contextPath}/station/list">
@@ -44,7 +61,7 @@
         </a>
         <ul class="sub-menu">
           <li>
-            <a href=""> <!-- here, not yet to change link to station -->
+            <a href="${pageContext.request.contextPath}/notification/station/list"> <!-- here, not yet to change link to station -->
               <i class="icon-pointer"></i>
               Station Notification</a>
           </li>
@@ -71,7 +88,7 @@
             </a> <!-- here, not yet to change link to station -->
           </li>
           <li>
-            <a href=""> <!-- here, not yet to change link to station -->
+            <a href="${pageContext.request.contextPath}/configuration/source"> <!-- here, not yet to change link to station -->
               <i class="icon-folder"></i>
               Source Configuration</a>
           </li>

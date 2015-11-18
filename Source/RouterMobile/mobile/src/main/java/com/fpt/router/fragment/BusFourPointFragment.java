@@ -1,5 +1,6 @@
 package com.fpt.router.fragment;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -7,12 +8,15 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.activity.MainActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.BusFourPointAdapter;
 import com.fpt.router.adapter.BusThreePointAdapter;
@@ -60,6 +64,9 @@ public class BusFourPointFragment extends Fragment {
     private Map<Integer, AutocompleteObject> mapLocation = SearchRouteActivity.mapLocation;
     private RecyclerView recyclerView;
     private List<String> listError = new ArrayList<String>();
+    public boolean flat_call_server_again = false;
+    public boolean flat_check_search_second = false;
+    String code = "";
 
     public BusFourPointFragment() {
 
@@ -87,10 +94,10 @@ public class BusFourPointFragment extends Fragment {
         String json = null;
         try {
             InputStream is = null;
-            if(SearchRouteActivity.mapLocation.size() == 3){
+            if (SearchRouteActivity.mapLocation.size() == 3) {
                 is = getActivity().getAssets().open("testThree.json");
             }
-            if(SearchRouteActivity.mapLocation.size() == 4){
+            if (SearchRouteActivity.mapLocation.size() == 4) {
                 is = getActivity().getAssets().open("testFour.json");
             }
 
@@ -118,13 +125,11 @@ public class BusFourPointFragment extends Fragment {
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_FOUR_POINT) {
                 JSONParseTask jsonParseTask = new JSONParseTask();
                 jsonParseTask.execute();
-            } else if (SearchRouteActivity.journeys.size() > 0) {
-                if((SearchRouteActivity.mapLocation.size() == 3)
-                        && (SearchRouteActivity.journeys.get(0).results.size() == 2)){
+            } else if (SearchRouteActivity.journeys != null) {
+                if (SearchRouteActivity.mapLocation.size() == 3) {
                     recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
                 }
-                if(SearchRouteActivity.mapLocation.size() == 4
-                        &&(SearchRouteActivity.journeys.get(0).results.size() == 3)){
+                if (SearchRouteActivity.mapLocation.size() == 4) {
                     recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
                 }
             }
@@ -146,6 +151,7 @@ public class BusFourPointFragment extends Fragment {
             pDialog.setMessage("Getting Data ...");
             pDialog.setIndeterminate(false);
             pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(false);
             pDialog.show();
 
         }
@@ -170,10 +176,15 @@ public class BusFourPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    if (MainActivity.flatGPS) {
+                        busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
+                                GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
+                    } else {
+                        autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    }
                 } else {
-                    busLocations.add(new BusLocation(GPSServiceOld.getLatitude(),
-                            GPSServiceOld.getLongitude(), "Vị trí hiện tại."));
+                    busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
+                            GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
                 }
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.TO_LOCATION) != null) {
                     autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.TO_LOCATION));
@@ -187,10 +198,25 @@ public class BusFourPointFragment extends Fragment {
 
                 try {
                     for (int i = 0; i < autocompleteObjects.size(); i++) {
-                        String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
-                        String json = NetworkUtils.download(url);
-                        BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
-                        busLocations.add(busLocation);
+                        AutocompleteObject autoObject = autocompleteObjects.get(i);
+                        if (!autoObject.getPlace_id().equals("")) {
+                            String url = GoogleAPIUtils.getLocationByPlaceID(autocompleteObjects.get(i).getPlace_id());
+                            String json = NetworkUtils.download(url);
+                            BusLocation busLocation = JSONParseUtils.getBusLocation(json, autocompleteObjects.get(i).getName());
+                            busLocations.add(busLocation);
+                        } else {
+                            String url = GoogleAPIUtils.getTwoPointDirection(autoObject, autoObject);
+                            String json = NetworkUtils.download(url);
+                            JSONObject jsonO = new JSONObject(json);
+                            String status = jsonO.getString("status");
+                            if (!status.equals("OK")) {
+                                code = "Đia điểm bạn tìm kiếm không được tìm thấy, vui lòng nhập lại.";
+                                return journeyList;
+                            } else {
+                                BusLocation busLocation = JSONParseUtils.getBusLocationWithNoPlaceId(json, autoObject.getName());
+                                busLocations.add(busLocation);
+                            }
+                        }
                     }
                     jsonFromServer = APIUtils.getJsonFromServer(busLocations);
 
@@ -207,16 +233,13 @@ public class BusFourPointFragment extends Fragment {
 
             // must be sort before remove duplicate
             SortUtils.sortJourney(journeyList);
-
             // remove duplicate result
             journeyList = CheckDuplicateUtils.checkDuplicateJourney(journeyList);
 
             if (!SearchBus.IS_USED_REAL_WALKING) {
                 return journeyList;
             }
-
             // Find how many request should be sent
-
             /* *
             * GET LIST RESULT AND SET AGAIN FOR WALKING PATH
             */
@@ -259,28 +282,96 @@ public class BusFourPointFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(List<Journey> journeyList) {
+        protected void onPostExecute(final List<Journey> journeyList) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
-            if (!journeyList.get(0).code.equals("success")) {
+            if ((journeyList == null) || (journeyList.size() == 0)) {
                 listError = new ArrayList<String>();
-                listError.add(journeyList.get(0).code);
+                listError.add(code);
                 recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
                 return;
             }
+            if (!journeyList.get(0).code.equals("success")) {
 
-            activity.searchType = null;
-            activity.needToSearch = false;
+                code = journeyList.get(0).code;
+                Log.i("BusTwoPointFragment -->", code);
+                String re_code = code.trim().substring(0, 29);
 
-            SearchRouteActivity.journeys = journeyList;
-            if(SearchRouteActivity.mapLocation.size() == 3){
-                recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
+                if (re_code.equals("không có trạm xe buýt nào gần")) {
+                    if (!flat_call_server_again) {
+                        flat_call_server_again = true;
+                        flat_check_search_second = true;
+                        Log.i("Ngoan Dep Trai Qua", "");
+                        SearchRouteActivity.walkingDistance = 1000;
+                        JSONParseTask jsonParseTask = new JSONParseTask();
+                        jsonParseTask.execute();
+                    } else {
+                        listError = new ArrayList<String>();
+                        listError.add(journeyList.get(0).code);
+                        recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                        return;
+                    }
+                } else {
+                    Log.i("Chan bo me", "");
+                    listError = new ArrayList<String>();
+                    listError.add(journeyList.get(0).code);
+                    recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                    return;
+                }
+            } else {
+                if (!flat_check_search_second) {
+                    activity.searchType = null;
+                    activity.needToSearch = false;
+
+                    SearchRouteActivity.journeys = journeyList;
+                    if (SearchRouteActivity.mapLocation.size() == 3) {
+                        recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
+                    }
+                    if (SearchRouteActivity.mapLocation.size() == 4) {
+                        recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+                    }
+                } else {
+                    final Dialog dialog = new Dialog(getContext());
+                    dialog.setContentView(R.layout.activity_research_bus);
+                    dialog.setTitle("Thông Báo....");
+                    Button acceptButton, cancelButton;
+                    acceptButton = (Button) dialog.findViewById(R.id.btn_yes);
+                    cancelButton = (Button) dialog.findViewById(R.id.btn_no);
+                    acceptButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                            SearchRouteActivity.walkingDistance = 300;
+                            activity.searchType = null;
+                            activity.needToSearch = false;
+                            activity.searchType = null;
+                            activity.needToSearch = false;
+
+                            SearchRouteActivity.journeys = journeyList;
+                            if (SearchRouteActivity.mapLocation.size() == 3) {
+                                recyclerView.setAdapter(new BusThreePointAdapter(SearchRouteActivity.journeys));
+                            }
+                            if (SearchRouteActivity.mapLocation.size() == 4) {
+                                recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
+                            }
+                        }
+                    });
+
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.cancel();
+                            SearchRouteActivity.walkingDistance = 300;
+                            listError = new ArrayList<String>();
+                            listError.add(code);
+                            recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                            return;
+                        }
+                    });
+                    dialog.show();
+                }
             }
-            if(SearchRouteActivity.mapLocation.size() == 4){
-                recyclerView.setAdapter(new BusFourPointAdapter(SearchRouteActivity.journeys));
-            }
-
         }
     }
 }
