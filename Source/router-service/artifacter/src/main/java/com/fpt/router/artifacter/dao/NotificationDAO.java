@@ -2,7 +2,6 @@ package com.fpt.router.artifacter.dao;
 
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.entity.Notification;
-import com.fpt.router.artifacter.model.entity.Trip;
 
 /**
  * Purpose:

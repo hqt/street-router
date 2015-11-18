@@ -20,10 +20,10 @@ public class AddStaffAction extends AdminAction {
     @Override
     public String execute(ApplicationContext context) {
         String authenticated = super.execute(context);
-        if (authenticated == null || !authenticated.equals(Role.ADMIN.name())) {
+        /*if (authenticated == null || !authenticated.equals(Role.ADMIN.name())) {
             return PAGE.COMMON.LOGIN;
         }
-
+*/
         PasswordUtils passwordUtils = new PasswordUtils();
 
         Staff khuong = new Staff();

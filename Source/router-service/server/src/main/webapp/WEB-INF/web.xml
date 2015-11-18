@@ -19,7 +19,6 @@
 
     <servlet-mapping>
         <servlet-name>DispatcherServlet</servlet-name>
-        <!--<url-pattern>/DispatcherServlet</url-pattern>-->
         <url-pattern>/login</url-pattern>
         <url-pattern>/search/multi</url-pattern>
         <url-pattern>/api/twopoint</url-pattern>
@@ -45,7 +44,9 @@
         <url-pattern>/trip/delete</url-pattern>
 
         <url-pattern>/notification/station/list</url-pattern>
-        <url-pattern>/notification/block</url-pattern>
+        <url-pattern>/notification/station/approve</url-pattern>
+        <url-pattern>/notification/station/delete</url-pattern>
+        <url-pattern>/notification/station/block</url-pattern>
         <url-pattern>/notification/unblock</url-pattern>
         <url-pattern>/notification/delete</url-pattern>
         <url-pattern>/notification/approve</url-pattern>
@@ -62,7 +63,7 @@
 
 
     <welcome-file-list>
-        <welcome-file>/WEB-INF/hello.html</welcome-file>
+        <welcome-file>/WEB-INF/page/login.jsp</welcome-file>
     </welcome-file-list>
 
     <session-config>

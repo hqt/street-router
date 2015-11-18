@@ -40,7 +40,7 @@ public class RouteVM {
     }
 
     public List<Station> convertPathInfoToStation(List<PathInfo> pathInfos) {
-        List<Station> stations = new ArrayList<>();
+        List<Station> stations = new ArrayList<Station>();
         for (PathInfo p : pathInfos) {
             Station stationFrom = p.getFrom();
             stations.add(stationFrom);

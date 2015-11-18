@@ -110,16 +110,14 @@ var TableStationNofManaged = function () {
 
             console.log("Sync backend for block notification");
 
-
-
             var nofId = nRow.childNodes[1].value.trim();
-            var urlNofBlock = "http://localhost:8080/notification/block";
+            var urlNofBlock = "http://localhost:8080/notification/station/block";
             $.post(urlNofBlock, {
                 nofId: nofId
             });
 
+            //location.reload();
             oTable.fnDeleteRow(nRow);
-            location.reload(true);
         });
 
         table.on('click', '.delete', function(e) {
@@ -132,7 +130,8 @@ var TableStationNofManaged = function () {
             var nRow = $(this).parents('tr')[0];
 
             var nofId = nRow.childNodes[1].value.trim();
-            var urlNofDelete = "http://localhost:8080/notification/delete";
+            var urlNofDelete = "http://localhost:8080/notification/station/delete";
+
             $.post(urlNofDelete, {
                 nofId: nofId
             });
@@ -141,14 +140,30 @@ var TableStationNofManaged = function () {
         });
 
         table.on('click', '.approve', function(e) {
+            e.preventDefault(e);
 
+            var nRow = $(this).parents('tr')[0];
+
+            var nofId = nRow.childNodes[1].value.trim();
+            var nofStationId = nRow.childNodes[3].value.trim();
+            var nofStationNo = nRow.childNodes[7].textContent.trim();
+            var notification = nRow.childNodes[9].textContent.trim();
+            var urlApproveNof = "http://localhost:8080/notification/station/approve";
+
+            $.post(urlApproveNof, {
+                nofId: nofId,
+                stationNo : nofStationNo,
+                stationId: nofStationId,
+                notification: notification
+            });
+            oTable.fnDeleteRow(nRow);
         })
     };
 
     var initTableNofInActive = function () {
-        console.log("Table InActive Notification");
+        console.log("Table Station Nof Active Notification");
 
-        var table = $('#nofInActive');
+        var table = $('#stationNofInActive');
 
         function restoreRow(oTable, nRow) {
             var aData = oTable.fnGetData(nRow);
@@ -241,8 +256,64 @@ var TableStationNofManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        var nEditing = null;
-        var nNew = false;
+        table.on('click', '.block', function(e) {
+            e.preventDefault();
+
+            if(confirm("Are you sure to block this notification") == false) {
+                return;
+            }
+
+            var nRow = $(this).parents('tr')[0];
+
+            console.log("Sync backend for block notification");
+
+            var nofId = nRow.childNodes[1].value.trim();
+            var urlNofBlock = "http://localhost:8080/notification/station/block";
+            $.post(urlNofBlock, {
+                nofId: nofId
+            });
+
+            oTable.fnDeleteRow(nRow);
+        });
+
+        table.on('click', '.delete', function(e) {
+            e.preventDefault();
+
+            if(confirm("Are you sure to delete this notification") == false) {
+                return;
+            }
+
+            var nRow = $(this).parents('tr')[0];
+
+            var nofId = nRow.childNodes[1].value.trim();
+            var urlNofDelete = "http://localhost:8080/notification/station/delete";
+
+            $.post(urlNofDelete, {
+                nofId: nofId
+            });
+
+            oTable.fnDeleteRow(nRow);
+        });
+
+        table.on('click', '.approve', function(e) {
+            e.preventDefault(e);
+
+            var nRow = $(this).parents('tr')[0];
+
+            var nofId = nRow.childNodes[1].value.trim();
+            var nofStationId = nRow.childNodes[3].value.trim();
+            var nofStationNo = nRow.childNodes[7].textContent.trim();
+            var notification = nRow.childNodes[9].textContent.trim();
+            var urlApproveNof = "http://localhost:8080/notification/station/approve";
+
+            $.post(urlApproveNof, {
+                nofId: nofId,
+                stationNo : nofStationNo,
+                stationId: nofStationId,
+                notification: notification
+            });
+            oTable.fnDeleteRow(nRow);
+        })
     };
 
     return {

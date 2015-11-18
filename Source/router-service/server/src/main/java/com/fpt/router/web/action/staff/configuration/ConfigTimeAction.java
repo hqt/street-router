@@ -22,7 +22,7 @@ public class ConfigTimeAction implements IAction {
         System.out.println("Configuring... Time");
 
         String[] repeatsDay = context.getParameterValues("repeatDay");
-        List<Integer> rDays = new ArrayList<>();
+        List<Integer> rDays = new ArrayList<Integer>();
         for (String s : repeatsDay) {
             int day = -1;
             try {

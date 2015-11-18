@@ -13,7 +13,7 @@ public class PathinfoListVM {
     private List<PathInfoVM> pathInfoVMs;
 
     public PathinfoListVM(List<PathInfo> pathInfos) {
-        pathInfoVMs = new ArrayList<>();
+        pathInfoVMs = new ArrayList<PathInfoVM>();
         for (PathInfo p : pathInfos) {
             pathInfoVMs.add(new PathInfoVM(p));
         }

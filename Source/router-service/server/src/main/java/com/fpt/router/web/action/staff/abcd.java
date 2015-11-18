@@ -8,8 +8,10 @@ import com.fpt.router.web.action.staff.parser.ParseJsonLocal;
 import com.fpt.router.web.action.util.PasswordUtils;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -179,23 +181,35 @@ public class abcd {
     }
 
     public static void main(String args[]) {
+        StationNotificationDAO stationNotificationDAO = new StationNotificationDAO();
+        /*StationNotification stationNotification = new StationNotification();
+        stationNotification.setChangeName("asdsa");
+        stationNotification.setStationCodeID("QTDT073");
+        stationNotification.setCreatedTime(new Date());
+        Station sta = new Station();
+        sta.setStationId(1);
+        stationNotification.setStation(sta);
+        stationNotificationDAO.create(stationNotification);*/
 
-        StationNotificationDAO dao = new StationNotificationDAO();
-        List<StationNotification> entityList = dao.findAll();
-        if (entityList != null && !entityList.isEmpty()) {
-            // convert entity to model
-            /*StationListNofVM modelList = new StationListNofVM(entityList);
-            System.out.println(modelList.modelList.size());*/
-            // assign request attribute
-        } else {
-            System.out.println("Shit here");
+        /*StationNotification stationNotification = stationNotificationDAO.readByCode("Q5T023");
+        stationNotificationDAO.update(stationNotification);
+        int a = 3;*/
+        double f = 10.849804816682;
+        double k = 10.841651662725;
+        double a = 10.8498048166817;
+        double c = Math.ulp(a);
+        double g = Math.ulp(k);
+        System.out.println(c);
+        System.out.println(g);
+        if (c == g) {
+            System.out.println("Được đấy !");
         }
-
+        int asd = 123;
     }
 
     public static List<Route> buildRouteFull() {
 
-        List<Route> result = new ArrayList<>();
+        List<Route> result = new ArrayList<Route>();
 
         RouteDAO routeDAO = new RouteDAO();
         TripDAO tripDAO = new TripDAO();

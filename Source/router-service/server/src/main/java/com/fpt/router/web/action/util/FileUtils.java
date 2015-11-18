@@ -48,17 +48,13 @@ public class FileUtils {
             this.routeNo = routeNo;
         }
 
-        switch (routeTypeStr) {
-            case "depart":
-                this.routeType = RouteType.DEPART;
-                break;
-            case "return":
-                this.routeType = RouteType.RETURN;
-                break;
-            default:
-                System.out.println("wrong route type");
-                done = false;
-                break;
+        if (routeTypeStr.equals("depart")) {
+            this.routeType = RouteType.DEPART;
+        } else if (routeTypeStr.equals("return")) {
+            this.routeType = RouteType.RETURN;
+        } else {
+            System.out.println("wrong route type");
+            done = false;
         }
 
         if (fileTypeStr.equals("json") || fileTypeStr.equals(".xls")) {

@@ -23,12 +23,12 @@ public class CompareRoute {
     public List<TripNotification> listTripNof;
 
     public CompareRoute(List<Route> listRouteDB, List<Route> listRouteSource) {
-        this.redudantRouteDB = new HashSet<>(listRouteDB);
-        this.redudantRouteSource = new HashSet<>(listRouteSource);
+        this.redudantRouteDB = new HashSet<Route>(listRouteDB);
+        this.redudantRouteSource = new HashSet<Route>(listRouteSource);
         this.listRouteDB = listRouteDB;
         this.listRouteSource = listRouteSource;
-        this.listRouteNof = new ArrayList<>();
-        this.listTripNof = new ArrayList<>();
+        this.listRouteNof = new ArrayList<RouteNotification>();
+        this.listTripNof = new ArrayList<TripNotification>();
     }
 
     public void run() {
@@ -38,7 +38,7 @@ public class CompareRoute {
     }
 
     protected void redudant() {
-        HashSet<Route> hsTotal = new HashSet<>();
+        HashSet<Route> hsTotal = new HashSet<Route>();
         hsTotal.addAll(redudantRouteDB);
         hsTotal.addAll(redudantRouteSource);
 
@@ -58,8 +58,8 @@ public class CompareRoute {
 
         System.out.println("Main Comparison Route Thread starting...");
 
-        List<Route> routesDbDepart = new ArrayList<>();
-        List<Route> routesDbReturn = new ArrayList<>();
+        List<Route> routesDbDepart = new ArrayList<Route>();
+        List<Route> routesDbReturn = new ArrayList<Route>();
         for (Route route : this.listRouteDB) {
             if (route.getRouteType().equals(RouteType.DEPART)) {
                 routesDbDepart.add(route);
@@ -68,8 +68,8 @@ public class CompareRoute {
             }
         }
 
-        List<Route> routesSourceDepart = new ArrayList<>();
-        List<Route> routesSourceReturn = new ArrayList<>();
+        List<Route> routesSourceDepart = new ArrayList<Route>();
+        List<Route> routesSourceReturn = new ArrayList<Route>();
         for (Route route : this.listRouteSource) {
             if (route.getRouteType().equals(RouteType.DEPART)) {
                 routesSourceDepart.add(route);
@@ -154,6 +154,7 @@ public class CompareRoute {
                 listRouteNof.add(routeNof);
             }
 
+            // test thread
         }
     }
 }

@@ -60,7 +60,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN LOGIN -->
 <div class="content">
     <!-- BEGIN LOGIN FORM -->
-    <form class="login-form" action="" method="post">
+    <form class="login-form" action="${pageContext.request.contextPath}/login" method="post">
         <h3 class="form-title">Sign In</h3>
         <div class="alert alert-danger display-hide">
             <button class="close" data-close="alert"></button>

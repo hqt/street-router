@@ -23,7 +23,7 @@ public class CompareTrip {
     public CompareTrip(List<Trip> listTripDB, List<Trip> listTripSource) {
         this.listTripDB = listTripDB;
         this.listTripSource = listTripSource;
-        this.listTripNof = new ArrayList<>();
+        this.listTripNof = new ArrayList<TripNotification>();
     }
 
     public void run() {
@@ -32,7 +32,7 @@ public class CompareTrip {
 
     public void processComparison() {
 
-        System.out.println("Main compare trip thread is starting...");
+        //System.out.println("Main compare trip thread is starting...");
 
         ExecutorService executorService = Executors.newCachedThreadPool();
         for (Trip tripDB : this.listTripDB) {
@@ -50,7 +50,7 @@ public class CompareTrip {
             e.printStackTrace();
         }
 
-        System.out.println("Main compare trip thread is finished.");
+        //System.out.println("Main compare trip thread is finished.");
 
     }
 
@@ -92,7 +92,7 @@ public class CompareTrip {
             LocalTime tripDBStartTime = this.tripDB.getStartTime();
             LocalTime tripSourceStartTime = this.tripSource.getStartTime();
             if (!tripDBStartTime.equals(tripSourceStartTime)) {
-                System.out.println("Trip Source Start Time. " + tripSourceStartTime + "************************************************");
+                //System.out.println("Trip Source Start Time. " + tripSourceStartTime + "************************************************");
                 tripNof.setChangeStartTime(tripSourceStartTime);
                 canAdd = true;
             }
@@ -100,7 +100,7 @@ public class CompareTrip {
             LocalTime tripDBEndTime = this.tripDB.getEndTime();
             LocalTime tripSourceEndTime = this.tripSource.getEndTime();
             if (!tripDBEndTime.equals(tripSourceEndTime)) {
-                System.out.println("Trip Source End Time. " + tripSourceStartTime + "************************************************");
+                //System.out.println("Trip Source End Time. " + tripSourceStartTime + "************************************************");
                 tripNof.setChangeEndTime(tripSourceEndTime);
                 canAdd = true;
             }
