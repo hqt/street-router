@@ -14,6 +14,7 @@ import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
+import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
@@ -95,11 +96,26 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 listFinalLeg.add(listLeg.get(n));
             }
         }
-
+        //Get list legs fake to fake line
+        List<Leg> listLegFake = new ArrayList<>();
+        if(SearchRouteActivity.mapLocation.size() == 2) {
+            listLegFake.add(listLeg.get(position+1));
+        } else if (SearchRouteActivity.mapLocation.size() == 3) {
+            for(int n = (position+1)*2; n < (position+1)*2+2; n++) {
+                listLegFake.add(listLeg.get(n));
+            }
+        } else {
+            for(int n = (position+1)*3; n < (position+1)*3+3; n++) {
+                listLegFake.add(listLeg.get(n));
+            }
+        }
+        List<LatLng> listLatLngToCheck = new ArrayList<>();
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
+            listLatLngToCheck.addAll(DecodeUtils.decodePoly(listFinalLeg.get(n).getOverview_polyline()));
         }
-        GPSServiceOld.setListStep(listStep);
+        GPSServiceOld.setListLatLngToCheck(listLatLngToCheck);
+        GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
         GPSServiceOld.setListNotify(getNotifyList());
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
 
@@ -125,6 +141,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         vectorLayer = new VectorLayer(vectorDataSource);
         // Add the previous vector layer to the map
         mapView.getLayers().add(vectorLayer);
+        drawFakeLine(listLegFake);
         drawMap();
     }
 
@@ -134,13 +151,20 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
         } else {
             NutiteqMapUtil.drawMapWithFourPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
-            List<LatLng> step = new ArrayList<>();
         }
         for(int n = 0; n < listStep.size(); n++) {
             NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, rs,
                     listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
                     R.drawable.orange_small, 20);
+        }
+    }
+
+    private void drawFakeLine(List<Leg> input) {
+        for(int n = 0; n < input.size(); n++) {
+            List<LatLng> listLL = DecodeUtils.decodePoly(input.get(n).getOverview_polyline());
+            NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listLL, baseProjection, 6);
+
         }
     }
 
@@ -205,7 +229,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
         if (model == null) {
             model = new NMLModel(markerPos, AssetUtils.loadBytes("ferrari360.nml"));
-            model.setScale(5);
+            model.setScale(400);
             vectorDataSource.add(model);
         } else {
             model.setPos(markerPos);
@@ -236,8 +260,8 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             if(detailInstruction.length >1) {
                 longMessage = detailInstruction[1];
             }
-            if(detailInstruction.length >2) {
-                smallMessage = smallMessage + ", "+ detailInstruction[2];
+            if(detailInstruction[detailInstruction.length - 1].startsWith("Điểm đến")) {
+                smallMessage = smallMessage + ", "+ detailInstruction[detailInstruction.length - 1];
             }
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);

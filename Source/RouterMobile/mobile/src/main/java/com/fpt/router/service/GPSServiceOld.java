@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.framework.PrefStore;
@@ -41,6 +42,8 @@ import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -53,16 +56,17 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private static int fakeGPSIndex = 0;
     private static int stepIndex = 0;
+    private static int checkIndex = 0;
 
     private static int notifyIndex = 0;
 
     private EventBus bus;
 
     private Context mContext;
-
+    long time = 0;
     // flag for GPS status
     boolean isGPSEnabled = false;
-
+    boolean isTrueWay = true;
 
     // flag for network status
     boolean isNetworkEnabled = false;
@@ -71,7 +75,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static boolean isFakeGPS = false;
     public static boolean isPlaySound = false;
     private static List<NotifyModel> listNotify;
-    private static List<Step> listStepForCheck;
+    private static List<LatLng> listFakeGPSOfFake;
+    private static List<LatLng> listLatLngToCheck;
     private static int distance;
 
 
@@ -83,8 +88,12 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static void setDistance(int input) {
         distance = input;
     }
-    public static void setListStep(List<Step> input) {
-        GPSServiceOld.listStepForCheck = input;
+    public static void setListFakeGPSOfFake(List<LatLng> input) {
+        GPSServiceOld.listFakeGPSOfFake = input;
+    }
+
+    public static void setListLatLngToCheck(List<LatLng> input) {
+        GPSServiceOld.listLatLngToCheck = input;
     }
 
     public static List<NotifyModel> getNotifyModel() {
@@ -93,7 +102,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     private static void initializeState() {
         // reset all state variables
-        GPSServiceOld.listStepForCheck = null;
+        //GPSServiceOld.listStepForCheck = null;
         GPSServiceOld.fakeGPSIndex = 0;
         GPSServiceOld.stepIndex = 0;
         GPSServiceOld.notifyIndex = 0;
@@ -284,28 +293,39 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         if (listNotify == null) {
             return false;
         }
-        boolean isTrueWay = true;
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
-        if(listStepForCheck != null) {
-            List<LatLng> listLatLngForCheck = DecodeUtils.decodePoly(listStepForCheck.get(stepIndex).getPolyline());
-            isTrueWay = PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listLatLngForCheck,
-                    true, true, 10);
-        }
-        LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
-                listNotify.get(stepIndex).location.getLongitude());
         if(isTrueWay) {
+            if (listLatLngToCheck != null) {
+                isTrueWay = PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listLatLngToCheck,
+                        true, true, 50);
+            }
+        }
+        if(isTrueWay) {
+            LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
+                    listNotify.get(stepIndex).location.getLongitude());
             if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
                 notifyIndex = stepIndex;
                 stepIndex = (stepIndex + 1) % listNotify.size();
                 return true;
             }
         } else {
+            Calendar calendar = Calendar.getInstance();
+            Log.e("Time:", "" + time);
+            if (time == 0) {
+                time = calendar.getTimeInMillis();
+            } else {
+                if ((calendar.getTimeInMillis() - time) > 10000 ){
+                    time = calendar.getTimeInMillis();
+                    bus.post("Bạn đang đi sai đường");
+                }
+            }
             for(int n = 0; n < listNotify.size(); n++) {
                 LatLng latlng = new LatLng(listNotify.get(n).location.getLatitude(),
                         listNotify.get(n).location.getLongitude());
                 if(DecodeUtils.calculateDistance(checkPoint, latlng) < distance) {
-                    stepIndex = n;
-                    notifyIndex = stepIndex;
+                    notifyIndex = n;
+                    isTrueWay = true;
+                    stepIndex = (n + 1) % listNotify.size();
                     return true;
                 }
             }
@@ -320,13 +340,14 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
         // get gps. when come to end list. back to top list and re-run again :)
         if (isFakeGPS) {
-            location.setLatitude(fakeGPSList.get(fakeGPSIndex).latitude);
-            location.setLongitude(fakeGPSList.get(fakeGPSIndex).longitude);
-            fakeGPSIndex = (fakeGPSIndex + 1) % fakeGPSList.size();
+            location.setLatitude(listFakeGPSOfFake.get(fakeGPSIndex).latitude);
+            location.setLongitude(listFakeGPSOfFake.get(fakeGPSIndex).longitude);
+            fakeGPSIndex = (fakeGPSIndex + 1) % listFakeGPSOfFake.size();
         }
 
         // notify when near some location
         if (isNearLocation(location)) {
+            //Log.e("NAM PLAY SOUND:", "" + listNotify.get(notifyIndex).smallMessage);
             // Play sound
             if (isPlaySound) {
                 SoundUtils.playSound(mContext, listNotify.get(notifyIndex).smallMessage);

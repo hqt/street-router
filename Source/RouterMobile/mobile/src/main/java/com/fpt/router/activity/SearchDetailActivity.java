@@ -28,6 +28,8 @@ import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.utils.NotificationUtils;
+import com.fpt.router.library.utils.SoundUtils;
 import com.fpt.router.library.utils.cache.DiskLruSoundCache;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSService;
@@ -210,6 +212,15 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
     public void onEventMainThread(NotifyModel event) {
         Toast.makeText(SearchDetailActivity.this, event.smallMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onEventMainThread(String event) {
+        Toast.makeText(SearchDetailActivity.this, event, Toast.LENGTH_SHORT).show();
+        if(isPlaySound) {
+            SoundUtils.playSoundFromAsset(SearchDetailActivity.this, "ban-dang-di-sai-duong.wav");
+        }
+        NotificationUtils.run(SearchDetailActivity.this, "Sai đường", event,
+                "Bạn đang đi sai đường", "Xin tham khảo bản đồ để biết thêm");
     }
 
     @Override
