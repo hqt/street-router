@@ -71,7 +71,7 @@ public class MultiPointAction implements IAction {
         String addressMidSecond = context.getParameter("addressMidSecond");
         System.out.println("middle second: " +addressMidSecond);
 
-        List<String> middleAddresses = new ArrayList<>();
+        List<String> middleAddresses = new ArrayList<String>();
         if (addressMidFirst != null) {
             middleAddresses.add(addressMidFirst);
         }
@@ -126,7 +126,7 @@ public class MultiPointAction implements IAction {
         second.latitude = latMidSecond;
         second.longitude = longMidSecond;
 
-        List<Location> middleLocations = new ArrayList<>();
+        List<Location> middleLocations = new ArrayList<Location>();
 
         if (addressMidFirst != null) {
             middleLocations.add(first);

@@ -5,6 +5,7 @@ import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.web.action.common.AuthAction;
 import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.staff.RouteListVM;
 
@@ -17,9 +18,10 @@ public class RouteListAction extends AuthAction {
 
     @Override
     public String execute(ApplicationContext context) {
+
         String authenticated = super.execute(context);
-        if (authenticated == null) {
-            return Config.WEB.REDIRECT + "/login";
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
+            return PAGE.COMMON.LOGIN;
         }
 
         RouteDAO routeDao = new RouteDAO();

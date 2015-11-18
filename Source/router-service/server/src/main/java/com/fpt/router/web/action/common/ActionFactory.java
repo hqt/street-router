@@ -7,10 +7,10 @@ import com.fpt.router.web.action.admin.StaffListAction;
 import com.fpt.router.web.action.admin.StaffUpdateAction;
 import com.fpt.router.web.action.api.MultiPointAction;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
-import com.fpt.router.web.action.notification.NofApproveAction;
-import com.fpt.router.web.action.notification.NofBlockAction;
-import com.fpt.router.web.action.notification.NofDeleteAction;
 import com.fpt.router.web.action.notification.NofUnblockAction;
+import com.fpt.router.web.action.notification.StationNof.StationNofApproveAction;
+import com.fpt.router.web.action.notification.StationNof.StationNofBlockAction;
+import com.fpt.router.web.action.notification.StationNof.StationNofDeleteAction;
 import com.fpt.router.web.action.notification.StationNof.StationNofListAction;
 import com.fpt.router.web.action.staff.CompareMapAction;
 import com.fpt.router.web.action.staff.DetailRouteAction;
@@ -42,96 +42,71 @@ public class ActionFactory implements IActionFactory {
         // forward to WEB-INF/login.jsp
         String url = context.getServletPath();
 
-        switch (url) {
-            case URL.COMMON.LOGIN:
-                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/login.jsp");
-                action = new DirectPageAction();
-                break;
-            case URL.API.TWO_POINT:
-                action = new TwoPointRouteAction();
-                break;
-            case URL.API.MUlTI_POINT:
-                action = new MultiPointAction();
-                break;
-            case URL.ADMIN.STAFF_ADD:
-                action = new AddStaffAction();
-                break;
-            case URL.ADMIN.STAFF_LIST:
-                action = new StaffListAction();
-                break;
-            case URL.ADMIN.STAFF_UPDATE:
-                action = new StaffUpdateAction();
-                break;
-            case URL.ADMIN.STAFF_DELETE:
-                action = new StaffDeleteAction();
-                break;
-            case URL.COMMON.ROUTE_LIST:
-                action = new RouteListAction();
-                break;
-            case URL.COMMON.ROUTE_DETAIL:
-                action = new DetailRouteAction();
-                break;
-            case URL.STAFF.ROUTE_ADD:
-                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/indexAdd.jsp");
-                action = new DirectPageAction();
-                break;
-            case URL.STAFF.ROUTE_UPDATE:
-                action = new RouteUpdateAction();
-                break;
-            case URL.STAFF.ROUTE_DELETE:
-                action = new RouteDeleteAction();
-                break;
-            case URL.STAFF.STATION_LIST:
-                action = new StationListAction();
-                break;
-            case URL.STAFF.STATION_ADD:
-                action = new StationAddAction();
-                break;
-            case URL.STAFF.STATION_UPDATE:
-                action = new StationUpdateAction();
-                break;
-            case URL.STAFF.TRIP_ADD:
-                action = new TripAddAction();
-                break;
-            case URL.STAFF.TRIP_UPDATE:
-                action = new TripUpdateAction();
-                break;
-            case URL.STAFF.TRIP_DELETE:
-                action = new TripDeleteAction();
-                break;
-            case URL.STAFF.COMPARE:
-                action = new CompareMapAction();
-                break;
-            case URL.STAFF.NOF_STATION_LIST:
-                action = new StationNofListAction();
-                break;
-            case URL.STAFF.NOF_BLOCK:
-                action = new NofBlockAction();
-                break;
-            case URL.STAFF.NOF_UNBLOCK:
-                action = new NofUnblockAction();
-                break;
-            case URL.STAFF.NOF_DELETE:
-                action = new NofDeleteAction();
-                break;
-            case URL.STAFF.NOF_APPROVE:
-                action = new NofApproveAction();
-                break;
-            case URL.STAFF.CONFIGURE:
-                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
-                action = new DirectStaffPageAction();
-                break;
-            case URL.STAFF.CONFIGURE_SOURCE:
-                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/indexSource.jsp");
-                action = new DirectStaffPageAction();
-                break;
-            case URL.STAFF.ROUTE_PARSE:
-                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/parse.jsp");
-                action = new DirectStaffPageAction();
-                break;
-            case URL.STAFF.PARSE_SOURCE:
-                action = new ParseSourceLocalAction();
-                break;
+        if (url.equals(URL.COMMON.LOGIN)) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/login.jsp");
+            action = new DirectPageAction();
+        } else if (url.equals(URL.API.TWO_POINT)) {
+            action = new TwoPointRouteAction();
+        } else if (url.equals(URL.API.MUlTI_POINT)) {
+            action = new MultiPointAction();
+
+        } else if (url.equals(URL.ADMIN.STAFF_ADD)) {
+            action = new AddStaffAction();
+        } else if (url.equals(URL.ADMIN.STAFF_LIST)) {
+            action = new StaffListAction();
+        } else if (url.equals(URL.ADMIN.STAFF_UPDATE)) {
+            action = new StaffUpdateAction();
+        } else if (url.equals(URL.ADMIN.STAFF_DELETE)) {
+            action = new StaffDeleteAction();
+
+        } else if (url.equals(URL.COMMON.ROUTE_LIST)) {
+            action = new RouteListAction();
+        } else if (url.equals(URL.COMMON.ROUTE_DETAIL)) {
+            action = new DetailRouteAction();
+
+        } else if (url.equals(URL.STAFF.ROUTE_ADD)) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/indexAdd.jsp");
+            action = new DirectPageAction();
+        } else if (url.equals(URL.STAFF.ROUTE_UPDATE)) {
+            action = new RouteUpdateAction();
+        } else if (url.equals(URL.STAFF.ROUTE_DELETE)) {
+            action = new RouteDeleteAction();
+        } else if (url.equals(URL.STAFF.STATION_LIST)) {
+            action = new StationListAction();
+        } else if (url.equals(URL.STAFF.STATION_ADD)) {
+            action = new StationAddAction();
+        } else if (url.equals(URL.STAFF.STATION_UPDATE)) {
+            action = new StationUpdateAction();
+        } else if (url.equals(URL.STAFF.TRIP_ADD)) {
+            action = new TripAddAction();
+        } else if (url.equals(URL.STAFF.TRIP_UPDATE)) {
+            action = new TripUpdateAction();
+        } else if (url.equals(URL.STAFF.TRIP_DELETE)) {
+            action = new TripDeleteAction();
+        } else if (url.equals(URL.STAFF.COMPARE)) {
+            action = new CompareMapAction();
+        } else if (url.equals(URL.STAFF.NOF_STATION_LIST)) {
+            action = new StationNofListAction();
+        } else if (url.equals(URL.STAFF.NOF_STATION_BLOCK)) {
+            action = new StationNofBlockAction();
+        } else if (url.equals(URL.STAFF.NOF_STATION_UNBLOCK)) {
+            action = new NofUnblockAction();
+        } else if (url.equals(URL.STAFF.NOF_STATION_DELETE)) {
+            action = new StationNofDeleteAction();
+        } else if (url.equals(URL.STAFF.NOF_STATION_APPROVE)) {
+            action = new StationNofApproveAction();
+        } else if (url.equals(URL.STAFF.CONFIGURE)) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
+            action = new DirectStaffPageAction();
+        } else if (url.equals(URL.STAFF.CONFIGURE_SOURCE)) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/indexSource.jsp");
+            action = new DirectStaffPageAction();
+        } else if (url.equals(URL.STAFF.ROUTE_PARSE)) {
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/parse.jsp");
+            action = new DirectStaffPageAction();
+        } else if (url.equals(URL.STAFF.PARSE_SOURCE)) {
+            action = new ParseSourceLocalAction();
+
         }
 
 
@@ -145,35 +120,25 @@ public class ActionFactory implements IActionFactory {
         System.out.println("Action Command: " +actionCommand);
 
         if (actionCommand != null) {
-            switch (actionCommand) {
-                case "login":
-                    action = new LoginAction();
-                    break;
-                case "paging":
-                    action = new RouteListAJAXAction();
-                    break;
-                case "detail":
-                    action = new DetailRouteAction();
-                    break;
-                case "update":
-                    action = new RouteUpdateAction();
-                    break;
-                case "addStation":
-                    context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/station/add.jsp");
-                    action = new DetailRouteAction();
-                    break;
-                case "configure":
-                    action = new ConfigTimeAction();
-                    break;
-                case "Upload":
-                    action = new ParseFileAction();
-                    break;
-                case "addRoute":
-                    action = new RouteAddAction();
-                    break;
-                case "parse":
-                    action = new ParseSourceLocalAction();
-                    break;
+            if (actionCommand.equals("login")) {
+                action = new LoginAction();
+            } else if (actionCommand.equals("paging")) {
+                action = new RouteListAJAXAction();
+            } else if (actionCommand.equals("detail")) {
+                action = new DetailRouteAction();
+            } else if (actionCommand.equals("update")) {
+                action = new RouteUpdateAction();
+            } else if (actionCommand.equals("addStation")) {
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/station/add.jsp");
+                action = new DetailRouteAction();
+            } else if (actionCommand.equals("configure")) {
+                action = new ConfigTimeAction();
+            } else if (actionCommand.equals("Upload")) {
+                action = new ParseFileAction();
+            } else if (actionCommand.equals("addRoute")) {
+                action = new RouteAddAction();
+            } else if (actionCommand.equals("parse")) {
+                action = new ParseSourceLocalAction();
             }
         }
 

@@ -28,6 +28,9 @@ public class StationNotification extends Notification {
     @Column(name = "ChangeLongitude", nullable = true)
     private double changeLongitude;
 
+    @Column(name = "StationCodeID", nullable = false)
+    private String stationCodeID;
+
    /* @OneToOne
     @JoinColumn(name = "NotificationID")
     private Notification notification;*/
@@ -47,6 +50,14 @@ public class StationNotification extends Notification {
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
     }*/
+
+    public String getStationCodeID() {
+        return stationCodeID;
+    }
+
+    public void setStationCodeID(String stationCodeID) {
+        this.stationCodeID = stationCodeID;
+    }
 
     public String getChangeName() {
         return changeName;

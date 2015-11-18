@@ -19,7 +19,7 @@ public class CompareStation {
     public CompareStation(List<Station> listStationDB, List<Station> listStationSource) {
         this.listStationDB = listStationDB;
         this.listStationSource = listStationSource;
-        this.listStationVarious = new ArrayList<>();
+        this.listStationVarious = new ArrayList<StationNotification>();
     }
 
     public void run() {
@@ -91,6 +91,8 @@ public class CompareStation {
             }
 
             if (canAdd) {
+                stationNotification.setStationCodeID(stationSource.getCodeId());
+                System.out.println("Station Code ID From Server " +stationSource.getCodeId());
                 stationNotification.setCreatedTime(new Date());
                 listStationVarious.add(this.stationNotification);
             }

@@ -6,7 +6,6 @@ import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.dao.StationDAO;
 import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.*;
-import com.fpt.router.web.action.common.IAction;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
 import com.fpt.router.web.action.staff.StaffAction;
@@ -14,7 +13,6 @@ import com.fpt.router.web.action.staff.comparer.CompareRoute;
 import com.fpt.router.web.action.staff.comparer.CompareStation;
 import com.fpt.router.web.action.staff.station.StationAddThread;
 import com.fpt.router.web.config.ApplicationContext;
-import com.fpt.router.web.servlet.StartupServlet;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -76,7 +74,6 @@ public class ParseSourceLocalAction extends StaffAction {
 
 
 
-
         } else {
             message = "Path Json or Excel not available";
             return Config.AJAX_FORMAT;
@@ -87,7 +84,7 @@ public class ParseSourceLocalAction extends StaffAction {
 
     public static List<Route> buildRouteFull() {
 
-        List<Route> result = new ArrayList<>();
+        List<Route> result = new ArrayList<Route>();
 
         RouteDAO routeDAO = new RouteDAO();
         TripDAO tripDAO = new TripDAO();

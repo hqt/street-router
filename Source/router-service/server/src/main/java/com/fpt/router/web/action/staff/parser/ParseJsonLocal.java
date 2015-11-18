@@ -69,7 +69,8 @@ public class ParseJsonLocal {
         parseJsonFromLocal();
 
         // convert all to List
-        List<Station> stations = new ArrayList<>(stationMap.values());
+        List<Station> stations = new ArrayList<Station>(stationMap.values());
+
         map.setStations(stations);
 
         // set increment id station
@@ -127,7 +128,7 @@ public class ParseJsonLocal {
 
                 int y = 0;
                 int i = 0;
-                List<PathInfo> listPathInfo = new ArrayList<>();
+                List<PathInfo> listPathInfo = new ArrayList<PathInfo>();
                 while (cols.hasNext()) {
                     JsonNode col = cols.next();
                     Iterator<JsonNode> items = col.getElements();
@@ -210,6 +211,9 @@ public class ParseJsonLocal {
                     station.setStreet(data);
                     break;
                 case 13:
+                    if (data.equals("QTDT073")) {
+                        int a = 3;
+                    }
                     station.setCodeId(data);
                     break;
             }

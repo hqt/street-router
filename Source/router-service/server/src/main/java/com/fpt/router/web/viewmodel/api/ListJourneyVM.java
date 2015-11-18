@@ -21,7 +21,7 @@ public class ListJourneyVM {
     }
 
     public ListJourneyVM(List<Journey> journeys) {
-        journeyVMList = new ArrayList<>();
+        journeyVMList = new ArrayList<JourneyVM>();
         for (Journey j : journeys) {
             journeyVMList.add(new JourneyVM(j));
         }

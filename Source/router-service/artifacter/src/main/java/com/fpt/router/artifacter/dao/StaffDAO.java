@@ -17,8 +17,14 @@ public class StaffDAO extends JPADaoImpl<Staff, Integer> {
         Query query = createEntityManager().createQuery(hql);
         query.setParameter("staffEmail", email);
         query.setParameter("password", password);
+        Staff staff;
+        try {
+            staff = (Staff) query.getSingleResult();
+        } catch (Exception ex) {
+            staff = null;
+        }
         createEntityManager().close();
-        return (Staff) query.getSingleResult();
+        return staff;
     }
 
 }
