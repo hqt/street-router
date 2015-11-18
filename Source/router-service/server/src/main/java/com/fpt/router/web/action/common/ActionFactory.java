@@ -1,12 +1,20 @@
 package com.fpt.router.web.action.common;
 
 import com.fpt.router.artifacter.config.Config;
-import com.fpt.router.web.action.admin.*;
+import com.fpt.router.web.action.admin.AddStaffAction;
+import com.fpt.router.web.action.admin.StaffDeleteAction;
+import com.fpt.router.web.action.admin.StaffListAction;
+import com.fpt.router.web.action.admin.StaffUpdateAction;
 import com.fpt.router.web.action.api.MultiPointAction;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
-import com.fpt.router.web.action.notification.*;
+import com.fpt.router.web.action.notification.NofApproveAction;
+import com.fpt.router.web.action.notification.NofBlockAction;
+import com.fpt.router.web.action.notification.NofDeleteAction;
+import com.fpt.router.web.action.notification.NofUnblockAction;
 import com.fpt.router.web.action.notification.StationNof.StationNofListAction;
-import com.fpt.router.web.action.staff.*;
+import com.fpt.router.web.action.staff.CompareMapAction;
+import com.fpt.router.web.action.staff.DetailRouteAction;
+import com.fpt.router.web.action.staff.DirectStaffPageAction;
 import com.fpt.router.web.action.staff.configuration.ConfigTimeAction;
 import com.fpt.router.web.action.staff.parser.ParseFileAction;
 import com.fpt.router.web.action.staff.parser.ParseSourceLocalAction;
