@@ -14,7 +14,7 @@ public class AppConstants {
     private static final String GOOGLE_KEY_4 = "AIzaSyCRk-SLZE8HAJe_p67z-fxKgYfZzDKMyj0";
     private static final String GOOGLE_KEY_5 = "AIzaSyAdLWUhmoL7awJylFZRmrQv8-CEkjLZaT8";
     private static final String GOOGLE_KEY_6 = "AIzaSyD28mTMy7swcMpn1WRRrA4Rz8B-n7dbZZM";
-    public static final String GOOGLE_KEY = GOOGLE_KEY_4;
+    public static final String GOOGLE_KEY = GOOGLE_KEY_3;
 
     public static final class NUTITEQ {
         public static final String NUTITEQ_KEY = "XTUMwQ0ZHWnE5RjVURWRZK2M3R3NCR3pFU0tkYnloVklBaFVBa3JZdXk2RTQyb0V3enZTZi9wMlgrM1lqZDBrPQoKcHJvZHVjdHM9c2RrLWFuZHJvaWQtMy4qCnBhY2thZ2VOYW1lPWNvbS5mcHQucm91dGVyCndhdGVybWFyaz1udXRpdGVxCnVzZXJLZXk9ZWYzZDA5Y2IwOGRlN2I0NTdjZWNhYjBlZTZjMDkwZGEK";
@@ -78,7 +78,7 @@ public class AppConstants {
 
     public static class SearchBus {
         public static boolean IS_REAL_BUS_SERVER = true;
-        public static boolean IS_USED_REAL_WALKING = false;
+        public static boolean IS_USED_REAL_WALKING = true;
     }
 
     public static final int NEAR_CIRCULAR_RANGE = 50;
