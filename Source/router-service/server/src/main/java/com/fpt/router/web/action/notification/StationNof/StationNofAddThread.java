@@ -1,4 +1,4 @@
-package com.fpt.router.web.action.staff.station;
+package com.fpt.router.web.action.notification.StationNof;
 
 import com.fpt.router.artifacter.dao.StationNotificationDAO;
 import com.fpt.router.artifacter.model.entity.StationNotification;
@@ -14,12 +14,12 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by datnt on 11/13/2015.
  */
-public class StationAddThread {
+public class StationNofAddThread {
 
     public List<StationNotification> stationNotifications;
     public StationNotificationDAO dao;
 
-    public StationAddThread(List<StationNotification> result) {
+    public StationNofAddThread(List<StationNotification> result) {
         this.stationNotifications = result;
         dao = new StationNotificationDAO();
     }

@@ -3,7 +3,6 @@ package com.fpt.router.web.action.staff.parser;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.artifacter.dao.RouteDAO;
-import com.fpt.router.artifacter.dao.StationDAO;
 import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.*;
 import com.fpt.router.web.action.common.PAGE;
@@ -12,8 +11,6 @@ import com.fpt.router.web.action.notification.route.RouteNofAddThread;
 import com.fpt.router.web.action.notification.trip.TripNofAddThread;
 import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.action.staff.comparer.CompareRoute;
-import com.fpt.router.web.action.staff.comparer.CompareStation;
-import com.fpt.router.web.action.staff.station.StationAddThread;
 import com.fpt.router.web.config.ApplicationContext;
 
 import java.io.File;
@@ -62,7 +59,7 @@ public class ParseSourceLocalAction extends StaffAction {
             // build station notification and processing thread add station notification
             /*List<StationNotification> stationVarious = compareStation.listStationVarious;
             System.out.println("Station Various Size: " + stationVarious.size());
-            StationAddThread stationAddThread = new StationAddThread(stationVarious);
+            StationNofAddThread stationAddThread = new StationNofAddThread(stationVarious);
             stationAddThread.run();*/
 
             List<Route> routesDB = buildRouteFull();

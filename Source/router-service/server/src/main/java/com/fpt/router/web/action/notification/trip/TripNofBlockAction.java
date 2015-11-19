@@ -1,15 +1,18 @@
-package com.fpt.router.web.action.notification;
+package com.fpt.router.web.action.notification.trip;
 
 import com.fpt.router.artifacter.config.Config;
+import com.fpt.router.artifacter.dao.TripNotificationDAO;
+import com.fpt.router.artifacter.model.entity.TripNotification;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.common.URL;
 import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.config.ApplicationContext;
 
 /**
- * Created by datnt on 11/6/2015.
+ * Created by datnt on 11/20/2015.
  */
-public class NofBlockAction extends StaffAction {
+public class TripNofBlockAction extends StaffAction {
 
     @Override
     public String execute(ApplicationContext context) {
@@ -32,23 +35,17 @@ public class NofBlockAction extends StaffAction {
             }
 
             if (nofId != -1) {
-                /*NofListVM nofListVM = (NofListVM) context.getSessionAttribute("nofListVM");
-
-                NotificationVM nofInActive = new NotificationVM();
-                for (int i = 0; i < nofListVM.getListNofActive().size(); i++) {
-                    if (nofListVM.getListNofActive().get(i).getId() == nofId) {
-                        nofInActive = nofListVM.getListNofActive().get(i);
-                        nofListVM.getListNofActive().remove(i);
-                        break;
-                    }
+                // change state
+                TripNotificationDAO dao = new TripNotificationDAO();
+                TripNotification tripNof = dao.read(nofId);
+                if (tripNof != null) {
+                    tripNof.setState(1);
+                    dao.update(tripNof);
                 }
-
-                nofListVM.getListNofInActive().add(nofInActive);*/
-
             }
         }
 
-        System.out.println("Done Block");
-        return Config.AJAX_FORMAT;
+        System.out.println("Done Block Trip Notification");
+        return Config.WEB.REDIRECT + URL.STAFF.NOF_TRIP_LIST;
     }
 }

@@ -109,6 +109,7 @@ public class CompareTrip {
                 tripNof.setTrip(this.tripDB);
                 tripNof.setTripNo(this.tripSource.getTripNo());
                 tripNof.setRouteNo(this.tripSource.getRoute().getRouteNo());
+                tripNof.setRouteType(this.tripSource.getRoute().getRouteType());
                 tripNof.setCreatedTime(new Date());
                 listTripNof.add(tripNof);
             }

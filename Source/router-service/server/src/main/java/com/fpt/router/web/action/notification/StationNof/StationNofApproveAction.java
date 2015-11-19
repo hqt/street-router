@@ -10,7 +10,7 @@ import com.fpt.router.artifacter.model.entity.StationNotification;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
 import com.fpt.router.web.action.staff.StaffAction;
-import com.fpt.router.web.action.util.NotificationUtils;
+import com.fpt.router.web.action.util.StationNofUtils;
 import com.fpt.router.web.config.ApplicationContext;
 
 import java.util.HashMap;
@@ -51,26 +51,26 @@ public class StationNofApproveAction extends StaffAction {
         }
 
          // retrieve content value from notification
-        String[] prefix = notification.split(":");
-        String[] content = prefix[1].split(",");
+        String[] content = notification.split(":");
+        String[] nof = content[1].split(",");
 
         Map<String, String> result = new HashMap<String, String>();
-        for (String str : content) {
-            NotificationUtils utils = new NotificationUtils(str);
+        for (String str : nof) {
+            StationNofUtils utils = new StationNofUtils(str);
             result.putAll(utils.reverse());
         }
         String name = null, street = null, lat = null, lon = null;
         for (Map.Entry<String, String> entry : result.entrySet()) {
-            if (entry.getKey().equals(NotificationUtils.KEY_STATION_NAME)) {
+            if (entry.getKey().equals(StationNofUtils.KEY_STATION_NAME)) {
                 name = entry.getValue();
             }
-            if (entry.getKey().equals(NotificationUtils.KEY_STATION_STREET)) {
+            if (entry.getKey().equals(StationNofUtils.KEY_STATION_STREET)) {
                 street = entry.getValue();
             }
-            if (entry.getKey().equals(NotificationUtils.KEY_STATION_LAT)) {
+            if (entry.getKey().equals(StationNofUtils.KEY_STATION_LAT)) {
                 lat = entry.getValue();
             }
-            if (entry.getKey().equals(NotificationUtils.KEY_STATION_LON)) {
+            if (entry.getKey().equals(StationNofUtils.KEY_STATION_LON)) {
                 lon = entry.getValue();
             }
         }

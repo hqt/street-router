@@ -1,5 +1,6 @@
 package com.fpt.router.artifacter.model.entity;
 
+import com.fpt.router.artifacter.model.helper.RouteType;
 import org.joda.time.LocalTime;
 
 import javax.persistence.*;
@@ -26,6 +27,9 @@ public class TripNotification extends Notification {
     @Column(name = "RouteNo", nullable = false)
     private int routeNo;
 
+    @Column(name = "RouteType", nullable = false)
+    private RouteType routeType;
+
     @Column(name = "TripNo", nullable = false)
     private int tripNo;
 /*
@@ -48,6 +52,14 @@ public class TripNotification extends Notification {
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
     }*/
+
+    public RouteType getRouteType() {
+        return routeType;
+    }
+
+    public void setRouteType(RouteType routeType) {
+        this.routeType = routeType;
+    }
 
     public int getTripNo() {
         return tripNo;

@@ -144,16 +144,21 @@ var TableTripNofManaged = function () {
 
             var nRow = $(this).parents('tr')[0];
 
+
             var nofId = nRow.childNodes[1].value.trim();
-            var nofStationId = nRow.childNodes[3].value.trim();
-            var nofStationNo = nRow.childNodes[7].textContent.trim();
-            var notification = nRow.childNodes[9].textContent.trim();
-            var urlApproveNof = "http://localhost:8080/notification/station/approve";
+            var tripId = nRow.childNodes[3].value.trim();
+            var tripNo = nRow.childNodes[5].value.trim();
+            var routeType = nRow.childNodes[7].value.trim();
+            var routeNo = nRow.childNodes[11].textContent.trim();
+            var notification = nRow.childNodes[13].textContent.trim();
+            var urlApproveNof = "http://localhost:8080/notification/trip/approve";
 
             $.post(urlApproveNof, {
                 nofId: nofId,
-                stationNo : nofStationNo,
-                stationId: nofStationId,
+                tripId: tripId,
+                tripNo: tripNo,
+                routeType: routeType,
+                routeNo: routeNo,
                 notification: notification
             });
             oTable.fnDeleteRow(nRow);
@@ -230,8 +235,6 @@ var TableTripNofManaged = function () {
                 "orderable": true
             }, {
                 "orderable": true
-            }, {
-                "orderable": false
             },{
                 "orderable": false
             }, {
@@ -256,26 +259,6 @@ var TableTripNofManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        table.on('click', '.block', function(e) {
-            e.preventDefault();
-
-            if(confirm("Are you sure to block this notification") == false) {
-                return;
-            }
-
-            var nRow = $(this).parents('tr')[0];
-
-            console.log("Sync backend for block notification");
-
-            var nofId = nRow.childNodes[1].value.trim();
-            var urlNofBlock = "http://localhost:8080/notification/station/block";
-            $.post(urlNofBlock, {
-                nofId: nofId
-            });
-
-            oTable.fnDeleteRow(nRow);
-        });
-
         table.on('click', '.delete', function(e) {
             e.preventDefault();
 
@@ -286,7 +269,7 @@ var TableTripNofManaged = function () {
             var nRow = $(this).parents('tr')[0];
 
             var nofId = nRow.childNodes[1].value.trim();
-            var urlNofDelete = "http://localhost:8080/notification/station/delete";
+            var urlNofDelete = "http://localhost:8080/notification/trip/delete";
 
             $.post(urlNofDelete, {
                 nofId: nofId
@@ -295,25 +278,6 @@ var TableTripNofManaged = function () {
             oTable.fnDeleteRow(nRow);
         });
 
-        table.on('click', '.approve', function(e) {
-            e.preventDefault(e);
-
-            var nRow = $(this).parents('tr')[0];
-
-            var nofId = nRow.childNodes[1].value.trim();
-            var nofStationId = nRow.childNodes[3].value.trim();
-            var nofStationNo = nRow.childNodes[7].textContent.trim();
-            var notification = nRow.childNodes[9].textContent.trim();
-            var urlApproveNof = "http://localhost:8080/notification/station/approve";
-
-            $.post(urlApproveNof, {
-                nofId: nofId,
-                stationNo : nofStationNo,
-                stationId: nofStationId,
-                notification: notification
-            });
-            oTable.fnDeleteRow(nRow);
-        })
     };
 
     return {

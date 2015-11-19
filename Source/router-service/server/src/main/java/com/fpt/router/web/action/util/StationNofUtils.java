@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * Created by datnt on 11/17/2015.
  */
-public class NotificationUtils {
+public class StationNofUtils {
 
     private String notification;
     public static final String KEY_STATION_NAME = "stationName";
@@ -17,7 +17,7 @@ public class NotificationUtils {
     public static final String KEY_STATION_LON = "stationLon";
     public Map<String, String> result;
 
-    public NotificationUtils(String notification) {
+    public StationNofUtils(String notification) {
         this.notification = notification;
         this.result = new HashMap<String, String>();
     }

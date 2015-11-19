@@ -77,8 +77,10 @@
                   <tbody>
                   <c:forEach var="item" items="${itemsActive.modelL}" varStatus="count">
                     <tr>
-                      <%--<input type="hidden" value="${items.nofId}"/>
-                      <input type="hidden" value="${items.stationId}"/>--%>
+                      <input type="hidden" value="${item.nofId}"/>
+                      <input type="hidden" value="${item.tripId}"/>
+                      <input type="hidden" value="${item.tripNo}"/>
+                      <input type="hidden" value="${item.routeType}"/>
                       <td>${count.count}</td>
                       <td>${item.routeNo}</td>
                       <td>
@@ -90,7 +92,7 @@
                         </a>
                       </td>
                       <td>
-                        <a href="${pageContext.request.contextPath}">
+                        <a href="${pageContext.request.contextPath}/notification/trip/block?nofId=${item.nofId}">
                           Block
                         </a>
                       </td>
@@ -111,28 +113,24 @@
                     <th>#</th>
                     <th>Route No</th>
                     <th>Notification</th>
-                    <th>Approve</th>
                     <th>Unblock</th>
                     <th>Delete</th>
                   </tr>
                   </thead>
                   <tbody>
-                  <c:forEach var="items" items="${itemsInActive.modelL}" varStatus="count">
+                  <c:forEach var="item" items="${itemsInActive.modelL}" varStatus="count">
                     <tr>
-                      <%--<input type="hidden" value="${items.nofId}"/>
-                      <input type="hidden" value="${items.stationId}"/>--%>
+                      <input type="hidden" value="${item.nofId}"/>
+                      <input type="hidden" value="${item.tripId}"/>
+                      <input type="hidden" value="${item.tripNo}"/>
+                      <input type="hidden" value="${item.routeType}"/>
                       <td>${count.count}</td>
-                      <td>${items.routeNo}</td>
+                      <td>${item.routeNo}</td>
                       <td>
-                          ${items.notification}
+                          ${item.notification}
                       </td>
                       <td>
-                        <a class="approve" href="javascript:;">
-                          Approve
-                        </a>
-                      </td>
-                      <td>
-                        <a href="">
+                        <a href="${pageContext.request.contextPath}/notification/trip/unblock?nofId=${item.nofId}">
                           UnBlock
                         </a>
                       </td>
