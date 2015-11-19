@@ -32,6 +32,7 @@ public class URL {
         public static final String NOF_STATION_BLOCK = "/notification/station/block";
         public static final String NOF_STATION_UNBLOCK = "/notification/station/unblock";
         public static final String NOF_STATION_DELETE = "/notification/station/delete";
+        public static final String NOF_TRIP_LIST = "/notification/trip/list";
 
         public static final String CONFIGURE = "/configuration";
         public static final String CONFIGURE_SOURCE = "/configuration/source";

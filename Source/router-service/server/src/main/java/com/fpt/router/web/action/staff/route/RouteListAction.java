@@ -1,6 +1,5 @@
 package com.fpt.router.web.action.staff.route;
 
-import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.web.action.common.AuthAction;

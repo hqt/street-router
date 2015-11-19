@@ -75,23 +75,22 @@ public class StationAddThread {
                 boolean canUpdate = false;
                 String changeName = existed.getChangeName();
                 if (changeName != null && !stationNof.getChangeName().equals(changeName)) {
-                    stationNof.setChangeName(existed.getChangeName());
                     canUpdate = true;
                 }
                 String changeStreet = existed.getChangeStreet();
                 if (changeStreet != null && !stationNof.getChangeStreet().equals(changeStreet)) {
-                    stationNof.setChangeStreet(existed.getChangeStreet());
                     canUpdate = true;
                 }
 
-                if (stationNof.getChangeLatitude() != existed.getChangeLatitude()) {
-                    stationNof.setChangeLatitude(existed.getChangeLatitude());
-                    canUpdate = true;
+                /*int compareLat = Double.compare(existed.getChangeLatitude(), stationNof.getChangeLatitude());
+                if (compareLat < 0) {
+                    System.out.println("This Lat oke: " + existed.getChangeLatitude() + " - " + stationNof.getChangeLatitude());
                 }
-                if (stationNof.getChangeLongitude() != existed.getChangeLongitude()) {
-                    stationNof.setChangeLongitude(existed.getChangeLongitude());
-                    canUpdate = true;
-                }
+
+                int compareLon = Double.compare(existed.getChangeLongitude(), stationNof.getChangeLatitude());
+                if (compareLon < 0) {
+                    System.out.println("This Long oke: " + existed.getChangeLatitude() + " - " + stationNof.getChangeLongitude());
+                }*/
 
                 if (canUpdate) {
                     System.out.println("Can update with code ID: " +this.stationNof.getStationCodeID());

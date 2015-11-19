@@ -22,6 +22,12 @@ public class TripNotification extends Notification {
 
     @Column(name = "ChangeEndTime", nullable = true)
     private LocalTime changeEndTime;
+
+    @Column(name = "RouteNo", nullable = false)
+    private int routeNo;
+
+    @Column(name = "TripNo", nullable = false)
+    private int tripNo;
 /*
     @OneToOne
     @JoinColumn(name = "NotificationID")
@@ -42,6 +48,22 @@ public class TripNotification extends Notification {
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
     }*/
+
+    public int getTripNo() {
+        return tripNo;
+    }
+
+    public void setTripNo(int tripNo) {
+        this.tripNo = tripNo;
+    }
+
+    public int getRouteNo() {
+        return routeNo;
+    }
+
+    public void setRouteNo(int routeNo) {
+        this.routeNo = routeNo;
+    }
 
     public LocalTime getChangeStartTime() {
         return changeStartTime;

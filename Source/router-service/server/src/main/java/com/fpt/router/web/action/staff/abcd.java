@@ -195,16 +195,15 @@ public class abcd {
         stationNotificationDAO.update(stationNotification);
         int a = 3;*/
         double f = 10.849804816682;
+
         double k = 10.841651662725;
+
         double a = 10.8498048166817;
-        double c = Math.ulp(a);
-        double g = Math.ulp(k);
-        System.out.println(c);
-        System.out.println(g);
-        if (c == g) {
-            System.out.println("Được đấy !");
-        }
-        int asd = 123;
+
+        int h = Double.compare(a, f);
+        int o = Double.compare(f, k);
+        System.out.println("fa: " + h);
+        System.out.println("fk: " +o);
     }
 
     public static List<Route> buildRouteFull() {

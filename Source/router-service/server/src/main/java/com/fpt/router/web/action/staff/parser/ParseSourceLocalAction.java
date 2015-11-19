@@ -8,6 +8,8 @@ import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.*;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.notification.route.RouteNofAddThread;
+import com.fpt.router.web.action.notification.trip.TripNofAddThread;
 import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.action.staff.comparer.CompareRoute;
 import com.fpt.router.web.action.staff.comparer.CompareStation;
@@ -49,17 +51,19 @@ public class ParseSourceLocalAction extends StaffAction {
             ParseExcelLocal parseExcelLocal = new ParseExcelLocal(mapSource, excelFolder);
             mapSource = parseExcelLocal.run();
 
+            int a = 3;
+
             // compare station source and database
-            StationDAO stationDAO = new StationDAO();
+            /*StationDAO stationDAO = new StationDAO();
             List<Station> stationsDB = stationDAO.findAll();
             CompareStation compareStation = new CompareStation(stationsDB, mapSource.getStations());
-            compareStation.run();
+            compareStation.run();*/
 
             // build station notification and processing thread add station notification
-            List<StationNotification> stationVarious = compareStation.listStationVarious;
+            /*List<StationNotification> stationVarious = compareStation.listStationVarious;
             System.out.println("Station Various Size: " + stationVarious.size());
             StationAddThread stationAddThread = new StationAddThread(stationVarious);
-            stationAddThread.run();
+            stationAddThread.run();*/
 
             List<Route> routesDB = buildRouteFull();
             // compare route between route from source and route from database.
@@ -70,12 +74,19 @@ public class ParseSourceLocalAction extends StaffAction {
             List<RouteNotification> routeVarious = compareRoute.listRouteNof;
             List<TripNotification> tripVarious = compareRoute.listTripNof;
 
-            //......
+            // under construction
+            // Implementing... Add Thread Route --> Done ---> waiting for testing...
+            RouteNofAddThread routeNofAddThread = new RouteNofAddThread(routeVarious);
+            routeNofAddThread.run();
 
+            // Implementing... Add Thread Trip --> Done ---> waiting testing.....
+            TripNofAddThread tripNofAddThread = new TripNofAddThread(tripVarious);
+            tripNofAddThread.run();
 
 
         } else {
-            message = "Path Json or Excel not available";
+            message = "Path Json or Excel is not available";
+            context.setAttribute("msgPathFolder", message);
             return Config.AJAX_FORMAT;
         }
 

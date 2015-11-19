@@ -12,6 +12,7 @@ import com.fpt.router.web.action.notification.StationNof.StationNofApproveAction
 import com.fpt.router.web.action.notification.StationNof.StationNofBlockAction;
 import com.fpt.router.web.action.notification.StationNof.StationNofDeleteAction;
 import com.fpt.router.web.action.notification.StationNof.StationNofListAction;
+import com.fpt.router.web.action.notification.trip.TripNofListAction;
 import com.fpt.router.web.action.staff.CompareMapAction;
 import com.fpt.router.web.action.staff.DetailRouteAction;
 import com.fpt.router.web.action.staff.DirectStaffPageAction;
@@ -95,6 +96,8 @@ public class ActionFactory implements IActionFactory {
             action = new StationNofDeleteAction();
         } else if (url.equals(URL.STAFF.NOF_STATION_APPROVE)) {
             action = new StationNofApproveAction();
+        } else if (url.equals(URL.STAFF.NOF_TRIP_LIST)) {
+            action = new TripNofListAction();
         } else if (url.equals(URL.STAFF.CONFIGURE)) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
             action = new DirectStaffPageAction();
