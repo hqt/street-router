@@ -66,7 +66,7 @@
               Station Notification</a>
           </li>
           <li>
-            <a href=""> <!-- here, not yet to change link to station -->
+            <a href="${pageContext.request.contextPath}/notification/trip/list"> <!-- here, not yet to change link to station -->
               <i class="icon-clock"></i>
               Timetable notification</a>
           </li>

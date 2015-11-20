@@ -15,16 +15,16 @@ import java.util.concurrent.TimeUnit;
  */
 public class CompareRoute {
 
-    private HashSet<Route> redudantRouteDB;
-    private HashSet<Route> redudantRouteSource;
+    private HashSet<Route> redundantRouteDB;
+    private HashSet<Route> redundantRouteSource;
     private List<Route> listRouteDB;
     private List<Route> listRouteSource;
     public List<RouteNotification> listRouteNof;
     public List<TripNotification> listTripNof;
 
     public CompareRoute(List<Route> listRouteDB, List<Route> listRouteSource) {
-        this.redudantRouteDB = new HashSet<Route>(listRouteDB);
-        this.redudantRouteSource = new HashSet<Route>(listRouteSource);
+        this.redundantRouteDB = new HashSet<Route>(listRouteDB);
+        this.redundantRouteSource = new HashSet<Route>(listRouteSource);
         this.listRouteDB = listRouteDB;
         this.listRouteSource = listRouteSource;
         this.listRouteNof = new ArrayList<RouteNotification>();
@@ -32,25 +32,24 @@ public class CompareRoute {
     }
 
     public void run() {
-        redudant();
+        redundant();
         processRouteThread();
-        int a = 3;
     }
 
-    protected void redudant() {
+    protected void redundant() {
         HashSet<Route> hsTotal = new HashSet<Route>();
-        hsTotal.addAll(redudantRouteDB);
-        hsTotal.addAll(redudantRouteSource);
+        hsTotal.addAll(redundantRouteDB);
+        hsTotal.addAll(redundantRouteSource);
 
-        hsTotal.removeAll(redudantRouteDB);
-        redudantRouteSource.removeAll(hsTotal);
-        redudantRouteDB.removeAll(redudantRouteSource);
+        hsTotal.removeAll(redundantRouteDB);
+        redundantRouteSource.removeAll(hsTotal);
+        redundantRouteDB.removeAll(redundantRouteSource);
 
-        redudantRouteSource = hsTotal;
+        redundantRouteSource = hsTotal;
 
         // split list route
-        this.listRouteDB.removeAll(redudantRouteDB);
-        this.listRouteSource.removeAll(redudantRouteSource);
+        this.listRouteDB.removeAll(redundantRouteDB);
+        this.listRouteSource.removeAll(redundantRouteSource);
 
     }
 
@@ -150,11 +149,12 @@ public class CompareRoute {
 
             if (canAdd) {
                 routeNof.setRoute(routeDB);
+                routeNof.setRouteNo(routeSource.getRouteNo());
                 routeNof.setCreatedTime(new Date());
                 listRouteNof.add(routeNof);
             }
 
-            // test thread
+            // If you see this comment again, it's mean you have to test thread trip inside route thread.
         }
     }
 }

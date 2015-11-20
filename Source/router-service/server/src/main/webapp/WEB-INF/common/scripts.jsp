@@ -38,6 +38,7 @@
 <script src="../../assets/admin/pages/scripts/components-pickers.js"></script>
 <script src="../../static/js/index.js"></script>
 <script src="../../static/js/tableNofStation.js"></script>
+<script src="../../static/js/tableNofTrip.js"></script>
 <script>
   jQuery(document).ready(function() {
     Metronic.init(); // init metronic core components
@@ -47,6 +48,7 @@
     ComponentsPickers.init();
     TableManaged.init();
     TableStationNofManaged.init();
+    TableTripNofManaged.init();
   });
 </script>
 <!-- END PAGE LEVEL SCRIPTS -->

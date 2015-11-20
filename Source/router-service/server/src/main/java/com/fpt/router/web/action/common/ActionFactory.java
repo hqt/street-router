@@ -7,11 +7,8 @@ import com.fpt.router.web.action.admin.StaffListAction;
 import com.fpt.router.web.action.admin.StaffUpdateAction;
 import com.fpt.router.web.action.api.MultiPointAction;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
-import com.fpt.router.web.action.notification.NofUnblockAction;
-import com.fpt.router.web.action.notification.StationNof.StationNofApproveAction;
-import com.fpt.router.web.action.notification.StationNof.StationNofBlockAction;
-import com.fpt.router.web.action.notification.StationNof.StationNofDeleteAction;
-import com.fpt.router.web.action.notification.StationNof.StationNofListAction;
+import com.fpt.router.web.action.notification.StationNof.*;
+import com.fpt.router.web.action.notification.trip.*;
 import com.fpt.router.web.action.staff.CompareMapAction;
 import com.fpt.router.web.action.staff.DetailRouteAction;
 import com.fpt.router.web.action.staff.DirectStaffPageAction;
@@ -90,11 +87,21 @@ public class ActionFactory implements IActionFactory {
         } else if (url.equals(URL.STAFF.NOF_STATION_BLOCK)) {
             action = new StationNofBlockAction();
         } else if (url.equals(URL.STAFF.NOF_STATION_UNBLOCK)) {
-            action = new NofUnblockAction();
+            action = new StationNofUnBlockAction();
         } else if (url.equals(URL.STAFF.NOF_STATION_DELETE)) {
             action = new StationNofDeleteAction();
         } else if (url.equals(URL.STAFF.NOF_STATION_APPROVE)) {
             action = new StationNofApproveAction();
+        } else if (url.equals(URL.STAFF.NOF_TRIP_LIST)) {
+            action = new TripNofListAction();
+        } else if (url.equals(URL.STAFF.NOF_TRIP_APPROVE)) {
+            action = new TripNofApproveAction();
+        } else if (url.equals(URL.STAFF.NOF_TRIP_BLOCK)) {
+            action = new TripNofBlockAction();
+        } else if (url.equals(URL.STAFF.NOF_TRIP_UNBLOCK)) {
+            action = new TripNofUnBlockAction();
+        } else if (url.equals(URL.STAFF.NOF_TRIP_DELETE)) {
+            action = new TripNofDeleteAction();
         } else if (url.equals(URL.STAFF.CONFIGURE)) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
             action = new DirectStaffPageAction();

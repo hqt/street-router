@@ -47,9 +47,12 @@
         <url-pattern>/notification/station/approve</url-pattern>
         <url-pattern>/notification/station/delete</url-pattern>
         <url-pattern>/notification/station/block</url-pattern>
-        <url-pattern>/notification/unblock</url-pattern>
-        <url-pattern>/notification/delete</url-pattern>
-        <url-pattern>/notification/approve</url-pattern>
+        <url-pattern>/notification/station/unblock</url-pattern>
+        <url-pattern>/notification/trip/list</url-pattern>
+        <url-pattern>/notification/trip/approve</url-pattern>
+        <url-pattern>/notification/trip/block</url-pattern>
+        <url-pattern>/notification/trip/unblock</url-pattern>
+        <url-pattern>/notification/trip/delete</url-pattern>
 
         <url-pattern>/configuration</url-pattern>
         <url-pattern>/configuration/source</url-pattern>

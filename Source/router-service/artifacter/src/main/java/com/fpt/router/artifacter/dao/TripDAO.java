@@ -58,8 +58,22 @@ public class TripDAO extends JPADaoImpl<Trip, Integer> {
 
         // 2.delete trip
         delete(trip);
+    }
 
-        int a = 3;
+    public Trip readTripByRouteAndNo(Route route, int tripNo) {
+        String tripHQL = "select t from Trip t where t.route = :route and t.tripNo= :tripNo";
+        Query query = createEntityManager().createQuery(tripHQL);
+        query.setParameter("route", route);
+        query.setParameter("tripNo", tripNo);
+
+        Trip trip;
+        try {
+            trip = (Trip) query.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Cannot get Single Result at TripDAO line 73");
+            trip = null;
+        }
+        return trip;
     }
 
 }
