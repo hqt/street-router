@@ -13,7 +13,7 @@ public class TripListVM {
     private List<TripVM> tripVMList;
 
     public TripListVM(List<Trip> trips) {
-        this.tripVMList = new ArrayList<>();
+        this.tripVMList = new ArrayList<TripVM>();
         for (Trip trip : trips) {
             this.tripVMList.add(new TripVM(trip));
         }

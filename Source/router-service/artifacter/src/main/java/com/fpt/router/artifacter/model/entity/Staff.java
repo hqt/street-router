@@ -1,5 +1,6 @@
 package com.fpt.router.artifacter.model.entity;
 
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * Created by Huynh Quang Thao on 11/8/15.
  */
 @Entity
-@Table(name = "Staff")
+@Table(name = "Account")
 public class Staff implements IEntity {
 
     @GeneratedValue

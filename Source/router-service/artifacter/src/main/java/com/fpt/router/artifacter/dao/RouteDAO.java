@@ -3,6 +3,7 @@ package com.fpt.router.artifacter.dao;
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.algorithm.PathInfo;
 import com.fpt.router.artifacter.model.entity.Route;
+import com.fpt.router.artifacter.model.helper.RouteType;
 import com.fpt.router.artifacter.utils.PaginationUtils;
 
 import javax.persistence.EntityManager;
@@ -30,11 +31,18 @@ public class RouteDAO extends JPADaoImpl<Route, Integer> {
         return getEntityManager().createQuery("from " + entityClass.getName()).getResultList().subList(0, 10);
     }
 
-    public Route getRoutebyRouteNo(int routeNo) {
-        String hql = "select r from Route r where r.routeNo= :routeNo";
+    public Route getRoutebyRouteNo(int routeNo, RouteType routeType) {
+        String hql = "select r from Route r where r.routeNo= :routeNo and r.routeType= :routeType";
         Query query = createEntityManager().createQuery(hql);
         query.setParameter("routeNo", routeNo);
-        Route route = (Route) query.getSingleResult();
+        query.setParameter("routeType", routeType);
+        Route route;
+        try {
+            route = (Route) query.getSingleResult();
+        } catch (Exception ex) {
+            System.out.println("Not Return Unique Route at line 41 class RouteDAO");
+            route = null;
+        }
         createEntityManager().close();
         return route;
     }

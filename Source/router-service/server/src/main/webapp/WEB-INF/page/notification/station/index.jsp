@@ -17,7 +17,8 @@
 <div class="container">
   <div class="page-container">
 
-    <c:set var="stationNofs" value="${requestScope.stationNofList}" scope="request"/>
+    <c:set var="activeStaNofItems" value="${requestScope.activeStaNofItems}" scope="request"/>
+    <c:set var="blockStaNofItems" value="${requestScope.blockStaNofItems}" scope="request"/>
 
     <c:import url="../../../common/sidebar.jsp"/>
     <c:import url="content.jsp"/>

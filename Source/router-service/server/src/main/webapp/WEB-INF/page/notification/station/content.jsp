@@ -75,8 +75,10 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="items" items="${stationNofs.modelL}" varStatus="count">
+                                    <c:forEach var="items" items="${activeStaNofItems.modelL}" varStatus="count">
                                         <tr>
+                                            <input type="hidden" value="${items.nofId}"/>
+                                            <input type="hidden" value="${items.stationId}"/>
                                             <td>${count.count}</td>
                                             <td>${items.codeId}</td>
                                             <td>
@@ -88,8 +90,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a class="unblock" href="javascript:;">
-                                                    Unblock
+                                                <a href="${pageContext.request.contextPath}/notification/station/block?nofId=${items.nofId}">
+                                                    Block
                                                 </a>
                                             </td>
                                             <td>
@@ -103,37 +105,35 @@
                                 </table>
                             </div>
                             <div class="tab-pane fade" id="tab2">
-                                <table class="table table-striped table-bordered table-hover text-center" id="">
-                                    <%--<thead>
+                                <table class="table table-striped table-bordered table-hover text-center" id="stationNofInActive">
+                                    <thead>
                                     <tr>
                                         <th>#</th>
                                         <th>Code</th>
-                                        <th>Change Name </th>
-                                        <th>Change Street </th>
-                                        <th>Change Latitude </th>
-                                        <th>Change Longitude </th>
+                                        <th>Notification</th>
                                         <th>Approve</th>
                                         <th>Unblock</th>
                                         <th>Delete</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach var="items" items="${stationNofList.modelList}" varStatus="count">
+                                    <c:forEach var="items" items="${blockStaNofItems.modelL}" varStatus="count">
                                         <tr>
+                                            <input type="hidden" value="${items.nofId}"/>
+                                            <input type="hidden" value="${items.stationId}"/>
                                             <td>${count.count}</td>
                                             <td>${items.codeId}</td>
-                                            <td>${items.changeName}</td>
-                                            <td>${items.changeStreet}</td>
-                                            <td>${items.changeLatitude}</td>
-                                            <td>${items.changeLongitude}</td>
+                                            <td>
+                                                    ${items.notification}
+                                            </td>
                                             <td>
                                                 <a class="approve" href="javascript:;">
                                                     Approve
                                                 </a>
                                             </td>
                                             <td>
-                                                <a class="unblock" href="javascript:;">
-                                                    Unblock
+                                                <a href="">
+                                                    UnBlock
                                                 </a>
                                             </td>
                                             <td>
@@ -143,7 +143,7 @@
                                             </td>
                                         </tr>
                                     </c:forEach>
-                                    </tbody>--%>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

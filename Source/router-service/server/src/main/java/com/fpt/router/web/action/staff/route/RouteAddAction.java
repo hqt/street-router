@@ -61,7 +61,7 @@ public class RouteAddAction implements IAction {
 
         if (done) {
             RouteDAO routeDAO = new RouteDAO();
-            Route routeDetail = routeDAO.getRoutebyRouteNo(route.getRouteNo());
+            Route routeDetail = routeDAO.getRoutebyRouteNo(route.getRouteNo(), RouteType.valueOf(routeType.toUpperCase()));
             if (routeDetail != null) {
                 int routeId = routeDetail.getRouteId();
                 return Config.WEB.REDIRECT + "/route/detail" + "?routeId=" + routeId;

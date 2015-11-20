@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.*;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -86,10 +87,17 @@ public class ParseExcelLocal {
                     Row nextRow = sheet.getRow(i);
                     try {
                         trip.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
-                        trip.setStartTime(timeUtils.convertExcelDate(nextRow.getCell(1).getDateCellValue()));
-                        trip.setEndTime(timeUtils.convertExcelDate(nextRow.getCell(2).getDateCellValue()));
+                        // remember test case: test trip no with cell null
+                        Date excelStartTime = nextRow.getCell(1).getDateCellValue();
+                        if (excelStartTime != null) {
+                            trip.setStartTime(timeUtils.convertExcelDate(excelStartTime));
+                        }
+                        Date excelEndTime = nextRow.getCell(2).getDateCellValue();
+                        if (excelEndTime != null) {
+                            trip.setEndTime(timeUtils.convertExcelDate(excelEndTime));
+                        }
                     } catch (Exception ex) {
-                        System.out.println("Wrong Excel Template");
+                        System.out.println(file.getName() + " is wrong Excel Template at " +i);
                         continue;
                     }
                     trip.setRoute(route);

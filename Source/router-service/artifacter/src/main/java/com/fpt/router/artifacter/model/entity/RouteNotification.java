@@ -17,6 +17,9 @@ public class RouteNotification extends Notification {
     @Column(name = "ChangeRouteName", nullable = true)
     private String changeRouteName;
 
+    @Column(name = "RouteNo", nullable = false)
+    private int routeNo;
+
    /* @OneToOne
     @JoinColumn(name = "NotificationID")
     private Notification notification;*/
@@ -36,6 +39,14 @@ public class RouteNotification extends Notification {
     public void setNotificationId(int notificationId) {
         this.notificationId = notificationId;
     }*/
+
+    public int getRouteNo() {
+        return routeNo;
+    }
+
+    public void setRouteNo(int routeNo) {
+        this.routeNo = routeNo;
+    }
 
     public String getChangeRouteName() {
         return changeRouteName;

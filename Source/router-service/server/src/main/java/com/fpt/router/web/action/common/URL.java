@@ -28,10 +28,15 @@ public class URL {
 
         public static final String COMPARE = "/compare";
         public static final String NOF_STATION_LIST = "/notification/station/list";
-        public static final String NOF_BLOCK = "/notification/block";
-        public static final String NOF_UNBLOCK = "/notification/unblock";
-        public static final String NOF_DELETE = "/notification/delete";
-        public static final String NOF_APPROVE = "/notification/approve";
+        public static final String NOF_STATION_APPROVE = "/notification/station/approve";
+        public static final String NOF_STATION_BLOCK = "/notification/station/block";
+        public static final String NOF_STATION_UNBLOCK = "/notification/station/unblock";
+        public static final String NOF_STATION_DELETE = "/notification/station/delete";
+        public static final String NOF_TRIP_LIST = "/notification/trip/list";
+        public static final String NOF_TRIP_APPROVE = "/notification/trip/approve";
+        public static final String NOF_TRIP_BLOCK = "/notification/trip/block";
+        public static final String NOF_TRIP_UNBLOCK = "/notification/trip/unblock";
+        public static final String NOF_TRIP_DELETE = "/notification/trip/delete";
 
         public static final String CONFIGURE = "/configuration";
         public static final String CONFIGURE_SOURCE = "/configuration/source";

@@ -283,7 +283,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
 
-        SearchLocationDAL.deleteSearchLocation();
+        // SearchLocationDAL.deleteSearchLocation();
 
         /*handlerThread.removeCallbacks(whatMyName);
         handlerThread.post(whatMyName);*/

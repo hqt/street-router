@@ -6,6 +6,7 @@ import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm;
 import com.fpt.router.artifacter.algorithm.TwoPointAlgorithm.SearchType;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.MapDAL;
+import com.fpt.router.artifacter.dao.StaffDAO;
 import com.fpt.router.artifacter.dao.common.JPADaoImpl;
 import com.fpt.router.artifacter.model.algorithm.CityMap;
 import com.fpt.router.artifacter.model.helper.Location;
@@ -41,6 +42,8 @@ public class AlgorithmTest {
         JPADaoImpl.enableStaticEntityManager();
         CityMap map = MapDAL.readDatabase();
         JPADaoImpl.disableStaticEntityManager();
+
+        new StaffDAO().findStaffByEmail("a", "a");
         JPADaoImpl.closeFactory();
 
         LocalTime time = new LocalTime(8, 30, 0);

@@ -34,6 +34,7 @@ public class PAGE {
 
     public static class NOTIFICATION {
         public static final String STATION_LIST = Config.WEB.PAGE + "/notification/station/index.jsp";
+        public static final String TRIP_LIST = Config.WEB.PAGE + "/notification/trip/index.jsp";
     }
 
 }

@@ -42,7 +42,7 @@ public class ParseData {
             int y = 0;
             int i = 0;
             StationDAO stationDAO = new StationDAO();
-            List<PathInfo> pathInfoList = new ArrayList<>();
+            List<PathInfo> pathInfoList = new ArrayList<PathInfo>();
             while (cols.hasNext()) {
                 JsonNode col = cols.next();
                 Iterator<JsonNode> items = col.getElements();

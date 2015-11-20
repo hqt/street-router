@@ -6,10 +6,15 @@ import com.fpt.router.web.action.staff.comparer.CompareRoute;
 import com.fpt.router.web.action.staff.parser.ParseExcelLocal;
 import com.fpt.router.web.action.staff.parser.ParseJsonLocal;
 import com.fpt.router.web.action.util.PasswordUtils;
+import org.joda.time.LocalTime;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -179,23 +184,63 @@ public class abcd {
     }
 
     public static void main(String args[]) {
+        StationNotificationDAO stationNotificationDAO = new StationNotificationDAO();
+        /*StationNotification stationNotification = new StationNotification();
+        stationNotification.setChangeName("asdsa");
+        stationNotification.setStationCodeID("QTDT073");
+        stationNotification.setCreatedTime(new Date());
+        Station sta = new Station();
+        sta.setStationId(1);
+        stationNotification.setStation(sta);
+        stationNotificationDAO.create(stationNotification);*/
 
-        StationNotificationDAO dao = new StationNotificationDAO();
-        List<StationNotification> entityList = dao.findAll();
-        if (entityList != null && !entityList.isEmpty()) {
-            // convert entity to model
-            /*StationListNofVM modelList = new StationListNofVM(entityList);
-            System.out.println(modelList.modelList.size());*/
-            // assign request attribute
-        } else {
-            System.out.println("Shit here");
+        /*StationNotification stationNotification = stationNotificationDAO.readByCode("Q5T023");
+        stationNotificationDAO.update(stationNotification);
+        int a = 3;*/
+//thành (\d+:\d+ [A|P])
+        String notification = "Có thay đổi: thời gian khởi hành từ 8:17 AM thành 8:30 AM, thời gian đến trạm từ 8:44 PM thành 8:55 PM";
+        Pattern p = Pattern.compile("thời gian khởi hành từ ((\\d+:\\d+) [A|P]M) thành ((\\d+:\\d+) [A|P]M)", Pattern.UNICODE_CHARACTER_CLASS);
+        Pattern p1 = Pattern.compile(", thời gian đến trạm từ ((\\d+:\\d+) [A|P]M) thành ((\\d+:\\d+) [A|P]M)", Pattern.UNICODE_CHARACTER_CLASS);
+        Matcher m = p.matcher(notification);
+        Matcher m1 = p1.matcher(notification);
+        if (m.find()) {
+            System.out.println("WTF");
         }
+        if (m1.find()) {
+            System.out.println("WWW");
+        }
+        int a = 3;
+    }
 
+    public String convertLocalTimeToString(LocalTime localTime) {
+        Date date = localTime.toDateTimeToday().toDate();
+        String patternTime = "h:mm a";
+        SimpleDateFormat simpleTime = new SimpleDateFormat(patternTime);
+        return simpleTime.format(date);
+    }
+
+    public LocalTime parseTimeFromClient(String timeClient) {
+        String patternTime = "h:mm a";
+        SimpleDateFormat simpleTime = new SimpleDateFormat(patternTime);
+        int hour = -1;
+        int minute = -1;
+
+        try {
+            Date d = simpleTime.parse(timeClient);
+            hour = d.getHours();
+            minute = d.getMinutes();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (hour != -1 && minute != -1) {
+            return new LocalTime(hour, minute);
+        }
+        return null;
     }
 
     public static List<Route> buildRouteFull() {
 
-        List<Route> result = new ArrayList<>();
+        List<Route> result = new ArrayList<Route>();
 
         RouteDAO routeDAO = new RouteDAO();
         TripDAO tripDAO = new TripDAO();
