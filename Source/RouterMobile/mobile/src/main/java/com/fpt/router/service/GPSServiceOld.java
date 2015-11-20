@@ -297,7 +297,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         if(isTrueWay) {
             if (listLatLngToCheck != null) {
                 isTrueWay = PolyLineUtils.isLocationOnEdgeOrPath(checkPoint, listLatLngToCheck,
-                        true, true, 50);
+                        true, true, 5);
             }
         }
         if(isTrueWay) {

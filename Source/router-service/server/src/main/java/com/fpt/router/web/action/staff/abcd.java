@@ -194,7 +194,7 @@ public class abcd {
         /*StationNotification stationNotification = stationNotificationDAO.readByCode("Q5T023");
         stationNotificationDAO.update(stationNotification);
         int a = 3;*/
-        double f = 10.849804816682;
+        /*double f = 10.849804816682;
         double k = 10.841651662725;
         double a = 10.8498048166817;
         double c = Math.ulp(a);
@@ -204,7 +204,11 @@ public class abcd {
         if (c == g) {
             System.out.println("Được đấy !");
         }
-        int asd = 123;
+        int asd = 123;*/
+
+        StaffDAO staffDAO = new StaffDAO();
+        Staff staff = staffDAO.findStaffByEmail("huynhquangthao@gmail.com");
+        int a = 3;
     }
 
     public static List<Route> buildRouteFull() {

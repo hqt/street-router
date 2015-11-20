@@ -11,12 +11,11 @@ import javax.persistence.Query;
  * Created by Huynh Quang Thao on 11/8/15.
  */
 public class StaffDAO extends JPADaoImpl<Staff, Integer> {
-
-    public Staff findStaffByEmail(String email, String password) {
-        String hql = "select s from Staff s where s.staffEmail= :staffEmail and s.password= :password";
+// 16449c760b5d61e0ba28514b3738a1af
+    public Staff findStaffByEmail(String email) {
+        String hql = "select s from Staff as s where s.staffEmail= :staffEmail1";
         Query query = createEntityManager().createQuery(hql);
-        query.setParameter("staffEmail", email);
-        query.setParameter("password", password);
+        query.setParameter("staffEmail1", email);
         Staff staff;
         try {
             staff = (Staff) query.getSingleResult();

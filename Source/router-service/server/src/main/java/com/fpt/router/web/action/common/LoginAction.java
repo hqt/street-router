@@ -28,7 +28,7 @@ public class LoginAction implements IAction {
         // read staff and check staff already exist
         PasswordUtils passwordUtils = new PasswordUtils();
         StaffDAO staffDAO = new StaffDAO();
-        Staff staff = staffDAO.findStaffByEmail(emailParam, passwordUtils.md5(password));
+        Staff staff = staffDAO.findStaffByEmail(emailParam);
 
         if (staff != null) {
             context.setSessionAttribute("user", staff);
