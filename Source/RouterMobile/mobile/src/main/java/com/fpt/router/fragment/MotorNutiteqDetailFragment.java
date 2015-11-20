@@ -114,6 +114,8 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             listStep.addAll(listFinalLeg.get(n).getSteps());
             listLatLngToCheck.addAll(DecodeUtils.decodePoly(listFinalLeg.get(n).getOverview_polyline()));
         }
+
+        GPSServiceOld.setListStepToCheck(listStep);
         GPSServiceOld.setListLatLngToCheck(listLatLngToCheck);
         GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
         GPSServiceOld.setListNotify(getNotifyList());
@@ -266,7 +268,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
             listNotifies.add(notifyModel);
         }
-        modifyNotifyList(listNotifies);
+        //modifyNotifyList(listNotifies);
         return listNotifies;
     }
 

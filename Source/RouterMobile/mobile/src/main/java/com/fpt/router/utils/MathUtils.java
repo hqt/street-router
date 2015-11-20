@@ -59,6 +59,9 @@ public class MathUtils {
                 (P.longitude - A.longitude) * (B.latitude - A.latitude)) / normalLength;
     }
 
-
-
+    public static double checkSide(LatLng head, LatLng tail, LatLng point) {
+        double check = (tail.latitude - head.latitude) * (point.longitude - head.longitude)
+                - (point.latitude - head.latitude) * (tail.longitude - point.longitude);
+        return check;
+    }
 }
