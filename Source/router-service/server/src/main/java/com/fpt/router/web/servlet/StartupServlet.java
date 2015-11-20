@@ -23,10 +23,10 @@ public class StartupServlet extends HttpServlet {
     public void init() throws ServletException {
         System.out.println("----------");
         System.out.println("Loading Database zzzz");
-        /*JPADaoImpl.enableStaticEntityManager();
+        JPADaoImpl.enableStaticEntityManager();
         map = MapDAL.readDatabase();
         System.out.println("station size: " + map.stations.size());
-        JPADaoImpl.disableStaticEntityManager();*/
+        JPADaoImpl.disableStaticEntityManager();
 
         /*Route route = new Route();
         route.setRouteId(5);
@@ -34,8 +34,8 @@ public class StartupServlet extends HttpServlet {
         tripDAO.getTripsByRoute(route);
         int a = 3;*/
 
-        StaffDAO staffDAO = new StaffDAO();
-        new StationNotificationDAO().readByCode("af");
+        //StaffDAO staffDAO = new StaffDAO();
+        //new StationNotificationDAO().readByCode("af");
         //Staff staff = staffDAO.findStaffByEmail("huynhquangthao@gmail.com");
         int a = 3;
         /*new StaffDAO().findStaffByEmail("a", "a");*/

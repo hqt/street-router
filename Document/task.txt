@@ -1,0 +1,54 @@
+
+Use case:
+---------------------
+Nam:
+	Wear:
+		show map xe buyt
+		show map motor
+		Notify 
+	Mobile:
+		autocomplete (history)
+		notify dung duong
+		notify sai duong
+		voice
+		show result (bus and motor)
+		chuyen mode
+
+Ngoan
+	download autio file
+	search xe buyt, xe may
+	setting
+	tim kiem vi tri hien tai
+
+
+Manual
+---------------------
+
+Sequence / activity diagram
+-----------------------------------
+
+Nam:
+	notify
+	auto complete
+	voice
+	show result
+	wear show map
+
+Ngoan
+	download audio file
+	search xe buyt xe may
+	tim kiem vi tri hien tai
+
+
+Algorithm:
+--------------
+Dat:
+	xe buyt: 2  diem. 4 diem. 4 diem optimize
+Nam:
+	sai duong
+	notify
+Ngoan:
+	xu li result xe may
+	xu li result xe buyt
+Thao:
+	raptor
