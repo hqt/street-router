@@ -68,7 +68,9 @@ public class ApplicationContext {
         Part filePart = null;
         try {
             filePart = request.getPart(parameter);
-        } catch (IOException | ServletException e) {
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ServletException e) {
             e.printStackTrace();
         }
         return filePart;

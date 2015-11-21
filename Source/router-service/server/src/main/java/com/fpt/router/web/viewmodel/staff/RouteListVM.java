@@ -54,14 +54,14 @@ public class RouteListVM {
     }
 
     public void convertEntityToModel(List<Route> routes) {
-        routeListVMs = new ArrayList<>();
+        routeListVMs = new ArrayList<RouteVM>();
         for (Route route : routes) {
             routeListVMs.add(new RouteVM(route));
         }
     }
 
     public void convertAlgorithmToModel(List<com.fpt.router.artifacter.model.algorithm.Route> routes) {
-        routeListVMs = new ArrayList<>();
+        routeListVMs = new ArrayList<RouteVM>();
         for (com.fpt.router.artifacter.model.algorithm.Route route : routes) {
             routeListVMs.add(new RouteVM(route));
         }

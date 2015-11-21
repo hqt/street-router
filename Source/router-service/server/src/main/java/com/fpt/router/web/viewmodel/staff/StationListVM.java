@@ -25,7 +25,7 @@ public class StationListVM {
     }
 
     public StationListVM(List<Station> stations) {
-        stationListVM = new ArrayList<>();
+        stationListVM = new ArrayList<StationVM>();
         for (Station s : stations) {
             stationListVM.add(new StationVM(s));
         }

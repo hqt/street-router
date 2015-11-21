@@ -30,14 +30,17 @@ import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.utils.SoundUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
+import com.fpt.router.utils.MathUtils;
 import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 import com.nutiteq.core.MapPos;
 import com.nutiteq.datasources.LocalVectorDataSource;
@@ -85,13 +88,34 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+        LatLng tail = new LatLng(10.855090, 106.628394);
+        LatLng head = new LatLng(10.843451, 106.641122);
+        LatLng check = new LatLng(10.844035, 106.638083);
+
+        double test = MathUtils.checkSide(head, tail, check);
+        String checkSide;
+        if(test > 0) {
+            checkSide = "trái";
+        } else if (test < 0) {
+            checkSide = "phải";
+        } else {
+            checkSide = "giữa";
+        }
+
+        Log.e("Test duong:", checkSide);
+        //Test polyline
+        /*List<LatLng> test = new ArrayList<>();
+        test.add(new LatLng(10.855090, 106.628394));
+        test.add(new LatLng(10.845036, 106.638695));
+        LatLng point = new LatLng(10.845953, 106.637370);
+        double distance = PolyLineUtils.distanceToLine(point, test.get(0), test.get(1));
+        boolean cc = PolyLineUtils.isLocationOnEdgeOrPath(point, test, true, true, 10);*/
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -259,7 +283,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         mOrientationManager.addOnChangedListener(this);
         mOrientationManager.start();
 
-        SearchLocationDAL.deleteSearchLocation();
+        // SearchLocationDAL.deleteSearchLocation();
 
         /*handlerThread.removeCallbacks(whatMyName);
         handlerThread.post(whatMyName);*/
@@ -335,9 +359,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         local.setLatitude(location.getLatitude());
         local.setLongitude(location.getLongitude());
         if (marker == null) {
-            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+            marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, getResources(),
                     latitude, longitude, R.drawable.marker_cua_nam_burned);
-
+            vectorDataSource.add(marker);
         } else {
             markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
@@ -432,9 +456,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             ng_markerPos = mapView.getOptions().getBaseProjection().fromWgs84(
                     new MapPos(location.getLongitude(), location.getLatitude()));
             if (ng_marker == null) {
-                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, vectorDataSource, getResources(),
+                ng_marker = NutiteqMapUtil.drawCurrentMarkerNutiteq(mapView, getResources(),
                         latitude, longitude, R.drawable.ng_marker);
-
+                vectorDataSource.add(ng_marker);
             } else {
                 ng_marker.setPos(ng_markerPos);
             }

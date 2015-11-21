@@ -28,7 +28,7 @@ public class StaffListAction extends AdminAction {
         StaffVM s5 = new StaffVM(5, "Huỳnh Quang Thảo", "thaohq68901", "thaohq68901@gmail.com", "khongcopass", "42543765873");
         StaffVM s6 = new StaffVM(6, "Hà Kim Quy", "quyhk68217", "datntse60980@gmail.com", "khongcopass", "4727362778");
 
-        List<StaffVM> staffVMs = new ArrayList<>();
+        List<StaffVM> staffVMs = new ArrayList<StaffVM>();
         staffVMs.add(s1);
         staffVMs.add(s2);
         staffVMs.add(s3);

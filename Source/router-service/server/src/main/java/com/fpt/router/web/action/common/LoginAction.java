@@ -28,17 +28,20 @@ public class LoginAction implements IAction {
         // read staff and check staff already exist
         PasswordUtils passwordUtils = new PasswordUtils();
         StaffDAO staffDAO = new StaffDAO();
-        Staff staff = staffDAO.findStaffByEmail(emailParam, passwordUtils.md5(password));
+        Staff staff = staffDAO.findStaffByEmail(emailParam);
 
         if (staff != null) {
             context.setSessionAttribute("user", staff);
             /*path = path.substring(1, path.length());*/
+            if (path.equals(URL.COMMON.LOGIN)) {
+                return Config.WEB.REDIRECT + URL.COMMON.ROUTE_LIST;
+            }
             return Config.WEB.REDIRECT + path;
         } else {
             msg = "This account is not exist!";
             context.setAttribute("msg", msg);
         }
 
-        return Config.AJAX_FORMAT;
+        return Config.WEB.REDIRECT + URL.COMMON.ROUTE_LIST;
     }
 }

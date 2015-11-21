@@ -64,7 +64,7 @@ public class NutiteqMapUtil {
         com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
         MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
         markerStyleBuilder.setBitmap(markerBitmap);
-        //markerStyleBuilder.setHideIfOverlapped(false);
+        markerStyleBuilder.setHideIfOverlapped(false);
         markerStyleBuilder.setSize(size);
         MarkerStyle sharedMarkerStyle = markerStyleBuilder.buildStyle();
 
@@ -75,7 +75,7 @@ public class NutiteqMapUtil {
         return marker;
     }
 
-    public static Marker drawCurrentMarkerNutiteq(MapView mapView, LocalVectorDataSource vectorDataSource, Resources res, Double lat, Double lng, int icon) {
+    public static Marker drawCurrentMarkerNutiteq(MapView mapView, Resources res, Double lat, Double lng, int icon) {
         Bitmap androidMarkerBitmap = BitmapFactory.decodeResource(res, icon);
         com.nutiteq.graphics.Bitmap markerBitmap = BitmapUtils.createBitmapFromAndroidBitmap(androidMarkerBitmap);
         MarkerStyleBuilder markerStyleBuilder = new MarkerStyleBuilder();
@@ -90,7 +90,6 @@ public class NutiteqMapUtil {
         MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
         int i = 1;
         Marker marker = new Marker(markerPos,sharedMarkerStyle);
-        vectorDataSource.add(marker);
         return marker;
     }
 

@@ -18,12 +18,11 @@ public class NofStationVM {
     public String notification;
 
     public void buildNotification() {
-
         String name = (changeName == null ? "" : "tên trạm " + changeName + ", ");
         String street = (changeStreet == null ? "" : "tên đường " + changeStreet + ", ");
-        String lat =  (latitude == 0.0 ? "" : ("vĩ độ thành "  + latitude + ", "));
-        String longti = (longitude == 0.0 ? "" : ("kinh độ thành " + longitude));
-        this.notification = "Có thay đổi " + name  + street
+        String lat =  (latitude == 0.0 ? "" : ("vĩ độ "  + latitude + ", "));
+        String longti = (longitude == 0.0 ? "" : ("kinh độ " + longitude));
+        this.notification = "Có thay đổi: " + name  + street
                  + lat + longti;
     }
 

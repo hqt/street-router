@@ -12,8 +12,12 @@ public class NofStationListVM {
 
     public List<NofStationVM> modelL;
 
+    public NofStationListVM() {
+        this.modelL = new ArrayList<NofStationVM>();
+    }
+
     public NofStationListVM(List<StationNotification> entityL) {
-        this.modelL = new ArrayList<>();
+        this.modelL = new ArrayList<NofStationVM>();
         for (StationNotification entity : entityL) {
             NofStationVM model = new NofStationVM(entity);
             model.buildNotification();
