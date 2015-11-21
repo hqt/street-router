@@ -55,18 +55,18 @@
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:gravity="left|top"
-            android:paddingLeft="25dp"
             android:minHeight="50dp"
+            android:paddingLeft="25dp"
             android:textColor="#212121"
             android:textSize="15sp"
             android:textStyle="normal" />
 
 
         <LinearLayout
+            android:id="@+id/linearSubTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="25dp"
-            android:id="@+id/linearSubTitle"
             android:orientation="horizontal">
 
             <ImageView

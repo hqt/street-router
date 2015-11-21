@@ -35,7 +35,7 @@ android:background="@drawable/wallpaper">
 <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Ngoan Tran"
+    android:text="Capstone Project Team"
     android:textSize="18sp"
     android:textStyle="normal"
     android:padding="5dp"

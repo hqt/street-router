@@ -296,7 +296,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                 @Override
                 public void onGlobalLayout() {
                     edit_1.getViewTreeObserver().addOnGlobalLayoutListener(this);
-                    viewHeight = edit_1.getHeight() + 20;
+                    viewHeight = edit_1.getHeight() + 10;
                     edit_1.getLayoutParams();
                     edit_1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
@@ -464,13 +464,13 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         super.onActivityResult(requestCode, resultCode, data);
         if ((data != null) && (requestCode == 3)) {
             optimize = data.getBooleanExtra("optimize", true);
-            if(mapLocation.size() > 2){
+            if (mapLocation.size() > 2) {
                 img_expand_1.setVisibility(View.VISIBLE);
                 changeImageButton.setVisibility(View.GONE);
                 linear_middle_1.setVisibility(View.GONE);
                 linear_middle_2.setVisibility(View.GONE);
             }
-            if(mapLocation.size() < 3){
+            if (mapLocation.size() < 3) {
                 img_expand_1.setVisibility(View.GONE);
                 changeImageButton.setVisibility(View.VISIBLE);
                 linear_middle_1.setVisibility(View.GONE);
@@ -506,7 +506,6 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     private void swapFromAndTo() {
         AutocompleteObject obj1 = mapLocation.get(SearchField.FROM_LOCATION);
         AutocompleteObject obj2 = mapLocation.get(SearchField.TO_LOCATION);
-
         if (obj2 != null) {
             mapLocation.put(SearchField.FROM_LOCATION, obj2);
         }
