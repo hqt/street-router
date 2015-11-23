@@ -21,7 +21,6 @@ import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.fragment.MotorNutiteqDetailFragment;
 import com.fpt.router.framework.PrefStore;
-import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.FPT_SERVICE;
 import com.fpt.router.library.config.AppConstants.FileCache;
 import com.fpt.router.library.model.bus.Journey;
@@ -32,15 +31,14 @@ import com.fpt.router.library.utils.NotificationUtils;
 import com.fpt.router.library.utils.SoundUtils;
 import com.fpt.router.library.utils.cache.DiskLruSoundCache;
 import com.fpt.router.library.utils.StringUtils;
-import com.fpt.router.service.GPSService;
 import com.fpt.router.service.GPSServiceOld;
 import com.fpt.router.utils.NetworkUtils;
+import com.fpt.router.utils.NotifyUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.wearable.Wearable;
-import com.nutiteq.ui.MapEventListener;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -215,12 +213,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     }
 
     public void onEventMainThread(String event) {
-        Toast.makeText(SearchDetailActivity.this, event, Toast.LENGTH_SHORT).show();
-        if(isPlaySound) {
-            SoundUtils.playSoundFromAsset(SearchDetailActivity.this, "ban-dang-di-sai-duong.wav");
-        }
-        NotificationUtils.run(SearchDetailActivity.this, "Sai đường", event,
-                "Bạn đang đi sai đường", "Xin tham khảo bản đồ để biết thêm");
+        NotifyUtils.notifyUnderRequest(event, SearchDetailActivity.this, isPlaySound);
     }
 
     @Override
