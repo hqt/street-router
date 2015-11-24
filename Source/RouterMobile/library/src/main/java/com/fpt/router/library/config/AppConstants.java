@@ -77,7 +77,7 @@ public class AppConstants {
     }
 
     public static class SearchBus {
-        public static boolean IS_REAL_BUS_SERVER = true;
+        public static boolean IS_REAL_BUS_SERVER = false;
         public static boolean IS_USED_REAL_WALKING = true;
     }
 
@@ -90,4 +90,5 @@ public class AppConstants {
 
     public static int DISTANCE_DEMO = 0;
     public static float ALPHA = 0.1f;
+    public static double CHECK_DISTANCE = 20;
 }

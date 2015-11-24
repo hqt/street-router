@@ -1,22 +1,30 @@
 package com.fpt.router.fragment;
 
+import android.app.ProgressDialog;
 import android.content.res.Resources;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import com.fpt.router.R;
+import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.activity.SearchRouteActivity;
+import com.fpt.router.adapter.ErrorMessageAdapter;
+import com.fpt.router.adapter.MotorAdapter;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
 import com.fpt.router.library.config.AppConstants;
+import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.motorbike.Leg;
 import com.fpt.router.library.model.motorbike.Step;
 import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.service.GPSServiceOld;
+import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
+import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
 import com.fpt.router.widget.SlidingUpPanelLayout;
 import com.google.android.gms.common.ConnectionResult;
@@ -38,6 +46,9 @@ import com.nutiteq.utils.AssetUtils;
 import com.nutiteq.vectorelements.Marker;
 import com.nutiteq.vectorelements.NMLModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,13 +62,16 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         SlidingUpPanelLayout.PanelSlideListener {
 
+    private SearchDetailActivity activity;
     private GoogleApiClient mGoogleApiClient;
     private Marker now;
     int position;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
+    List<Leg> listLegFake = new ArrayList<>();
     List<Step> listStep = new ArrayList<>();
     List<Leg> listFinalLeg = new ArrayList<>();
     private RouteItemAdapter adapterItem;
+    private String status;
     LocalVectorDataSource vectorDataSource;
     VectorLayer vectorLayer;
     Resources rs;
@@ -97,7 +111,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             }
         }
         //Get list legs fake to fake line
-        List<Leg> listLegFake = new ArrayList<>();
         if(SearchRouteActivity.mapLocation.size() == 2) {
             listLegFake.add(listLeg.get(position+1));
         } else if (SearchRouteActivity.mapLocation.size() == 3) {
@@ -109,17 +122,11 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 listLegFake.add(listLeg.get(n));
             }
         }
-        List<LatLng> listLatLngToCheck = new ArrayList<>();
         for(int n = 0; n < listFinalLeg.size(); n ++) {
             listStep.addAll(listFinalLeg.get(n).getSteps());
-            listLatLngToCheck.addAll(DecodeUtils.decodePoly(listFinalLeg.get(n).getOverview_polyline()));
         }
 
-        GPSServiceOld.setListStepToCheck(listStep);
-        GPSServiceOld.setListLatLngToCheck(listLatLngToCheck);
-        GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
-        GPSServiceOld.setListNotify(getNotifyList());
-        adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
+
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/
@@ -148,6 +155,10 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     }
 
     private void drawMap() {
+        GPSServiceOld.setListLegToCheck(listFinalLeg);
+        GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
+        GPSServiceOld.setListNotify(getNotifyList());
+        adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
         if(SearchRouteActivity.mapLocation.size() == 2) {
             NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
 
@@ -160,6 +171,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
                     R.drawable.orange_small, 20);
         }
+        
     }
 
     private void drawFakeLine(List<Leg> input) {
@@ -374,4 +386,79 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         }
     }
 
+    class JSONParseTask extends AsyncTask<String, String, List<Leg>> {
+        private ProgressDialog pDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(activity);
+            pDialog.setMessage("Getting Data ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.setCanceledOnTouchOutside(false);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected List<Leg> doInBackground(String... args) {
+            List<Leg> listLeg = new ArrayList<>();
+            String json;
+            String url;
+            List<AutocompleteObject> locationAutoCompletes = new ArrayList<>();
+            locationAutoCompletes.add(new AutocompleteObject(args[0], ""));
+            locationAutoCompletes.add(new AutocompleteObject(args[1], ""));
+            url = GoogleAPIUtils.getTwoPointDirection(locationAutoCompletes.get(0), locationAutoCompletes.get(1));
+            json = NetworkUtils.download(url);
+            try {
+                JSONObject jsonObject = new JSONObject(json);
+                status = jsonObject.getString("status");
+                if ((status.equals("NOT_FOUND")) || status.equals("ZERO_RESULTS") || status.equals("OVER_QUERY_LIMIT")) {
+                    return null;
+                } else {
+                    int duration = 0;
+                    double distance = 0;
+                    List<Step> steps = new ArrayList<Step>();
+                    listLeg = JSONParseUtils.getListLegWithTwoPoint(json);
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return listLeg;
+        }
+
+        @Override
+        protected void onPostExecute(List<Leg> listLeg) {
+            if (pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
+
+            if (status.equals("NOT_FOUND")) {
+                return;
+            }
+
+            if (status.equals("ZERO_RESULTS")) {
+                return;
+            }
+
+            if (status.equals("OVER_QUERY_LIMIT")) {
+                return;
+            }
+            if(listLeg.size() > 1) {
+                for (int x = 0; x < listLeg.size() - 1; x++) {
+                    for (int y = x+1; y < listLeg.size(); y++) {
+                        if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
+                            Leg leg = listLeg.get(x);
+                            listLeg.set(x, listLeg.get(y));
+                            listLeg.set(y, leg);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -30,12 +30,14 @@ import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.message.LocationMessage;
+import com.fpt.router.library.utils.DecodeUtils;
 import com.fpt.router.library.utils.SoundUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.MathUtils;
 import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
+import com.fpt.router.utils.PolyLineUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -95,27 +97,19 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 .addOnConnectionFailedListener(this)
                 .build();
         LatLng tail = new LatLng(10.855090, 106.628394);
-        LatLng head = new LatLng(10.843451, 106.641122);
-        LatLng check = new LatLng(10.844035, 106.638083);
-
-        double test = MathUtils.checkSide(head, tail, check);
-        String checkSide;
-        if(test > 0) {
-            checkSide = "trái";
-        } else if (test < 0) {
-            checkSide = "phải";
-        } else {
-            checkSide = "giữa";
+        LatLng head = new LatLng(10.852888, 106.629283);
+        LatLng check = new LatLng(10.853508, 106.629125);
+        double distance = PolyLineUtils.distanceToLine(check, tail, head);
+        Log.e("Distance", "" + distance);
+        boolean isOnRoute = PolyLineUtils.isOnRoute(tail, head, check, 20);
+        if(isOnRoute) {
+            Log.e("NAM", "On Route");
         }
 
-        Log.e("Test duong:", checkSide);
-        //Test polyline
-        /*List<LatLng> test = new ArrayList<>();
-        test.add(new LatLng(10.855090, 106.628394));
-        test.add(new LatLng(10.845036, 106.638695));
-        LatLng point = new LatLng(10.845953, 106.637370);
-        double distance = PolyLineUtils.distanceToLine(point, test.get(0), test.get(1));
-        boolean cc = PolyLineUtils.isLocationOnEdgeOrPath(point, test, true, true, 10);*/
+        Integer a = 14, b = 14;
+        System.out.println(a == b);
+        Integer c = 256, d = 256;
+        System.out.println(c == d);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

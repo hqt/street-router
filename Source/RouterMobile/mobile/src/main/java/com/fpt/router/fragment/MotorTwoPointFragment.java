@@ -101,7 +101,7 @@ public class MotorTwoPointFragment extends Fragment {
         }
     }
 
-    private class JSONParseTask extends AsyncTask<String, String, List<Leg>> {
+    class JSONParseTask extends AsyncTask<String, String, List<Leg>> {
         private ProgressDialog pDialog;
 
         @Override
