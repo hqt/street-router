@@ -223,6 +223,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     }
 
     public void onEventMainThread(LocationMessage event) {
+        if(GPSServiceOld.getIsTrueWay()) {
+            wrongwayButton.setVisibility(View.INVISIBLE);
+        } else {
+            wrongwayButton.setVisibility(View.VISIBLE);
+        }
         onLocationChanged(event.location);
     }
 
@@ -236,8 +241,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
     public void onEventMainThread(LatLng event) {
         wrongWay = event;
-        wrongwayButton.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public void onConnected(Bundle bundle) {
