@@ -1,6 +1,7 @@
 package com.fpt.router.fragment;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,8 +12,6 @@ import android.widget.AdapterView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.activity.SearchRouteActivity;
-import com.fpt.router.adapter.ErrorMessageAdapter;
-import com.fpt.router.adapter.MotorAdapter;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
 import com.fpt.router.library.config.AppConstants;
@@ -68,8 +67,8 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     int position;
     List<Leg> listLeg = SearchRouteActivity.listLeg;
     List<Leg> listLegFake = new ArrayList<>();
-    List<Step> listStep = new ArrayList<>();
     List<Leg> listFinalLeg = new ArrayList<>();
+    List<Step> listStep = new ArrayList<>();
     private RouteItemAdapter adapterItem;
     private String status;
     LocalVectorDataSource vectorDataSource;
@@ -98,35 +97,12 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         position = (int) getArguments().getSerializable("position");
         rs = getResources();
 
-        /** start get list step and show  */
-        if(SearchRouteActivity.mapLocation.size() == 2) {
-            listFinalLeg.add(listLeg.get(position));
-        } else if (SearchRouteActivity.mapLocation.size() == 3) {
-            for(int n = position*2; n < position*2+2; n++) {
-                listFinalLeg.add(listLeg.get(n));
-            }
-        } else {
-            for(int n = position*3; n < position*3+3; n++) {
-                listFinalLeg.add(listLeg.get(n));
-            }
-        }
-        //Get list legs fake to fake line
-        if(SearchRouteActivity.mapLocation.size() == 2) {
-            listLegFake.add(listLeg.get(position+1));
-        } else if (SearchRouteActivity.mapLocation.size() == 3) {
-            for(int n = (position+1)*2; n < (position+1)*2+2; n++) {
-                listLegFake.add(listLeg.get(n));
-            }
-        } else {
-            for(int n = (position+1)*3; n < (position+1)*3+3; n++) {
-                listLegFake.add(listLeg.get(n));
-            }
-        }
-        for(int n = 0; n < listFinalLeg.size(); n ++) {
-            listStep.addAll(listFinalLeg.get(n).getSteps());
-        }
-
-
+        vectorDataSource = new LocalVectorDataSource(baseProjection);
+        // Initialize a vector layer with the previous data source
+        vectorLayer = new VectorLayer(vectorDataSource);
+        // Add the previous vector layer to the map
+        mapView.getLayers().add(vectorLayer);
+        setUpMap(listLeg);
 
         mListView.addHeaderView(mTransparentHeaderView);
        /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/
@@ -145,25 +121,30 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        vectorDataSource = new LocalVectorDataSource(baseProjection);
-        // Initialize a vector layer with the previous data source
-        vectorLayer = new VectorLayer(vectorDataSource);
-        // Add the previous vector layer to the map
-        mapView.getLayers().add(vectorLayer);
-        drawFakeLine(listLegFake);
-        drawMap();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.activity = (SearchDetailActivity) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.activity = null;
     }
 
     private void drawMap() {
-        GPSServiceOld.setListLegToCheck(listFinalLeg);
-        GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
-        GPSServiceOld.setListNotify(getNotifyList());
-        adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
-        if(SearchRouteActivity.mapLocation.size() == 2) {
+        drawFakeLine(listLegFake);
+        if(listFinalLeg.size() == 1) {
             NutiteqMapUtil.drawMapWithTwoPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
-
         } else {
             NutiteqMapUtil.drawMapWithFourPoint(mapView, vectorDataSource, rs, baseProjection, listFinalLeg);
+        }
+        for(int n = 0; n < listFinalLeg.size(); n ++) {
+            listStep.addAll(listFinalLeg.get(n).getSteps());
         }
         for(int n = 0; n < listStep.size(); n++) {
             NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, rs,
@@ -171,22 +152,70 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
                     R.drawable.orange_small, 20);
         }
-        
+        adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
+        GPSServiceOld.setListLegToCheck(listFinalLeg);
+        GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
+        GPSServiceOld.setListNotify(getNotifyList());
+    }
+
+    private void setUpMap(List<Leg> listL) {
+        if(SearchRouteActivity.mapLocation.size() == 2) {
+            listFinalLeg.add(listL.get(position));
+        } else if (SearchRouteActivity.mapLocation.size() == 3) {
+            for(int n = position*2; n < position*2+2; n++) {
+                listFinalLeg.add(listL.get(n));
+            }
+        } else {
+            for(int n = position*3; n < position*3+3; n++) {
+                listFinalLeg.add(listL.get(n));
+            }
+        }
+        //Get list legs fake to fake line
+        if(SearchRouteActivity.mapLocation.size() == 2) {
+            listLegFake.add(listL.get(position+1));
+        } else if (SearchRouteActivity.mapLocation.size() == 3) {
+            for(int n = (position+1)*2; n < (position+1)*2+2; n++) {
+                listLegFake.add(listL.get(n));
+            }
+        } else {
+            for(int n = (position+1)*3; n < (position+1)*3+3; n++) {
+                listLegFake.add(listL.get(n));
+            }
+        }
+        drawMap();
     }
 
     private void drawFakeLine(List<Leg> input) {
         for(int n = 0; n < input.size(); n++) {
             List<LatLng> listLL = DecodeUtils.decodePoly(input.get(n).getOverview_polyline());
             NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listLL, baseProjection, 6);
-
         }
+    }
+
+    @Override
+    public void setUpMapAgain(LatLng input) {
+        vectorDataSource.removeAll();
+        if(model != null) {
+            vectorDataSource.add(model);
+        }
+        listStep = new ArrayList<>();
+        String currentPosition = input.latitude + "," + input.longitude;
+        int currentLeg = GPSServiceOld.getCheckLegIndex();
+        String toPosition = listFinalLeg.get(currentLeg).getEndAddress();
+        for(int i = 0; i <= currentLeg; i++) {
+            listFinalLeg.remove(0);
+            listLegFake.remove(0);
+        }
+        JSONParseTask jsonParseTask = new JSONParseTask();
+        jsonParseTask.execute(currentPosition, toPosition);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         // In case Google Play services has since become available.
-        drawMap();
+        //setUpMap(listLeg);
     }
 
     @Override
@@ -227,7 +256,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     }
 
-    int icon = R.drawable.marker_cua_nam_burned;
     @Override
     public void drawCurrentLocation(Double lat, Double lng) {
         /*MapPos markerPos = mapView.getOptions().getBaseProjection().fromWgs84(new MapPos(lng, lat));
@@ -255,8 +283,12 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     @Override
     public List<LatLng> getFakeGPSList() {
-        List<LatLng> listFakeGPS = getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
-        return listFakeGPS;
+        if(listFinalLeg != null) {
+            List<LatLng> listFakeGPS = getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
+            return listFakeGPS;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -282,37 +314,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         }
         //modifyNotifyList(listNotifies);
         return listNotifies;
-    }
-
-
-    private List<NotifyModel> modifyNotifyList(List<NotifyModel> notifyModelList) {
-        List<LatLng> listFakeGPS = getFakeGPSList();
-        int notifyIndex = 0;
-        for(int n = 0; n < listFakeGPS.size(); n++) {
-            if (notifyIndex < notifyModelList.size() - 1) {
-                LatLng startLatLng = new LatLng(notifyModelList.get(notifyIndex).location.getLatitude(),
-                        notifyModelList.get(notifyIndex).location.getLongitude());
-                LatLng endLatLng = new LatLng(notifyModelList.get(notifyIndex + 1).location.getLatitude(),
-                        notifyModelList.get(notifyIndex + 1).location.getLongitude());
-                if (calculateDistance(listFakeGPS.get(n), endLatLng) < 50) {
-                    notifyIndex++;
-                } else if ((calculateDistance(listFakeGPS.get(n), startLatLng) >= 1000) &&
-                        (calculateDistance(listFakeGPS.get(n), endLatLng) >= 1000)) {
-                    com.fpt.router.library.model.common.Location location =
-                            new com.fpt.router.library.model.common.Location(
-                                    listFakeGPS.get(n).latitude,
-                                    listFakeGPS.get(n).longitude);
-                    String smallTittle = "Tiếp tục đi thẳng";
-                    String longTittle = "Thông tin chi tiết";
-                    String smallMessage = "Xin tiếp tục đi thẳng trên con đường hiện tại";
-                    String longMessage = "";
-                    NotifyModel notifyModel = new NotifyModel(location, smallTittle, longTittle, smallMessage, longMessage);
-                    notifyModelList.add(notifyIndex +1, notifyModel);
-                    notifyIndex++;
-                }
-            }
-        }
-        return notifyModelList;
     }
 
     class SendToDataLayerThread extends Thread {
@@ -432,7 +433,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         }
 
         @Override
-        protected void onPostExecute(List<Leg> listLeg) {
+        protected void onPostExecute(List<Leg> listLegs) {
             if (pDialog.isShowing()) {
                 pDialog.dismiss();
             }
@@ -448,17 +449,25 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             if (status.equals("OVER_QUERY_LIMIT")) {
                 return;
             }
-            if(listLeg.size() > 1) {
-                for (int x = 0; x < listLeg.size() - 1; x++) {
-                    for (int y = x+1; y < listLeg.size(); y++) {
-                        if (listLeg.get(y).getDetailLocation().getDuration() < listLeg.get(x).getDetailLocation().getDuration()) {
-                            Leg leg = listLeg.get(x);
-                            listLeg.set(x, listLeg.get(y));
-                            listLeg.set(y, leg);
+            if(listLegs.size() > 1) {
+                for (int x = 0; x < listLegs.size() - 1; x++) {
+                    for (int y = x+1; y < listLegs.size(); y++) {
+                        if (listLegs.get(y).getDetailLocation().getDuration() < listLegs.get(x).getDetailLocation().getDuration()) {
+                            Leg leg = listLegs.get(x);
+                            listLegs.set(x, listLegs.get(y));
+                            listLegs.set(y, leg);
                         }
                     }
                 }
             }
+
+            listFinalLeg.add(0, listLegs.get(0));
+            if(listLegs.size() > 1) {
+                listLegFake.add(0, listLegs.get(1));
+            }
+            drawMap();
+            DataMap dataMap = new DataMap();
+            new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_MOTOR, dataMap).start();
         }
     }
 }

@@ -27,8 +27,6 @@ import com.fpt.router.library.model.bus.Journey;
 import com.fpt.router.library.model.bus.Result;
 import com.fpt.router.library.model.common.NotifyModel;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.utils.NotificationUtils;
-import com.fpt.router.library.utils.SoundUtils;
 import com.fpt.router.library.utils.cache.DiskLruSoundCache;
 import com.fpt.router.library.utils.StringUtils;
 import com.fpt.router.service.GPSServiceOld;
@@ -38,6 +36,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 
 import java.io.UnsupportedEncodingException;
@@ -59,7 +58,9 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     boolean isFakeGPS = false;
     boolean isPlaySound = false;
 
+    LatLng wrongWay;
 
+    ImageButton wrongwayButton;
     ImageButton soundButton;
     ImageButton buttonHidenSound;
     ImageButton fakeGPSButton ;
@@ -84,6 +85,8 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        wrongwayButton = (ImageButton) findViewById(R.id.btn_wrong_way);
+        wrongwayButton.setVisibility(View.INVISIBLE);
         soundButton = (ImageButton) findViewById(R.id.btn_get_sound);
         buttonHidenSound = (ImageButton) findViewById(R.id.btn_hide_get_sound);
         fakeGPSButton = (ImageButton) findViewById(R.id.btn_fake_gps);
@@ -113,6 +116,21 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
                 FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
                 fragmentNutiteq = MotorNutiteqDetailFragment.newInstance(position);
                 trans.add(R.id.fragment, fragmentNutiteq);
+                wrongwayButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        fragmentNutiteq.setUpMapAgain(wrongWay);
+                        isPlaySound = false;
+                        isFakeGPS = false;
+                        GPSServiceOld.isPlaySound = isPlaySound;
+                        GPSServiceOld.turnOffFakeGPS();
+                        soundButton.setVisibility(View.GONE);
+                        buttonHidenSound.setVisibility(View.VISIBLE);
+                        buttonHideFakeGPS.setVisibility(View.VISIBLE);
+                        fakeGPSButton.setVisibility(View.GONE);
+                        wrongwayButton.setVisibility(View.INVISIBLE);
+                    }
+                });
                 trans.commit();
                 test(fragmentNutiteq, PrefStore.getMotorNotifyDistance());
             }
@@ -214,6 +232,11 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
 
     public void onEventMainThread(String event) {
         NotifyUtils.notifyUnderRequest(event, SearchDetailActivity.this, isPlaySound);
+    }
+
+    public void onEventMainThread(LatLng event) {
+        wrongWay = event;
+        wrongwayButton.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -66,7 +66,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     LatLng checkDis;
     // flag for GPS status
     boolean isGPSEnabled = false;
-    boolean isTrueWay = true;
+    static boolean isTrueWay = true;
 
     // flag for network status
     boolean isNetworkEnabled = false;
@@ -83,6 +83,10 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static void setListNotify(List<NotifyModel> listNotify) {
         GPSServiceOld.listNotify = listNotify;
         initializeState();
+    }
+
+    public static int getCheckLegIndex() {
+        return checkLegIndex;
     }
 
     public static void setDistance(int input) {
@@ -103,6 +107,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     private static void initializeState() {
         // reset all state variables
         //GPSServiceOld.listStepToCheck = null;
+        GPSServiceOld.isTrueWay = true;
+        GPSServiceOld.checkLegIndex = 0;
         GPSServiceOld.checkStepIndex = 0;
         GPSServiceOld.fakeGPSIndex = 0;
         GPSServiceOld.stepIndex = 0;
@@ -334,6 +340,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                 }
             }
         } else {
+            bus.post(checkPoint);
             if (timeSaiduong == 0) {
                 timeSaiduong = calendar.getTimeInMillis();
                 bus.post("saiduong");
@@ -351,7 +358,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                         checkLegIndex = n;
                         notifyIndex = m;
                         checkStepIndex = m;
-                        stepIndex = (m + 1) % listNotify.size();
+                        stepIndex = (m + 1) % listStepToCheck.size();
                         timeDithang = calendar.getTimeInMillis();
                         isTrueWay = true;
                         break;
@@ -369,11 +376,13 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
         // get gps. when come to end list. back to top list and re-run again :)
         if (isFakeGPS) {
-            location.setLatitude(fakeGPSList.get(fakeGPSIndex).latitude);
+            /*location.setLatitude(fakeGPSList.get(fakeGPSIndex).latitude);
             location.setLongitude(fakeGPSList.get(fakeGPSIndex).longitude);
-            //location.setLatitude(listFakeGPSOfFake.get(fakeGPSIndex).latitude);
-            //location.setLongitude(listFakeGPSOfFake.get(fakeGPSIndex).longitude);
-            fakeGPSIndex = (fakeGPSIndex + 1) % fakeGPSList.size();
+            fakeGPSIndex = (fakeGPSIndex + 1) % fakeGPSList.size();*/
+
+            location.setLatitude(listFakeGPSOfFake.get(fakeGPSIndex).latitude);
+            location.setLongitude(listFakeGPSOfFake.get(fakeGPSIndex).longitude);
+            fakeGPSIndex = (fakeGPSIndex + 1) % listFakeGPSOfFake.size();
         }
 
         // notify when near some location

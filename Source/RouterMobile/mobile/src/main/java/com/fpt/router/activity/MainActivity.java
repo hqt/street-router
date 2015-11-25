@@ -106,11 +106,6 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             Log.e("NAM", "On Route");
         }
 
-        Integer a = 14, b = 14;
-        System.out.println(a == b);
-        Integer c = 256, d = 256;
-        System.out.println(c == d);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
