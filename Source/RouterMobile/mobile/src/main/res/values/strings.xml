@@ -59,6 +59,12 @@
         <item>Khoảng cách</item>
     </string-array>
 
+    <string-array name="stimulate_route_type">
+        <item>Không mô phỏng</item>
+        <item>Mô phỏng</item>
+        <item>Mô phỏng đường sai</item>
+    </string-array>
+
     <string-array name="transfer_turn_arrays">
         <item>1 lượt</item>
         <item>2 lượt</item>
