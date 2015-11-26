@@ -24,7 +24,7 @@ public class NutiteqMapBaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nutiteq_map);
+        setContentView(R.layout.activity_nutiteq_map_test);
 
         com.nutiteq.utils.Log.setShowDebug(true);
         com.nutiteq.utils.Log.setShowInfo(true);

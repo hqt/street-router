@@ -1,41 +1,45 @@
 package com.fpt.router.activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
 import com.fpt.router.activity.base.VectorMapBaseActivity;
-import com.fpt.router.dal.SearchLocationDAL;
 import com.fpt.router.framework.OrientationManager;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.BusLocation;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.message.LocationMessage;
-import com.fpt.router.library.utils.SoundUtils;
 import com.fpt.router.utils.GoogleAPIUtils;
 import com.fpt.router.utils.JSONParseUtils;
 import com.fpt.router.utils.MathUtils;
 import com.fpt.router.utils.NetworkUtils;
 import com.fpt.router.utils.NutiteqMapUtil;
+import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -61,8 +65,9 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         GoogleApiClient.OnConnectionFailedListener,
         GoogleApiClient.ConnectionCallbacks, OnChangedListener {
     DrawerLayout mDrawerLayout;
+
     private FloatingActionButton fabMap;
-    private FloatingActionButton fab;
+    private FloatingActionButton fab_setting;
     private FloatingActionButton fab_compass;
     private FloatingActionButton fab_gps;
     private Marker now;
@@ -80,6 +85,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
     ImageButton ng_btn_close;
     public static boolean flatGPS = false;
     public static boolean isTrackingSearchLocation = false; // field location is not search
+    private ImageButton image_voice;
     //Test sensor
 
     private OrientationManager mOrientationManager;
@@ -126,6 +132,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
 
         txtSearchLocation = (TextView) findViewById(R.id.txtSearchLocation);
         ng_btn_close = (ImageButton) findViewById(R.id.btn_close);
+        image_voice = (ImageButton) findViewById(R.id.img_voice);
         //Make DrawerLayout
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
@@ -166,20 +173,15 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 Intent intent;
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_item_help:
-                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.navigation_item_reference:
-                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Chức năng này đang được phát triển.", Toast.LENGTH_LONG).show();
                         return true;
                     case R.id.navigation_item_setting:
                         intent = new Intent(MainActivity.this, SettingActivity.class);
                         startActivity(intent);
                         return true;
-                    case R.id.navigation_item_history:
-                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
-                        return true;
-                    case R.id.navigation_item_close_service:
-                        Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
+                    case R.id.navigation_item_developer:
+                        intent = new Intent(MainActivity.this,DeveloperSettingActivity.class);
+                        startActivity(intent);
                         return true;
                     default:
                         Toast.makeText(MainActivity.this, menuItem.getTitle(), Toast.LENGTH_SHORT).show();
@@ -199,7 +201,17 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 startActivityForResult(intent, 2);// Activity is started with requestCode 2
             }
         });
-        //float button
+        /** search with voice*/
+        image_voice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, VoiceRecordActivity.class);
+                startActivity(intent);
+            }
+        });
+        /**
+         * go to search sreen
+         */
         fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
         fabMap.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -207,11 +219,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     Intent intent = new Intent(MainActivity.this, SearchRouteActivity.class);
 
-                    LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE );
+                    LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-                    if((statusOfGPS == true)&&(!SearchRouteActivity.flat_check_edittext_1)){
+                    if ((statusOfGPS == true) && (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION)) == null) {
                         flatGPS = true;
-                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION,null);
+                        SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
                     }
                     startActivity(intent);
                     return true;
@@ -220,20 +232,44 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             }
         });
 
+        /** menu floating */
+        final FrameLayout frameLayout  = (FrameLayout) findViewById(R.id.frame_layout);
+        frameLayout.getBackground().setAlpha(0);
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) findViewById(R.id.fab_menu);
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                frameLayout.getBackground().setAlpha(240);
+                frameLayout.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        fabMenu.collapse();
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                frameLayout.getBackground().setAlpha(0);
+                frameLayout.setOnTouchListener(null);
+            }
+        });
+
+        /** menu floating set some option */
         fab_gps = (FloatingActionButton) findViewById(R.id.fab_gps);
         fab_compass = (FloatingActionButton) findViewById(R.id.fab_compass);
-        fab_compass.setVisibility(View.GONE);
-        fab_gps.setVisibility(View.GONE);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnTouchListener(new View.OnTouchListener() {
+        fab_setting = (FloatingActionButton) findViewById(R.id.fab_setting);
+
+
+        fab_setting.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     // initializeMap();
-                    mapView.setFocusPos(markerPos, 0);
-                    fab.setVisibility(View.GONE);
-                    fab_compass.setVisibility(View.GONE);
-                    fab_gps.setVisibility(View.VISIBLE);
+                    /*mapView.setFocusPos(markerPos, 0);*/
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
                     return true;
                 }
                 return true; // consume the event
@@ -243,9 +279,24 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         fab_gps.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                fab.setVisibility(View.GONE);
-                fab_gps.setVisibility(View.GONE);
-                fab_compass.setVisibility(View.VISIBLE);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+                final String message = "Bạn có muốn mở GPS ?";
+                builder.setMessage(message)
+                        .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(action));
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                builder.create().show();
                 return true;
             }
         });
@@ -253,13 +304,11 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         fab_compass.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                fab_compass.setVisibility(View.GONE);
-                fab_gps.setVisibility(View.GONE);
-                fab.setVisibility(View.VISIBLE);
+
                 return true;
             }
         });
-
+        /**close button when search location*/
         ng_btn_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -466,6 +515,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             mapView.setZoom(24, 1);
         }
     }
+
     /*class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;
