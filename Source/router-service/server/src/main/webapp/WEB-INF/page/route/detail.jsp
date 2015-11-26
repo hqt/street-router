@@ -93,75 +93,6 @@
                   <h4>Route No: Tuyến số ${routeVM.routeNo} | Route Name: ${routeVM.routeName} | Route Type: ${routeVM.routeType}</h4>
                 </p>
               </div>
-              <div class="portlet box blue-chambray">
-                <div class="portlet-title">
-                  <div class="caption">
-                    <i class="fa fa-globe"></i>Station Managed Table
-                  </div>
-                  <div class="tools">
-                    <a href="javascript:;" class="collapse">
-                    </a>
-                  </div>
-                </div>
-                <div class="portlet-body">
-                  <div class="table-toolbar">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="btn-group">
-                          <button id="station_new" class="btn green">
-                            Add New <i class="fa fa-plus"></i>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <table class="table table-striped table-bordered table-hover text-center" id="pathinfo">
-                    <thead>
-                    <tr>
-                      <th>Order</th>
-                      <th> Code</th>
-                      <th> Name</th>
-                      <th> Street</th>
-                      <th> Coordinates</th>
-                      <th>Update</th>
-                      <th>Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="pathInfo" items="${pathInfosVM.pathInfoVMs}">
-                      <tr>
-                        <td>
-                            ${pathInfo.pathInfoNo}
-                        </td>
-                        <td>
-                            ${pathInfo.from.codeId}
-                        </td>
-                        <td>
-                            ${pathInfo.from.stationName}
-                        </td>
-                        <td>
-                            ${pathInfo.from.street}
-                        </td>
-                        <td>
-                            Latitude: ${pathInfo.from.latitude}
-                            Longitude: ${pathInfo.from.longitude}
-                        </td>
-                        <td>
-                          <a class="edit" href="javascript:;">
-                            Edit </a>
-                        </td>
-                        <td>
-                          <a class="delete" href="javascript:;">
-                            Delete </a>
-                        </td>
-                        <input type="hidden" value="${pathInfo.from.stationId}"/>
-                      </tr>
-                    </c:forEach>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
               <div class="portlet box green-jungle">
                 <div class="portlet-title">
                   <div class="caption">
@@ -184,39 +115,93 @@
                       </div>
                     </div>
                   </div>
-                    <table class="table table-striped table-bordered table-hover text-center" id="trip">
-                      <thead>
+                  <table class="table table-striped table-bordered table-hover text-center" id="trip">
+                    <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Start Time</th>
+                      <th>End Time</th>
+                      <th>Update</th>
+                      <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="trip" items="${tripsVM.tripVMList}">
                       <tr>
-                        <th>ID</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <c:forEach var="trip" items="${tripsVM.tripVMList}">
-                        <tr>
-                          <td>${trip.tripId}</td>
-                          <td>
+                        <td>${trip.tripId}</td>
+                        <td>
                             ${trip.viewStartTime}
-                          </td>
-                          <td>${trip.viewEndTime}</td>
-                          <td>
-                            <a class="edit" href="javascript:;">
-                              Edit
-                            </a>
-                          </td>
-                          <td>
-                            <a class="delete" href="javascript:;" >
-                              Delete
-                            </a>
-                          </td>
-                        </tr>
-                      </c:forEach>
-                      </tbody>
-                    </table>
+                        </td>
+                        <td>${trip.viewEndTime}</td>
+                        <td>
+                          <a class="edit" href="javascript:;">
+                            Edit
+                          </a>
+                        </td>
+                        <td>
+                          <a class="delete" href="javascript:;" >
+                            Delete
+                          </a>
+                        </td>
+                      </tr>
+                    </c:forEach>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="portlet box blue-chambray">
+                <div class="portlet-title">
+                  <div class="caption">
+                    <i class="fa fa-globe"></i>Path Route Managed Table
+                  </div>
+                  <div class="tools">
+                    <a href="javascript:;" class="collapse">
+                    </a>
+                  </div>
+                </div>
+                <div class="portlet-body">
+                  <div class="table-toolbar">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="btn-group">
 
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <table class="table table-striped table-bordered table-hover text-center" id="pathinfo">
+                    <thead>
+                    <tr>
+                      <th>Order</th>
+                      <th> Code</th>
+                      <th> Name</th>
+                      <th> Street</th>
+                      <th> Coordinates</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach var="pathInfo" items="${pathInfosVM.pathInfoVMs}">
+                      <tr>
+                        <td>
+                            ${pathInfo.pathInfoNo}
+                        </td>
+                        <td>
+                            ${pathInfo.from.codeId}
+                        </td>
+                        <td>
+                            ${pathInfo.from.stationName}
+                        </td>
+                        <td>
+                            ${pathInfo.from.street}
+                        </td>
+                        <td>
+                            Latitude: ${pathInfo.from.latitude}
+                            Longitude: ${pathInfo.from.longitude}
+                        </td>
+                      </tr>
+                    </c:forEach>
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

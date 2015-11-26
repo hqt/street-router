@@ -60,8 +60,28 @@ public class MathUtils {
     }
 
     public static double checkSide(LatLng head, LatLng tail, LatLng point) {
-        double check = (tail.latitude - head.latitude) * (point.longitude - head.longitude)
-                - (point.latitude - head.latitude) * (tail.longitude - point.longitude);
+        double[] tailxy = MathUtils.changeLatLngToXY(tail);
+        double[] headxy = MathUtils.changeLatLngToXY(head);
+        double[] checkxy = MathUtils.changeLatLngToXY(point);
+        double check = (tailxy[1] - headxy[1]) * (checkxy[0] - headxy[0])
+                - (checkxy[1] - headxy[1]) * (tailxy[0] - checkxy[0]);
         return check;
+    }
+
+    public static double[] changeLatLngToXY(LatLng latLng) {
+        double mapWidth    = 200;
+        double mapHeight   = 100;
+        double result[] = new double[2];
+        // get x value
+        double x = (latLng.longitude+180)*(mapWidth/360);
+        result[1] = x;
+        // convert from degrees to radians
+        double latRad = latLng.latitude*Math.PI/180;
+
+        // get y value
+        double mercN = Math.log(Math.tan((Math.PI/4)+(latRad/2)));
+        double y     = (mapHeight/2)-(mapWidth*mercN/(2*Math.PI));
+        result[0] = y;
+        return result;
     }
 }

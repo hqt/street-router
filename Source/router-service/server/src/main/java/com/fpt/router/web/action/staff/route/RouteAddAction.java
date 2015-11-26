@@ -11,6 +11,9 @@ import com.fpt.router.artifacter.model.entity.Route;
 import com.fpt.router.artifacter.model.entity.Trip;
 import com.fpt.router.artifacter.model.helper.RouteType;
 import com.fpt.router.web.action.common.IAction;
+import com.fpt.router.web.action.common.PAGE;
+import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.action.staff.parser.ParseData;
 import com.fpt.router.web.config.ApplicationContext;
 
@@ -21,10 +24,15 @@ import java.io.InputStream;
 /**
  * Created by datnt on 11/1/2015.
  */
-public class RouteAddAction implements IAction {
+public class RouteAddAction extends StaffAction {
 
     @Override
     public String execute(ApplicationContext context) {
+
+        String authenticated = super.execute(context);
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
+            return PAGE.COMMON.LOGIN;
+        }
 
         // get parameter
         String routeNoParam = context.getParameter("routeNo");
@@ -55,8 +63,7 @@ public class RouteAddAction implements IAction {
 
         boolean done = false;
         if (route != null) {
-            insertRoute(route);
-            done = true;
+            done = insertRoute(route);
         }
 
         if (done) {
@@ -68,7 +75,7 @@ public class RouteAddAction implements IAction {
             }
         }
 
-        return Config.AJAX_FORMAT;
+        return PAGE.ROUTE.ADD;
     }
 
     public Route buildRoute(int routeNo, String routeNameParam, String routeType, Part jsonFile, Part excelFile) {
@@ -78,7 +85,7 @@ public class RouteAddAction implements IAction {
             // Processing add route
             route.setRouteNo(routeNo);
             route.setRouteName(routeNameParam);
-            if (routeType.equals(RouteType.DEPART)) {
+            if (routeType.trim().equals(RouteType.DEPART.name())) {
                 route.setRouteType(RouteType.DEPART);
             } else {
                 route.setRouteType(RouteType.RETURN);
@@ -107,11 +114,17 @@ public class RouteAddAction implements IAction {
         return route;
     }
 
-    public void insertRoute(Route route) {
+    public boolean insertRoute(Route route) {
         RouteDAO routeDAO = new RouteDAO();
         PathInfoDAO pathInfoDAO = new PathInfoDAO();
         TripDAO tripDAO = new TripDAO();
         ConnectionDAO connectionDAO = new ConnectionDAO();
+
+        Route existed = routeDAO.getRoutebyRouteNo(route.getRouteNo(), route.getRouteType());
+
+        if (existed != null) {
+            return false;
+        }
 
         routeDAO.create(route);
         for (PathInfo pathInfo : route.getPathInfos()) {
@@ -120,9 +133,10 @@ public class RouteAddAction implements IAction {
         for (Trip trip : route.getTrips()) {
             tripDAO.create(trip);
             for (Connection con : trip.getConnections()) {
-                System.out.println("Create Connection + " +con.getId());
                 connectionDAO.create(con);
             }
         }
+
+        return true;
     }
 }

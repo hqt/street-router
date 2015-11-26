@@ -12,4 +12,5 @@ public abstract class AbstractNutiteqMapFragment extends VectorMapBaseFragment {
     public abstract void drawCurrentLocation(Double lat, Double lng);
     public abstract List<LatLng> getFakeGPSList();
     public abstract List<NotifyModel> getNotifyList();
+    public abstract void setUpMapAgain(LatLng input);
 }

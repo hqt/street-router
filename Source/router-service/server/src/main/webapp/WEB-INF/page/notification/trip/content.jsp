@@ -33,7 +33,7 @@
     <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
     <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">
-      Station Notification Management <small>manage station notification</small>
+      Trip Notification Management <small>manage trip notification</small>
     </h3>
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
@@ -42,7 +42,7 @@
         <div class="portlet box green">
           <div class="portlet-title">
             <div class="caption">
-              <i class="fa fa-gift"></i>Station Notification Table
+              <i class="fa fa-gift"></i>Trip Notification Table
             </div>
             <div class="tools">
               <a href="javascript:;" class="collapse"></a>
@@ -62,6 +62,19 @@
               </li>
             </ul>
             <div class="tab-content">
+              <div class="table-toolbar">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="btn-group">
+                      <form action="">
+                        <button class="btn blue" name="action" value="rejectAllNofTrip">
+                          Reject all <i class="fa"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="tab-pane fade active in" id="tab1">
                 <table class="table table-striped table-bordered table-hover text-center" id="tripNofActive">
                   <thead>
@@ -70,8 +83,7 @@
                     <th>Route No</th>
                     <th>Notification</th>
                     <th>Approve</th>
-                    <th>Unblock</th>
-                    <th>Delete</th>
+                    <th>Reject</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -92,13 +104,8 @@
                         </a>
                       </td>
                       <td>
-                        <a href="${pageContext.request.contextPath}/notification/trip/block?nofId=${item.nofId}">
-                          Block
-                        </a>
-                      </td>
-                      <td>
                         <a class="delete" href="javascript:;">
-                          Delete
+                          Reject
                         </a>
                       </td>
                     </tr>

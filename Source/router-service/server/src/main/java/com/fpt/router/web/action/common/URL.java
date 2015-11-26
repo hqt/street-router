@@ -7,6 +7,7 @@ public class URL {
 
     public static class COMMON {
         public static final String LOGIN = "/login";
+        public static final String LOGOUT = "/logout";
         public static final String ROUTE_LIST = "/route/list";
         public static final String ROUTE_DETAIL = "/route/detail";
     }
@@ -37,6 +38,8 @@ public class URL {
         public static final String NOF_TRIP_BLOCK = "/notification/trip/block";
         public static final String NOF_TRIP_UNBLOCK = "/notification/trip/unblock";
         public static final String NOF_TRIP_DELETE = "/notification/trip/delete";
+        public static final String NOF_ROUTE_LIST = "/notification/route/list";
+        public static final String NOF_ROUTE_DELETE = "/notification/route/delete";
 
         public static final String CONFIGURE = "/configuration";
         public static final String CONFIGURE_SOURCE = "/configuration/source";

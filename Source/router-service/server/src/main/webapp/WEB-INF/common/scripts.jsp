@@ -39,6 +39,8 @@
 <script src="../../static/js/index.js"></script>
 <script src="../../static/js/tableNofStation.js"></script>
 <script src="../../static/js/tableNofTrip.js"></script>
+<script src="../../static/js/tableNofRoute.js"></script>
+<script src="../../static/js/tableStaff.js"></script>
 <script>
   jQuery(document).ready(function() {
     Metronic.init(); // init metronic core components
@@ -49,6 +51,8 @@
     TableManaged.init();
     TableStationNofManaged.init();
     TableTripNofManaged.init();
+    TableRouteNofManaged.init();
+    TableStaffManaged.init();
   });
 </script>
 <!-- END PAGE LEVEL SCRIPTS -->

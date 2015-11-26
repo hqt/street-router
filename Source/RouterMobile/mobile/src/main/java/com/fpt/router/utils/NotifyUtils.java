@@ -27,21 +27,5 @@ public class NotifyUtils {
             NotificationUtils.run(context, "Đi thẳng", "Tiếp tục đi thẳng",
                     "Thông tin chi tiết", "Xin tiếp tục đi thẳng trên con đường hiện tại");
         }
-        if(event.equals("retrai")) {
-            Toast.makeText(context, "Rẽ trái", Toast.LENGTH_SHORT).show();
-            if (isPlaySound) {
-                SoundUtils.playSoundFromAsset(context, event + ".wav");
-            }
-            NotificationUtils.run(context, "Rẽ trái", "Rẽ trái tại ngã đường này",
-                    "Thông tin chi tiết", "Xin rẽ trái để đi tiếp lộ trình");
-        }
-        if(event.equals("rephai")) {
-            Toast.makeText(context, "Rẽ phải", Toast.LENGTH_SHORT).show();
-            if (isPlaySound) {
-                SoundUtils.playSoundFromAsset(context, event + ".wav");
-            }
-            NotificationUtils.run(context, "Rẽ phải", "Rẽ phải tại ngã đường này",
-                    "Thông tin chi tiết", "Xin rẽ phải để đi tiếp lộ trình");
-        }
     }
 }

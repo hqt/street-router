@@ -32,6 +32,9 @@ public class TripNotification extends Notification {
 
     @Column(name = "TripNo", nullable = false)
     private int tripNo;
+
+    @Column(name = "Type", nullable = false)
+    private int type;
 /*
     @OneToOne
     @JoinColumn(name = "NotificationID")
@@ -52,6 +55,14 @@ public class TripNotification extends Notification {
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
     }*/
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public RouteType getRouteType() {
         return routeType;

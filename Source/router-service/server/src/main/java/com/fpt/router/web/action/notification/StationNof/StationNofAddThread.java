@@ -30,7 +30,7 @@ public class StationNofAddThread {
 
     public void insertListStation() {
 
-        ExecutorService executorService = Executors.newFixedThreadPool(30);
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
         for (StationNotification stationNof : this.stationNotifications) {
             StationInsertThread stationInsertThread = new StationInsertThread(stationNof);
             executorService.execute(stationInsertThread);
@@ -75,10 +75,12 @@ public class StationNofAddThread {
                 boolean canUpdate = false;
                 String changeName = existed.getChangeName();
                 if (changeName != null && !stationNof.getChangeName().equals(changeName)) {
+                    existed.setChangeName(stationNof.getChangeName());
                     canUpdate = true;
                 }
                 String changeStreet = existed.getChangeStreet();
                 if (changeStreet != null && !stationNof.getChangeStreet().equals(changeStreet)) {
+                    existed.setChangeName(stationNof.getChangeName());
                     canUpdate = true;
                 }
 
@@ -94,9 +96,9 @@ public class StationNofAddThread {
 
                 if (canUpdate) {
                     System.out.println("Can update with code ID: " +this.stationNof.getStationCodeID());
-                    stationNof.setCreatedTime(new Date());
-                    if (stationNof.getState() == 0) {
-                        dao.update(stationNof);
+                    existed.setCreatedTime(new Date());
+                    if (existed.getState() == 0) {
+                        dao.update(existed);
                     }
                 }
             }

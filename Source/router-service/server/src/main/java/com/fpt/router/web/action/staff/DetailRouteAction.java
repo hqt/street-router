@@ -1,19 +1,16 @@
 package com.fpt.router.web.action.staff;
 
-import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.PathInfo;
 import com.fpt.router.artifacter.model.entity.Route;
-import com.fpt.router.artifacter.model.entity.Station;
 import com.fpt.router.artifacter.model.entity.Trip;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
 import com.fpt.router.web.config.ApplicationContext;
 import com.fpt.router.web.viewmodel.staff.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,8 +19,9 @@ import java.util.List;
 public class DetailRouteAction extends StaffAction {
     @Override
     public String execute(ApplicationContext context) {
+
         String authenticated = super.execute(context);
-        if (authenticated == null) {
+        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
             return PAGE.COMMON.LOGIN;
         }
 
@@ -65,8 +63,8 @@ public class DetailRouteAction extends StaffAction {
                 TripListVM tripListVM = new TripListVM(trips);
                 context.setAttribute("tripsVM", tripListVM);
 
-                PathInfoDAO pathInfoDato = new PathInfoDAO();
-                pathInfos = pathInfoDato.getPathInfosByRoute(route);
+                PathInfoDAO pathInfoDao = new PathInfoDAO();
+                pathInfos = pathInfoDao.getPathInfosByRoute(route);
                 PathinfoListVM pathinfoListVM = new PathinfoListVM(pathInfos);
                 context.setAttribute("pathInfosVM", pathinfoListVM);
             }

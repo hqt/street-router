@@ -2,6 +2,7 @@ package com.fpt.router.web.action.common;
 
 import com.fpt.router.artifacter.model.entity.Staff;
 import com.fpt.router.web.config.ApplicationContext;
+import com.fpt.router.web.viewmodel.admin.StaffVM;
 
 
 /**
@@ -14,7 +15,7 @@ public class AuthAction implements IAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        Staff staff = (Staff) context.getSessionAttribute("user");
+        StaffVM staff = (StaffVM) context.getSessionAttribute("user");
 
         if (staff == null) {
             return null;
@@ -28,9 +29,6 @@ public class AuthAction implements IAction {
                 break;
             case 1:
                 role = Role.STAFF;
-                break;
-            case 2:
-                role = Role.GUEST;
                 break;
         }
 

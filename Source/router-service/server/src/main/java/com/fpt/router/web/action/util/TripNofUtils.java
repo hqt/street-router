@@ -1,6 +1,5 @@
 package com.fpt.router.web.action.util;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

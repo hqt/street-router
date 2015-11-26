@@ -273,6 +273,11 @@ public class BusDetailTwoPointFragment extends AbstractNutiteqMapFragment implem
         return listNotifies;
     }
 
+    @Override
+    public void setUpMapAgain(LatLng input) {
+
+    }
+
     class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;

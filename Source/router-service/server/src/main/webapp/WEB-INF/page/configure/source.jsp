@@ -42,7 +42,7 @@
         <div class="portlet box green">
           <div class="portlet-title">
             <div class="caption">
-              <i class="fa fa-gift"></i>Configuration Form
+              <i class="fa fa-gift"></i>Parse data from source
             </div>
             <div class="tools">
               <a href="javascript:;" class="collapse">
@@ -75,6 +75,41 @@
                   <div class="row">
                     <div class="col-md-offset-3 col-md-9">
                       <button type="submit" class="btn btn-circle blue" name="action" value="parse">Parse Source</button>
+                      <button type="reset" class="btn btn-circle default">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <!-- END FORM-->
+          </div>
+        </div>
+        <div class="portlet box green">
+          <div class="portlet-title">
+            <div class="caption">
+              <i class="fa fa-gift"></i>Parse data from web
+            </div>
+            <div class="tools">
+              <a href="javascript:;" class="collapse">
+              </a>
+            </div>
+          </div>
+          <div class="portlet-body form">
+            <!-- BEGIN FORM-->
+            <form action="" method="post" class="form-horizontal">
+              <div class="form-body">
+               <%-- <div class="form-group">
+                  <label class="col-md-3 control-label">Folder Json Source</label>
+                  <div class="col-md-6">
+                    <input class="form-control input-circle" name="jsonPathFolder"/>
+                    <span class="help-block">
+                                Enter path json folder. @example: D:\source\json </span>
+                  </div>
+                </div>--%>
+                <div class="form-actions">
+                  <div class="row">
+                    <div class="col-md-offset-3 col-md-9">
+                      <button type="submit" class="btn btn-circle blue" name="action" value="parseWeb">Parse Web</button>
                       <button type="reset" class="btn btn-circle default">Cancel</button>
                     </div>
                   </div>

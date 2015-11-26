@@ -6,6 +6,7 @@ import org.joda.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,18 +17,65 @@ import java.util.concurrent.TimeUnit;
  */
 public class CompareTrip {
 
+    private HashSet<Trip> redundantTripDB;
+    private HashSet<Trip> redundantTripSource;
     private List<Trip> listTripDB;
     private List<Trip> listTripSource;
     public List<TripNotification> listTripNof;
 
     public CompareTrip(List<Trip> listTripDB, List<Trip> listTripSource) {
+        this.redundantTripDB = new HashSet<Trip>(listTripDB);
+        this.redundantTripSource = new HashSet<Trip>(listTripSource);
         this.listTripDB = listTripDB;
         this.listTripSource = listTripSource;
         this.listTripNof = new ArrayList<TripNotification>();
     }
 
     public void run() {
+        processRedundant();
         processComparison();
+    }
+
+    protected void redundantTrip() {
+        HashSet<Trip> hsTotal = new HashSet<Trip>();
+        hsTotal.addAll(redundantTripDB);
+        hsTotal.addAll(redundantTripSource);
+
+        hsTotal.removeAll(redundantTripDB);
+        redundantTripSource.removeAll(hsTotal);
+        redundantTripDB.removeAll(redundantTripSource);
+
+        redundantTripSource = hsTotal;
+
+        // split list trip
+        this.listTripDB.removeAll(redundantTripDB);
+        this.listTripSource.removeAll(redundantTripSource);
+    }
+
+    public void processRedundant() {
+        redundantTrip();
+        for (Trip trip : redundantTripDB) {
+            TripNotification tripNof = convertTripNof(trip);
+            tripNof.setTrip(trip);
+            tripNof.setType(2);
+            this.listTripNof.add(tripNof);
+        }
+        for (Trip trip : redundantTripSource) {
+            TripNotification tripNof = convertTripNof(trip);
+            tripNof.setType(1);
+            this.listTripNof.add(tripNof);
+        }
+    }
+
+    public TripNotification convertTripNof(Trip trip) {
+        TripNotification tripNof = new TripNotification();
+        tripNof.setChangeStartTime(trip.getStartTime());
+        tripNof.setChangeEndTime(trip.getEndTime());
+        tripNof.setCreatedTime(new Date());
+        tripNof.setRouteNo(trip.getRoute().getRouteNo());
+        tripNof.setRouteType(trip.getRoute().getRouteType());
+        tripNof.setTripNo(trip.getTripNo());
+        return tripNof;
     }
 
     public void processComparison() {
@@ -110,6 +158,7 @@ public class CompareTrip {
                 tripNof.setTripNo(this.tripSource.getTripNo());
                 tripNof.setRouteNo(this.tripSource.getRoute().getRouteNo());
                 tripNof.setRouteType(this.tripSource.getRoute().getRouteType());
+                tripNof.setType(0);
                 tripNof.setCreatedTime(new Date());
                 listTripNof.add(tripNof);
             }

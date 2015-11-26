@@ -50,8 +50,6 @@ public class StationNofListAction extends StaffAction {
             if (!blockItems.modelL.isEmpty()) {
                 context.setAttribute("blockStaNofItems", blockItems);
             }
-        } else {
-            System.out.println("Shit here");
         }
 
         return PAGE.NOTIFICATION.STATION_LIST;

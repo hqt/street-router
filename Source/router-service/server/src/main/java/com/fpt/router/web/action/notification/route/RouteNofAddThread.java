@@ -70,7 +70,7 @@ public class RouteNofAddThread {
         public boolean existed() {
             boolean canAdd = false;
 
-            RouteNotification existed = dao.readRouteNofByRouteNo(this.routeNof.getRouteNo());
+            RouteNotification existed = dao.readRouteNofByRouteNo(this.routeNof.getRouteNo(), this.routeNof.getRouteType());
 
             if (existed == null) {
                 canAdd = true;

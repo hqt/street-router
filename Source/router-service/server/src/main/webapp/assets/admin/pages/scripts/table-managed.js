@@ -41,6 +41,7 @@ var TableManaged = function () {
                     "sortAscending": ": activate to sort column ascending",
                     "sortDescending": ": activate to sort column descending"
                 },
+                searchPlaceholder: "Search by name",
                 "emptyTable": "No data available in table",
                 "info": "Showing _START_ to _END_ of _TOTAL_ records",
                 "infoEmpty": "No records found",
@@ -66,7 +67,7 @@ var TableManaged = function () {
                 "orderable": true
             },{
                 "orderable": false
-            }, {
+            },{
                 "orderable": false
             }],
             "lengthMenu": [
@@ -246,10 +247,6 @@ var TableManaged = function () {
                 "orderable": true
             },{
                 "orderable": true
-            },{
-                "orderable": false
-            },{
-                "orderable": false
             }],
 
             "lengthMenu": [

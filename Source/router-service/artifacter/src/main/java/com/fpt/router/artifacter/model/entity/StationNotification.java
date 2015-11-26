@@ -31,6 +31,9 @@ public class StationNotification extends Notification {
     @Column(name = "StationCodeID", nullable = false)
     private String stationCodeID;
 
+    @Column(name = "Type", nullable = false)
+    private int type;
+
    /* @OneToOne
     @JoinColumn(name = "NotificationID")
     private Notification notification;*/
@@ -43,6 +46,18 @@ public class StationNotification extends Notification {
 
     }
 
+/*
+    public StationNotification(String changeName, String changeStreet,
+                               double changeLatitude, double changeLongitude, String stationCodeID, int type) {
+        this.changeName =  changeName;
+        this.changeStreet = changeStreet;
+        this.changeLatitude = changeLatitude;
+        this.changeLongitude = changeLongitude;
+        this.stationCodeID = stationCodeID;
+        this.type = type;
+    }
+*/
+
     /*public int getNotificationID() {
         return notificationID;
     }
@@ -50,6 +65,14 @@ public class StationNotification extends Notification {
     public void setNotificationID(int notificationID) {
         this.notificationID = notificationID;
     }*/
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public String getStationCodeID() {
         return stationCodeID;
