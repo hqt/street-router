@@ -3,14 +3,17 @@ package com.fpt.router.web.action.staff.parser;
 import com.fpt.router.artifacter.config.Config;
 import com.fpt.router.artifacter.dao.PathInfoDAO;
 import com.fpt.router.artifacter.dao.RouteDAO;
+import com.fpt.router.artifacter.dao.StationDAO;
 import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.model.entity.*;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
+import com.fpt.router.web.action.notification.StationNof.StationNofAddThread;
 import com.fpt.router.web.action.notification.route.RouteNofAddThread;
 import com.fpt.router.web.action.notification.trip.TripNofAddThread;
 import com.fpt.router.web.action.staff.StaffAction;
 import com.fpt.router.web.action.staff.comparer.CompareRoute;
+import com.fpt.router.web.action.staff.comparer.CompareStation;
 import com.fpt.router.web.config.ApplicationContext;
 
 import java.io.File;
@@ -51,34 +54,28 @@ public class ParseSourceLocalAction extends StaffAction {
             int a = 3;
 
             // compare station source and database
-            /*StationDAO stationDAO = new StationDAO();
+            StationDAO stationDAO = new StationDAO();
             List<Station> stationsDB = stationDAO.findAll();
             CompareStation compareStation = new CompareStation(stationsDB, mapSource.getStations());
-            compareStation.run();*/
-
-            // build station notification and processing thread add station notification
-            /*List<StationNotification> stationVarious = compareStation.listStationVarious;
-            System.out.println("Station Various Size: " + stationVarious.size());
-            StationNofAddThread stationAddThread = new StationNofAddThread(stationVarious);
-            stationAddThread.run();*/
+            compareStation.run();
 
             List<Route> routesDB = buildRouteFull();
             // compare route between route from source and route from database.
             CompareRoute compareRoute = new CompareRoute(routesDB, mapSource.getRoutes());
             compareRoute.run();
 
-            // build trip notification and processing thread add trip and route notification
+            // retrieve notification.
             List<RouteNotification> routeVarious = compareRoute.listRouteNof;
             List<TripNotification> tripVarious = compareRoute.listTripNof;
+            List<StationNotification> stationVarious = compareStation.listStationNof;
 
-            // under construction
-            // Implementing... Add Thread Route --> Done ---> waiting for testing...
+            // Thread insert notification into database.
             RouteNofAddThread routeNofAddThread = new RouteNofAddThread(routeVarious);
             routeNofAddThread.run();
-
-            // Implementing... Add Thread Trip --> Done ---> waiting testing.....
             TripNofAddThread tripNofAddThread = new TripNofAddThread(tripVarious);
             tripNofAddThread.run();
+            StationNofAddThread stationAddThread = new StationNofAddThread(stationVarious);
+            stationAddThread.run();
 
 
         } else {

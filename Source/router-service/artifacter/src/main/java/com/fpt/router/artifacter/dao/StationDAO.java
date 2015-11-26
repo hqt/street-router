@@ -19,12 +19,13 @@ public class StationDAO extends JPADaoImpl<Station, Integer> {
 
     public Station findStationByCodeID(String codeId) {
 
-        String hql = "Select s from Station s where s.CodeID = :codeId";
+        String hql = "Select s from Station s where s.codeId= :codeId";
 
         Query query = getEntityManager().createQuery(hql);
         query.setParameter("codeId", codeId);
-        Station s = (Station) query.getSingleResult();
-
+        Station s;
+        s = (Station) query.getResultList().get(0);
+        createEntityManager().close();
         return s;
     }
 

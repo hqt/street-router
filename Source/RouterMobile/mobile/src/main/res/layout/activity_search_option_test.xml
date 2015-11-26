@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="7dp"
+            android:text="Tùy chọn"
+            android:textColor="@color/primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <View
+            android:layout_width="270dp"
+            android:layout_height="1dip"
+            android:layout_gravity="left"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_span="1"
+            android:background="#BDBDBD" />
+
+        <LinearLayout
+            android:layout_width="270dp"
+            android:layout_height="100dip"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/primary"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/fromId"
+                    android:layout_width="220dip"
+                    android:layout_height="30dip"
+                    android:layout_weight="1"
+                    android:background="@color/primary"
+                    android:ellipsize="end"
+                    android:hint="Điểm trung gian 1"
+                    android:padding="3dip"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#E0E0E0" />
+
+                <ImageButton
+                    android:id="@+id/btn_delete_waypoint_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/primary"
+                    android:padding="3dip"
+                    android:src="@drawable/ic_close_black_24dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dip"
+                android:layout_marginTop="10dip"
+                android:background="@color/primary"
+                android:orientation="horizontal">
+
+                <!--<ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dip"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_room_black_24dp" />-->
+
+                <TextView
+                    android:id="@+id/toId"
+                    android:layout_width="220dip"
+                    android:layout_height="30dip"
+                    android:layout_weight="1"
+                    android:background="@color/primary"
+                    android:ellipsize="end"
+                    android:hint="Điểm trung gian 2"
+                    android:padding="3dip"
+                    android:singleLine="true"
+                    android:textColor="@android:color/white"
+                    android:textColorHint="#E0E0E0" />
+
+                <ImageButton
+                    android:id="@+id/btn_delete_waypoint_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@color/primary"
+                    android:padding="3dip"
+                    android:src="@drawable/ic_close_black_24dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginBottom="15dip"
+            android:layout_marginTop="5dip"
+            android:checked="true"
+            android:text="Tối ưu"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+        <View
+            android:layout_width="270dp"
+            android:layout_height="1dip"
+            android:layout_gravity="left"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_span="1"
+            android:background="#BDBDBD" />
+
+        <LinearLayout
+            android:id="@+id/optimizeRelative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
+
+                <TextView
+                    android:id="@+id/walking_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:text="Đi bộ tối đa giữa hai trạm(mét):"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/walking_distance_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_weight="4"
+                    android:background="@drawable/edittext_bg"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:hint="300"
+                    android:inputType="number"
+                    android:textColor="@color/primary"
+                    android:textSize="13sp"
+                    android:textStyle="normal"
+                    android:layout_marginRight="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/transfer_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="left|center"
+                    android:text="Số lần chuyển tuyến tối đa:"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+
+                <Spinner
+                    android:id="@+id/number_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:background="#FFFFFFFF"
+                    android:entries="@array/transfer_turn_arrays"
+                    android:layout_gravity="right"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginRight="24dp"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btn_no"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_margin="8dp"
+            android:layout_toLeftOf="@+id/btn_yes"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="HỦY"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_yes"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:gravity="center_horizontal"
+            android:padding="8dp"
+            android:text="ĐỒNG Ý"
+            android:textColor="@color/primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>

@@ -56,7 +56,7 @@ public class TripNofAddThread {
         public void insertTripNof() {
             boolean canAdd = existed();
             if (canAdd) {
-                System.out.println("Insert Trip Notification in route Route: " + tripNof.getRouteNo());
+                System.out.println("Insert Trip Notification in route Route: " + tripNof.getRouteNo() + " - " + tripNof.getTripNo());
                 dao.create(tripNof);
             }
 
@@ -65,7 +65,7 @@ public class TripNofAddThread {
         public boolean existed() {
             boolean canAdd = false;
 
-            TripNotification existed = dao.readTripNof(tripNof.getRouteNo(), tripNof.getTripNo());
+            TripNotification existed = dao.readTripNof(tripNof.getRouteNo(), tripNof.getTripNo(), tripNof.getRouteType());
 
             if (existed == null) {
                 canAdd = true;
@@ -77,21 +77,31 @@ public class TripNofAddThread {
 
                 LocalTime existStartTime = existed.getChangeStartTime();
                 LocalTime nofStartTime = tripNof.getChangeStartTime();
-                if (existStartTime != null && nofStartTime != null && !nofStartTime.equals(existStartTime)) {
+                if (existStartTime == null && nofStartTime != null) {
+                    existed.setChangeStartTime(nofStartTime);
+                    canUpdate = true;
+                }
+                if (nofStartTime != null && !nofStartTime.equals(existStartTime)) {
+                    existed.setChangeStartTime(nofStartTime);
                     canUpdate = true;
                 }
 
                 LocalTime existEndTime = existed.getChangeEndTime();
                 LocalTime nofEndTime = tripNof.getChangeEndTime();
-                if (existEndTime != null &&  nofEndTime != null && !nofEndTime.equals(existEndTime)) {
+                if (existEndTime == null && nofEndTime != null) {
+                    existed.setChangeEndTime(nofEndTime);
+                    canUpdate = true;
+                }
+                if (nofEndTime != null && !nofEndTime.equals(existEndTime)) {
+                    existed.setChangeEndTime(nofEndTime);
                     canUpdate = true;
                 }
 
                 if (canUpdate) {
-                    System.out.println("Update Trip Notification in route " + tripNof.getRouteNo());
-                    tripNof.setCreatedTime(new Date());
-                    if (tripNof.getState() == 0) {
-                        dao.update(tripNof);
+                    System.out.println("Update Trip Notification in route " + tripNof.getRouteNo() + " - " + tripNof.getTripNo());
+                    existed.setCreatedTime(new Date());
+                    if (existed.getState() == 0) {
+                        dao.update(existed);
                     }
                 }
             }

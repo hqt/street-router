@@ -61,6 +61,19 @@
                                 </a>
                             </li>
                         </ul>
+                        <div class="table-toolbar">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="btn-group">
+                                        <form action="">
+                                            <button class="btn blue" name="action" value="rejectAllStationNof">
+                                                Reject all <i class=""></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="tab-content">
                             <div class="tab-pane fade active in" id="tab1">
                                 <table class="table table-striped table-bordered table-hover text-center" id="stationNofActive">
@@ -70,8 +83,7 @@
                                         <th>Code</th>
                                         <th>Notification</th>
                                         <th>Approve</th>
-                                        <th>Unblock</th>
-                                        <th>Delete</th>
+                                        <th>Reject</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -87,11 +99,6 @@
                                             <td>
                                                 <a class="approve" href="javascript:;">
                                                     Approve
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a href="${pageContext.request.contextPath}/notification/station/block?nofId=${items.nofId}">
-                                                    Block
                                                 </a>
                                             </td>
                                             <td>
@@ -112,8 +119,7 @@
                                         <th>Code</th>
                                         <th>Notification</th>
                                         <th>Approve</th>
-                                        <th>Unblock</th>
-                                        <th>Delete</th>
+                                        <th>Reject</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -132,13 +138,8 @@
                                                 </a>
                                             </td>
                                             <td>
-                                                <a href="">
-                                                    UnBlock
-                                                </a>
-                                            </td>
-                                            <td>
                                                 <a class="delete" href="javascript:;">
-                                                    Delete
+                                                    Reject
                                                 </a>
                                             </td>
                                         </tr>

@@ -14,6 +14,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
 
     <application
         android:name=".framework.RouterApplication"
@@ -105,6 +106,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SearchRouteActivity" />
+        </activity>
+        <activity
+            android:name=".activity.DeveloperSettingActivity"
+            android:label="@string/title_activity_search_detail"
+            android:theme="@style/AppTheme1">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
         </activity>
     </application>
 

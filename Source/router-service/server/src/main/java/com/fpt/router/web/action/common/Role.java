@@ -6,5 +6,4 @@ package com.fpt.router.web.action.common;
 public enum  Role {
     ADMIN,
     STAFF,
-    GUEST
 }

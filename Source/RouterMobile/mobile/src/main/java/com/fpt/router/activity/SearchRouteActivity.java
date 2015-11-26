@@ -179,12 +179,19 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
          * default set hide waypoint_1 and waypoint_2
          */
 
-        if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+        /**
+         * check GPS open and field start location is empty
+         */
+        /*if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
-        }
-        if ((MainActivity.flatGPS) && (!flat_check_edittext_1)) {
+        }*/
+        if ((MainActivity.flatGPS) && (mapLocation.get(SearchField.FROM_LOCATION) == null)) {
             edit_1.setHint("Vị trí của bạn");
             SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+        }
+
+        if (mapLocation.get(SearchField.FROM_LOCATION) != null){
+            edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
         }
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
@@ -222,26 +229,22 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
-                if (noSwap) {
-                    intent.putExtra("number", SearchField.FROM_LOCATION);
-                } else {
-                    intent.putExtra("number", SearchField.TO_LOCATION);
-                }
-                intent.putExtra("message", edit_1.getText());
-                startActivityForResult(intent, 1);// Activity is started with requestCode 1
+                intent.putExtra("number", SearchField.FROM_LOCATION);
+                //intent.putExtra("message", edit_1.getText());
+                intent.putExtra("message", mapLocation.get(SearchField.FROM_LOCATION) == null ? "" : mapLocation.get(SearchField.FROM_LOCATION).getName());
+                startActivityForResult(intent, SearchField.FROM_LOCATION);// Activity is started with requestCode 1
+
             }
         });
         edit_2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(SearchRouteActivity.this, AutoCompleteSearchActivity.class);
-                if (noSwap) {
-                    intent.putExtra("number", SearchField.TO_LOCATION);
-                } else {
-                    intent.putExtra("number", SearchField.FROM_LOCATION);
-                }
-                intent.putExtra("message", edit_2.getText());
-                startActivityForResult(intent, 2);// Activity is started with requestCode 2
+                intent.putExtra("number", SearchField.TO_LOCATION);
+                //intent.putExtra("message", edit_2.getText());
+                intent.putExtra("message", mapLocation.get(SearchField.TO_LOCATION) == null ? "" : mapLocation.get(SearchField.TO_LOCATION).getName());
+                startActivityForResult(intent, SearchField.TO_LOCATION);// Activity is started with requestCode 2
+
             }
         });
         edit_3.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +299,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                 @Override
                 public void onGlobalLayout() {
                     edit_1.getViewTreeObserver().addOnGlobalLayoutListener(this);
-                    viewHeight = edit_1.getHeight() + 20;
+                    viewHeight = edit_1.getHeight() + 10;
                     edit_1.getLayoutParams();
                     edit_1.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
@@ -307,7 +310,6 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
             @Override
             public void onClick(View v) {
-
                 if (noSwap) {
                     changeImageButton.animate().rotation(180);
                     TranslateAnimation ta1 = new TranslateAnimation(0, 0, 0, viewHeight);
@@ -464,13 +466,13 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         super.onActivityResult(requestCode, resultCode, data);
         if ((data != null) && (requestCode == 3)) {
             optimize = data.getBooleanExtra("optimize", true);
-            if(mapLocation.size() > 2){
+            if (mapLocation.size() > 2) {
                 img_expand_1.setVisibility(View.VISIBLE);
                 changeImageButton.setVisibility(View.GONE);
                 linear_middle_1.setVisibility(View.GONE);
                 linear_middle_2.setVisibility(View.GONE);
             }
-            if(mapLocation.size() < 3){
+            if (mapLocation.size() < 3) {
                 img_expand_1.setVisibility(View.GONE);
                 changeImageButton.setVisibility(View.VISIBLE);
                 linear_middle_1.setVisibility(View.GONE);
@@ -503,10 +505,9 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             return "0" + String.valueOf(c);
     }
 
-    private void swapFromAndTo() {
+    private  void swapFromAndTo() {
         AutocompleteObject obj1 = mapLocation.get(SearchField.FROM_LOCATION);
         AutocompleteObject obj2 = mapLocation.get(SearchField.TO_LOCATION);
-
         if (obj2 != null) {
             mapLocation.put(SearchField.FROM_LOCATION, obj2);
         }
@@ -518,7 +519,26 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
 
     private void setTextToField() {
 
+
         if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
+            if(noSwap){
+                edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+            }else {
+                edit_1.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
+            }
+
+        } else {
+            if (MainActivity.flatGPS) {
+                edit_1.setHint("Vị trí của bạn");
+                SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+                edit_1.setText("");
+            }else{
+                edit_1.setText("");
+            }
+
+        }
+
+       /* if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
             if (mapLocation.get(SearchField.FROM_LOCATION).getName().equals("")) {
                 edit_1.setHint("Vị trí của bạn");
                 flat_check_edittext_1 = false;
@@ -535,10 +555,15 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                 edit_1.setText("");
             }
 
-        }
+        }*/
 
         if (mapLocation.get(SearchField.TO_LOCATION) != null) {
-            edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
+            if(noSwap){
+                edit_2.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
+            }else {
+                edit_2.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
+            }
+
         } else {
             edit_2.setText("");
         }

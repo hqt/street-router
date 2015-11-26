@@ -53,6 +53,9 @@
         <url-pattern>/notification/trip/block</url-pattern>
         <url-pattern>/notification/trip/unblock</url-pattern>
         <url-pattern>/notification/trip/delete</url-pattern>
+        <url-pattern>/notification/route/list</url-pattern>
+        <url-pattern>/notification/route/block</url-pattern>
+        <url-pattern>/notification/route/delete</url-pattern>
 
         <url-pattern>/configuration</url-pattern>
         <url-pattern>/configuration/source</url-pattern>
@@ -102,9 +105,9 @@
         <location>/WEB-INF/page/404/index.jsp</location>
     </error-page>
 
-    <!--<error-page>
+    <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/views/common/error_500.jsp</location>
-    </error-page>-->
+        <location>/WEB-INF/page/500/index.jsp</location>
+    </error-page>
 
 </web-app>

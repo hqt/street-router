@@ -1,5 +1,7 @@
 package com.fpt.router.artifacter.model.entity;
 
+import com.fpt.router.artifacter.model.helper.RouteType;
+
 import javax.persistence.*;
 
 /**
@@ -20,6 +22,12 @@ public class RouteNotification extends Notification {
     @Column(name = "RouteNo", nullable = false)
     private int routeNo;
 
+    @Column(name = "RouteType", nullable = false)
+    private RouteType routeType;
+
+    @Column(name = "Type", nullable = false)
+    private int type;
+
    /* @OneToOne
     @JoinColumn(name = "NotificationID")
     private Notification notification;*/
@@ -39,6 +47,22 @@ public class RouteNotification extends Notification {
     public void setNotificationId(int notificationId) {
         this.notificationId = notificationId;
     }*/
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public RouteType getRouteType() {
+        return routeType;
+    }
+
+    public void setRouteType(RouteType routeType) {
+        this.routeType = routeType;
+    }
 
     public int getRouteNo() {
         return routeNo;

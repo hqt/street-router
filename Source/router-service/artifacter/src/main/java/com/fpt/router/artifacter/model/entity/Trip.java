@@ -93,4 +93,20 @@ public class Trip implements IEntity {
     public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
+
+    @Override
+    public int hashCode() {
+        return this.tripNo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj instanceof Trip) {
+            Trip other = (Trip) obj;
+            return this.tripNo == other.getTripNo();
+        }
+
+        return false;
+    }
 }

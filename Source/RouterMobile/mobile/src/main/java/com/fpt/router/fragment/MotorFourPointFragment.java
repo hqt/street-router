@@ -189,6 +189,12 @@ public class MotorFourPointFragment extends Fragment{
             activity.searchType = null;
             activity.needToSearch = false;
 
+            if((listLegFinal == null) || (listLegFinal.size() == 0)){
+                listError = new ArrayList<String>();
+                listError.add("Internet có vấn đề, xin thử lại....");
+                recyclerView.setAdapter(new ErrorMessageAdapter((listError)));
+                return;
+            }
             if (status.equals(GoogleApiCode.NOT_FOUND)) {
                 listError = new ArrayList<String>();
                 listError.add("Vị trí bạn nhập không được tìm thấy");

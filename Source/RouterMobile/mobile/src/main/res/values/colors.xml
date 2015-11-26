@@ -6,6 +6,7 @@
     <color name="primary_dark">#303F9F</color>
    <!-- <color name="primary_dark">#1976D2</color>-->
     <color name="accent">#FF4081</color>
+    <color name="accent_dark">#ff2929</color>
     <color name="map">#4d90fe</color>
     <color name="gps">#F1F1F1</color>
     <color name="accent_1">#FFFFFF</color>
@@ -13,4 +14,6 @@
     <color name="text_motorbike_content">#424242</color>
     <color name="backgroud_motorbike_content">#448AFF</color>
     <color name="text_motorbike_title">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="secondary_text">#727272</color>
 </resources>

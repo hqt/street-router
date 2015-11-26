@@ -68,7 +68,7 @@ public class ParseData {
                         existStation = stationDAO.findStationByCodeID(s.getCodeId());
                     }
                     if (existStation != null) {
-                        pathInfo.setFrom(s);
+                        pathInfo.setFrom(existStation);
                     }
                     pathInfo.setRoute(route);
                     pathInfoList.add(pathInfo);
@@ -135,11 +135,11 @@ public class ParseData {
 
         Sheet sheet = workbook.getSheetAt(0);
         TimeUtils timeUtils = new TimeUtils();
-        for (int i = 0; i < sheet.getLastRowNum(); i++) {
+        for (int i = 1; i < sheet.getLastRowNum(); i++) {
             // Initialize Trip
             Trip trip = new Trip();
             // Add value to trip
-            Row nextRow = sheet.getRow(1);
+            Row nextRow = sheet.getRow(i);
             try {
                 trip.setTripNo((int) nextRow.getCell(0).getNumericCellValue());
                 trip.setStartTime(timeUtils.convertExcelDate(nextRow.getCell(1).getDateCellValue()));

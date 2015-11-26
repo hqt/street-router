@@ -8,6 +8,8 @@ import com.fpt.router.web.action.admin.StaffUpdateAction;
 import com.fpt.router.web.action.api.MultiPointAction;
 import com.fpt.router.web.action.api.TwoPointRouteAction;
 import com.fpt.router.web.action.notification.StationNof.*;
+import com.fpt.router.web.action.notification.route.RouteNofDeleteAction;
+import com.fpt.router.web.action.notification.route.RouteNofListAction;
 import com.fpt.router.web.action.notification.trip.*;
 import com.fpt.router.web.action.staff.CompareMapAction;
 import com.fpt.router.web.action.staff.DetailRouteAction;
@@ -15,6 +17,7 @@ import com.fpt.router.web.action.staff.DirectStaffPageAction;
 import com.fpt.router.web.action.staff.configuration.ConfigTimeAction;
 import com.fpt.router.web.action.staff.parser.ParseFileAction;
 import com.fpt.router.web.action.staff.parser.ParseSourceLocalAction;
+import com.fpt.router.web.action.staff.parser.ParseWebDBAction;
 import com.fpt.router.web.action.staff.route.*;
 import com.fpt.router.web.action.staff.station.StationAddAction;
 import com.fpt.router.web.action.staff.station.StationListAction;
@@ -42,6 +45,8 @@ public class ActionFactory implements IActionFactory {
         if (url.equals(URL.COMMON.LOGIN)) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/login.jsp");
             action = new DirectPageAction();
+        } else if (url.equals(URL.COMMON.LOGOUT)) {
+            action = new LogoutAction();
         } else if (url.equals(URL.API.TWO_POINT)) {
             action = new TwoPointRouteAction();
         } else if (url.equals(URL.API.MUlTI_POINT)) {
@@ -60,10 +65,9 @@ public class ActionFactory implements IActionFactory {
             action = new RouteListAction();
         } else if (url.equals(URL.COMMON.ROUTE_DETAIL)) {
             action = new DetailRouteAction();
-
         } else if (url.equals(URL.STAFF.ROUTE_ADD)) {
-            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/indexAdd.jsp");
-            action = new DirectPageAction();
+            context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, PAGE.ROUTE.ADD);
+            action = new DirectStaffPageAction();
         } else if (url.equals(URL.STAFF.ROUTE_UPDATE)) {
             action = new RouteUpdateAction();
         } else if (url.equals(URL.STAFF.ROUTE_DELETE)) {
@@ -102,6 +106,10 @@ public class ActionFactory implements IActionFactory {
             action = new TripNofUnBlockAction();
         } else if (url.equals(URL.STAFF.NOF_TRIP_DELETE)) {
             action = new TripNofDeleteAction();
+        } else if (url.equals(URL.STAFF.NOF_ROUTE_LIST)) {
+            action = new RouteNofListAction();
+        } else if (url.equals(URL.STAFF.NOF_ROUTE_DELETE)) {
+            action = new RouteNofDeleteAction();
         } else if (url.equals(URL.STAFF.CONFIGURE)) {
             context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/configure/index.jsp");
             action = new DirectStaffPageAction();
@@ -113,9 +121,7 @@ public class ActionFactory implements IActionFactory {
             action = new DirectStaffPageAction();
         } else if (url.equals(URL.STAFF.PARSE_SOURCE)) {
             action = new ParseSourceLocalAction();
-
         }
-
 
         // handle "action" parameter that end with jsp. will go directly to jsp page
         /**
@@ -142,10 +148,21 @@ public class ActionFactory implements IActionFactory {
                 action = new ConfigTimeAction();
             } else if (actionCommand.equals("Upload")) {
                 action = new ParseFileAction();
+            } else if (actionCommand.equals("redirectAddRoute")) {
+                context.setAttribute(Config.WEB.DIRECT_PAGE_ATTRIBUTE, Config.WEB.PAGE + "/route/indexAdd.jsp");
+                action = new DirectPageAction();
             } else if (actionCommand.equals("addRoute")) {
                 action = new RouteAddAction();
             } else if (actionCommand.equals("parse")) {
                 action = new ParseSourceLocalAction();
+            } else if (actionCommand.equals("logout")) {
+
+            } else if (actionCommand.equals("rejectAllNofTrip")) {
+                action = new TripNofRejectAllAction();
+            } else if (actionCommand.equals("rejectAllStationNof")) {
+                action = new StationNofRejectAllAction();
+            } else if (actionCommand.equals("parseWeb")) {
+                action = new ParseWebDBAction();
             }
         }
 

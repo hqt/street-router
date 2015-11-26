@@ -6,22 +6,14 @@
             android:icon="@drawable/ic_help_black_24dp"
             android:title="@string/nav_item_help"/>
         <item
-            android:id="@+id/navigation_item_reference"
-            android:icon="@drawable/ic_content_paste_black_24dp"
-            android:title="@string/nav_item_reference"
-            />
-        <item
             android:id="@+id/navigation_item_setting"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/nav_item_setting"
             />
         <item
-            android:id="@+id/navigation_item_history"
-            android:icon="@drawable/ic_assignment_black_24dp"
-            android:title="@string/nav_item_history"/>
-        <item
-            android:id="@+id/navigation_item_close_service"
-            android:icon="@drawable/ic_power_settings_new_black_24dp"
-            android:title="@string/nav_item_close_service"/>
+            android:id="@+id/navigation_item_developer"
+            android:icon="@drawable/ic_developer_mode_black_24dp"
+            android:title="@string/nav_item_developer"/>
+
     </group>
 </menu>

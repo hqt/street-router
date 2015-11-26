@@ -1,5 +1,7 @@
 package com.fpt.router.web.viewmodel.admin;
 
+import com.fpt.router.artifacter.model.entity.Staff;
+
 /**
  * Purpose:
  * Created by Huynh Quang Thao on 10/12/15.
@@ -7,14 +9,19 @@ package com.fpt.router.web.viewmodel.admin;
 public class StaffVM {
 
     private int id;
-    private String fullName;
+    private String staffName;
     private String accountName;
     private String email;
     private String password;
     private String phoneNumber;
+    private int role;
 
-    public StaffVM() {
-
+    public StaffVM(Staff staff) {
+        this.id = staff.getStaffId();
+        this.staffName = staff.getStaffName();
+        this.email = staff.getStaffEmail();
+        this.phoneNumber = staff.getPhoneNumber();
+        this.role = staff.getRole();
     }
 
     public int getId() {
@@ -27,19 +34,27 @@ public class StaffVM {
 
     public StaffVM(int id, String fullName, String accountName, String email, String password, String phoneNumber) {
         this.id = id;
-        this.fullName = fullName;
+        this.staffName = fullName;
         this.accountName = accountName;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
     }
 
-    public String getFullName() {
-        return fullName;
+    public int getRole() {
+        return role;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setRole(int role) {
+        this.role = role;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
     }
 
     public String getAccountName() {
