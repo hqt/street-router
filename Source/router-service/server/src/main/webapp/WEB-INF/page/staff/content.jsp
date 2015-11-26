@@ -58,7 +58,7 @@
                 </div>
               </div>
             </div>
-            <table class="table table-striped table-bordered table-hover text-center" id="staff">
+            <table class="table table-striped table-bordered table-hover text-center" id="staffTable">
               <thead>
               <tr>
                 <th>
@@ -66,9 +66,6 @@
                 </th>
                 <th>
                   Name
-                </th>
-                <th>
-                  Account
                 </th>
                 <th>
                   email
@@ -92,10 +89,7 @@
                       ${count.count}
                   </td>
                   <td>
-                      ${staff.fullName}
-                  </td>
-                  <td>
-                      ${staff.accountName}
+                      ${staff.staffName}
                   </td>
                   <td>
                       ${staff.email}

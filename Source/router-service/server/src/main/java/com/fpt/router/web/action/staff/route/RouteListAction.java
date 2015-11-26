@@ -18,11 +18,6 @@ public class RouteListAction extends AuthAction {
     @Override
     public String execute(ApplicationContext context) {
 
-        String authenticated = super.execute(context);
-        if (authenticated == null || !authenticated.equals(Role.STAFF.name())) {
-            return PAGE.COMMON.LOGIN;
-        }
-
         RouteDAO routeDao = new RouteDAO();
         List<Route> routes = routeDao.findAll();
         // convert to model

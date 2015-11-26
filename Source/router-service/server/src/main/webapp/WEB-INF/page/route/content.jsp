@@ -51,9 +51,11 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="btn-group">
-                    <button id="sample_editable_1_new" class="btn green">
-                      Add New <i class="fa fa-plus"></i>
-                    </button>
+                    <form action="">
+                      <button class="btn green" name="action" value="redirectAddRoute">
+                        Add New <i class="fa fa-plus"></i>
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>

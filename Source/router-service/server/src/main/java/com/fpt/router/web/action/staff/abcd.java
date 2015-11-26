@@ -4,7 +4,9 @@ import com.fpt.router.artifacter.dao.*;
 import com.fpt.router.artifacter.model.entity.*;
 import com.fpt.router.web.action.staff.comparer.CompareRoute;
 import com.fpt.router.web.action.staff.parser.ParseExcelLocal;
+import com.fpt.router.web.action.staff.parser.ParseExcelWeb;
 import com.fpt.router.web.action.staff.parser.ParseJsonLocal;
+import com.fpt.router.web.action.staff.parser.ParseJsonWeb;
 import com.fpt.router.web.action.util.PasswordUtils;
 import org.joda.time.LocalTime;
 
@@ -184,31 +186,11 @@ public class abcd {
     }
 
     public static void main(String args[]) {
-        StationNotificationDAO stationNotificationDAO = new StationNotificationDAO();
-        /*StationNotification stationNotification = new StationNotification();
-        stationNotification.setChangeName("asdsa");
-        stationNotification.setStationCodeID("QTDT073");
-        stationNotification.setCreatedTime(new Date());
-        Station sta = new Station();
-        sta.setStationId(1);
-        stationNotification.setStation(sta);
-        stationNotificationDAO.create(stationNotification);*/
 
-        /*StationNotification stationNotification = stationNotificationDAO.readByCode("Q5T023");
-        stationNotificationDAO.update(stationNotification);
-        int a = 3;*/
-//thành (\d+:\d+ [A|P])
-        String notification = "Có thay đổi: thời gian khởi hành từ 8:17 AM thành 8:30 AM, thời gian đến trạm từ 8:44 PM thành 8:55 PM";
-        Pattern p = Pattern.compile("thời gian khởi hành từ ((\\d+:\\d+) [A|P]M) thành ((\\d+:\\d+) [A|P]M)", Pattern.UNICODE_CHARACTER_CLASS);
-        Pattern p1 = Pattern.compile(", thời gian đến trạm từ ((\\d+:\\d+) [A|P]M) thành ((\\d+:\\d+) [A|P]M)", Pattern.UNICODE_CHARACTER_CLASS);
-        Matcher m = p.matcher(notification);
-        Matcher m1 = p1.matcher(notification);
-        if (m.find()) {
-            System.out.println("WTF");
-        }
-        if (m1.find()) {
-            System.out.println("WWW");
-        }
+
+
+
+
         int a = 3;
     }
 

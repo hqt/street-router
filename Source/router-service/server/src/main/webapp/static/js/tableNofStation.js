@@ -75,8 +75,6 @@ var TableStationNofManaged = function () {
                 "orderable": true
             }, {
                 "orderable": false
-            },{
-                "orderable": false
             }, {
                 "orderable": false
             }],

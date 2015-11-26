@@ -32,8 +32,32 @@ public class CompareRoute {
     }
 
     public void run() {
-        redundant();
+        processRedundant();
         processRouteThread();
+    }
+
+    public void processRedundant() {
+        redundant();
+        for (Route route : redundantRouteDB) {
+            RouteNotification routeNof = convertRoute(route);
+            routeNof.setRoute(route);
+            routeNof.setType(2);
+            this.listRouteNof.add(routeNof);
+        }
+        for (Route route : redundantRouteSource) {
+            RouteNotification routeNof = convertRoute(route);
+            routeNof.setType(1);
+            this.listRouteNof.add(routeNof);
+        }
+    }
+
+    public RouteNotification convertRoute(Route route) {
+        RouteNotification routeNof = new RouteNotification();
+        routeNof.setChangeRouteName(route.getRouteName());
+        routeNof.setRouteNo(route.getRouteNo());
+        routeNof.setRouteType(route.getRouteType());
+        routeNof.setCreatedTime(new Date());
+        return routeNof;
     }
 
     protected void redundant() {
@@ -79,6 +103,7 @@ public class CompareRoute {
 
         // Begin execute route thread
         ExecutorService executorService = Executors.newFixedThreadPool(50);
+        // ------------- Begin Thread Compare DEPART Route ------------------- //
         for (Route routeDbDepart : routesDbDepart) {
             for (Route routeSourceDepart : routesSourceDepart) {
 
@@ -86,13 +111,17 @@ public class CompareRoute {
                 CompareThreadRoute compareThreadRoute = new CompareThreadRoute(routeDbDepart, routeSourceDepart);
                 executorService.execute(compareThreadRoute);
 
-                // compare trip in route
-                CompareTrip compareTrip = new CompareTrip(routeDbDepart.getTrips(), routeSourceDepart.getTrips());
-                compareTrip.run();
-                listTripNof.addAll(compareTrip.listTripNof);
+                // compare trip in same route
+                if (routeDbDepart.getRouteNo() == routeSourceDepart.getRouteNo()) {
+                    CompareTrip compareTrip = new CompareTrip(routeDbDepart.getTrips(), routeSourceDepart.getTrips());
+                    compareTrip.run();
+                    listTripNof.addAll(compareTrip.listTripNof);
+                }
             }
         }
+        // ------------- End Thread Compare DEPART Route ------------------- //
 
+        // ------------- Begin Thread Compare RETURN Route ------------------- //
         for (Route routeDbReturn : routesDbReturn) {
             for (Route routeSourceReturn : routesSourceReturn) {
 
@@ -100,12 +129,16 @@ public class CompareRoute {
                 CompareThreadRoute compareThreadRoute = new CompareThreadRoute(routeDbReturn, routeSourceReturn);
                 executorService.execute(compareThreadRoute);
 
-                // compare trip in route
-                CompareTrip compareTrip = new CompareTrip(routeDbReturn.getTrips(), routeSourceReturn.getTrips());
-                compareTrip.run();
-                listTripNof.addAll(compareTrip.listTripNof);
+                // compare trip in same route
+                if (routeDbReturn.getRouteNo() == routeSourceReturn.getRouteNo()) {
+                    CompareTrip compareTrip = new CompareTrip(routeDbReturn.getTrips(), routeSourceReturn.getTrips());
+                    compareTrip.run();
+                    listTripNof.addAll(compareTrip.listTripNof);
+                }
             }
         }
+        // ------------- End Thread Compare RETURN Route ------------------- //
+
         executorService.shutdown();
 
         try {
@@ -136,9 +169,10 @@ public class CompareRoute {
 
         public void compareRoute() {
 
-            if (routeDB.getRouteNo() != routeSource.getRouteNo()) {
+            if (routeDB.getRouteNo() != routeSource.getRouteNo() || !routeDB.getRouteType().equals(routeSource.getRouteType())) {
                 return;
             }
+            System.out.println("Compare Route: " + routeDB.getRouteName() + " - " + routeSource.getRouteName());
 
             boolean canAdd = false;
             RouteNotification routeNof = new RouteNotification();
@@ -150,6 +184,7 @@ public class CompareRoute {
             if (canAdd) {
                 routeNof.setRoute(routeDB);
                 routeNof.setRouteNo(routeSource.getRouteNo());
+                routeNof.setRouteType(routeSource.getRouteType());
                 routeNof.setCreatedTime(new Date());
                 listRouteNof.add(routeNof);
             }

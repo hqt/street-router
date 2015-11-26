@@ -3,33 +3,78 @@ package com.fpt.router.web.action.staff.comparer;
 import com.fpt.router.artifacter.model.entity.Station;
 import com.fpt.router.artifacter.model.entity.StationNotification;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class CompareStation {
 
+    private HashSet<Station> redundantStationDB;
+    private HashSet<Station> redundantStationSource;
     private List<Station> listStationDB;
     private List<Station> listStationSource;
-    public List<StationNotification> listStationVarious;
+    public List<StationNotification> listStationNof;
 
     public CompareStation(List<Station> listStationDB, List<Station> listStationSource) {
+        this.redundantStationDB = new HashSet<Station>(listStationDB);
+        this.redundantStationSource = new HashSet<Station>(listStationSource);
         this.listStationDB = listStationDB;
         this.listStationSource = listStationSource;
-        this.listStationVarious = new ArrayList<StationNotification>();
+        this.listStationNof = new ArrayList<StationNotification>();
     }
 
     public void run() {
+        processRedundant();
         processComparison();
+    }
+
+    public void redundantStation() {
+        HashSet<Station> hsTotal = new HashSet<Station>();
+        hsTotal.addAll(redundantStationDB);
+        hsTotal.addAll(redundantStationSource);
+
+        hsTotal.removeAll(redundantStationDB);
+        redundantStationSource.removeAll(hsTotal);
+        redundantStationDB.removeAll(redundantStationSource);
+
+        redundantStationSource = hsTotal;
+
+        // split list trip
+        this.listStationDB.removeAll(redundantStationDB);
+        this.listStationSource.removeAll(redundantStationSource);
+    }
+
+    public void processRedundant() {
+        redundantStation();
+        for (Station stationDB : redundantStationDB) {
+            StationNotification stationNof = convertStationNof(stationDB);
+            stationNof.setStation(stationDB);
+            stationNof.setType(2);
+            this.listStationNof.add(stationNof);
+        }
+        for (Station stationSource : redundantStationSource) {
+            StationNotification stationNof = convertStationNof(stationSource);
+            stationNof.setType(1);
+            this.listStationNof.add(stationNof);
+        }
+    }
+
+    public StationNotification convertStationNof(Station station) {
+        StationNotification nof = new StationNotification();
+        nof.setChangeName(station.getName());
+        nof.setChangeStreet(station.getStreet());
+        nof.setChangeLatitude(station.getLatitude());
+        nof.setChangeLongitude(station.getLongitude());
+        nof.setStationCodeID(station.getCodeId());
+        nof.setCreatedTime(new Date());
+        return nof;
     }
 
     public void processComparison() {
         System.out.println("Main thread station comparison starting.");
 
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(8);
         for (Station stationDB : this.listStationDB) {
             for (Station stationSource : this.listStationSource) {
                 ComparisonThreadStation comparisonThreadStation = new ComparisonThreadStation(stationDB, stationSource);
@@ -80,7 +125,7 @@ public class CompareStation {
                 canAdd = true;
             }
 
-            if (stationDB.getLatitude() != stationSource.getLatitude()) {
+           /* if (stationDB.getLatitude() != stationSource.getLatitude()) {
                 stationNotification.setChangeLatitude(stationSource.getLatitude());
                 canAdd = true;
             }
@@ -88,13 +133,14 @@ public class CompareStation {
             if (stationDB.getLongitude() != stationSource.getLongitude()) {
                 stationNotification.setChangeLongitude(stationSource.getLongitude());
                 canAdd = true;
-            }
+            }*/
 
             if (canAdd) {
                 stationNotification.setStationCodeID(stationSource.getCodeId());
-                System.out.println("Station Code ID From Server " +stationSource.getCodeId());
+                stationNotification.setType(0);
+                //System.out.println("Station Code ID From Server " +stationSource.getCodeId());
                 stationNotification.setCreatedTime(new Date());
-                listStationVarious.add(this.stationNotification);
+                listStationNof.add(this.stationNotification);
             }
         }
 

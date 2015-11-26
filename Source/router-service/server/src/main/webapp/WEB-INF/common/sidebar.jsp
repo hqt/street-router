@@ -30,18 +30,13 @@
         <ul class="sub-menu">
           <li>
             <a href="${pageContext.request.contextPath}/route/list"> <!-- here, not yet to change link to station -->
-              <i class="fa fa-plus"></i>
-              Add Route</a>
+              <i class="fa icon-list"></i>
+              List Route</a>
           </li>
           <li>
             <a href="${pageContext.request.contextPath}/route/add"> <!-- here, not yet to change link to station -->
               <i class="fa fa-plus"></i>
               Add Route</a>
-          </li>
-          <li>
-            <a href="${pageContext.request.contextPath}/route/parse"> <!-- here, not yet to change link to station -->
-              <i class="fa fa-plus"></i>
-              Parse from source</a>
           </li>
         </ul>
       </li>
@@ -60,6 +55,11 @@
           <span class="arrow "></span>
         </a>
         <ul class="sub-menu">
+          <li>
+            <a href="${pageContext.request.contextPath}/notification/route/list"> <!-- here, not yet to change link to station -->
+              <i class="icon-map"></i>
+              Route Notification</a>
+          </li>
           <li>
             <a href="${pageContext.request.contextPath}/notification/station/list"> <!-- here, not yet to change link to station -->
               <i class="icon-pointer"></i>
@@ -81,12 +81,6 @@
           <span class="arrow "></span>
         </a>
         <ul class="sub-menu">
-          <li>
-            <a href="${pageContext.request.contextPath}/configuration">
-              <i class="icon-clock"></i>
-              Time Configuration
-            </a> <!-- here, not yet to change link to station -->
-          </li>
           <li>
             <a href="${pageContext.request.contextPath}/configuration/source"> <!-- here, not yet to change link to station -->
               <i class="icon-folder"></i>

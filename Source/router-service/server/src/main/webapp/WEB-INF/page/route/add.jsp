@@ -19,20 +19,20 @@
             </div>
             <div class="portlet-body form">
                 <!-- BEGIN FORM-->
-                <form action="" class="form-horizontal" enctype="multipart/form-data" method="post">
+                <form action="${pageContext.request.contextPath}/route/add" class="form-horizontal" enctype="multipart/form-data" method="post">
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-md-3 control-label">Route No</label>
 
                             <div class="col-md-4">
-                                <input type="text" class="form-control input-circle" placeholder="Route No" name="routeNo">
+                                <input type="text" class="form-control input-circle" placeholder="Route No" name="routeNo" pattern=".{1,3}" required title="1 to 3 numbers">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-md-3 control-label">Route Name</label>
 
                             <div class="col-md-4">
-                                <input type="text" class="form-control input-circle" placeholder="Route Name" name="routeName">
+                                <input type="text" class="form-control input-circle" placeholder="Route Name" name="routeName" required>
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,7 +51,7 @@
                             <label class="col-md-3 control-label">Choose json source</label>
                             <div class="col-md-4">
                                 <span class="btn btn-default btn-file">
-                                    <input type="file" accept=".json" name="jsonFile"/>
+                                    <input type="file" accept=".json" name="jsonFile" pattern=".{0,}" required title="Chọn 1 tệp json"/>
                                 </span>
                                 <span class="help-block">
                                 Extension file must be: '.json' </span>
@@ -61,7 +61,7 @@
                             <label class="col-md-3 control-label">Choose excel source</label>
                             <div class="col-md-4">
                                 <span class="btn btn-default btn-file">
-                                    <input type="file" accept=".xls" name="excelFile"/>
+                                    <input type="file" accept=".xls" name="excelFile" pattern=".{0,}" required title="Chọn 1 tệp excel "/>
                                 </span>
                                 <span class="help-block">
                                 Extension file must be: '.xls' </span>

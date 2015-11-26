@@ -75,8 +75,6 @@ var TableTripNofManaged = function () {
                 "orderable": true
             }, {
                 "orderable": false
-            },{
-                "orderable": false
             }, {
                 "orderable": false
             }],

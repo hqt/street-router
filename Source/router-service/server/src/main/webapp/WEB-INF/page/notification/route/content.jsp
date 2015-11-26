@@ -33,7 +33,7 @@
     <!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
     <!-- BEGIN PAGE HEADER-->
     <h3 class="page-title">
-      Trip Notification Management <small>manage trip notification</small>
+      Route Notification Management <small>manage route notification</small>
     </h3>
     <!-- END PAGE HEADER-->
     <!-- BEGIN PAGE CONTENT-->
@@ -42,7 +42,7 @@
         <div class="portlet box green">
           <div class="portlet-title">
             <div class="caption">
-              <i class="fa fa-gift"></i>Trip Notification Table
+              <i class="fa fa-gift"></i>Station Notification Table
             </div>
             <div class="tools">
               <a href="javascript:;" class="collapse"></a>
@@ -62,39 +62,25 @@
               </li>
             </ul>
             <div class="tab-content">
-              <div class="table-toolbar">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="btn-group">
-                      <form action="">
-                        <button class="btn blue" name="action" value="rejectAllNofTrip">
-                          Reject all <i class="fa"></i>
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div class="tab-pane fade active in" id="tab1">
-                <table class="table table-striped table-bordered table-hover text-center" id="tripNofActive">
+                <table class="table table-striped table-bordered table-hover text-center" id="routeNofActive">
                   <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Route No</th>
-                    <th>Notification</th>
-                    <th>Approve</th>
-                    <th>Reject</th>
-                  </tr>
+                    <tr>
+                      <th>#</th>
+                      <th>Route No</th>
+                      <th>Route Type</th>
+                      <th>Notification</th>
+                      <th>Approve</th>
+                      <th>Reject</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  <c:forEach var="item" items="${itemsActive.modelL}" varStatus="count">
+                  <c:forEach var="item" items="${routeListNofActive.nofRouteVMs}" varStatus="count">
                     <tr>
-                      <input type="hidden" value="${item.nofId}"/>
-                      <input type="hidden" value="${item.tripId}"/>
-                      <input type="hidden" value="${item.tripNo}"/>
-                      <input type="hidden" value="${item.routeType}"/>
+                      <input type="hidden" value="${item.notificationId}"/>
                       <td>${count.count}</td>
                       <td>${item.routeNo}</td>
+                      <td>${item.routeType}</td>
                       <td>
                           ${item.notification}
                       </td>
@@ -114,7 +100,7 @@
                 </table>
               </div>
               <div class="tab-pane fade" id="tab2">
-                <table class="table table-striped table-bordered table-hover text-center" id="tripNofInActive">
+                <table class="table table-striped table-bordered table-hover text-center" id="routeNofInActive">
                   <thead>
                   <tr>
                     <th>#</th>

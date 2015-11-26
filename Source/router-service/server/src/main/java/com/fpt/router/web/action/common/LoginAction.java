@@ -5,6 +5,8 @@ import com.fpt.router.artifacter.dao.StaffDAO;
 import com.fpt.router.artifacter.model.entity.Staff;
 import com.fpt.router.web.action.util.PasswordUtils;
 import com.fpt.router.web.config.ApplicationContext;
+import com.fpt.router.web.viewmodel.admin.StaffListVM;
+import com.fpt.router.web.viewmodel.admin.StaffVM;
 
 /**
  * Created by datnt on 10/10/2015.
@@ -31,8 +33,9 @@ public class LoginAction implements IAction {
         Staff staff = staffDAO.findStaffByEmail(emailParam, passwordUtils.md5(password));
 
         if (staff != null) {
-            context.setSessionAttribute("user", staff);
-            /*path = path.substring(1, path.length());*/
+            // convert entity to model
+            StaffVM staffVM = new StaffVM(staff);
+            context.setSessionAttribute("user", staffVM);
             if (path.equals(URL.COMMON.LOGIN)) {
                 return Config.WEB.REDIRECT + URL.COMMON.ROUTE_LIST;
             }
@@ -42,6 +45,7 @@ public class LoginAction implements IAction {
             context.setAttribute("msg", msg);
         }
 
-        return Config.WEB.REDIRECT + URL.COMMON.ROUTE_LIST;
+        return PAGE.COMMON.LOGIN;
     }
+
 }
