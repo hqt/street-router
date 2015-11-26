@@ -11,9 +11,9 @@ public class abcd {
     public static void main(String args[]) {
 
 
-        StaffDAO dao = new StaffDAO();
+       /* StaffDAO dao = new StaffDAO();
         dao.findStaffByEmail("huynhquangthao@gmail.com", "123456");
-        int a = 3;
+        int a = 3;*/
     }
 
 }

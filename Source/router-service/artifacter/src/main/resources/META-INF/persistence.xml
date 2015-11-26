@@ -7,6 +7,7 @@
         <class>com.fpt.router.artifacter.model.entity.Station</class>
         <class>com.fpt.router.artifacter.model.entity.PathInfo</class>
         <class>com.fpt.router.artifacter.model.entity.Trip</class>
+        <class>com.fpt.router.artifacter.model.entity.Connection</class>
         <class>com.fpt.router.artifacter.model.entity.Staff</class>
         <class>com.fpt.router.artifacter.model.entity.Notification</class>
         <class>com.fpt.router.artifacter.model.entity.RouteNotification</class>

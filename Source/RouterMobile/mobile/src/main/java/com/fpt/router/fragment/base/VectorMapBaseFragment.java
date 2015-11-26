@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.framework.RouterApplication;
 import com.nutiteq.datasources.CompressedCacheTileDataSource;
 import com.nutiteq.datasources.NutiteqOnlineTileDataSource;
@@ -86,11 +87,12 @@ public class VectorMapBaseFragment extends NutiteqMapBaseFragment {
 
     // loading map offline
     protected TileDataSource createTileDataSource() {
-        if (RouterApplication.dataSource != null) {
+        if ((RouterApplication.dataSource != null) && (PrefStore.getIsMapDownloaded())) {
             return loadOfflineMap();
         } else {
             return loadOnlineMap();
         }
+
     }
 
     private TileDataSource loadOfflineMap() {
