@@ -103,7 +103,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static List<NotifyModel> getNotifyModel() {
         return listNotify;
     }
-
+    public static boolean getIsTrueWay() {
+        return isTrueWay;
+    }
     private static void initializeState() {
         // reset all state variables
         //GPSServiceOld.listStepToCheck = null;
@@ -353,7 +355,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             for(int n = 0; n < listLegToCheck.size(); n++) {
                 List<Step> listStepToCheck = listLegToCheck.get(n).getSteps();
                 for (int m = 0; m < listStepToCheck.size(); m++) {
-                    List<LatLng> listLLOfStep = DecodeUtils.decodePoly(listStepToCheck.get(n).getPolyline());
+                    List<LatLng> listLLOfStep = DecodeUtils.decodePoly(listStepToCheck.get(m).getPolyline());
                     if (PolyLineUtils.isOnAllRoute(listLLOfStep, checkPoint, 20)) {
                         checkLegIndex = n;
                         notifyIndex = m;
