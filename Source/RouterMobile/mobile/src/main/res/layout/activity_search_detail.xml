@@ -12,11 +12,25 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark" >
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="?attr/actionBarSize"
             android:orientation="horizontal"
             android:layout_gravity="center|right"
             >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary"
+                    android:textColor="#fff"
+                    android:src="@drawable/exclamation1"
+                    android:padding="5dip"
+                    android:gravity="center"
+                    android:id="@+id/btn_wrong_way" />
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

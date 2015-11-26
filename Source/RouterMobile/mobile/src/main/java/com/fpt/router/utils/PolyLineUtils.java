@@ -245,4 +245,37 @@ public class PolyLineUtils {
         return hav(lat1 - lat2) + hav(dLng) * cos(lat1) * cos(lat2);
     }
 
+    public static boolean checkSquare (LatLng tail, LatLng head, LatLng check) {
+        double A[] = MathUtils.changeLatLngToXY(tail);
+        double B[] = MathUtils.changeLatLngToXY(head);
+        double C[] = MathUtils.changeLatLngToXY(check);
+        if(((A[0] >= C[0]) && (C[0]>= B[0])) ||
+                ((A[1] >= C[1]) && (C[1]>= B[1])) ||
+                ((A[0] <= C[0]) && (C[0]<= B[0])) ||
+                ((A[1] <= C[1]) && (C[1]<= B[1]))) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isOnRoute (LatLng tail, LatLng head, LatLng check, double distance) {
+        boolean isSquare = checkSquare(tail, head, check);
+        if(isSquare) {
+            if ((distanceToLine(check, tail, head) <= distance) ||
+                    (DecodeUtils.calculateDistance(check, tail) <= distance) ||
+                    (DecodeUtils.calculateDistance(check, head) <= distance)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isOnAllRoute (List<LatLng> listLL, LatLng check, double distance) {
+        for(int n = 0; n < listLL.size()-1; n++) {
+            if(isOnRoute(listLL.get(n), listLL.get(n+1), check, distance)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

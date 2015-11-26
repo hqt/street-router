@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RouterMobile</string>
+    <string name="app_name">Street Router</string>
     <string name="hello_world">Hello World!</string>
     <string name="intro_text">Long click to exit the map.</string>
     <string name="title_activity_maps">MapsActivity</string>

@@ -2,6 +2,7 @@ package com.fpt.router.library.utils;
 
 import android.hardware.GeomagneticField;
 import android.util.Pair;
+import static java.lang.Math.*;
 
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
@@ -77,7 +78,7 @@ public class DecodeUtils {
 
     public static List<LatLng> getPointsFromListLocation (List<LatLng> listLatLng) {
         for(int i = 0; i < listLatLng.size() - 1; i ++) {
-            int checkDistance = (int) calculateDistance(listLatLng.get(i), listLatLng.get(i+1));
+            double checkDistance = calculateDistance(listLatLng.get(i), listLatLng.get(i+1));
             if(checkDistance > 20) {
                 listLatLng.add(i+1, middlePoint(listLatLng.get(i).latitude, listLatLng.get(i).longitude, listLatLng.get(i+1).latitude, listLatLng.get(i+1).longitude));
                 i--;
@@ -86,7 +87,34 @@ public class DecodeUtils {
         return listLatLng;
     }
 
-    public static double calculateDistance(LatLng locationFrom, LatLng locationTo) {
+    static double havDistance(double lat1, double lat2, double dLng) {
+        return hav(lat1 - lat2) + hav(dLng) * cos(lat1) * cos(lat2);
+    }
+
+    static double hav(double x) {
+        double sinHalf = sin(x * 0.5);
+        return sinHalf * sinHalf;
+    }
+
+    static double arcHav(double x) {
+        return 2 * asin(sqrt(x));
+    }
+
+    public static double calculateDistance(LatLng from, LatLng to) {
+        return computeAngleBetween(from, to) * 6371009;
+    }
+
+    static double computeAngleBetween(LatLng from, LatLng to) {
+        return distanceRadians(toRadians(from.latitude), toRadians(from.longitude),
+                toRadians(to.latitude), toRadians(to.longitude));
+    }
+
+    private static double distanceRadians(double lat1, double lng1, double lat2, double lng2) {
+        return arcHav(havDistance(lat1, lat2, lng1 - lng2));
+    }
+
+
+    public static double calculateDistanceOld(LatLng locationFrom, LatLng locationTo) {
         double fromLat = locationFrom.latitude;
         double fromLong = locationFrom.longitude;
         double toLat = locationTo.latitude;
