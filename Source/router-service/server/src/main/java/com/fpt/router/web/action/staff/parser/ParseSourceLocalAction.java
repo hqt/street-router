@@ -51,8 +51,6 @@ public class ParseSourceLocalAction extends StaffAction {
             ParseExcelLocal parseExcelLocal = new ParseExcelLocal(mapSource, excelFolder);
             mapSource = parseExcelLocal.run();
 
-            int a = 3;
-
             // compare station source and database
             StationDAO stationDAO = new StationDAO();
             List<Station> stationsDB = stationDAO.findAll();

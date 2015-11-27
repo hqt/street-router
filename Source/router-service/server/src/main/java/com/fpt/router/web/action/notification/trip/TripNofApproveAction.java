@@ -5,24 +5,18 @@ import com.fpt.router.artifacter.dao.NotificationDAO;
 import com.fpt.router.artifacter.dao.RouteDAO;
 import com.fpt.router.artifacter.dao.TripDAO;
 import com.fpt.router.artifacter.dao.TripNotificationDAO;
-import com.fpt.router.artifacter.model.entity.Notification;
-import com.fpt.router.artifacter.model.entity.Route;
-import com.fpt.router.artifacter.model.entity.Trip;
-import com.fpt.router.artifacter.model.entity.TripNotification;
+import com.fpt.router.artifacter.model.entity.*;
 import com.fpt.router.artifacter.model.helper.RouteType;
+import com.fpt.router.web.action.builder.BuildUtils;
 import com.fpt.router.web.action.common.PAGE;
 import com.fpt.router.web.action.common.Role;
-import com.fpt.router.web.action.common.URL;
 import com.fpt.router.web.action.staff.StaffAction;
-import com.fpt.router.web.action.util.TripNofUtils;
 import com.fpt.router.web.config.ApplicationContext;
 import org.joda.time.LocalTime;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by datnt on 11/19/2015.
@@ -50,17 +44,61 @@ public class TripNofApproveAction extends StaffAction {
             return Config.AJAX_FORMAT;
         }
 
-        int nofId = -1, tripNo = -1, routeNo = -1;
+        int nofId, tripNo, routeNo;
         try {
             tripNo = Integer.parseInt(tripNoParam);
             routeNo = Integer.parseInt(routeNoParam);
             nofId = Integer.parseInt(notificationIdParam);
+            RouteType routeType = RouteType.valueOf(routeTypeParam);
+
+            TripDAO tripDAO = new TripDAO();
+            RouteDAO routeDAO = new RouteDAO();
+            TripNotificationDAO tripNofDao = new TripNotificationDAO();
+
+            Route route = routeDAO.getRoutebyRouteNo(routeNo, routeType);
+            if (route != null) {
+                Trip trip = tripDAO.readTripByRouteAndNo(route, tripNo);
+                if (trip != null) {
+                    TripNotification tripNof = tripNofDao.readTripNof(routeNo, tripNo, routeType);
+                    if (tripNof != null) {
+                        // if type = 0 -> update change
+                        if (tripNof.getType() == 0) {
+                            if (tripNof.getChangeStartTime() != null) {
+                                trip.setStartTime(tripNof.getChangeStartTime());
+                            }
+                            if (tripNof.getChangeEndTime() != null) {
+                                trip.setEndTime(tripNof.getChangeEndTime());
+                            }
+                        }
+                        // if type = 1 -> insert new trip
+                        if (tripNof.getType() == 1) {
+                            Trip tripNew = new Trip();
+                            tripNew.setStartTime(tripNof.getChangeStartTime());
+                            tripNew.setEndTime(tripNof.getChangeEndTime());
+                            tripNew.setTripNo(tripNo);
+                            tripNew.setRoute(route);
+                            // build connection
+                            BuildUtils build = new BuildUtils();
+                            build.buildCon(route, trip);
+                            tripDAO.create(tripNew);
+                        }
+                        // if type = 2 -> remove trip
+                        if (tripNof.getType() == 2) {
+                            tripDAO.deleteTrip(trip);
+                        }
+                    }
+                }
+            }
+
+
+
+
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
         }
 
         // reverse string
-        String[] content = notificationParam.split("~");
+        /*String[] content = notificationParam.split("~");
         String[] nof = content[1].trim().split(",");
 
         Map<String, String> result = new HashMap<String, String>();
@@ -78,9 +116,9 @@ public class TripNofApproveAction extends StaffAction {
         if (resultEndTime != null) {
             endTime = resultEndTime;
         }
-
+*/
         // approve trip
-        approve(nofId, tripNo, routeNo, RouteType.valueOf(routeTypeParam.toUpperCase()), startTime, endTime);
+        // approve(nofId, tripNo, routeNo, RouteType.valueOf(routeTypeParam.toUpperCase()), startTime, endTime);
 
         return Config.AJAX_FORMAT;
     }

@@ -16,6 +16,7 @@ public class NofTripVM {
     public int tripId;
     public int tripNo;
     public int routeNo;
+    public int type;
     public RouteType routeType;
     private String oldStartTime;
     private String oldEndTime;
@@ -33,6 +34,7 @@ public class NofTripVM {
         }
         this.tripNo = tripNof.getTripNo();
         this.routeNo = tripNof.getRouteNo();
+        this.type = tripNof.getType();
         this.routeType = tripNof.getRouteType();
         this.changeStartTime = tripNof.getChangeStartTime();
         this.changeEndTime = tripNof.getChangeEndTime();
@@ -53,10 +55,23 @@ public class NofTripVM {
     }
 
     public void buildNotification() {
-        String startTime = viewStartTime == null ? "" : "thời gian khởi hành từ " + oldStartTime + " thành " + viewStartTime;
-        String endTime = viewEndTime ==  null ? "" : ", thời gian đến trạm từ " + oldEndTime + " thành "+ viewEndTime;
+        if (this.type == 0) {
+            String startTime = viewStartTime == null ? "" : "thời gian khởi hành từ " + oldStartTime + " thành " + viewStartTime;
+            String endTime = viewEndTime == null ? "" : ", thời gian đến trạm từ " + oldEndTime + " thành " + viewEndTime;
+            this.notification = "Có thay đổi~ " + startTime + endTime;
+        }
 
-        this.notification = "Có thay đổi~ " + startTime + endTime;
+        if (this.type == 1) {
+            String startTime = viewStartTime == null ? "" : "thời gian khởi hành từ " + oldStartTime;
+            String endTime = viewEndTime == null ? "" : ", thời gian đến trạm từ " + oldEndTime;
+            this.notification = "Tăng thêm thời gian hoạt động~ " + startTime + endTime;
+        }
+
+        if (this.type == 2) {
+            String startTime = viewStartTime == null ? "" : "thời gian khởi hành từ " + oldStartTime;
+            String endTime = viewEndTime == null ? "" : ", thời gian đến trạm từ " + oldEndTime;
+        }
+
     }
 
     public String convertLocalTimeToString(LocalTime localTime) {
@@ -160,5 +175,13 @@ public class NofTripVM {
 
     public void setChangeEndTime(LocalTime changeEndTime) {
         this.changeEndTime = changeEndTime;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

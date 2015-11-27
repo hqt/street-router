@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Huynh Quang Thao on 11/8/15.
  */
 @Entity
-@Table(name = "Account")
+@Table(name = "Staff")
 public class Staff implements IEntity {
 
     @GeneratedValue

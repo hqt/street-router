@@ -58,7 +58,7 @@ public class StationNofAddThread {
 
             boolean canAdd = existed();
             if (canAdd) {
-                System.out.println(stationNof.getStation().getStationId() + " can inserting...");
+                System.out.println(stationNof.getStationCodeID() + " can inserting...");
                 dao.create(stationNof);
             }
         }
