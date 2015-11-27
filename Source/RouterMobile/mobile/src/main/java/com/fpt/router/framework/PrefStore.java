@@ -50,6 +50,9 @@ public class PrefStore {
     /** Preference key for motorbike sort type  */
     public static final String PREF_MOTOR_SORT_TYPE = "motor_sort_type";
 
+    /** Preference key for motorbike sort type  */
+    public static final String PREF_STIMULATE_ROUTE_TYPE = "stimulate_route_type";
+
     ///////////////////////////////////////////////////////////////
     /////////////////   DEFAULT VALUE   ///////////////////////////
     /** Default value for {@link PrefStore#PREF_IS_FIRST_RUN} */
@@ -87,6 +90,9 @@ public class PrefStore {
 
     /** Default value for {@link PrefStore#PREF_MOTOR_SORT_TYPE} */
     public static final int DEFAULT_MOTOR_SORT_TYPE = 0;
+
+    /** Default value for {@link PrefStore#PREF_STIMULATE_ROUTE_TYPE} */
+    public static final int DEFAULT_STIMULATE_ROUTE_TYPE = 0;
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  GETTER //////////////////////////////
@@ -142,6 +148,12 @@ public class PrefStore {
     public static int getMotorSortType() {
         return getSharedPreferences().getInt(PREF_MOTOR_SORT_TYPE, DEFAULT_MOTOR_SORT_TYPE);
     }
+
+    public static int getStimulateRouteType() {
+        return getSharedPreferences().getInt(PREF_STIMULATE_ROUTE_TYPE, DEFAULT_STIMULATE_ROUTE_TYPE);
+    }
+
+
 
     ////////////////////////////////////////////////////////////////////
     /////////////////////////////  SETTER //////////////////////////////
@@ -209,6 +221,12 @@ public class PrefStore {
     public static void setMotorSortType(int type) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();
         editor.putInt(PREF_MOTOR_SORT_TYPE, type);
+        editor.commit();
+    }
+
+    public static void setStimulateRouteType(int type) {
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.putInt(PREF_STIMULATE_ROUTE_TYPE, type);
         editor.commit();
     }
 

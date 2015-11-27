@@ -46,9 +46,6 @@ public class SettingActivity extends AppCompatActivity {
 
     private EventBus bus = EventBus.getDefault();
 
-    EditText portEditText;
-    EditText ipEditText;
-    EditText stimulateSpeedText;
     EditText busNotifyDistanceText;
     EditText motorNotifyDistanceText;
 
@@ -78,9 +75,6 @@ public class SettingActivity extends AppCompatActivity {
         /**
          * get id of IP and Port editext
          */
-        ipEditText = (EditText) findViewById(R.id.edit_ip);
-        portEditText = (EditText) findViewById(R.id.edit_port);
-        stimulateSpeedText = (EditText) findViewById(R.id.edit_stimulate_speed);
         busNotifyDistanceText = (EditText) findViewById(R.id.edit_bus_distance);
         motorNotifyDistanceText = (EditText) findViewById(R.id.edit_motor_distance);
 
@@ -91,9 +85,6 @@ public class SettingActivity extends AppCompatActivity {
         cancelButton = (Button) findViewById(R.id.btn_cancel);
 
         // set default value
-        ipEditText.setText(PrefStore.getServerIp());
-        portEditText.setText(PrefStore.getServerPort() + "");
-        stimulateSpeedText.setText(PrefStore.getSimulationSpeed() + "");
         busNotifyDistanceText.setText(PrefStore.getBusNotifyDistance() + "");
         motorNotifyDistanceText.setText(PrefStore.getMotorNotifyDistance() + "");
 
@@ -102,9 +93,6 @@ public class SettingActivity extends AppCompatActivity {
         motorSortTypeSpinner.setSelection(PrefStore.getMotorSortType());
 
         // set cursor at end of line
-        ipEditText.setSelection(ipEditText.getText().length());
-        portEditText.setSelection(portEditText.getText().length());
-        stimulateSpeedText.setSelection(stimulateSpeedText.getText().length());
         busNotifyDistanceText.setSelection(busNotifyDistanceText.getText().length());
 
         // set status for download map function
@@ -142,32 +130,20 @@ public class SettingActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // save to pref store
-                PrefStore.setBusServerIp(ipEditText.getText().toString());
 
-                int port, simulateSpeed, busNotifyDistance, motorNotifyDistance;
+                int busNotifyDistance, motorNotifyDistance;
                 try {
-                    port = Integer.parseInt(portEditText.getText().toString());
-                    simulateSpeed = Integer.parseInt(stimulateSpeedText.getText().toString());
                     busNotifyDistance = Integer.parseInt(busNotifyDistanceText.getText().toString());
                     motorNotifyDistance = Integer.parseInt(motorNotifyDistanceText.getText().toString());
                 } catch (Exception e) {
-                    port = 8080;
-                    simulateSpeed = 40;
                     busNotifyDistance  = 120;
                     motorNotifyDistance = 120;
                 }
 
-                PrefStore.setBusServerPort(port);
-                PrefStore.setPrefSimulationSpeed(simulateSpeed);
                 PrefStore.setBusNotifyDistance(busNotifyDistance);
                 PrefStore.setMotorNotifyDistance(motorNotifyDistance);
                 PrefStore.setBusSortType(busSortTypeSpinner.getSelectedItemPosition());
                 PrefStore.setMotorSortType(motorSortTypeSpinner.getSelectedItemPosition());
-
-                // set again variable
-                AppConstants.SERVER_ADDRESS = "http://" + PrefStore.getServerIp() + ":" + PrefStore.getServerPort();
-                AppConstants.buildAPILink();
 
                 finish();
             }
@@ -178,9 +154,6 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        AppCompatSpinner a;
-
     }
 
     protected void onResume() {

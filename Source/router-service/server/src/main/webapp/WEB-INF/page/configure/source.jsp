@@ -51,7 +51,7 @@
           </div>
           <div class="portlet-body form">
             <!-- BEGIN FORM-->
-            <form class="form-horizontal">
+            <form action="" method="post" class="form-horizontal">
               <div class="form-body">
                 <div class="form-group">
                   <label class="col-md-3 control-label">Folder Json Source</label>

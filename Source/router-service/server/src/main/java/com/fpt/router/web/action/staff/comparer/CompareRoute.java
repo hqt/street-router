@@ -185,6 +185,7 @@ public class CompareRoute {
                 routeNof.setRoute(routeDB);
                 routeNof.setRouteNo(routeSource.getRouteNo());
                 routeNof.setRouteType(routeSource.getRouteType());
+                routeNof.setType(0);
                 routeNof.setCreatedTime(new Date());
                 listRouteNof.add(routeNof);
             }
