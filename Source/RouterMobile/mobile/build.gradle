@@ -84,6 +84,7 @@ dependencies {
     compile 'com.code-troopers.betterpickers:library:2.2.1'
     compile 'com.nutiteq:nutiteq-sdk:3.2.1'
     compile 'io.realm:realm-android:0.84.1'
+
     compile 'com.getbase:floatingactionbutton:1.10.0'
     compile project(':library')
 }
