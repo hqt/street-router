@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import com.fpt.router.R;
 import com.fpt.router.activity.SearchDetailActivity;
@@ -102,11 +104,9 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
         vectorLayer = new VectorLayer(vectorDataSource);
         // Add the previous vector layer to the map
         mapView.getLayers().add(vectorLayer);
-        setUpMap(listLeg);
 
         mListView.addHeaderView(mTransparentHeaderView);
-       /* mListView.setAdapter(new ArrayAdapter<String>(getActivity(), R.layout.simple_list_item, testData));*/
-        mListView.setAdapter(adapterItem);
+        setUpMap(listLeg);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -153,6 +153,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                     R.drawable.orange_small, 20);
         }
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
+        mListView.setAdapter(adapterItem);
         GPSServiceOld.setListLegToCheck(listFinalLeg);
         GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
         GPSServiceOld.setListNotify(getNotifyList());

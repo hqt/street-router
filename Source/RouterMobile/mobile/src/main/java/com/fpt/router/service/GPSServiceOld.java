@@ -45,6 +45,8 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
+import static com.fpt.router.library.config.AppConstants.*;
+
 public class GPSServiceOld extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
@@ -92,6 +94,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static void setDistance(int input) {
         distance = input;
     }
+
     public static void setListFakeGPSOfFake(List<LatLng> input) {
         GPSServiceOld.listFakeGPSOfFake = input;
     }
@@ -103,9 +106,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     public static List<NotifyModel> getNotifyModel() {
         return listNotify;
     }
+
     public static boolean getIsTrueWay() {
         return isTrueWay;
     }
+
     private static void initializeState() {
         // reset all state variables
         //GPSServiceOld.listStepToCheck = null;
@@ -178,7 +183,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
             // counting speed
             int speed = PrefStore.getSimulationSpeed();
-            speed = (20*1000)/(speed*1000/3600);
+            speed = (20 * 1000) / (speed * 1000 / 3600);
 
             // should this if contains ? checking
             /*if (isFakeGPS) {
@@ -190,8 +195,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             }
         }
     };
-    public double getLatitude(){
-        if(location != null){
+
+    public double getLatitude() {
+        if (location != null) {
             latitude = location.getLatitude();
         }
 
@@ -201,9 +207,9 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
     /**
      * Function to get longitude
-     * */
-    public double getLongitude(){
-        if(location != null){
+     */
+    public double getLongitude() {
+        if (location != null) {
             longitude = location.getLongitude();
         }
 
@@ -297,7 +303,6 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     }
 
 
-
     public boolean isNearLocation(Location location) {
         if (listNotify == null) {
             return false;
@@ -306,61 +311,79 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         Calendar calendar = Calendar.getInstance();
         LatLng checkPoint = new LatLng(location.getLatitude(), location.getLongitude());
 
-        if(isTrueWay) {
+        if (isTrueWay) {
             if (listLegToCheck != null) {
-                isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
-                        listLegToCheck.get(checkLegIndex).getSteps().
-                                get(checkStepIndex).getPolyline()), checkPoint, AppConstants.CHECK_DISTANCE);
-                if(!isTrueWay) {
-                    if(checkStepIndex == (listLegToCheck.get(checkLegIndex).getSteps().size() - 1)) {
+                if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
+                    isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
+                            listLegToCheck.get(checkLegIndex).getSteps().
+                                    get(checkStepIndex).getPolyline()), checkPoint, CHECK_DISTANCE);
+                    if(!isTrueWay) {
+                        isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
+                                listLegToCheck.get(checkLegIndex).getSteps().
+                                        get(checkStepIndex-1).getPolyline()), checkPoint, CHECK_DISTANCE);
+                    }
+                } else {
+                    isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
+                            listLegToCheck.get((checkLegIndex + 1) % listLegToCheck.size()).getSteps().
+                                    get(0).getPolyline()), checkPoint, CHECK_DISTANCE);
+                    if(!isTrueWay) {
+                        isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
+                                listLegToCheck.get(checkLegIndex).getSteps().
+                                        get(checkStepIndex-1).getPolyline()), checkPoint, CHECK_DISTANCE);
+                    } else {
                         checkLegIndex = (checkLegIndex + 1) % listLegToCheck.size();
                         checkStepIndex = 0;
-                        isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
-                                listLegToCheck.get(checkLegIndex).getSteps().
-                                        get(checkStepIndex).getPolyline()), checkPoint, AppConstants.CHECK_DISTANCE);
-                    } else {
-                        checkStepIndex ++;
-                        isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
-                                listLegToCheck.get(checkLegIndex).getSteps().
-                                        get(checkStepIndex).getPolyline()), checkPoint, AppConstants.CHECK_DISTANCE);
                     }
+
                 }
             }
         }
-        if(isTrueWay) {
+        if (isTrueWay) {
+            bus.post(listLegToCheck.get(checkLegIndex).getEndAddress());
             LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                     listNotify.get(stepIndex).location.getLongitude());
             if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
+                Log.e("Step", "" + stepIndex);
                 notifyIndex = stepIndex;
+                checkStepIndex ++;
                 stepIndex = (stepIndex + 1) % listNotify.size();
                 timeDithang = calendar.getTimeInMillis();
                 return true;
             } else {
-                if ((calendar.getTimeInMillis() - timeDithang) > 10000 ){
+                if ((calendar.getTimeInMillis() - timeDithang) > 10000) {
                     timeDithang = calendar.getTimeInMillis();
-                    bus.post("dithang");
+                    bus.post(DI_THANG);
                 }
             }
         } else {
             bus.post(checkPoint);
             if (timeSaiduong == 0) {
                 timeSaiduong = calendar.getTimeInMillis();
-                bus.post("saiduong");
+                bus.post(SAI_DUONG);
             } else {
-                if ((calendar.getTimeInMillis() - timeSaiduong) > 10000 ){
+                if ((calendar.getTimeInMillis() - timeSaiduong) > 10000) {
                     timeSaiduong = calendar.getTimeInMillis();
-                    bus.post("saiduong");
+                    bus.post(SAI_DUONG);
                 }
             }
-            for(int n = 0; n < listLegToCheck.size(); n++) {
+            for (int n = 0; n < listLegToCheck.size(); n++) {
                 List<Step> listStepToCheck = listLegToCheck.get(n).getSteps();
                 for (int m = 0; m < listStepToCheck.size(); m++) {
                     List<LatLng> listLLOfStep = DecodeUtils.decodePoly(listStepToCheck.get(m).getPolyline());
                     if (PolyLineUtils.isOnAllRoute(listLLOfStep, checkPoint, 20)) {
                         checkLegIndex = n;
-                        notifyIndex = m;
                         checkStepIndex = m;
-                        stepIndex = (m + 1) % listStepToCheck.size();
+                        int count = -1;
+                        for(int i = 0; i < checkLegIndex; i++) {
+                            count = count + listLegToCheck.get(i).getSteps().size();
+                        }
+                        if(count > -1) {
+                            notifyIndex = count;
+                            stepIndex = (count + 1) % listNotify.size();
+                        } else {
+                            notifyIndex = m;
+                            stepIndex = (m + 1) % listNotify.size();
+                        }
                         timeDithang = calendar.getTimeInMillis();
                         isTrueWay = true;
                         break;
@@ -412,7 +435,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             com.fpt.router.library.model.common.Location local = new com.fpt.router.library.model.common.Location();
             local.setLatitude(location.getLatitude());
             local.setLongitude(location.getLongitude());
-            new SendToDataLayerThread(AppConstants.PATH.MESSAGE_PATH_GPS, local).start();
+            new SendToDataLayerThread(PATH.MESSAGE_PATH_GPS, local).start();
         }
     }
 

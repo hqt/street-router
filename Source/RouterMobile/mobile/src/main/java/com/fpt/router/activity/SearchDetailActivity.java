@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fpt.router.R;
@@ -39,6 +40,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.wearable.Wearable;
 
+import org.w3c.dom.Text;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -59,7 +62,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     boolean isPlaySound = false;
 
     LatLng wrongWay;
-
     ImageButton wrongwayButton;
     ImageButton soundButton;
     ImageButton buttonHidenSound;
@@ -228,6 +230,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         } else {
             wrongwayButton.setVisibility(View.VISIBLE);
         }
+
         onLocationChanged(event.location);
     }
 
@@ -235,8 +238,17 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         Toast.makeText(SearchDetailActivity.this, event.smallMessage, Toast.LENGTH_SHORT).show();
     }
 
-    public void onEventMainThread(String event) {
+    public void onEventMainThread(int event) {
         NotifyUtils.notifyUnderRequest(event, SearchDetailActivity.this, isPlaySound);
+    }
+
+    public void onEventMainThread(String event) {
+        String text = event.replace(", Hồ Chí Minh", "");
+        event = text.replace(", Việt Nam", "");
+        TextView test = (TextView) findViewById(R.id.txt_cua_nam);
+        if(!test.getText().equals("Đang đi tới:" + event)) {
+            test.setText("Đang đi tới:" + event);
+        }
     }
 
     public void onEventMainThread(LatLng event) {

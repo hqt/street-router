@@ -16,26 +16,45 @@
             android:gravity="top"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
+
             <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <com.nutiteq.ui.MapView
-                android:id="@+id/mapView"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                />
+                <com.nutiteq.ui.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"/>
+                <TextView
+                    android:id="@+id/txt_cua_nam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="8dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"
+                    android:gravity="center"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:textSize="15dp" />
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/fab_gps_off"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dip"
-                    android:layout_marginTop="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginBottom="30dip"
                     app:backgroundTint="#F1F1F1"
                     android:src="@drawable/current_place" />
                 <android.support.design.widget.FloatingActionButton
@@ -43,10 +62,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dip"
-                    android:layout_marginTop="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginBottom="30dip"
                     app:backgroundTint="#F1F1F1"
                     android:visibility="invisible"
                     android:src="@drawable/ic_gps_fixed_black_24dp"/>
@@ -56,15 +75,13 @@
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
                     android:visibility="invisible"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dip"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginBottom="30dip"
                     app:backgroundTint="#F1F1F1"
                     android:src="@drawable/ic_explore_black_24dp"/>
             </RelativeLayout>
-
-
         </FrameLayout>
 
 
@@ -73,15 +90,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-
             <View
                 android:id="@+id/transparentView"
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/map_height"
                 android:layout_alignParentTop="true"
-                android:background="#6A1B9A" />
-
+                android:background="#6A1B9A"/>
 
             <com.fpt.router.widget.LockableListView
                 android:id="@android:id/list"
@@ -90,8 +105,8 @@
                 android:dividerHeight="@dimen/divider_height"
                 android:divider="@android:color/darker_gray"
                 android:background="@android:color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/transparentView"
                 android:smoothScrollbar="false" />
 

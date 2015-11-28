@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fpt.router.R;
 import com.fpt.router.framework.OrientationManager;
@@ -63,7 +64,7 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
     private OrientationManager mOrientationManager;
     protected NMLModel model;
     protected Marker marker;
-
+    protected TextView txt_cua_nam;
     protected LockableListView mListView;
     protected SlidingUpPanelLayout mSlidingUpPanelLayout;
 
@@ -149,7 +150,6 @@ public class NutiteqMapBaseFragment extends Fragment implements OnChangedListene
 
         mListView = (LockableListView) rootView.findViewById(android.R.id.list);
         mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-
         mSlidingUpPanelLayout = (SlidingUpPanelLayout) rootView.findViewById(R.id.slidingLayout);
         mSlidingUpPanelLayout.setEnableDragViewTouchEvents(true);
 
