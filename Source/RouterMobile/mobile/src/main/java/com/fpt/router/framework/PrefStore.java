@@ -149,7 +149,7 @@ public class PrefStore {
         return getSharedPreferences().getInt(PREF_MOTOR_SORT_TYPE, DEFAULT_MOTOR_SORT_TYPE);
     }
 
-    public static int getStimulateRouteType() {
+    public static int getSimulateRouteType() {
         return getSharedPreferences().getInt(PREF_STIMULATE_ROUTE_TYPE, DEFAULT_STIMULATE_ROUTE_TYPE);
     }
 

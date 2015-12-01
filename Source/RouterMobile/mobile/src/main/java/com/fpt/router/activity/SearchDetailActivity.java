@@ -76,6 +76,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_detail);
+        GPSServiceOld.initializeState();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)

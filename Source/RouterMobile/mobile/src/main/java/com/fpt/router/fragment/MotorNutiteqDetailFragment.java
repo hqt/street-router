@@ -16,6 +16,7 @@ import com.fpt.router.activity.SearchDetailActivity;
 import com.fpt.router.activity.SearchRouteActivity;
 import com.fpt.router.adapter.RouteItemAdapter;
 import com.fpt.router.fragment.base.AbstractNutiteqMapFragment;
+import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.AutocompleteObject;
 import com.fpt.router.library.model.common.NotifyModel;
@@ -95,7 +96,6 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         position = (int) getArguments().getSerializable("position");
         rs = getResources();
 
@@ -187,9 +187,11 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
     }
 
     private void drawFakeLine(List<Leg> input) {
-        for(int n = 0; n < input.size(); n++) {
-            List<LatLng> listLL = DecodeUtils.decodePoly(input.get(n).getOverview_polyline());
-            NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listLL, baseProjection, 6);
+        if(PrefStore.getSimulateRouteType() == 2) {
+            for (int n = 0; n < input.size(); n++) {
+                List<LatLng> listLL = DecodeUtils.decodePoly(input.get(n).getOverview_polyline());
+                NutiteqMapUtil.drawLineNutite(vectorDataSource, 0xFFFF0000, listLL, baseProjection, 6);
+            }
         }
     }
 
@@ -284,9 +286,20 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
     @Override
     public List<LatLng> getFakeGPSList() {
-        if(listFinalLeg != null) {
-            List<LatLng> listFakeGPS = getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
-            return listFakeGPS;
+        if(PrefStore.getSimulateRouteType() == 1) {
+            if (listFinalLeg != null) {
+                List<LatLng> listFakeGPS = getListLocationToFakeGPS(listFinalLeg, SearchRouteActivity.optimize);
+                return listFakeGPS;
+            } else {
+                return null;
+            }
+        } else if(PrefStore.getSimulateRouteType() == 2) {
+            if (listLegFake != null) {
+                List<LatLng> listFakeGPS = getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize);
+                return listFakeGPS;
+            } else {
+                return null;
+            }
         } else {
             return null;
         }
