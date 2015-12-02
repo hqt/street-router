@@ -62,7 +62,7 @@ public class DeveloperSettingActivity extends AppCompatActivity {
         stimulateSpeedText.setText(PrefStore.getSimulationSpeed() + "");
 
         // set spinner
-        stimulateRouteTypeSpinner.setSelection(PrefStore.getStimulateRouteType());
+        stimulateRouteTypeSpinner.setSelection(PrefStore.getSimulateRouteType());
 
         // set cursor at end of line
         ipEditText.setSelection(ipEditText.getText().length());
