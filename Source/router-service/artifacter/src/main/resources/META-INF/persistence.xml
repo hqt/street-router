@@ -9,6 +9,7 @@
         <class>com.fpt.router.artifacter.model.entity.Trip</class>
         <class>com.fpt.router.artifacter.model.entity.Connection</class>
         <class>com.fpt.router.artifacter.model.entity.Staff</class>
+        <class>com.fpt.router.artifacter.model.entity.Station</class>
         <class>com.fpt.router.artifacter.model.entity.Notification</class>
         <class>com.fpt.router.artifacter.model.entity.RouteNotification</class>
         <class>com.fpt.router.artifacter.model.entity.StationNotification</class>
@@ -18,7 +19,7 @@
             <property name="jadira.usertype.autoRegisterUserTypes" value="true"/>
             <property name="hibernate.archive.autodetection" value="class, hbm" />
             <property name="hibernate.format_sql" value="false" />
-            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.show_sql" value="true"/>
             <property name="hbm2ddl.auto" value="update" />
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/routerdb?useUnicode=true&amp;characterEncoding=UTF-8"/>
