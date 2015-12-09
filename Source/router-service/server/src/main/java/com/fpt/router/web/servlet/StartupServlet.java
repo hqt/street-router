@@ -34,8 +34,9 @@ public class StartupServlet extends HttpServlet {
         tripDAO.getTripsByRoute(route);
         int a = 3;*/
 
-        //StaffDAO staffDAO = new StaffDAO();
-        //new StationNotificationDAO().readByCode("af");
+        StaffDAO staffDAO = new StaffDAO();
+        staffDAO.findStaffByEmail("huynhquangthao@gmail.com");
+        // new StationNotificationDAO().readByCode("af");
         //Staff staff = staffDAO.findStaffByEmail("huynhquangthao@gmail.com");
         int a = 3;
         /*new StaffDAO().findStaffByEmail("a", "a");*/
