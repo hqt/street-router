@@ -11,8 +11,8 @@ import com.fpt.router.library.utils.SoundUtils;
  * Created by Nguyen Trung Nam on 11/20/2015.
  */
 public class NotifyUtils {
-    public static void notifyUnderRequest(int event, Context context, boolean isPlaySound) {
-        if(event == AppConstants.SAI_DUONG) {
+    public static void notifyUnderRequest(String event, Context context, boolean isPlaySound) {
+        if(event.equals(AppConstants.SAI_DUONG)) {
             Toast.makeText(context, "Bạn đang đi sai đường", Toast.LENGTH_SHORT).show();
             if (isPlaySound) {
                 SoundUtils.playSoundFromAsset(context, event + ".wav");
@@ -20,7 +20,7 @@ public class NotifyUtils {
             NotificationUtils.run(context, "Sai đường", "Bạn đang đi sai đường",
                     "Thông tin chi tiết", "Xin tham khảo bản đồ để biết thêm");
         }
-        if(event == AppConstants.DI_THANG) {
+        if(event.equals(AppConstants.DI_THANG)) {
             Toast.makeText(context, "Tiếp tục đi thẳng", Toast.LENGTH_SHORT).show();
             if (isPlaySound) {
                 SoundUtils.playSoundFromAsset(context, event + ".wav");

@@ -314,7 +314,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
         if (isTrueWay) {
             if (listLegToCheck != null) {
-                if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
+               /* if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
                     isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
                             listLegToCheck.get(checkLegIndex).getSteps().
                                     get(checkStepIndex).getPolyline()), checkPoint, CHECK_DISTANCE);
@@ -335,6 +335,17 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                         checkLegIndex = (checkLegIndex + 1) % listLegToCheck.size();
                         checkStepIndex = 0;
                     }
+                }*/
+                if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
+                    isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
+                            listLegToCheck.get(checkLegIndex).getSteps().
+                                    get(checkStepIndex).getPolyline()), checkPoint, distance);
+                } else {
+                    checkLegIndex = (checkLegIndex + 1) % listLegToCheck.size();
+                    checkStepIndex = 0;
+                    isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
+                            listLegToCheck.get(checkLegIndex).getSteps().
+                                    get(checkStepIndex).getPolyline()), checkPoint, distance);
 
                 }
             }

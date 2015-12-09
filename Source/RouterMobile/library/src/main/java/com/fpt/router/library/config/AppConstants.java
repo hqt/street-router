@@ -91,7 +91,7 @@ public class AppConstants {
     public static int DISTANCE_DEMO = 0;
     public static float ALPHA = 0.1f;
     public static double CHECK_DISTANCE = 20;
-    public static int DI_THANG = 0;
-    public static int SAI_DUONG = 1;
+    public static String DI_THANG = "dithang";
+    public static String SAI_DUONG = "saiduong";
 
 }

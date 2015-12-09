@@ -9,6 +9,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -22,6 +23,7 @@ import com.fpt.router.fragment.BusDetailFourPointFragment;
 import com.fpt.router.fragment.BusDetailTwoPointFragment;
 import com.fpt.router.fragment.MotorNutiteqDetailFragment;
 import com.fpt.router.framework.PrefStore;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.config.AppConstants.FPT_SERVICE;
 import com.fpt.router.library.config.AppConstants.FileCache;
 import com.fpt.router.library.model.bus.Journey;
@@ -239,16 +241,16 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
         Toast.makeText(SearchDetailActivity.this, event.smallMessage, Toast.LENGTH_SHORT).show();
     }
 
-    public void onEventMainThread(int event) {
-        NotifyUtils.notifyUnderRequest(event, SearchDetailActivity.this, isPlaySound);
-    }
-
     public void onEventMainThread(String event) {
-        String text = event.replace(", Hồ Chí Minh", "");
-        event = text.replace(", Việt Nam", "");
-        TextView test = (TextView) findViewById(R.id.txt_cua_nam);
-        if(!test.getText().equals("Đang đi tới:" + event)) {
-            test.setText("Đang đi tới:" + event);
+        Log.e("CMM", "" + event);
+        NotifyUtils.notifyUnderRequest(event, SearchDetailActivity.this, isPlaySound);
+        if(!event.equals(AppConstants.SAI_DUONG) && !event.equals(AppConstants.DI_THANG)) {
+            String text = event.replace(", Hồ Chí Minh", "");
+            event = text.replace(", Việt Nam", "");
+            TextView test = (TextView) findViewById(R.id.txt_cua_nam);
+            if (!test.getText().equals("Đang đi tới:" + event)) {
+                test.setText("Đang đi tới:" + event);
+            }
         }
     }
 
