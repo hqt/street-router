@@ -147,8 +147,8 @@ public class SearchOptionActivity extends Activity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
-                setResult(4, intent);
+                /*Intent intent = new Intent(SearchOptionActivity.this, SearchRouteActivity.class);
+                setResult(4, intent);*/
                 finish();
             }
         });
