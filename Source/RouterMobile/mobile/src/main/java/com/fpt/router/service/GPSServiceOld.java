@@ -79,7 +79,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
     private static List<NotifyModel> listNotify;
     private static List<LatLng> listFakeGPSOfFake;
     private static List<Leg> listLegToCheck;
-    private static int distance;
+    private static double distance;
 
 
     public static void setListNotify(List<NotifyModel> listNotify) {
@@ -91,7 +91,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
         return checkLegIndex;
     }
 
-    public static void setDistance(int input) {
+    public static void setDistance(double input) {
         distance = input;
     }
 
@@ -314,7 +314,7 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
         if (isTrueWay) {
             if (listLegToCheck != null) {
-               /* if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
+                if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
                     isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
                             listLegToCheck.get(checkLegIndex).getSteps().
                                     get(checkStepIndex).getPolyline()), checkPoint, CHECK_DISTANCE);
@@ -335,11 +335,11 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                         checkLegIndex = (checkLegIndex + 1) % listLegToCheck.size();
                         checkStepIndex = 0;
                     }
-                }*/
-                if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
+                }
+                /*if(checkStepIndex < listLegToCheck.get(checkLegIndex).getSteps().size()) {
                     isTrueWay = PolyLineUtils.isOnAllRoute(DecodeUtils.decodePoly(
                             listLegToCheck.get(checkLegIndex).getSteps().
-                                    get(checkStepIndex).getPolyline()), checkPoint, distance);
+                                    get(checkStepIndex).getPolyline()), checkPoint, 100);
                 } else {
                     checkLegIndex = (checkLegIndex + 1) % listLegToCheck.size();
                     checkStepIndex = 0;
@@ -347,14 +347,14 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
                             listLegToCheck.get(checkLegIndex).getSteps().
                                     get(checkStepIndex).getPolyline()), checkPoint, distance);
 
-                }
+                }*/
             }
         }
         if (isTrueWay) {
             bus.post(listLegToCheck.get(checkLegIndex).getEndAddress());
             LatLng latlngOfStep = new LatLng(listNotify.get(stepIndex).location.getLatitude(),
                     listNotify.get(stepIndex).location.getLongitude());
-            if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) < distance) {
+            if (DecodeUtils.calculateDistance(checkPoint, latlngOfStep) <= distance) {
                 notifyIndex = stepIndex;
                 checkStepIndex ++;
                 stepIndex = (stepIndex + 1) % listNotify.size();

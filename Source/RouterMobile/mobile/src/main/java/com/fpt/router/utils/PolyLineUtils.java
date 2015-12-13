@@ -1,5 +1,7 @@
 package com.fpt.router.utils;
 
+import android.util.Log;
+
 import com.fpt.router.library.utils.DecodeUtils;
 import com.google.android.gms.maps.model.LatLng;
 

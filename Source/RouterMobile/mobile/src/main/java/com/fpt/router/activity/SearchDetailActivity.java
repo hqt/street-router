@@ -179,7 +179,7 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
             public void onClick(View v) {
                 buttonHideFakeGPS.setVisibility(View.GONE);
                 fakeGPSButton.setVisibility(View.VISIBLE);
-                GPSServiceOld.setDistance(distance);
+                GPSServiceOld.setDistance((double) distance);
                 GPSServiceOld.turnOnFakeGPS(frag.getFakeGPSList());
             }
         });
