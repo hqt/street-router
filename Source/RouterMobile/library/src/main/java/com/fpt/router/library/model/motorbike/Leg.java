@@ -91,7 +91,6 @@ public class Leg  implements IWearableModel<Leg> {
     @Override
     public DataMap putToDataMap() {
         DataMap dataMap = new DataMap();
-
         dataMap.putString("start_location", startAddress);
         dataMap.putString("end_location", endAddress);
 
