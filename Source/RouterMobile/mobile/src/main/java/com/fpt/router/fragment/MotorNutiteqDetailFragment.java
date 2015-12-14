@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -356,7 +357,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
 
                 Leg leg = new Leg();
                 ArrayList<DataMap> dataMaps = leg.listModelToDataMap(listFinalLeg);
-
+                Log.e("Datamap:", "" + dataMaps);
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
                 putDataMapRequest.getDataMap().putDataMapArrayList("list_leg", dataMaps);
                 putDataMapRequest.getDataMap().putLong("time", new Date().getTime());

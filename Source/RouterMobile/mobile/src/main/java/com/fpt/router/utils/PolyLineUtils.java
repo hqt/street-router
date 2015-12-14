@@ -263,11 +263,12 @@ public class PolyLineUtils {
     public static boolean isOnRoute (LatLng tail, LatLng head, LatLng check, double distance) {
         boolean isSquare = checkSquare(tail, head, check);
         if(isSquare) {
-            if ((distanceToLine(check, tail, head) <= distance) ||
-                    (DecodeUtils.calculateDistance(check, tail) <= distance) ||
-                    (DecodeUtils.calculateDistance(check, head) <= distance)) {
+            if (distanceToLine(check, tail, head) <= distance) {
                 return true;
             }
+        } else if((DecodeUtils.calculateDistance(check, tail) <= distance) ||
+                (DecodeUtils.calculateDistance(check, head) <= distance)) {
+            return true;
         }
         return false;
     }
