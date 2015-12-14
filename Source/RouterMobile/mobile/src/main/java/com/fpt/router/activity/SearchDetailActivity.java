@@ -242,7 +242,6 @@ public class SearchDetailActivity extends AppCompatActivity implements LocationL
     }
 
     public void onEventMainThread(String event) {
-        Log.e("CMM", "" + event);
         NotifyUtils.notifyUnderRequest(event, SearchDetailActivity.this, isPlaySound);
         if(!event.equals(AppConstants.SAI_DUONG) && !event.equals(AppConstants.DI_THANG)) {
             String text = event.replace(", Hồ Chí Minh", "");
