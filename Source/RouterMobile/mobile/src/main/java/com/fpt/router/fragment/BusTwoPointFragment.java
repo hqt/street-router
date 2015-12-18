@@ -123,11 +123,8 @@ public class BusTwoPointFragment extends Fragment {
             recyclerView = (RecyclerView) v.findViewById(R.id.recyclerview);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             if (activity.needToSearch && activity.searchType == SearchRouteActivity.SearchType.BUS_TWO_POINT) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                    new JSONParseTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                } else {
-                    new JSONParseTask().execute();
-                }
+                JSONParseTask jsonParseTask =  new JSONParseTask();
+                jsonParseTask.execute();
             } else if (SearchRouteActivity.results.size() > 0) {
                 recyclerView.setItemAnimator(new SlideInUpAnimator(new OvershootInterpolator(1f)));
                 recyclerView.setAdapter(new BusTwoPointAdapter(SearchRouteActivity.results));
@@ -183,12 +180,13 @@ public class BusTwoPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    if (MainActivity.flatGPS) {
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
+                    /*if (SearchRouteActivity.isTrackingGPS) {
                         busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
                                 GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
                     } else {
                         autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
-                    }
+                    }*/
                 } else {
                     busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
                             GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));

@@ -21,7 +21,7 @@ import static com.fpt.router.library.config.AppConstants.Vibrator.*;
  */
 public class NotificationUtils {
     public static void run(Context context, String title, String content,
-                           String pageTwoTitle, String pageTwoContent) {
+                           String pageTwoTitle, String pageTwoContent, int icon_notify) {
         // notification testing
         // int notificationId = (int) new Date().getTime();
         int notificationId = 1;
@@ -53,7 +53,7 @@ public class NotificationUtils {
 
         NotificationCompat.Builder notificationBuilder=
                 new NotificationCompat.Builder(context)
-                        .setSmallIcon(R.drawable.ic_notification)
+                        .setSmallIcon(icon_notify)
                         .setContentTitle(title)
                         .setContentText(content)
                         .setVibrate(new long[]{DELAY_VIBRATE,ON_VIBRATE})

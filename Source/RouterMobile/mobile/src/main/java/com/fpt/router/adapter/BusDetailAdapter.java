@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.fpt.router.R;
+import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.bus.INode;
 import com.fpt.router.library.model.bus.Path;
 import com.fpt.router.library.model.bus.Segment;
@@ -57,7 +58,7 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
         if(nodeList.get(position) instanceof Path){
             Path path = (Path) nodeList.get(position);
             imgRoute.setImageResource(R.drawable.more20);
-            imgDrive.setImageResource(R.drawable.ic_directions_walk_black_24dp);
+            imgDrive.setImageResource(R.drawable.ic_expand_more_black_24dp);
             txtStartLocation.setText(path.stationFromName);
             if(position == (nodeList.size() - 1)){
                 txtEndLocation.setText(path.stationToName);
@@ -66,16 +67,28 @@ public class BusDetailAdapter extends ArrayAdapter<INode> {
             if(distance > 1000){
                 distance = path.distance/1000;
                 distance = Math.floor(distance*100)/100;
-                txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertToMinute(path.time) +" phút)");
+
+                if(!AppConstants.SearchBus.IS_USED_REAL_WALKING){
+                    txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertPeriodToMinute(path.time) +" phút)");
+                }else{
+                    txtDetail.setText("Đi bộ "+ distance +" km ( Khoảng "+ TimeUtils.convertToMinute(path.time) +" phút)");
+                }
             }else{
-                int time = TimeUtils.convertToMinute(path.time);
+                int time = 0;
+                if(!AppConstants.SearchBus.IS_USED_REAL_WALKING){
+                    time = (int) TimeUtils.convertPeriodToMinute(path.time);
+                }else{
+                    time = TimeUtils.convertToMinute(path.time);
+                }
                 if(distance < 1){
                     distance = distance + 1;
                     time = time +1;
                 }
                 txtDetail.setText("Đi bộ "+ (int)distance +" m ( Khoảng "+ time +" phút)");
             }
-
+            imageBus.setImageResource(R.drawable.ic_directions_walk_black_24dp);
+            txtRouteNo.setText("");
+            txtRouteName.setText("");
         }
         /*if bus*/
         if(nodeList.get(position) instanceof Segment){

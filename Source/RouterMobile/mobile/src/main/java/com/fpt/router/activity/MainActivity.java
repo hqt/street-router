@@ -207,12 +207,12 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     Intent intent = new Intent(MainActivity.this, SearchRouteActivity.class);
 
-                    LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                   /* LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                     boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                     if ((statusOfGPS == true) && (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION)) == null) {
                         flatGPS = true;
                         SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
-                    }
+                    }*/
                     startActivity(intent);
                     return true;
                 }
@@ -267,27 +267,31 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
         fab_gps.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                final String action = Settings.ACTION_LOCATION_SOURCE_SETTINGS;
-                final String message = "Bạn có muốn mở GPS ?";
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                String message = "Bạn có muốn mở GPS ?";
                 builder.setMessage(message)
+                        .setCancelable(false)
                         .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(action));
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                                 dialog.dismiss();
                             }
                         })
                         .setNegativeButton("Hủy", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
+                                dialog.dismiss();
                             }
                         });
-                builder.create().show();
+                // create alert dialog
+                AlertDialog alertDialog = builder.create();
+                // show it
+                alertDialog.show();
                 return true;
             }
         });
+
 
         fab_compass.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -342,6 +346,7 @@ public class MainActivity extends VectorMapBaseActivity implements LocationListe
             handlerThread.postDelayed(this, 500);
         }
     };
+
 
     @Override
     protected void onStart() {

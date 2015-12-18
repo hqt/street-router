@@ -148,16 +148,66 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
             listStep.addAll(listFinalLeg.get(n).getSteps());
         }
         for(int n = 0; n < listStep.size(); n++) {
+            //get maneuver to ontify
+            int icon = drawIcon(listStep.get(n));
             NutiteqMapUtil.drawMarkerNutiteqAllOption(mapView, vectorDataSource, rs,
                     listStep.get(n).getDetailLocation().getStartLocation().getLatitude(),
                     listStep.get(n).getDetailLocation().getStartLocation().getLongitude(),
-                    R.drawable.orange_small, 20);
+                    icon, 20);
         }
         adapterItem = new RouteItemAdapter(getContext(), R.layout.activity_list_row_gmap, listStep);
         mListView.setAdapter(adapterItem);
         GPSServiceOld.setListLegToCheck(listFinalLeg);
         GPSServiceOld.setListFakeGPSOfFake(getListLocationToFakeGPS(listLegFake, SearchRouteActivity.optimize));
         GPSServiceOld.setListNotify(getNotifyList());
+    }
+    /*Draw marker for motorbike**/
+    private int drawIcon(Step step){
+        switch (step.getManeuver()){
+            case "turn-sharp-left":
+                return R.drawable.turn_sharp_left_n;
+            case "uturn-right":
+                return R.drawable.uturn_right_n;
+            case "turn-slight-right":
+                return R.drawable.turn_slight_right_n;
+            case "merge":
+                return R.drawable.merge_n;
+            case "roundabout-left":
+                return R.drawable.roundabout_left_n;
+            case "roundabout-right":
+                return R.drawable.roundabout_right_n;
+            case "uturn-left":
+                return R.drawable.uturn_left_n;
+            case "turn-slight-left":
+                return R.drawable.turn_slight_left_n;
+            case "turn-left":
+                return R.drawable.turn_left_n;
+            case "ramp-right":
+                return R.drawable.ramp_right_n;
+            case "turn-right":
+                return R.drawable.turn_right_n;
+            case "fork-right":
+                return R.drawable.fork_right_n;
+            case "straight":
+                return R.drawable.straight_n;
+            case "fork-left":
+                return R.drawable.fork_left_n;
+            case "ferry-train":
+                return R.drawable.ferry_train_n;
+            case "turn-sharp-right":
+                return R.drawable.turn_sharp_right_n;
+            case "ramp-left":
+                return R.drawable.ramp_left_n;
+            case "ferry":
+                return R.drawable.ferry_n;
+            case "keep-left":
+                return R.drawable.keep_left_n;
+            case "keep-right":
+                return R.drawable.keep_right_n;
+            case "Keep going":
+                return R.drawable.straight_n;
+            default: return R.drawable.straight_n;
+        }
     }
 
     private void setUpMap(List<Leg> listL) {

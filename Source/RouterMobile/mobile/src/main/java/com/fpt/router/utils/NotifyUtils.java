@@ -3,6 +3,7 @@ package com.fpt.router.utils;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.fpt.router.R;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.utils.NotificationUtils;
 import com.fpt.router.library.utils.SoundUtils;
@@ -18,7 +19,7 @@ public class NotifyUtils {
                 SoundUtils.playSoundFromAsset(context, event + ".wav");
             }
             NotificationUtils.run(context, "Sai đường", "Bạn đang đi sai đường",
-                    "Thông tin chi tiết", "Xin tham khảo bản đồ để biết thêm");
+                    "Thông tin chi tiết", "Xin tham khảo bản đồ để biết thêm",R.drawable.wrong);
         }
         if(event.equals(AppConstants.DI_THANG)) {
             Toast.makeText(context, "Tiếp tục đi thẳng", Toast.LENGTH_SHORT).show();
@@ -26,7 +27,7 @@ public class NotifyUtils {
                 SoundUtils.playSoundFromAsset(context, event + ".wav");
             }
             NotificationUtils.run(context, "Đi thẳng", "Tiếp tục đi thẳng",
-                    "Thông tin chi tiết", "Xin tiếp tục đi thẳng trên con đường hiện tại");
+                    "Thông tin chi tiết", "Xin tiếp tục đi thẳng trên con đường hiện tại",R.drawable.straight_n);
         }
     }
 }

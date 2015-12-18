@@ -1,6 +1,8 @@
 package com.fpt.router.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -95,6 +97,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
     public static boolean isTrackingExpandButton = false;//expand button is not click
 
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
+    public static boolean isTrackingGPS = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,13 +185,17 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
         /**
          * check GPS open and field start location is empty
          */
-        /*if (mapLocation.get(SearchField.FROM_LOCATION) != null) {
-            edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
-        }*/
-        if ((MainActivity.flatGPS) && (mapLocation.get(SearchField.FROM_LOCATION) == null)) {
+
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean statusOfGPS = manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if ((statusOfGPS == true) && (mapLocation.get(SearchField.FROM_LOCATION) == null)) {
+            isTrackingGPS = true;
             edit_1.setHint("Vị trí của bạn");
             SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
+        }else{
+            isTrackingGPS = false;
         }
+
 
         if (mapLocation.get(SearchField.FROM_LOCATION) != null){
             edit_1.setText(mapLocation.get(SearchField.FROM_LOCATION).getName());
@@ -395,7 +402,7 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                 results.clear();
                 journeys.clear();*/
                 // validation
-                if ((!MainActivity.flatGPS) && ("".equals(edit_1.getText()))) {
+                if ((!isTrackingGPS) && ("".equals(edit_1.getText()))) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm khởi hành", Toast.LENGTH_SHORT).show();
                 } else if ("".equals(edit_2.getText())) {
                     Toast.makeText(SearchRouteActivity.this, "Phải nhập điểm đến", Toast.LENGTH_SHORT).show();
@@ -478,8 +485,10 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
                 linear_middle_1.setVisibility(View.GONE);
                 linear_middle_2.setVisibility(View.GONE);
             }
+
         }
         setTextToField();
+
     }
 
 
@@ -526,9 +535,9 @@ public class SearchRouteActivity extends AppCompatActivity implements RadialTime
             }else {
                 edit_1.setText(mapLocation.get(SearchField.TO_LOCATION).getName());
             }
-
+            //isTrackingGPS = false;
         } else {
-            if (MainActivity.flatGPS) {
+            if (isTrackingGPS) {
                 edit_1.setHint("Vị trí của bạn");
                 SearchRouteActivity.mapLocation.put(AppConstants.SearchField.FROM_LOCATION, null);
                 edit_1.setText("");

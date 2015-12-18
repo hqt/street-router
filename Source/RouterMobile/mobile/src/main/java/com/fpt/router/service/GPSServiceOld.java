@@ -18,6 +18,7 @@ import android.os.IBinder;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.fpt.router.R;
 import com.fpt.router.framework.PrefStore;
 import com.fpt.router.library.config.AppConstants;
 import com.fpt.router.library.model.common.NotifyModel;
@@ -434,7 +435,8 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
 
             // Create notification
             NotifyModel notifyModel = listNotify.get(notifyIndex);
-            NotificationUtils.run(mContext, notifyModel.smallTittle, notifyModel.smallMessage, notifyModel.longTittle, notifyModel.longMessage);
+            int icon_notify = drawIcon(notifyModel);
+            NotificationUtils.run(mContext, notifyModel.smallTittle, notifyModel.smallMessage, notifyModel.longTittle, notifyModel.longMessage,icon_notify);
 
             // Send signal
             bus.post(notifyModel);
@@ -450,6 +452,52 @@ public class GPSServiceOld extends Service implements LocationListener, GoogleAp
             local.setLatitude(location.getLatitude());
             local.setLongitude(location.getLongitude());
             new SendToDataLayerThread(PATH.MESSAGE_PATH_GPS, local).start();
+        }
+    }
+
+    /*Draw marker for motorbike**/
+    private int drawIcon(NotifyModel notifyModel){
+        Log.d("Ngoan smallMessage -->",notifyModel.smallTittle);
+        switch (notifyModel.smallTittle){
+            case "Ngoặt trái":
+                return R.drawable.turn_sharp_left_n;
+            case "Quay đầu về bên phải":
+                return R.drawable.uturn_right_n;
+            case "Chếch sang phải":
+                return R.drawable.turn_slight_right_n;
+            case "Nhập vào":
+                return R.drawable.merge_n;
+            case "Tại vòng xuyến":
+                return R.drawable.roundabout_right_n;
+            case "Quay đầu về bên trái":
+                return R.drawable.uturn_left_n;
+            case "Chếch bên trái":
+                return R.drawable.turn_slight_left_n;
+            case "Rẻ trái":
+                return R.drawable.turn_left_n;
+            case "Đi theo lối ra bên phải":
+                return R.drawable.ramp_right_n;
+            case "Rẻ phải":
+                return R.drawable.turn_right_n;
+            case "Ngã ba bên phải":
+                return R.drawable.fork_right_n;
+            case "Đi thẳng":
+                return R.drawable.straight_n;
+            case "Ngã ba bên trái":
+                return R.drawable.fork_left_n;
+            case "Qua sông":
+                return R.drawable.ferry_train_n;
+            case "Ngoặt phải":
+                return R.drawable.turn_sharp_right_n;
+            case "Đi theo lối ra bên trái":
+                return R.drawable.ramp_left_n;
+            case "Đi phà":
+                return R.drawable.ferry_n;
+            case "Đi về bên trái":
+                return R.drawable.keep_left_n;
+            case "Đi về bên Phải":
+                return R.drawable.keep_right_n;
+            default: return R.drawable.straight_n;
         }
     }
 

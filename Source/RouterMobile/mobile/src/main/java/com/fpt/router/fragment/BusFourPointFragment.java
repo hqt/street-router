@@ -176,12 +176,13 @@ public class BusFourPointFragment extends Fragment {
                 List<AutocompleteObject> autocompleteObjects = new ArrayList<>();
                 // add to list by ordinary
                 if (SearchRouteActivity.mapLocation.get(AppConstants.SearchField.FROM_LOCATION) != null) {
-                    if (MainActivity.flatGPS) {
+                    /*if (SearchRouteActivity.isTrackingGPS) {
                         busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
                                 GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
                     } else {
                         autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
-                    }
+                    }*/
+                    autocompleteObjects.add(mapLocation.get(AppConstants.SearchField.FROM_LOCATION));
                 } else {
                     busLocations.add(new BusLocation(GPSServiceOld.gpsServiceInstance.getLatitude(),
                             GPSServiceOld.gpsServiceInstance.getLongitude(), "Vị trí hiện tại."));
