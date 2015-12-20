@@ -37,7 +37,7 @@ public class MotorMapUtils {
         MapUtils.drawLine(mMap, list, Color.BLUE);
         // Move the camera to show the marker.
         LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
-        MapUtils.moveCamera(mMap, latLng.latitude, latLng.longitude, 13);
+        MapUtils.moveCamera(mMap, latLng.latitude, latLng.longitude, 10);
     }
 
     public static void drawMapWithFourPoint(GoogleMap mMap, List<Leg> listFinalLeg) {
@@ -75,7 +75,7 @@ public class MotorMapUtils {
             List<LatLng> listLatLng = DecodeUtils.decodePoly(encodedString);
             MapUtils.drawLine(mMap, listLatLng, Color.BLUE);
             LatLng latLng = DecodeUtils.middlePoint(start_location.getLatitude(), start_location.getLongitude(), end_location.getLatitude(), end_location.getLongitude());
-            MapUtils.moveCamera(mMap, latLng.latitude, latLng.longitude, 12);
+            MapUtils.moveCamera(mMap, latLng.latitude, latLng.longitude, 10);
         }
     }
 }

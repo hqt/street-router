@@ -239,9 +239,9 @@ public class MainActivity extends Activity implements OnMapReadyCallback,
         Double longitude = location.getLongitude();
         Log.e("Nam:", latitude + "" + longitude);
         now = MapUtils.drawPointColor(mMap, latitude, longitude, "", BitmapDescriptorFactory.HUE_RED);
-        if (isTracking) {
+        /*if (isTracking) {
             MapUtils.moveCamera(mMap, latitude, longitude, 15);
-        }
+        }*/
 
     }
 }
