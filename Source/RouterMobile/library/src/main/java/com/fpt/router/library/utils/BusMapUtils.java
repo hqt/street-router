@@ -146,7 +146,7 @@ public class BusMapUtils {
         MapUtils.drawLine(mMap, listFinal, Color.BLUE);
 
                 /*MapUtils.drawCircle(mMap,list);*/
-        MapUtils.moveCamera(mMap, latitude, longitude, 12);
+        MapUtils.moveCamera(mMap, latitude, longitude, 10);
     }
 
     public static void drawMapWithFourPoint(GoogleMap mMap, Journey journey) {
@@ -237,7 +237,7 @@ public class BusMapUtils {
             }
             //add polyline
             MapUtils.drawLine(mMap, listFinal, Color.BLUE);
-            MapUtils.moveCamera(mMap, latitude, longitude, 12);
+            MapUtils.moveCamera(mMap, latitude, longitude, 10);
         }
     }
 

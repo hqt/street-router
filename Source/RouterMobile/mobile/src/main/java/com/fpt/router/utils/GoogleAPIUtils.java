@@ -89,10 +89,10 @@ public class GoogleAPIUtils {
     public static List<String> getThreePointWithoutOptimizeDirection(List<AutocompleteObject> listLocation) {
         String url;
         List<String> listUrl = new ArrayList<>();
-        for (int x = 0; x < listLocation.size() - 1; x++) {
-            url = getTwoPointDirection(listLocation.get(x), listLocation.get(x + 1));
-            listUrl.add(url);
-        }
+        url = getTwoPointDirection(listLocation.get(0), listLocation.get(2));
+        listUrl.add(url);
+        url = getTwoPointDirection(listLocation.get(2), listLocation.get(1));
+        listUrl.add(url);
         return listUrl;
     }
 
