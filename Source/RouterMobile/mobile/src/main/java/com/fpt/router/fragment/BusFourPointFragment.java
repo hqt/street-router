@@ -157,6 +157,12 @@ public class BusFourPointFragment extends Fragment {
         }
 
         @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            pDialog.setMessage(values[0]);
+        }
+
+        @Override
         protected List<Journey> doInBackground(String... args) {
             List<Journey> journeyList = new ArrayList<Journey>();
             // parse gson
@@ -221,6 +227,8 @@ public class BusFourPointFragment extends Fragment {
                     }
                     jsonFromServer = APIUtils.getJsonFromServer(busLocations);
 
+                    publishProgress("finish get data from server");
+
                     try {
                         journeyList = gson_parse.fromJson(jsonFromServer, new TypeToken<List<Journey>>() {
                         }.getType());
@@ -244,6 +252,7 @@ public class BusFourPointFragment extends Fragment {
             /* *
             * GET LIST RESULT AND SET AGAIN FOR WALKING PATH
             */
+            int count = 0;
             for (int i = 0; i < journeyList.size(); i++) {
                 Journey journey = journeyList.get(i);
                 List<Result> results = journey.results;
@@ -258,6 +267,8 @@ public class BusFourPointFragment extends Fragment {
                             LatLng endLatLng = new LatLng(path.stationToLocation.getLatitude(), path.stationToLocation.getLongitude());
                             String url = GoogleAPIUtils.makeURL(startLatLng.latitude, startLatLng.longitude, endLatLng.latitude, endLatLng.longitude);
                             String json = NetworkUtils.download(url);
+                            publishProgress("download " + count + " paths");
+                            count++;
                             try {
                                 JSONObject jsonObject = new JSONObject(json);
                                 String status = jsonObject.getString("status");
