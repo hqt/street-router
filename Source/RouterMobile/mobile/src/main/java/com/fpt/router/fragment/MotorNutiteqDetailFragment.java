@@ -413,6 +413,7 @@ public class MotorNutiteqDetailFragment extends AbstractNutiteqMapFragment imple
                 putDataMapRequest.getDataMap().putLong("time", new Date().getTime());
 
                 PutDataRequest request = putDataMapRequest.asPutDataRequest();
+                request.setUrgent();
 
                 // DataItems share among devices and contain small amounts of data. A DataItem has 2 parts:
                 //  1. Path: Like Message API, unique string such as com/fpt/hqt

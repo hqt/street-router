@@ -350,6 +350,10 @@ public class RaptorAlgorithm {
         segment.tranferNo = transferTurn;
         segment.pathType = PathType.CONNECTED_BUS;
 
+        if (route.routeId == 51) {
+            System.out.println("fuck");
+        }
+
         // building middle stations for this segment
         List<Path> res = new ArrayList<Path>();
 

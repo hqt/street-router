@@ -43,7 +43,6 @@ public class AlgorithmTest {
         CityMap map = MapDAL.readDatabase();
         JPADaoImpl.disableStaticEntityManager();
 
-        new StaffDAO().findStaffByEmail("a", "a");
         JPADaoImpl.closeFactory();
 
         LocalTime time = new LocalTime(8, 30, 0);
@@ -120,6 +119,14 @@ public class AlgorithmTest {
         ha_lo.latitude = 10.869391;
         ha_lo.longitude = 106.805186;
 
+        Location vincom = new Location();
+        vincom.latitude = 10.360637;
+        vincom.longitude = 106.662486;
+
+        Location nguyen_dinh_chieu = new Location();
+        nguyen_dinh_chieu.latitude = 10.775800;
+        nguyen_dinh_chieu.longitude = 106.687280;
+
         MultiPointOptAlgorithm multiPointOptAlgorithm = new MultiPointOptAlgorithm();
 
         List<Location> middleLocations = new ArrayList<Location>();
@@ -132,6 +139,7 @@ public class AlgorithmTest {
         middleAddress.add("tran chanh chieu");
         middleAddress.add("ha lo");
 
+/*
         List<Journey> journeys = multiPointOptAlgorithm.run(map, cvpm, "Software Park",
                 middleLocations, middleAddress, time, 500, 2, true);
         Gson gson = JSONUtils.buildGson();
@@ -139,14 +147,15 @@ public class AlgorithmTest {
         String json = gson.toJson(journeys);
 
         System.out.println(json);
-        int abcd = 3;
+*/
 
-/*
         TwoPointAlgorithm twoPointAlgorithm = new TwoPointAlgorithm();
 
-        String res = twoPointAlgorithm.solveAndReturnJSon(map, cvpm, dai_hoc_nong_lam_2, "Start Location", "End Location", time,
-                Config.WALKING_DISTANCE, 2, false, SearchType.TWO_POINT);
-        System.out.println(res);*/
+        String res = twoPointAlgorithm.solveAndReturnJSon(map,
+                vincom, nguyen_dinh_chieu,
+                "Start Location", "End Location",
+                time, 600, 2, false, SearchType.TWO_POINT);
+        System.out.println(res);
 
 
     }

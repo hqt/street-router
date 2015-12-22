@@ -13,6 +13,7 @@ import com.fpt.router.artifacter.utils.DistanceUtils;
 import com.fpt.router.artifacter.utils.JSONUtils;
 import com.fpt.router.artifacter.utils.NoResultHelper;
 import com.google.gson.Gson;
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.joda.time.LocalTime;
 import org.joda.time.Period;
 
@@ -92,12 +93,14 @@ public class TwoPointAlgorithm {
 
         // prevent testing at midnight :)
         this.departureTime = new LocalTime(12, 0, 0);
+        System.out.println("0");
 
         // can walking
         if (DistanceUtils.distance(start, end) < Config.WALKING_DISTANCE) {
             message = "có thể đi bộ trực tiếp giữa hai điểm";
             return;
         }
+        System.out.println("1");
 
         nearStartStations = findNearestStations(start);
         nearEndStations = findNearestStations(end);
@@ -106,10 +109,13 @@ public class TwoPointAlgorithm {
             message= "không có trạm xe buýt nào gần " + startAddress;
             return;
         }
+        System.out.println("2");
+
         if (nearEndStations.size() == 0) {
             message = "không có trạm xe buýt nào gần " + endAddress;
             return;
         }
+        System.out.println("3");
 
         results = new ArrayList<Result>();
         if (isOptimizeVersion) {
@@ -207,10 +213,6 @@ public class TwoPointAlgorithm {
                 millis = (int) (endPath.distance / Config.HUMAN_SPEED_M_S) * 1000;
                 endPath.time = new Period(millis);
 
-                if (fromStation.id == 1445 && toStation.id == 466) {
-                    int c = 3;
-                }
-
                 RaptorAlgorithm algor = new RaptorAlgorithm();
                 Result result = algor.runClassical(map, fromStation, toStation, startPath, endPath,
                         K, isOptimizeK, departureTime);
@@ -290,6 +292,7 @@ public class TwoPointAlgorithm {
     private List<Station> findNearestStations(Location location) {
         List<Station> res = new ArrayList<Station>();
         for (Station station : map.stations) {
+            System.out.println("distance: " + DistanceUtils.distance(location, station.location));
             if (DistanceUtils.distance(location, station.location) <= walkingDistance) {
                 res.add(station);
             }

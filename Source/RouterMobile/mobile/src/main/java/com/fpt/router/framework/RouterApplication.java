@@ -55,6 +55,8 @@ public class RouterApplication extends Application {
         //JodaTimeAndroid.init(this);
         mContext = getApplicationContext();
 
+        //PrefStore.setIsMapDownloaded(false);
+
         bus = EventBus.getDefault();
 
         // build realm default configuration
