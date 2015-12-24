@@ -36,10 +36,10 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Hibernate
 - MySQL
 - Android Development
-..- Material Layout Design implementation
-..- Nutiteq Map Offline API
-..- GPS Technology
-..- Google Direction API, Google Map API, Google Autocomplete API
+.. Material Layout Design implementation
+.. Nutiteq Map Offline API
+.. GPS Technology
+.. Google Direction API, Google Map API, Google Autocomplete API
 - Android Wear Development
 
 # Presentation
