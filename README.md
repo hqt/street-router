@@ -11,23 +11,36 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 <table>
   <tr>
-    <td>One</td>
-    <td>Two</td>
+    <td>Main screen</td>
+    <td>Search Screen </td>
   </tr>
   <tr>
     <td><img src="AppImages/1.png" width="240"/></td>
-    <td><img src="AppImages/2.png" width="320"/></td>
+    <td><img src="AppImages/2.png" width="240"/></td>
   </tr>
 </table>
 
+<table>
+  <tr>
+    <td>Main screen</td>
+    <td>Search Screen </td>
+  </tr>
+  <tr>
+    <td><img src="AppImages/3.png" width="240"/></td>
+    <td><img src="AppImages/4.png" width="240"/></td>
+  </tr>
+</table>
 
-<img src="AppImages/3.png" width="320"/>
-
-<img src="AppImages/4.png" width="320"/>
-
-<img src="AppImages/5.png" width="320"/>
-
-<img src="AppImages/6.png" width="320"/>
+<table>
+  <tr>
+    <td>Main screen</td>
+    <td>Search Screen </td>
+  </tr>
+  <tr>
+    <td><img src="AppImages/5.png" width="240"/></td>
+    <td><img src="AppImages/6.png" width="240"/></td>
+  </tr>
+</table>
 
 # System Overview
 
