@@ -12,35 +12,40 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 <table>
   <tr>
     <td>Main screen</td>
-    <td>Search Screen </td>
+    <td>Bus Search Screen </td>
+    <td>Motor Search Screen</td>
   </tr>
   <tr>
     <td><img src="AppImages/1.png" width="240"/></td>
     <td><img src="AppImages/2.png" width="240"/></td>
-  </tr>
-</table>
-
-<table>
-  <tr>
-    <td>Main screen</td>
-    <td>Search Screen </td>
-  </tr>
-  <tr>
     <td><img src="AppImages/3.png" width="240"/></td>
-    <td><img src="AppImages/4.png" width="240"/></td>
   </tr>
 </table>
 
 <table>
   <tr>
-    <td>Main screen</td>
-    <td>Search Screen </td>
+    <td>Bus Detail Screen</td>
+    <td>Optional Parameter Screen</td>
+    <td>Detail Map Screen</td>
   </tr>
   <tr>
+    <td><img src="AppImages/4.png" width="240"/></td>
     <td><img src="AppImages/5.png" width="240"/></td>
     <td><img src="AppImages/6.png" width="240"/></td>
   </tr>
 </table>
+
+<table>
+  <tr>
+    <td>Wear Detail Map</td>
+    <td>Wear Notification</td>
+  </tr>
+  <tr>
+    <td><img src="AppImages/w1.png" width="240"/></td>
+    <td><img src="AppImages/w2.png" width="240"/></td>
+  </tr>
+</table>
+
 
 # System Overview
 
