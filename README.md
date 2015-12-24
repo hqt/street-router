@@ -1,5 +1,5 @@
 # Street Router
-Motorbike Insurance Card using NFC technology (Capstone Project Winter 2015)
+Application supports user turn-by-turn navigation using motorbike or bus and support on smart watch (Capstone Project Winter 2015)
 
 # Team
 - Huỳnh Quang Thảo 
@@ -21,7 +21,7 @@ Motorbike Insurance Card using NFC technology (Capstone Project Winter 2015)
 
 # System Overview
 
-<img src="Document/Images/SystemOverview.jpg"/>
+<img src="Document/AppImages/system_overview.png"/>
 
 # Entity Relationship Diagram
 
@@ -35,7 +35,12 @@ Motorbike Insurance Card using NFC technology (Capstone Project Winter 2015)
 - Java Servlet
 - Hibernate
 - MySQL
-- Android (with NFC)
+- Android Development
+..- Material Layout Design implementation
+..- Nutiteq Map Offline API
+..- GPS Technology
+..- Google Direction API, Google Map API, Google Autocomplete API
+- Android Wear Development
 
 # Presentation
 
