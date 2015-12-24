@@ -1,11 +1,11 @@
-# Insurance Card
-Motorbike Insurance Card using NFC technology (Capstone Project Summer 2015)
+# Street Router
+Motorbike Insurance Card using NFC technology (Capstone Project Winter 2015)
 
 # Team
-- Đinh Quang Trung
-- Nguyễn Hữu Phúc
-- Phùng Quang Minh Trí
-- Nguyễn Chí Kha
+- Huỳnh Quang Thảo 
+- Trần Thanh Ngoan
+- Nguyễn Trung Nam
+- Ngô Tiến Đạt
 
 # What it looks like
 
