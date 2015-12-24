@@ -5,15 +5,17 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Huỳnh Quang Thảo 
 - Trần Thanh Ngoan
 - Nguyễn Trung Nam
-- Ngô Tiến Đạt
+- Hà Kim Quy
+
+<img src="AppImages/team_cover.jpq" width="960"/>
 
 # What it looks like
 
 <table>
   <tr>
-    <td>Main screen</td>
-    <td>Bus Search Screen </td>
-    <td>Motor Search Screen</td>
+    <td>**Main screen**</td>
+    <td>**Bus Search Screen**</td>
+    <td>**Motor Search Screen**</td>
   </tr>
   <tr>
     <td><img src="AppImages/1.png" width="240"/></td>
@@ -24,9 +26,9 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 <table>
   <tr>
-    <td>Bus Detail Screen</td>
-    <td>Optional Parameter Screen</td>
-    <td>Detail Map Screen</td>
+    <td>**Bus Detail Screen**</td>
+    <td>**Optional Parameter Screen**</td>
+    <td>**Detail Map Screen**</td>
   </tr>
   <tr>
     <td><img src="AppImages/4.png" width="240"/></td>
