@@ -7,15 +7,15 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Nguyễn Trung Nam
 - Hà Kim Quy
 
-<img src="AppImages/team_cover.jpg" width="960"/>
+<img src="AppImages/team_cover." width="960"/>
 
 # What it looks like
 
 <table>
   <tr>
-    <td>**Main screen**</td>
-    <td>**Bus Search Screen**</td>
-    <td>**Motor Search Screen**</td>
+    <td><b>Main screen</b></td>
+    <td><b>Bus Search Screen</b></td>
+    <td><b>Motor Search Screen</b></td>
   </tr>
   <tr>
     <td><img src="AppImages/1.png" width="240"/></td>
@@ -26,9 +26,9 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 <table>
   <tr>
-    <td>**Bus Detail Screen**</td>
-    <td>**Optional Parameter Screen**</td>
-    <td>**Detail Map Screen**</td>
+    <td><b>Bus Detail Screen</b></td>
+    <td><b>Optional Parameter Screen</b></td>
+    <td><b>Detail Map Screen</b></td>
   </tr>
   <tr>
     <td><img src="AppImages/4.png" width="240"/></td>
@@ -39,8 +39,8 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 <table>
   <tr>
-    <td>Wear Detail Map</td>
-    <td>Wear Notification</td>
+    <td><b>Wear Detail Map</b></td>
+    <td><b>Wear Notification</b></td>
   </tr>
   <tr>
     <td><img src="AppImages/w1.png" width="240"/></td>
