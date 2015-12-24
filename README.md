@@ -7,7 +7,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Nguyễn Trung Nam
 - Hà Kim Quy
 
-<img src="AppImages/team_cover.jpq" width="960"/>
+<img src="AppImages/team_cover.jpg" width="960"/>
 
 # What it looks like
 
