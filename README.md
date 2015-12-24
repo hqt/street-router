@@ -9,9 +9,17 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 # What it looks like
 
-<img src="AppImages/1.png" width="240"/>
+<table>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td><img src="AppImages/1.png" width="240"/></td>
+    <td><img src="AppImages/2.png" width="320"/></td>
+  </tr>
+</table>
 
-<img src="AppImages/2.png" width="320"/>
 
 <img src="AppImages/3.png" width="320"/>
 
