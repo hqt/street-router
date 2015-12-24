@@ -9,7 +9,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 # What it looks like
 
-<img src="AppImages/1.png"/>
+<img src="AppImages/1.png" width="48"/>
 <img src="AppImages/2.png"/>
 <img src="AppImages/3.png"/>
 <img src="AppImages/4.png"/>
