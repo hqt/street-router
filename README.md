@@ -21,7 +21,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 # System Overview
 
-<img src="Document/AppImages/system_overview.png"/>
+<img src="AppImages/system_overview.png"/>
 
 # Entity Relationship Diagram
 
