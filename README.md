@@ -1,4 +1,4 @@
-# <img src="AppImages/app_image.png" width="32"/> Street Router 
+# <img src="AppImages/app_image.png" width="96"/> Street Router 
 Application supports user turn-by-turn navigation using motorbike or bus and support on smart watch (Capstone Project Winter 2015)
 
 # Team
@@ -48,6 +48,24 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
   </tr>
 </table>
 
+# Technologies
+- Server: Java Servlet, Hibernate, MySQL, Redis
+- Algorithm: <a href="http://research.microsoft.com/pubs/156567/raptor_alenex.pdf">Raptor algorithm (Microsoft, 2012)</a>
+- Android Development
+    - Material Layout implementation
+    - Nutiteq Map Offline technology
+    - GPS Technology
+    - Google Direction API, Google Map API, Google Autocomplete API
+- Android Wear Development
+
+# Video
+- **Application introduction:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=JqmobPpK5Xk
+- **Application Demo:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=6t8c6KFUmpk
+- **Capstone Presentation:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=-RSx8lwOlIQ
+
+# Application Download
+You can try our application at this link :) Please go to Setting\Download Map Offlines for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.
+<a href="https://play.google.com/store/apps/details?id=com.fpt.router">Street Router on Play Store</a>
 
 # System Overview
 
@@ -61,20 +79,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 <img src="Document/Images/Database.jpg"/>
 
-# Technologies
-- Web: Java Servlet, Hibernate, MySQL
-- Algorithm: Raptor algorithm (Microsoft, 2012)
-- Android Development
-    - Material Layout implementation
-    - Nutiteq Map Offline technology
-    - GPS Technology
-    - Google Direction API, Google Map API, Google Autocomplete API
-- Android Wear Development
 
-# Video
-- **Application introduction:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=JqmobPpK5Xk
-- **Application Demo:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=6t8c6KFUmpk
-- **Capstone Presentation:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=-RSx8lwOlIQ
 
 # Documentation
 ## Project Information
