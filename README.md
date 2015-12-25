@@ -100,11 +100,11 @@ We provides many algorithms for supporting our application. Please see `Document
 
 ## Raptor algorithm
 We implement from scratch Raptor algorithm based on paper **Round-Based Public Transit Routing** of a group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as *departure time, arrvial time, number of transfers, ticket price, priority zones ...* <br><br>
-<i>**We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail. We are very happy and appreciate to discuss with you :)**</i>
+<i>**We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail. We are very happy and appreciate to discuss with you :)**</i> <br>
  <img src="AppImages/algor_1.png" width="550"/> <br>
  *image illustration for raptor algorithm*
 
- **Route Detect Notification Algorithm**
+ **Route Detect Notification Algorithm** <br>
  We implement two version of this algorithm:
  - **Next Route Notification Algorithm:** algorithm is used for notify which turn should to be notified in next. 
  - **Wrong Route Detection Algorithm:** algorithm is used for detection when user go to wrong route, and can recommend true way again from current point to searched route.
