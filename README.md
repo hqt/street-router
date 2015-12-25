@@ -7,7 +7,8 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Nguyễn Trung Nam
 - Hà Kim Quy
 
-<img src="AppImages/team_cover.jpg" width="960"/>
+<img src="AppImages/team_cover.jpg" width="840"/>
+
 
 # What it looks like
 
@@ -18,9 +19,9 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
     <td><b>Motor Search Screen</b></td>
   </tr>
   <tr>
-    <td><img src="AppImages/1.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
-    <td><img src="AppImages/2.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
-    <td><img src="AppImages/3.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/1.png" width="240"/>&nbsp;&nbsp;&nbsp;/></td>
+    <td><img src="AppImages/2.png" width="240"/>&nbsp;&nbsp;&nbsp;/></td>
+    <td><img src="AppImages/3.png" width="240"/>&nbsp;&nbsp;&nbsp;/></td>
   </tr>
 </table>
 
@@ -53,10 +54,12 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Algorithm: <a href="http://research.microsoft.com/pubs/156567/raptor_alenex.pdf">Raptor algorithm (Microsoft, 2012)</a>
 - Android Development
     - Material Layout implementation
-    - Nutiteq Map Offline technology
+    - <a href="http://www.nutiteq.com/apps/offline-maps-3d/">Nutiteq Map Offline technology</a>
     - GPS Technology
     - Google Direction API, Google Map API, Google Autocomplete API
 - Android Wear Development
+
+<img src="AppImages/outcome.png" width="840"/>
 
 # Video
 - **Application introduction:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=JqmobPpK5Xk
@@ -64,21 +67,48 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - **Capstone Presentation:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=-RSx8lwOlIQ
 
 # Application Download
-You can try our application at this link :) Please go to Setting\Download Map Offlines for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.
+You can try our application at this link :) Please go to Setting\Download Map Offlines for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.<br>
 <a href="https://play.google.com/store/apps/details?id=com.fpt.router">Street Router on Play Store</a>
 
 # System Overview
 
-<img src="AppImages/system_overview.png"/>
+<img src="AppImages/system_overview.png" width="840"/>
 
-# Entity Relationship Diagram
+## Wear Architecture
 
+## Wear Transfer Data Architecture
+
+## Entity Relationship Diagram
 <img src="Document/Images/ERD.jpg"/>
 
-# Database Diagram
-
+## Database Diagram
 <img src="Document/Images/Database.jpg"/>
 
+## Algorithm
+We provides many algorithms for supporting our application. Please see `Document\Presentation\full presentation.pptx` or `Document\ReportFinally.docx` for more detail how we implement those algorithm.
+
+### Raptor algorithm
+We implement from scratch Raptor algorithm based on paper "Round-Based Public Transit Routing" of group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as departure time, arrvial time, number of transfers, ticket price, priority zones ...
+We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail :) We are happy to discuss with you :)
+ <img src="AppImages/algor_1.png" width="840"/>
+ * image illustration for raptor algorithm *
+
+ ### Route Detect Notification Algorithm
+ We implement two version of this algorithm:
+ - Next Route Notification Algorithm: for notify which turn should to be notified next.
+ - Wrong Route Detection Algorithm: Detect when user go to wrong route, and can recommend true way again from current point to searched route.
+
+ <table>
+  <tr>
+    <td><b>Next Route Algorithm</b></td>
+    <td><b>Wrong Route Detection</b></td>
+  </tr>
+  <tr>
+    <td> <img src="AppImages/algor_2.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
+    <td> <img src="AppImages/algor_3.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+</table>
+ * image illustration for route detect notification algorithm *
 
 
 # Documentation
@@ -128,8 +158,7 @@ functions developing on wear supports user easily navigate searched route (i.e: 
 - **Motorcycle:**
     - App will notify when user has to turn route: If user drives in circular range of next turn, application will automatically show message which should to do next and vibrate until user out of this range.
     - App will notify when user goes to wrong route: If user goes to wrong route compare to original searched route, application will automatically show message that user has gone to wrong route.
-- **Map:**
-•	Show your current location: show current user location on map with route user should to go (including bus or motorbike).
+- **Map:** Show your current location: show current user location on map with route user should to go (including bus or motorbike).
 
 #### Web application:
 Design for staff. Those functions support staff manage route and bus timetable. So Staff can approve or reject data change before saving to database.
