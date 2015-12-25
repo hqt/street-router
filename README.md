@@ -76,7 +76,20 @@ You can try our application at this link :) Please go to Setting\Download Map Of
 
 ## Wear Architecture
 
+ <table>
+  <tr>
+    <td> <img src="AppImages/w3.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
+    <td> <img src="AppImages/w4.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+</table>
+
 ## Wear Transfer Data Architecture
+ <table>
+  <tr>
+    <td> <img src="AppImages/w5.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
+    <td> <img src="AppImages/w6.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
+  </tr>
+</table>
 
 ## Entity Relationship Diagram
 <img src="Document/Images/ERD.jpg"/>
@@ -84,19 +97,20 @@ You can try our application at this link :) Please go to Setting\Download Map Of
 ## Database Diagram
 <img src="Document/Images/Database.jpg"/>
 
-## Algorithm
+# Algorithm
 We provides many algorithms for supporting our application. Please see `Document\Presentation\full presentation.pptx` or `Document\ReportFinally.docx` for more detail how we implement those algorithm.
 
-### Raptor algorithm
-We implement from scratch Raptor algorithm based on paper "Round-Based Public Transit Routing" of group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as departure time, arrvial time, number of transfers, ticket price, priority zones ... <br>
+## Raptor algorithm
+We implement from scratch Raptor algorithm based on paper "Round-Based Public Transit Routing" of group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as *departure time, arrvial time, number of transfers, ticket price, priority zones ...* <br><br>
 We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail :) We are happy to discuss with you :)
  <img src="AppImages/algor_1.png" width="550"/> <br>
  *image illustration for raptor algorithm*
+<br>
 
- ### Route Detect Notification Algorithm
+ ## Route Detect Notification Algorithm
  We implement two version of this algorithm:
- - Next Route Notification Algorithm: for notify which turn should to be notified next.
- - Wrong Route Detection Algorithm: Detect when user go to wrong route, and can recommend true way again from current point to searched route.
+ - **Next Route Notification Algorithm:** algorithm is used for notify which turn should to be notified in next. 
+ - **Wrong Route Detection Algorithm:** algorithm is used for detection when user go to wrong route, and can recommend true way again from current point to searched route.
 
  <table>
   <tr>
