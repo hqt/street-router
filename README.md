@@ -67,7 +67,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - **Capstone Presentation:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=-RSx8lwOlIQ
 
 # Application Download
-You can try our application at this link :) Please go to Setting\Download Map Offlines for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.<br>
+You can try our application at this link :) Please go to `Setting\Download Map Offlines` for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.<br>
 <a href="https://play.google.com/store/apps/details?id=com.fpt.router">Street Router on Play Store</a>
 
 # System Overview
@@ -78,34 +78,32 @@ You can try our application at this link :) Please go to Setting\Download Map Of
 
  <table>
   <tr>
-    <td> <img src="AppImages/w3.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
-    <td> <img src="AppImages/w4.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
+    <td> <img src="AppImages/w3.png" width="550"/></td>
+    <td> <img src="AppImages/w4.png" width="550"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 
 ## Wear Transfer Data Architecture
  <table>
   <tr>
-    <td> <img src="AppImages/w5.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
-    <td> <img src="AppImages/w6.png" width="500"/>&nbsp;&nbsp;&nbsp;</td>
+    <td> <img src="AppImages/w5.png" width="550"/></td>
+    <td> <img src="AppImages/w6.png" width="550"/></td>
   </tr>
 </table>
 
-## Entity Relationship Diagram
-<img src="Document/Images/ERD.jpg"/>
-
 ## Database Diagram
-<img src="Document/Images/Database.jpg"/>
+<img src="AppImages/database.png" width="700"/>
+
 
 # Algorithm
 We provides many algorithms for supporting our application. Please see `Document\Presentation\full presentation.pptx` or `Document\ReportFinally.docx` for more detail how we implement those algorithm.
 
 ## Raptor algorithm
-We implement from scratch Raptor algorithm based on paper "Round-Based Public Transit Routing" of group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as *departure time, arrvial time, number of transfers, ticket price, priority zones ...* <br><br>
-We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail :) We are happy to discuss with you :)
- <img src="AppImages/algor_1.png" width="550"/> <br>
+We implement from scratch Raptor algorithm based on paper **Round-Based Public Transit Routing** of a group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as *departure time, arrvial time, number of transfers, ticket price, priority zones ...* <br><br>
+**We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail. We are very happy and appreciate to discuss with you :) **
  *image illustration for raptor algorithm*
-<br>
+ <img src="AppImages/algor_1.png" width="550"/> <br>
+
 
  ## Route Detect Notification Algorithm
  We implement two version of this algorithm:
@@ -118,8 +116,8 @@ We see that this algorithm doesn't have full well-implemented version on interne
     <td><b>Wrong Route Detection Algorithm</b></td>
   </tr>
   <tr>
-    <td> <img src="AppImages/algor_2.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
-    <td> <img src="AppImages/algor_3.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
+    <td bgcolor="#fff"> <img src="AppImages/algor_2.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
+    <td bgcolor="#fff"> <img src="AppImages/algor_3.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
  *image illustration for route detect notification algorithm*
