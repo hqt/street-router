@@ -31,7 +31,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
     <td><b>Detail Map Screen</b></td>
   </tr>
   <tr>
-    <td><img src="AppImages/4.png" width="240"/></td>
+    <td><img src="AppImages/4.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
     <td><img src="AppImages/5.png" width="240"/></td>
     <td><img src="AppImages/6.png" width="240"/></td>
   </tr>
