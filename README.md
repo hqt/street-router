@@ -6,6 +6,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - Trần Thanh Ngoan
 - Nguyễn Trung Nam
 - Hà Kim Quy
+- Supervisor: **Mr.Kiều Trọng Khánh**
 
 <img src="AppImages/team_cover.jpg" width="840"/>
 
@@ -179,3 +180,13 @@ Design for staff. Those functions support staff manage route and bus timetable. 
 # Complete documentation
 
 See `Document` directory.
+
+# Finally ...
+
+Our picture with our supervisor.
+<img src="AppImages/final_1.jpg" width="840"/>
+
+Our winning time. Cannot forget :)
+<img src="AppImages/final_2.jpg" width="840"/>
+
+### Thanks for watching our presentation
