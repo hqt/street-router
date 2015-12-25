@@ -1,4 +1,4 @@
-# Street Router
+# <img src="AppImages/app_image.png" width="32"/> Street Router 
 Application supports user turn-by-turn navigation using motorbike or bus and support on smart watch (Capstone Project Winter 2015)
 
 # Team
@@ -18,9 +18,9 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
     <td><b>Motor Search Screen</b></td>
   </tr>
   <tr>
-    <td><img src="AppImages/1.png" width="240"/></td>
-    <td><img src="AppImages/2.png" width="240"/></td>
-    <td><img src="AppImages/3.png" width="240"/></td>
+    <td><img src="AppImages/1.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/2.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/3.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 
@@ -32,8 +32,8 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
   </tr>
   <tr>
     <td><img src="AppImages/4.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
-    <td><img src="AppImages/5.png" width="240"/></td>
-    <td><img src="AppImages/6.png" width="240"/></td>
+    <td><img src="AppImages/5.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/6.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 
@@ -43,8 +43,8 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
     <td><b>Wear Notification</b></td>
   </tr>
   <tr>
-    <td><img src="AppImages/w1.png" width="240"/></td>
-    <td><img src="AppImages/w2.png" width="240"/></td>
+    <td><img src="AppImages/w1.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/w2.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 
