@@ -183,7 +183,7 @@ See `Document` directory.
 
 # Finally ...
 
-Our picture with our supervisor.
+Picture with our supervisor. Mr.Kiều Trọng Khánh
 <img src="AppImages/final_1.jpg" width="840"/>
 
 Our winning time. Cannot forget :)
