@@ -19,9 +19,9 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
     <td><b>Motor Search Screen</b></td>
   </tr>
   <tr>
-    <td><img src="AppImages/1.png" width="240"/>&nbsp;&nbsp;&nbsp;/></td>
-    <td><img src="AppImages/2.png" width="240"/>&nbsp;&nbsp;&nbsp;/></td>
-    <td><img src="AppImages/3.png" width="240"/>&nbsp;&nbsp;&nbsp;/></td>
+    <td><img src="AppImages/1.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/2.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
+    <td><img src="AppImages/3.png" width="240"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
 
@@ -59,7 +59,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
     - Google Direction API, Google Map API, Google Autocomplete API
 - Android Wear Development
 
-<img src="AppImages/outcome.png" width="840"/>
+<img src="AppImages/outcome.png" width="700"/>
 
 # Video
 - **Application introduction:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=JqmobPpK5Xk
@@ -72,7 +72,7 @@ You can try our application at this link :) Please go to Setting\Download Map Of
 
 # System Overview
 
-<img src="AppImages/system_overview.png" width="840"/>
+<img src="AppImages/system_overview.png" width="700"/>
 
 ## Wear Architecture
 
@@ -88,10 +88,10 @@ You can try our application at this link :) Please go to Setting\Download Map Of
 We provides many algorithms for supporting our application. Please see `Document\Presentation\full presentation.pptx` or `Document\ReportFinally.docx` for more detail how we implement those algorithm.
 
 ### Raptor algorithm
-We implement from scratch Raptor algorithm based on paper "Round-Based Public Transit Routing" of group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as departure time, arrvial time, number of transfers, ticket price, priority zones ...
+We implement from scratch Raptor algorithm based on paper "Round-Based Public Transit Routing" of group of computer scientists at Microsoft, 2012. This algorithm supports finding shortest public transportation route including some interesting parameters such as departure time, arrvial time, number of transfers, ticket price, priority zones ... <br>
 We see that this algorithm doesn't have full well-implemented version on internet. So if you feel interested with this algorithm, please see our source code or contact us for more detail :) We are happy to discuss with you :)
- <img src="AppImages/algor_1.png" width="840"/>
- * image illustration for raptor algorithm *
+ <img src="AppImages/algor_1.png" width="550"/>
+ *image illustration for raptor algorithm*
 
  ### Route Detect Notification Algorithm
  We implement two version of this algorithm:
@@ -100,15 +100,15 @@ We see that this algorithm doesn't have full well-implemented version on interne
 
  <table>
   <tr>
-    <td><b>Next Route Algorithm</b></td>
-    <td><b>Wrong Route Detection</b></td>
+    <td><b>Next Route Notification Algorithm</b></td>
+    <td><b>Wrong Route Detection Algorithm</b></td>
   </tr>
   <tr>
     <td> <img src="AppImages/algor_2.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
     <td> <img src="AppImages/algor_3.png" width="400"/>&nbsp;&nbsp;&nbsp;</td>
   </tr>
 </table>
- * image illustration for route detect notification algorithm *
+ *image illustration for route detect notification algorithm*
 
 
 # Documentation
