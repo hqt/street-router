@@ -68,6 +68,7 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 
 # Application Download
 You can try our application at this link :) Please go to `Setting\Download Map Offlines` for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.<br>
+We certificated second prize in **<a href="http://sohoa.vnexpress.net/tin-tuc/doi-song-so/bon-doi-lot-vao-chung-ket-s-m-a-c-challenge-2015-3313513.html">S.M.A.C Challenge 2015</a>** Contest with this application. **Cheer !!!!!** <br>
 <a href="https://play.google.com/store/apps/details?id=com.fpt.router">Street Router on Play Store</a>
 
 # System Overview
@@ -120,7 +121,6 @@ We implement from scratch Raptor algorithm based on paper **Round-Based Public T
   </tr>
 </table>
  *image illustration for route detect notification algorithm*
-
 
 # Documentation
 ## Project Information
