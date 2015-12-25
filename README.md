@@ -189,4 +189,4 @@ Picture with our supervisor. Mr.Kiều Trọng Khánh
 Our winning time. Cannot forget :)
 <img src="AppImages/final_2.jpg" width="840"/>
 
-### Thanks for watching our presentation
+### Thanks for watching our presentation :)
