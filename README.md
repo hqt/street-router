@@ -66,6 +66,11 @@ Application supports user turn-by-turn navigation using motorbike or bus and sup
 - **Application introduction:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=JqmobPpK5Xk
 - **Application Demo:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=6t8c6KFUmpk
 - **Capstone Presentation:**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=-RSx8lwOlIQ
+- **Live Presentation:**
+	- **Part 1:** https://www.youtube.com/watch?v=WF1_P8O9sLA
+	- **Part 2:** https://www.youtube.com/watch?v=d0u9Y1RGr6k
+	- **Part 3:** https://www.youtube.com/watch?v=I-hZNda4SDc
+	- **Part 4:** https://www.youtube.com/watch?v=nYoIwWjdqY8
 
 # Application Download
 You can try our application at this link :) Please go to `Setting\Download Map Offlines` for using Nutiteq Map Offline, Because Nutiteq Map Online is slower than Google Map.<br>
